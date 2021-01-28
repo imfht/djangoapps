@@ -1,0 +1,74 @@
+doctype html
+
+div.wrapper(
+    tg-taskboard,
+    ng-controller="TaskboardController as ctrl",
+    ng-init="section='backlog'"
+)
+    tg-project-menu
+    section.main.taskboard
+        .taskboard-header
+            h1
+                span.green(tg-bo-bind="sprint.name")
+                .date(tg-date-range="sprint.estimated_start,sprint.estimated_finish")
+
+        .taskboard-inner
+            include ../includes/components/sprint-summary
+
+            div.graphics-container
+                div.burndown(tg-sprint-graph)
+                    include ../includes/modules/burndown
+
+            .taskboard-actions
+                .taskboard-table-options-start
+                    button.btn-filter.e2e-open-filter(
+                        ng-click="ctrl.openFilter = !ctrl.openFilter"
+                        title="{{ctrl.selectedFilters.length}} {{'COMMON.FILTERS.APPLIED_FILTERS_NUM' | translate}}"
+                        ng-class="{active: ctrl.openFilter}"
+                    )
+                        tg-svg(svg-icon="icon-filters")
+                        span.text(
+                            ng-if="!ctrl.openFilter"
+                            translate="BACKLOG.FILTERS.TITLE"
+                        )
+                        span.text(
+                            ng-if="ctrl.openFilter"
+                            translate="BACKLOG.FILTERS.HIDE_TITLE"
+                        )
+                        span.selected-filters(ng-if="ctrl.selectedFilters.length") {{ctrl.selectedFilters.length}}
+
+                    tg-input-search(
+                        q="ctrl.filterQ"
+                        change="ctrl.changeQ(q)"
+                    )
+
+                .taskboard-table-options-end
+                    tg-taskboard-zoom(
+                        on-zoom-change="ctrl.setZoom(zoomLevel, zoom)"
+                    )
+
+            .taskboard-manager(ng-class="{'expanded': !ctrl.openFilter}")
+                .taskboard-filter(
+                    ng-if="ctrl.openFilter"
+                )
+                    tg-filter(
+                        filters="ctrl.filters"
+                        custom-filters="ctrl.customFilters"
+                        selected-filters="ctrl.selectedFilters"
+                        customFilters="ctl.customFilters"
+                        on-save-custom-filter="ctrl.saveCustomFilter(name)"
+                        on-add-filter="ctrl.addFilter(filter)"
+                        on-select-custom-filter="ctrl.selectCustomFilter(filter)"
+                        on-remove-custom-filter="ctrl.removeCustomFilter(filter)"
+                        on-remove-filter="ctrl.removeFilter(filter)"
+                        on-change-q="ctrl.changeQ(q)"
+                    )
+                include ../includes/modules/taskboard-table
+
+    div.lightbox.lightbox-generic-form.lightbox-create-edit(tg-lb-create-edit)
+
+    div.lightbox.lightbox-generic-bulk.lightbox-task-bulk(tg-lb-create-bulk-tasks)
+        include ../includes/modules/lightbox-task-bulk
+
+    div.lightbox.lightbox-generic-bulk(tg-lb-create-bulk-issues)
+        include ../includes/modules/lightbox-issue-bulk

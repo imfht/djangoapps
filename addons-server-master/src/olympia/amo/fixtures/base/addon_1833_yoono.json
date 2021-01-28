@@ -1,0 +1,152 @@
+[{
+        "pk": 426250,
+        "model": "translations.translation",
+        "fields": {
+            "localized_string": "Copyright 2009 Yoono, Inc.  All Rights Reserved.",
+            "created": "2009-05-27 16:04:04",
+            "locale": "en-US",
+            "modified": "2009-05-27 16:04:04",
+            "id": 387641,
+            "localized_string_clean": null
+        }
+    },
+    {
+        "pk": 15742,
+        "model": "translations.translation",
+        "fields": {
+            "localized_string": "Yoono - Twitter, Facebook, LinkedIn, MySpace, Flickr, AIM, MSN, GTalk...",
+            "created": "2007-03-05 13:10:30",
+            "locale": "en-US",
+            "modified": "2010-01-04 14:38:59",
+            "id": 7955,
+            "localized_string_clean": null
+        }
+    },
+    {
+        "pk": 1833,
+        "model": "addons.addon",
+        "fields": {
+            "slug": "yoono-1833",
+            "eula": null,
+            "_current_version": 101235,
+            "last_updated": "2010-03-26 08:22:39",
+            "disabled_by_user": false,
+            "guid": "{d9284e50-81fc-11da-a72b-0800200c9a66}",
+            "weekly_downloads": 53380,
+            "average_rating": "4.24",
+            "average_daily_users": 131815,
+            "bayesian_rating": 4.2253800000000004,
+            "support_email": null,
+            "status": 4,
+            "default_locale": "en-US",
+            "target_locale": null,
+            "name": 7955,
+            "created": "2006-01-10 10:07:33",
+            "type": 1,
+            "icon_type": "image/png",
+            "modified": "2010-05-25 14:41:27",
+            "total_ratings": 272
+        }
+    },
+    {
+        "pk": 180,
+        "model": "versions.license",
+        "fields": {
+            "text": 387641,
+            "modified": "2009-05-27 16:04:05",
+            "created": "2009-05-27 16:04:04"
+        }
+    },
+    {
+        "pk": 101235,
+        "model": "versions.version",
+        "fields": {
+            "license": 180,
+            "created": "2010-03-25 14:25:14",
+            "modified": "2010-03-25 14:26:53",
+            "approval_notes": "Uncompressed version and diff file emailed to Jorge Villalobos separately.  Email tpringle@yoono.com if needed for these files or more info.",
+            "version": "7.1.6",
+            "addon": 1833
+        }
+    },
+    {
+        "pk": 84382,
+        "model": "files.file",
+        "fields": {
+            "status": 4,
+            "hash": "sha256:1597d05c39e78df750aaeb3a71e387146f75fdc2fe0b5283841b361daa9a6b71",
+            "created": "2010-03-25 14:25:19",
+            "modified": "2010-03-26 08:22:39",
+            "filename": "yoono-7.1.6-fx.xpi",
+            "platform": 1,
+            "version": 101235,
+            "size": 2777088,
+            "datestatuschanged": "2010-03-26 08:22:39"
+        }
+    },
+    {
+        "pk": 9250,
+        "model": "users.userprofile",
+        "fields": {
+            "display_collections": false,
+            "averagerating": 4.24,
+            "display_name": null,
+            "picture_type": "",
+            "occupation": "",
+            "homepage": "http://www.yoono.com/",
+            "email": "dd+6089ed5f7@davedash.com",
+            "location": "San Francisco (CA) / Paris (FR)",
+            "username": "9250",
+            "biography": null,
+            "deleted": false,
+            "created": "2007-03-05 13:09:37",
+            "notes": null,
+            "modified": "2010-05-12 16:10:49",
+            "last_login_ip": "",
+            "last_login": "2010-05-12 16:10:49"
+        }
+    },
+    {
+        "pk": 303,
+        "model": "applications.appversion",
+        "fields": {
+            "application": 1,
+            "version": "3.7a2pre",
+            "created": "2010-08-11 10:46:27",
+            "version_int": 3070000002000,
+            "modified": "2010-08-11 10:46:27"
+        }
+    },
+    {
+        "pk": 233,
+        "model": "applications.appversion",
+        "fields": {
+            "application": 1,
+            "version": "3.0",
+            "created": "2010-08-11 10:46:27",
+            "version_int": 3000000200100,
+            "modified": "2010-08-11 10:46:27"
+        }
+    },
+    {
+        "pk": 1433,
+        "model": "addons.addonuser",
+        "fields": {
+            "position": 0,
+            "addon": 1833,
+            "role": 5,
+            "listed": true,
+            "user": 9250
+        }
+    },
+    {
+        "pk": 73224,
+        "model": "versions.applicationsversions",
+        "fields": {
+            "application": 1,
+            "version": 101235,
+            "min": 233,
+            "max": 303
+        }
+    }
+]

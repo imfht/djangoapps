@@ -1,0 +1,65 @@
+{%- from "shuup/front/macros/product.jinja" import render_product_order_section, render_product_price with context -%}
+{% from "shuup/front/macros/general.jinja" import render_supplier_info %}
+
+{% set shop_product = product.get_shop_instance(request.shop, allow_cache=True) %}
+{% set supplier = shop_product.get_supplier() %}
+{% set show_supplier_info = (supplier and xtheme.get("show_supplier_info")) %}
+
+<div class="product-preview-modal modal fade"
+     id="product-{{ product.id }}-modal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="product-{{ product.id }}-preview">
+    <div class="modal-dialog" role="document">
+        <button type="button"
+                class="close-modal"
+                data-dismiss="modal"
+                aria-label="Close">
+            <span aria-hidden="true"><i class="fa fa-times"></i></span>
+        </button>
+        <div class="modal-content" id="product-{{ product.id }}-preview">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="preview-image">
+                        {% if product|is_discounted(supplier=supplier) %}
+                            <div class="badge product-badge sale">
+                                {% set discount_percent = product|discount_percent(supplier=supplier) %}
+                                {{- _("Save %(discount_percent)s", discount_percent=discount_percent) -}}
+                            </div>
+                        {% endif %}
+                        {% set product_image = shop_product.public_primary_image or shop_product.public_images.first() %}
+                        {% set image = product_image|thumbnail(size=(360, 360), crop="scale", upscale=True) %}
+                        {% if product_image and image %}
+                            <img src="{{ image }}" class="primary-image" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{{ static("front/img/no_image.png") }}" class="no-image" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="preview-details">
+                        <h2 class="product-name {% if show_supplier_info %}show-supplier-info{% endif %}">{{ product.name }}</h2>
+                        {% if show_supplier_info %}{{ render_supplier_info(supplier, render_link=False) }}{% endif %}
+                        {% if product.short_description %}
+                            <p class="description">
+                                {{ product.short_description|safe_product_description }}
+                            </p>
+                        {% endif %}
+                        {% if show_prices() and not xtheme.get("hide_prices") %}
+                            <div class="product-price">
+                                {{ render_product_price(product, supplier=supplier) }}
+                            </div>
+                        {% endif %}
+                        <hr>
+                        {{ order_form }}
+                        <hr>
+                        {% set product_url = url("shuup:product", pk=product.pk, slug=product.slug) %}
+                        <a href="{{ product_url }}"
+                           class="btn-open-page btn btn-default btn-block">
+                            <i class="fa fa-search"></i> {% trans %}Open product page{% endtrans %}
+                            <i class="fa fa-angle-double-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

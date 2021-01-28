@@ -1,0 +1,107 @@
+.card-dashboard {
+    @extend .mb-3;
+
+    .card-header {
+        @extend .h4;
+        margin-bottom: 0;
+    }
+
+    .card-body {
+        .card-title {
+            @extend .h4;
+        }
+
+        .card-text {
+            @extend .text-muted;
+        }
+
+        // Offset horizontal padding in dashboard cards with a carousel.
+        .carousel {
+            margin-left: -$card-spacer-x;
+            margin-right: -$card-spacer-x;
+            padding-left: $card-spacer-x;
+            padding-right: $card-spacer-x;
+        }
+    }
+}
+
+.card-diaperchange {
+    @extend .border-danger;
+
+    .card-header {
+        @extend .text-white, .bg-danger;
+    }
+
+    .card-body {
+        @extend .text-danger;
+    }
+
+    .progress {
+        height: $progress-height * 2;
+    }
+}
+
+.card-feeding {
+    @extend .border-primary;
+
+    .card-header {
+        @extend .text-white, .bg-primary;
+    }
+
+    .card-body {
+        @extend .text-primary;
+
+        // Last feeding method header in card.
+        .last-feeding-method {
+            font-size: 2em;
+        }
+    }
+}
+
+.card-sleep {
+    @extend .border-secondary;
+
+    .card-header {
+        @extend .text-white, .bg-secondary;
+    }
+}
+
+.card-statistics {
+    @extend .border-light;
+
+    .card-header {
+        @extend .text-dark, .bg-light;
+    }
+
+    .card-body {
+        @extend .text-light;
+
+        .container {
+            padding: 0;
+        }
+    }
+}
+
+.card-timer {
+    @extend .border-light;
+
+    .card-header {
+        @extend .text-dark, .bg-light;
+    }
+
+    .card-body {
+        @extend .text-light;
+    }
+}
+
+.card-tummytime {
+    @extend .border-success;
+
+    .card-header {
+        @extend .text-white, .bg-success;
+    }
+
+    .card-body {
+        @extend .text-success;
+    }
+}

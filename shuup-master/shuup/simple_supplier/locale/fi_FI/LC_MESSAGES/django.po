@@ -1,0 +1,249 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Janne Tammi <janne@shuup.com>, 2017
+# Panu Tulimäki <panu@shuup.com>, 2016,2020
+# Rauli L. <rauli.laine@iki.fi>, 2016
+# Rauli L. <rauli.laine@iki.fi>, 2016
+# Shuup Admin <admin@shuup.com>, 2016
+# Shuup Admin <admin@shuup.com>, 2016
+# Tuomas Suutari <tuomas.suutari@anders.fi>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Shuup\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-22 18:11+0000\n"
+"PO-Revision-Date: 2020-09-29 08:48+0000\n"
+"Last-Translator: Panu Tulimäki <panu@shuup.com>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/shuup/shuup/language/fi_FI/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi_FI\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Stock management"
+msgstr "Varastonhallinta"
+
+msgid "SKU"
+msgstr "Tuotekoodi"
+
+msgid "Filter by SKU..."
+msgstr "Rajaa tuotekoodin mukaan..."
+
+msgid "Name"
+msgstr "Nimi"
+
+msgid "Filter by name..."
+msgstr "Rajaa nimen mukaan..."
+
+msgid "Supplier"
+msgstr "Toimittaja"
+
+msgid "Stock information"
+msgstr "Varastotiedot"
+
+msgid "Adjust stock"
+msgstr "Muuta varastosaldoa"
+
+#, python-format
+msgid ""
+"Success! Added %(delta)s `%(unit_symbol)s` for product `%(product_name)s` "
+"stock (%(supplier_name)s)."
+msgstr "Menestys! Lisätty %(delta)s &quot;%(unit_symbol)s&quot; tuotteelle &quot;%(product_name)s&quot; (%(supplier_name)s)."
+
+#, python-format
+msgid ""
+"Success! Removed %(delta)s `%(unit_symbol)s` from product `%(product_name)s`"
+" stock (%(supplier_name)s)."
+msgstr "Menestys! Poistettu %(delta)s &quot;%(unit_symbol)s&quot; tuotteesta &quot;%(product_name)s&quot; (%(supplier_name)s)."
+
+#, python-format
+msgid "Alert limit for product `%(product_name)s` set to `%(value)s`."
+msgstr "Tuotteen &quot;%(product_name)s&quot; hälytysraja asetettu arvoon &quot;%(value)s&quot;."
+
+msgid "Non-POST request methods are forbidden."
+msgstr "Muut kuin POST-pyyntötavat ovat kiellettyjä."
+
+msgid "Please check submitted values and try again."
+msgstr "Tarkista lähetetyt arvot ja yritä uudelleen."
+
+#, python-format
+msgid "Please check submitted values and try again (%(error)s)."
+msgstr "Tarkista lähetetyt arvot ja yritä uudelleen (%(error)s)."
+
+#, python-brace-format
+msgid "Stock management is now enabled for {product}."
+msgstr "Varastonhallinta on nyt käytössä verkkotunnuksessa {product}."
+
+#, python-brace-format
+msgid "Stock management is now disabled for {product}."
+msgstr "Varastonhallinta on nyt poistettu käytöstä verkkotunnuksessa {product}."
+
+#, python-format
+msgid "Purchase price per unit (%(currency_name)s)"
+msgstr "Ostohinta per yksikkö (%(currency_name)s)"
+
+msgid "Quantity"
+msgstr "Määrä"
+
+msgid "Only non-zero values can be added to stock."
+msgstr "Varastoarvon pitää olla suurempi kuin nolla."
+
+msgid "Alert limit"
+msgstr "Hälytysraja"
+
+msgid "product"
+msgstr "tuote"
+
+msgid "supplier"
+msgstr "toimittaja"
+
+msgid "created on"
+msgstr "luotu"
+
+msgid "created by"
+msgstr "luoja"
+
+msgid "delta"
+msgstr "muutos"
+
+msgid "type"
+msgstr "tyyppi"
+
+msgid "alert limit"
+msgstr "hälytysraja"
+
+msgid "stock managed"
+msgstr "varastossa hallittu"
+
+msgid "Use this to override the supplier default stock behavior per product."
+msgstr "Käytä tätä ohittaaksesi toimittajan oletusvaraston käyttäytymisen tuotteittain."
+
+msgid "logical count"
+msgstr "looginen määrä"
+
+msgid "physical count"
+msgstr "fyysinen määrä"
+
+msgid "Alert Limit Reached"
+msgstr "Hälytysraja saavutettu"
+
+msgid "Product"
+msgstr "Tuote"
+
+msgid "Supplier Email"
+msgstr "Toimittajan sähköposti"
+
+msgid "Shop Email"
+msgstr "Osta sähköposti"
+
+msgid "Fired in the last 24 hours?"
+msgstr "Ajettu viimeisen 24 tunnin aikana?"
+
+msgid ""
+"This will be True if this event was already dispatched in the last 24 hours "
+"for the same product and supplier. This is useful to prevent sending "
+"identical notifications in a short period of time."
+msgstr "Tämän arvo on \"True\" mikäli tämä tapahtuma on käsitelty viimeisen 24 tunnin sisällä samalle tuotteelle ja toimittajalle. Tällä voit estää samanlaisten muistutusten lähettämisen lyhyen ajan sisällä."
+
+msgid "Send to?"
+msgstr "Vastaanottaja?"
+
+msgid "Send email to whom?"
+msgstr "Kenelle sähköposti lähetetään?"
+
+msgid "Do not send the same email within 24 hours."
+msgstr "Älä lähetä samaa sähköpostia toistamiseen 24 tunnin sisällä."
+
+msgid ""
+"If enabled, avoids sending the same email for the same product and supplier "
+"within 24 hours."
+msgstr "Mikäli päällä, estää samojen sähköpostien lähettämisen samalle tuotteelle ja valmistajalle 24 tunnin sisällä."
+
+msgid "Send Stock Limit Alert Email"
+msgstr "Lähetä varastosaldon hälytysrajan sähköposti"
+
+msgid ""
+"Send me an email when a product stock is lower than the configured limit."
+msgstr "Lähetä minulle sähköposti kun tuotteen varastosaldo menee alle määritetyn rajan."
+
+msgid ""
+"This script will send an email to the configured destination alerting about "
+"the a product's low stock of a supplier. You can configure to not send the "
+"same email multiple times in a period of 24 hours. Every time a product's "
+"stock reach its configured limit, this notification will be fired and the "
+"email sent."
+msgstr "Tämä skripti lähettää sähköpostin määritettyyn osoitteeseen varoittaen tuotteen varastosaldosta tietyllä toimittajalla. Voit asettaa siten, että samaa sähköpostia ei lähetetä toistamiseen 24 tunnin sisällä. Joka kerta, kun tuotteen varastosaldo saavuttaa sille määritellyn hälytysrajan, tämä notifikaatio ajetaan ja sähköposti lähetetään."
+
+msgid "Low stock of: {{ product }} from {{ supplier }}"
+msgstr "Alhainen varastosaldo tuotteelle {{ product }} toimittajalta {{ supplier }}"
+
+msgid ""
+"Hi!\n"
+"You are receiving this message because the product {{ product}} from {{ supplier }} has a low stock."
+msgstr "Terve!\nSaat tämän sähköpostin, koska tuotteen {{ product }} varastosaldo on alhainen toimittajalla {{ supplier }}."
+
+msgid "Add stock"
+msgstr "Lisää varastoa"
+
+#, python-format
+msgid ""
+"Alert limit <a href=\"%(notify_url)s\" target=\"_blank\">notification "
+"scripts</a> are executed when product stock falls below set quantity."
+msgstr "Hälytysraja <a href=\"%(notify_url)s\" target=\"_blank\">ilmoitukset</a> suoritetaan kun tuotteen varastomäärä laskee alle asetetun rajan."
+
+msgid "Change alert limit"
+msgstr "Vaihda hälytysrajaa"
+
+msgid "Disable stock management"
+msgstr "Poista varastohallinta käytöstä"
+
+msgid "Enable stock management"
+msgstr "Ota varastohallinta käyttöön"
+
+#, python-format
+msgid ""
+"Product <a href=\"%(product_url)s\" target=\"_blank\">%(product_name)s</a> "
+"does not have suppliers with %(module_name)s module."
+msgstr "Tuotteella <a href=\"%(product_url)s\" target=\"_blank\">%(product_name)s</a> ei ole toimittajia modulissa %(module_name)s."
+
+#, python-format
+msgid ""
+"Please go in this product's Additional tab section and add enabled Suppliers"
+" that have both %(module_name)s module and stock management enabled."
+msgstr "Siirry tämän tuotteen Lisäasetukset-välilehteen ja lisää käytössä olevat toimittajat, joilla sekä %(module_name)s-moduuli että varastohallinta ovat käytössä."
+
+#, python-format
+msgid "No suppliers with %(module_name)s available."
+msgstr "Ei toimittajia saatavana modulille %(module_name)s."
+
+#, python-format
+msgid ""
+"Please set %(module_name)s module for at least one of the enabled <a "
+"href=\"%(supplier_url)s\" target=\"_blank\">Suppliers</a> and enable the "
+"stock management for them."
+msgstr "Määritä %(module_name)s-moduuli ainakin yhdelle käytössä olevista <a href=\"%(supplier_url)s\" target=\"_blank\">toimittajista</a> ja ota heille käyttöön varastonhallinta."
+
+#, python-brace-format
+msgid "Physical count ({sales_unit})"
+msgstr "Fyysinen määrä ({sales_unit})"
+
+#, python-brace-format
+msgid "Logical count ({sales_unit})"
+msgstr "Looginen määrä ({sales_unit})"
+
+msgid "Value per unit"
+msgstr "Arvo yksikköä kohti"
+
+msgid "Total value"
+msgstr "Kokonaisarvo"
+
+#, python-brace-format
+msgid "Alert limit ({sales_unit})"
+msgstr "Varoitusraja ({sales_unit})"
+
+msgid "No stock information available."
+msgstr "Varastotietoa ei saatavilla."

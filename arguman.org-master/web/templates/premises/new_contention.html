@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <section class="container">
+        <form action="{% url "new_argument" %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="{% trans "Save and continue to edit" %}" class="submit">
+        </form>
+    </section>
+{% endblock %}

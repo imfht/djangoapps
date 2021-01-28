@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load promgen %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Shards</h1>
+</div>
+
+{% breadcrumb label="Shards" %}
+
+<div class="service-grid">
+  {% for shard in shard_list|dictsortreversed:"project_set.count" %}
+  <div>
+    <h2><a href="{% url 'shard-detail' shard.id %}">{{ shard.name }}</a></h2>
+    <a href="{{shard.url}}">{{shard.url}}</a>
+    <hr>
+
+    {% include 'promgen/shard_header.html' %}
+    {% regroup shard.project_set.all|dictsort:"service_id" by service as service_list %}
+
+    <table class="table table-condensed">
+      {% for service, project_list in service_list|dictsort:"grouper.name" %}
+      <tr>
+        <td>
+          <a href="{{service.get_absolute_url}}">{{ service.name }}</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

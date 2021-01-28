@@ -1,0 +1,87 @@
+{% extends "core/base.html" %}
+{% load i18n staticfiles profile reader_tags messaging_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row two-col">
+            <div class="col-md-8">
+                <div class="box gray">
+                    <h2 class="box-title-alter">{% trans "User settings" %}</h2>
+                    <form method="post" action="{% url 'accounts:user_settings' current_user.username %}" enctype="multipart/form-data" name="formsettings">
+                        {% csrf_token %}
+                        <fieldset class="plain">
+                            <ul class="list">
+                                <li>
+                                    {{ form.email.label_tag }}
+                                    {{ form.email }}
+                                    {{ form.email.errors }}                                    
+                                </li>
+
+                                <li>
+                                    {{ form.first_name.label_tag }}
+                                    {{ form.first_name }}
+                                    {{ form.first_name.errors }}
+                                </li>
+
+                                <li>
+                                    {{ form.aboutyourself.label_tag }}
+                                    {{ form.aboutyourself }}
+                                    {{ form.aboutyourself.errors }}
+                                </li>
+
+                                <li>
+                                    {{ form.profile_pic.label_tag }}
+                                    {{ form.profile_pic }}
+                                </li>
+
+                                <li>
+                                    {{ form.notification.label_tag }}
+                                    {{ form.notification }}
+                                    {{ form.errors }}
+                                </li>
+                            </ul>
+                            <button class="btn btn-default float-left">{% trans "Save changes" %}</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="box white">
+
+                    <h2 class="box-title">{% trans "Change password" %}</h2>
+
+                    <form method="post" action="" enctype="multipart/form-data" name="formpassword">
+                        {% csrf_token %}
+                        <input type="hidden" name="password_change" value="1" />
+                        <fieldset class="plain">
+                            <ul class="list">
+                                {% with form=password_form %}
+                                <li>
+                                    {{ form.old_password.label_tag }}
+                                    {{ form.old_password }}
+                                    {{ form.old_password.errors }}
+                                </li>
+
+                                <li>
+                                    {{ form.new_password1.label_tag }}
+                                    {{ form.new_password1 }}
+                                    {{ form.new_password1.errors }}
+                                </li>
+
+                                <li>
+                                    {{ form.new_password2.label_tag }}
+                                    {{ form.new_password2 }}
+                                    {{ form.new_password2.errors }}
+                                </li>
+                                {% endwith %}
+                            </ul>
+                            <button class="btn btn-default float-left">{% trans "Change password" %}</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div> <!-- End of container -->
+{% endblock %}

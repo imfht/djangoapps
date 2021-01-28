@@ -1,0 +1,9 @@
+uses:
+    - django
+
+ignore-paths:
+    - migrations
+
+pylint:
+    options:
+        dummy-variables-rgx: __|^.*[^_]_$

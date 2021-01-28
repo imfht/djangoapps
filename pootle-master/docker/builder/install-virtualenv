@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e
+
+APP_DIR=$(readlink -f --canonicalize $(eval echo $APP_DIR))
+
+cd $APP_DIR
+
+
+function get_requirement () {
+    curl -sO $APP_REQUIREMENTS/$1.txt
+}
+
+
+if [ "$BUILD_IMAGE" == 'dev' ];
+then
+    echo "Installing dev env with: $APP_REQUIREMENTS"
+    mkdir requirements
+    cd requirements
+    declare -a requirements=("_es_5" "base" "dev" "tests" "_docs" "_lint")
+    for i in "${requirements[@]}"
+    do
+        get_requirement "$i"
+    done
+    cd ..
+    virtualenv .
+    . bin/activate \
+        && pip install --no-cache-dir -qr requirements/dev.txt \
+        && pip install --no-cache-dir -qr requirements/_es_5.txt \
+        && pip install --no-cache-dir -q \
+               codecov==2.0.15 \
+               coverage==4.5.1 \
+               coveralls==1.3.0 \
+        && pyclean .
+else
+    echo "Installing package: $APP_PKG"
+    virtualenv .
+    . bin/activate \
+        && pip install \
+               -q \
+               --no-cache-dir \
+               --process-dependency-links \
+               $APP_PKG \
+        && pyclean .
+fi

@@ -1,0 +1,64 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">角色权限</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                  <th>角色权限</th>
+                    <th>再授权</th>
+                    <th>采集日期</th>
+                </tr>
+                </thead>
+                {% for user_role in user_roles %}
+                 <tr>
+                 <td>{{ user_role.GRANTEE }} </td>
+                 <td>{{ user_role.GRANTED_ROLE }} </td>
+                 <td>{{ user_role.ADMIN_OPTION }}</td>
+                 <td>{{ user_role.GET_DATE }} </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+          </div>
+        <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">系统权限</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                  <th>权限</th>
+                    <th>再授权</th>
+                    <th>采集日期</th>
+                </tr>
+                </thead>
+                {% for sys_priv in sys_privs %}
+                 <tr>
+                 <td>{{ sys_priv.GRANTEE }} </td>
+                 <td>{{ sys_priv.PRIVILEGE }} </td>
+                 <td>{{ sys_priv.ADMIN_OPTION }}</td>
+                 <td>{{ sys_priv.GET_DATE }} </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

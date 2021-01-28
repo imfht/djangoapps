@@ -1,0 +1,113 @@
+html {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background-color: #eff0f4;
+}
+
+pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+.fl, .pull-left {
+  float: left;
+}
+
+.fr, .pull-right {
+  float: right;
+}
+
+.align-center, .text-center {
+  text-align: center;
+}
+
+.align-left, .text-left {
+  text-align: left;
+}
+
+.align-right, .text-right {
+  text-align: right;
+}
+
+.ofh {
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hr-line-dashed {
+  border-top: 1px dashed #e7eaec;
+  color: #fff;
+  background-color: #fff;
+  height: 1px;
+  margin: 10px 0;
+}
+
+.el-button--mini {
+  padding: 4px !important;
+  margin: 0 4px !important;
+}
+
+.el-collapse-item__header {
+  font-weight: initial;
+}
+
+.label-left {
+  label {
+    text-align: left !important;
+  }
+}
+
+.label-center {
+  label {
+    text-align: center !important;
+  }
+}
+
+.label-right {
+  label {
+    text-align: right !important;
+  }
+}
+
+.width-100 {
+  width: 100px !important;
+}
+
+.width-200 {
+  width: 200px !important;
+}
+
+.width-300 {
+  width: 300px !important;
+}

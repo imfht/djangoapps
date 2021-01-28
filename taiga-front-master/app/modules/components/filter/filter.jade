@@ -1,0 +1,145 @@
+.custom-filters
+    .custom-filters-header
+        .custom-filters-title
+            span.name(translate="COMMON.FILTERS.TITLE")
+            span.number ({{vm.customFilters.length}})
+        button.add-custom-filter(
+            ng-click="vm.customFilterForm = true"
+            translate="COMMON.FILTERS.ACTION_ADD"
+            ng-disabled="!vm.selectedFilters.length"
+        )
+        //- .add-custom-filter.inactive(
+        //-     ng-if="!vm.selectedFilters.length"
+        //-     translate="COMMON.FILTERS.ACTION_ADD"
+        //- )
+
+    form.custom-filters-add-form(
+        ng-if="vm.customFilterForm && vm.selectedFilters.length"
+        ng-submit="vm.saveCustomFilter()"
+    )
+        input.add-filter-input.e2e-filter-name-input(
+            aria-label="{{'COMMON.FILTERS.PLACEHOLDER_FILTER_NAME' | translate}}"
+            ng-model="vm.customFilterName"
+            type="text"
+            placeholder="{{'COMMON.FILTERS.PLACEHOLDER_FILTER_NAME' | translate}}"
+        )
+
+        button.button-custom-filters.button-primary.e2e-open-custom-filter-form(
+            type="submit"
+            translate="COMMON.FILTERS.ACTION_SAVE_CUSTOM_FILTER"
+        )
+
+    .custom-filter-list(ng-if="vm.customFilters.length")
+        .single-filter.single-filter-type-custom(
+            ng-repeat="it in vm.customFilters"
+            ng-class="{active: it.id == vm.activeCustomFilter}"
+        )
+            button.name(
+                ng-click="vm.selectCustomFilter(it)"
+            ) {{it.name}}
+            button.remove-filter.e2e-remove-custom-filter(ng-click="vm.removeCustomFilter(it)")
+                tg-svg(svg-icon="icon-trash")
+
+.filters-step-cat
+    .filters-applied(ng-if="vm.includedFilters.length || vm.excludedFilters.length")
+        .filters-included(ng-if="vm.includedFilters.length")
+            .filters-title(translate="COMMON.FILTERS.ADVANCED_FILTERS.INCLUDED")
+            .filters-wrapper
+                .single-applied-filter.ng-animate-disabled(
+                    ng-repeat="it in vm.includedFilters | orderBy:'-mode' track by it.key"
+                    class="{{it.mode}}"
+                )
+                    .name(
+                        ng-if="it.dataType === 'tags'"
+                        ng-bind-html="it.name | emojify"
+                    )
+                    .name(
+                        ng-if="it.dataType !== 'tags'"
+                    ) {{it.name}}
+
+                    button.remove-filter.e2e-remove-filter(
+                    ng-click="vm.unselectFilter(it)"
+                    )
+                        tg-svg(svg-icon="icon-close")
+
+        .filters-excluded(ng-if="vm.excludedFilters.length")
+            .filters-title(translate="COMMON.FILTERS.ADVANCED_FILTERS.EXCLUDED")
+            .filters-wrapper
+                .single-applied-filter.ng-animate-disabled(
+                    ng-repeat="it in vm.excludedFilters | orderBy:'-mode' track by it.key"
+                    class="{{it.mode}}"
+                )
+                    .name(
+                        ng-if="it.dataType === 'tags'"
+                        ng-bind-html="it.name | emojify"
+                    )
+                    .name(
+                        ng-if="it.dataType !== 'tags'"
+                    ) {{it.name}}
+
+                    button.remove-filter.e2e-remove-filter(
+                    ng-click="vm.unselectFilter(it)"
+                    )
+                        tg-svg(svg-icon="icon-close")
+
+    .filters-advanced
+
+        .filters-advanced-form
+            .custom-radio(ng-repeat="option in vm.filterModeOptions")
+                input(
+                    type="radio"
+                    name="filter-mode"
+                    id="filter-mode-{{option}}"
+                    value="{{option}}"
+                    ng-model="vm.filterMode"
+                )
+                label.filter-mode(
+                    for="filter-mode-{{option}}",
+                    class="{{option}}",
+                    ng-class="{active: vm.filterMode == option}"
+                    tabindex="0"
+                )
+                    .radio-mark
+                        .radio-mark-inner(class="{{option}}")
+                    span {{vm.filterModeLabels[option]}}
+
+    .filters-cats
+        ul
+            li(
+                ng-class="{selected: vm.isOpen(filter.dataType)}"
+                ng-repeat="filter in vm.filters track by filter.dataType"
+                ng-if="!(filter.hideEmpty && filter.totalTaggedElements === 0)"
+            )
+
+                button.filters-cat-single.e2e-category(
+                    ng-class="{selected: vm.isOpen(filter.dataType)}"
+                    ng-click="vm.toggleFilterCategory(filter.dataType)"
+                )
+                    span.title {{::filter.title}}
+                    tg-svg.ng-animate-disabled(
+                        ng-if="!vm.isOpen(filter.dataType)"
+                        svg-icon="icon-arrow-right"
+                    )
+                    tg-svg.ng-animate-disabled(
+                        ng-if="vm.isOpen(filter.dataType)"
+                        svg-icon="icon-arrow-down"
+                    )
+
+                .filter-list(
+                    ng-if="vm.isOpen(filter.dataType)",
+                    tg-filter-slide-down
+                )
+                    button.single-filter(
+                        ng-repeat="it in filter.content"
+                        ng-class="{'single-filter-type-general': filter.dataType !== 'tags', 'single-filter-type-tag': filter.dataType === 'tags', 'single-filter-type-user': filter.dataType === 'assigned_users' || filter.dataType === 'owner'}"
+                        ng-if="!vm.isFilterSelected(filter, it) && !(it.count == 0 && filter.hideEmpty)"
+                        ng-click="vm.selectFilter(filter, it)"
+                        ng-style="{'border-color': (it.color && filter.dataType !== 'tags') ? it.color : 'transparent','background':  (it.color && filter.dataType === 'tags') ? it.color: null}"
+                    )
+                        img.user-pic(
+                            ng-if="filter.dataType === 'assigned_users' || filter.dataType === 'owner'"
+                            tg-avatar="it"
+                            alt=""
+                        )
+                        span.name {{it.name}}
+                        span.number.e2e-filter-count(ng-if="it.count > 0") {{it.count}}

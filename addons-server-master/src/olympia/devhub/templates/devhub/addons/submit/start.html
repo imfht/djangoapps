@@ -1,0 +1,11 @@
+{% extends "devhub/addons/submit/base.html" %}
+
+
+{% block title %}{{ dev_page_title(_('Add-on Distribution Agreement'), addon) }}{% endblock %}
+
+{% block primary %}
+<h3>{{ _('Add-on Distribution Agreement') }}</h3>
+
+{% include "devhub/agreement.html" %}
+
+{% endblock %}

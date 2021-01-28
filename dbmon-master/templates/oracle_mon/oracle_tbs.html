@@ -1,0 +1,280 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle表空间分析:{{ tbs_name }}
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Oracle</a></li>
+        <li><a href="/show_oracle_resource/?tagsdefault=orcl">资源监控</a></li>
+        <li class="active">表空间分析</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+       <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+             <div class="col-md-6">
+              <div class="box-tools">
+              <table class="table table-bordered text-center">
+             <tbody>
+                <a href="/oracle_tbs?tags={{ tags }}&tbs_name={{ tbs_name }}&db_range_default=1小时"><button type="button" class="btn bg-olive margin">1小时</button></a>
+                <a href="/oracle_tbs?tags={{ tags }}&tbs_name={{ tbs_name }}&db_range_default=1天"><button type="button" class="btn bg-olive margin">1天</button></a>
+                <a href="/oracle_tbs?tags={{ tags }}&tbs_name={{ tbs_name }}&db_range_default=7天"><button type="button" class="btn bg-olive margin">7天</button></a>
+                <a href="/oracle_tbs?tags={{ tags }}&tbs_name={{ tbs_name }}&db_range_default=30天"><button type="button" class="btn bg-olive margin">30天</button></a>
+              </tbody></table>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+          <!-- /.row -->
+       </div>
+        </div>
+          <!-- interactive chart -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-bar-chart-o"></i>
+              <h3 class="box-title">表空间使用率</h3>
+                 <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+
+            <div class="box-body">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+          </div>
+              <div class="conn" id="tbs-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          </div>
+                  <!-- interactive chart -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-bar-chart-o"></i>
+              <h3 class="box-title">表空间使用(GB)</h3>
+                 <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+
+            <div class="box-body">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+          </div>
+              <div class="conn" id="gb-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          </div>
+          <!-- /.box -->
+        <!-- /.col -->
+        <div class="row">
+            <div class="col-md-8">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">大段对象</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <!-- Conversations are loaded here -->
+             <div class="direct-chat-messages" style="height: 300px">
+                 <table class="table table-striped">
+                <tbody><tr>
+                  <th>归属用户</th>
+                    <th>段名</th>
+                    <th>分区名</th>
+                    <th>段类型</th>
+                    <th>大小(GB)</th>
+                </tr>
+                {% for oracle_tbs_segment in oracle_tbs_segments %}
+                <tr>
+                    <td>{{ oracle_tbs_segment.OWNER }}</td>
+                    <td>{{ oracle_tbs_segment.SEGMENT_NAME }}</td>
+                    <td>{{ oracle_tbs_segment.PARTITION_NAME }}</td>
+                    <td>{{ oracle_tbs_segment.SEGMENT_TYPE }}</td>
+                    <td>{{ oracle_tbs_segment.GBYTES }}</td>
+                </tr>
+                {% endfor %}
+              </tbody></table>
+
+                  </div>
+                  <!--/.direct-chat-messages-->
+                </div>
+              </div>
+                      </div>
+                    <div class="col-md-4">
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">日使用量(估算)</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <!-- Conversations are loaded here -->
+             <div class="direct-chat-messages" style="height: 300px">
+                 <table class="table table-striped">
+                <tbody><tr>
+                  <th>日期</th>
+                    <th>使用量(mb)</th>
+                </tr>
+                {% for oracle_per in oracle_pers %}
+                <tr>
+                    <td>{{ oracle_per.M_DATE }}</td>
+                    <td>{{ oracle_per.USED_MB }}</td>
+                </tr>
+                {% endfor %}
+              </tbody></table>
+                  </div>
+        </div>
+        </div>
+
+        <!-- /.col -->
+        </div>
+      </div>
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+ // ####################  【表空间使用率趋势】图形  ####################
+ var myChart_tbs_grow = echarts.init(document.getElementById('tbs-grow-chart'));
+ option_tbs_grow = {
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['pct used']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in tbsgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'pct used',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d4d098"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d4d098"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d4d098",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tbsgrow_list %}{{ i.pct_used }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_tbs_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_tbs_grow.hideLoading();  //显示完成后不显示loading
+     myChart_tbs_grow.setOption(option_tbs_grow, true);
+ },500);
+
+  // ####################  【表空间使用(GB)趋势】图形  ####################
+ var myChart_gb_grow = echarts.init(document.getElementById('gb-grow-chart'));
+ option_gb_grow = {
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['used gb']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in tbsgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true,
+     },
+     series: [
+        {
+             name:'used gb',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d4d098"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d4d098"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d4d098",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tbsgrow_list %}{{ i.used_gb }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_gb_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_gb_grow.hideLoading();  //显示完成后不显示loading
+     myChart_gb_grow.setOption(option_gb_grow, true);
+ },500);
+    </script>
+{% endblock %}

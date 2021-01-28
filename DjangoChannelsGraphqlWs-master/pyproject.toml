@@ -1,0 +1,172 @@
+# Copyright (C) DATADVANCE, 2010-2020
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+# Python project configuration.
+
+# File format is STANDARDIZED in the PEP 518:
+# https://www.python.org/dev/peps/pep-0518/
+
+# --------------------------------------------------------- BUILD-SYSTEM
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+# --------------------------------------------------------------- POETRY
+# Python packaging and dependency management.
+# Docs: https://python-poetry.org/docs/
+[tool.poetry]
+name = "django-channels-graphql-ws"
+version = "0.7.5"
+description = """Django Channels based WebSocket GraphQL server with \
+                 Graphene-like subscriptions"""
+authors = ["Alexander A. Prokhorov <alexander.prokhorov@datadvance.net>"]
+homepage = "https://github.com/datadvance/DjangoChannelsGraphqlWs"
+repository = "https://github.com/datadvance/DjangoChannelsGraphqlWs"
+license = "MIT"
+packages = [
+    { include = "channels_graphql_ws/" },
+]
+[tool.poetry.dependencies]
+# Production dependencies.
+# Version syntax: https://python-poetry.org/docs/versions/
+python = "^3.6.0"
+aiohttp = "^3.5"
+asgiref = "^3.2"
+backports-datetime-fromisoformat = {version = "^1", python = "~3.6"}
+channels = "^2.2"
+dataclasses = {version = "^0.7", python = "~3.6"}
+django = ">=2.2, <4"
+graphene = "^2.1"
+graphql-core = ">=2.2"
+msgpack = ">=0.6.1, <2"
+[tool.poetry.dev-dependencies]
+# Development dependencies.
+# Version syntax: https://python-poetry.org/docs/versions/
+black = { version = "*", allow-prereleases = true }
+channels-redis = "*"
+coverage = "*"
+graphene-django = "*"
+ipython = "*"
+isort = {version = "*", extras = ["pyproject"]}
+mypy = "*"
+plumbum = "*"
+pre-commit = "*"
+pydocstyle = "*"
+pylint = "*"
+pylint-django = "*"
+pylint-quotes = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+pytest-django = "*"
+pytest-pythonpath = "*"
+pytest-xdist = "*"
+tox = "*"
+
+# ---------------------------------------------------------------- BLACK
+# Black - the uncompromising code formatter.
+# https://black.readthedocs.io/en/stable/index.html
+[tool.black]
+target-version = ['py36', 'py37', 'py38']
+
+# ---------------------------------------------------------------- ISORT
+# Isort configuration.
+# Docs: https://github.com/timothycrosley/isort/wiki/isort-Settings
+[tool.isort]
+profile="black"
+
+# --------------------------------------------------------------- PYLINT
+# Pylint code checker configuration.
+# - Pylint docs:
+#   https://pylint.readthedocs.io/en/latest/
+# - Configuration reference:
+#   http://pylint.pycqa.org/en/latest/technical_reference/features.html
+[tool.pylint.MASTER]
+# Work in parallel.
+# Parallel work disabled due to a bug in the pylint-django:
+# https://github.com/PyCQA/pylint-django/issues/276
+#jobs = "0"
+jobs = "1"
+load-plugins = "pylint_quotes,pylint_django"
+# Do not store results of previous runs.
+persistent = "no"
+# Allow to load C extension modules.
+unsafe-load-any-extension = "yes"
+[tool.pylint."MESSAGES CONTROL"]
+# bad-continuation: Black does the job, no need to check.
+# design: Do not count lines, members, ..., no use.
+# similarities: Duplication does not mean bad design by itself.
+disable = "bad-continuation,design,similarities"
+enable = "c-extension-no-member"
+[tool.pylint.BASIC]
+# It is OK to have 2-letters identifiers, e.g. 'id' or 'ok'. Also allow
+# long identifiers, cause there is a strong line length limitation which
+# will force engineers to thing twice before giving too long names.
+argument-rgx = "[a-z_][a-z0-9_]{1,64}$"
+attr-rgx = "[a-z_][a-z0-9_]{1,64}$"
+bad-names = "foo,bar,baz,toto,tutu,tata,responce,pathes"
+class-attribute-rgx = "([A-Za-z_][A-Za-z0-9_]{1,64}|(__.*__))$"
+function-rgx = "[a-z_][a-z0-9_]{1,64}$"
+good-names = "i,j,k,ex,Run,_"
+method-rgx = "[a-z_][a-z0-9_]{1,64}$"
+# Docstrings are needed everywhere.
+no-docstring-rgx = "^$"
+variable-rgx = "[a-z_][a-z0-9_]{1,64}$"
+[tool.pylint.FORMAT]
+max-line-length="88"
+max-module-lines="9000" # Right, over nine thousand!
+[tool.pylint.STRING_QUOTES]
+docstring-quote = "double"
+string-quote = "double-avoid-escape"
+triple-quote = "double"
+[tool.pylint.REFACTORING]
+# We have line length 88, no need to check.
+max-nested-blocks = "9000"
+[tool.pylint.REPORTS]
+reports = "no"
+score = "no"
+
+# ------------------------------------------------------------- COVERAGE
+# Coverage.py configuration reference:
+# https://coverage.readthedocs.io/en/latest/config.html
+[tool.coverage.run]
+branch = true
+# List of packages to measure coverage in.
+source = ["channels_graphql_ws/"]
+# Do not include test files in the coverage report.
+omit = ["**/test_*.py"]
+
+# ------------------------------------------------------------------ TOX
+# Tox configuration following Poetry FAQ instructions:
+# https://python-poetry.org/docs/faq/#is-tox-supported
+# At the moment of writing Tox only supports `pyproject.toml`-based
+# configuration though this `legacy_tox_ini` option:
+# https://tox.readthedocs.io/en/latest/example/basic.html#pyproject-toml-tox-legacy-ini
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = true
+envlist = py36,py37,py38
+[testenv]
+whitelist_externals = poetry
+commands_pre = poetry install -v
+commands = poetry run pytest {posargs}
+"""

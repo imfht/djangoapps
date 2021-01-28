@@ -1,0 +1,81 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>Linux主机概览</h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Linux</a></li>
+        <li class="active">概览</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-body" style="overflow: auto">
+              <table id="table1" class="table table-bordered table-striped" >
+                <thead>
+                <tr>
+                  <th style="width: 10px">ID</th>
+                    <th>标签</th>
+                  <th>IP地址</th>
+                  <th>主机名</th>
+                    <th>运行时间(天)</th>
+                    <th>接收流量(kb)</th>
+                    <th>发送流量(kb)</th>
+                    <th>load</th>
+                  <th>cpu使用率</th>
+                  <th>内存使用率</th>
+                    <th>主机状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                {% for osinfo in osinfo_list %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td><a href="/linux_monitor?tagsdefault={{ osinfo.tags }}">{{ osinfo.tags}}</a></td>
+                 <td>{{ osinfo.host}} </td>
+                 <td>{{ osinfo.host_name}} </td>
+                 <td>{{ osinfo.updays}} </td>
+                 <td>{{ osinfo.recv_kbps}} </td>
+                 <td>{{ osinfo.send_kbps}} </td>
+                 <td>{{ osinfo.load1}} </td>
+                 <td><span class="badge bg-{{ osinfo.cpu_rate_level }}">{{ osinfo.cpu_used }}%</span></td>
+                 <td><span class="badge bg-{{ osinfo.mem_rate_level }}">{{ osinfo.mem_used }}%</span></td>
+                 <td><span class="badge bg-{{ osinfo.rate_level }}">{{ osinfo.mon_status }}</span></td>
+                 <td>
+                   <a href="#">
+                      <button type="button" class="btn btn-xs btn-primary" onclick="return pop('{{ osinfo.host }}','{{ osinfo.ssh_port }}')" >Webssh</button></a>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+function pop(m,n){
+    layer.open({
+    type: 2 //此处以iframe举例
+    ,title: 'webssh_'+m
+    ,area: ['700px', '550px']
+    ,shade: 0
+    ,maxmin: true,
+    content: ['http://192.168.48.60:8888?host='+m +'&ssh_port='+ n],
+    btn: ['关闭所有'] //只是为了演示
+    ,btn2: function(){
+      layer.closeAll();
+    }
+    ,zIndex: layer.zIndex //重点1
+    ,success: function(layero){
+      layer.setTop(layero); //重点2
+    },
+   });
+}
+
+</script>
+{% endblock %}

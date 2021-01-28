@@ -1,0 +1,20 @@
+<div class="blog-posts item">
+  <h3>
+    {{ _('Developer News') }}
+  </h3>
+  <ul class="blog-container">
+    {% for post in blog_posts %}
+    <li class="item">
+      <a href="{{ post.permalink }}" target="_new">
+        {{ post.title }}
+      </a>
+      <span class="activity-timestamp">
+        {{ post.date_posted|timesince }}
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="flex-spring"></div>
+  <p class="older-activity"><a href="http://blog.mozilla.com/addons/">
+    {{ _('View the blog &#9658;') }}</a></p>
+</div>

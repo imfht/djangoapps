@@ -1,0 +1,284 @@
+# 
+# Translators:
+# 5a85a00218ad0559ac6870a4179f4dbc, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-09-18 20:23+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: German (http://www.transifex.com/spirit-project/spirit/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:50
+msgid "Comment"
+msgstr "Kommentar"
+
+#: forms.py:71
+msgid "Write comment..."
+msgstr "Kommentar schreiben..."
+
+#: forms.py:159
+#, python-format
+msgid "Unsupported file format. Supported formats are %s."
+msgstr "Nicht unterstütztes Dateiformat. Unterstützte Formate sind %s."
+
+#: forms.py:184 forms.py:203
+msgid "The file could not be validated"
+msgstr ""
+
+#: forms.py:190
+#, python-format
+msgid ""
+"Unsupported file extension %(extension)s. Supported extensions are "
+"%(supported)s."
+msgstr ""
+
+#: forms.py:208
+#, python-format
+msgid ""
+"Unsupported file mime type %(mime)s. Supported types are %(supported)s."
+msgstr ""
+
+#: models.py:16 models.py:31 models.py:46
+msgid "comment"
+msgstr "Kommentar"
+
+#: models.py:17
+msgid "topic moved"
+msgstr "Thema verschoben"
+
+#: models.py:18
+msgid "topic closed"
+msgstr "Thema geschlossen"
+
+#: models.py:19
+msgid "topic unclosed"
+msgstr "Thema geöffnet"
+
+#: models.py:20
+msgid "topic pinned"
+msgstr "Thema festheften"
+
+#: models.py:21
+msgid "topic unpinned"
+msgstr "Thema nicht festgeheftet"
+
+#: models.py:32
+msgid "comment html"
+msgstr "comment html"
+
+#: models.py:33
+msgid "action"
+msgstr "Aktion"
+
+#: models.py:39
+msgid "modified count"
+msgstr "modifizierter Zähler"
+
+#: models.py:40
+msgid "likes count"
+msgstr "likes count"
+
+#: models.py:47
+msgid "comments"
+msgstr "Kommentare"
+
+#: tags.py:42
+#, python-brace-format
+msgid "{user} moved this {time_ago}"
+msgstr ""
+
+#: tags.py:43
+#, python-brace-format
+msgid "{user} closed this {time_ago}"
+msgstr ""
+
+#: tags.py:44
+#, python-brace-format
+msgid "{user} reopened this {time_ago}"
+msgstr ""
+
+#: tags.py:45
+#, python-brace-format
+msgid "{user} pinned this {time_ago}"
+msgstr ""
+
+#: tags.py:46
+#, python-brace-format
+msgid "{user} unpinned this {time_ago}"
+msgstr ""
+
+#: tags.py:56
+#, python-brace-format
+msgid "{user}'s comment was removed {time_ago}"
+msgstr ""
+
+#: templates/spirit/comment/_editor.html:9
+msgid "Bold"
+msgstr "fett"
+
+#: templates/spirit/comment/_editor.html:14
+msgid "Italic"
+msgstr "kursiv"
+
+#: templates/spirit/comment/_editor.html:19
+msgid "List"
+msgstr "Liste"
+
+#: templates/spirit/comment/_editor.html:24
+msgid "URL"
+msgstr "URL"
+
+#: templates/spirit/comment/_editor.html:29
+msgid "Image"
+msgstr "Bild"
+
+#: templates/spirit/comment/_editor.html:36
+msgid "File"
+msgstr ""
+
+#: templates/spirit/comment/_editor.html:43
+msgid "Poll"
+msgstr "Umfrage"
+
+#: templates/spirit/comment/_editor.html:48
+msgid "Preview"
+msgstr "Vorschau"
+
+#: templates/spirit/comment/_editor.html:77
+#: templates/spirit/comment/_editor.html:86
+#, python-brace-format
+msgid "uploading {name}"
+msgstr ""
+
+#: templates/spirit/comment/_editor.html:93
+msgid "bolded text"
+msgstr "fett gesetzter Text"
+
+#: templates/spirit/comment/_editor.html:94
+msgid "italicised text"
+msgstr "kursiv gesetzter Text"
+
+#: templates/spirit/comment/_editor.html:95
+msgid "list item"
+msgstr "Listeneintrag"
+
+#: templates/spirit/comment/_editor.html:96
+msgid "link text"
+msgstr "Verknüpfungs-Text"
+
+#: templates/spirit/comment/_editor.html:97
+msgid "link url"
+msgstr "Verknüpfungs-URL"
+
+#: templates/spirit/comment/_editor.html:98
+msgid "image text"
+msgstr "Bildtext"
+
+#: templates/spirit/comment/_editor.html:99
+msgid "image url"
+msgstr "Bild-URL"
+
+#: templates/spirit/comment/_editor.html:100
+msgid "file text"
+msgstr ""
+
+#: templates/spirit/comment/_editor.html:101
+msgid "file url"
+msgstr ""
+
+#: templates/spirit/comment/_editor.html:102
+msgid "Title"
+msgstr "Titel"
+
+#: templates/spirit/comment/_editor.html:103
+msgid "Description"
+msgstr "Beschreibung"
+
+#: templates/spirit/comment/_form.html:22
+#: templates/spirit/comment/publish.html:22
+#: templates/spirit/comment/update.html:22
+msgid "Publish"
+msgstr "veröffentlichen"
+
+#: templates/spirit/comment/_render_list.html:32
+msgid "undelete"
+msgstr "wiederherstellen"
+
+#: templates/spirit/comment/_render_list.html:33
+msgid "show"
+msgstr ""
+
+#: templates/spirit/comment/_render_list.html:61
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/spirit/comment/_render_list.html:63
+msgid "Moderator"
+msgstr ""
+
+#: templates/spirit/comment/_render_list.html:66
+msgid "Original Poster"
+msgstr ""
+
+#: templates/spirit/comment/_render_list.html:91
+msgid "delete"
+msgstr "löschen"
+
+#: templates/spirit/comment/_render_list.html:95
+msgid "report"
+msgstr "melden"
+
+#: templates/spirit/comment/_render_list.html:99
+msgid "share"
+msgstr "Teilen"
+
+#: templates/spirit/comment/_render_list.html:107
+#: templates/spirit/comment/_render_list.html:168
+msgid "remove like"
+msgstr "like entfernen"
+
+#: templates/spirit/comment/_render_list.html:114
+#: templates/spirit/comment/_render_list.html:167
+msgid "like"
+msgstr "like"
+
+#: templates/spirit/comment/_render_list.html:122
+msgid "edit"
+msgstr "editieren"
+
+#: templates/spirit/comment/_render_list.html:127
+msgid "quote"
+msgstr "zitieren"
+
+#: templates/spirit/comment/_render_list.html:129
+msgid "reply"
+msgstr "antworten"
+
+#: templates/spirit/comment/moderate.html:5
+#: templates/spirit/comment/moderate.html:9
+msgid "Moderate comment"
+msgstr "Kommentar moderieren"
+
+#: templates/spirit/comment/moderate.html:14
+msgid "Apply"
+msgstr "akzeptieren"
+
+#: templates/spirit/comment/publish.html:5
+msgid "Publish comment"
+msgstr "Kommentar veröffentlichen"
+
+#: templates/spirit/comment/publish.html:9
+msgid "Publishing comment on"
+msgstr "Kommentar veröffentlichen zu"
+
+#: templates/spirit/comment/update.html:5
+#: templates/spirit/comment/update.html:9
+msgid "Edit comment"
+msgstr "Kommentar editieren"

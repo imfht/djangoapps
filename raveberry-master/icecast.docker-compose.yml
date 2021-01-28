@@ -1,0 +1,82 @@
+version: '3'
+
+volumes:
+  static-files:
+  songs-cache:
+    # If you want to access downloaded files on your host system,
+    # uncomment the following lines and choose a folder.
+    #driver_opts:
+    #  type: 'none'
+    #  o: 'bind'
+    #  device: '/path/to/folder/'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=raveberry
+      - POSTGRES_USER=raveberry
+      - POSTGRES_PASSWORD=raveberry
+    restart: always
+  redis:
+    image: redis
+    restart: always
+  icecast:
+    image: raveberry/raveberry-icecast
+    environment:
+      ICECAST_ADMIN_PASSWORD: "${ICECAST_ADMIN_PASSWORD:-hackme}"
+      STREAM_USERNAME: "${STREAM_USERNAME:-raveberry}"
+      STREAM_PASSWORD: "${STREAM_PASSWORD:-raveberry}"
+      # or set STREAM_NOAUTH if you don't want to protect your stream
+      STREAM_NOAUTH: "${STREAM_NOAUTH}"
+    # uncomment this port mapping if you need to access icecast's web interface
+    #ports:
+    #  - 8000:8000
+    # uncomment these lines with a path to a custom icecast config
+    #volumes:
+    #  - /path/to/icecast.xml:/etc/icecast.xml
+    restart: always
+  mopidy:
+    image: raveberry/raveberry-mopidy
+    environment:
+      # optional spotify and soundcloud settings
+      - SPOTIFY_USERNAME
+      - SPOTIFY_PASSWORD
+      - SPOTIFY_CLIENT_ID
+      - SPOTIFY_CLIENT_SECRET
+      - SOUNDCLOUD_AUTH_TOKEN
+    volumes:
+      - songs-cache:/Music/raveberry
+      # If you want to use spotify, 
+      # uncomment this line with a path to a config file containing the spotify credentials
+      # - /path/to/mopidy.conf:/config/mopidy_icecast.conf
+    command: bash -c "/usr/bin/mopidy --config /config/mopidy_icecast.conf"
+    depends_on:
+      - icecast
+    restart: always
+  daphne:
+    image: raveberry/raveberry
+    environment:
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:-admin}"
+      MOD_PASSWORD: "${MOD_PASSWORD:-mod}"
+      DOCKER: 1
+      DOCKER_ICECAST: 1
+    expose:
+      - 9000
+    volumes:
+      - static-files:/opt/raveberry/static
+      - songs-cache:/Music/raveberry
+    depends_on:
+      - db
+      - redis
+      - mopidy
+      - icecast
+    restart: always
+  nginx:
+    image: raveberry/raveberry-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static-files:/usr/share/nginx/static
+    depends_on:
+      - daphne
+    restart: always

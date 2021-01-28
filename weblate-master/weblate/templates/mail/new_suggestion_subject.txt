@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}New suggestion in {{ translation }}{% endblocktrans %}
+{% endautoescape %}

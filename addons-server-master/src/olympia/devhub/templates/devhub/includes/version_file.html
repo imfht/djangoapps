@@ -1,0 +1,9 @@
+<tr>
+  <td>
+    <a href="{{ file.get_absolute_url() }}">
+      {{ file.pretty_filename() }}</a>
+  </td>
+  <td>{{ file.size|filesizeformat(binary=True) }}</td>
+  <td>{{ amo.PLATFORMS[file.platform].name }}</td>
+  <td>{{ choices[file.status] }}</td>
+</tr>

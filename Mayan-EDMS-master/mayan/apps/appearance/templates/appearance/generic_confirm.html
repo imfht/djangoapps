@@ -1,0 +1,55 @@
+{% extends 'appearance/base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% include 'appearance/calculate_form_title.html' with non_html_title=True %}{% endblock %}
+
+{% block content %}
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <h3>{% trans 'Are you sure?' %}</h3>
+                </h4>
+            </div>
+            {% if message %}
+                <div class="modal-body">
+                    <p>{{ message }}</p>
+                </div>
+            {% endif %}
+            <div class="modal-footer">
+                <form action="" method="post" class="form login">{% csrf_token %}
+                    {% if next %}
+                        <input name="next" type="hidden" value="{{ next }}" />
+                    {% endif %}
+
+                    {% if previous %}
+                        <input name="previous" type="hidden" value="{{ previous }}" />
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal">
+                        {% if submit_icon_class %}
+                            {{ submit_icon_class.render }}
+                        {% else %}
+                            <i class="fa fa-check"></i>
+                        {% endif %}
+                        {% if submit_label %}{{ submit_label }}{% else %}{% trans 'Yes' %}{% endif %}
+                    </button>
+
+                    {% if previous %}
+                        <a class="btn btn-primary" onclick='history.back();'>
+                        {% if cancel_icon_class %}
+                            {{ cancel_icon_class.render }}
+                        {% else %}
+                            <i class="fa fa-times"></i>
+                        {% endif %}
+                        {% trans 'No' %}</a>
+                    {% endif %}
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

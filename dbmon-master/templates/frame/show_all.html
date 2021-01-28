@@ -1,0 +1,188 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        仪表盘
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">仪表盘</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+         <!--------------------------
+        | Your Page Content Here |
+        -------------------------->
+       <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+              <h3 class="widget-user-username">Linux主机</h3>
+              <h5 class="widget-user-desc"> 全部实例：{{ linux_all_cnt }}</h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a>正常 <span class="pull-right badge bg-green">{{ linux_seccess_cnt }}</span></a></li>
+                <li><a>告警 <span class="pull-right badge bg-yellow">{{ linux_warning_cnt }}</span></a></li>
+                <li><a>危险 <span class="pull-right badge bg-red">{{ linux_danger_cnt }}</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+              <h3 class="widget-user-username">Oracle数据库</h3>
+              <h5 class="widget-user-desc">全部实例：{{ ora_all_cnt }}</h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a>正常 <span class="pull-right badge bg-green">{{ ora_seccess_cnt }}</span></a></li>
+                <li><a>告警 <span class="pull-right badge bg-yellow">{{ ora_warning_cnt }}</span></a></li>
+                <li><a>危险 <span class="pull-right badge bg-red">{{ ora_danger_cnt }}</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+              <h3 class="widget-user-username">MySQL数据库</h3>
+              <h5 class="widget-user-desc">全部实例：{{ msql_all_cnt }}</h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a>正常 <span class="pull-right badge bg-green">{{ msql_seccess_cnt }}</span></a></li>
+                <li><a>告警 <span class="pull-right badge bg-yellow">{{ msql_warning_cnt }}</span></a></li>
+                <li><a>危险 <span class="pull-right badge bg-red">{{ msql_danger_cnt }}</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+        <section class="col-lg-7 connectedSortable ui-sortable">
+        <div class="box box-solid">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+              <i class="ion ion-drag"></i>
+
+              <h3 class="box-title">实时告警</h3>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list ui-sortable">
+                  {% for message in messageinfo_list %}
+                <li class="">
+                  <!-- drag handle -->
+                  <span class="handle ui-sortable-handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <!-- todo text -->
+                  <span class="text">{{ message.alarm_header }}</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ tim_last }} min</small>
+                  <!-- General tools such as edit or delete-->
+                </li>
+                  {% endfor %}
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+                <span class="pull-right text-muted">{{ now }}</span>
+            </div>
+          </div>
+        </section>
+    <section class="col-lg-5 connectedSortable ui-sortable">
+          <!-- LINE CHART -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">cpu使用率 TOP5</h3>
+            </div>
+            <div class="box-body chart-responsive">
+              <table class="table table-striped">
+                <tbody><tr>
+                  <th>标签</th>
+                    <th>主机名</th>
+                    <th>百分比</th>
+                </tr>
+
+                {% for osinfo in top_5_cpu %}
+                <tr>
+                    <td>{{ osinfo.tags }}</td>
+                    <td>{{ osinfo.host }}</td>
+                  <td><span class="badge bg-{{ osinfo.cpu_rate_level }}">{{ osinfo.cpu_used }}%</span></td>
+                </tr>
+                {% endfor %}
+
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+    <!-- LINE CHART -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">内存使用率 TOP5</h3>
+            </div>
+            <div class="box-body chart-responsive">
+              <table class="table table-striped">
+                <tbody><tr>
+                  <th>标签</th>
+                    <th>主机名</th>
+                    <th>百分比</th>
+                </tr>
+
+                {% for osinfo in top_5_mem %}
+                <tr>
+                    <td>{{ osinfo.tags }}</td>
+                    <td>{{ osinfo.host }}</td>
+                  <td><span class="badge bg-{{ osinfo.mem_rate_level }}">{{ osinfo.mem_used }}%</span></td>
+                </tr>
+                {% endfor %}
+
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+              <!-- LINE CHART -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">磁盘使用率 TOP5</h3>
+            </div>
+            <div class="box-body chart-responsive">
+              <table class="table table-striped">
+                <tbody><tr>
+                  <th>标签</th>
+                    <th>主机名</th>
+                    <th>目录</th>
+                    <th>百分比</th>
+                </tr>
+
+                {% for osinfo in top_5_disk %}
+                <tr>
+                    <td>{{ osinfo.tags }}</td>
+                    <td>{{ osinfo.host }}</td>
+                    <td>{{ osinfo.name }}</td>
+                  <td><span class="badge bg-{{ osinfo.disk_rate_level }}">{{ osinfo.pct_used }}%</span></td>
+                </tr>
+                {% endfor %}
+
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+         </section>
+{% endblock %}

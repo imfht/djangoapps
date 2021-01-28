@@ -1,0 +1,13 @@
+.contact-team {
+    &-large {
+        @include font-size(small);
+        @include font-type(regular);
+        justify-content: center;
+        margin-left: 0;
+        width: 100%;
+        .icon-mail {
+            margin-right: .5rem;
+            vertical-align: center;
+        }
+    }
+}

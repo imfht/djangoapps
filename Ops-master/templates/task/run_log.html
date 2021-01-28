@@ -1,0 +1,472 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+    <style>
+        /* dataTables列内容居中 */
+        #moduleLog > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #moduleLog > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+
+        /* dataTables列内容居中 */
+        #playbookLog > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #playbookLog > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs run-log">
+                <li class="active"><a href="#tab_1" data-toggle="tab">查看模块操作日志</a></li>
+                <li><a href="#tab_2" data-toggle="tab">查看playbook操作日志</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="col-lg-12">
+                    <br>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" id="LogStartTime" class="form-control pull-right"
+                                       data-date-format="yyyy-mm-dd" placeholder="开始时间">
+                                <span class="input-group-addon">
+										                    <span class="glyphicon glyphicon-calendar"></span>
+										                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" id="LogEndTime" class="form-control pull-right"
+                                       data-date-format="yyyy-mm-dd" placeholder="结束时间">
+                                <span class="input-group-addon" onclick="searchLog()">
+										                    <span class="glyphicon glyphicon-search"
+                                                                  style="cursor: pointer"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane active" id="tab_1">
+                    <div class="col-xs-12">
+                        <!-- /.box -->
+
+                        <div class="box">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="moduleLog" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>操作用户</th>
+                                        <th>操作用户IP</th>
+                                        <th>模块名称</th>
+                                        <th>模块参数</th>
+                                        <th>主机</th>
+                                        <th>执行时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for info in module_log_info %}
+                                        <tr>
+                                            <td>{{ info.ans_user }}</td>
+                                            <td>{{ info.ans_remote_ip }}</td>
+                                            <td>{{ info.ans_module }}</td>
+                                            <td>{{ info.ans_args }}</td>
+                                            <td>{{ info.ans_server }}</td>
+                                            <td>{{ info.ans_datetime|date:"Y-m-d H:i:s" }}</td>
+                                            <td>
+                                                <button type="button" class="result btn btn-default"
+                                                        data-id="{{ info.id }}"
+                                                        data-toggle="modal"
+                                                        data-target="#modal-default"><i
+                                                        class="fa fa-fw fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="delete btn btn-default"
+                                                        data-id="{{ info.id }}"><i
+                                                        class="glyphicon glyphicon-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                    <div class="col-xs-12">
+                        <!-- /.box -->
+
+                        <div class="box">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="playbookLog" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>操作用户</th>
+                                        <th>操作用户IP</th>
+                                        <th>剧本名称</th>
+                                        <th>执行时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for info in playbook_log_info %}
+
+                                        <tr>
+                                            <td>{{ info.playbook_user.username }}</td>
+                                            <td>{{ info.playbook_remote_ip }}</td>
+                                            <td>{{ info.playbook_name }}</td>
+                                            <td>{{ info.playbook_datetime|date:"Y-m-d H:i:s" }}</td>
+                                            <td>
+                                                <button type="button" class="result btn btn-default"
+                                                        data-id="{{ info.id }}"
+                                                        data-toggle="modal"
+                                                        data-target="#modal-default"><i
+                                                        class="fa fa-fw fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="delete btn btn-default"
+                                                        data-id="{{ info.id }}"><i
+                                                        class="glyphicon glyphicon-trash"></i></button>
+                                            </td>
+                                        </tr>
+
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="modal fade bd-example-modal-lg" id="modal-default">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">执行结果</h4>
+                            </div>
+                            <div class="modal-body">
+                                    <pre style="background-color: black; height: 500px">
+
+                                    </pre>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- nav-tabs-custom -->
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- DataTables -->
+    <script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <!-- bootstrap datepicker -->
+    <script src="{% static 'AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+    <script src="{% static 'js/jquery-dateFormat.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            module_table = $('#moduleLog').DataTable({
+                columnDefs: [{
+                    'targets': [-1],
+                    'orderable': false
+                }],
+                "order": [[5, "desc"]],
+                scrollX: true
+            });
+            playbook_table = $('#playbookLog').DataTable({
+                columnDefs: [{
+                    'targets': [-1],
+                    'orderable': false
+                }],
+                "order": [[3, "desc"]]
+            });
+        });
+
+        //Date picker
+        $('#LogStartTime, #LogEndTime').datepicker({
+            autoclose: true
+        });
+
+        let module_body = $('#moduleLog tbody');
+        let playbook_body = $('#playbookLog tbody');
+
+        // 查看module日志
+        module_body.on('click', 'button.result', function () {
+            let pk = $(this).attr('data-id');
+            let obj = $('pre');
+            obj.html('');
+            $.get('/run/run_log/?module_log_id=' + pk, function (res) {
+                for (let i of res.data) {
+                    obj.append(i)
+                }
+            });
+            obj.scrollTop = obj.scrollHeight;
+        });
+
+        //删除module日志
+        module_body.on('click', 'button.delete', function () {
+            let pk = $(this).attr('data-id');
+            let tr_obj = $(this).parents('tr');
+
+            {% if request.user.is_superuser %}
+                $.confirm({
+                    title: 'Tips',
+                    content: '确定要删除这条记录么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: function () {
+                            $.ajax({
+                                url: '/run/module_log_del/' + pk + '/',
+                                method: 'DELETE',
+                                success: function (res) {
+                                    if (res.code === 200) {
+                                        module_table.row(tr_obj).remove().draw();
+                                    } else {
+                                        $.alert({
+                                            title: 'Tips',
+                                            type: 'red',
+                                            content: res.msg,
+                                        })
+                                    }
+                                },
+                                error: function (data) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '删除失败！' + data.responseText,
+                                    })
+                                }
+                            })
+                        },
+                        Cancel: function () {
+                            //
+                        }
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '抱歉！您没有删除操作日志的权限！如有疑问，请联系管理员！',
+                });
+            {% endif %}
+        });
+
+        // 查看playbook日志
+        playbook_body.on('click', 'button.result', function () {
+            let pk = $(this).attr('data-id');
+            let obj = $('pre');
+            obj.html('');
+            $.get('/run/run_log/?playbook_log_id=' + pk, function (res) {
+                for (let i of res.data) {
+                    obj.append(i)
+                }
+            });
+            obj.scrollTop = obj.scrollHeight;
+        });
+
+        //删除playbook日志
+        playbook_body.on('click', 'button.delete', function () {
+            let pk = $(this).attr('data-id');
+            let tr_obj = $(this).parents('tr');
+
+            {% if request.user.is_superuser %}
+                $.confirm({
+                    title: 'Tips',
+                    content: '确定要删除这条记录么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: function () {
+                            $.ajax({
+                                url: '/run/playbook_log_del/' + pk + '/',
+                                method: 'DELETE',
+                                success: function (res) {
+                                    if (res.code === 200) {
+                                        playbook_table.row(tr_obj).remove().draw();
+                                    } else {
+                                        $.alert({
+                                            title: 'Tips',
+                                            type: 'red',
+                                            content: res.msg,
+                                        })
+                                    }
+                                },
+                                error: function (data) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '删除失败！' + data.responseText,
+                                    })
+                                }
+                            })
+                        },
+                        Cancel: function () {
+                            //
+                        }
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '抱歉！您没有删除操作日志的权限！如有疑问，请联系管理员！',
+                });
+            {% endif %}
+        });
+
+        // 按日期搜索日志
+        function searchLog() {
+            let startTime = $('#LogStartTime').val();
+            let endTime = $('#LogEndTime').val();
+            if (startTime.length === 0 || endTime.length === 0) {
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '请选择起始时间！'
+                });
+                return false;
+            }
+            if ($('.run-log li:first').hasClass('active')) {
+                $.ajax({
+                    dataType: "JSON",
+                    url: '{% url 'run_log' %}',
+                    type: "POST",  //提交类似
+                    data: {
+                        "startTime": startTime,
+                        "endTime": endTime,
+                        "logType": "module",
+                    },
+                    success: function (response) {
+                        if (response.records.length === 0) {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: '该时间段内没有执行任何模块！'
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'green',
+                                content: '查询完成！'
+                            });
+                            module_table.clear().draw();
+                            for (let i = 0; i < response.records.length; i++) {
+                                let result = response.records[i];
+                                let id = result['id'];
+                                let ans_datetime = $.format.date(result['ans_datetime'], "yyyy-MM-dd HH:mm:ss");
+                                module_table.row.add([
+                                    result['ans_user'],
+                                    result['ans_remote_ip'],
+                                    result['ans_module'],
+                                    result['ans_args'],
+                                    result['ans_server'],
+                                    ans_datetime,
+                                    `<button type="button" class="result btn btn-default" data-id="${id}" data-toggle="modal" data-target="#modal-default"><i class="fa fa-fw fa-eye"></i></button> <button type="button" class="delete btn btn-default" data-id="${id}"><i class="glyphicon glyphicon-trash"></i></button>`
+                                ]).draw();
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText
+                        });
+                    }
+                })
+            } else {
+                $.ajax({
+                    dataType: "JSON",
+                    url: '{% url 'run_log' %}',
+                    type: "POST",  //提交类似
+                    data: {
+                        "startTime": startTime,
+                        "endTime": endTime,
+                        "logType": "playbook",
+                    },
+                    success: function (response) {
+                        if (response.records.length === 0) {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: '该时间段内没有执行任何模块！'
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'green',
+                                content: '查询完成！'
+                            });
+                            playbook_table.clear().draw();
+                            for (let i = 0; i < response.records.length; i++) {
+                                let result = response.records[i];
+                                let id = result['id'];
+                                let playbook_datetime = $.format.date(result['playbook_datetime'], "yyyy-MM-dd HH:mm:ss");
+                                playbook_table.row.add([
+                                    result['playbook_user'],
+                                    result['playbook_remote_ip'],
+                                    result['playbook_name'],
+                                    playbook_datetime,
+                                    `<button type="button" class="result btn btn-default" data-id="${id}" data-toggle="modal" data-target="#modal-default"><i class="fa fa-fw fa-eye"></i></button> <button type="button" class="delete btn btn-default" data-id="${id}"><i class="glyphicon glyphicon-trash"></i></button>`
+                                ]).draw();
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText
+                        });
+                    }
+                })
+            }
+        }
+    </script>
+
+{% endblock %}
+

@@ -1,0 +1,446 @@
+{% extends 'pc/base.html' %}
+{% load static %}
+{% block title %}
+{{ user }}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/pagination.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/person.css' %}" />
+    <style>
+    .blogs_pic.img_cover {
+    background-color:#ccc!important;
+}
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="person_banner">
+        <div class="person_bannerbgd img_cover">
+            <div></div>
+        </div>
+        <div class="person_nav main">
+            <ul class="clearfix">
+                <li class="fl">
+                    <a href="{% url 'user:author_detaile' user.id %}" class="person_nav {% if request.path|slice:'8' == '/person/' and request.path|slice:'22' != '/person/ProfileOthers/' and  request.path|slice:'13' != '/person/info/' %} active
+                    {% endif %}">文章</a>
+                </li>
+                <li class="fl">
+                    <a href="{% url 'user:ProfileOthers' user.id %}"class="person_nav {% if request.path|slice:'22' == '/person/ProfileOthers/' %} active
+                    {% endif %}">人脉</a>
+                </li>
+                <li class="fl">
+                    <a href="{% url 'user:info' user.id %}"class="person_nav {% if request.path|slice:'13' == '/person/info/' %} active
+                    {% endif %}">资料</a>
+                </li>
+            </ul>
+        </div>
+    <aside class="fr">
+        <div class="aside_my">
+            <div class="aside_my_info">
+                <div style="text-align: center;">
+                    <div class="my_head"style="
+                    background: url({% if user.user_imag  %}{{ MEDIA_URL }}{{ user.user_imag  }}
+                        {% elif  user.user_image %}
+                       {{ user.user_image }}
+                        {% else %}
+                        {% static 'img/pc-icon.png' %}
+                             {% endif %}
+                            )no-repeat;background-size: cover;
+
+                   "></div>
+                    <p style="margin:8px 0 4px 0">{{ user.username }}</p>
+                    <span style="cursor: pointer" onclick="flollw('{{ user.id }}')">{% if is_active %}
+                        已关注
+                        {% else %}
+                        关注
+                    {% endif %}</span>
+                     <div style="font-size: 12px;text-align: center;">
+                         {% load forum %}
+                         <span>文章:{{ user.article_set|get_counts }}</span>
+
+                         <span>帖子:{{ user.forum_set|get_count }}</span>
+                     </div>
+                </div>
+            </div>
+            <div class="aside_my_num flex_justify">
+               <div class="aside_my_div">
+                   <p>{{ count.count}}</p>
+                   <p>关注</p>
+               </div>
+                <div class="aside_my_div">
+                    <p>{{ floow.count }}</p>
+                    <p>粉丝</p>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+    </div>
+<section class="main clearfix">
+{% block end %}
+ <div class="person fl">
+        <div class="clearfix">
+            <div class="fl left_nav">
+                <ul id="category">
+                    <li data-type="" class="active"><a href="javascript:;">全部</a></li>
+                    {% for foo in category %}
+                        <li data-type="{{ foo.id }}"><a href="javascript:;">{{ foo.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <article class="fr" id="article">
+                 <div class="blogs">
+                     <div class="blogs_head" style="background: url({% static 'img/recommend.png' %})no-repeat 0 50%;">最新文章</div>
+                     <div id="mains">
+
+                     </div>
+                      <div class="M-box pagination m-style"></div>
+                 </div>
+            </article>
+        </div>
+    </div>
+    {% endblock %}
+    </section>
+
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/jquery.pagination.js' %}"></script>
+    <script src="{% static 'js/promise.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+    <script>
+        $(function () {
+
+
+            $.ajax({
+                url:'api/PersonOthers/?pk={{ user.id }}',
+                type:'get',
+                beforeSend:function(){
+                    $("#mains").append("<p class='loading'><img src='/static/img/5-121204193R5-50.gif'></p>")
+                },
+                success:function (data) {
+                    $('.loading').remove()
+                    var html =''
+                    n=[]
+                     if(data.results.length==0){
+                             $("#mains").append("<p class=' blogs_item' style='text-align:center;padding:50px 0;'>这个人很懒...</p>")
+                        }
+                    for(var i=0;i<data.results.length;i++){
+                        var currentItem = data.results[i];
+                        currentItem.list_pic=currentItem.list_pic?currentItem.list_pic:''
+                        currentItem.authors.user_imag= currentItem.authors.user_imag? currentItem.authors.user_imag:currentItem.authors.user_image?currentItem.authors.user_image:'{% static 'img/pc-icon.png' %}'
+                        n.push(currentItem.article_comment_set.length);
+                        for(var j=0,len=currentItem.article_comment_set.length;j<len;j++){
+                            var currentChildItem = currentItem.article_comment_set[j];
+                            n[i] += currentChildItem.articlecommentreply_set.length;
+                        }
+                          if(currentItem.desc && currentItem.desc.length>135){
+                                currentItem.desc=currentItem.desc.slice(1,135)+'...'
+                            }else{
+                                currentItem.desc=currentItem.desc
+                            }
+                        html+=" <div class=\"blogs_item\">\n" +
+                            "                             <div class=\"blogs_cont blogs_cont1\">\n" +
+                            "                                 <h3><span class=\"blogs_type\">"+data.results[i].category.name+"</span><a href=\"/article/detail/"+data.results[i].id+"\">"+filterXSS(data.results[i].title)+"</a></h3>\n" +
+                            "                                     <div class=\"blogs_info clearfix\">\n" +
+                            "                                          <div class=\"img_animate  \">\n" +
+                            "                                              <div class=\"blogs_pic img_cover\" style=\"background: url('"+data.results[i].list_pic+"')no-repeat;background-size:200px 120px !important;\"></div>\n" +
+                            "                                          </div>\n" +
+                            "                                          <div class=\" blogs_describe\">\n" +
+                            "                                     <div class=\" divp\">\n" +
+                            "                                              <p>"+filterXSS(currentItem.desc)+"</p>\n" +
+                            "                                          <div class=\"blogs_foot blogs_foot1 ulw\">\n" +
+                            "                                    <ul class=\"clearfix \">\n" +
+                            "                                        <li class=\"fl\">\n" +
+                            "                                             <a href=\"\" class=\"clearfix\">\n" +
+                            "                                                 <span class=\"fl img_cover blogs_avatar\" style=\"background: url('"+data.results[i].authors.user_imag+"')no-repeat;\"></span>\n" +
+                            "                                                 <span class=\"fl blogs_name\"style=\"white-space: nowrap;\n" +
+                            "    text-overflow: ellipsis;max-width: 120px;overflow: hidden;\">"+data.results[i].authors.username+"</span>\n" +
+                            "                                             </a>\n" +
+                            "                                         </li>\n" +
+                            "                                        <li class=\"fl blogs_time\">发布于:"+data.results[i].add_time+"</li>\n" +
+                            "                                        <li class=\"fl blogs_view\" style=\"background: url(/static/img/eye.png)no-repeat 0 50%;\">"+data.results[i].click_nums+"</li>\n" +
+                            "                                        <li class=\"fl blogs_comment\" style=\"background: url(/static/img/comment.png)no-repeat 0 50%;\">"+n[i]+"</li>\n" +
+                            "                                    </ul>\n" +
+                            "                                </div>\n" +
+                            "                                </div>\n" +
+                            "                                </div>\n" +
+                            "                                     </div>\n" +
+                            "                             </div>\n" +
+                            "                         </div>"
+                    }
+                    $("#mains").append(html)
+                    $('.M-box').pagination({
+                        pageCount:Math.ceil(data.count/10),   //总页码
+                        coping:true,                 //是否开启首页和末页
+                        homePage:'首页',
+                        endPage:'末页',
+                        prevContent:'上页',
+                        nextContent:'下页',
+                         jump:true,
+                        current:1,                    //当前页码
+                        callback:function (api) {
+                            $.ajax({
+                                url:'api/PersonOthers/?pk={{ user.id }}',
+                                type:'get',
+                                data:{
+                                    page:api.getCurrent()    //这个方法就是用来获取点击了哪一页的，因为我  //的接口文档中页数是从0开始的，所以减1，当我点击第一页的时候去获取第0页的数据
+                                },
+                                success:function (data) {
+                                    var html =''
+                                    b=[]
+                                    for(var i=0;i<data.results.length;i++){
+                                        var currentItem = data.results[i];
+                                        currentItem.list_pic=currentItem.list_pic?currentItem.list_pic:''
+                                         currentItem.authors.user_imag= currentItem.authors.user_imag? currentItem.authors.user_imag?currentItem.authors.user_image:currentItem.authors.user_image:'{% static 'img/pc-icon.png' %}'
+                                        b.push(currentItem.article_comment_set.length);
+                                        for(var j=0,len=currentItem.article_comment_set.length;j<len;j++){
+                                            var currentChildItem = currentItem.article_comment_set[j];
+                                            b[i] += currentChildItem.articlecommentreply_set.length;
+                                        }
+                                          if(currentItem.desc && currentItem.desc.length>135){
+                                                currentItem.desc=currentItem.desc.slice(1,135)+'...'
+                                            }else{
+                                                currentItem.desc=currentItem.desc
+                                            }
+                                        html+=" <div class=\"blogs_item\">\n" +
+                                            "                             <div class=\"blogs_cont blogs_cont1\">\n" +
+                                            "                                 <h3><span class=\"blogs_type\">"+data.results[i].category.name+"</span><a href=\"/article/detail/"+data.results[i].id+"\">"+filterXSS(data.results[i].title)+"</a></h3>\n" +
+                                            "                                     <div class=\"blogs_info clearfix\">\n" +
+                                            "                                          <div class=\"img_animate  \">\n" +
+                                            "                                              <div class=\"blogs_pic img_cover\" style=\"background: url('"+data.results[i].list_pic+"')no-repeat;background-size:200px 120px !important;\"></div>\n" +
+                                            "                                          </div>\n" +
+                                            "                                          <div class=\" blogs_describe\">\n" +
+                                            "                                     <div class=\" divp\">\n" +
+                                            "                                              <p>"+filterXSS(currentItem.desc)+"</p>\n" +
+                                            "                                          <div class=\"blogs_foot blogs_foot1 ulw\">\n" +
+                                            "                                    <ul class=\"clearfix \">\n" +
+                                            "                                        <li class=\"fl\">\n" +
+                                            "                                             <a href=\"\" class=\"clearfix\">\n" +
+                                            "                                                 <span class=\"fl img_cover blogs_avatar\" style=\"background: url('"+data.results[i].authors.user_imag+"')no-repeat;\"></span>\n" +
+                                            "                                                 <span class=\"fl blogs_name\"  style=\"white-space: nowrap;\n" +
+                                            "    text-overflow: ellipsis;max-width: 120px;overflow: hidden;\">"+data.results[i].authors.username+"</span>\n" +
+                                            "                                             </a>\n" +
+                                            "                                         </li>\n" +
+                                            "                                        <li class=\"fl blogs_time\">发布于:"+data.results[i].add_time+"</li>\n" +
+                                            "                                        <li class=\"fl blogs_view\" style=\"background: url(/static/img/eye.png)no-repeat 0 50%;\">"+data.results[i].click_nums+"</li>\n" +
+                                            "                                        <li class=\"fl blogs_comment\" style=\"background: url(/static/img/comment.png)no-repeat 0 50%;\">"+b[i]+"</li>\n" +
+                                            "                                    </ul>\n" +
+                                            "                                </div>\n" +
+                                            "                                </div>\n" +
+                                            "                                </div>\n" +
+                                            "                                     </div>\n" +
+                                            "                             </div>\n" +
+                                            "                         </div>"
+                                    }
+                                    $("#mains").html(html)
+                                }
+                            })
+                        }
+                    });
+                },
+                error:function () {
+                    alert('加载失败')
+                }
+            })
+            $("#category li").on('click',function () {
+                var self = $(this)
+                filter(self)
+            })
+        })
+        function filter(self) {
+            self.addClass('active').siblings().removeClass('active')
+                $.ajax({
+                    url:'api/PersonOthers/?pk={{ user.id }}&category='+self.attr('data-type'),
+                    type:'get',
+                    beforeSend:function(){
+                        $("#mains").append("<p class='loading'><img src='/static/img/5-121204193R5-50.gif'></p>")
+                    },
+                    success:function (data) {
+                        $('.loading').remove()
+                        var html =''
+                        n=[]
+                        for(var i=0;i<data.results.length;i++){
+                            var currentItem = data.results[i];
+                            currentItem.list_pic=currentItem.list_pic?currentItem.list_pic:''
+                            currentItem.authors.user_imag= currentItem.authors.user_imag? currentItem.authors.user_imag: currentItem.authors.user_image
+                            n.push(currentItem.article_comment_set.length);
+                            for(var j=0,len=currentItem.article_comment_set.length;j<len;j++){
+                                var currentChildItem = currentItem.article_comment_set[j];
+                                n[i] += currentChildItem.articlecommentreply_set.length;
+                            }
+                              if(currentItem.desc && currentItem.desc.length>135){
+                                    currentItem.desc=currentItem.desc.slice(1,135)+'...'
+                                }else{
+                                    currentItem.desc=currentItem.desc
+                                }
+                            html+=" <div class=\"blogs_item\">\n" +
+                                "                             <div class=\"blogs_cont blogs_cont1\">\n" +
+                                "                                 <h3><span class=\"blogs_type\">"+data.results[i].category.name+"</span><a href=\"/article/detail/"+data.results[i].id+"\">"+filterXSS(data.results[i].title)+"</a></h3>\n" +
+                                "                                     <div class=\"blogs_info clearfix\">\n" +
+                                "                                          <div class=\"img_animate  \">\n" +
+                                "                                              <div class=\"blogs_pic img_cover\" style=\"background: url('"+data.results[i].list_pic+"')no-repeat;background-size:200px 120px !important;\"></div>\n" +
+                                "                                          </div>\n" +
+                                "                                          <div class=\" blogs_describe\">\n" +
+                                "                                     <div class=\" divp\">\n" +
+                                "                                              <p>"+filterXSS(currentItem.desc)+"</p>\n" +
+                                "                                          <div class=\"blogs_foot blogs_foot1 ulw\">\n" +
+                                "                                    <ul class=\"clearfix \">\n" +
+                                "                                        <li class=\"fl\">\n" +
+                                "                                             <a href=\"\" class=\"clearfix\">\n" +
+                                "                                                 <span class=\"fl img_cover blogs_avatar\" style=\"background: url('"+data.results[i].authors.user_imag+"')no-repeat;\"></span>\n" +
+                                "                                                 <span class=\"fl blogs_name\" style=\"white-space: nowrap;\n" +
+                                "    text-overflow: ellipsis;max-width: 120px;overflow: hidden;\"style=\"white-space: nowrap;\n" +
+                                "    text-overflow: ellipsis;max-width: 120px;overflow: hidden;\">"+data.results[i].authors.username+"</span>\n" +
+                                "                                             </a>\n" +
+                                "                                         </li>\n" +
+                                "                                        <li class=\"fl blogs_time\">发布于:"+data.results[i].add_time+"</li>\n" +
+                                "                                        <li class=\"fl blogs_view\" style=\"background: url(/static/img/eye.png)no-repeat 0 50%;\">"+data.results[i].click_nums+"</li>\n" +
+                                "                                        <li class=\"fl blogs_comment\" style=\"background: url(/static/img/comment.png)no-repeat 0 50%;\">"+n[i]+"</li>\n" +
+                                "                                    </ul>\n" +
+                                "                                </div>\n" +
+                                "                                </div>\n" +
+                                "                                </div>\n" +
+                                "                                     </div>\n" +
+                                "                             </div>\n" +
+                                "                         </div>"
+                        }
+                        $("#mains").html(html)
+                         if(data.results.length==0){
+                             $("#mains").append("<p class=' blogs_item' style='text-align:center;padding:50px 0;'>暂无数据...</p>")
+                        }
+                        $('.M-box').pagination({
+                            pageCount:Math.ceil(data.count/10),   //总页码
+                            coping:true,                 //是否开启首页和末页
+                            homePage:'首页',
+                            endPage:'末页',
+                            prevContent:'上页',
+                            nextContent:'下页',
+                             jump:true,
+                            current:1,                    //当前页码
+                            callback:function (api) {
+                                $.ajax({
+                                   url:'api/PersonOthers/?pk={{ user.id }}&category='+self.attr('data-type'),
+                                    type:'get',
+                                    data:{
+                                        page:api.getCurrent()    //这个方法就是用来获取点击了哪一页的，因为我  //的接口文档中页数是从0开始的，所以减1，当我点击第一页的时候去获取第0页的数据
+                                    },
+                                    success:function (data) {
+                                        var html =''
+                                        b=[]
+                                        for(var i=0;i<data.results.length;i++){
+                                            var currentItem = data.results[i];
+                                            currentItem.list_pic=currentItem.list_pic?currentItem.list_pic:''
+                                            currentItem.authors.user_imag= currentItem.authors.user_imag? currentItem.authors.user_imag: currentItem.authors.user_image
+                                            b.push(currentItem.article_comment_set.length);
+                                            for(var j=0,len=currentItem.article_comment_set.length;j<len;j++){
+                                                var currentChildItem = currentItem.article_comment_set[j];
+                                                b[i] += currentChildItem.articlecommentreply_set.length;
+                                            }
+
+                                            if(currentItem.desc && currentItem.desc.length>135){
+                                                currentItem.desc=currentItem.desc.slice(1,135)+'...'
+                                            }else{
+                                                currentItem.desc=currentItem.desc
+                                            }
+                                            html+=" <div class=\"blogs_item\">\n" +
+                                                "                             <div class=\"blogs_cont blogs_cont1\">\n" +
+                                                "                                 <h3><span class=\"blogs_type\">"+data.results[i].category.name+"</span><a href=\"/article/detail/"+data.results[i].id+"\">"+filterXSS(data.results[i].title)+"</a></h3>\n" +
+                                                "                                     <div class=\"blogs_info clearfix\">\n" +
+                                                "                                          <div class=\"img_animate  \">\n" +
+                                                "                                              <div class=\"blogs_pic img_cover\" style=\"background: url('"+data.results[i].list_pic+"')no-repeat;background-size:200px 120px !important;\"></div>\n" +
+                                                "                                          </div>\n" +
+                                                "                                          <div class=\" blogs_describe\">\n" +
+                                                "                                     <div class=\" divp\">\n" +
+                                                "                                              <p>"+filterXSS(currentItem.desc)+"</p>\n" +
+                                                "                                          <div class=\"blogs_foot blogs_foot1 ulw\">\n" +
+                                                "                                    <ul class=\"clearfix \">\n" +
+                                                "                                        <li class=\"fl\">\n" +
+                                                "                                             <a href=\"\" class=\"clearfix\">\n" +
+                                                "                                                 <span class=\"fl img_cover blogs_avatar\" style=\"background: url('"+data.results[i].authors.user_imag+"')no-repeat;\"></span>\n" +
+                                                "                                                 <span class=\"fl blogs_name\"style=\"white-space: nowrap;\n" +
+                                                "    text-overflow: ellipsis;max-width: 120px;overflow: hidden;\">"+data.results[i].authors.username+"</span>\n" +
+                                                "                                             </a>\n" +
+                                                "                                         </li>\n" +
+                                                "                                        <li class=\"fl blogs_time\">发布于:"+data.results[i].add_time+"</li>\n" +
+                                                "                                        <li class=\"fl blogs_view\" style=\"background: url(/static/img/eye.png)no-repeat 0 50%;\">"+data.results[i].click_nums+"</li>\n" +
+                                                "                                        <li class=\"fl blogs_comment\" style=\"background: url(/static/img/comment.png)no-repeat 0 50%;\">"+b[i]+"</li>\n" +
+                                                "                                    </ul>\n" +
+                                                "                                </div>\n" +
+                                                "                                </div>\n" +
+                                                "                                </div>\n" +
+                                                "                                     </div>\n" +
+                                                "                             </div>\n" +
+                                                "                         </div>"
+                                        }
+                                        $("#mains").html(html)
+                                    }
+                                })
+                            }
+                        });
+                    },
+                    error:function () {
+                        alert('加载失败')
+                    }
+            })
+        }
+       function flollw (obj){
+          $.ajax({
+                url:'/person/author/',
+                type:'post',
+                data:{follow:obj,'username':'{{ request.user.id }}'},
+                  headers:{'X-CSRFToken':$.cookie('csrftoken')},
+                success:function (data) {
+                    if(data.status==403){
+                       swal({
+                          text: data.message,
+                          icon: "error",
+                        }).then(function () {
+                           window.location.href = "{% url 'index' %}?next={{ request.path }}"
+                       })
+                    }else{
+                    swal({
+                          text: data.message,
+                          icon: "success",
+                        }).then(function () {
+                            window.location.reload()
+                        })
+                     }
+                },
+                error:function (xhr) {
+                }
+            })
+    }
+
+
+{% comment %}
+      if($('.left_nav').height()>$(window).height()){
+          $('.left_nav').css('height',$(window).height()-30+'px').css('overflow-y','auto')
+      }
+
+
+
+        var timer = null;
+        var objTop = $(".left_nav").offset().top;
+            $(window).scroll(function(){
+                clearTimeout(timer)
+                var winPos = $(document).scrollTop();
+                timer = setTimeout(function () {
+
+                     console.log($('article').height(),$('.left_nav').height())
+                    if($('article').height()<$('.left_nav').height()){
+                        $('article').css('height','calc(100vh)')
+                    }else{
+                        $('article').css('height','auto')
+                    }
+                      if(winPos >= objTop){
+                           $('.left_nav').addClass('fix');
+                        }else{
+                            $('.left_nav').removeClass('fix');
+                        }
+                },100)
+
+
+            });{% endcomment %}
+    </script>
+{% endblock %}

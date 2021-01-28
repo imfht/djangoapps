@@ -1,0 +1,43 @@
+{% load waffle_tags %}
+{% flag flag %}
+  flag on
+{% else %}
+  flag off
+{% endflag %}
+
+
+{% switch switch %}
+  switch on
+{% else %}
+  switch off
+{% endswitch %}
+
+
+{% sample sample %}
+  sample on
+{% else %}
+  sample off
+{% endsample %}
+
+
+{% flag flag_var %}
+  flag_var on
+{% else %}
+  flag_var off
+{% endflag %}
+
+
+{% switch switch_var %}
+  switch_var on
+{% else %}
+  switch_var off
+{% endswitch %}
+
+
+{% sample sample_var %}
+  sample_var on
+{% else %}
+  sample_var off
+{% endsample %}
+
+{% wafflejs %}

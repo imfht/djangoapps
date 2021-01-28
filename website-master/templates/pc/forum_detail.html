@@ -1,0 +1,254 @@
+{% extends 'pc/base.html' %}
+{% load static %}
+{% load staticfiles %}
+{% block title %}
+    {{ dicts.title }}
+{% endblock %}
+{% block keywords %}
+    {{ dicts.keywords }}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/article_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'markdown/css/editormd.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/share.min.css' %}" />
+<style>
+    .sidebar a{
+        color: #666;
+        font-size: 16px;
+    }
+    .forun-info{
+        color: #999;
+        font-size: 12px;
+    }
+    </style>
+{% endblock %}
+{% block link_js %}
+        <script src="{% static 'js/swiper.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/marked.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/prettify.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/raphael.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/underscore.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/sequence-diagram.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/flowchart.min.js' %}"></script>
+        <script src="{% static 'markdown/lib/jquery.flowchart.min.js' %}"></script>
+        <script src="{% static 'markdown/editormd.js' %}"></script>
+        <script src="{% static 'js/jquery.share.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+
+    <div class="container clearfix">
+        <input type="hidden" name="hidden" value="{{ forum_id }}">
+        <article class="fl">
+
+        <div style="padding: 20px" class="flex">
+             <div>
+                 <a href="{% url 'user:person' %}{{ dicts.authors_id }}">
+                 <span class="fl img_cover blogs_avatar" style="
+                                                 background: url({% if dicts.authors.user_imag%}
+                            {{ MEDIA_URL }}{{ dicts.authors.user_imag }}
+                            {% else %}
+                            {{ dicts.authors.user_image }}
+                        {% endif %})no-repeat;background-color: #ccc;"></span></a>
+             </div>
+            <div>
+                <div class="de-username"> <a class="a" href="{% url 'user:person' %}{{ dicts.authors_id }}">{{ dicts.authors.username }}</a></div>
+                <div class="de-time flex">
+                    <div class="de-margin">{{ dicts.add_time }}</div>
+                    <div class="de-margin">浏览量 {{ dicts.click_nums}}</div>
+                    <div class="de-margin">评论 {{ dicts.get_number }}</div>
+                </div>
+            </div>
+        </div>
+        <h3 style="padding: 0 20px">{{ dicts.title }}</h3>
+        {% if dicts.is_type %}
+
+            {% if request.user.is_authenticated %}
+             <div id="test-editormd-view2">
+                <textarea id="append-test" name="test-editormd-markdown-doc" style="display:none;">{{ dicts.content }}</textarea>
+            </div>
+                {% else %}
+                 <a href="{% url 'index' %}?next=/forum/detail/{{ dicts.id }}" style="text-align: center;margin: 10px 0;display: block">登录可见</a>
+            {% endif %}
+            {% else %}
+            <div id="test-editormd-view2">
+                <textarea id="append-test" name="test-editormd-markdown-doc" style="display:none;">{{ dicts.content }}</textarea>
+            </div>
+        {% endif %}
+
+            <div class="social-share"></div>
+            <div class="comment">
+                <div class="comment-main clearfix">
+                    <textarea  class="form-control" name=""{% if request.user.is_authenticated  %}{% else %}disabled{% endif %}  rows="3" placeholder="来说点什么吧..."> </textarea>
+                    <button class="btn btn-primary fr "{% if request.user.is_authenticated %}
+                    onclick="mask(this)"
+                            {% else %}
+                            disabled
+                    {% endif %} >评论</button>
+                    {% if request.user.is_authenticated  %}
+                        {% else %}
+                         <div class="mask"><a href="{% url 'index' %}?next={{ request.path }}">未登录</a></div>
+                    {% endif %}
+                </div>
+                <div class="comment-fask">
+                    <div class="cmt-list-type">
+                        <ul class="clear-g type-lists">
+                            <li class="type-list active">帖子回复</li>
+                        </ul>
+                        <div class="cmt-list-border"></div>
+                        <div class="cmt-list-number">
+
+                        </div>
+                    </div>
+                    <div class="list-block-gw">
+                        <p class="newest">最新回复</p>
+                    {% for foo in dicts.comment_set.all %}
+                        <div class="list-main">
+                            <div class="img-corner"><img src="{% if foo.user.user_imag %}
+                                {{ MEDIA_URL }}{{  foo.user.user_imag}}
+                                {% else %}
+                                {{ foo.user.user_image }}
+                            {% endif %}" alt="" style="background-color: #ccc"></div>
+                            <div class="list-text">
+                                <div class="list-person clearfix"><div class="fl"  data-id="{{ foo.user.id}}"><a href="{% url 'user:author_detaile' foo.user.id%}">{{ foo.user.username }}</a> {{ foo.address }}</div> <p class="fr">{{ foo.add_time }}</p></div>
+                                <p class="text-con">{{ foo.comments }}</p>
+                                <p class="fr to" onclick="establish(this)" data-id="{{ foo.id }}" style="cursor: pointer">回复 </p>
+                                {% for childr in foo.parent_comment_set.all %}
+                                    <div class="reply-list">
+                                    <div class="img-corner"><img src="
+                                    {% if childr.user.user_imag %}
+                                        {{ MEDIA_URL }}{{ childr.user.user_imag }}
+                                        {% else %}
+                                                  {{ childr.user.user_image }}
+                                    {% endif %}
+                            " alt="" ></div>
+                                    <div class="list-text">
+                                        <div class="list-person clearfix">
+                                            <div class="fl"data-id="{{ childr.user_id }}"><a href="{% url 'user:author_detaile' childr.user_id %}">{{ childr.user.username }}</a>回复<a href="{% url 'user:author_detaile' childr.to_Parent_Comments.id %}">{{ childr.to_Parent_Comments.username }}</a> {{ foo.address }}</div> <p class="fr">{{ childr.add_time }}</p>
+                                        </div>
+                                        <p class="text-con">{{ childr.comments}}</p>
+                                        <p class="fr to" onclick="establish(this)" data-id="{{ foo.id }}"style="cursor: pointer">回复 </p>
+                                </div>
+                            </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% empty %}
+                        此帖子暂无回复。。
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    <aside class="fr">
+
+            {% load forum %}
+             {% get_fourm %}
+    </aside>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script>
+    html="<div class='clearfix text'><textarea name=''class='form-control' rows='5'></textarea><button class='btn btn-primary fr 'onclick=\"masks(this)\">评论</button></div>";
+        function establish(obj) {
+            try {
+                $(obj).parents('.list-block-gw').find('.text').remove();
+            }
+            catch (e) {
+            }
+            var is_user = '{{ request.user.id }}';
+            if(is_user==="None"){
+                window.location.href='/login?next='+'{{ request.path }}'
+                return false
+            }else {
+                $(obj).after(html);
+            }
+
+        }
+
+        function mask(obj){
+            var val = $(obj).parent().find('textarea').val()
+            if (val.trim()==''||val==undefined){
+                alert('你没有填写')
+                return false
+            }
+            var data = new Object()
+            data.forums = '{{ dicts.id }}'
+            data.comments = $(obj).prev().val()
+            data.user = '{{ request.user.id }}'
+            data.url = '{{ request.path }}'
+            data.cip = returnCitySN['cip']
+            data.address = returnCitySN['cname']
+            $.ajax({
+                url:'/api/CommentView/',
+                type:'post',
+                headers:{'X-CSRFToken':$.cookie('csrftoken')},
+                data:data,
+                success:function (data) {
+
+                 window.location.reload()
+                     //$('.list-block-gw').append(html)
+                },
+                 error:function () {
+                     alert('失败')
+                 }
+            })
+
+
+        }
+        function masks(obj){
+            var val = $(obj).parent().find('textarea').val()
+            if (val.trim()==''||val==undefined){
+                alert('你没有填写')
+                return false
+            }
+            var data = new Object()
+            data.comments = $(obj).prev().val()
+            data.user = '{{ request.user.id }}'
+            data.cip = returnCitySN['cip']
+            data.url = '{{ request.path }}'
+            data.address = returnCitySN['cname']
+            data.forums ='{{ dicts.id }}'
+            data.to_Parent_Comments =$(obj).parent().parent().find('div.fl').attr('data-id')
+            data.parent_comments =$(obj).parent().parent().find('.to').attr('data-id')
+             $.ajax({
+                url:'{% url 'forum:detail' dicts.id %}',
+                type:'post',
+                headers:{'X-CSRFToken':$.cookie('csrftoken')},
+                data:data,
+                success:function (data) {
+
+                     window.location.reload()
+                     //$('.list-block-gw').append(html)
+                },
+                 error:function () {
+                     alert('失败')
+                 }
+            })
+             //$(obj).parents('.list-main>.list-text').append(html)
+            //$('.text').remove()
+        }
+
+        $(function() {
+            var testEditormdView, testEditormdView2;
+            testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
+                htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                emoji           : true,
+                taskList        : true,
+                tex             : true,  // 默认不解析
+                flowChart       : true,  // 默认不解析
+                sequenceDiagram : true,  // 默认不解析
+            });
+        });
+
+
+
+    </script>
+{% endblock %}

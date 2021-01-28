@@ -1,0 +1,233 @@
+{% extends "dashboard/service_base.html" %}
+
+{% load humanize helpers rules %}
+
+{% block service_actions %}
+<div class="mr-2">{% include 'dashboard/includes/date_range.html' %}</div>
+{% has_perm 'core.change_service' user object as can_update %}
+{% if can_update %}
+<a href="{% url 'dashboard:service_update' service.uuid %}" class="button field bg-neutral-000 w-auto">Manage &rarr;</a>
+{% endif %}
+{% endblock %}
+
+{% block service_content %}
+<div class="grid grid-cols-2 gap-6 md:flex justify-between mb-6 card ~neutral !high px-6" id="stats">
+    {% with classes="text-sm font-semibold" good_classes="text-positive-400" bad_classes="text-critical-400" neutral_classes="text-gray-400" %}
+    <article class="">
+        <p class="label text-gray-400">Sessions</p>
+        <p class="heading">
+            {{stats.session_count|intcomma}}
+        <div>
+            {% compare stats.compare.session_count stats.session_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
+        </p>
+    </article>
+    <article class="">
+        <p class="label text-gray-400">Hits</p>
+        <p class="heading">
+            {{stats.hit_count|intcomma}}
+        <div>
+            {% compare stats.compare.hit_count stats.hit_count "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
+        </p>
+    </article>
+    <article class="">
+        <p class="label text-gray-400">Load Time</p>
+        <p class="heading">
+            {% if stats.avg_load_time %}
+            {{stats.avg_load_time|floatformat:"0"}}ms
+            {% else %}
+            ?
+            {% endif %}
+        <div>
+            {% compare stats.compare.avg_load_time stats.avg_load_time "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
+        </p>
+    </article>
+    <article class="">
+        <p class="label text-gray-400">Bounce Rate</p>
+        <p class="heading">
+            {% if stats.bounce_rate_pct %}
+            {{stats.bounce_rate_pct|floatformat:"-1"}}%
+            {% else %}
+            ?
+            {% endif %}
+        <div>
+            {% compare stats.compare.bounce_rate_pct stats.bounce_rate_pct "DOWN" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
+        </p>
+    </article>
+    <article class="">
+        <p class="label text-gray-400">Duration</p>
+        <p class="heading">
+            {% if stats.avg_session_duration %}
+            {{stats.avg_session_duration|naturaldelta}}
+            {% else %}
+            ?
+            {% endif %}
+        <div>
+            {% compare stats.compare.avg_session_duration stats.avg_session_duration "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
+        </p>
+    </article>
+    <article class="">
+        <p class="label text-gray-400">Hits/Session</p>
+        <p class="heading">
+            {% if stats.avg_hits_per_session %}
+            {{stats.avg_hits_per_session|floatformat:"-1"}}
+            {% else %}
+            ?
+            {% endif %}
+        <div>
+            {% compare stats.compare.avg_hits_per_session stats.avg_hits_per_session "UP" classes=classes good_classes=good_classes bad_classes=bad_classes neutral_classes=neutral_classes %}
+        </div>
+        </p>
+    </article>
+    {% endwith %}
+</div>
+<div class="card ~neutral !low py-0 mb-6">
+    {% include 'dashboard/includes/time_chart.html' with data=stats.session_chart_data %}
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Location</th>
+                    <th class="rf">Hits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in stats.locations %}
+                <tr>
+                    <td>{{location.location|default:"Unknown"|urldisplay}}</td>
+                    <td class="rf">{{location.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Referrer</th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for referrer in stats.referrers %}
+                <tr>
+                    <td>{{referrer.referrer|default:"Direct"|urldisplay}}</td>
+                    <td class="rf">{{referrer.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Country</th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for country in stats.countries %}
+                <tr>
+                    <td>{{country.country|flag_emoji}} {{country.country|country_name}}</td>
+                    <td class="rf">{{country.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Operating System</th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for os in stats.operating_systems %}
+                <tr>
+                    <td class="flex items-center">{{os.os|iconify}}<span>{{os.os|default:"Unknown"}}</span></td>
+                    <td class="rf">{{os.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Browser</th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for browser in stats.browsers %}
+                <tr>
+                    <td class="flex items-center">
+                        {{browser.browser|iconify}}<span>{{browser.browser|default:"Unknown"}}</span></td>
+                    <td class="rf">{{browser.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card ~neutral !low limited-height py-2">
+        <table class="table">
+            <thead class="text-sm">
+                <tr>
+                    <th>Device Type</th>
+                    <th class="rf">Sessions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device_type in stats.device_types %}
+                <tr>
+                    <td>{{device_type.device_type|default:"Unknown"|title}}</td>
+                    <td class="rf">{{device_type.count|intcomma}}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td><span class="text-gray-600">No data yet...</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card ~neutral !low limited-height py-2">
+    {% include 'dashboard/includes/session_list.html' %}
+    <hr class="sep h-8">
+    <a href="{% url 'dashboard:service_session_list' service.uuid %}" class="button ~neutral w-auto mb-2">View more
+        sessions
+        &rarr;</a>
+</div>
+{% endblock %}

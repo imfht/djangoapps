@@ -1,0 +1,96 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        MySQL复制监控
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">MySQL</a></li>
+        <li class="active">复制监控</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-body">
+              <table id="" class="table table-bordered table-hover" style="overflow: auto">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>server_id</th>
+                  <th>地址</th>
+                  <th>角色</th>
+                    <th>主库地址</th>
+                    <th>io_run</th>
+                    <th>sql_run</th>
+                    <th>复制延迟(备)</th>
+                </tr>
+                </thead>
+                {% for repl in repl_infos %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                     <td>{{ repl.tags}} </td>
+                 <td>{{ repl.server_id}} </td>
+                 <td>{{ repl.host}}:{{ repl.port }} </td>
+                 <td>{{ repl.mysql_role}} </td>
+                 <td>{{ repl.master_server}}:{{ repl.master_port }} </td>
+                     <td ><span class="badge bg-{{ repl.slave_io_rate }}">{{ repl.slave_io_run}}</span> </td>
+                     <td ><span class="badge bg-{{ repl.slave_sql_rate }}">{{ repl.slave_sql_run}}</span> </td>
+                     <td ><span class="badge bg-{{ repl.delay_rate }}">{{ repl.delay}}</span> </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+
+         <div class="box-body">
+           <table id="example2" class="table table-bordered table-hover" style="overflow: auto">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>地址</th>
+                    <th>binlog</th>
+                    <th>binlog位置</th>
+                    <th>主库binlog</th>
+                    <th>主库binlog位置</th>
+                    <th>binlog大小(m)</th>
+                </tr>
+                </thead>
+                {% for repl in repl_infos %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                     <td>{{ repl.tags}} </td>
+                 <td>{{ repl.host}}:{{ repl.port }} </td>
+                     <td>{{ repl.current_binlog_file}} </td>
+                     <td>{{ repl.current_binlog_pos}} </td>
+                     <td>{{ repl.master_binlog_file}} </td>
+                     <td>{{ repl.master_binlog_pos}} </td>
+                     <td>{{ repl.master_binlog_space}} </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+             </div>
+
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if repl_infos.has_previous %}
+            <a href="?page={{ repl_infos.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        <span class="current">
+            当前页{{ repl_infos.number }} 共计{{ repl_infos.paginator.num_pages }}
+        </span>
+
+        {% if repl_infos.has_next %}
+            <a href="?page={{ repl_infos.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+{% endblock %}

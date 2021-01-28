@@ -1,0 +1,35 @@
+{% extends "shuup/admin/base.jinja" %}
+{% from "shuup/admin/macros/general.jinja" import content_block, info_row, content_with_sidebar, content_block_subtitle %}
+
+{% set customer_url = shuup_admin.model_url(order.customer, "detail") %}
+{% set orderer_url = shuup_admin.model_url(order.orderer, "detail") %}
+{% set creator_url = shuup_admin.model_url(order.creator, "detail") %}
+{% macro contact_row(label, contact) %}
+    {% set url = shuup_admin.model_url(contact, "detail") %}
+    {% if contact is not none and contact.account_manager is not none %}
+        {{ info_row(label, contact ~ " (" ~ contact.account_manager ~ ")", url) }}
+    {% else %}
+        {{ info_row(label, contact, url) }}
+    {% endif %}
+{% endmacro %}
+
+{% block body_class %}shuup-details{% endblock %}
+{% block content %}
+    {% call content_with_sidebar(content_id="order_details") %}
+        <div id="order_details">
+            {% for order_section in order_sections %}
+                {% call content_block(order_section.name, order_section.icon) %}
+                    {% include order_section.template with context %}
+                {% endcall %}
+            {% endfor %}
+        </div>
+    {% endcall %}
+{% endblock %}
+
+{% block extra_js %}
+{% for order_section in order_sections %}
+    {% if order_section.extra_js %}
+        {% include order_section.extra_js with context %}
+    {% endif %}
+{% endfor %}
+{% endblock %}

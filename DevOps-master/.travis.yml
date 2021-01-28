@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+services:
+  - mysql
+install:
+  - pip install -r requirements.txt
+before_script:
+  - mysql -e "CREATE DATABASE deveops_dev;"
+  - python apps/manage.py makemigrations
+script:
+  - python apps/manage.py migrate -v 3
+#  - python apps/manage.py test -v 3

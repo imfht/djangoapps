@@ -1,0 +1,61 @@
+doctype html
+
+div.wrapper(
+    ng-controller="KanbanController as ctrl"
+    ng-init="section='kanban'"
+)
+    tg-project-menu
+
+    section.main.kanban(ng-class="{ 'swimlane': swimlanesList.size }")
+        .kanban-header
+            include ../includes/components/mainTitle
+            .taskboard-actions
+                .kanban-table-options-start
+                    button.btn-filter.e2e-open-filter(
+                        ng-click="ctrl.openFilter = !ctrl.openFilter"
+                        title="{{ctrl.selectedFilters.length}} {{'COMMON.FILTERS.APPLIED_FILTERS_NUM' | translate}}"
+                        ng-class="{active: ctrl.openFilter}"
+                    )
+                        tg-svg(svg-icon="icon-filters")
+                        span.text(
+                            ng-if="!ctrl.openFilter"
+                            translate="BACKLOG.FILTERS.TITLE"
+                        )
+                        span.text(
+                            ng-if="ctrl.openFilter"
+                            translate="BACKLOG.FILTERS.HIDE_TITLE"
+                        )
+                        span.selected-filters(ng-if="ctrl.selectedFilters.length") {{ctrl.selectedFilters.length}}
+
+                    tg-input-search(
+                        q="ctrl.filterQ"
+                        change="ctrl.changeQ(q)"
+                    )
+
+                .kanban-table-options-end
+                    tg-kanban-board-zoom(
+                        on-zoom-change="ctrl.setZoom(zoomLevel, zoom)"
+                    )
+
+        .kanban-manager(ng-class="{'expanded': !ctrl.openFilter}")
+            .kanban-filter(
+                ng-if="ctrl.openFilter"
+            )
+                tg-filter(
+                    filters="ctrl.filters"
+                    custom-filters="ctrl.customFilters"
+                    selected-filters="ctrl.selectedFilters"
+                    customFilters="ctl.customFilters"
+                    on-save-custom-filter="ctrl.saveCustomFilter(name)"
+                    on-add-filter="ctrl.addFilter(filter)"
+                    on-select-custom-filter="ctrl.selectCustomFilter(filter)"
+                    on-remove-custom-filter="ctrl.removeCustomFilter(filter)"
+                    on-remove-filter="ctrl.removeFilter(filter)"
+                )
+
+            include ../includes/modules/kanban-table
+
+    div.lightbox.lightbox-generic-form.lightbox-create-edit(tg-lb-create-edit)
+
+    div.lightbox.lightbox-generic-bulk(tg-lb-create-bulk-userstories)
+        include ../includes/modules/lightbox-us-bulk

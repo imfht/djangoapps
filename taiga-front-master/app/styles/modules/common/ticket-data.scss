@@ -1,0 +1,336 @@
+.ticket-header {
+    align-items: center;
+    display: flex;
+    margin: .75rem 0;
+    position: relative;
+    .ticket-title {
+        @include font-size(larger);
+        @include font-type(regular);
+        text-transform: uppercase;
+        vertical-align: sub;
+    }
+    .detail-status {
+        @include font-size(small);
+        display: flex;
+        margin-left: .5rem;
+        position: relative;
+        .icon-arrow-down {
+            @include svg-size(.75rem);
+            fill: currentColor;
+            margin-left: .25rem;
+        }
+    }
+    .detail-status-inner {
+        align-items: center;
+        display: flex;
+        justify-content: flex-start;
+        > span {
+            color: $white;
+            display: flex;
+            padding: .15rem .25rem;
+            text-transform: uppercase;
+        }
+    }
+    .pop-status {
+        @include popover(
+            $width: 150px,
+            $top: 1.25rem,
+            $left: 0,
+        );
+    }
+}
+
+.ticket-data {
+    background: $grey-02;
+    flex-basis: 300px;
+    padding: 1rem;
+}
+
+.ticket-data-container {
+    @include font-size(small);
+    @include font-type(regular);
+}
+
+.ticket-section {
+    padding: 1.2rem 0;
+    width: 100%;
+    &:not(:last-child) {
+        border-bottom: 1px solid $gray-lighter;
+    }
+}
+
+
+@mixin category-choices() {
+    align-content: center;
+    background: $color-gray100;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    position: relative;
+    width: 100%;
+    .level-data {
+        @include font-size(small);
+        align-items: center;
+        color: $color-black600;
+        display: flex;
+    }
+    .level-color {
+        border-radius: 50%;
+        height: 1rem;
+        margin-inline-start: .75rem;
+        width: 1rem;
+    }
+    .level-name {
+        @include font-size(xsmall);
+        color: $color-link-tertiary;
+    }
+    .popover {
+        @include popover(
+            $width: 150px,
+            $top: 30px,
+            $right: .5rem,
+            $align: 'left'
+        );
+    }
+}
+
+
+.ticket-status {
+    .level {
+        display: inline-block;
+        margin: 0;
+    }
+    .level-name {
+        color: $gray-light;
+        text-transform: lowercase;
+    }
+    .type-data {
+        @include category-choices;
+    }
+    .severity-data {
+        @include category-choices;
+    }
+    .priority-data {
+        @include category-choices;
+    }
+}
+
+.ticket-section-label {
+    @include font-size(xsmall);
+    @include font-type(medium);
+    color: $color-black900;
+    display: block;
+    margin-block-end: .25rem;
+    text-transform: uppercase;
+}
+
+.ticket-section-unfold {
+    display: block;
+    line-height: 1.25rem;
+    text-align: center;
+    svg {
+        fill: $gray-light;
+    }
+    &:hover svg {
+        fill: lighten($gray-light, 15%);
+    }
+    &.active svg {
+        fill: $gray-lighter;
+    }
+    &.active:hover svg {
+        fill: darken($gray-lighter, 15%);
+    }
+}
+
+.loading-container {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    z-index: $first-layer;
+    .loading-spinner {
+        max-height: 1.5rem;
+        max-width: 1.5rem;
+    }
+}
+
+.ticket-user-list-container {
+    position: relative;
+    .ticket-user-list-content.loading {
+        opacity: .5;
+        z-index: $first-layer;
+    }
+}
+
+.ticket-user-list {
+    margin: .25rem 0 0;
+    .is-iocaine {
+        filter: hue-rotate(265deg) saturate(3);
+    }
+
+    .iocaine-symbol {
+        left: -.5rem;
+        position: absolute;
+        top: -.5rem;
+        z-index: $first-layer;
+        svg {
+            background: $grayer;
+            border-radius: .25rem;
+            fill: $white;
+            min-height: 1.5rem;
+            min-width: 1.5rem;
+            padding: .25rem;
+        }
+    }
+    .user-list-single {
+        align-content: center;
+        align-items: center;
+        display: flex;
+        padding: .25rem 0;
+        width: 100%;
+        &:hover:not(.read-only) {
+            background: rgba($white, .4);
+            cursor: pointer;
+            .user-list-name {
+                color: $primary-light;
+            }
+            .remove-user {
+                opacity: 1;
+            }
+        }
+        &.read-only .user-list-name,
+        .read-only {
+            color: $gray;
+        }
+        &:not(.read-only) {
+            .user-list-name a {
+                color: $primary;
+            }
+            .user-list-name a:hover {
+                color: $primary-light;
+            }
+        }
+    }
+    .user-list-avatar {
+        flex-basis: 3rem;
+        margin-right: .25rem;
+        max-height: 3rem;
+        max-width: 3rem;
+        img {
+            width: 100%;
+        }
+    }
+    .user-list-name {
+        flex-grow: 1;
+        margin-left: .5rem;
+    }
+
+    .remove-user {
+        cursor: pointer;
+        fill: $gray;
+        margin-right: .75rem;
+        opacity: 0;
+        padding: .5rem;
+        transition: all .2s ease-in;
+        &:hover {
+            fill: $red;
+            transition: color .3s ease-in;
+        }
+        svg {
+            height: .9rem;
+            width: .9rem;
+        }
+    }
+}
+
+.ticket-users-actions {
+    display: flex;
+    margin: .5rem -.25rem 0;
+    .ticket-users-action {
+        background: $white;
+        color: $gray;
+        cursor: pointer;
+        display: flex;
+        flex-grow: 1;
+        font-size: .9rem;
+        justify-content: center;
+        line-height: 2rem;
+        margin: 0 .25rem;
+        text-align: center;
+        svg {
+            fill: $gray;
+            height: .75rem;
+            width: .75rem;
+        }
+        &:hover {
+            color: $primary-light;
+            svg {
+                fill: $primary-light;
+            }
+        }
+    }
+    .users-action.icon {
+        margin-right: .5rem;
+    }
+}
+
+.ticket-estimation .points-per-role {
+    margin: .5rem 0 0;
+}
+
+.ticket-detail-settings {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    [class^='btn-']:not(.select-option):not(.show-closed) {
+        background: $color-gray200;
+        color: $color-link-primary;
+        margin-inline-end: .5rem;
+        padding: .75rem;
+        &:hover {
+            background: $color-gray200;
+            color: $color-link-primary;
+        }
+        &.editable {
+            cursor: pointer;
+        }
+        +input {
+            display: none;
+        }
+        &:disabled,
+        &.disabled {
+            background-color: $color-gray400;
+            color: rgba($color-black900, .5);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        &.active {
+            background: $color-link-tertiary;
+            color: $color-white;
+        }
+        &.assign-issue-button {
+            &.button-set {
+                background: $color-link-tertiary;
+                color: $color-white;
+            }
+        }
+    }
+
+
+    [class^='btn-'].item-unblock {
+        background: $color-link-red;
+        &:hover {
+            background: $color-link-red;
+        }
+        .loading-spinner {
+            height: 1rem;
+            width: 1rem;
+        }
+        svg {
+            fill: $color-white;
+        }
+    }
+}

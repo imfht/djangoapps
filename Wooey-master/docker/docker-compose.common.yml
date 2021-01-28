@@ -1,0 +1,26 @@
+version: '2.1'
+volumes:
+  user_uploads:
+  wooey_db:
+
+services:
+  common:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        BUILD_DIR:
+        WOOEY_PROJECT:
+    image: wooey:dev
+    volumes :
+      - ./user_settings.py:/$WOOEY_PROJECT/$WOOEY_PROJECT/settings/user_settings.py
+      - user_uploads:/$WOOEY_PROJECT/$WOOEY_PROJECT/user_uploads
+    environment:
+      AMQP_URL: amqp://rabbit:5672
+      BUILD_DIR:
+      DATABASE_NAME: wooey
+      DATABASE_USER: wooey
+      DATABASE_URL: db
+      DATABASE_PASSWORD: wooey
+      DJANGO_SETTINGS_MODULE: $WOOEY_PROJECT.settings
+    user: 1000:1000

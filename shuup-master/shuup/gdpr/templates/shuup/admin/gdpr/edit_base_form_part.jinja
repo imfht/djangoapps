@@ -1,0 +1,12 @@
+{% from "shuup/admin/macros/general.jinja" import multi_section_single_form, content_block with context %}
+{% from "shuup/admin/macros/multilanguage.jinja" import language_dependent_content_tabs %}
+
+{% set base_form = form["base"] %}
+
+{% call content_block(_("General Settings"), "fa-info-circle") %}
+    {{ bs3.field(base_form.enabled) }}
+    {{ bs3.field(base_form.privacy_policy_page) }}
+    {{ bs3.field(base_form.consent_pages) }}
+    {{ bs3.field(base_form.skip_consent_on_auth) }}
+    {{ language_dependent_content_tabs(base_form, ["cookie_banner_content", "cookie_privacy_excerpt", "auth_consent_text"]) }}
+{% endcall %}

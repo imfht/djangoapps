@@ -1,0 +1,71 @@
+{
+  "name": "shuup.admin",
+  "version": "2.0.0",
+  "description": "Shuup Team <shuup@shuup.com>",
+  "main": "build_resources.js",
+  "scripts": {
+    "watch": "node build_resources --watch",
+    "build": "node build_resources --sync"
+  },
+  "shuup": {
+    "static_build": true
+  },
+  "author": "Shuup Team <support@shuup.com>",
+  "license": "OSL-3.0",
+  "private": true,
+  "alias": {
+    "jQuery": "jquery"
+  },
+  "browserslist": [
+    "defaults",
+    "> 0.2%",
+    "not dead",
+    "last 2 versions",
+    "maintained node versions"
+  ],
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "autoprefixer": "^9.6.1",
+    "babel-core": "^6.26.3",
+    "babel-plugin-wildcard": "^5.0.0",
+    "babel-preset-env": "^1.7.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-colorpicker": "^3.1.2",
+    "chart.js": "^2.7.2",
+    "codemirror": "^5.56.0",
+    "desandro-matches-selector": "^2.0.2",
+    "dropzone": "^5.5.1",
+    "ev-emitter": "^1.1.1",
+    "fizzy-ui-utils": "^2.0.7",
+    "font-awesome": "^4.7.0",
+    "get-size": "^2.0.3",
+    "html5sortable": "^0.9.10",
+    "imagelightbox": "^0.10.0",
+    "jquery": "^3.4.1",
+    "jquery-datetimepicker": "^2.5.20",
+    "jquery.easing": "^1.4.1",
+    "jquery.scrollbar": "^0.2.11",
+    "lodash": "^4.17.14",
+    "masonry-layout": "^4.2.2",
+    "mithril": "^0.2.0",
+    "npm-font-open-sans": "^1.1.0",
+    "outlayer": "^2.1.1",
+    "parcel-bundler": "^1.12.4",
+    "postcss-modules": "^1.1.0",
+    "redux": "^3.0.4",
+    "redux-actions": "^0.9.0",
+    "redux-persist": "^4.10.2",
+    "sass": "^1.17.3",
+    "select2": "^4.0.6-rc.1",
+    "select2-bootstrap-css": "^1.4.6",
+    "shepherd.js": "^2.5.0",
+    "shuup-static-build-tools": "^1.0.3",
+    "sortablejs": "^1.13.0",
+    "summernote": "^0.8.12",
+    "tooltip.js": "^1.2.0",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0"
+  }
+}

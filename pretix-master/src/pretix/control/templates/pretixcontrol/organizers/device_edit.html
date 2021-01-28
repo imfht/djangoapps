@@ -1,0 +1,49 @@
+{% extends "pretixcontrol/organizers/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block inner %}
+    {% if device %}
+        <h1>{% trans "Device:" %} {{ device.name }}</h1>
+    {% else %}
+        <h1>{% trans "Connect a new device" %}</h1>
+    {% endif %}
+    <form class="form-horizontal" action="" method="post">
+        {% if device %}
+            <div class="row">
+            <div class="col-xs-12 col-lg-10">
+        {% endif %}
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        <fieldset>
+            <legend>{% trans "General" %}</legend>
+            {% bootstrap_field form.name layout="control" %}
+            {% bootstrap_field form.all_events layout="control" %}
+            {% bootstrap_field form.limit_events layout="control" %}
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Advanced settings" %}</legend>
+            {% bootstrap_field form.security_profile layout="control" %}
+            {% bootstrap_field form.gate layout="control" %}
+        </fieldset>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save" %}
+            </button>
+        </div>
+
+        {% if device %}
+            </div>
+            <div class="col-xs-12 col-lg-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% trans "Device history" %}
+                        </h3>
+                    </div>
+                    {% include "pretixcontrol/includes/logs.html" with obj=device %}
+                </div>
+            </div>
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

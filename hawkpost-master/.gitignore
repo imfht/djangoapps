@@ -1,0 +1,36 @@
+.env
+__pycache__
+.sqlite3
+
+# Static files stuff
+hawkpost/staticfiles/
+/hawkpost/static/css/style.css
+/node_modules
+# Celery
+celerybeat-schedule
+celerybeat-schedule.db
+
+# Testing files
+.coverage
+
+# gpg homedir for signing
+gpg_home
+# Other gpg stuff
+*.gpg
+*.gpg~
+random_seed
+trustdb.gpg
+
+# Vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# MacOS Stuff
+.DS_Store
+
+# Editor Stuff
+.vscode

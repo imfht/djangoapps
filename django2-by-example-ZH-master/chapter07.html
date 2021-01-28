@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <title>第七章 创建电商网站</title>
+
+</head>
+<body>
+<h1 id="top"><b>第七章 创建电商网站</b></h1>
+<p>在上一章里，创建了用户关注系统和行为流应用，还学习了使用Django的信号功能与使用Redis数据库存储图片浏览次数和排名。这一章将学习如何创建一个基础的电商网站。本章将学习创建商品品类目录，通过session实现购物车功能。还将学习创建自定义上下文管理器和使用Celery执行异步任务。</p>
+<p>本章的要点有：</p>
+<ul>
+    <li>创建商品品类目录</li>
+    <li>使用session创建购物车</li>
+    <li>管理客户订单</li>
+    <li>使用Celery异步向用户发送邮件通知</li>
+</ul>
+
+<h2 id="c7-1"><span class="title">1</span>创建电商网站项目</h2>
+<p>我们要创建一个电商网站项目。用户能够浏览商品品类目录，然后将具体商品加入购物车，最后还可以通过购物车生成订单。本章电商网站的如下功能：</p>
+<ul>
+    <li>创建商品品类模型并加入管理后台，创建视图展示商品品类</li>
+    <li>创建购物车系统，用户浏览网站的时购物车中一直保存着用户的商品</li>
+    <li>创建提交订单的页面</li>
+    <li>订单提交成功后异步发送邮件给用户</li>
+</ul>
+<p>打开系统命令行窗口，为新项目配置一个新的虚拟环境并激活：</p>
+<pre>
+mkdir env
+virtualenv env/myshop
+source env/myshop/bin/activate
+</pre>
+<p>然后在虚拟环境中安装Django：</p>
+<pre>pip install Django==2.0.5</pre>
+<p>新创建一个项目叫做<code>myshop</code>，之后创建新应用叫<code>shop</code>：</p>
+<pre>
+django-admin startproject myshop
+cd myshop/
+django-admin startapp shop
+</pre>
+<p>编辑<code>settings.py</code>文件，激活<code>shop</code>应用：</p>
+<pre>
+INSTALLED_APPS = [
+    # ...
+    <b>'shop.apps.ShopConfig',</b>
+]
+</pre>
+<p>现在应用已经激活，下一步是设计数据模型。</p>
+
+<h3 id="c7-1-1"><span class="title">1.1</span>创建商品品类模型</h3>
+<p>我们的商品品类模型包含一系列商品大类，每个商品大类中包含一系列商品。每一个商品都有一个名称，可选的描述，可选的图片，价格和是否可用属性。编辑<code>shop</code>应用的<code>models.py</code>文件：</p>
+<pre>
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+    category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True)
+    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    available = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('name',)
+        index_together = (('id', 'slug'),)
+
+    def __str__(self):
+        return self.name
+</pre>
+<p>这是我们的<code>Category</code>和<code>Product</code>模型。<code>Category</code>包含<code>name</code>字段和设置为不可重复的<code>slug</code>字段（<code>unique</code>同时也意味着创建索引）。<code>Product</code>模型的字段如下：</p>
+<ul>
+    <li><code>category</code>：关联到<code>Category</code>模型的外键。这是一个多对一关系，一个商品必定属于一个品类，一个品类包含多个商品。</li>
+    <li><code>name</code>：商品名称。</li>
+    <li><code>slug</code>：商品简称，用于创建规范化URL。</li>
+    <li><code>image</code>：可选的商品图片。</li>
+    <li><code>description</code>：可选的商品图片。</li>
+    <li><code>price</code>：该字段使用了Python的<code>decimal.Decimal</code>类，用于存储商品的金额，通过<code>max_digits</code>设置总位数，<code>decimal_places=2</code>设置小数位数。</li>
+    <li><code>availble</code>：布尔值，表示商品是否可用，可以用于切换该商品是否可以购买。</li>
+    <li><code>created</code>：记录商品对象创建的时间。</li>
+    <li><code>updated</code>：记录商品对象最后更新的时间。</li>
+</ul>
+<p>这里需要特别说明的是<code>price</code>字段，使用<code>DecimalField</code>，而不是<code>FloatField</code>，以避免小数尾差。</p>
+<p class="hint">凡是涉及到金额相关的数值，使用<code>DecimalField</code>字段。<code>FloatField</code>的后台使用Python的<code>float</code>类型，而<code>DecimalField</code>字段后台使用Python的<code>Decimal</code>类，可以避免出现浮点数的尾差。</p>
+<p>在<code>Product</code>模型的<code>Meta</code>类中，使用<code>index_together</code>设置<code>id</code>和<code>slug</code>字段建立联合索引，这样在同时使用两个字段的索引时会提高效率。</p>
+<p>由于使用了<code>ImageField</code>，还需要安装<code>Pillow</code>库：</p>
+<pre>pip install Pillow==5.1.0</pre>
+<p>之后执行数据迁移程序，创建数据表。</p>
+
+
+
+<h3 id="c7-1-2"><span class="title">1.2</span>将模型注册到管理后台</h3>
+<p>将我们的模型都添加到管理后台中，编辑<code>shop</code>应用的<code>admin.py</code>文件：</p>
+<pre>
+from django.contrib import admin
+from .models import Category, Product
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug', 'price', 'available', 'created', 'updated']
+    list_filter = ['available', 'created', 'updated']
+    list_editable = ['price', 'available']
+    prepopulated_fields = {'slug': ('name',)}
+</pre>
+<p>我们使用了<code>prepopulated_fields</code>用于让<code>slug</code>字段通过<code>name</code>字段自动生成，在之前的项目中可以看到这么做很简便。在<code>ProductAdmin</code>中使用<code>list_editable</code>设置了可以编辑的字段，这样可以一次性编辑多行而不用点开每一个对象。注意所有在<code>list_editable</code>中的字段必须出现在<code>list_display</code>中。</p>
+<p>之后创建超级用户。打开<a href="http://127.0.0.1:8000/admin/shop/product/add/" target="_blank">http://127.0.0.1:8000/admin/shop/product/add/</a>，使用管理后台添加一个新的商品品类和该品类中的一些商品，页面如下：</p>
+<p><img src="http://img.conyli.cc/django2/C07-01.jpg" alt=""></p>
+<p class="emp">译者注：这里图片上有一个<code>stock</code>字段，这是上一版的程序使用的字段。在本书内程序已经修改，但图片依然使用了上一版的图片。本项目中后续并没有使用<code>stock</code>字段。</p>
+
+<h3 id="c7-1-3"><span class="title">1.3</span>创建商品品类视图</h3>
+<p>为了展示商品，我们创建一个视图，用于列出所有商品，或者根据品类显示某一品类商品，编辑<code>shop</code>应用的<code>views.py</code>文件：</p>
+<pre>
+from django.shortcuts import render, get_object_or_404
+from .models import Category, Product
+
+def product_list(request, category_slug=None):
+    category = None
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    if category_slug:
+        category = get_object_or_404(categories, slug=category_slug)
+        products = products.filter(category=category)
+    return render(request, 'shop/product/list.html',
+                  {'category': category, 'categories': categories, 'products': products})
+</pre>
+<p>这个视图逻辑较简单，使用了<code>available=True</code>筛选所有可用的商品。设置了一个可选的<code>category_slug</code>参数用于选出特定的品类。</p>
+<p>还需要一个展示单个商品详情的视图，继续编辑<code>views.py</code>文件：</p>
+<pre>
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    return render(request, 'shop/product/detail.html', {'product': product})
+</pre>
+<p><code>product_detail</code>视图需要<code>id</code>和<code>slug</code>两个参数来获取商品对象。只通过ID可以获得商品对象，因为ID是唯一的，这里增加了<code>slug</code>字段是为了对搜索引擎优化。</p>
+<p>在创建了上述视图之后，需要为其配置URL，在<code>shop</code>应用内创建<code>urls.py</code>文件并添加如下内容：</p>
+<pre>
+from django.urls import path
+from . import views
+
+app_name = 'shop'
+
+urlpatterns = [
+    path('', views.product_list, name='product_list'),
+    path('&lt;slug:category_slug>/', views.product_list, name='product_list_by_category'),
+    path('&lt;int:id>/&lt;slug:slug>/', views.product_detail, name='product_detail'),
+]
+</pre>
+<p>我们为<code>product_list</code>视图定义了两个不同的URL，一个名称是<code>product_list</code>，不带任何参数，表示展示全部品类的全部商品；一个名称是<code>product_list_by_category</code>，带参数，用于显示指定品类的商品。还为<code>product_detail</code>视图配置了传入<code>id</code>和<code>slug</code>参数的URL。</p>
+<p>这里要解释的就是product_list视图带一个默认值参数，所以默认路径进来后就是展示全部品类的页面。加上了具体某个品类，就展示那个品类的商品。详情页的URL使用id和slug来进行参数传递。</p>
+<p>还需要编写项目的一级路由，编辑<code>myshop</code>项目的根<code>urls.py</code>文件：</p>
+<pre>
+from django.contrib import admin
+from django.urls import path, <b>include</b>
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    <b>path('', include('shop.urls', namespace='shop')),</b>
+]
+</pre>
+<p>我们为<code>shop</code>应用配置了名为<code>shop</code>的二级路由。</p>
+<p>由于URL中有参数，就需要配置URL反向解析，编辑<code>shop</code>应用的<code>models.py</code>文件，导入<code>reverse()</code>函数，然后为<code>Category</code>和<code>Product</code>模型编写<code>get_absolute_url()</code>方法：</p>
+<pre>
+<b>from django.urls import reverse</b>
+
+class Category(models.Model):
+    # ......
+    <b>def get_absolute_url(self):</b>
+        <b>return reverse('shop:product_list_by_category',args=[self.slug])</b>
+
+class Product(models.Model):
+    # ......
+    <b>def get_absolute_url(self):</b>
+        <b>return reverse('shop:product_detail',args=[self.id,self.slug])</b>
+</pre>
+<p>这样就为模型的对象配置好了用于反向解析URL的方法，我们已经知道，<code>get_absolute_url()</code>是很好的获取具体对象规范化URL的方法。</p>
+
+<h3 id="c7-1-4"><span class="title">1.4</span>创建商品品类模板</h3>
+<p>现在需要创建模板，在<code>shop</code>应用下建立如下目录和文件结构：</p>
+<pre>
+templates/
+    shop/
+    base.html
+    product/
+        list.html
+        detail.html
+</pre>
+<p>像以前的项目一样，<code>base.html</code>是母版，让其他的模板继承母版。编辑<code>base.html</code>：</p>
+<pre>
+{% load static %}
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;meta charset="utf-8"/>
+    &lt;title>{% block title %}My shop{% endblock %}&lt;/title>
+    &lt;link href="{% static "css/base.css" %}" rel="stylesheet">
+&lt;/head>
+&lt;body>
+    &lt;div id="header">
+        &lt;a href="/" class="logo">My shop&lt;/a>
+    &lt;/div>
+    &lt;div id="subheader">
+        &lt;div class="cart">Your cart is empty.&lt;/div>
+    &lt;/div>
+    &lt;div id="content">
+        {% block content %}
+        {% endblock %}
+    &lt;/div>
+&lt;/body>
+&lt;/html>
+</pre>
+<p>这是这个项目的母版。其中使用的CSS文件可以从随书源代码中复制到<code>shop</code>应用的<code>static/</code>目录下。</p>
+<p>然后编辑<code>shop/product/list.html</code>：</p>
+<pre>
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+    &lt;div id="sidebar">
+        &lt;h3>Categories&lt;/h3>
+        &lt;ul>
+            &lt;li {% if not category %}class="selected"{% endif %}>
+                &lt;a href="{% url "shop:product_list" %}">All&lt;/a>
+            &lt;/li>
+            {% for c in categories %}
+                &lt;li {% if category.slug == c.slug %}class="selected"
+                    {% endif %}>
+                    &lt;a href="{{ c.get_absolute_url }}">{{ c.name }}&lt;/a>
+                &lt;/li>
+            {% endfor %}
+        &lt;/ul>
+    &lt;/div>
+    &lt;div id="main" class="product-list">
+        &lt;h1>{% if category %}{{ category.name }}{% else %}Products
+        {% endif %}&lt;/h1>
+        {% for product in products %}
+            &lt;div class="item">
+                &lt;a href="{{ product.get_absolute_url }}">
+                    &lt;img src="
+                            {% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                &lt;/a>
+                &lt;a href="{{ product.get_absolute_url }}">{{ product.name }}&lt;/a>
+                &lt;br>
+                ${{ product.price }}
+            &lt;/div>
+        {% endfor %}
+    &lt;/div>
+{% endblock %}
+</pre>
+<p>这是展示商品列表的模板，继承了<code>base.html</code>，使用<code>categories</code>变量在侧边栏显示品类的列表，在页面主体部分通过<code>products</code>变量展示商品清单。展示所有商品和具体某一类商品都采用这个模板。如果<code>Product</code>对象的<code>image</code>字段为空，我们显示一张默认的图片，可以在随书源码中找到<code>img/no_image.png</code>，将其拷贝到对应的目录。</p>
+<p>由于使用了Imagefield，还需要对媒体文件进行一些设置，编辑settings.py文件加入下列内容：</p>
+<pre>
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+</pre>
+<p><code>MEDIA_URL</code>是保存用户上传的媒体文件的目录，<code>MEDIA_ROOT</code>是存放媒体文件的目录，通过<code>BASE_DIR</code>变量动态建立该目录。</p>
+<p>为了让Django提供静态文件服务，还必须修改<code>shop</code>应用的<code>urls.py</code>文件：</p>
+<pre>
+<b>from django.conf import settings</b>
+<b>from django.conf.urls.static import static</b>
+urlpatterns = [
+    # ...
+]
+<b>if settings.DEBUG:</b>
+    <b>urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</b>
+</pre>
+<p>注意仅在开发阶段才能如此设置。在生产环境中不能使用Django提供静态文件。使用管理后台增加一些商品，然后打开<a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a>，可以看到如下页面：</p>
+<p><img src="http://img.conyli.cc/django2/C07-02.jpg" alt=""></p>
+<p>如果没有给商品上传图片，则会显示<code>no_image.png</code>，如下图：</p>
+<p><img src="http://img.conyli.cc/django2/C07-03.jpg" alt=""></p>
+<p>然后编写商品详情页<code>shop/product/detail.html</code>：</p>
+<pre>
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+{% block content %}
+    &lt;div class="product-detail">
+        &lt;img src="{% if product.image %}{{ product.image.url }}{% else %}
+        {% static "img/no_image.png" %}{% endif %}">
+        &lt;h1>{{ product.name }}&lt;/h1>
+        &lt;h2>&lt;a href="{{ product.category.get_absolute_url }}">{{ product.category }}&lt;/a>&lt;/h2>
+        &lt;p class="price">${{ product.price }}&lt;/p>
+        {{ product.description|linebreaks }}
+    &lt;/div>
+{% endblock %}
+</pre>
+<p>在模板中调用<code>get_absolute_url()</code>方法用于展示对应类的商品，打开<a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a>，然后点击任意一个商品，详情页如下：</p>
+<p><img src="http://img.conyli.cc/django2/C07-04.jpg" alt=""></p>
+<p>现在已经将商品品类和展示功能创建完毕。</p>
+
+<h2 id="c7-2"><span class="title">2</span>创建购物车功能</h2>
+<p>在建立商品品类之后，下一步是创建一个购物车，让用户可以将指定的商品及数量加入购物车，而且在浏览整个网站并且下订单之前，购物车都会维持其中的信息。为此，我们需要将购物车数据存储在当前用户的session中。</p>
+<p class="emp">由于session通用翻译成会话，而在本章中很多时候session指的是Django的session模块或者session对象，所以不再进行翻译。</p>
+<p>我们将使用Django的session框架来存储购物车数据。直到用户生成订单，商品信息都存储在购session中，为此我们还需要为购物车和其中的商品创建一个模型。</p>
+
+<h3 id="c7-2-1"><span class="title">2.1</span>使用Django的session模块</h3>
+<p>Django 提供了一个session模块，用于进行匿名或登录用户会话，可以为每个用户保存独立的数据。session数据存储在服务端，通过在cookie中包含session ID就可以获取到session，除非将session存储在cookie中。session中间件管理具体的cookie信息，默认的session引擎将session保存在数据库内，也可以切换不同的session引擎。</p>
+<p>要使用session，需要在<code>settings.py</code>文件的<code>MIDDLEWARE</code>设置中启用<code>'django.contrib.sessions.middleware.SessionMiddleware'</code>，这个管理session中间件在使用<code>startproject</code>命令创建项目时默认已经被启用。</p>
+<p>这个中间件在<code>request</code>对象中设置了<code>session</code>属性用于访问session数据，类似于一个字典一样，可以存储任何可以被序列化为JSON的Python数据类型。可以像这样存入数据：</p>
+<pre>
+request.session['foo'] = 'bar'
+</pre>
+<p>获取键对应的值：</p>
+<pre>
+request.session.get('foo')
+</pre>
+<p>删除一个键值对：</p>
+<pre>
+del request.session['foo']
+</pre>
+<p>可以将<code>request.session</code>当成字典来操作。</p>
+<p class="hint">当用户登录到一个网站的时候，服务器会创建一个新的用于登录用户的session信息替代原来的匿名用户session信息，这意味着原session信息会丢失。如果想保存原session信息，需要在登录的时候将原session信息存为一个新的session数据。</p>
+
+<h3 id="c7-2-2"><span class="title">2.2</span>session设置</h3>
+<p>Django中可以配置session模块的一些参数，其中最重要的是<code>SESSION_ENGINE</code>设置，即设置session数据具体存储在何处。默认情况下，Django通过<code>django.contrib.session</code>应用的<code>Session</code>模型，将session数据保存在数据库中的<code>django_session</code>数据表中。</p>
+<p>Django提供了如下几种存储session数据的方法：</p>
+<ul>
+<li>Database sessions：session数据存放于数据库中，为默认设置，即将session数据存放到settings.py中的DATABASES设置中的数据库内。</li>
+<li>File-based sessions：保存在一个具体的文件中</li>
+<li>Cached sessions：基于缓存的session存储，使用Django的缓存系统，可以通过CACHES设置缓存后端。这种情况下效率最高。</li>
+<li>Cached database sessions：先存到缓存再持久化到数据库中。取数据时如果缓存内无数据，再从数据库中取。</li>
+<li>Cookie-based sessions：基于cookie的方式，session数据存放在cookie中。</li>
+</ul>
+<p>为了提高性能，使用基于缓存的session是好的选择。Django直接支持基于Memcached的缓存和如Redis的第三方缓存后端。</p>
+<p>还有其他一系列的session设置，以下是一些主要的设置：</p>
+<ul>
+<li><code>SESSION_COOKIE_AGE</code>：session过期时间，为秒数，默认为<code>1209600</code>秒，即两个星期。</li>
+<li><code>SESSION_COOKIE_DOMAIN</code>：默认为<code>None</code>，设置为某个域名可以启用跨域cookie。</li>
+<li><code>SESSION_COOKIE_SECURE</code>：布尔值，默认为<code>False</code>，表示是否只允许HTTPS连接下使用session</li>
+<li><code>SESSION_EXPIRE_AT_BROWSER_CLOSE</code>：布尔值，默认为<code>False</code>，表示是否一旦浏览器关闭，session就失效</li>
+<li><code>SESSION_SAVE_EVERY_REQUEST</code>：布尔值，默认为<code>False</code>，设置为<code>True</code>表示每次HTTP请求都会更新session，其中的过期时间相关设置也会一起更新。 </li>
+</ul>
+<p>可以在<a href="https://docs.djangoproject.com/en/2.0/ref/settings/#sessions" target="_blank">https://docs.djangoproject.com/en/2.0/ref/settings/#sessions</a>查看所有的session设置和默认值。</p>
+
+<h3 id="c7-2-3"><span class="title">2.3</span>session过期</h3>
+<p>特别需要提的是<code>SESSION_EXPIRE_AT_BROWSER_CLOSE</code>设置。该设置默认为<code>False</code>，此时session有效时间采用<code>SESSION_COOKIE_AGE</code>中的设置。</p>
+<p>如果将<code>SESSION_EXPIRE_AT_BROWSER_CLOSE</code>设置为<code>True</code>，则session在浏览器关闭后就失效，<code>SESSION_COOKIE_AGE</code>设置不起作用。</p>
+<p>还可以使用<code>request.session.set_expiry()</code>方法设置过期时间。</p>
+
+<h3 id="c7-2-4"><span class="title">2.4</span>在session中存储购物车数据</h3>
+<p>我们需要创建一个简单的数据结构，可以被JSON序列化，用于存放购物车数据。购物车中必须包含如下内容：</p>
+<ul>
+<li><code>Product</code>对象的ID</li>
+<li>商品的数量</li>
+<li>商品的单位价格</li>
+</ul>
+<p>由于商品的价格会变化，我们在将商品加入购物车的同时存储当时商品的价格，如果商品价格之后再变动，也不进行处理。</p>
+<p>现在需要实现创建购物车和为session添加购物车的功能，购物车按照如下方式工作：</p>
+<ol>
+<li>当需要创建一个购物车的时候，先检查session中是否存在自定义的购物车键，如果存在说明当前用户已经使用了购物车，如果不存在，就新建一个购物车键。</li>
+<li>对于接下来的HTTP请求，都要重复第一步，并且从购物车中保存的商品ID到数据库中取得对应的<code>Product</code>对象数据。</li>
+</ol>
+<p>编辑<code>settings.py</code>里新增一行：</p>
+<pre>CART_SESSION_ID = 'cart'</pre>
+<p>这就是我们的购物车键名称，由于session对于每个用户都通过中间件管理，所以可以在所有用户的session里都使用统一的这个名称。</p>
+<p>然后新建一个应用来管理购物车，启动系统命令行并创建新应用<code>cart</code>：</p>
+<pre>
+python manage.py startapp cart
+</pre>
+<p>然后在<code>settings.py</code>中激活该应用：</p>
+<pre>
+INSTALLED_APPS = [
+    # ...
+    'shop.apps.ShopConfig',
+    <b>'cart.apps.CartConfig',</b>
+]
+</pre>
+<p>在<code>cart</code>应用中创建<code>cart.py</code>，添加如下代码：</p>
+<pre>
+from decimal import Decimal
+from django.conf import settings
+from shop.models import Product
+
+class Cart:
+
+    def __init__(self, request):
+        """
+        初始化购物车对象
+        """
+        self.session = request.session
+        cart = self.session.get(settings.CART_SESSION_ID)
+        if not cart:
+            # 向session中存入空白购物车数据
+            cart = self.session[settings.CART_SESSION_ID] = {}
+        self.cart =cart
+</pre>
+<p>这是我们用于管理购物车的Cart类，使用request对象进行初始化，使用<code>self.session = request.session</code>让类中的其他方法可以访问session数据。首先，使用<code>self.session.get(settings.CART_SESSION_ID)</code>尝试获取购物车对象。如果不存在购物车对象，通过为购物车键设置一个空白字段对象从而新建一个购物车对象。我们将使用商品ID作为字典中的键，其值又是一个由数量和价格构成的字典，这样可以保证不会重复生成同一个商品的购物车数据，也简化了取出购物车数据的方式。</p>
+<p>创建将商品添加到购物车和更新数量的方法，为Cart类添加<code>add()</code>和<code>save()</code>方法：</p>
+<pre>
+class Cart:
+    # ......
+    <b>def add(self, product, quantity=1, update_quantity=False):</b>
+        <b>"""</b>
+        <b>向购物车中增加商品或者更新购物车中的数量</b>
+        <b>"""</b>
+
+        <b>product_id = str(product.id)</b>
+        <b>if product_id not in self.cart:</b>
+            <b>self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}</b>
+        <b>if update_quantity:</b>
+            <b>self.cart[product_id]['quantity'] = quantity</b>
+        <b>else:</b>
+            <b>self.cart[product_id]['quantity'] += quantity</b>
+        <b>self.save()</b>
+
+    <b>def save(self):</b>
+    <b># 设置session.modified的值为True，中间件在看到这个属性的时候，就会保存session</b>
+        <b>self.session.modified = True</b>
+</pre>
+<p><code>add()</code>方法接受以下参数：</p>
+<ul>
+    <li><code>product</code>：要向购物车内添加或更新的<code>product</code>对象</li>
+    <li><code>quantity</code>：商品数量，为整数，默认值为1</li>
+    <li><code>update_quantity</code>：布尔值，为<code>True</code>表示要将商品数量更新为<code>quantity</code>参数的值，为<code>False</code>表示将当前数量增加<code>quantity</code>参数的值。</li>
+</ul>
+<p>我们把商品的ID转换成字符串形式然后作为购物车中商品键名，这是因为Django使用JSON序列化session数据，而JSON只允许字符串作为键名。商品价格也被从<code>decimal</code>类型转换为字符串，同样是为了序列化。最后，使用<code>save()</code>方法把购物车数据保存进session。</p>
+<p><code>save()</code>方法中修改了<code>session.modified = True</code>，中间件通过这个判断session已经改变然后存储session数据。</p>
+<p>我们还需要从购物车中删除商品的方法，为<code>Cart</code>类添加以下方法：</p>
+<pre>
+class Cart:
+    # ......
+    <b>def remove(self, product):</b>
+        <b>"""</b>
+        <b>从购物车中删除商品</b>
+        <b>"""</b>
+        <b>product_id = str(product.id)</b>
+        <b>if product_id in self.cart:</b>
+            <b>del self.cart[product_id]</b>
+            <b>self.save()</b>
+</pre>
+<p><code>remove()</code>根据id从购物车中移除对应的商品，然后调用<code>save()</code>方法保存session数据。</p>
+<p>为了使用方便，我们会需要遍历购物车内的所有商品，用于展示等操作。为此需要在<code>Cart</code>类内定义<code>__iter()__</code>方法，生成迭代器，供将for循环使用。</p>
+<pre>
+class Cart:
+    # ......
+    <b>def __iter__(self):</b>
+        <b>"""</b>
+        <b>遍历所有购物车中的商品并从数据库中取得商品对象</b>
+        <b>"""</b>
+        <b>product_ids = self.cart.keys()</b>
+        <b># 获取购物车内的所有商品对象</b>
+        <b>products = Product.objects.filter(id__in=product_ids)</b>
+
+        <b>cart = self.cart.copy()</b>
+        <b>for product in products:</b>
+            <b>cart[str(product.id)]['product'] = product</b>
+
+        <b>for item in cart.values():</b>
+            <b>item['price'] = Decimal(item['price'])</b>
+            <b>item['total_price'] = item['price'] * item['quantity']</b>
+            <b>yield item</b>
+</pre>
+<p>在<code>__iter()__</code>方法中，获取了当前购物车中所有商品的Product对象。然后浅拷贝了一份<code>cart</code>购物车数据，并为其中的每个商品添加了键为<code>product</code>，值为商品对象的键值对。最后迭代所有的值，为把其中的价格转换为<code>decimal</code>类，增加一个<code>total_price</code>键来保存总价。这样我们就可以迭代购物车对象了。</p>
+<p>还需要显示购物车中有几件商品。当执行<code>len()</code>方法的时候，Python会调用对象的<code>__len__()</code>方法，为<code>Cart</code>类添加如下的<code>__len__()</code>方法：</p>
+<pre>
+class Cart:
+    # ......
+    <b>def __len__(self):</b>
+        <b>"""</b>
+        <b>购物车内一共有几种商品</b>
+        <b>"""</b>
+        <b>return sum(item['quantity'] for item in self.cart.values())</b>
+</pre>
+<p>这个方法返回所有商品的数量的合计。</p>
+<p>再编写一个计算购物车商品总价的方法：</p>
+<pre>
+class Cart:
+    # ......
+    <b>def get_total_price(self):</b>
+        <b>return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())</b>
+</pre>
+<p>最后，再编写一个清空购物车的方法：</p>
+<pre>
+class Cart:
+    # ......
+    <b>def clear(self):</b>
+        <b>del self.session[settings.CART_SESSION_ID]</b>
+        <b>self.save()</b>
+</pre>
+<p>现在就编写完了用于管理购物车的<code>Cart</code>类。</p>
+<p class="emp">译者注，原书的代码采用<code>class Cart(object)</code>的写法，译者将其修改为Python 3的新式类编写方法。</p>
+
+<h3 id="c7-2-5"><span class="title">2.5</span>创建购物车视图</h3>
+<p>现在我们拥有了管理购物车的Cart类，需要创建如下的视图来添加、更新和删除购物车中的商品</p>
+<ul>
+    <li>添加商品的视图，可以控制增加或者更新商品数量</li>
+    <li>删除商品的视图</li>
+    <li>详情视图，显示购物车中的商品和总金额等信息</li>
+</ul>
+
+<h4 id="c7-2-5-1"><span class="title">2.5.1</span>购物车相关视图</h4>
+<p>为了向购物车内增加商品，显然需要一个表单让用户选择数量并按下添加到购物车的按钮。在<code>cart</code>应用中创建<code>forms.py</code>文件并添加如下内容：</p>
+<pre>
+from django import forms
+
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
+
+
+class CartAddProductForm(forms.Form):
+    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
+    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+</pre>
+<p>使用该表单添加商品到购物车，这个CartAddProductForm表单包含如下两个字段：</p>
+<ul>
+    <li><code>quantity</code>：限制用户选择的数量为1-20个。使用<code>TypedChoiceField</code>字段，并且设置<code>coerce=int</code>，将输入转换为整型字段。</li>
+    <li><code>update</code>：用于指定当前数量是增加到原有数量（<code>False</code>）上还是替代原有数量（<code>True</code>），把这个字段设置为<code>HiddenInput</code>，因为我们不需要用户看到这个字段。</li>
+</ul>
+<p>创建向购物车中添加商品的视图，编写<code>cart</code>应用中的<code>views.py</code>文件，添加如下代码：</p>
+<pre>
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from shop.models import Product
+from .cart import Cart
+from .form import CartAddProductForm
+
+@require_POST
+def cart_add(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
+    return redirect('cart:cart_detail')
+</pre>
+<p>这是添加商品的视图，使用<code>@require_POST</code>使该视图仅接受<code>POST</code>请求。这个视图接受商品ID作为参数，ID取得商品对象之后验证表单。表单验证通过后，将商品添加到购物车，然后跳转到购物车详情页面对应的<code>cart_detail</code> URL，稍后我们会来编写<code>cart_detail</code> URL。</p>
+<p>再来编写删除商品的视图，在<code>cart</code>应用的<code>views.py</code>中添加如下代码：</p>
+<pre>
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    return redirect('cart:cart_detail')
+</pre>
+<p>删除商品视图同样接受商品ID作为参数，通过ID获取<code>Product</code>对象，删除成功之后跳转到<code>cart_detail</code> URL。</p>
+<p>还需要一个展示购物车详情的视图，继续在<code>cart</code>应用的<code>views.py</code>文件中添加下列代码：</p>
+<pre>
+def cart_detail(request):
+    cart = Cart(request)
+    return render(request, 'cart/detail.html', {'cart': cart})
+</pre>
+<p><code>cart_detail</code>视图用来展示当前购物车中的详情。现在已经创建了添加、更新、删除及展示的视图，需要配置URL，在<code>cart</code>应用里新建<code>urls.py</code>：</p>
+<pre>
+from django.urls import path
+from . import views
+
+app_name = 'cart'
+urlpatterns = [
+    path('', views.cart_detail, name='cart_detail'),
+    path('add/&lt;int:product_id>/', views.cart_add, name='cart_add'),
+    path('remove/&lt;int:product_id>/', views.cart_remove, name='cart_remove'),
+]
+</pre>
+<p>然后编辑项目的根<code>urls.py</code>，配置URL：</p>
+<pre>
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    <b>path('cart/', include('cart.urls', namespace='cart')),</b>
+    path('', include('shop.urls', namespace='shop')),
+]
+</pre>
+<p>注意这一条路由需要增加在<code>shop.urls</code>路径之前，因为这一条比下一条的匹配路径更加严格。</p>
+
+<h4 id="c7-2-5-2"><span class="title">2.5.2</span>创建展示购物车的模板</h4>
+<p><code>cart_add</code>和<code>cart_remove</code>视图并未渲染模板，而是重定向到<code>cart_detail</code>视图，我们需要为编写展示购物车详情的模板。</p>
+<p>在<code>cart</code>应用内创建如下文件目录结构：</p>
+<pre>
+templates/
+    cart/
+        detail.html
+</pre>
+<p>编辑<code>cart/detail.html</code>，添加下列代码：</p>
+<pre>
+{% extends 'shop/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Your shopping cart
+{% endblock %}
+
+{% block content %}
+    &lt;h1>Your shopping cart&lt;/h1>
+    &lt;table class="cart">
+        &lt;thead>
+        &lt;tr>
+            &lt;th>Image&lt;/th>
+            &lt;th>Product&lt;/th>
+            &lt;th>Quantity&lt;/th>
+            &lt;th>Remove&lt;/th>
+            &lt;th>Unit price&lt;/th>
+            &lt;th>Price&lt;/th>
+        &lt;/tr>
+        &lt;/thead>
+        &lt;tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                &lt;tr>
+                    &lt;td>
+                        &lt;a href="{{ product.get_absolute_url }}">
+                            &lt;img src="
+                                    {% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                 alt="">
+                        &lt;/a>
+                    &lt;/td>
+                    &lt;td>{{ product.name }}&lt;/td>
+                    &lt;td>{{ item.quantity }}&lt;/td>
+                    &lt;td>
+                        &lt;a href="{% url 'cart:cart_remove' product.id %}">Remove&lt;/a>
+                    &lt;/td>
+                    &lt;td class="num">${{ item.price }}&lt;/td>
+                    &lt;td class="num">${{ item.total_price }}&lt;/td>
+                &lt;/tr>
+            {% endwith %}
+        {% endfor %}
+
+            &lt;tr class="total">
+                &lt;td>total&lt;/td>
+                &lt;td colspan="4">&lt;/td>
+                &lt;td class="num">${{ cart.get_total_price }}&lt;/td>
+            &lt;/tr>
+        &lt;/tbody>
+    &lt;/table>
+    &lt;p class="text-right">
+        &lt;a href="{% url 'shop:product_list' %}" class="button light">Continue shopping&lt;/a>
+        &lt;a href="#" class="button">Checkout&lt;/a>
+    &lt;/p>
+{% endblock %}
+</pre>
+<p>这是展示购物车详情的模板，包含了一个表格用于展示具体商品。用户可以通过表单修改之中的数量，并将其发送至<code>cart_add</code>视图。还提供了一个删除链接供用户删除商品。</p>
+
+<h4 id="c7-2-5-3"><span class="title">2.5.3</span>添加商品至购物车</h4>
+<p>需要修改商品详情页，增加一个Add to Cart按钮。编辑<code>shop</code>应用的<code>views.py</code>文件，把<code>CartAddProductForm</code>添加到<code>product_detail</code>视图中：</p>
+<pre>
+from cart.forms import CartAddProductForm
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    <b>cart_product_form = CartAddProductForm()</b>
+    return render(request, 'shop/product/detail.html', {'product': product, <b>'cart_product_form': cart_product_form</b>})
+</pre>
+<p>编辑对应的<code>shop/templates/shop/product/detail.html</code>模板，在展示商品价格之后添加如下内容：</p>
+<pre>
+&lt;p class="price">${{ product.price }}&lt;/p>
+<b>&lt;form action="{% url 'cart:cart_add' product.id %}" method="post"></b>
+    <b>{{ cart_product_form }}</b>
+    <b>{% csrf_token %}</b>
+    <b>&lt;input type="submit" value="Add to cart"></b>
+<b>&lt;/form></b>
+{{ product.description|linebreaks }}
+</pre>
+<p>启动站点，到<a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a>，进入任意一个商品的详情页，可以看到商品详情页内增加了按钮，如下图：</p>
+<p><img src="http://img.conyli.cc/django2/C07-05.jpg" alt=""></p>
+<p>选择一个数量，然后点击Add to cart按钮，即可购物车详情界面，如下图：</p>
+<p><img src="http://img.conyli.cc/django2/C07-06.jpg" alt=""></p>
+
+<h4 id="c7-2-5-4"><span class="title">2.5.4</span>更新商品数量</h4>
+<p>当用户在浏览购物车详情时，在下订单前很可能会修改购物车的中商品的数量，我们必须允许用户在购物车详情页修改数量。</p>
+<p>编辑<code>cart</code>应用中的<code>views.py</code>文件，修改其中的<code>cart_detail</code>视图：</p>
+<pre>
+def cart_detail(request):
+    cart = Cart(request)
+    <b>for item in cart:</b>
+        <b>item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})</b>
+    return render(request, 'cart/detail.html', {'cart': cart})
+</pre>
+<p>这个视图为每个购物车的商品对象添加了一个<code>CartAddProductForm</code>对象，这个表单使用当前数量初始化，然后将<code>update</code>字段设置为<code>True</code>，这样在提交表单时，当前的数字直接覆盖原数字。</p>
+<p>编辑<code>cart</code>应用的<code>cart/detail.html</code>模板，找到下边这行</p>
+<pre>&lt;td>{{ item.quantity }}&lt;/td></pre>
+<p>将其替换成：</p>
+<pre>
+&lt;td>
+    <b>&lt;form action="{% url 'cart:cart_add' product.id %}" method="post"></b>
+        <b>{{ item.update_quantity_form.quantity }}</b>
+        <b>{{ item.update_quantity_form.update }}</b>
+        <b>&lt;input type="submit" value="Update"></b>
+        <b>{% csrf_token %}</b>
+    <b>&lt;/form></b>
+&lt;/td>
+</pre>
+<p>之后启动站点，到<a href="http://127.0.0.1:8000/cart/" target="_blank">http://127.0.0.1:8000/cart/</a>，可以看到如下所示：</p>
+<p><img src="http://img.conyli.cc/django2/C07-07.jpg" alt=""></p>
+<p>修改数量然后点击Update按钮来测试新的功能，还可以尝试从购物车中删除商品。</p>
+
+<h3 id="c7-2-6"><span class="title">2.6</span>创建购物车上下文处理器</h3>
+<p>你可能在实际的电商网站中会注意到，购物车的详细情况一直显示在页面上方的导航部分，在购物车为空的时候显示特殊的为空的字样，如果购物车中有商品，则会显示数量或者其他内容。这种展示购物车的方法与之前编写的处理购物车的视图没有关系，因此我们可以通过创建一个上下文处理器，将购物车对象作为<code>request</code>对象的一个属性，而不用去管是不是通过视图操作。</p>
+
+<h4 id="c7-2-6-1"><span class="title">2.6.1</span>上下文处理器</h4>
+<p>Django中的上下文管理器，就是能够接受一个<code>request</code>请求对象作为参数，返回一个要添加到<code>request</code>上下文的字典的Python函数。</p>
+<p>当默认通过<code>startproject</code>启动一个项目的时候，<code>settings.py</code>中的<code>TEMPLATES</code>设置中的<code>conetext_processors</code>部分，就是给模板附加上下文的上下文处理器，有这么几个：</p>
+<ul>
+    <li><code>django.template.context_processors.debug</code>：这个上下文处理器附加了布尔类型的<code>debug</code>变量，以及<code>sql_queries</code>变量，表示请求中执行的SQL查询</li>
+    <li><code>django.template.context_processors.request</code>：这个上下文处理器设置了<code>request</code>变量</li>
+    <li><code>django.contrib.auth.context_processors.auth</code>：这个上下文处理器设置了<code>user</code>变量</li>
+    <li><code>django.contrib.messages.context_processors.messages</code>：这个上下文处理器设置了<code>messages</code>变量，用于使用消息框架</li>
+</ul>
+<p>除此之外，django还启用了<code>django.template.context_processors.csrf</code>来防止跨站请求攻击。这个组件没有写在<code>settings.py</code>里，强制启用，无法进行设置和关闭。有关所有上下文管理器的详情请参见<a href="https://docs.djangoproject.com/en/2.0/ref/templates/api/#built-in-template-context-processors" target="_blank">https://docs.djangoproject.com/en/2.0/ref/templates/api/#built-in-template-context-processors</a>。</p>
+
+<h4 id="c7-2-6-2"><span class="title">2.6.2</span>将购物车设置到request上下文中</h4>
+
+<p>现在我们就来设置一个自定义上下文处理器，以在所有模板内访问购物车对象。</p>
+<p>在<code>cart</code>应用内新建一个<code>context_processors.py</code>文件，同视图，模板以及其他内容一样，django内的程序可以写在应用内的任何地方，但为了结构良好，将其单独写成一个文件：</p>
+<pre>
+from .cart import Cart
+def cart(request):
+    return {'cart': Cart(request)}
+</pre>
+<p>Django规定的上下文处理器，就是一个函数，接受<code>request</code>请求作为参数，然后返回一个字典。这个字典的键值对被<code>RequestContext</code>设置为所有模板都可以使用的变量及对应的值。在我们的上下文处理器中，我们使用<code>request</code>对象初始化了<code>cart</code>对象</p>
+<p>之后在settings.py里将我们的自定义上下文处理器加到TEMPLATES设置中：</p>
+<pre>
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        ,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                ......
+                <b>'cart.context_processors.cart'</b>
+            ],
+        },
+    },
+]
+</pre>
+<p>定义了上下文管理器之后，只要一个模板被<code>RequestContext</code>渲染，上下文处理器就会被执行然后附加上变量名<code>cart</code>。</p>
+<p class="hint">所有使用<code>RequestContext</code>的请求过程中都会执行上下文处理器。对于不是每个模板都需要的变量，一般情况下首先考虑的是使用自定义模板标签，特别是涉及到数据库查询的变量，否则会极大的影响网站的效率。</p>
+<p>修改<code>base.html</code>，找到下面这部分：</p>
+<pre>
+&lt;div class="cart">
+Your cart is empty.
+&lt;/div>
+</pre>
+<p>将其修改成：</p>
+<pre>
+&lt;div class="cart">
+    <b>{% with total_items=cart|length %}</b>
+        <b>{% if cart|length > 0 %}</b>
+            <b>Your cart:</b>
+            <b>&lt;a href="{% url 'cart:cart_detail' %}">{{ total_items }} item{{ total_items|pluralize }},</b>
+            <b>${{ cart.get_total_price }}</b>
+            <b>&lt;/a></b>
+        <b>{% else %}</b>
+            <b>Your cart is empty.</b>
+        <b>{% endif %}</b>
+    <b>{% endwith %}</b>
+&lt;/div>
+</pre>
+<p>启动站点，到<a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a>，添加一些商品到购物车，在网站的标题部分可以显示出购物车的信息：</p>
+<p><img src="http://img.conyli.cc/django2/C07-08.jpg" alt=""></p>
+
+<h2 id="c7-3"><span class="title">3</span>生成客户订单</h2>
+<p>当用户准备对一个购物车内的商品进行结账的时候，需要生成一个订单数据保存到数据库中。订单必须保存用户信息和用户所购买的商品信息。</p>
+<p>为了实现订单功能，新创建一个订单应用：</p>
+<pre>python manage.py startapp orders</pre>
+<p>然后在<code>settings.py</code>中的<code>INSTALLED_APPS</code>中进行激活：</p>
+<pre>
+INSTALLED_APPS = [
+    # ...
+    <b>'orders.apps.OrdersConfig',</b>
+]
+</pre>
+
+<h3 id="c7-3-1"><span class="title">3.1</span>创建订单模型</h3>
+<p>我们用一个模型存储订单的详情，然后再用一个模型保存订单内的商品信息，包括价格和数量。编辑<code>orders</code>应用的<code>models.py</code>文件：</p>
+<pre>
+from django.db import models
+from shop.models import Product
+
+
+class Order(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    address = models.CharField(max_length=250)
+    postal_code = models.CharField(max_length=20)
+    city = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    paid = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return 'Order {}'.format(self.id)
+
+    def get_total_cost(self):
+        return sum(item.get_cost() for item in self.items.all())
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return '{}'.format(self.id)
+
+    def get_cost(self):
+        return self.price * self.quantity
+</pre>
+<p><code>Order</code>模型包含一些存储用户基础信息的字段，以及一个是否支付的布尔字段<code>paid</code>。稍后将在支付系统中使用该字段区分订单是否已经付款。还定义了一个获得总金额的方法<code>get_total_cost()</code>，通过该方法可以获得当前订单的总金额。</p>
+<p><code>OrderItem</code>存储了生成订单时候的价格和数量。然后定义了一个<code>get_cost()</code>方法，返回当前商品的总价。</p>
+<p>之后执行数据迁移，过程不再赘述。</p>
+
+<h3 id="c7-3-2"><span class="title">3.2</span>将订单模型加入管理后台</h3>
+<p>编辑<code>orders</code>应用的<code>admin.py</code>文件：</p>
+<pre>
+from django.contrib import admin
+from .models import Order, OrderItem
+
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    raw_id_fields = ['product']
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'first_name', 'last_name', 'email',
+                    'address', 'postal_code', 'city', 'paid',
+                    'created', 'updated']
+    list_filter = ['paid', 'created', 'updated']
+    inlines = [OrderItemInline]
+</pre>
+<p>我们让<code>OrderItem</code>类继承了<code>admin.TabularInline</code>类，然后在<code>OrderAdmin</code>类中使用了<code>inlines</code>参数指定<code>OrderItemInline</code>，通过该设置，可以将一个模型显示在相关联的另外一个模型的编辑页面中。</p>
+<p>启动站点到<code>http://127.0.0.1:8000/admin/orders/order/add/</code>，可以看到如下的页面：</p>
+<p><img src="http://img.conyli.cc/django2/C07-09.jpg" alt=""></p>
+
+<h3 id="c7-3-3"><span class="title">3.3</span>创建客户订单视图和模板</h3>
+<p>在用户提交订单的时候，我们需要用刚创建的订单模型来保存用户当时购物车内的信息。创建一个新的订单的步骤如下：</p>
+<ol>
+    <li>提供一个表单供用户填写</li>
+    <li>根据用户填写的内容生成一个新<code>Order</code>类实例，然后将购物车中的商品放入<code>OrderItem</code>实例中并与<code>Order</code>实例建立外键关系</li>
+    <li>清理全部购物车内容，然后重定向用户到一个操作成功页面。</li>
+</ol>
+<p>首先利用内置表单功能建立订单表单，在<code>orders</code>应用中新建<code>forms.py</code>文件并添加如下代码：</p>
+<pre>
+from django import forms
+from .models import Order
+
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'email', 'address', 'postal_code', 'city']
+</pre>
+<p>采用内置的模型表单创建对应<code>order</code>对象的表单，现在要建立视图来控制表单，编辑<code>orders</code>应用中的<code>views.py</code>：</p>
+<pre>
+from django.shortcuts import render
+from .models import OrderItem
+from .forms import OrderCreateForm
+from cart.cart import Cart
+
+def order_create(request):
+    cart = Cart(request)
+    if request.method == "POST":
+        form = OrderCreateForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            for item in cart:
+                OrderItem.objects.create(order=order, product=item['product'], price=item['price'],
+                                         quantity=item['quantity'])
+            # 成功生成OrderItem之后清除购物车
+            cart.clear()
+            return render(request, 'orders/order/created.html', {'order': order})
+
+    else:
+        form = OrderCreateForm()
+    return render(request, 'orders/order/create.html', {'cart': cart, 'form': form})
+</pre>
+<p>在这个<code>order_create</code>视图中，我们首先通过<code>cart = Cart(request)</code>获取当前购物车对象；之后根据HTTP请求种类的不同，视图进行以下工作：</p>
+<ul>
+    <li>GET请求：初始化空白的<code>OrderCreateForm</code>，并且渲染<code>orders/order/created.html</code>页面。</li>
+    <li>POST请求：通过POST请求中的数据生成表单并且验证，验证通过之后执行<code>order = form.save()</code>创建新订单对象并写入数据库；然后遍历购物车的所有商品，对每一种商品创建一个<code>OrderItem</code>对象并存入数据库。最后清空购物车，渲染<code>orders/order/created.html</code>页面。</li>
+</ul>
+<p>在<code>orders</code>应用里建立<code>urls.py</code>作为二级路由：</p>
+<pre>
+from django.urls import path
+from . import views
+
+app_name = 'orders'
+
+urlpatterns = [
+    path('create/', views.order_create, name='order_create'),
+]
+
+</pre>
+<p>配置好了<code>order_create</code>视图的路由，再配置<code>myshop</code>项目的根<code>urls.py</code>文件，在<code>shop.urls</code>之前增加下边这条：</p>
+<pre>
+    path('orders/',include('orders.urls', namespace='orders')),
+</pre>
+<p>编辑购物车详情页<code>cart/detail.html</code>，找到下边这行：</p>
+<pre>&lt;a href="#" class="button">Checkout&lt;/a></pre>
+<p>将这个结账按钮的链接修改为<code>order_create</code>视图的URL：</p>
+<pre>
+&lt;a href="<b>{% url 'orders:order_create' %}</b>" class="button">Checkout&lt;/a>
+</pre>
+<p>用户现在可以通过购物车详情页来提交订单，我们要为订单页制作模板，在<code>orders</code>应用下建立如下文件和目录结构：</p>
+<pre>
+templates/
+    orders/
+        order/
+            create.html
+            created.html
+</pre>
+<p>编辑确认订单的页面<code>orders/order/create.html</code>，添加如下代码：</p>
+<pre>
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block content %}
+    &lt;h1>Checkout&lt;/h1>
+
+    &lt;div class="order-info">
+        &lt;h3>Your order&lt;/h3>
+        &lt;ul>
+            {% for item in cart %}
+            &lt;li>
+                {{ item.quantity }} x {{ item.product.name }}
+                &lt;span>${{ item.total_price }}&lt;/span>
+            &lt;/li>
+            {% endfor %}
+        &lt;/ul>
+        &lt;p>Total: ${{ cart.get_total_price }}&lt;/p>
+    &lt;/div>
+
+    &lt;form action="." method="post" class="order-form" novalidate>
+        {{ form.as_p }}
+        &lt;p>&lt;input type="submit" value="Place order">&lt;/p>
+        {% csrf_token %}
+    &lt;/form>
+{% endblock %}
+</pre>
+<p>这个模板，展示购物车内的商品和总价，之后提供空白表单用于提交订单。</p>
+<p>再来编辑订单提交成功后跳转到的页面<code>orders/order/created.html</code>：</p>
+<pre>
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Thank you
+{% endblock %}
+
+{% block content %}
+    &lt;h1>Thank you&lt;/h1>
+    &lt;p>Your order has been successfully completed. Your order number is &lt;strong>{{ order.id }}&lt;/strong>.&lt;/p>
+{% endblock %}
+</pre>
+<p>这是订单成功页面。启动站点，添加一些商品到购物车中，然后在购物车详情页面中点击CHECKOUT按钮，之后可以看到如下页面：</p>
+<p><img src="http://img.conyli.cc/django2/C07-10.jpg" alt=""></p>
+<p>填写表单然后点击Place order按钮，订单被创建，然后重定向至创建成功页面：</p>
+<p><img src="http://img.conyli.cc/django2/C07-11.jpg" alt=""></p>
+<p>现在可以到管理后台去看一看相关的信息了。</p>
+
+<h2 id="c7-4"><span class="title">4</span>使用Celery启动异步任务</h2>
+<p>在一个视图内执行的所有操作，都会影响到响应时间。很多情况下，尤其视图中有一些非常耗时或者可能会失败，需要重试的操作，我们希望尽快给用户先返回一个响应而不是等到执行结束，而让服务器去继续异步执行这些任务。例如：很多视频分享网站允许用户上传视频，在上传成功之后服务器需花费一定时间转码，这个时候会先返回一个响应告知用户视频已经成功上传，正在进行转码，然后异步进行转码。还一个例子是向用户发送邮件。如果站点中有一个视图的操作是发送邮件，SMTP连接很可能失败或者速度比较慢，这个时候采用异步的方式就能有效的避免阻塞。</p>
+<p>Celery是一个分布式任务队列，采取异步的方式同时执行大量的操作，支持实施操作和计划任务，可以方便的批量创建异步任务并且执行，也可以设定为计划执行。Celery的文档在<a href="http://docs.celeryproject.org/en/latest/index.html" target="_blank">http://docs.celeryproject.org/en/latest/index.html</a>。</p>
+
+<h3 id="c7-4-1"><span class="title">4.1</span>安装Celery</h3>
+<p>通过<code>pip</code>安装Celery：</p>
+<pre>
+pip install celery==4.1.0
+</pre>
+<p>Celery需要一个消息代理程序来处理外部的请求，这个代理把要处理的请求发送到Celery worker，也就是实际处理任务的模块。所以还需要安装一个消息代理程序：</p>
+
+<h3 id="c7-4-2"><span class="title">4.2</span>安装RabbitMQ</h3>
+<p>Celery的消息代理程序有很多选择，Redis数据库也可以作为Celery的消息代理程序。这里我们使用RabbitMQ，因为它是Celery官方推荐的消息代理程序。</p>
+
+<p>如果是Linux系统，通过如下命令安装RabbitMQ：</p>
+<pre>
+apt-get install rabbitmq
+</pre>
+<p>如果使用macOS X或者Windows，可以在<a href="https://www.rabbitmq.com/download.html" target="_blank">https://www.rabbitmq.com/download.html</a>下载RabbitMQ。</p>
+<p>安装之后使用下列命令启动RabbitMQ服务：</p>
+<pre>
+rabbitmq-server
+</pre>
+<p>之后会看到：</p>
+<pre>
+Starting broker... completed with 10 plugins.
+</pre>
+<p>就说明RabbitMQ已经就绪，等待接受消息。</p>
+<p class="emp">译者注：Windows下安装RabbitMQ，必须先安装<a href="https://www.erlang.org/downloads" target="_blank">Erlong OPT平台</a>，然后安装从官网下载回来的RabbitMQ windows installer。之后需要手工把Erlong安装目录下的bin目录和RabbitMQ安装目录下的sbin目录设置到PATH中。之后安装参见<a href="https://blog.csdn.net/tjcyjd/article/details/77150893" target="_blank">这里</a>。</p>
+
+<h3 id="c7-4-3"><span class="title">4.3</span>在项目中集成Celery</h3>
+<p>需要为项目使用的Celery实例进行一些配置，在<code>settings.py</code>文件的相同目录下创建<code>celery.py</code>文件：</p>
+<pre>
+import os
+from celery import Celery
+
+# 为celery程序设置环境为当前项目的环境
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myshop.settings')
+
+app = Celery('myshop')
+
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()
+</pre>
+<p>这段程序解释如下：</p>
+<ol>
+    <li>导入<code>DJANGO_SETTINGS_MODULE</code>环境变量，为Celery命令行程序创造运行环境。</li>
+    <li>实例化一个<code>app</code>对象，是一个Celery程序实例</li>
+    <li>调用<code>config_from_object()</code>方法，从我们项目的设置文件中读取环境设置。<code>namespace</code>属性指定了在我们的settings.py文件中，所有和Celery相关的配置都以<code>CELERY</code>开头，例如<code>CELERY_BROKER_URL</code>。</li>
+    <li>调用<code>autodiscover_tasks()</code>，让Celery自动发现所有的异步任务。Celery会在每个<code>INSTALLED_APPS</code>中列出的应用中寻找<code>task.py</code>文件，在里边寻找定义好的异步任务然后执行。</li>
+</ol>
+<p>还需要在项目的<code>__init__.py</code>文件中导入<code>celery</code>模块，以让项目启动时Celery就运行，编辑<code>myshop/__init__.py</code>：</p>
+<pre>
+# import celery
+from .celery import app as celery_app
+</pre>
+<p>现在就可以为应用启动异步任务了。</p>
+<p class="hint"><code>CELERY_ALWAYS_EAGER</code>设置可以让Celery在本地以同步的方式直接执行任务，而不会去把任务加到队列中。这常用来进行测试或者检查Celery的配置是否正确。</p>
+
+<h3 id="c7-4-4"><span class="title">4.4</span>为应用添加异步任务</h3>
+<p>我们准备在用户提交订单的时候异步发送邮件。一般的做法是在应用目录下建立一个<code>task</code>模块专门用于编写异步任务，在<code>orders</code>应用下建立<code>task.py</code>文件，添加如下代码：</p>
+<pre>
+from celery import task
+from django.core.mail import send_mail
+from .models import Order
+
+@task
+def order_created(order_id):
+    """
+    当一个订单创建完成后发送邮件通知给用户
+    """
+
+    order = Order.objects.get(id=order_id)
+    subject = 'Order {}'.format(order.id)
+    message = 'Dear {},\n\nYou have successfully placed an order. Your order id is {}.'.format(order.first_name,
+                                                                                               order_id)
+    mail_sent = send_mail(subject, message, 'lee0709@vip.sina.com', [order.email])
+    print(mail_sent, type(mail_sent))
+    return mail_sent
+</pre>
+<p>将<code>order_created</code>函数通过装饰器<code>@task</code>定义为异步任务，可以看到，只要用<code>@task</code>装饰就可以把一个函数变成Celery异步任务。这里我们给异步函数传入<code>order_id</code>，推荐仅传入ID，让异步任务启动的时候再去检索数据库。最后拼接好标题和正文后使用<code>send_mail()</code>发送邮件。</p>
+<p>在第二章已经学习过如何发送邮件，如果没有SMTP服务器，在<code>settings.py</code>里将邮件配置为打印到控制台上：</p>
+<pre>
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+</pre>
+<p class="hint">在实际应用中，除了耗时比较大的功能之外，还可以将其他容易失败需要重试的功能，即使耗时较短，也推荐设置为异步任务。</p>
+<p>设置好了异步任务之后，还需要修改原来的视图<code>order_created</code>，以便在订单完成的时候，调用<code>order_created</code>异步函数。编辑<code>orders</code>应用的<code>views.py</code>文件：</p>
+<pre>
+<b>from .task import order_created</b>
+
+def order_create(request):
+    #......
+    if request.method == "POST":
+        #......
+        if form.is_valid():
+            #......
+            cart.clear()
+            <b># 启动异步任务</b>
+            <b>order_created.delay(order.id)</b>
+        #......
+</pre>
+<p>调用<code>delay()</code>方法即表示异步执行该任务，任务会被加入队列然后交给执行程序执行。</p>
+<p>启动另外一个shell（必须是导入了当前环境的命令行窗口，比如Pycharm中启动的terminal），使用如下命令启动Celery worker：</p>
+<pre>celery -A myshop worker -l info</pre>
+<p>现在Celery worker已经启动并且准备处理任务。启动站点，然后添加一些商品到购物车，提交订单。在启动了Celery worker的窗口应该能看到类似下边的输出：</p>
+<pre>
+[2017-12-17 17:43:11,462: INFO/MainProcess] Received task:
+orders.tasks.order_created[e990ddae-2e30-4e36-b0e4-78bbd4f2738e]
+[2017-12-17 17:43:11,685: INFO/ForkPoolWorker-4] Task
+orders.tasks.order_created[e990ddae-2e30-4e36-b0e4-78bbd4f2738e] succeeded in
+0.22019841300789267s: 1
+</pre>
+<p>表示任务已经被执行，应该可以收到邮件了。</p>
+<p class="emp">译者注：Windows平台下，在发送邮件的时候，有可能出现错误信息如下：</p>
+<pre><b>not enough values to unpack (expected 3, got 0)</b></pre>
+<p class="emp">这是因为Celery 4.x 在win10版本下运行存在问题，解决方案为：先安装Python的<code>eventlet</code>模块：</p>
+<pre>
+<b>pip install eventlet</b>
+</pre>
+<p class="emp">然后在启动Celery worker的时候，加上参数 -P eventlet，命令行如下：</p>
+<pre>
+<b>celery -A myshop worker -l info -P eventlet</b>
+</pre>
+<p class="emp">即可解决该错误。在linux下应该不会发生该错误。参考Celery项目在 Github 上的问题：<a href="https://github.com/celery/celery/issues/4081" target="_blank">Unable to run tasks under Windows #4081</a></p>
+
+<h3 id="c7-4-5"><span class="title">4.5</span>监控Celery</h3>
+<p>如果想要监控异步任务的执行情况，可以安装Python的FLower模块：</p>
+<pre>
+pip install flower==0.9.2
+</pre>
+<p>之后在新的终端窗口输入：</p>
+<pre>
+celery -A myshop flower
+</pre>
+<p>之后在浏览器中打开<code>http://localhost:5555/dashboard</code>，即可看到图形化监控的Celery情况：</p>
+<p><img src="http://img.conyli.cc/django2/C07-12.jpg" alt=""></p>
+<p>可以在<a href="https://flower.readthedocs.io/" target="_blank">https://flower.readthedocs.io/</a>查看Flower的文档。</p>
+
+<h1><b>总结</b></h1>
+<p>这一章里创建了一个基础的电商网站。为网站创建了商品品类和详情展示，通过session创建了购物车应用。实现了一个自定义的上下文处理器用于将购物车对象附加到所有模板上，还实现了创建订单的功能。最后还学习了使用Celery启动异步任务。</p>
+<p>在下一章将学习集成支付网关，为管理后台增加自定义操作，将数据导出为CSV格式，以及动态的生成PDF文件。</p>
+</body>
+</html>

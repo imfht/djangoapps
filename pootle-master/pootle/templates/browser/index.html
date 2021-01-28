@@ -1,0 +1,173 @@
+{% extends browser_extends %}
+{% load core assets i18n locale common_tags profile_tags fs_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% block header_content_block %}
+{% if not templates_context %}
+<div id="top-stats" class="header">
+  {% block header_content %}
+  <a id="js-path-summary" href="#">
+    <div id="progressbar">
+      {% progress_bar stats.total stats.fuzzy stats.translated %}
+    </div>
+  </a>
+  <div class="path-summary-more" id="js-path-summary-more">
+    <a id="js-path-summary" class="expand-stats" href="#">
+      <i id="js-expand-icon" class="icon-expand-stats"
+         title="{% trans 'Expand details' %}"></i>
+    </a>
+    <div class="path-summary-collapsed">
+      {% include 'core/_top_scorers_as_ul.html' %}
+    </div>
+    <div class="path-summary-expanded">
+      <div class="summary-1-col">
+        <h3 class="top">{% trans "Translation Statistics" %}</h3>
+        <div class="not-bd">
+          <table class="stats" lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}">
+            <tbody>
+              {% for item in translation_states %}
+              <tr id="stats-{{ item.state }}">
+                <td id="stats-name">{{ item.title }}</td>
+                <td class="stats-number">
+                  {% if can_translate_stats %}
+                  <a href="{{ item.url }}" class="stats-data">{{ item.count_display }}</a>
+                  {% else %}
+                  <span class="stats-data">{{ item.count_display }}</span>
+                  {% endif %}
+                </td>
+                <td class="stats-percentage"><span>{{ item.percent_display }}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+	{% if checks %}
+        <div id="js-stats-checks" class="stats-checks">
+          <h3>{% trans "Failing Checks" %}</h3>
+          <div class="bd">
+            <table>
+            {% for check in checks %}
+              <tr class="{% if check.is_critical %}category-critical{% endif %} check js-check" data-code="{{ check.code }}">
+                {% if can_translate_stats %}
+                <td class="check-name">
+                  <a class="check-data" href="{{ check.url }}">{{ check.title }}</a>
+                </td>
+                <td class="check-count"><a class="check-data" href="{{ check.url }}">{{ check.count_display }}</a></td>
+                {% else %}
+                <td class="check-name"><span class="check-data">{{ check.title }}</span></td>
+                <td class="check-count"><span class="check-data">{{ check.count_display }}</span></td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+            </table>
+            <div class="js-more-checks toggle-more-checks">
+              <a class="js-toggle-more-checks collapsed">
+                <span class="show-more">{% trans "More..." %}</span>
+                <span class="hide-more">{% trans "Less..." %}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+	{% endif %}
+      </div>
+      <div id="js-mnt-top-contributors"></div>
+      <div class="summary-3-col">
+        <div id="js-last-updated-wrapper">
+          <h3 class="top">{% trans "Updates" %}</h3>
+          <div class="bd">
+	    {% if has_admin_access and stats.last_created_unit %}
+            <div class="graph"></div>
+            <div class="action-wrapper">
+              <label>{% trans "Last updated:" %}</label>
+              <div id="js-last-updated" class="last-updated last-action">
+		<span class="extra-item-meta">{{ stats.last_created_unit.creation_time|time_since }}</span>
+		<a dir="ltr" href="{{ stats.last_created_unit.unit_url }}">{{ stats.last_created_unit.unit_source }}</a>
+	      </div>
+            </div>
+	    {% endif %}
+	    {% if project %}
+	    {% upstream_link project %}
+	    {% endif %}
+          </div>
+        </div>
+	{% if stats.last_submission %}
+        <div id="js-last-action-wrapper">
+          <h3>{% trans "Translations" %}</h3>
+          <div class="bd">
+            <div class="graph"></div>
+            <div class="action-wrapper">
+              <label>{% trans "Last action:" %}</label>
+              <div id="js-last-action" class="last-action">
+		<a href="{{ stats.last_submission.profile_url }}">
+		  {% avatar stats.last_submission.username stats.last_submission.email 20 %}
+		</a>
+		<span class="user-info">
+		  {{ stats.last_submission.msg }}
+		  <span class="extra-item-meta">{{ stats.last_submission.mtime|time_since }}</span>
+		</span>
+	      </div>
+            </div>
+          </div>
+        </div>
+	{% endif %}
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  {% endblock %}
+</div>
+{% endif %}
+{% endblock %}
+{% block actions %}
+{% include 'browser/_actions.html' %}
+{% endblock %}
+{% block pre_content %}
+{% if has_sidebar %}
+<div id="sidebar"
+  class="js-sidebar{% if is_sidebar_open %} sidebar-open{% endif %}">
+  <div id="sidebar-content">
+    {% block sidebar_content %}
+    {% if announcements %}
+    <div class="sidebar-group">
+      {% for announcement in announcements %}
+        {% include "staticpages/_body.html" with page=announcement %}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endblock %}
+  </div>
+  <a id="sidebar-toggle" class="js-sidebar-toggle"></a>
+</div>
+{% endif %}
+{% endblock %}
+{% block content %}
+{% if project and project.disabled %}
+<div class="alert alert-danger">
+{% trans "This project is disabled and visible to administrators only." %}
+</div>
+{% endif %}
+{% if parent %}
+<div class="browser-parent" lang="{{ LANGUAGE_CODE }}">
+  <a href="{{ parent.href }}"><i class="icon-folder-parent"></i> <span>{{ parent.title }}</span></a>
+</div>
+{% endif %}
+{% for panel in panels %}
+{{ panel }}
+{% endfor %}
+{% endblock content %}
+{% block scripts_extra %}
+{{ block.super }}
+<script type="text/javascript">
+  $(function () {
+    PTL.search.init();
+    PTL.stats.init({
+      pootlePath: "{{ pootle_path }}",
+      hasDisabledItems: {{ has_disabled|yesno:"true,false" }},
+      isAdmin: {{ has_admin_access|yesno:"true,false" }},
+      isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
+      topContributorsData: {{ top_scorers|to_js }},
+      uiLocaleDir: '{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}',
+    });
+  });
+</script>
+{% endblock %}

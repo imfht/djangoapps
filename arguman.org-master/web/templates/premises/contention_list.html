@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load humanize %}
+{% load gravatar  %}
+{% load typogrify_tags %}
+
+<ul class="argument-list">
+    {% for contention in contentions %}
+        {% with overview=contention.overview but=contention.but.count however=contention.however.count because=contention.because.count %}
+        <li>
+            {% if show_stats %}
+            <div class="stats">
+                <span class="because">{{ because }} {% trans "because" %}</span>
+                <span class="but">{{ but }} {% trans "but" %}</span>
+                <span class="however">{{ however }} {% trans "however" %}</span>
+            </div>
+            {% endif %}
+            <div class="info">
+                <h3><a class="main-contention {{ overview.status }}" href="{{ contention.get_absolute_url }}">{{ contention.title }}</a></h3>
+                <div class="overview">
+                    <div class="rate {{ overview.status }}">
+                        {% if overview.status == 'objected' %}
+                            %{{ overview.objection|floatformat }} {% trans "objection rate" %}
+                        {% endif %}
+                        {% if overview.status == 'supported' %}
+                            %{{ overview.support|floatformat }} {% trans "support rate" %}
+                        {% endif %}
+                        {% if overview.status == 'neutral' %}
+                            {% trans "Neutral support and objection rate." %}
+                        {% endif %}
+                    </div>
+                    {% if show_last_premise %}
+                    {% with contention.last_premise as last_premise %}
+                    {% if last_premise %}
+                    <div class="last-premises">
+                        <div class="last-premise">
+                            <a href="{{ last_premise.get_absolute_url }}">
+                                {{ last_premise.text }}
+                                {% if last_premise.related_argument %}
+                                <p>{{ last_premise.related_argument }}</p>
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    {% endif %}
+                    <div class="user">
+                        {% with last_user=contention.last_user %}
+                            <a href="{% url "auth_profile" last_user.username %}">
+                                {% gravatar last_user 50 last_user.username %}
+                                <span>{{ last_user.username|lower }}</span>
+                            </a>
+                        {% endwith %}
+                        <time datetime="{{ contention.date_modification }}">({{ contention.date_modification|naturaltime }})</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {% endwith %}
+    {% empty %}
+        {% if keywords %}
+            <li>{% trans "No results found." %}</li>
+        {% endif %}
+    {% endfor %}
+    {% if has_next_page %}
+    <li class="load-more">
+        <a class="next" href="{{ next_page_url }}">{% trans "Load more" %}</a>
+    </li>
+    {% endif %}
+</ul>

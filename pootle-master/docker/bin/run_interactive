@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Prepares then runs the webapp.
+
+/bin/bash -c "bash --rcfile <(echo \"\
+   . $APP_DIR/bin/activate \
+   && cd $APP_SRC_DIR \
+   && . $APP_DIR/nvm/nvm.sh \
+   && nvm use node \")"

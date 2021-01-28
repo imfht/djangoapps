@@ -1,0 +1,26 @@
+div.verify-email-form(tg-verify-email)
+    p
+        strong(translate="VERIFY_EMAIL_FORM.TITLE")
+    p
+        span(translate="VERIFY_EMAIL_FORM.SUBTITLE")
+
+    form
+        fieldset
+            input(
+                type="hidden"
+                name="email_token"
+                ng-model="data.email_token"
+                data-required="true"
+                placeholder="{{'VERIFY_EMAIL_FORM.PLACEHOLDER_INPUT_TOKEN' | translate}}"
+            )
+
+            a.ng-submit-form.btn-big(
+                href=""
+                title="{{'VERIFY_EMAIL_FORM.ACTION_VERIFY_EMAIL' | translate}}"
+                translate="VERIFY_EMAIL_FORM.ACTION_VERIFY_EMAIL"
+            )
+        fieldset.end
+            button.btn-big(
+                type="submit",
+                class="hidden"
+            )

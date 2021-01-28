@@ -1,0 +1,39 @@
+{% extends "shuup/admin/base_picotable.jinja" %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="modal fade" id="script-template-modal" tabindex="-1" role="dialog" aria-labelledby="script-template-title">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="script-template-title">
+                        <i class="fa fa-file-code-o text-primary mr-2"></i>
+                        {{ _("Select the script template to be created") }}
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-inner-content" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ _("Cancel") }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ super() }}
+
+    <script>
+        function showScriptTemplates() {
+            $.get("{{ url('shuup_admin:notify.script-template') }}")
+            .done(function (data) {
+                $("#modal-inner-content").html(data);
+                $("#script-template-modal").modal();
+            });
+        }
+    </script>
+{% endblock %}

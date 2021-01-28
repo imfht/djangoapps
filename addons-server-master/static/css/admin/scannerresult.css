@@ -1,0 +1,72 @@
+/* note: this is shared between scannerresult and scannerqueryresult admins */
+
+#changelist .field-result_actions {
+  text-align: center;
+  white-space: nowrap;
+}
+
+#changelist .field-formatted_addon table {
+  margin: 4px 0 0 0;
+}
+
+#changelist .field-formatted_addon table td {
+  border: none;
+  padding: 2px;
+}
+
+#changelist .field-guid {
+  min-width: 250px;
+  font-family: monospace;
+}
+
+.field-result_actions .button {
+  padding: 4px 6px;
+}
+
+.field-result_actions .button.default {
+  float: none;
+}
+
+.field-matching_filenames ul,
+.field-authors ul,
+/* This rule is for the change page. */
+.aligned .field-authors ul
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.field-matching_filenames li, .field-authors li {
+    display: block;
+    max-width: 36em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.field-authors li {
+    max-width: 24em;
+}
+
+.model-scannerqueryresult #result_list td, .model-scannerqueryresult #result_list th {
+  border-bottom: 0;
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.model-scannerqueryresult #result_list .row1, .model-scannerqueryresult #result_list .row2 {
+  background: transparent;
+}
+
+.model-scannerqueryresult #result_list .different-addon {
+  border-top: 2px solid #aaa;
+}
+
+.model-scannerqueryresult #result_list .different-channel td, .model-scannerqueryresult #result_list .different-channel th {
+  border-top: 2px solid #ccc;
+}
+
+.model-scannerqueryresult #result_list .same-addon td.field-formatted_addon {
+  border-top: 1px solid transparent;
+}

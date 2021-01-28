@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+
+function tag_and_push () {
+    docker tag translate/pootle:$1 $DOCKER_USERNAME/pootle:$2
+    docker push $DOCKER_USERNAME/pootle:$2
+}
+
+
+# this should exit if DOCKER_PASSWORD is not set
+
+pip install -qr requirements/host.txt
+export LOCAL_USER_ID=$UID
+makey build-dev-all
+
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+tag_and_push dev-postgres travis-postgres
+tag_and_push dev-sqlite travis-sqlite
+tag_and_push dev-mariadb travis-mariadb

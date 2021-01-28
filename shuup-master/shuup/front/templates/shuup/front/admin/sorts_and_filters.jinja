@@ -1,0 +1,7 @@
+{% from "shuup/admin/macros/general.jinja" import content_block %}
+{% from "shuup/front/admin/macros.jinja" import render_sort_filters_fields %}
+{% from "shuup/admin/macros/multilanguage.jinja" import render_monolingual_fields %}
+
+{% call content_block(_("Product list sorts and filters"), icon="fa-th-list") %}
+    {{ render_sort_filters_fields(form["product_list_facets"]) }}
+{% endcall %}

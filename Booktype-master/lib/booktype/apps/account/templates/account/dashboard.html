@@ -1,0 +1,318 @@
+{% extends "core/base.html" %}
+{% load i18n staticfiles compress profile reader_tags messaging_tags portal_tags %}
+
+{% block extra_header %}
+
+  {% compress css %}
+    <link href='{% static "core/css/jquery.fileupload-ui.css" %}' rel='stylesheet' type='text/css' />
+  {% endcompress %}
+
+  <script type="text/javascript">
+    var createBookUrl = "{% url 'accounts:create_book' current_user.username %}";
+  </script>
+
+  {% compress js %}
+    <script type="text/javascript" src="{% static 'core/js/jquery.steps.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/jquery.fileupload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'account/js/dashboard.js' %}"></script>
+    <script type="text/javascript" src="{% static 'reader/js/infopage.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/inviteWizard.js' %}"></script>
+  {% endcompress %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row two-col">
+        <div class="col-md-8">
+            {% if current_user != request.user %}
+            <div class="box profile-box purple">
+                {% include "account/other_user_box.html" %}
+            </div>
+            {% endif %}
+
+            {% for message in messages %}
+            <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %} alert-dismissable fade in bk-dismiss" data-dismiss-secs="10">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
+
+            <div class="box gray">
+                <h2 class="box-title-alter">
+                    {% if current_user == request.user %}
+                        {% trans "My Books" %}
+                    {% else %}
+                        {% trans "Books" %}
+                    {% endif %}
+
+                    <div class="btn-toolbar float-right">
+                        {% if current_user == request.user %}
+                            {% if not limit_reached %}
+                                {% if can_create_book %}
+                                    <button href="#" role="button" class="btn btn-default float-right btn-group" data-toggle="modal" data-target="#createBookModal" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Create New Book" %}">{% trans "Create Book" as create_text %} {{ create_text|upper }}</button>
+                                {% endif %}
+
+                                {% if current_user.is_authenticated %}
+                                    <button href="#" role="button" class="btn btn-default float-right btn-group" rel="tooltip" title="" data-placement="bottom" data-target="#inviteWizard" data-original-title="{% trans "Invite people to edit your books" %}" data-toggle='modal'>{% trans "Invite" as invite_text %}  {{ invite_text|upper }}</button>
+                                {% endif %}
+
+                                {% if is_book_limit %}
+                                    <button class="btn btn-primary float-right btn-group" rel="tooltip" data-placement="top" data-original-title="{% trans "You have reached your book limit. Please delete any unwanted books before you create a new one." %}">{% trans "No additional books can be created" %}</button>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        <button role="button" class="btn btn-default float-right btn-group" data-toggle="modal" data-target="#joinBookModal" rel="tooltip" data-placement="bottom" data-original-title="{% trans 'Join book with invite code' %}">{% trans "Join Book" as join_text %} {{ join_text|upper }}</button>
+
+                        <div class="btn-group float-right">
+                            <button class="btn btn-default btn-sm showGrid" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans 'Show in a grid' %}"><i class="fa fa-th"></i></button>
+                            <button class="btn btn-default btn-sm showList" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans 'Show in a list' %}"><i class="fa fa-list-ul"></i></button>
+                        </div>
+                    </div>
+                </h2>
+
+                <div class="book-thumb" id="books-prew">
+                    {% for book in books %}
+                    {% include "account/dashboard_book_template.html" %}
+                    {% empty %}
+                    <div class="pad20">
+                        {% if current_user == request.user %}
+                            {% trans "This is a perfect moment to start writing your book, just click on the button above!" %}
+                        {% else %}
+                            {% trans "This user has no books" %}.
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if books_collaborating %}
+                <div class="content-divider"></div>
+                <h4>{% trans "Participating Books" %}</h4>
+
+                <div class="book-thumb" id="books-prew-2">
+                    {% for book in books_collaborating %}
+                    {% include "account/dashboard_book_template.html" %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div id="bookThumbModal" class="modal fade bookInfoModal cleanModalInfo" tabindex="-1" role="dialog" aria-labelledby="editBookInfoModal" aria-hidden="true">
+                </div>
+
+            </div>
+
+            {% if current_user == request.user %}
+            <div class="box white">
+                <h2 class="box-title">{% trans "My Groups" %}</h2>
+                <ul class="list group-list">
+                    {% with True as can_delete %}
+                    {% for group in groups %}
+                    {% include "account/dashboard_group_template.html" %}
+                    {% empty %}
+                    <li>{% trans "Work with others in Groups. To create a Group click on the button below" %}.</li>
+                    {% endfor %}
+                    {% endwith %}
+                </ul>
+
+                <div class="content-divider"></div>
+                <h2 class="box-title">{% trans "Participating Groups" %}</h2>
+                <ul class="list group-list">
+                    {% for group in participating_groups %}
+                    {% can_delete_group group user as can_delete %}
+                    {% include "account/dashboard_group_template.html" %}
+                    {% empty %}
+                    <li>{% trans "Join other groups based on your interest" %} <a href="{% url 'portal:list_groups' %}">{% trans "view all" %}.</a></li>
+                    {% endfor %}
+                </ul>
+
+                <div class="box-bottom-gray">
+                    <button id="create-group-btn" data-remote="{% url 'portal:group_create' %}" data-toggle="modal" data-target="#createGroupModal" class="btn btn-default" rel="tooltip" data-placement="bottom" data-original-title="{% trans "Click this button to create a new group of writers and editors" %}">
+                        {% trans "Create New Group" as creategroup_text %} {{ creategroup_text|upper }}
+                    </button>
+                </div>
+
+                <div id="createGroupModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            {% if current_user == request.user %}
+            <div class="box gray">
+                <h2 class="box-title">{% trans "My Profile" %}</h2>
+                <ul class="list-people list user-avatar">
+                    <li>
+                        <figure>{% profile_image user %}</figure>
+                        <div class="people-info">
+                            <h4><a href=".">{{ current_user.username }}</a></h4>
+                            <span>{{ current_user.get_full_name }}</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <p>{{ current_user.profile.description|escape }}</p>
+								{# <p><a href="#">{% trans "Track updates by RSS" %}</a> <img src="{% static 'core/img/rss.png' %}"></p>#}
+
+                <div class="box-bottom-white">
+                    <button id="user-settings" data-href="{% url 'accounts:user_settings' user.username %}" role="button" class="btn btn-default float-left" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to update your personal settings and Booktype account password" %}">{% trans "Settings" as set_text %} {{ set_text|upper }}</button>
+                    <button data-href="{% url 'accounts:signout' %}" role="button" class="btn btn-success float-right" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to log out of your Booktype account" %}">{% trans "Log out" as log_text %} {{ log_text|upper }}</button>
+
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="box white">
+                {% if current_user == request.user %}
+                <h2 class="box-title">{% trans "My Recent Activity" %}</h2>
+                {% else %}
+                <h2 class="box-title">{% trans "Recent Activity" %}</h2>
+                {% endif %}
+                <ul class="list border-top">
+                    {% for base_activ in recent_activity %}
+                    {% verbose_activity base_activ as activity %}
+                    <li>
+                        <figure><img src="{{ activity.image_url }}"></figure>
+                        <div class="list-info">
+                          <span class="time">{% blocktrans with time_t=base_activ.modified|timesince %}{{time_t}} ago{% endblocktrans %}</span>
+                          <h4><a href="{% url 'accounts:view_profile' base_activ.user %}">{{ base_activ.user }}</a></h4>
+                          <p>
+                            {{ activity.verbose }}
+                            {% if activity.link_url %}
+                                <a href="{{ activity.link_url }}">"{{ activity.link_text }}"</a>.
+                            {% endif %}
+
+                            <span>#{{ base_activ.book.url_title }}</span>
+                          </p>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li>{% trans "This user has no recent activity." %}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% if current_user != request.user %}
+            <div class="box white">
+                <h2 class="box-title">{% trans "Groups" %}</h2>
+                <ul class="list">
+                    {% for group in groups %}
+                    {% include "account/dashboard_group_template.html" %}
+                    {% empty %}
+                    <p>{% trans "This user is not a member of any groups." %}.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include "account/dashboard_create_book_modal.html" %}
+</div>
+
+<div id="groupDeleteModal" class="modal fade cleanModalInfo" tabindex="-1" role="dialog" aria-labelledby="editBookInfoModal" aria-hidden="true">
+</div>
+
+<!-- Invite people wizard modal -->
+<div class="modal fade invitePeopleWizard" id="inviteWizard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h2 class="modal-title" id="myModalLabel">{% trans "Invite people to edit your books" %}</h2>
+      </div>
+      <div class="modal-body">
+        <section id="basic">
+          <form method="post" action="{% url 'accounts:invite' %}" target="hidden_frame" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div id="wizard-invite">
+              <h3>{% trans 'Enter email addresses' %}</h3>
+            <section>
+                <p class="wizard_desc">{% trans 'Who would you like to invite?' %}</p>
+                <label for="{{ invite_form.email_list.id_for_label }}"> {{ invite_form.email_list.label }} </label>
+                {{ invite_form.email_list }}
+            </section>
+
+            <h3>{% trans 'Enter message' %}</h3>
+            <section>
+                <p class="wizard_desc">{% trans 'What is the message of your invitation?' %}</p>
+                <label for="{{ invite_form.message.id_for_label }}"> {{ invite_form.message.label }} </label>
+                {{ invite_form.message }}
+            </section>
+            <h3>{% trans 'Choose Book' %}</h3>
+            <section>
+                <p class="wizard_desc">{% trans 'Choose Books for invitation' %}</p>
+              <div class="books-header">
+                  {% trans 'Choose Book:' %} <span>{% trans 'All' %}</span>
+                <div class="switcher">
+                    <label for="check_all">{% trans 'Check all / clear' %}</label>
+                  <input id="check_all" type="checkbox" class="checkall">
+                </div>
+              </div>
+              <div class="books-list">
+                <ul>
+                    {% for pk, choice in invite_form.books.field.widget.choices  %}
+                    <li>
+                    <a href="#"> {{ choice }}
+                            <input  type="checkbox" id="id_options_{{ forloop.counter0 }}"
+                            value="{{ pk }}" name="books" />
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+              </div>
+            </section>
+
+            <h3>{% trans 'Set Roles' %}</h3>
+            <section>
+                <p class="wizard_desc">{% trans 'Set Roles for this invitation' %}</p>
+                <label for="hidden">{% trans 'Roles' %}</label>
+                <div class="roles-options btn-group" data-toggle="buttons">
+                  {% for pk, choice in invite_form.roles.field.widget.choices  %}
+                    <label class="btn btn-default" rel='tooltip'>
+                        <input type="checkbox" name='roles' value='{{ pk }}'> {{ choice }}
+                    </label>
+                  {% endfor %}
+                </div>
+            </section>
+          </div>
+        </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Join books via invite code modal -->
+<div class="modal fade" id="joinBookModal" tabindex="-1" role="dialog" aria-labelledby="joinBookLabel" aria-hidden="true">
+  <div class="modal-dialog w450">
+    <div class="modal-content" style="top: 100px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h2 class="modal-title" id="joinBookLabel">{% trans "Join book with invite code" %}</h2>
+      </div>
+      <div class="modal-body pb0">
+        <div class="alert alert-danger pa10 hide">
+          {% trans "The provided code seems to be invalid or has expired" %}.
+        </div>
+        <form action="{% url 'accounts:join_with_code' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="invite_code">{% trans "Enter your invite code" %}</label>
+            <input class="form-control" type="text" name="invite_code" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="submitCode" class="btn btn-primary pull-right" type="button">{% trans "Join now" %}</button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# we should move strings to a single file in core or use javascript_catalog #}
+<ul class="strings template">
+  <li data-translate-id="errorOnCreateBookMessage">{% trans 'Unexpected error while creating the book' %}</li>
+</ul>
+{% endblock %}

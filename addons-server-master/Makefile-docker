@@ -1,0 +1,264 @@
+export PYTHON_COMMAND=python3
+
+# As we're using user-local installs inside the docker-container we need
+# to be cautious about uprading pip and not confusing it with the
+# globally installed version. This will take `$PYTHONUSERBASE` and `$PIP_USER`
+# into account.
+# See https://github.com/pypa/pip/issues/7205
+export PIP_COMMAND=$(PYTHON_COMMAND) -m pip
+APP=src/olympia/
+
+NUM_ADDONS=10
+NUM_THEMES=$(NUM_ADDONS)
+
+NPM_ARGS :=
+
+ifneq ($(NPM_CONFIG_PREFIX),)
+	NPM_ARGS := --prefix $(NPM_CONFIG_PREFIX)
+endif
+
+NODE_MODULES := $(NPM_CONFIG_PREFIX)node_modules/
+STATIC_CSS := static/css/node_lib/
+STATIC_JS := static/js/node_lib/
+STATIC_JQUERY_UI := static/js/node_lib/ui/
+
+NODE_LIBS_CSS := \
+@claviska/jquery-minicolors/jquery.minicolors.css \
+@claviska/jquery-minicolors/jquery.minicolors.png \
+
+NODE_LIBS_JS := \
+less/dist/less.js \
+jqmodal/jqModal.js \
+jquery/dist/jquery.js \
+jquery.browser/dist/jquery.browser.js \
+jquery.cookie/jquery.cookie.js \
+@claviska/jquery-minicolors/jquery.minicolors.js \
+jquery-pjax/jquery.pjax.js \
+jszip/dist/jszip.js \
+timeago/jquery.timeago.js \
+underscore/underscore.js \
+
+NODE_LIBS_JQUERY_UI := \
+jquery-ui/ui/version.js \
+jquery-ui/ui/data.js \
+jquery-ui/ui/disable-selection.js \
+jquery-ui/ui/ie.js \
+jquery-ui/ui/keycode.js \
+jquery-ui/ui/escape-selector.js \
+jquery-ui/ui/labels.js \
+jquery-ui/ui/jquery-1-7.js \
+jquery-ui/ui/plugin.js \
+jquery-ui/ui/safe-active-element.js \
+jquery-ui/ui/safe-blur.js \
+jquery-ui/ui/scroll-parent.js \
+jquery-ui/ui/focusable.js \
+jquery-ui/ui/tabbable.js \
+jquery-ui/ui/unique-id.js \
+jquery-ui/ui/position.js \
+jquery-ui/ui/widget.js \
+jquery-ui/ui/widgets/menu.js \
+jquery-ui/ui/widgets/mouse.js \
+jquery-ui/ui/widgets/autocomplete.js \
+jquery-ui/ui/widgets/datepicker.js \
+jquery-ui/ui/widgets/sortable.js
+
+.PHONY: help_redirect
+help_redirect:
+	@$(MAKE) help --no-print-directory
+
+.PHONY: initialize_db
+initialize_db: ## create a new database
+	rm -rf ./user-media/* ./tmp/*
+	$(PYTHON_COMMAND) manage.py create_db --force
+	$(PYTHON_COMMAND) manage.py migrate --noinput
+	$(PYTHON_COMMAND) manage.py loaddata initial.json
+	$(PYTHON_COMMAND) manage.py import_prod_versions
+	$(PYTHON_COMMAND) manage.py createsuperuser
+	$(PYTHON_COMMAND) manage.py loaddata zadmin/users
+
+.PHONY: populate_data
+populate_data: ## populate a new database
+	# reindex --wipe will force the ES mapping to be re-installed. Useful to
+	# make sure the mapping is correct before adding a bunch of add-ons.
+	$(PYTHON_COMMAND) manage.py reindex --wipe --force --noinput
+	$(PYTHON_COMMAND) manage.py generate_addons --app firefox $(NUM_ADDONS)
+	$(PYTHON_COMMAND) manage.py generate_addons --app android $(NUM_ADDONS)
+	$(PYTHON_COMMAND) manage.py generate_themes $(NUM_THEMES)
+	# These add-ons are specifically useful for the addons-frontend
+	# homepage. You may have to re-run this, in case the data there
+	# changes.
+	$(PYTHON_COMMAND) manage.py generate_default_addons_for_frontend
+
+	# Now that addons have been generated, reindex.
+	$(PYTHON_COMMAND) manage.py reindex --force --noinput
+	# Also update category counts (denormalized field)
+	$(PYTHON_COMMAND) manage.py cron category_totals
+
+.PHONY: cleanup_python_build_dir
+cleanup_python_build_dir:
+	# Work arounds "Multiple .dist-info directories" issue.
+	rm -rf /deps/build/*
+
+.PHONY: install_python_test_dependencies
+install_python_test_dependencies:
+	# Can't use --progress-bar=off for system packages as long as our docker image
+	# doesn't have pip 10 by default.
+	$(PIP_COMMAND) install --no-deps --exists-action=w -r requirements/system.txt
+	$(PIP_COMMAND) install --progress-bar=off --no-deps --exists-action=w -r requirements/prod.txt
+	$(PIP_COMMAND) install --progress-bar=off --no-deps --exists-action=w -r requirements/prod_without_hash.txt
+	$(PIP_COMMAND) install --progress-bar=off --no-deps --exists-action=w -r requirements/tests.txt
+
+.PHONY: install_python_dev_dependencies
+install_python_dev_dependencies: install_python_test_dependencies setup-codestyle
+	$(PIP_COMMAND) install --progress-bar=off --no-deps --exists-action=w -r requirements/dev.txt
+	$(PIP_COMMAND) install --progress-bar=off --no-deps --exists-action=w -r requirements/docs.txt
+	# pep 517 mode (the default) breaks editable install in our project. https://github.com/mozilla/addons-server/issues/16144
+	$(PIP_COMMAND) install --no-use-pep517 -e .
+
+.PHONY: install_node_dependencies
+install_node_dependencies: install_node_js copy_node_js
+
+.PHONY: install_node_js
+install_node_js:
+	npm install $(NPM_ARGS)
+
+.PHONY: copy_node_js
+copy_node_js:
+	for dest in $(NODE_LIBS_CSS) ; do cp $(NODE_MODULES)$$dest $(STATIC_CSS) ; done
+	for dest in $(NODE_LIBS_JS) ; do cp $(NODE_MODULES)$$dest $(STATIC_JS) ; done
+	for dest in $(NODE_LIBS_JQUERY_UI) ; do cp $(NODE_MODULES)$$dest $(STATIC_JQUERY_UI) ; done
+
+.PHONY: update_deps
+update_deps: cleanup_python_build_dir install_python_dev_dependencies install_node_dependencies ## update the python and node dependencies
+
+.PHONY: update_db
+update_db: ## run the database migrations
+	$(PYTHON_COMMAND) manage.py migrate --noinput
+
+.PHONY: update_assets
+update_assets:
+	# If changing this here, make sure to adapt tests in amo/test_commands.py
+	$(PYTHON_COMMAND) manage.py compress_assets
+	$(PYTHON_COMMAND) manage.py collectstatic --noinput
+	$(PYTHON_COMMAND) manage.py generate_jsi18n_files
+
+.PHONY: update
+update: update_deps update_db update_assets ## update the dependencies, the database, and assets
+
+.PHONY: reindex
+reindex: ## reindex everything in elasticsearch, for AMO
+	$(PYTHON_COMMAND) manage.py reindex $(ARGS)
+
+.PHONY: setup-ui-tests
+setup-ui-tests:
+	rm -rf ./user-media/* ./tmp/*
+	# Reset the database and fake database migrations
+	$(PYTHON_COMMAND) manage.py create_db --force
+	$(PYTHON_COMMAND) manage.py migrate --noinput
+
+	# Reindex
+	$(PYTHON_COMMAND) manage.py reindex --force --noinput --wipe
+
+	# Let's load some initial data and import mozilla-product versions
+	$(PYTHON_COMMAND) manage.py loaddata initial.json
+	$(PYTHON_COMMAND) manage.py loaddata zadmin/users
+	$(PYTHON_COMMAND) manage.py loaddata src/olympia/access/fixtures/initial.json
+	$(PYTHON_COMMAND) manage.py import_prod_versions
+
+	# Create a proper superuser that can be used to access the API
+	$(PYTHON_COMMAND) manage.py waffle_switch super-create-accounts on --create
+	$(PYTHON_COMMAND) manage.py waffle_switch activate-autograph-signing on --create
+	$(PYTHON_COMMAND) manage.py generate_addons --app firefox $(NUM_ADDONS)
+	$(PYTHON_COMMAND) manage.py generate_addons --app android $(NUM_ADDONS)
+	$(PYTHON_COMMAND) manage.py generate_themes $(NUM_THEMES)
+	$(PYTHON_COMMAND) manage.py generate_default_addons_for_frontend
+
+	# Now that addons have been generated, reindex.
+	$(PYTHON_COMMAND) manage.py reindex --force --noinput
+	# Also update category counts (denormalized field)
+	$(PYTHON_COMMAND) manage.py cron category_totals
+
+
+.PHONY: perf-tests
+perf-tests: setup-ui-tests
+	$(PIP_COMMAND) install --progress-bar=off --no-deps -r requirements/perftests.txt
+	locust --no-web -c 1 -f tests/performance/locustfile.py --host "http://olympia.test"
+
+.PHONY: setup-codestyle
+setup-codestyle:
+	$(PIP_COMMAND) install --progress-bar=off --no-deps --exists-action=w -r requirements/codestyle.txt
+
+.PHONY: lint
+lint: ## lint the code
+	black --check src/ services/ tests/
+	flake8 src/ services/ tests/
+	$(shell npm $(NPM_ARGS) bin)/prettier --check '**'
+	curlylint src/
+
+lint-codestyle: lint
+
+.PHONY: docs
+docs: ## build the documentation
+	$(MAKE) -C docs html SPHINXOPTS='-nW'
+
+.PHONY: debug
+debug: ## connect for debugging
+	supervisorctl fg olympia
+
+.PHONY: djshell
+djshell: ## connect to django shell
+	$(PYTHON_COMMAND) ./manage.py shell_plus
+
+.PHONY: dbshell
+dbshell: ## connect to a database shell
+	$(PYTHON_COMMAND) ./manage.py dbshell
+
+.PHONY: initialize
+initialize: update_deps initialize_db update_assets populate_data ## init the dependencies, the database, and assets
+
+.PHONY: reload
+reload: ## force django code reload
+	uwsgi --reload /code/docker/artifacts/addons-server-uwsgi-master.pid
+
+reload-uwsgi: reload
+
+.PHONY: test
+test: ## run the entire test suite
+	pytest $(APP) $(ARGS)
+
+.PHONY: test_es
+test_es: ## run the ES tests
+	pytest -m es_tests $(APP) $(ARGS)
+
+.PHONY: test_no_es
+test_no_es: ## run all but the ES tests
+	pytest -m "not es_tests" $(APP) $(ARGS)
+
+.PHONY: test_force_db
+test_force_db: ## run the entire test suite with a new database
+	pytest --create-db $(APP) $(ARGS)
+
+.PHONY: tdd
+tdd: ## run the entire test suite, but stop on the first error
+	pytest -x --pdb $(ARGS) $(APP)
+
+.PHONY: test_failed
+test_failed: ## rerun the failed tests from the previous run
+	pytest --lf $(ARGS) $(APP)
+
+.PHONY: run_js_tests
+run_js_tests: ## Run the JavaScript test suite (requires compiled/compressed assets).
+	NODE_PATH=$(NODE_MODULES) $$(npm bin $(NPM_ARGS))/jest
+
+.PHONY: watch_js_tests
+watch_js_tests: ## Run+watch the JavaScript test suite (requires compiled/compressed assets).
+	NODE_PATH=$(NODE_MODULES) $$(npm bin $(NPM_ARGS))/jest --watch
+
+.PHONY: format
+format: ## Autoformat our codebase.
+	$(shell npm $(NPM_ARGS) bin)/prettier --write '**'
+	black src/ services/ tests/
+
+.PHONY: help_submake
+help_submake:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile-docker | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

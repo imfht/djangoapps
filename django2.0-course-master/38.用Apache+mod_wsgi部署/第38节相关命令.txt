@@ -1,0 +1,68 @@
+1、安装apache
+	1）安装命令
+	apt-get install apache2
+	
+	2）相关文件或文件夹
+	/etc/apache2/
+	/var/log/apache2/error.log
+
+	3）相关命令
+	apache2ctl configtest
+	apache2ctl restart
+
+2、编译mod_wsgi
+	1）安装必须的软件
+	apt-get update
+	apt-get install libapache2-mod-wsgi-py3
+
+	2）下载并解压mod_wsgi源码包	
+	wget https://github.com/GrahamDumpleton/mod_wsgi/archive/4.6.4.tar.gz
+	tar xvfz 4.6.4.tar.gz
+
+	3）查询相关命令的位置
+	whereis apxs
+	whereis python3.6
+	
+	4) 缺少apxs，需要安装apache开发包（同样python也需要安装开发包）
+	apt-get install apache2-dev
+
+	5）编译安装mod_wsgi
+	apt-get install apache2-dev
+	cd mod_wsgi-4.6.4  # mod_wsgi-4.6.4是解压4.6.4.tar.gz得到的目录
+	./configure --with-apxs=/usr/bin/apxs --with-python=/usr/bin/python3.6
+	make
+	make install
+
+3、配置
+查询虚拟环境python的位置
+python -c 'import sys; print(sys.prefix)'
+
+4、在/etc/apache2/sites-available添加配置文件（mysite.conf）：
+<VirtualHost *:80>
+    WSGIDaemonProcess mysite python-home=/home/mysite_env python-path=/home/mysite
+    WSGIProcessGroup mysite
+    WSGIScriptAlias / /home/mysite/mysite/wsgi.py
+
+    <Directory /home/mysite/mysite>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    Alias /media/ /home/mysite/meida/
+    <Directory /home/mysite/media>
+        Require all granted
+    </Directory>
+
+    Alias /static/ /home/mysite/static/
+    <Directory /home/mysite/static>
+        Require all granted
+    </Directory>    
+</VirtualHost>
+
+5、启用配置
+a2ensite mysite.conf
+
+6、测试并重启apache
+apache2ctl configtest
+apache2ctl restart

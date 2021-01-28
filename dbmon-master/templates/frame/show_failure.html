@@ -1,0 +1,85 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        故障列表
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">故障管理</a></li>
+        <li class="active">故障列表</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-body" style="overflow: auto">
+              <table id="table1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>故障标题</th>
+                  <th>故障级别</th>
+                  <th>故障分类</th>
+                  <th>影响范围</th>
+                  <th>主导负责人</th>
+                  <th>持续时间</th>
+                  <th>故障状态</th>
+                  <th>创建时间</th>
+                   <th style="width: 100px">操作</th>
+                </tr>
+                </thead>
+                {% for failure in failure_list %}
+                 <tr>
+                 <td>{{ failure.id}}  </td>
+                 <td><li>
+                     <a href="#" onclick="return pop_content('{{ failure.id }}')" >{{ failure.title }}</a>
+                 </li></td>
+                 <td>{{ failure.level }}</td>
+                  <td>{{ failure.type }}</td>
+                 <td>{{ failure.related }}</td>
+                 <td> {{ failure.person }}</td>
+                 <td>{{ failure.start_time}}至{{ failure.end_time }} </td>
+                 <td>{{ failure.status}} </td>
+                 <td>{{ failure.ctime}} </td>
+                 <td ><li>
+                     <a href="/failure_edit?id={{ failure.id }}">
+                        <button type="button" class="btn btn-xs btn-primary" >编辑</button>
+                     </a>
+                     <a href="/failure_delete?id={{ failure.id }}">
+                        <button type="button" class="btn btn-xs btn-danger" onclick="javascript:return del();">删除</button>
+                     </a>
+                       </li>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <div class="pull-right">
+                 <a href="/failure_add">
+            <button type="button" class="btn btn-primary btn-block btn-flat" >新增</button>
+                 </a>
+              </div>
+         </div>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+function pop_content(n){
+    layer.open({
+    type: 2,
+    title: '故障内容',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/failure_content?id='+n,],
+  });
+}
+</script>
+{% endblock %}

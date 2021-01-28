@@ -1,0 +1,110 @@
+<div class="col-sm-7 pull-left" style="margin-bottom: 3px; margin-top: 3px">
+    <button class="btn btn-sm btn-success pull-left" data-toggle="modal" id="add-provider"
+            data-target="#ProviderModal">
+        <i class="fa fa-plus-square"></i>
+        <span class="bigger-110">新增供应商</span>
+    </button>
+</div>
+<div class="col-xs-12">
+    <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="asset_provider" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>供应商名称</th>
+                    <th>供应商联系人</th>
+                    <th>支持电话</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for asset_provider in asset_providers %}
+                    <tr>
+                        <td>{{ asset_provider.id }}</td>
+                        <td>{{ asset_provider.asset_provider_name }}</td>
+                        <td>{{ asset_provider.asset_provider_contact }}</td>
+                        <td>{{ asset_provider.asset_provider_telephone }}</td>
+                        <td>{{ asset_provider.asset_provider_memo }}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                    data-id="{{ asset_provider.id }}" data-target="#ProviderModal">修改
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs delete"
+                                    data-id="{{ asset_provider.id }}">删除
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <!-- ProviderModal  -->
+    <div class="modal fade" id="ProviderModal" tabindex="-1" role="dialog"
+         aria-labelledby="ProviderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="ProviderModalLabel">
+
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="provider_info" class="main form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="asset_provider_name" class="col-sm-2 control-label">供应商名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_provider_name"
+                                           id="asset_provider_name" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="asset_provider_contact"
+                                       class="col-sm-2 control-label">供应商联系人</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_provider_contact"
+                                           id="asset_provider_contact"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="asset_provider_telephone"
+                                       class="col-sm-2 control-label">支持电话</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_provider_telephone"
+                                           id="asset_provider_telephone"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="asset_provider_memo" class="col-sm-2 control-label">备注</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="asset_provider_memo"
+                                              id="asset_provider_memo"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="space-24"></div>
+
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="provider_ops"></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

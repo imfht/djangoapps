@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>会话 - {{ host.hostname }} - {{ host.remote_user.username }}@{{ host.ip }}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link href="{% static 'font-awesome/5.10.0-11/all.min.css' %}" rel="stylesheet">
+  
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+  
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/toastr/toastr.min.css' %}">
+  
+  <!-- 弹出窗口插件 -->
+  <link rel="stylesheet" href="{% static 'css/iziModal.min.css' %}">
+  
+  <!-- webtelnet -->
+  <link rel="stylesheet" href="{% static 'webssh/xterm/3.14.5/xterm.min.css' %}">
+  <link rel="stylesheet" href="{% static 'webssh/xterm/3.14.5/addons/fullscreen.min.css' %}">
+  
+  <!-- custom -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  
+</head>
+<body>
+
+<span id="hostid" hidden>{{ host.id }}</span>
+
+<div class="container-fluid content-list" id="headers" style="background-color: #E3F2FD">
+	<div class="row">
+		<div class="col-12 mt-2">
+			<h5>
+			主机：{{ host.hostname }}&nbsp;&nbsp;协议：{{ host.get_protocol_display }}&nbsp;&nbsp;连接：{{ host.remote_user.username }}@{{ host.ip }}:{{ host.port }}
+			<a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2 mb-1 session-close"><i class="far fa-times-circle"></i> 断开</a>
+			</h5>
+		</div>
+	</div>
+</div>
+
+<div class="mt-1 content-list" id="terminal"></div>
+
+<!-- 断开连接 -->
+<div id="modal-close" class="iziModal">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 p-3">
+				<h4 class="text-center mt-3">确定要断开当前连接吗？</h4>
+			</div>
+			<div class="col-6 p-3">
+				<button type="button" class="btn btn-block btn-secondary" data-iziModal-close>取消</button>
+			</div>
+			<div class="col-6 p-3">
+				<a href="javascript:void(0)"><button type="button" class="btn btn-block btn-success" onclick="close_session();" data-iziModal-close>确定</button></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- jQuery -->
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- FastClick -->
+<script src="{% static 'adminlte/plugins/fastclick/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'adminlte/plugins/toastr/toastr.min.js' %}"></script>
+
+<!-- 弹出框插件 -->
+<script src="{% static 'js/iziModal.min.js' %}"></script>
+
+<!-- webtelnet xterm v4 版本不支持 zmodem 插件-->
+<script src="{% static 'webssh/zmodem/zmodem.devel.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/xterm.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/fit.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/attach.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/fullscreen.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/search.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/terminado.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/webLinks.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/zmodem.min.js' %}"></script>
+<script src="{% static 'webtelnet/webtelnet.js' %}"></script>
+
+<!-- bootbox -->
+<script src="{% static 'bootbox/5.4.0/bootbox.min.js' %}"></script>
+
+<script>
+	websocket();
+	
+	$("#modal-close").iziModal({
+		iconClass: 'icon-announcement',
+		width: 450,
+	});
+	$(document).on('click', '.session-close', function (event) {
+		event.preventDefault();
+		$('#modal-close').iziModal('open');
+	});
+	
+	close_session = function () {
+		sock.close();
+		term.write('连接已关闭...\n\r');
+		$(".session-close").attr("hidden", true);
+		$("body").removeAttr("onbeforeunload"); //删除刷新关闭提示属性
+	};
+	
+</script>
+
+<!-- 动画特效 -->
+<script src="{% static 'velocity/1.5.2/velocity.min.js' %}"></script>
+<script src="{% static 'velocity/1.5.2/velocity.ui.min.js' %}"></script>
+<script>
+	$(".content-list").velocity("transition.slideUpBigIn", { stagger: 150, drag: true });
+	//$(".content-list").velocity("transition.slideRightBigIn", { stagger: 120, drag: true });	
+</script>
+
+<!-- 页面加载完后再显示，更好的显示特效 -->
+<script>
+	document.addEventListener("DOMContentLoaded", function(){
+		$(".content-list").css("display", "block");
+	});
+</script>
+
+</body>
+</html>

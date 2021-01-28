@@ -1,0 +1,26 @@
+include AUTHORS INSTALL LICENSE README.rst CONTRIBUTING.rst
+recursive-include requirements *.txt
+include pootle/dbs/README
+include pootle/log/README
+include pootle/.pootle_fs/tmp/README
+recursive-include docs *
+recursive-exclude docs/_themes/.git *
+prune docs/_build/doctrees/
+exclude docs/_themes/.gitignore
+recursive-include pootle/assets *
+recursive-include pootle/locale *
+prune pootle/translations
+recursive-include pootle/translations/tutorial *.po *.pot
+recursive-include pootle/translations/terminology *.po *.pot
+recursive-include pootle/settings *
+recursive-include pootle/static *
+recursive-include pootle/templates *
+recursive-include pootle/apps/*/templates *
+exclude pootle/strings.py
+exclude pootle/static/js/strings.js
+exclude pootle/assets/js/strings.js
+exclude pootle/settings/*-local.conf
+prune pootle/static/images/sprite/
+prune pootle/static/js/node_modules/*
+global-exclude *~
+global-exclude *.pyc

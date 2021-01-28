@@ -1,0 +1,36 @@
+{% extends "shuup/front/macros/theme/footer.jinja" %}
+{% macro render_footer() %}
+    <footer>
+        <div class="footer-top">
+            <div class="container">
+                {% placeholder "footer" global %}
+                    {% column {"sm": 4} %}
+                        {% plugin "simple_cms.page_links" %}
+                            title = "Pages"
+                        {% endplugin %}
+                    {% endcolumn %}
+                    {% column {"sm": 3} %}
+                        {% plugin "category_links" %}
+                            title = "Categories"
+                        {% endplugin %}
+                    {% endcolumn %}
+                    {% column {"sm": 3} %}
+                        {% plugin "text" %}
+                            text = "<h2>Custom Footer Content</h2>"
+                        {% endplugin %}
+                    {% endcolumn %}
+                {% endplaceholder %}
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                {% placeholder "footer-bottom" global %}{% endplaceholder %}
+                {% set powered_by_content = shuup.general.get_powered_by_content() %}
+                {% if powered_by_content %}
+                    {{ powered_by_content|safe }}
+                {% endif %}
+            </div>
+        </div>
+    </footer>
+{% endmacro %}

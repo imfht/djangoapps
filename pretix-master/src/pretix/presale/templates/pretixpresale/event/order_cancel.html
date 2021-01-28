@@ -1,0 +1,204 @@
+{% extends "pretixpresale/event/base.html" %}
+{% load i18n %}
+{% load money %}
+{% load eventurl %}
+{% load l10n %}
+{% load rich_text %}
+{% block title %}{% trans "Cancel order" %}{% endblock %}
+{% block content %}
+    <h2>
+        {% if request.event.settings.cancel_allow_user_paid_require_approval %}
+            {% blocktrans trimmed with code=order.code %}
+                Request cancellation: {{ code }}
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans trimmed with code=order.code %}
+                Cancel order: {{ code }}
+            {% endblocktrans %}
+        {% endif %}
+    </h2>
+    <form method="post"
+            action="{% eventurl request.event "presale:event.order.cancel.do" secret=order.secret order=order.code %}"
+            data-asynctask
+            class="">
+        {% if request.event.settings.cancel_allow_user_paid_require_approval %}
+            <p>
+                {% blocktrans trimmed %}
+                    You can request the cancellation of your order on this page. The event organizer will then decide
+                    on your request. If they approve, your order will be canceled and all tickets will be invalidated.
+                {% endblocktrans %}
+            </p>
+        {% else %}
+            <p>
+                {% blocktrans trimmed %}
+                    If you cancel this order, all tickets will be invalidated and you can no longer use them. You cannot
+                    revert this action.
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+
+        {% if request.event.settings.cancel_allow_user_paid_adjust_fees %}
+            <p>
+                {% if cancel_fee %}
+                    {% blocktrans trimmed with fee=order.user_cancel_fee|money:request.event.currency %}
+                        If you want, you can request a refund for the full amount minus a cancellation fee of
+                        {{ fee }}.
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans trimmed with fee=order.user_cancel_fee|money:request.event.currency %}
+                        If you want, you can request a full refund.
+                    {% endblocktrans %}
+                {% endif %}
+            </p>
+            <p>
+                {{ request.event.settings.cancel_allow_user_paid_adjust_fees_explanation|rich_text }}
+            </p>
+            <div class="cancel-fee-slider">
+                <div id="cancel-fee-keep">Enter how much we can keep:</div>
+                <input
+                        id="cancel-fee-slider"
+                        type="text"
+                        name="cancel_fee"
+                        value="{{ cancel_fee|stringformat:".2f" }}"
+                        data-slider-min="{{ cancel_fee|stringformat:".2f" }}"
+                        data-slider-value="{{ cancel_fee|stringformat:".2f" }}"
+                        {% if request.event.settings.cancel_allow_user_paid_adjust_fees_step %}
+                            data-slider-ticks="{{ ticks }}"
+                            data-slider-lock-to-ticks="true"
+                        {% else %}
+                            data-slider-step="0.01"
+                        {% endif %}
+                        data-slider-max="{{ payment_refund_sum|stringformat:".2f" }}"
+                        data-slider-tooltip="hide"/>
+                <div id="cancel-fee-refund"></div>
+            </div>
+            <div class="text-center" id="cancel-fee-custom-link">
+                {% if not request.event.settings.cancel_allow_user_paid_adjust_fees_step %}
+                    <a id="cancel-fee-custom"><small>{% trans "Enter custom amount" %}</small></a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>
+                <strong>{% trans "Refund amount:" %}</strong> {{ refund_amount|money:request.event.currency }}
+            </p>
+        {% endif %}
+
+        {% if refund_amount %}
+            {% if request.event.settings.cancel_allow_user_paid_refund_as_giftcard == "force" %}
+                <strong>
+                    {% trans "The refund will be issued in form of a gift card that you can use for further purchases." %}
+                </strong>
+                {% if request.event.organizer.default_gift_card_expiry %}
+                    <p class="help-block">
+                        {% blocktrans trimmed with expiry_date=request.event.organizer.default_gift_card_expiry|date:"SHORT_DATE_FORMAT" %}
+                            Your gift card will be valid until {{ expiry_date }}.
+                        {% endblocktrans %}
+                    </p>
+                {% endif %}
+            {% elif request.event.settings.cancel_allow_user_paid_refund_as_giftcard == "option" %}
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="giftcard" value="true" checked id="id_giftcard">
+                        <strong>{% trans "I want the refund as a gift card for later purchases" %}</strong>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="giftcard" value="false" checked id="id_payout">
+                        <strong>{% trans "I want the refund to be sent to my original payment method" %}</strong>
+                    </label>
+                </div>
+                <div data-display-dependency="#id_giftcard">
+                    {% if request.event.organizer.default_gift_card_expiry %}
+                        <p class="help-block">
+                            {% blocktrans trimmed with expiry_date=request.event.organizer.default_gift_card_expiry|date:"SHORT_DATE_FORMAT" %}
+                                Your gift card will be valid until {{ expiry_date }}.
+                            {% endblocktrans %}
+                        </p>
+                    {% endif %}
+                </div>
+                <div data-display-dependency="#id_payout">
+                    {% if can_auto_refund %}
+                        <p class="help-block">
+                            {% blocktrans trimmed %}
+                                The refund amount will automatically be sent back to your original payment method. Depending
+                                on the payment method, please allow for up to two weeks before this appears on your
+                                statement.
+                            {% endblocktrans %}
+                        </p>
+                        <p class="help-block">
+                            {% blocktrans trimmed %}
+                                The following payment methods will be used to refund the money to you:
+                            {% endblocktrans %}
+                        </p>
+                        <ul class="help-block">
+                            {% for prop in proposals %}
+                                <li>{{ prop }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="help-block">
+                            {% blocktrans trimmed %}
+                                With the payment method you used, the refund amount <strong>can not be sent back to you
+                                automatically</strong>. Instead, the event organizer will need to initiate the transfer
+                                manually. Please be patient as this might take a bit longer.
+                            {% endblocktrans %}
+                        </p>
+                    {% endif %}
+                </div>
+            {% else %}
+                {% if can_auto_refund %}
+                    <p>
+                        <strong>
+                            {% blocktrans trimmed %}
+                                The refund amount will automatically be sent back to your original payment method. Depending
+                                on the payment method, please allow for up to two weeks before this appears on your
+                                statement.
+                            {% endblocktrans %}
+                        </strong>
+                    </p>
+                    <p>
+                        {% blocktrans trimmed %}
+                            The following payment methods will be used to refund the money to you:
+                        {% endblocktrans %}
+                    </p>
+                    <ul>
+                        {% for prop in proposals %}
+                            <li>{{ prop }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>
+                        {% blocktrans trimmed %}
+                            With the payment method you used, the refund amount <strong>can not be sent back to you
+                            automatically</strong>. Instead, the event organizer will need to initiate the transfer
+                            manually. Please be patient as this might take a bit longer.
+                        {% endblocktrans %}
+                    </p>
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+
+        {% csrf_token %}
+        <div class="row checkout-button-row">
+            <div class="col-md-4">
+                <a class="btn btn-block btn-default btn-lg"
+                        href="{% eventurl request.event "presale:event.order" secret=order.secret order=order.code %}">
+                    {% trans "No, take me back" %}
+                </a>
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                <button class="btn btn-block btn-danger btn-lg" type="submit">
+                    {% if request.event.settings.cancel_allow_user_paid_require_approval %}
+                        {% trans "Yes, request cancellation" %}
+                    {% else %}
+                        {% trans "Yes, cancel order" %}
+                    {% endif %}
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'pc/base.html' %}
+{% load static %}
+{% block title %}
+{{ seo_list.title}}
+{% endblock %}
+{% block keywords %}
+{{ seo_list.keywords }}
+{% endblock %}
+{% block desc %}
+{{ seo_list.desc }}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/public.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section class="main" style="overflow: hidden">
+        <article class="fl">
+        <div class="forum">
+            {% if plate %}
+              <ul id="plate" class="clearfix">
+                {% for foo in plate %}
+                    <li class="flex">
+                        <div class="tieImg"><img src="{{ MEDIA_URL }}{{ foo.image }}" alt=""></div>
+                        <div>
+                            <a href="{% url 'forum:id' foo.id%}">
+                            <div class="tieNUm">{{ foo.get_count}}</div>
+                            <div class="tieNmae">{{ foo.name }}</div></a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        {% block childer %}
+         <div style="background: #fff;">
+            <div class="f-name">
+                <span class="active">最新帖子</span>
+            </div>
+
+            <ul class="list">
+            {% for foo in zd %}
+             <li class="clearfix">
+                        <img src="{% if foo.stick.authors.user_imag %}
+                    {{ MEDIA_URL }}{{ foo.stick.authors.user_imag }}
+                    {% elif foo.stick.authors.user_image %}
+                        {{ foo.stick.authors.user_image }}
+                        {% else %}
+                        {% static 'img/pc-icon.png' %}
+                    {% endif %}" class="user fl" title="{{ foo.stick.authors.username }}"width="40px">
+                    <div class="list-text fl">
+                        <div class="fl">
+                                 <p class="forun-title"><a href="{% url 'forum:detail' foo.stick.id %}">{{ foo.stick.title |truncatechars:130}}</a></p>
+                        <p class="forun-info">来自于 {{ foo.stick.category.name }}  {{ foo.stick.add_time }} </p>
+                        </div>
+
+                           <div class="fr flex forun-num">
+                        <div>评论{{ foo.stick.get_number }}</div>
+                        <div>浏览 {{ foo.stick.click_nums}}</div>
+                    </div>
+                    </div>
+
+                    </li>
+            {% endfor %}
+
+                {% for foo in people.object_list %}
+                    <li class="clearfix">
+                        <img src="{% if foo.authors.user_imag %}
+                    {{ MEDIA_URL }}{{ foo.authors.user_imag }}
+                    {% elif foo.authors.user_image %}
+                        {{ foo.authors.user_image }}
+                        {% else %}
+                        {% static 'img/pc-icon.png' %}
+                    {% endif %}" class="user fl" title="{{ foo.authors.username }}"width="40px">
+                    <div class="list-text fl">
+                        <div class="fl">
+                                 <p class="forun-title"><a href="{% url 'forum:detail' foo.id %}">{{ foo.title |truncatechars:130}}</a></p>
+                        <p class="forun-info">来自于 {{ foo.category.name }}  {{ foo.add_time }} </p>
+                        </div>
+
+                           <div class="fr flex forun-num">
+                        <div>评论{{ foo.get_number }}</div>
+                        <div>浏览 {{ foo.click_nums}}</div>
+                    </div>
+                    </div>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+                 {% if people.object_list.count >= 1 %}
+        <div class="pageturn"style="padding: 15px">
+           <ul class="pagination">
+{#               <li><a href="/index">首页</a></li>#}
+               {% if people.has_previous %}
+                   <li class="long"><a href="?{{ people.previous_page_number.querystring }}" class="prev">上一页</a></li>
+               {% else %}
+                   <li class="long"><span class="disabled prev btn"disabled="">上一页</span></li>
+               {% endif %}
+               {% for page in people.pages %}
+                   {% if page %}
+                       {% ifequal page people.number %}
+                           <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                       {% else %}
+                           <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                       {% endifequal %}
+                   {% else %}
+                       <li><span class="disabled  btn" disabled="">...</span></li>
+                   {% endif %}
+               {% endfor %}
+               {% if people.has_next %}
+                   <li class="long"><a href="?{{ people.next_page_number.querystring }}" class="next"> 下一页</a></li>
+               {% else %}
+                   <li class="long"><span class="disabled next btn"disabled=""> 下一页</span></li>
+               {% endif %}
+{#               <li><a href="?page={{ article.paginator.num_pages }}">尾页</a></li>#}
+               <li class="hrefto">跳转到<input type="text"class="form-control" name="page"></li>
+           </ul>
+
+            当前{{ people.number }}/总共{{ people.paginator.num_pages }}页
+       </div>
+    {% endif %}
+
+
+
+
+
+
+
+
+        </div>
+
+
+        {% endblock %}
+
+        </div>
+        </article>
+         <aside class="fr">
+             <div class="sidebar">
+                <p class="fa">
+                    <a class="meun_fa" href="{% url 'forum:add' %}">发布新帖子</a>
+                </p>
+             </div>
+             {% load forum %}
+             {% get_fourm %}
+         </aside>
+    </section>
+{% endblock %}

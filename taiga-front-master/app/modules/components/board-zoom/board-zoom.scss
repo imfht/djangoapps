@@ -1,0 +1,51 @@
+.board-zoom {
+    align-items: center;
+    display: flex;
+
+    .board-zoom-title {
+        @include font-type(bold);
+        @include font-size(xsmall);
+
+        color: $color-link-primary;
+        margin-right: .5rem;
+        text-transform: uppercase;
+    }
+}
+
+.zoom-radio {
+    .checkmark {
+        align-items: center;
+        background-color: $color-gray400;
+        border-radius: 16px;
+        cursor: pointer;
+        display: flex;
+        height: 16px;
+        width: 16px;
+    }
+    input:checked ~ .checkmark {
+        background-color: $color-link-primary;
+        width: auto;
+
+        span {
+            display: block;
+        }
+    }
+    &:hover {
+        .checkmark {
+            background-color: $color-solid-primary;
+        }
+    }
+    &:not(:last-child) {
+        margin-right: .5rem;
+    }
+    span {
+        @include font-type(medium);
+        @include font-size(xsmall);
+        color: $color-white;
+        display: none;
+        padding: 0 1.25rem;
+    }
+    input {
+        display: none;
+    }
+}

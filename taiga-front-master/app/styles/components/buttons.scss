@@ -1,0 +1,331 @@
+.button,
+%button {
+    @include font-type(medium);
+    @include font-size(small);
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: $color-black600;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    padding: .5rem 1.5rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: normal;
+    &.loading {
+        span {
+            animation: loading .5s linear;
+        }
+    }
+    .icon {
+        fill: currentColor;
+        height: 1rem;
+        margin-right: .25rem;
+        width: 1rem;
+    }
+    &.disabled,
+    &[disabled] {
+        background-color: $color-gray400;
+        box-shadow: none;
+        color: rgba($color-black900, .5);
+        cursor: not-allowed;
+        &:hover {
+            background-color: $color-gray400;
+            color: currentColor;
+        }
+    }
+    &.button-large {
+        padding: .75rem 4rem;
+    }
+    &.button-block {
+        display: flex;
+    }
+    span {
+        color: currentColor;
+    }
+    svg {
+        fill: currentColor;
+        stroke: none;
+    }
+}
+
+.button-green {
+    @extend %button;
+    background: $secondary;
+    &:hover,
+    &.active,
+    &:visited:hover {
+        background: lighten($secondary, 5%);
+    }
+}
+
+.button-gray {
+    @extend %button;
+    background: $grey-50;
+    &:hover,
+    &.active,
+    &:visited:hover {
+        background: lighten($grey-50, 5%);
+    }
+}
+.button-gray-light {
+    @extend %button;
+    background: $grey-20;
+    &:hover,
+    &.active,
+    &:visited:hover {
+        background: lighten($grey-20, 5%);
+    }
+}
+.button-red {
+    @extend %button;
+    background: $red;
+}
+.button-red-light {
+    @extend %button;
+    background: $red-light;
+}
+
+.button-red,
+.button-red-red-light {
+    &:hover,
+    &.active,
+    &:visited:hover {
+        background: lighten($red, 5%);
+    }
+}
+
+.trans-button {
+    @extend %button;
+    background-color: $grey-02;
+    span,
+    .icon {
+        color: $blackish;
+        transition: color .2s linear;
+    }
+    .icon {
+        margin-right: .5rem;
+    }
+    &:visited {
+        color: $blackish;
+    }
+}
+
+.menu-button {
+    @extend %button;
+    border-radius: 0;
+    color: $blackish;
+    &:hover {
+        background: $whitish;
+        color: $gray;
+    }
+    &:visited {
+        color: $blackish;
+    }
+    span {
+        color: $blackish;
+    }
+}
+
+.button-blackish {
+    @extend %button;
+    background: $blackish;
+    color: $whitish;
+    &:hover {
+        background: $blackish;
+        color: $white;
+    }
+}
+.button-bulk {
+    @include font-size(large);
+    margin-left: .5rem;
+
+    .icon {
+        height: 1rem;
+        margin: 0;
+        width: 1rem;
+    }
+}
+.button-auth {
+    @extend %button;
+    @include font-type(regular);
+    background: $grayer;
+    display: flex;
+    width: 100%;
+    .icon,
+    img {
+        @include font-size(large);
+        color: $white;
+        margin-right: .5rem;
+        vertical-align: middle;
+    }
+    &:hover {
+        background: $black;
+    }
+}
+
+.button-tribe {
+    @extend %button;
+    align-items: center;
+    background: $tribe-primary;
+    display: flex;
+    padding: .4rem;
+    padding-left: 1.5rem;
+    &:hover,
+    &.active {
+        background: $tribe-secondary;
+        color: $white;
+    }
+    .tribe-logo {
+        margin-right: .5rem;
+        width: 1.5rem;
+    }
+}
+
+.tribe-more-info {
+    @include font-size(small);
+    color: $primary;
+    display: inline-block;
+    margin-top: .5rem;
+}
+
+.submit-button {
+    width: 100%;
+}
+
+.button-group {
+    background-color: $color-gray100;
+    border-bottom: 1px solid $color-link-primary;
+    display: flex;
+    margin-bottom: 1rem;
+    width: 100%;
+    input {
+        display: none;
+        &:checked+label {
+            background-color: $color-white;
+            border: 1px solid $color-link-primary;
+            border-bottom: 1px solid $color-white;
+            border-radius: 4px 4px 0 0;
+            color: $color-link-primary;
+        }
+        +label {
+            @include font-type(bold);
+            @include font-size(small);
+            color: $color-link-tertiary;
+            cursor: pointer;
+            display: block;
+            padding: .5rem 1.5rem;
+            position: relative;
+            top: 1px;
+        }
+        +label:hover {
+            color: $color-link-primary;
+        }
+    }
+}
+
+.button-check {
+    input {
+        display: none;
+        &:checked {
+            +label {
+                background-color: $color-link-primary;
+                transition: background .3s linear;
+            }
+        }
+    }
+    label {
+        background-color: $grey-20;
+        border-radius: 5px;
+        color: $white;
+        display: block;
+        padding: .5rem;
+        &:hover {
+            background: $color-link-tertiary;
+            cursor: pointer;
+            transition: background .3s linear;
+        }
+    }
+}
+
+// TAIGA 6
+
+.button-primary {
+    @extend %button;
+    background: $color-solid-primary;
+    padding: .25rem;
+
+    &:hover {
+        background: $color-link-primary;
+        color: $color-white;
+    }
+}
+
+.button-secondary {
+    @extend %button;
+    background: $color-gray400;
+    color: $color-black600;
+}
+
+.icon-button-primary {
+    @extend %button;
+    background: $color-solid-primary;
+
+    span {
+        color: $color-black900;
+    }
+}
+
+.form-button {
+    @extend %button;
+    background: none;
+    border-radius: 0;
+    padding: .25rem;
+
+    .icon {
+        @include svg-size(1rem);
+        fill: $color-link-primary;
+        margin: 0;
+    }
+
+    &:hover {
+        background: $color-gray400;
+    }
+}
+
+.filter-button {
+    @extend %button;
+    background: $color-gray100;
+    color: $color-link-primary;
+    padding: 7px 1rem;
+    text-transform: none;
+
+    .text {
+        color: currentColor;
+    }
+
+    svg {
+        fill: $color-link-primary;
+    }
+
+    &:hover,
+    &.active {
+        background: $color-gray400;
+        color: $color-link-primary;
+    }
+
+    .selected-filters {
+        @include font-size(xsmall);
+        align-items: center;
+        background-color: $color-link-red;
+        border-radius: 50%;
+        color: $color-white;
+        display: flex;
+        height: 1rem;
+        justify-content: center;
+        margin-inline-start: .25rem;
+        width: 1rem;
+    }
+}

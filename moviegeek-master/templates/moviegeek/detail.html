@@ -1,0 +1,145 @@
+{% extends "moviegeek/base.html" %}
+{% block content %}
+<script>
+        function get_cb_recs(movieid) {
+
+            url = '/rec/cb/item/' + movieid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    result.data.forEach(function(element, index, array) {
+
+                        $.getJSON(get_url(element.target), function(result) {
+                            image_url = 'http://image.tmdb.org/t/p/w500/'
+                            + result.movie_results[0].poster_path
+
+                            rec_div = document.createElement('div')
+                            rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                            a = document.createElement('a')
+                            a.setAttribute('href', '/movies/movie/' + element.target)
+
+                            img = document.createElement('img')
+                            img.setAttribute('src', image_url)
+                            img.setAttribute('class',"img-responsive")
+                            a.appendChild(img)
+
+                            rec_div.appendChild(a)
+
+                            recs = document.getElementById('content_based_recs')
+                            recs.appendChild(rec_div)
+                            recs.style.visibility = 'visible'
+                        })
+
+                    })
+                });
+
+        }
+
+        function get_seededrecs(movieid) {
+            url = '/rec/association_rule/' + movieid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    result.data.forEach(function(element, index, array) {
+
+                        $.getJSON(get_url(element.target), function(result) {
+                            image_url = 'http://image.tmdb.org/t/p/w500/'
+                            + result.movie_results[0].poster_path
+
+                            rec_div = document.createElement('div')
+                            rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                            a = document.createElement('a')
+                            a.setAttribute('href', '/movies/movie/' + element.target)
+
+                            img = document.createElement('img')
+                            img.setAttribute('src', image_url)
+                            img.setAttribute('class',"img-responsive")
+                            a.appendChild(img)
+
+                            rec_div.appendChild(a)
+
+                            recs = document.getElementById('recs')
+                            recs.appendChild(rec_div)
+                            recs.style.visibility = 'visible'
+                        })
+
+                    })
+                });
+        }
+
+        function getinfo(movieid) {
+            url = 'https://api.themoviedb.org/3/find/tt' + movieid + '?external_source=imdb_id&api_key={{ api_key }}'
+
+            $.getJSON(url,
+                      function(result) {
+                        title_div = document.getElementById('title')
+                        title_div.innerHTML = '<strong>' + result.movie_results[0].title + '</strong>'
+
+
+                        image_url = 'http://image.tmdb.org/t/p/w500/'
+                            + result.movie_results[0].poster_path
+
+                        img_tag = document.getElementById('poster').setAttribute('src', image_url)
+
+                        document.getElementById('overview').innerHTML = result.movie_results[0].overview
+                        document.getElementById('release_date').innerHTML =  result.movie_results[0].release_date
+                        document.getElementById('lan').innerHTML =  result.movie_results[0].original_language
+                        document.getElementById('avg_rating').innerHTML =  result.movie_results[0].vote_average
+                } )}
+        function item_bought()
+        {
+            add_impression({{user_id}}, 'buy', '{{ movie_id }}', '{{ session_id }}','{{ csrf_token }}')
+        }
+
+        $(document).ready(function() {
+            getinfo('{{ movie_id }}')
+
+        })
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-12"><h2 id="title"></h2></div></div>
+            <div class="row">
+                <div id="img" class="col-sm-6">
+                    <img id="poster" class="img-responsive" src="" alt="movie poster"/>
+                </div>
+                <div class="col-sm-6">
+
+                    <div><strong>Released:</strong><p id="release_date"></p></div>
+                    <div><strong>Description:</strong><p id="overview"></p></div>
+                    <div><strong>Language</strong><p id="lan"></p></div>
+                    <div><strong>Average rating</strong><p id="avg_rating"></p></div>
+                    <div><strong>Genres</strong><p>
+                        {% if movie_genres %}
+                            | {% for genre in movie_genres %}
+                                {{ genre.name}} |
+                            {% endfor %}
+                        {% endif %}
+                    </p></div>
+                    <div>
+                        <a href="#" type="button" onclick="item_bought()" class="btn btn-danger btn-lg">Buy</a>
+                    </div>
+
+                </div>
+            </div>
+            <div id="recs" class="row" style="visibility: hidden">
+                <h2>Frequently bought with these</h2>
+            </div>
+            <div id="content_based_recs" class="row" style="visibility: hidden">
+                <h2>Similar content</h2>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+         get_seededrecs('{{ movie_id }}')
+         get_cb_recs('{{ movie_id }}')
+    </script>
+</div>
+{% endblock content %}

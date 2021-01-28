@@ -1,0 +1,43 @@
+%empty {
+    margin-top: 4rem;
+    text-align: center;
+    img {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+    .title {
+        @include font-size(small);
+        @include font-type(bold);
+        color: $color-link-tertiary;
+    }
+    p {
+        @include font-type(regular);
+        margin: 0;
+    }
+    a {
+        @include font-type(regular);
+        color: $color-link-primary;
+    }
+    .btn-small {
+        margin: 1rem auto 2rem;
+    }
+}
+
+.empty-small {
+    @extend %empty;
+    img {
+        max-width: 175px;
+    }
+}
+
+.empty-large {
+    @extend %empty;
+    img {
+        max-width: 800px;
+    }
+}
+
+.empty-filter {
+    @extend %empty;
+    margin-top: 1rem;
+}

@@ -1,0 +1,80 @@
+.admin-functionalities {
+    .module-container {
+        max-width: 900px;
+        width: 100%;
+    }
+    .module {
+        align-content: center;
+        align-items: flex-start;
+        border-bottom: 1px solid $whitish;
+        display: flex;
+        padding: 1rem 0;
+        &.active {
+            .module-icon .icon {
+                fill: $grey-70;
+                stroke: $grey-70;
+            }
+            .module-name {
+                color: $grey-70;
+            }
+        }
+    }
+    .module-icon {
+        flex-basis: 3rem;
+        flex-shrink: 0;
+        margin: 0 .5rem 0 0;
+        .icon {
+            @include svg-size(3rem);
+            fill: $grey-50;
+            stroke: $grey-50;
+        }
+    }
+    .module-name {
+        @include font-type(medium);
+        @include font-size(large);
+        color: $gray-light;
+        flex-basis: 100px;
+        flex-shrink: 0;
+        margin: 0 .5rem;
+    }
+    .module-desc {
+        @include font-size(small);
+        color: $gray-light;
+        flex: 1;
+        margin: 0 2rem 0 0;
+        p {
+            margin: 0;
+        }
+    }
+    .module-desc-options,
+    .videoconference-attributes {
+        align-items: flex-start;
+        display: flex;
+        margin-top: .5rem;
+        .options {
+            align-items: center;
+            display: flex;
+            height: 1.875rem;
+        }
+        fieldset,
+        .icon {
+            margin: 0 .5rem;
+        }
+        .icon {
+            fill: $gray-light;
+            &:hover {
+                fill: $primary;
+            }
+        }
+    }
+    .module-scrum {
+        .options {
+            align-self: flex-end;
+        }
+    }
+    .module-videoconference {
+        .options {
+            align-self: flex-start;
+        }
+    }
+}

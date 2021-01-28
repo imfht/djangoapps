@@ -1,0 +1,40 @@
+@page {
+  sheet-size: {{ page_width_bleed }}mm {{ page_height_bleed }}mm;   
+  size: {{ page_width }}mm {{ page_height }}mm;
+
+  margin-left: {{ gutter }}mm;
+  margin-right: {{ side_margin }}mm;
+  margin-top: {{ top_margin }}mm;
+  margin-bottom: {{ bottom_margin }}mm;
+
+  {% if show_footer %}
+  margin-footer: {{ footer_margin }}mm;
+  odd-footer-name: html_footer-right;
+  even-footer-name: html_footer-left;
+  {% endif %}
+
+  {% if show_header %}
+  margin-header: {{ header_margin }}mm;
+  odd-header-name: html_header-right;
+  even-header-name: html_header-left;
+  {% endif %}
+}
+
+{% if cover_image %}
+@page frontcover {
+  background-image: url('{{ cover_image }}');
+  background-image-resize: 6;
+}
+{% endif %}
+
+@page frontmatter {
+  background-image: none;
+}
+
+div.frontcover {
+  page: frontcover;
+}
+
+div.frontmatter {
+  page: frontmatter;
+}

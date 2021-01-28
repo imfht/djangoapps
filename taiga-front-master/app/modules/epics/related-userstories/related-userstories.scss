@@ -1,0 +1,26 @@
+.related-userstories {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.related-userstories-header {
+    align-content: center;
+    align-items: center;
+    background: $grey-05;
+    display: flex;
+    justify-content: space-between;
+    min-height: 36px;
+    .related-userstories-title {
+        @include font-size(medium);
+        @include font-type(medium);
+        color: $grey-70;
+        margin-left: 1rem;
+    }
+}
+
+.related-userstories-body {
+    width: 100%;
+    .row.blocked {
+        background: $color-solid-red;
+    }
+}

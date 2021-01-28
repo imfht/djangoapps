@@ -1,0 +1,112 @@
+{% extends "pretixcontrol/base.html" %}
+{% load i18n %}
+{% load eventurl %}
+{% load urlreplace %}
+{% load money %}
+{% load bootstrap3 %}
+{% block title %}{% trans "Order search" %}{% endblock %}
+{% block content %}
+    <h1>{% trans "Order search" %}</h1>
+    <form class="" action="" method="get">
+        <div class="row filter-form">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                {% bootstrap_field filter_form.query layout='inline' %}
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-12">
+                {% bootstrap_field filter_form.status layout='inline' %}
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                {% bootstrap_field filter_form.organizer layout='inline' %}
+            </div>
+            <div class="col-md-2 col-xs-6">
+                {% bootstrap_field filter_form.provider layout='inline' %}
+            </div>
+            {% for mf in meta_fields %}
+                <div class="col-md-2 col-sm-6 col-xs-12">
+                    {% bootstrap_field mf layout='inline' %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-right">
+            <button class="btn btn-primary" type="submit">
+                <span class="fa fa-filter"></span>
+                <span class="hidden-md">{% trans "Filter" %}</span>
+            </button>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th>{% trans "Order code" %}
+                    <a href="?{% url_replace request 'ordering' '-code' %}"><i class="fa fa-caret-down"></i></a>
+                    <a href="?{% url_replace request 'ordering' 'code' %}"><i class="fa fa-caret-up"></i></a></th>
+                <th>{% trans "Event" %}
+                    <a href="?{% url_replace request 'ordering' '-event' %}"><i class="fa fa-caret-down"></i></a>
+                    <a href="?{% url_replace request 'ordering' 'event' %}"><i class="fa fa-caret-up"></i></a></th>
+                <th>{% trans "User" %}
+                    <a href="?{% url_replace request 'ordering' '-email' %}"><i class="fa fa-caret-down"></i></a>
+                    <a href="?{% url_replace request 'ordering' 'email' %}"><i class="fa fa-caret-up"></i></a></th>
+                <th>{% trans "Order date" %}
+                    <a href="?{% url_replace request 'ordering' '-datetime' %}"><i class="fa fa-caret-down"></i></a>
+                    <a href="?{% url_replace request 'ordering' 'datetime' %}"><i class="fa fa-caret-up"></i></a></th>
+                <th class="text-right flip">{% trans "Order total" %}
+                    <a href="?{% url_replace request 'ordering' '-total' %}"><i class="fa fa-caret-down"></i></a>
+                    <a href="?{% url_replace request 'ordering' 'total' %}"><i class="fa fa-caret-up"></i></a></th>
+                <th class="text-right flip">{% trans "Status" %}
+                    <a href="?{% url_replace request 'ordering' '-status' %}"><i class="fa fa-caret-down"></i></a>
+                    <a href="?{% url_replace request 'ordering' 'status' %}"><i class="fa fa-caret-up"></i></a></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for o in orders %}
+                <tr>
+                    <td>
+                        <strong>
+                            <a href="{% url "control:event.order" event=o.event.slug organizer=o.event.organizer.slug code=o.code %}">
+                                {{ o.event.slug|upper }}-{{ o.code }}</a>
+                        </strong>
+                        {% if o.testmode %}
+                            <span class="label label-warning">{% trans "TEST MODE" %}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ o.event.name }}</td>
+                    <td>
+                        {{ o.email|default_if_none:"" }}
+                        {% if o.invoice_address.name %}
+                            <br>{{ o.invoice_address.name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ o.datetime|date:"SHORT_DATETIME_FORMAT" }}</td>
+                    <td class="text-right flip">
+                        {% if o.has_cancellation_request %}
+                            <span class="label label-warning">{% trans "CANCELLATION REQUESTED" %}</span>
+                        {% endif %}
+                        {% if o.has_external_refund or o.has_pending_refund %}
+                            <span class="label label-danger">{% trans "REFUND PENDING" %}</span>
+                        {% elif o.has_pending_refund %}
+                            <span class="label label-warning">{% trans "REFUND PENDING" %}</span>
+                        {% endif %}
+                        {% if o.is_overpaid %}
+                            <span class="label label-warning">{% trans "OVERPAID" %}</span>
+                        {% elif o.is_underpaid %}
+                            <span class="label label-danger">{% trans "UNDERPAID" %}</span>
+                        {% elif o.is_pending_with_full_payment %}
+                            <span class="label label-danger">{% trans "FULLY PAID" %}</span>
+                        {% endif %}
+                        {{ o.total|money:o.event.currency }}
+                    </td>
+                    <td class="text-right flip">{% include "pretixcontrol/orders/fragment_order_status.html" with order=o %}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center"><em>
+                        {% trans "We couldn't find any orders that you have access to and that match your search query." %}
+                    </em></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "pretixcontrol/pagination_huge.html" %}
+{% endblock %}

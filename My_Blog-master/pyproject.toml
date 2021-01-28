@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "blog"
+version = "0.1.0"
+description = ""
+authors = ["laike9m <laike9m@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = "^2.2.9"
+psycopg2 = { version = "*", markers = "sys_platform == 'linux'" }
+requests = "^2.22.0"
+django-contact-form = "^1.7"
+django-taggit = "^1.2.0"
+unidecode = "^1.1.1"
+Pillow = "^7.0.0"
+uwsgi = "^2.0.18"
+uwsgidecorators = "^1.1.0"
+markdown2 = "^2.3.8"
+
+[build-system]
+requires = ["poetry>=1.0.2"]
+build-backend = "poetry.masonry.api"

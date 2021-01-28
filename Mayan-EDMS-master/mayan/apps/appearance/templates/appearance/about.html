@@ -1,0 +1,151 @@
+{% extends 'appearance/base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% load appearance_tags %}
+{% load common_tags %}
+{% load smart_settings_tags %}
+
+{% block title %}{% trans 'About' %}{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        @font-face {
+            font-family: 'mayan-edms';
+            src: url("{% static 'appearance/fonts/mayan-edms.ttf' %}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        [class^="icon-"], [class*=" icon-"] {
+            font-family: 'mayan-edms';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .icon-mayan-edms-logo:before {
+            content: "\e600";
+            font-size: 150%;
+        }
+
+        .mayan-edms-logo {
+            font-family: 'IM Fell English SC', serif;
+            font-size: 150%;
+            text-shadow: 5px 5px 1px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (min-width: 768px) {
+            .mayan-edms-logo {
+                font-size: 300%;
+            }
+        }
+
+        @media (min-width: 991px) {
+            .mayan-edms-logo {
+                font-size: 500%;
+            }
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+    {% common_project_information '__build_string__' as build_number %}
+    {% smart_setting 'COMMON_PROJECT_TITLE' as setting_project_title %}
+    {% common_project_information '__title__' as project_title %}
+
+    {% appearance_get_icon 'mayan.apps.common.icons.icon_documentation' as icon_documentation %}
+    {% appearance_get_icon 'mayan.apps.common.icons.icon_forum' as icon_forum %}
+    {% appearance_get_icon 'mayan.apps.common.icons.icon_social_paypal' as icon_social_paypal %}
+    {% appearance_get_icon 'mayan.apps.common.icons.icon_source_code' as icon_source_code %}
+
+    <div class="well">
+        <h3 class="text-center">{{ setting_project_title }}</h3>
+        {% if project_title != setting_project_title %}
+            <br>
+            <p class="text-center">
+                {% blocktrans with setting_project_title as setting_project_title and project_title as project_title %}
+                    {{ setting_project_title }} is based on {{ project_title }}
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+        <p class="text-center">{% trans 'Version' %} {% common_project_information '__version__' %}</p>
+        {% if build_number %}
+            <p class='text-center'>{% blocktrans with build_number as build_number %}Build number: {{ build_number }}{% endblocktrans %}</p>
+        {% endif %}
+        <p class="text-center">
+            {% common_project_information '__description__' as project_description %}
+            {% trans project_description %}
+        </p>
+
+        <p class="text-center">
+            <i class="fa fa-home"></i><a href="{% common_project_information '__website__' %}"> {% common_project_information '__website__' %}</a>
+        </p>
+
+        <p class="text-center">
+            {% common_project_information '__license__' as license_information %}
+            {% trans 'Released under the license:' %} {% trans license_information %}
+        </p>
+
+        <p class="text-center mayan-edms-logo"><span class="icon-mayan-edms-logo"></span> {% common_project_information '__title__' %}</p>
+
+        <p class="text-center">
+            {% blocktrans with project_title as project_title %}
+                {{ project_title }} is a free and open-source software brought to you with <i class="fa fa-heart text-danger" style="transform: rotate(10deg);"></i> by Roberto Rosario and contributors.
+            {% endblocktrans %}
+        </p>
+
+        <p class="text-center">
+            {% blocktrans with project_title as project_title %}
+                It takes great effort to make {{ project_title }} as feature-rich as it is.
+            {% endblocktrans %}
+        </p>
+
+        <p class="text-center">
+            {% blocktrans with project_title as project_title and icon_social_paypal as icon_social_paypal%}
+                If you use {{ project_title }} please <a class="new_window" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3PXN336XFXQNN">make a donation {{ icon_social_paypal }}</a>
+            {% endblocktrans %}
+        </p>
+
+        <p class="text-center">
+            {% blocktrans with icon_documentation as icon_documentation and icon_wiki as icon_wiki %}
+                The complete list of changes is available via the <a class="new_window" href="https://docs.mayan-edms.com/releases/index.html">Release notes {{ icon_documentation }}</a> or the short version <a class="new_window" href="https://gitlab.com/mayan-edms/mayan-edms/blob/master/HISTORY.rst">Changelog {{ icon_documentation }}</a>.
+            {% endblocktrans %}
+        </p>
+
+        <p class="text-center">
+            {% blocktrans with icon_documentation as icon_documentation %}
+                For questions check the <a class="new_window" href="https://docs.mayan-edms.com">Documentation {{ icon_documentation }}</a>.
+            {% endblocktrans %}
+        </p>
+
+        <p class="text-center">
+            {% blocktrans with icon_forum as icon_forum and icon_source_code as icon_source_code %}
+                If you found a bug or have a feature idea, visit the <a class="new_window" href="https://forum.mayan-edms.com">Forum {{ icon_forum }}</a> or open a ticket in the <a class="new_window" href="https://gitlab.com/mayan-edms/mayan-edms">Source code repository {{ icon_source_code }}</a>.
+            {% endblocktrans %}
+        </p>
+        <p class="text-center">
+            {% blocktrans with project_title as project_title and icon_twitter as icon_twitter and icon_facebook as icon_facebook and icon_instagram as icon_instagram %}
+                Spread the word. Talk to your friends and colleagues about how awesome {{ project_title }} is!
+            {% endblocktrans %}
+        </p>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div id="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% common_project_information '__copyright__' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

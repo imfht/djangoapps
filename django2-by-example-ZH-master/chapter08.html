@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <title>第八章 管理支付与订单</title>
+
+</head>
+<body>
+<h1 id="top"><b>第八章 管理支付与订单</b></h1>
+<p>上一章制作了一个带有商品品类展示和购物车功能的电商网站雏形，同时也学到了如何使用Celery给项目增加异步任务。本章将学习为网站集成支付网关以让用户通过信用卡付款，还将为管理后台扩展两项功能：将数据导出为CSV以及生成PDF发票。</p>
+<p>本章的主要内容有：</p>
+<ul>
+    <li>集成支付网关到项目中</li>
+    <li>将订单数据导出成CSV文件</li>
+    <li>为管理后台创建自定义视图</li>
+    <li>动态生成PDF发票</li>
+</ul>
+<h2 id="c8-1"><span class="title">1</span>集成支付网关</h2>
+
+<p>支付网关是一种处理在线支付的网站或者程序，使用支付网关，就可以管理用户的订单，然后将支付过程交给一个可信赖且安全的第三方，而无需在我们自己的站点上处理支付信息。</p>
+<p>支付网关有很多可供选择，我们将要集成的是叫做"Braintree"的支付网关。Braintree使用较为广泛，是Uber和Airbnb的支付服务提供商。Braintree提供了一套API用于支持信用卡，PayPal，Android Pay和Apple Pay等支付方式，官方网站在<a
+        href="https://www.braintreepayments.com/" target="_blank">https://www.braintreepayments.com/</a>。</p>
+<p>Braintree提供了很多集成的方法，最简单的集成方式就是Drop-in集成，包含一个预先建立好的支付表单。但是为了自定义一些支付过程中的内容，这里选择使用高级的<em>Hosted Field</em>（字段托管）方式进行集成。在<a
+        href="https://developers.braintreepayments.com/guides/hosted-fields/overview/javascript/v3" target="_blank">https://developers.braintreepayments.com/guides/hosted-fields/overview/javascript/v3</a>可以看到详细的帮助文档。</p>
+<p>支付表单中包含的信用卡号，CVV码，过期日期等信息必须要得到安全处理，Hosted Field集成方式将这些字段展示给用户的时候，在页面中渲染的是一个iframe框架。我们可以来自定义该字段的外观，但必须要遵循<a
+        href="https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard" target="_blank">Payment Card Industry (PCI)安全支付</a>的要求。由于可以修改外观，用户并不会注意到页面使用了iframe。</p>
+<p class="emp">译者注：原书在这里说的不是很清晰。Hosted Fields的意思是敏感字段由我们页面中的Braintree JavaScript客户端通过Braintree服务器生成并填入到页面中，而不是在模板中直接编写<code>input</code>字段。简单的说就是信用卡等敏感信息的字段是由Braintree托管生成，而不是我们自行编写。</p>
+<h3 id="c8-1-1"><span class="title">1.1</span>注册Braintree沙盒测试账户</h3>
+<p>需要注册一个Braintree账户。才能使用集成支付功能。我们先注册一个Braintree沙盒账户用于开发和测试。打开<a
+        href="https://www.braintreepayments.com/sandbox" target="_blank">https://www.braintreepayments.com/sandbox</a>，如下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C08-01.jpg" alt=""></p>
+<p>填写表单创建用户，之后会收到电子邮件验证，验证通过之后在<a href="https://sandbox.braintreegateway.com/login" target="_blank">https://sandbox.braintreegateway.com/login</a>进行登录。可以得到自己的商户ID和私有/公开密钥如下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C08-02.jpg" alt=""></p>
+<p>这些信息与使用Braintree API进行验证交易有关，注意保存好私钥，不要泄露给他人。</p>
+
+<h3 id="c8-1-2"><span class="title">1.2</span>安装Braintree的Python模块</h3>
+<p>Braintree为Python提供了一个模块操作其API，源代码地址在<a href="https://github.com/braintree/braintree_python" target="_blank">https://github.com/braintree/braintree_python</a>。我们将把这个<code>braintree</code>模块集成到站点中。</p>
+<p>使用命令行安装<code>braintree</code>模块：</p>
+<pre>
+pip install braintree==3.45.0
+</pre>
+<p>之后在<code>settings.py</code>里配置：</p>
+<pre>
+# Braintree支付网关设置
+BRAINTREE_MERCHANT_ID = 'XXX'  # 商户ID
+BRAINTREE_PUBLIC_KEY = 'XXX'  # 公钥
+BRAINTREE_PRIVATE_KEY = 'XXX'  # 私钥
+
+from braintree import Configuration, Environment
+
+Configuration.configure(
+    Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
+</pre>
+<p>将<code>BRAINTREE_MERCHANT_ID</code>，<code>BRAINTREE_PUBLIC_KEY</code>，<code>BRAINTREE_PRIVATE_KEY</code>的值替换成你自己的实际信息。</p>
+<p class="hint">注意此处的设置 <code>Environment.Sandbox,</code>，表示我们当前集成的是沙盒环境。如果站点正式上线并且获取了正式的Braintree账户，必须修改成<code>Environment.Production</code>。Braintree对于正式账号会有新的商户ID和公钥/私钥。</p>
+<p>Braintree的基础设置结束了，下一步是将支付网关和支付过程结合起来。</p>
+
+<h3 id="c8-1-3"><span class="title">1.3</span>集成支付网关</h3>
+<p>结账过程是这样的：</p>
+<ol>
+    <li>将商品加入到购物车</li>
+    <li>从购物车中选择结账</li>
+    <li>输入信用卡信息并且支付</li>
+</ol>
+<p>针对支付功能，我们建立一个新的应用叫做<code>payment</code>：</p>
+<pre>python manage.py startapp payment</pre>
+
+<p>编辑<code>settings.py</code>文件，激活该应用：</p>
+<pre>
+INSTALLED_APPS = [
+    # ...
+    <b>'payment.apps.PaymentConfig',</b>
+]
+</pre>
+<p><code>payment</code>现在已经被激活。</p>
+<p>客户成功提交订单后，必须将该页面重定向到一个支付过程页面（目前是重定向到一个简单的成功页面）。编辑<code>orders</code>应用中的<code>views.py</code>，增加如下导入：</p>
+<pre>
+<b>from django.urls import reverse</b>
+from django.shortcuts import render, <b>redirect</b>
+</pre>
+<p>在同一个文件内，将<code>order_create</code>视图的如下部分：</p>
+<pre>
+# 启动异步任务
+order_created.delay(order.id)
+return render(request, 'orders/order/created.html', locals())
+</pre>
+<p>替换成：</p>
+<pre>
+# 启动异步任务
+order_created.delay(order.id)
+<b># 在session中加入订单id
+request.session['order_id'] = order.id
+# 重定向到支付页面
+return redirect(reverse('payment:process'))</b>
+</pre>
+<p>这样修改后，在成功创建订单之后，session中就保存了订单ID的变量<code>order_id</code>，然后用户被重定向至<code>payment:process</code> URL，这个URL稍后会编写。</p>
+<p>注意必须为<code>order_created</code>视图启动Celery。</p>
+<p>每次我们向Braintree中发送一个交易请求的时候，会生成一个唯一的交易ID号。因此我们在<code>Order</code>模型中增加一个字段用于存储这个交易ID号，这样可以将订单与Braintree交易联系起来。</p>
+<p>编辑<code>orders</code>应用的<code>models.py</code>文件，为<code>Order</code>模型新增一行：</p>
+<pre>
+class Order(models.Model):
+    # ...
+    <b>braintree_id = models.CharField(max_length=150, blank=True)</b>
+</pre>
+<p>之后执行数据迁移程序，每一个订单都会保存与其关联的交易ID。目前准备工作都已经做完，剩下就是在支付过程中使用支付网关。</p>
+
+<h4 id="c8-1-3-1"><span class="title">1.3.1</span>使用Hosted Fields进行支付</h4>
+<p>Hosted Fields方式允许我们创建自定义的支付表单，使用自定义样式和表现形式。Braintree JavaScript SDK会在页面中动态的添加iframe框体用于展示Host Fields支付字段。当用户提交表单的时候，Hosted Fields会安全地提取用户的信用卡等信息，生成一个特征字符串（tokenize，令牌化）。如果令牌化过程成功，就可以使用这个特征字符串（token），通过视图中的<code>braintree</code>模块发起一个支付申请。</p>
+<p>为此需要建立一个支付视图。这个视图的工作流程如下：</p>
+<ol>
+    <li>用户提交订单时，视图通过<code>braintree</code>模块生成一个token，这个token用于Braintree JavaScript 客户端生成支付表单，并不是最终发送给支付网关的token。为了方便以下把这个token称为临时token，把最终提交给Braintree网站的token叫做交易token。</li>
+    <li>视图渲染支付表单所在的模板。页面中的Braintree JavaScript 客户端使用临时token来生成页面中的支付表单。</li>
+    <li>用户输入信用卡信息并且提交支付表单后，Braintree JavaScript 客户端会生成交易token，将这个交易token通过<code>POST</code>请求发送到视图</li>
+    <li>视图获取交易token之后，通过<code>braintree</code>模块向网站提交交易请求。</li>
+</ol>
+<p>了解了工作流程之后，来编写相关视图，编辑<code>payment</code>应用中的<code>views.py</code>文件，添加下列代码：</p>
+<pre>
+import braintree
+from django.shortcuts import render, redirect, get_object_or_404
+from orders.models import Order
+
+def payment_process(request):
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.method == "POST":
+        # 获得交易token
+        nonce = request.POST.get('payment_method_nonce', None)
+        # 使用交易token和附加信息，创建并提交交易信息
+        result = braintree.Transaction.sale(
+            {
+                'amount': '{:2f}'.format(order.get_total_cost()),
+                'payment_method_nonce': nonce,
+                'options': {
+                    'submit_for_settlement': True,
+                }
+            }
+        )
+        if result.is_success:
+            # 标记订单状态为已支付
+            order.paid = True
+            # 保存交易ID
+            order.braintree_id = result.transaction.id
+            order.save()
+            return redirect('payment:done')
+        else:
+            return redirect('payment:canceled')
+
+    else:
+        # 生成临时token交给页面上的JS程序
+        client_token = braintree.ClientToken.generate()
+        return render(request,
+                      'payment/process.html',
+                      {'order': order,
+                       'client_token': client_token})
+</pre>
+<p>这个<code>payment_process</code>视图管理支付过程，工作流程如下 ：</p>
+<ol>
+    <li>从session中取出由<code>order_create</code>视图设置的<code>order_id</code>变量。</li>
+    <li>获取<code>Order</code>对象，如果没找到，返回<code>404 Not Found</code>错误</li>
+    <li>如果接收到<code>POST</code>请求，获取交易token <code>payment_method_nonce</code>，使用交易token和<code>braintree.Transaction.sale()</code>方法生成新的交易，该方法的几个参数解释如下：<ol>
+        <li><code>amount</code>：总收款金额</li>
+        <li><code>payment_method_nonce</code>：交易token，由页面中的Braintree JavaScript 客户端生成。</li>
+        <li><code>options</code>：其他选项，<code>submit_for_settlement</code>设置为<code>True</code>表示生成交易信息完毕的时候就立刻提交。</li>
+    </ol></li>
+    <li>如果交易成功，通过设置<code>paid</code>属性为<code>True</code>，将订单标记为已支付，将交易ID存储到<code>braintree_id</code>属性中，之后重定向至<code>payment:done</code>，如果交易失败就重定向至<code>payment:canceled</code>。</li>
+    <li>如果视图接收到<code>GET</code>请求，生成临时token交给页面中的Braintree JavaScript 客户端。</li>
+</ol>
+<p>下边建立支付成功和失败时的处理视图，在<code>payment</code>应用的views.py中添加下列代码：</p>
+<pre>
+def payment_done(request):
+    return render(request, 'payment/done.html')
+def payment_canceled(request):
+    return render(request, 'payment/canceled.html')
+</pre>
+<p>然后在<code>payment</code>目录下建立<code>urls.py</code>，为上述视图配置路由：</p>
+<pre>
+from django.urls import path
+from . import views
+
+app_name = 'payment'
+
+urlpatterns = [
+    path('process/', views.payment_process, name='process'),
+    path('done/', views.payment_done, name='done'),
+    path('canceled/', views.payment_canceled, name='canceled'),
+]
+</pre>
+<p>这是支付流程的路由，配置了如下URL模式：</p>
+<ul>
+    <li><code>process</code>：处理支付的视图</li>
+    <li><code>done</code>：支付成功的视图</li>
+    <li><code>canceled</code>：支付未成功的视图</li>
+</ul>
+<p>编辑<code>myshop</code>项目的根<code>urls.py</code>文件，为<code>payment</code>应用配置二级路由：</p>
+<pre>
+urlpatterns = [
+    # ...
+    <b>path('payment/', include('payment.urls', namespace='payment')),</b>
+    path('', include('shop.urls', namespace='shop')),
+]
+</pre>
+<p>依然要注意这一行要放到<code>shop.urls</code>上边，否则无法被解析到。</p>
+<p>之后是建立视图，在payment目录下建立templates/payment/目录，并在其中建立 process.html， done.html，canceled.html三个模板。先来编写process.html：</p>
+<p>在<code>payment</code>应用内建立下列目录和文件结构：</p>
+<pre>
+templates/
+    payment/
+        process.html
+        done.html
+        canceled.html
+</pre>
+<p>编辑<code>payment/process.html</code>，添加下列代码：</p>
+<pre>
+{% extends "shop/base.html" %}
+
+{% block title %}Pay by credit card{% endblock %}
+
+{% block content %}
+  &lt;h1>Pay by credit card&lt;/h1>
+  &lt;form action="." id="payment" method="post">
+
+    &lt;label for="card-number">Card Number&lt;/label>
+    &lt;div id="card-number" class="field">&lt;/div>
+
+    &lt;label for="cvv">CVV&lt;/label>
+    &lt;div id="cvv" class="field">&lt;/div>
+
+    &lt;label for="expiration-date">Expiration Date&lt;/label>
+    &lt;div id="expiration-date" class="field">&lt;/div>
+
+    &lt;input type="hidden" id="nonce" name="payment_method_nonce" value="">
+    {% csrf_token %}
+    &lt;input type="submit" value="Pay">
+  &lt;/form>
+    &lt;!-- Load the required client component. -->
+  &lt;script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js">&lt;/script>
+    &lt;!-- Load Hosted Fields component. -->
+  &lt;script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js">&lt;/script>
+  &lt;script>
+    var form = document.querySelector('#payment');
+    var submit = document.querySelector('input[type="submit"]');
+
+    braintree.client.create({
+        authorization: '{{ client_token }}'
+    }, function (clientErr, clientInstance) {
+        if (clientErr) {
+            console.error(clientErr);
+            return;
+        }
+
+        braintree.hostedFields.create({
+            client: clientInstance,
+            styles: {
+                'input': {'font-size': '13px'},
+                'input.invalid': {'color': 'red'},
+                'input.valid': {'color': 'green'}
+            },
+            fields: {
+                number: {selector: '#card-number'},
+                cvv: {selector: '#cvv'},
+                expirationDate: {selector: '#expiration-date'}
+            }
+        }, function (hostedFieldsErr, hostedFieldsInstance) {
+            if (hostedFieldsErr) {
+                console.error(hostedFieldsErr);
+                return;
+            }
+
+            submit.removeAttribute('disabled');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+                    if (tokenizeErr) {
+                        console.error(tokenizeErr);
+                        return;
+                    }
+                    // set nonce to send to the server
+                    document.getElementById('nonce').value = payload.nonce;
+                    // submit form
+                    document.getElementById('payment').submit();
+                });
+            }, false);
+        });
+    });
+  &lt;/script>
+{% endblock %}
+</pre>
+<p>这是用户填写信用卡信息并且提交支付的模板，我们用<code>&lt;div&gt;</code>替代<code>&lt;input&gt;</code>使用在信用卡号，CVV码和过期日期字段上。这些字段就是Braintree JavaScript客户端渲染的iframe字段。还使用了一个名称为<code>payment_method_nonce</code>的<code>&lt;input&gt;</code>元素用于提交交易ID到后端。</p>
+<p>在模板中还导入了Braintree JavaScript SDK的<code>client.min.js</code>和Hosted Fields组件<code>hosted-fields.min.js</code>，然后执行了下列JS代码：</p>
+<ol>
+    <li>使用<code>braintree.client.create()</code>方法，传入<code>client_token</code>即<code>payment_process</code>视图里生成的临时token，实例化Braintree JavaScript 客户端。</li>
+    <li>使用<code>braintree.hostedFields.create()</code>实例化Hosted Field组件</li>
+    <li>给<code>input</code>字段应用自定义样式</li>
+    <li>给<code>cardnumber</code>，<code>cvv</code>, 和<code>expiration-date</code>字段设置<code>id</code>选择器</li>
+    <li>给表单的<code>submit</code>行为绑定一个事件，当表单被点击提交时，Braintree SDK 使用表单中的信息，生成交易token放入<code>payment_method_nonce</code>字段中，然后提交表单。</li>
+</ol>
+<p>编辑<code>payment/done.html</code>文件，添加下列代码：</p>
+<pre>
+{% extends "shop/base.html" %}
+{% block content %}
+    &lt;h1>Your payment was successful&lt;/h1>
+    &lt;p>Your payment has been processed successfully.&lt;/p>
+{% endblock %}
+</pre>
+<p>这是订单成功支付时用户被重定向的页面。</p>
+<p>编辑<code>canceled.html</code>，添加下列代码：</p>
+<pre>
+{% extends "shop/base.html" %}
+{% block content %}
+    &lt;h1>Your payment has not been processed&lt;/h1>
+    &lt;p>There was a problem processing your payment.&lt;/p>
+{% endblock %}
+</pre>
+<p>这是订单未支付成功时用户被重定向的页面。之后我们来试验一下付款。</p>
+
+<h3 id="c8-1-4"><span class="title">1.4</span>测试支付</h3>
+<p>打开系统命令行窗口然后运行RabbitMQ：</p>
+<pre>rabbitmq-server</pre>
+<p>再启动一个命令行窗口，启动Celery worker：</p>
+<pre>celery -A myshop worker -l info</pre>
+<p>再启动一个命令行窗口，启动站点：</p>
+<pre>python manage.py runserver</pre>
+<p>之后在浏览器中打开<a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a>加入一些商品到购物车，提交订单，当按下PLACE ORDER按钮后，订单信息被保存进数据库，订单ID被附加到session上，然后进入支付页面。</p>
+<p>支付页面从session中取得订单id然后在iframe中渲染Hosted Fields，像下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C08-03.jpg" alt=""></p>
+<p>可以看一下页面的HTML代码，从而理解什么是Hosted Fields。</p>
+<p>针对沙盒测试环境，Braintree提供了一些测试用的信用卡资料，可以进行付款成功或失败的测试，可以在<a
+        href="https://developers.braintreepayments.com/guides/credit-cards/testing-go-live/python" target="_blank">https://developers.braintreepayments.com/guides/credit-cards/testing-go-live/python</a>找到，我们来使用<code>4111 1111 1111 1111</code>这个信用卡号，在CVV码中填入<code>123</code>，到期日期填入未来的某一天比如<code>12/20</code>：</p>
+<p><img src="http://img.conyli.cc/django2/C08-04.jpg" alt=""></p>
+<p>之后点击Pay，应该可以看到成功页面：</p>
+<p><img src="http://img.conyli.cc/django2/C08-05.jpg" alt=""></p>
+<p>说明付款已经成功。可以在<a href="https://sandbox.braintreegateway.com/login" target="_blank">https://sandbox.braintreegateway.com/login</a>登录，然后在左侧菜单选Transaction里搜索最近的交易，可以看到如下信息：</p>
+<p><img src="http://img.conyli.cc/django2/C08-i01.jpg" alt=""></p>
+<p class="emp">译者注：Braintree网站在成书后有部分改版，读者看到的支付详情页面可能与上述图片有一些区别。</p>
+<p>然后再查看管理站点<a href="http://127.0.0.1:8000/admin/orders/order/" target="_blank">http://127.0.0.1:8000/admin/orders/order/</a>中的对应记录，该订单应该已经被标记为已支付，而且记录了交易ID，如下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C08-07.jpg" alt=""></p>
+<p>我们现在就成功集成了支付功能。</p>
+
+<h3 id="c8-1-5"><span class="title">1.5</span>正式上线</h3>
+<p>在沙盒环境中测试通过之后，需要正式上线的话，需要到<a href="https://www.braintreepayments.com" target="_blank">https://www.braintreepayments.com</a>创建正式账户。</p>
+<p>在部署到生产环境时，需要将<code>settings.py</code>中的商户ID和公钥私钥更新为正式账户的对应信息，然后将其中的<code>Environment.Sandbox</code>修改为<code>Environment.Production</code>。正式上线的具体步骤可以参考：<a href="https://developers.braintreepayments.com/start/go-live/python" target="_blank">https://developers.braintreepayments.com/start/go-live/python</a>。</p>
+
+<h2 id="c8-2"><span class="title">2</span>导出订单为CSV文件</h2>
+<p>有时我们想将某个模型中的数据导出为一个文件，用于在其他系统导入。常用的一种数据交换格式是CSV（逗号分隔数据）文件。CSV文件是一个纯文本文件，包含很多条记录。通常一行是一条记录，用特定的分隔符（一般是逗号）分隔每个字段的值。我们准备自定义管理后台，增加导出CSV文件的功能。</p>
+
+<h3 id="c8-2-1"><span class="title">2.1</span>给管理后台增加自定义管理行为（actions)</h3>
+<p>Django允许对管理后台的很多内容进行自定义修改。我们准备在列出具体数据的视图内增加导出CSV文件的功能。</p>
+<p>一个管理行为是指如下操作：用户从管理后台列出某个模型中具体记录的页面内，使用复选框选中要操作的记录，然后从下拉菜单中选择一项操作，之后就会针对所有选中的记录执行操作。这个action的位置如下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C08-08.jpg" alt=""></p>
+<p class="hint">创建自定义管理行为可以让管理员批量对记录进行操作。</p>
+<p>可以通过写一个符合要求的自定义函数作为一项管理行为，这个函数要接受如下参数：</p>
+<ul>
+    <li>当前显示的<code>ModelAdmin</code>类</li>
+    <li>当前的request对象，是一个<code>HttpResponse</code>实例</li>
+    <li>用户选中的内容组成的QuerySet</li>
+</ul>
+<p>在选中一个action选项然后点击旁边的Go按钮的时候，该函数就会被执行。</p>
+<p>我们就准备在下拉action清单里增加一项导出CSV数据的功能，为此先来修改<code>orders</code>应用中的<code>admin.py</code>文件，将下列代码加在<code>OrderAdmin</code>类定义之前：</p>
+<pre>
+import csv
+import datetime
+from django.http import HttpResponse
+
+def export_to_csv(modeladmin, request, queryset):
+    opts = modeladmin.model._meta
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename={}.csv'.format(opts.verbose_name)
+    writer = csv.writer(response)
+
+    fields = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
+    writer.writerow(field.verbose_name for field in fields)
+
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime.datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
+    return response
+
+export_to_csv.short_description = 'Export to CSV'
+</pre>
+<p>在这个函数里我们做了如下事情：</p>
+<ol>
+    <li>创建一个<code>HttpResponse</code>对象，将其内容类型设置为<code>text/csv</code>，以告诉浏览器将其视为一个CSV文件。还为请求头附加了<code>Content-Disposition</code>头部信息，告诉浏览器这个请求带有一个附加文件。</li>
+    <li>创建一个CSV的<code>writer</code>对象，用于向Http响应对象<code>response</code>中写入CSV文件数据。</li>
+    <li>通过<code>_meta</code>的<code>get_fields()</code>方法获取所有字段名，动态获取<code>model</code>的字段，排除了所有一对多和多对多字段。</li>
+    <li>将字段名写入到响应的CSV数据中，作为第一行数据，即表头</li>
+    <li>迭代QuerySet，将其中每一个对象的数据写入一行中，注意特别对<code>datetime</code>采用了格式化功能，以转换成字符串。</li>
+    <li>最后设置了该函数对象的<code>short_description</code>属性，该属性的值为在action列表中显示的功能名称。</li>
+</ol>
+<p>这样我们就创建了一个通用的管理功能，可以操作任何<code>ModelAdmin</code>对象。</p>
+<p>之后在<code>OrderAdmin</code>类中增加这个新的<code>export_to_csv</code>功能：</p>
+<pre>
+class OrderAdmin(admin.ModelAdmin):
+WeasyPrint    # ...
+    <b>actions = [export_to_csv]</b>
+</pre>
+<p>在浏览器中打开<a href="http://127.0.0.1:8000/admin/orders/order/" target="_blank">http://127.0.0.1:8000/admin/orders/order/</a>查看订单类，页面如下：</p>
+<p><img src="http://img.conyli.cc/django2/C08-09.jpg" alt=""></p>
+<p>选择一些订单，然后选择上边的Export to CSV功能，然后点击Go按钮，浏览器就会下载一个<code>order.csv</code>文件。</p>
+<p class="emp">译者注：此处下载的文件名可能不是<code>order.csv</code>，这是因为原书没有在<code>orders</code>应用的<code>models.py</code>中为<code>Order</code>类的<code>meta</code>类增加<code>verbose_name</code>属性，手工增加<code>verboser_name</code>的值为<code>order</code>，这样才能下载到和原书里写的名称一样的<code>order.csv</code>文件。</p>
+<p>使用文本编辑器打开刚下载的CSV文件，可以看到里边的内容类似：</p>
+<pre>
+ID,first name,last name,email,address,postal
+code,city,created,updated,paid,braintree id
+3,Antonio,Melé,antonio.mele@gmail.com,Bank Street,WS
+J11,London,25/02/2018,25/02/2018,True,2bwkx5b6
+</pre>
+<p>可以看到，实现管理功能的方法很直接。Django中将数据输出为CSV的说明可以参考<a href="https://docs.djangoproject.com/en/2.0/howto/outputting-csv/" target="_blank">https://docs.djangoproject.com/en/2.0/howto/outputting-csv/</a>。</p>
+
+<h2 id="c8-3"><span class="title">3</span>用自定义视图扩展管理后台的功能</h2>
+<p>不仅仅是配置<code>ModelAdmin</code>，创建管理行为和覆盖内置模板，有时候可能需要对管理后台进行更多的自定义。这时你需要创建自定义的管理视图。使用管理视图，就可以实现自己想要的功能，要注意的只是自定义管理视图应该只允许管理员进行操作，同时继承内置模板以保持风格一致性。</p>
+<p>我们这次来修改一下管理后台，增加一个自定义的功能用于显示一个订单的信息。修改<code>orders</code>应用中的<code>views.py</code>文件，增加如下内容：</p>
+<pre>
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import get_object_or_404
+from .models import Order
+
+@staff_member_required
+def admin_order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'admin/orders/order/detail.html', {'order': order})
+</pre>
+<p><code>@staff_member_required</code>装饰器只允许<code>is_staff</code>和<code>is_active</code>字段同时为<code>True</code>的用户才能使用被装饰的视图。在这个视图中，通过传入的id取得对应的<code>Order</code>对象。</p>
+<p>然后配置<code>orders</code>应用的<code>urls.py</code>文件，增加一条路由：</p>
+<pre>
+path('admin/order/&lt;int:order_id>/', views.admin_order_detail, name='admin_order_detail')
+</pre>
+<p>然后在order应用的templates/目录下创建如下文件目录结构：</p>
+<pre>
+admin/
+    orders/
+        order/
+            detail.html
+</pre>
+<p>编辑这个<code>detail.html</code>，添加下列代码：</p>
+<pre>
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block extrastyle %}
+    &lt;link rel="stylesheet" type="text/css" href="{% static "css/admin.css" %}"/>
+{% endblock %}
+{% block title %}
+    Order {{ order.id }} {{ block.super }}
+{% endblock %}
+{% block breadcrumbs %}
+    &lt;div class="breadcrumbs">
+        &lt;a href="{% url "admin:index" %}">Home&lt;/a> &rsaquo;
+        &lt;a href="{% url "admin:orders_order_changelist" %}">Orders&lt;/a>
+        &rsaquo;
+        &lt;a href="{% url "admin:orders_order_change" order.id %}">Order {{ order.id }}&lt;/a>
+        &rsaquo; Detail
+    &lt;/div>
+{% endblock %}
+{% block content %}
+    &lt;h1>Order {{ order.id }}&lt;/h1>
+    &lt;ul class="object-tools">
+        &lt;li>
+            &lt;a href="#" onclick="window.print();">Print order&lt;/a>
+        &lt;/li>
+    &lt;/ul>
+    &lt;table>
+        &lt;tr>
+            &lt;th>Created&lt;/th>
+            &lt;td>{{ order.created }}&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;th>Customer&lt;/th>
+            &lt;td>{{ order.first_name }} {{ order.last_name }}&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;th>E-mail&lt;/th>
+            &lt;td>&lt;a href="mailto:{{ order.email }}">{{ order.email }}&lt;/a>&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;th>Address&lt;/th>
+            &lt;td>{{ order.address }}, {{ order.postal_code }} {{ order.city }}&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;th>Total amount&lt;/th>
+            &lt;td>${{ order.get_total_cost }}&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;th>Status&lt;/th>
+            &lt;td>{% if order.paid %}Paid{% else %}Pending payment{% endif %}&lt;/td>
+        &lt;/tr>
+    &lt;/table>
+    &lt;div class="module">
+        &lt;div class="tabular inline-related last-related">
+            &lt;table>
+                &lt;caption>Items bought&lt;/caption>
+                &lt;thead>
+                &lt;tr>
+                    &lt;th>Product&lt;/th>
+                    &lt;th>Price&lt;/th>
+                    &lt;th>Quantity&lt;/th>
+                    &lt;th>Total&lt;/th>
+                &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                {% for item in order.items.all %}
+                    &lt;tr class="row{% cycle "1" "2" %}">
+                        &lt;td>{{ item.product.name }}&lt;/td>
+                        &lt;td class="num">${{ item.price }}&lt;/td>
+                        &lt;td class="num">{{ item.quantity }}&lt;/td>
+                        &lt;td class="num">${{ item.get_cost }}&lt;/td>
+                &lt;/tr>
+                {% endfor %}
+                &lt;tr class="total">
+                    &lt;td colspan="3">Total&lt;/td>
+                    &lt;td class="num">${{ order.get_total_cost }}&lt;/td>
+                &lt;/tr>
+                &lt;/tbody>
+            &lt;/table>
+        &lt;/div>
+    &lt;/div>
+{% endblock %}
+</pre>
+<p>这个模板用于在管理后台显示订单详情。模板继承了<code>admin/base_site.html</code>母版，这个母版包含Django管理站点的基础结构和CSS类，然后还加载了自定义的样式表<code>css/admin.css</code>。</p>
+<p>自定义CSS样式表在随书代码中，像之前的项目一样将其复制到对应目录。</p>
+<p>我们使用的块名称都定义在母版中，在其中编写了展示订单详情的部分。</p>
+<p>当你需要继承Django的内置模板时，必须了解内置模板的结构，在<a
+        href="https://github.com/django/django/tree/2.1/django/contrib/admin/templates/admin" target="_blank">https://github.com/django/django/tree/2.1/django/contrib/admin/templates/admin</a>可以找到内置模板的信息。</p>
+<p>如果需要覆盖内置模板，需要将自己编写的模板命名为与原来模板相同，然后复制到<code>templates</code>下，设置与内置模板相同的相对路径和名称。管理后台就会优先使用当前项目下的模板。</p>
+<p>最后，还需要再管理后台中为每个<code>Order</code>对象增加一个链接到我们自行编写的视图，编辑<code>orders</code>应用的<code>admin.py</code>文件，在<code>OrderAdmin</code>类之前增加如下代码：</p>
+<pre>
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+
+def order_detail(obj):
+    return mark_safe('&lt;a href="{}">View&lt;/a>'.format(reverse('orders:admin_order_detail', args=[obj.id])))
+</pre>
+<p>这个函数接受一个Order对象作为参数，返回一个解析后的<code>admin_order_detail</code>名称对应的URL，由于Django默认会将HTML代码转义，所以加上<code>mark_safe</code>。</p>
+<p class="hint">使用mark_safe可以不让HTML代码转义。使用mark_safe的时候，确保对于用户的输入依然要进行转义，以防止跨站脚本攻击。</p>
+<p>然后编辑<code>OrderAdmin</code>类来显示链接：</p>
+<pre>
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'first_name', 'last_name', 'email', 'address', 'postal_code', 'city', 'paid', 'created',
+                    'updated', <b>order_detail</b>]
+</pre>
+<p>然后启动站点，访问<a href="http://127.0.0.1:8000/admin/orders/order/" target="_blank">http://127.0.0.1:8000/admin/orders/order/</a>，可以看到新增了一列：</p>
+<p><img src="http://img.conyli.cc/django2/C08-10.jpg" alt=""></p>
+<p>点击任意一个订单的View链接查看详情，会进入Django管理后台风格的订单详情页：</p>
+<p><img src="http://img.conyli.cc/django2/C08-11.jpg" alt=""></p>
+
+<h2 id="c8-4"><span class="title">4</span>动态生成PDF发票</h2>
+<p>我们现在已经实现了完整的结账和支付功能，可以为每个订单生成一个PDF发票。有很多Python库都可以用来生成PDF，常用的是Reportlab库，该库也是django 2.0官方推荐使用的库，可以在<a href="https://docs.djangoproject.com/en/2.0/howto/outputting-pdf/" target="_blank">https://docs.djangoproject.com/en/2.0/howto/outputting-pdf/</a>查看详情。</p>
+<p>大部分情况下，PDF文件中都要包含一些样式和格式，这个时候通过渲染后的HTML模板生成PDF更加方便。我们在Django中集成一个模块来按照上述方法转换PDF。这里我们使用WeasyPrint库，这个库用来从HTML模板生成PDF文件。</p>
+
+<h3 id="c8-4-1"><span class="title">4.1</span>安装WeasyPrint</h3>
+<p>需要先按照<a href="http://weasyprint.org/docs/install/#platforms" target="_blank">http://weasyprint.org/docs/install/#platforms</a>的指引安装相关依赖，之后通过<code>pip</code>安装WeasyPrint：</p>
+<pre>pip install WeasyPrint==0.42.3</pre>
+<p class="emp">译者注：WeasyPrint在Windows下的配置非常麻烦，还未必能够成功，推荐Windows用户使用Linux虚拟机。</p>
+
+<h3 id="c8-4-2"><span class="title">4.2</span>创建PDF模板</h3>
+<p>需要创建一个模板作为输入给WeasyPrint的数据。我们创建一个带有订单内容和CSS样式的模板，通过Django渲染，将最终生成的页面传给WeasyPrint。</p>
+<p>在<code>orders</code>应用的<code>templates/orders/order/</code>目录下创建<code>pdf.html</code>文件，添加下列代码：</p>
+<pre>
+&lt;html>
+&lt;body>
+&lt;h1>My Shop&lt;/h1>
+&lt;p>
+    Invoice no. {{ order.id }}<span style="color:red">&lt;br></span>
+    &lt;span class="secondary">
+{{ order.created|date:"M d, Y" }}
+&lt;/span>
+&lt;/p>
+&lt;h3>Bill to&lt;/h3>
+&lt;p>
+    {{ order.first_name }} {{ order.last_name }}&lt;br>
+    {{ order.email }}&lt;br>
+    {{ order.address }}&lt;br>
+    {{ order.postal_code }}, {{ order.city }}
+&lt;/p>
+&lt;h3>Items bought&lt;/h3>
+&lt;table>
+    &lt;thead>
+    &lt;tr>
+        &lt;th>Product&lt;/th>
+        &lt;th>Price&lt;/th>
+        &lt;th>Quantity&lt;/th>
+        &lt;th>Cost&lt;/th>
+    &lt;/tr>
+    &lt;/thead>
+    &lt;tbody>
+    {% for item in order.items.all %}
+        &lt;tr class="row{% cycle "1" "2" %}">
+            &lt;td>{{ item.product.name }}&lt;/td>
+            &lt;td class="num">${{ item.price }}&lt;/td>
+            &lt;td class="num">{{ item.quantity }}&lt;/td>
+            &lt;td class="num">${{ item.get_cost }}&lt;/td>
+    &lt;/tr>
+    {% endfor %}
+    &lt;tr class="total">
+        &lt;td colspan="3">Total&lt;/td>
+        &lt;td class="num">${{ order.get_total_cost }}&lt;/td>
+    &lt;/tr>
+    &lt;/tbody>
+&lt;/table>
+&lt;span class="{% if order.paid %}paid{% else %}pending{% endif %}">
+{% if order.paid %}Paid{% else %}Pending payment{% endif %}
+&lt;/span>
+&lt;/body>
+&lt;/html>
+</pre>
+<p class="emp">译者注：注意第五行标红的部分，原书错误的写成了<code>&lt;/br&gt;</code>。</p>
+<p>这个模板的内容很简单，使用一个<code>&lt;table&gt;</code>元素展示订单的用户信息和商品信息，还添加了消息显示订单是否已支付。</p>
+
+<h3 id="c8-4-3"><span class="title">4.3</span>创建渲染PDF的视图</h3>
+<p>我们来创建在管理后台内生成订单PDF文件的视图，在<code>orders</code>应用的<code>views.py</code>文件内增加下列代码：</p>
+<pre>
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import weasyprint
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    html = render_to_string('orders/order/pdf.html', {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="order_{}"'.format(order.id)
+    weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')])
+    return response
+</pre>
+<p>这是生成PDF文件的视图，使用了<code>@staff_member_required</code>装饰器使该视图只能由管理员访问。通过ID获取Order对象，然后使用<code>render_to_string()</code>方法渲染<code>orders/order/pdf.html</code>，渲染后的模板以字符串形式保存在<code>html</code>变量中。然后创建一个新的<code>HttpResponse</code>对象，并为其附加<code>application/pdf</code>和<code>Content-Disposition</code>请求头信息。使用WeasyPrint从字符串形式的HTML中转换PDF文件并写入<code>HttpResponse</code>对象。这个生成的PDF会带有<code>STATIC_ROOT</code>路径下的<code>css/pdf.css</code>中的样式，最后返回响应。</p>
+<p>如果发现文件缺少CSS样式，记得把CSS文件从随书目录中放入<code>shop</code>应用的<code>static/</code>目录下。</p>
+<p>我们这里还没有配置<code>STATIC_ROOT</code>变量，这个变量规定了项目的静态文件存放的路径。编辑<code>myshop</code>项目的<code>settings.py</code>文件，添加下面这行：</p>
+<pre>
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+</pre>
+<p>然后运行如下命令：</p>
+<pre>
+python manage.py collectstatic
+</pre>
+<p>之后会看到：</p>
+<pre>
+120 static files copied to 'code/myshop/static'.
+</pre>
+<p>这个命令会把所有已经激活的应用下的<code>static/</code>目录中的文件，复制到<code>STATIC_ROOT</code>指定的目录中。每个应用都可以有自己的static/目录存放静态文件，还可以在<code>STATICFILES_DIRS</code>中指定其他的静态文件路径，当执行<code>collectstatic</code>时，会把所有<code>STATICFILES_DIRS</code>目录内的文件都复制过来。如果再次执行<code>collectstatic</code>，会提示是否需要覆盖已经存在的静态文件。</p>
+<p class="emp">译者注：虽然将静态文件分开存放在每个应用的<code>static/</code>下可以正常运行开发中的站点，但在正式上线的最好统一静态文件的存放地址，以方便配置Web服务程序。</p>
+<p>编辑<code>orders</code>应用的<code>urls.py</code>文件，为视图配置URL：</p>
+<pre>
+urlpatterns = [
+    # ...
+    <b>path('admin/order/&lt;int:order_id>/pdf/', views.admin_order_pdf, name='admin_order_pdf'),</b>
+]
+</pre>
+<p>像导出CSV一样，我们要在管理后台的展示页面中增加一个链接到这个视图的URL。打开<code>orders</code>应用的<code>admin.py</code>文件，在<code>OrderAdmin</code>类之前增加：</p>
+<pre>
+def order_pdf(obj):
+    return mark_safe('&lt;a href="{}">PDF&lt;/a>'.format(reverse('orders:admin_order_pdf', args=[obj.id])))
+order_pdf.short_description = 'Invoice'
+</pre>
+<p>如果指定了<code>short_description</code>属性，Django就会用该属性的值作为列名。</p>
+<p>为<code>OrderAdmin</code>的<code>list_display</code>增加这个新的字段<code>order_pdf</code>：</p>
+<pre>
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'first_name', 'last_name', 'email', 'address', 'postal_code', 'city', 'paid', 'created',
+                    'updated', order_detail, <b>order_pdf</b>]
+</pre>
+<p>在浏览器中打开<a href="http://127.0.0.1:8000/admin/orders/order/" target="_blank">http://127.0.0.1:8000/admin/orders/order/</a>，可以看到新增了一列字段用于转换PDF：</p>
+<p><img src="http://img.conyli.cc/django2/C08-12.jpg" alt=""></p>
+<p>点击PDF链接，浏览器应该会下载一个PDF文件，如果是尚未支付的订单，样式如下：</p>
+<p><img src="http://img.conyli.cc/django2/C08-13.jpg" alt=""></p>
+<p>已经支付的订单，则类似这样：</p>
+<p><img src="http://img.conyli.cc/django2/C08-14.jpg" alt=""></p>
+
+<h3 id="c8-4-4"><span class="title">4.4</span>使用电子邮件发送PDF文件</h3>
+<p>当支付成功的时，我们发送带有PDF发票的邮件给用户。编辑<code>payment</code>应用中的<code>views.py</code>视图，添加如下导入语句：</p>
+<pre>
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.conf import settings
+import weasyprint
+from io import BytesIO
+</pre>
+<p>在<code>payment_process</code>视图中，<code>order.save()</code>这行之后，以相同的缩进添加下列代码：</p>
+<pre>
+def payment_process(request):
+    # ......
+    if request.method == "POST":
+        # ......
+        if result.is_success:
+            # ......
+            order.save()
+
+            <b># 创建带有PDF发票的邮件</b>
+            <b>subject = 'My Shop - Invoice no. {}'.format(order.id)</b>
+            <b>message = 'Please, find attached the invoice for your recent purchase.'</b>
+            <b>email = EmailMessage(subject, message, 'admin@myshop.com', [order.email])</b>
+
+            <b># 生成PDF文件</b>
+            <b>html = render_to_string('orders/order/pdf.html', {'order': order})</b>
+            <b>out = BytesIO()</b>
+            <b>stylesheets = [weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')]</b>
+            <b>weasyprint.HTML(string=html).write_pdf(out, stylesheets=stylesheets)</b>
+
+            <b># 附加PDF文件作为邮件附件</b>
+            <b>email.attach('order_{}.pdf'.format(order.id), out.getvalue(), 'application/pdf')</b>
+
+            <b># 发送邮件</b>
+            <b>email.send()</b>
+
+            return redirect('payment:done')
+        else:
+            return redirect('payment:canceled')
+    else:
+        # ......
+</pre>
+<p>这里使用了<code>EmailMessage</code>类创建一个邮件对象<code>email</code>，然后将模板渲染到<code>html</code>变量中，然后通过WeasyPrint将其写入一个<code>BytesIO</code>二进制字节对象，之后使用<code>attach</code>方法，将这个字节对象的内容设置为<code>EmailMessage</code>的附件，同时设置文件类型为PDF，最后发送邮件。</p>
+<p>记得在<code>settings.py</code>中设置SMTP服务器，可以参考第二章。</p>
+<p>现在，可以尝试完成一个新的付款，并且在邮箱内接收PDF发票。</p>
+
+<h1><b>总结</b></h1>
+<p>在这一章中，我们集成了支付网关，自定义了Django管理后台，还学习了如何将数据以CSV文件格式导出和动态生成PDF文件。</p>
+<p>下一章我们将深入了解Django项目的国际化和本地化设置，还将创建一个优惠码功能和商品推荐引擎。</p>
+</body>
+</html>

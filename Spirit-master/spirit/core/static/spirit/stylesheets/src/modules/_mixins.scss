@@ -1,0 +1,11 @@
+// Mixins
+
+@mixin rem($property, $pxval) {
+  $property: $pxval * 1px;
+  $property: rem($pxval);
+}
+
+@mixin rgba($property, $color, $alpha: 1) {
+  $property: $color;
+  $property: rgba($color, $alpha);
+}

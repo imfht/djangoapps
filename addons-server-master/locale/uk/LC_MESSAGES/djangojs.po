@@ -1,0 +1,847 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-08 12:59+0000\n"
+"Last-Translator: Іhor Hordiichuk <igor_ck@outlook.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} зірка"
+msgstr[1] "{0} зірки"
+msgstr[2] "{0} зірок"
+
+msgid "There was a problem contacting the server."
+msgstr "Виникла проблема під час спроби зв'язатися з сервером."
+
+msgid "Select a file..."
+msgstr "Виберіть файл..."
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Розширення вашого додатка повинно бути .zip, .xpi or .crx"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0}% завершено"
+
+msgid "{0} of {1}"
+msgstr "{0} з {1}"
+
+msgid "Cancel"
+msgstr "Скасувати"
+
+msgid "Uploading {0}"
+msgstr "Вивантаження {0}"
+
+msgid "Error with {0}"
+msgstr "Помилка з {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Будь ласка, повідомляйте про будь-які проблеми з лінтингом на GitHub"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Ваш додаток не пройшов перевірку з {0} помилкою."
+msgstr[1] "Ваш додаток не пройшов перевірку з {0} помилками."
+msgstr[2] "Ваш додаток не пройшов перевірку з {0} помилками."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip;і ще {0}"
+msgstr[1] "&hellip;і ще {0}"
+msgstr[2] "&hellip;і ще {0}"
+
+msgid "See full validation report"
+msgstr "Переглянути повний звіт перевірки"
+
+msgid "Validating {0}"
+msgstr "Перевірка {0}"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Ваш додаток перевищує максимально допустимий розмір {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Отримано порожню відповідь від сервера; стан: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Під час засвідчення сталася неочікувана помилка сервера."
+
+msgid "Finished validating {0}"
+msgstr "Завершено перевірку {0}"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Час очікування затвердження вашого додатка завершився, він буде розглянутий вручну."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Ваш додаток пройшов перевірку без помилок і з {0} попередженням."
+msgstr[1] "Ваш додаток пройшов перевірку без помилок і з {0} попередженнями."
+msgstr[2] "Ваш додаток пройшов перевірку без помилок і з {0} попередженнями."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Ваш додаток пройшов перевірку без помилок і з {0} повідомленням."
+msgstr[1] "Ваш додаток пройшов перевірку без помилок і з {0} повідомленнями."
+msgstr[2] "Ваш додаток пройшов перевірку без помилок і з {0} повідомленнями."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "Ваш додаток пройшов перевірку без помилок чи застережень."
+
+msgid "Your submission will be automatically signed."
+msgstr "Ваше подання буде автоматично підписане."
+
+msgid "WebExtension upgrade"
+msgstr "Оновлення WebExtension"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr "Ми дозволяємо і заохочуємо оновлення, але вам не вдасться скасувати цей процес. Після того, як ваші користувачі встановлять WebExtension, вони не зможуть встановити застарілий додаток."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Портування застарілого додатка Firefox на MDN"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Включити детальні примітки до випуску (це може бути зроблено в наступному кроці)."
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr "Якщо ваш додаток потребує обліковий запис на вебсайті, зазначте тестові ім'я користувача та пароль у примітках до випуску (це може бути зроблено в наступному кроці)."
+
+msgid "Add-on submission checklist"
+msgstr "Контрольний перелік при представленні додатка"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Перевірте наступні пункти перед завершенням вашого представлення. Це зменшить затримку чи нерозуміння під час процесу розгляду:"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+"Програмні коди, мініфікованих, конкатенованих чи будь-яких інших машинних сценаріїв (окрім відомих бібліотек), необхідно представляти для перевірки окремо. Переконайтеся, що ви використовуєте поле "
+"завантаження програмного коду, щоб запобігти відхиленню вашого запиту."
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Під час процесу перевірки було знайдено наступні проблеми, які можуть призвести до відхилення:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Тип вивантаженого вами файлу нерозпізнаний."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Ваш файл перевищує максимально допустимий розмір {0}."
+
+msgid "You cancelled the upload."
+msgstr "Ви скасували вивантаження."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Зображення повинні бути в форматі PNG або JPG."
+
+msgid "Videos must be in WebM."
+msgstr "Відео повинні бути у форматі WebM."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Ця тема несумісна з вашою версією {0}"
+
+msgid "Flagged for review"
+msgstr "Позначено для перевірки"
+
+msgid "Your input is required"
+msgstr "Потрібна ваша думка"
+
+msgid "Marked for deletion"
+msgstr "Позначено для вилучення"
+
+msgid "Updating results&hellip;"
+msgstr "Оновлення результатів&hellip;"
+
+msgid "Category"
+msgstr "Категорія"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "Шукати теми для <b>{0}</b>"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "Шукати застосунки для <b>{0}</b>"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "Шукати додатки для <b>{0}</b>"
+
+msgid "Use original"
+msgstr "Використовувати оригінальний"
+
+msgid "Week of {0}"
+msgstr "Тиждень {0}"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} завантаження"
+msgstr[1] "{0} завантаження"
+msgstr[2] "{0} завантажень"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} користувач"
+msgstr[1] "{0} користувача"
+msgstr[2] "{0} користувачів"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} додаток"
+msgstr[1] "{0} додатка"
+msgstr[2] "{0} додатків"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} збірка"
+msgstr[1] "{0} збірки"
+msgstr[2] "{0} збірок"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} відгук"
+msgstr[1] "{0} відгуки"
+msgstr[2] "{0} відгуків"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} продаж"
+msgstr[1] "{0} продажі"
+msgstr[2] "{0} продажів"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} відшкодування"
+msgstr[1] "{0} відшкодування"
+msgstr[2] "{0} відшкодувань"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} встановлення"
+msgstr[1] "{0} встановлення"
+msgstr[2] "{0} встановлень"
+
+msgid "Downloads"
+msgstr "Завантажень"
+
+msgid "Daily Users"
+msgstr "Щоденних користувачів"
+
+msgid "Amount, in USD"
+msgstr "Сума в USD"
+
+msgid "Number of Contributions"
+msgstr "Кількість внесків"
+
+msgid "More Info..."
+msgstr "Докладніше..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "Докладніше за {0}"
+
+msgid "Collections Created"
+msgstr "Створено збірок"
+
+msgid "Add-ons in Use"
+msgstr "Використовується додатків"
+
+msgid "Add-ons Created"
+msgstr "Створено додатків"
+
+msgid "Add-ons Downloaded"
+msgstr "Завантажено додатків"
+
+msgid "Add-ons Updated"
+msgstr "Оновлено додатків"
+
+msgid "Reviews Written"
+msgstr "Написано відгуків"
+
+msgid "User Signups"
+msgstr "Реєстрації користувачів"
+
+msgid "Subscribers"
+msgstr "Підписники"
+
+msgid "Ratings"
+msgstr "Оцінки"
+
+msgid "Sales"
+msgstr "Продажі"
+
+msgid "Installs"
+msgstr "Встановлення"
+
+msgid "Unknown"
+msgstr "Невідомо"
+
+msgid "Add-ons Manager"
+msgstr "Менеджер додатків"
+
+msgid "Add-ons Manager Promo"
+msgstr "Промо менеджера додатків"
+
+msgid "Add-ons Manager Featured"
+msgstr "Менеджер додатків Відібрані"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Менеджер додатків Докладніше"
+
+msgid "Search Suggestions"
+msgstr "Пошукові пропозиції"
+
+msgid "Search Results"
+msgstr "Результати пошуку"
+
+msgid "Homepage Promo"
+msgstr "Промо домашньої сторінки"
+
+msgid "Homepage Featured"
+msgstr "Відібрані"
+
+msgid "Homepage Up and Coming"
+msgstr "Набирають популярність"
+
+msgid "Homepage Most Popular"
+msgstr "Найпопулярніші"
+
+msgid "Detail Page"
+msgstr "Сторінка з подробицями"
+
+msgid "Detail Page (bottom)"
+msgstr "Сторінка з подробицями (низ)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Сторінка з подробицями (Канал розробників)"
+
+msgid "Often Used With"
+msgstr "Часто використовується з"
+
+msgid "Others By Author"
+msgstr "Інші за автором"
+
+msgid "Dependencies"
+msgstr "Залежності"
+
+msgid "Upsell"
+msgstr "Збільшення продажів"
+
+msgid "Meet the Developer"
+msgstr "Познайомитися з розробником"
+
+msgid "User Profile"
+msgstr "Профіль користувача"
+
+msgid "Version History"
+msgstr "Історія версій"
+
+msgid "Sharing"
+msgstr "Поширення"
+
+msgid "Category Pages"
+msgstr "Сторінки категорій"
+
+msgid "Collections"
+msgstr "Збірки"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Розміщення в категорії Карусель обраного"
+
+msgid "Category Landing Top Rated"
+msgstr "Розміщення в категорії Найвище оцінені"
+
+msgid "Category Landing Most Popular"
+msgstr "Розміщення в категорії Найпопулярніші"
+
+msgid "Category Landing Recently Added"
+msgstr "Розміщення в категорії Нещодавно додані"
+
+msgid "Browse Listing Featured Sort"
+msgstr "Огляд з сортуванням по обраних"
+
+msgid "Browse Listing Users Sort"
+msgstr "Огляд з сортуванням по користувачах"
+
+msgid "Browse Listing Rating Sort"
+msgstr "Огляд з сортуванням за рейтингом"
+
+msgid "Browse Listing Created Sort"
+msgstr "Огляд з сортуванням за датою створення"
+
+msgid "Browse Listing Name Sort"
+msgstr "Огляд з сортуванням за назвою"
+
+msgid "Browse Listing Popular Sort"
+msgstr "Огляд з сортуванням за популярністю"
+
+msgid "Browse Listing Updated Sort"
+msgstr "Огляд з сортуванням за датою оновлення"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "Огляд з сортуванням за очікуванням виходу"
+
+msgid "Total Amount Contributed"
+msgstr "Загальна кількість внесків"
+
+msgid "Average Contribution"
+msgstr "Середній внесок"
+
+msgid "Usage"
+msgstr "Використання"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Завантажень та щоденних користувачів за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Завантажень та щоденних користувачів з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Встановлень та щоденних користувачів за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Встановлень та щоденних користувачів від {0} до {1}"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Завантажень за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Завантажень з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Щоденних користувачів за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Щоденних користувачів з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Застосунків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Застосунків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "Країни за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "Країни з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Платформ за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Платформ з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Мови за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Мови з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Версій додатків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Версій додатків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Статус додатків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "Статус додатків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Джерел завантажень за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Джерел завантажень з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr "Завантажено медіа за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr "Завантажено медіа з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr "Завантажено вмісту за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr "Завантажено вмісту з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr "Завантажено кампаній за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Завантажено кампаній з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Внесків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Внески з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Статистика сайту за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Статистика сайту з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Додатків використовується, останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Додатків використовується, з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Завантажено додатків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Завантажено додатків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Створено додатків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Створено додатків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Оновлено додатків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Оновлено додатків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Написано відгуків за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Написано відгуків з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Зареєстровано користувачів за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Зареєстровано користувачів з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Створено збірок за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Створено збірок з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Читачів за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Читачів з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Рейтинги за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Рейтинги з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Продажі за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Продажі з {0} по {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Встановлень за останні {0} днів"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Встановлень з {0} по {1}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "<b>{0}</b> за останні {1} днів"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> з {1} по {2}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "<b>{0}</b> в середньому за останні {1} днів"
+
+msgid "No data available."
+msgstr "Немає доступних даних."
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Other"
+msgstr "Інше"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Погодитись і встановити"
+
+msgid "Add to {0}"
+msgstr "Додати до {0}"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Все одно встановити для {0}"
+
+msgid "Download for {0} anyway"
+msgstr "Все одно завантажити для {0}"
+
+msgid "Not available for your platform"
+msgstr "Недоступно для вашої платформи"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Цей додаток несумісний з вашою версією {0}."
+
+msgid "View other versions"
+msgstr "Дивитись інші версії"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Працює з {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "Працює з {app}"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Лише з Firefox — Отримайте Firefox зараз!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Вибачте, але щоб встановити пошуковий плагін вам потрібен браузер на основі Mozilla (наприклад, Firefox)."
+
+msgid "Changes Saved"
+msgstr "Зміни збережено"
+
+msgid "Enter a new author's email address"
+msgstr "Введіть нову адресу ел. пошти автора"
+
+msgid "There was an error uploading your file."
+msgstr "Сталась помилка при вивантаженні вашого файлу."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} файл"
+msgstr[1] "{files} файли"
+msgstr[2] "{files} файлів"
+
+msgid "Image changes being processed"
+msgstr "Обробка змін зображень"
+
+msgid "Select an application first"
+msgstr "Спочатку виберіть програму"
+
+msgid "No results found."
+msgstr "Не знайдено результатів."
+
+msgid "Loading..."
+msgstr "Завантажується..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> символ"
+msgstr[1] "<b>{0}</b> символи"
+msgstr[2] "<b>{0}</b> символів"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "Залишився <b>{0}</b> символ"
+msgstr[1] "Залишилось <b>{0}</b> символи"
+msgstr[2] "Залишилось <b>{0}</b> символів"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Дана функція тимчасово вимкнута доки ми проводимо технічне обслуговування вебсайту. Будь ласка, спробуйте пізніше."
+
+msgid "Remove this localization"
+msgstr "Вилучити цю локалізацію"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} переглядав цю сторінку першим."
+
+msgid "{name} was viewing this add-on first."
+msgstr "{name} переглядав цей додаток першим."
+
+msgid "Loading&hellip;"
+msgstr "Завантаження&hellip;"
+
+msgid "Version Notes"
+msgstr "Примітки до версії"
+
+msgid "Notes for Reviewers"
+msgstr "Примітки для редакторів"
+
+msgid "No version notes found"
+msgstr "Не знайдено приміток до версії"
+
+msgid "Review Text"
+msgstr "Огляд тексту"
+
+msgid "Review notes found"
+msgstr "Огляд зйдених нонататок"
+
+msgid "Average Reviews"
+msgstr "В середньому відгуків"
+
+msgid "Number of Reviews"
+msgstr "Кількість відгуків"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "Максимальний розмір завантаження {0} - виберіть зображення меншого розміру."
+
+msgid "Requested Info"
+msgstr "Запитана інформація"
+
+msgid "Flagged"
+msgstr "Відмічено"
+
+msgid "Duplicate"
+msgstr "Дублікат"
+
+msgid "Rejected"
+msgstr "Відхилено"
+
+msgid "Approved"
+msgstr "Затверджено"
+
+msgid "No results found"
+msgstr "Результатів не знайдено"
+
+msgid "Theme"
+msgstr "Тема"
+
+msgid "Reviewer"
+msgstr "Редактор"
+
+msgid "Status"
+msgstr "Стан"
+
+msgid "All tests passed successfully."
+msgstr "Всі тести пройшли успішно."
+
+msgid "These tests were not run."
+msgstr "Ці тести не запускались."
+
+msgid "Tests"
+msgstr "Тести"
+
+msgid "Error"
+msgstr "Помилка"
+
+msgid "Warning"
+msgstr "Попередження"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} рядок {1} стовпчик {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} рядок {1}"
+
+msgid "Add-on failed validation."
+msgstr "Додаток не пройшов перевірку."
+
+msgid "Add-on passed validation."
+msgstr "Додаток пройшов перевірку."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} помилка"
+msgstr[1] "{0} помилки"
+msgstr[2] "{0} помилок"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} попередження"
+msgstr[1] "{0} попередження"
+msgstr[2] "{0} попереджень"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} повідомлення"
+msgstr[1] "{0} повідомлення"
+msgstr[2] "{0} повідомлень"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Завдання з перевірки не змогло завершитись або завершилось з помилками"
+
+msgid "Internal server error"
+msgstr "Внутрішня помилка сервера"

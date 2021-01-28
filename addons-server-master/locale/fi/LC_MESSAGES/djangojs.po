@@ -1,0 +1,836 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-13 10:46+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} tähti"
+msgstr[1] "{0} tähteä"
+
+msgid "There was a problem contacting the server."
+msgstr "Yhteydessä palvelimeen oli ongelmia."
+
+msgid "Select a file..."
+msgstr "Valitse tiedosto…"
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Lisäosasi tiedostopäätteen on oltava .zip, .xpi tai .crx"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0} % valmis"
+
+msgid "{0} of {1}"
+msgstr "{0} / {1}"
+
+msgid "Cancel"
+msgstr "Peruuta"
+
+msgid "Uploading {0}"
+msgstr "Siirretään {0}"
+
+msgid "Error with {0}"
+msgstr "Virhe {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Ilmoitathan kaikista ohjelmointityyliin liittyvistä ongelmista GitHubissa"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Lisäosasi tarkistuksessa ilmeni {0} virhettä."
+msgstr[1] "Lisäosasi tarkistuksessa ilmeni {0} virhettä."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip;ja {0} lisää"
+msgstr[1] "&hellip;ja {0} lisää"
+
+msgid "See full validation report"
+msgstr "Tarkastele täydellistä tarkistusraporttia"
+
+msgid "Validating {0}"
+msgstr "Vahvistetaan {0}"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Lisäosasi ylittää enimmäiskoon {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Vastaanotettiin tyhjä vastaus palvelimelta; tila: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Odottamaton palvelinvirhe lisäosaa tarkistettaessa."
+
+msgid "Finished validating {0}"
+msgstr "Lisäosan {0} tarkistus päätyi"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Lisäosasi tarkistus aikakatkaistiin. Se tarkistetaan myöhemmin manuaalisesti."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Lisäosasi tarkistus suoritettiin virheittä, mutta ilmeni {0} varoitus."
+msgstr[1] "Lisäosasi tarkistus suoritettiin virheittä, mutta ilmeni {0} varoitusta."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Lisäosasi tarkistus suoritettiin virheittä ja ilmeni {0} ilmoitus."
+msgstr[1] "Lisäosasi tarkistus suoritettiin virheittä ja ilmeni {0} ilmoitusta."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "Lisäosasi tarkistus suoritettiin ilman virheitä tai varoituksia."
+
+msgid "Your submission will be automatically signed."
+msgstr "Hakemuksesi allekirjoitetaan automaattisesti."
+
+msgid "WebExtension upgrade"
+msgstr "WebExtension-päivitys"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr ""
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Vanhan Firefox-lisäosan siirtäminen MDN: ään"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr ""
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr ""
+"Jos lisäosasi täydellinen tarkistaminen edellyttää tiliä jollekin verkkosivustolle, lisää testikäyttäjätunnus ja salasana Huomautuksia arvijoijalle -kenttään (voit tehdä tämän seuraavassa "
+"vaiheessa)."
+
+msgid "Add-on submission checklist"
+msgstr "Lisäosan lähettämisen tarkistuslista"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr ""
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Tarkistusprosessi löysi seuraavat ongelmat, jotka saattavat johtaa hylkäämiseen:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Siirtämääsi tidostotyyppiä ei tunnisteta."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Tiedostosi ylittää enimmäiskoon {0}."
+
+msgid "You cancelled the upload."
+msgstr "Keskeytit siirtämisen."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Kuvien on oltava joko PNG tai JPG-muodossa."
+
+msgid "Videos must be in WebM."
+msgstr "Videoiden tulee olla WebM-muodossa."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Tämä teema ei ole yhteensopiva tämän {0} -version kanssa"
+
+msgid "Flagged for review"
+msgstr "Merkitty arvioitavaksi"
+
+msgid "Your input is required"
+msgstr "Syötteesi vaaditaan"
+
+msgid "Marked for deletion"
+msgstr "Merkitty poistettavaksi"
+
+msgid "Updating results&hellip;"
+msgstr "Päivitetään tuloksia&hellip;"
+
+msgid "Category"
+msgstr "Luokka"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr ""
+
+msgid "Search apps for <b>{0}</b>"
+msgstr ""
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr ""
+
+msgid "Use original"
+msgstr "Käytä alkuperäistä"
+
+msgid "Week of {0}"
+msgstr "Viikko {0}"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} lataus"
+msgstr[1] "{0} latausta"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} käyttäjä"
+msgstr[1] "{0} käyttäjää"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} lisäosa"
+msgstr[1] "{0} lisäosaa"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} kokoelma"
+msgstr[1] "{0} kokoelmaa"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} arvio"
+msgstr[1] "{0} arviota"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} myynti"
+msgstr[1] "{0} myyntiä"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} palautus"
+msgstr[1] "{0} palautusta"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} asennus"
+msgstr[1] "{0} asennusta"
+
+msgid "Downloads"
+msgstr "Lataukset"
+
+msgid "Daily Users"
+msgstr "Päivittäiset käyttäjät"
+
+msgid "Amount, in USD"
+msgstr "Summa, USD"
+
+msgid "Number of Contributions"
+msgstr ""
+
+msgid "More Info..."
+msgstr "Lisätietoja..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "Tiedot kohteelle {0}"
+
+msgid "Collections Created"
+msgstr "Kokoelmat luotu"
+
+msgid "Add-ons in Use"
+msgstr "Käytössä olevat lisäosat"
+
+msgid "Add-ons Created"
+msgstr "Lisäosia luotu"
+
+msgid "Add-ons Downloaded"
+msgstr "Lisäosia ladattu"
+
+msgid "Add-ons Updated"
+msgstr "Lisäosia päivitetty"
+
+msgid "Reviews Written"
+msgstr "Arvioita kirjoitettu"
+
+msgid "User Signups"
+msgstr "Käyttäjiä rekisteröitynyt"
+
+msgid "Subscribers"
+msgstr "Tilaajat"
+
+msgid "Ratings"
+msgstr "Arviot"
+
+msgid "Sales"
+msgstr "Myynti"
+
+msgid "Installs"
+msgstr "Asennuksia"
+
+msgid "Unknown"
+msgstr "Tuntematon"
+
+msgid "Add-ons Manager"
+msgstr "Lisäosien hallinta"
+
+msgid "Add-ons Manager Promo"
+msgstr ""
+
+msgid "Add-ons Manager Featured"
+msgstr ""
+
+msgid "Add-ons Manager Learn More"
+msgstr ""
+
+msgid "Search Suggestions"
+msgstr "Hakuehdotukset"
+
+msgid "Search Results"
+msgstr "Hakutulokset"
+
+msgid "Homepage Promo"
+msgstr ""
+
+msgid "Homepage Featured"
+msgstr ""
+
+msgid "Homepage Up and Coming"
+msgstr ""
+
+msgid "Homepage Most Popular"
+msgstr ""
+
+msgid "Detail Page"
+msgstr ""
+
+msgid "Detail Page (bottom)"
+msgstr ""
+
+msgid "Detail Page (Development Channel)"
+msgstr ""
+
+msgid "Often Used With"
+msgstr ""
+
+msgid "Others By Author"
+msgstr "Muut tekijältä"
+
+msgid "Dependencies"
+msgstr "Riippuvuudet"
+
+msgid "Upsell"
+msgstr ""
+
+msgid "Meet the Developer"
+msgstr "Tapaa kehittäjä"
+
+msgid "User Profile"
+msgstr "Käyttäjäprofiili"
+
+msgid "Version History"
+msgstr "Versiohistoria"
+
+msgid "Sharing"
+msgstr ""
+
+msgid "Category Pages"
+msgstr ""
+
+msgid "Collections"
+msgstr "Kokoelmat"
+
+msgid "Category Landing Featured Carousel"
+msgstr ""
+
+msgid "Category Landing Top Rated"
+msgstr ""
+
+msgid "Category Landing Most Popular"
+msgstr ""
+
+msgid "Category Landing Recently Added"
+msgstr ""
+
+msgid "Browse Listing Featured Sort"
+msgstr ""
+
+msgid "Browse Listing Users Sort"
+msgstr ""
+
+msgid "Browse Listing Rating Sort"
+msgstr ""
+
+msgid "Browse Listing Created Sort"
+msgstr ""
+
+msgid "Browse Listing Name Sort"
+msgstr ""
+
+msgid "Browse Listing Popular Sort"
+msgstr ""
+
+msgid "Browse Listing Updated Sort"
+msgstr ""
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr ""
+
+msgid "Total Amount Contributed"
+msgstr ""
+
+msgid "Average Contribution"
+msgstr ""
+
+msgid "Usage"
+msgstr "Käyttö"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Lataukset ja päivittäiset käyttäjät, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Lataukset ja päivittäiset käyttäjät {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Asennukset ja päivittäiset käyttäjät, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Asennukset ja päivittäiset käyttäjät {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Lataukset, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Lataukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Päivittäiset käyttäjät, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Päivittäiset käyttäjät {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Sovellukset, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Sovellukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Countries, last {0} days"
+msgstr "Avustukset, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Countries from {0} to {1}"
+msgstr "Avustukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Alustat, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Alustat {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Kielet, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Kielet {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Lisäosan versiot, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Lisäosan versiot {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Lisäosan tila, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "Lisäosan tila {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Latauslähteet, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Latauslähteet {0} - {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Download Mediums, last {0} days"
+msgstr "Lataukset, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Download Mediums from {0} to {1}"
+msgstr "Lataukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Download Contents, last {0} days"
+msgstr "Latauslähteet, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Download Contents from {0} to {1}"
+msgstr "Lataukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Download Campaigns, last {0} days"
+msgstr "Lataukset, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Lataukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Avustukset, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Avustukset {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Sivuston tilastot, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Sivuston tilastot {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Lisäosia käytössä, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Lisäosia käytössä {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Lisäosia ladattu, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Lisäosia ladattu {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Lisäosia luotu, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Lisäosia luotu {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Kokoelmia luotu, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Kokoelmia luotu ajanjaksolla {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Tilaajat, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Tilaajat ajanjaksolla {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Myynnit, viimeiset {0} päivää"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Myynnit aikaväillä {0} - {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Asennukset viimeisten {0} päivän aikana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Asennukset aikavälillä {0} - {1}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr ""
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> ajanjaksolla {1} - {2}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr ""
+
+msgid "No data available."
+msgstr "Ei dataa saatavilla."
+
+msgid "Date"
+msgstr "Päivä"
+
+msgid "Other"
+msgstr "Muu"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Hyväksy ja asenna"
+
+msgid "Add to {0}"
+msgstr "Lisää {0}iin"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Asenna silti {0}ille"
+
+msgid "Download for {0} anyway"
+msgstr "Lataa silti {0}ille"
+
+msgid "Not available for your platform"
+msgstr "Ei saatavilla alustallesi"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Tämä lisäosa ei ole yhteensopiva tämän {0}'-version kanssa."
+
+msgid "View other versions"
+msgstr "Näytä muut versiot"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Toimii {app} versioiden {min} - {max} kanssa"
+
+msgid "Works with {app}"
+msgstr "Toimii sovelluksen {app} kanssa"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Vain Firefoxissa — Hanki Firefox nyt!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Pahoittelut, voit asentaa hakulisäosan vain Mozilla-pohjaisiin selaimiin (kuten Firefox)."
+
+msgid "Changes Saved"
+msgstr "Muutokset tallennettiin"
+
+msgid "Enter a new author's email address"
+msgstr ""
+
+msgid "There was an error uploading your file."
+msgstr "Tiedoston siirtämisessä tapahtui virhe."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} tiedosto"
+msgstr[1] "{files} tiedostoa"
+
+msgid "Image changes being processed"
+msgstr ""
+
+msgid "Select an application first"
+msgstr "Valitse ensin sovellus"
+
+msgid "No results found."
+msgstr "Tuloksia ei löytynyt."
+
+msgid "Loading..."
+msgstr "Ladataan..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> merkki"
+msgstr[1] "<b>{0}</b> merkkiä"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "<b>{0}</b> merkki jäljellä"
+msgstr[1] "<b>{0}</b> merkkiä jäljellä"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Tämä toiminto on väliaikaisesti poissa käytöstä, sillä suoritamme verkkosivun huoltoa. Tarkista tilanne hieman myöhemmin uudelleen."
+
+msgid "Remove this localization"
+msgstr "Poista tämä lokalisointi"
+
+msgid "{name} was viewing this page first."
+msgstr ""
+
+msgid "{name} was viewing this add-on first."
+msgstr ""
+
+msgid "Loading&hellip;"
+msgstr "Ladataan&hellip;"
+
+msgid "Version Notes"
+msgstr "Versiokommentit"
+
+msgid "Notes for Reviewers"
+msgstr "Huomioita arvioijalle"
+
+msgid "No version notes found"
+msgstr "Ei versiota koskevia kommentteja"
+
+msgid "Review Text"
+msgstr ""
+
+msgid "Review notes found"
+msgstr ""
+
+msgid "Average Reviews"
+msgstr "Arvioita keskimäärin"
+
+msgid "Number of Reviews"
+msgstr "Arvioiden määrä"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr ""
+
+msgid "Requested Info"
+msgstr ""
+
+msgid "Flagged"
+msgstr "Merkitty"
+
+msgid "Duplicate"
+msgstr "Kaksoiskappale"
+
+msgid "Rejected"
+msgstr "Hylätty"
+
+msgid "Approved"
+msgstr "Hyväksytty"
+
+msgid "No results found"
+msgstr "Tuloksia ei löytynyt"
+
+msgid "Theme"
+msgstr "Teema"
+
+msgid "Reviewer"
+msgstr "Arvioija"
+
+msgid "Status"
+msgstr "Tila"
+
+msgid "All tests passed successfully."
+msgstr "Kaikki testit läpäistiin onnistuneesti."
+
+msgid "These tests were not run."
+msgstr "Näitä testejä ei suoritettu."
+
+msgid "Tests"
+msgstr "Testit"
+
+msgid "Error"
+msgstr "Virhe"
+
+msgid "Warning"
+msgstr "Varoitus"
+
+msgid "{0} line {1} column {2}"
+msgstr ""
+
+msgid "{0} line {1}"
+msgstr ""
+
+msgid "Add-on failed validation."
+msgstr "Lisäosa ei läpäissyt tarkistusta."
+
+msgid "Add-on passed validation."
+msgstr "Lisäosa läpäisi tarkistuksen."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} virhe"
+msgstr[1] "{0} virhettä"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} varoitus"
+msgstr[1] "{0} varoitusta"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} ilmoitus"
+msgstr[1] "{0} ilmoitusta"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Tarkistusta ei voitu suorittaa, tai sen suorituksessa ilmeni virheitä"
+
+msgid "Internal server error"
+msgstr "Palvelimen sisäinen virhe"

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>搜索</title>
+	<link rel="stylesheet" href="{% static 'css/reset.css' %}">
+	<link rel="stylesheet" href="{% static 'css/result.css' %}">
+</head>
+<body>
+	<div class="app">
+		<div class="header">
+			<img class="logo" src="img/book.jpg" alt="logo">
+			<input id="input" class="input" type="text" maxlength="20">
+			<a class="search" href="javascript">搜索</a>
+			<ul id="ul" class="ul"></ul>
+
+			<div class="header-wrap">
+				<a href="javascript:;">回到首页</a>
+				<a href="javascript:;">英文</a>
+			</div>
+		</div>
+		<div class="container">
+			<div class="type">
+				<a class="type-font type-active" href="javascript:;">TXT(21)</a>
+				<a class="type-font" href="javascript:;">PDF(6)</a>
+				<a class="type-font" href="javascript:;">DOC(3)</a>
+				<a class="type-font" href="javascript:;">EPUB(1)</a>
+				<a class="type-font" href="javascript:;">MOBI(1)</a>
+				<a class="type-font" href="javascript:;">OTHER(5)</a>
+				<a class="type-font" href="javascript:;">默认排序</a>
+				<a class="type-font" href="javascript:;">热度排序</a>
+				<a class="type-font" href="javascript:;">时间排序</a>
+			</div>
+			<div class="content">找到约&nbsp;{{ total_nums }}&nbsp;条结果(用时{{ last_seconds }} 秒)</div>
+
+			{{% for hit in hits %}}
+				<div class="content-item">
+					<a class="item-title" href="javascript:;">
+						<span class="title-hl">{% autoescape off %}{{ hit.book_name }}{% endautoescape %}</span>
+						<span>{{ hit.book_type }}</span>
+					</a>
+					<div class="item-con">
+						作者江南,小说简介: 关于{{ hit.book_intro }} ...<span class="con-hl"></span>
+					</div>
+					<div class="item-detail">
+						<span class="detail-hl">{{ hit.book_format }} </span>创建时间：<span class="detail-hl">1个月前</span>文件大小：<span class="detail-hl">{{ hit.book_size }}</span>下载热度：<span class="detail-hl">2000</span> 最近下载：<span class="detail-hl">100</span>
+					</div>
+					<div class="item-from">
+						来源:<a class="from-hl" href="javascript:;">{{ hit.book_source }}</a>
+					</div>
+				</div>
+			{{ % endfor % }}
+
+
+
+				<div class="content-relation">
+					<div class="relation-title">相关搜索</div>
+					<ul class="relation-wrap">
+						<li class="wrap-li">
+							<a href="javascript:;">龙族5</a>
+							<a href="javascript:;">龙族第一章</a>
+							<a href="javascript:;">龙族5pdf</a>
+						</li>
+						<li class="wrap-li">
+							<a href="javascript:;">龙族4奥丁深渊</a>
+							<a href="javascript:;">龙族3</a>
+							<a href="javascript:;">龙族3txt</a>
+						</li>
+						<li class="wrap-li">
+							<a href="javascript:;">龙族1</a>
+							<a href="javascript:;">龙族2</a>
+							<a href="javascript:;">龙族pdf</a>
+						</li>
+					</ul>			
+				</div>
+			</div>
+			<div class="page-divide">
+				<a href="javascript:;" class="n page-pro"><上一页</a>
+				<a href="javascript:;" class="page-active">1</a>
+				<a href="javascript:;">2</a>
+				<a href="javascript:;">3</a>
+				<a href="javascript:;">4</a>
+				<a href="javascript:;">5</a>
+				<a href="javascript:;">6</a>
+				<a href="javascript:;">7</a>
+				<a href="javascript:;">8</a>
+				<a href="javascript:;">9</a>
+				<a href="javascript:;">10</a>
+				<a href="javascript:;" class="n page-next">下一页></a>
+			</div>
+
+			<div class="search-wrap">
+				<div class="my-search">
+					<div class="search-title">我的搜索</div>
+					<div class="tag-wrap">
+						<a href="javascript:;">龙族</a>
+						<a href="javascript:;">楚乔传</a>
+						<a href="javascript:;">择天记</a>
+						<a href="javascript:;">琅琊榜</a>
+						<a href="javascript:;">斗破苍穹</a>
+					</div>
+				</div>
+				<div class="hot-search search-marTop">
+					<div class="search-title">热门搜索</div>
+					<div class="tag-wrap">
+						<a href="javascript:;">秦时明月之君临天下</a>
+						<a href="javascript:;">妖神纪</a>
+						<a href="javascript:;">神印王座</a>
+						<a href="javascript:;">师父驾到</a>
+						<a href="javascript:;">校花的贴身高手</a>
+						<a href="javascript:;">替天行道</a>
+						<a href="javascript:;">长生九万年</a>
+						<a href="javascript:;">最强基因</a>
+						<a href="javascript:;">黑暗超神</a>
+						<a href="javascript:;">斗罗大陆</a>
+					</div>
+				</div>
+				<div class="buy-genuine search-marTop">
+					<div class="search-title">购买正版</div>
+					<div class="buy-wrap">
+						<div class="buy-title">亚马逊购买(readfree.me)</div>
+						<a href="javascript:;">龙族V 江南</a>
+						<a href="javascript:;">龙族IV 江南</a>
+						<a href="javascript:;">龙族III 江南</a>
+						<a href="javascript:;">龙族II 江南</a>
+						<a href="javascript:;">龙族I 江南</a>
+					</div>
+					<div class="buy-wrap">
+						<div class="buy-title">看看豆购买(kankandou.com)</div>
+						<a href="javascript:;">龙族I 江南</a>
+						<a href="javascript:;">龙族 (全)</a>
+						<a href="javascript:;">龙族大陆之天赋魔石</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'js/lib/jquery.min.js' %}"></script>
+	<!-- <script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script> -->
+	<script src="{% static 'js/input.js %}"></script>
+	<script src="{% static 'js/result.js' %}"></script>
+</body>
+</html>

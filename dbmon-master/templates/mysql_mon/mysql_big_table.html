@@ -1,0 +1,133 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ table_name }}增长趋势
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">MySQL</a></li>
+        <li><a href="#">资源监控</a></li>
+        <li><a href="#">big table</a></li>
+        <li class="active"><a href="#">{{ table_name }}增长趋势</a></li>
+        </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+             <div class="col-md-6">
+              <div class="box-tools">
+              <table class="table table-bordered text-center">
+             <tbody>
+                <a href="/mysql_big_table?tags={{ tags }}&db={{ db }}&table_name={{ table_name }}&table_range_default=1小时"><button type="button" class="btn bg-olive margin">1小时</button></a>
+                <a href="/mysql_big_table?tags={{ tags }}&db={{ db }}&table_name={{ table_name }}&table_range_default=1天"><button type="button" class="btn bg-olive margin">1天</button></a>
+                <a href="/mysql_big_table?tags={{ tags }}&db={{ db }}&table_name={{ table_name }}&table_range_default=7天"><button type="button" class="btn bg-olive margin">7天</button></a>
+                <a href="/mysql_big_table?tags={{ tags }}&db={{ db }}&table_name={{ table_name }}&table_range_default=30天"><button type="button" class="btn bg-olive margin">30天</button></a>
+              </tbody></table>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+          <!-- /.row -->
+       </div>
+        </div>
+                  <!-- interactive chart -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-bar-chart-o"></i>
+              <h3 class="box-title">{{ table_name }}使用空间(MB)</h3>
+                 <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+
+            <div class="box-body">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+          </div>
+              <div class="conn" id="table-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          </div>
+          <!-- /.box -->
+        <!-- /.col -->
+          </div>
+          </div>
+{% endblock %}
+
+{% block  javascripts %}
+    <script>
+      // ####################  【表空间使用(GB)趋势】图形  ####################
+ var myChart_table_grow = echarts.init(document.getElementById('table-grow-chart'));
+ option_table_grow = {
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['used gb']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in tablegrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true,
+
+     },
+     series: [
+              {
+             name:'used mb',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d4d098"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d4d098"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d4d098",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tablegrow_list %}{{ i.total }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_table_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_table_grow.hideLoading();  //显示完成后不显示loading
+     myChart_table_grow.setOption(option_table_grow, true);
+ },500);
+    </script>
+{% endblock %}

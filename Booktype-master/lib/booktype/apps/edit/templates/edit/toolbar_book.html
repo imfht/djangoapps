@@ -1,0 +1,22 @@
+{% load i18n booktype_tags %}
+
+<h1>
+  <a class="draft-stat" title="{% trans "Open book information page" %}" href="{% url 'reader:infopage' book.url_title %}">{% trans "Info" %}</a>
+  {{ book.title }}
+</h1>
+<div class="btn-toolbar float-right">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" title="" id="button-toc" data-original-title="{% trans 'Table Of Contents' %}" rel="tooltip" data-placement="bottom"><i class="bk-icon-toc"></i></button>
+      <button type="button" class="btn btn-default" title="" id="button-media" data-original-title="{% trans 'Media' %}" rel="tooltip" data-placement="bottom"><i class="bk-icon-media"></i></button>
+      <button type="button" class="btn btn-default" title="" id="button-cover" data-original-title="{% trans 'Cover Manager' %}" rel="tooltip" data-placement="bottom"><i class="bk-icon-cover"></i></button>
+    </div>
+    <div class="btn-group float-right">
+      <button type="button" class="btn btn-default" title="" id="button-history" data-original-title="{% trans 'Book History' %}" rel="tooltip" data-placement="bottom"><i class="bk-icon-history"></i></button>
+      <button type="button" class="btn btn-default" title="" id="button-settings" data-original-title="{% trans 'Settings' %}" rel="tooltip" data-placement="bottom"><i class="bk-icon-settings"></i></button>
+    </div>
+    {% check_perm 'export.export_book' or 'export.export_view' %}
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" id="button-publish" title="">{% trans 'Publish' %}</button>
+      </div>
+    {% endcheck_perm %}
+</div>

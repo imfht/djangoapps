@@ -1,0 +1,52 @@
+.lightbox-create-related-user-stories {
+    .lightbox-create-related-user-stories-wrapper {
+        max-width: 600px;
+        width: 90%;
+    }
+    fieldset {
+        label {
+            display: inline-block;
+            margin-bottom: .5rem;
+        }
+    }
+    .new-user-story-title {
+        align-items: flex-end;
+        display: flex;
+    }
+    .existing-user-story-form,
+    .new-user-story-form {
+        margin-bottom: 1rem;
+    }
+    .no-stories-found {
+        padding: 1rem 0 0;
+    }
+    .new-user-story-options {
+        display: flex;
+        margin-left: auto;
+        input {
+            display: none;
+            &:checked+label {
+                background: $primary-light;
+                color: $white;
+                fill: $white;
+                transition: background .2s ease-in;
+            }
+            +label {
+                background: $mass-white;
+                color: $grayer;
+                cursor: pointer;
+                display: block;
+                padding: .5rem;
+                transition: background .2s ease-in;
+            }
+            +label:hover {
+                background: $primary-light;
+                color: $white;
+                fill: $white;
+            }
+        }
+    }
+    button {
+        width: 100%;
+    }
+}

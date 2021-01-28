@@ -1,0 +1,188 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="keywords" content="{% block keywords %}
+    {% endblock %}">
+    <meta name="description" content="{% block desc %}
+    {% endblock %}">
+    <meta name="author" content="{% block authors %}
+    {% endblock %}">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'img/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/public.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <style>
+        #cnzz_stat_icon_1277918196{
+        position: absolute;
+        bottom: 15px;
+        z-index: 1;
+            margin-bottom: 0;
+        }
+    </style>
+    {% block css %}{% endblock %}
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.min.js' %}"></script>
+    <script src="{% static 'js/public.js' %}"></script>
+    <script src="{% static 'js/xss.js' %}"></script>
+    <script src="{% static 'js/promise.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+    {% block link_js %}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <div class="main clearfix">
+        <a class="fl logo" href="{% url 'home' %}" style="height:45px;background: url({% static 'img/logo.png' %})no-repeat;width: 120px;background-size: 120px 45px;
+    margin-top: 7px;">
+{#            <img style="width: 40px;margin-top: 20px;" src="{% static 'img/logo.png' %}" alt="">#}
+        </a>
+        <nav class="fl">
+            <ul class="clearfix headers_nav">
+{#                <li class="fl"><a class="{% if request.path == '/' %}#}
+{#                active#}
+{#                {% endif %}" href="{% url 'home' %}">首页</a></li>#}
+                <li class="fl"><a class=" {% if request.path|slice:'9' == '/article/' %}
+                active
+                {% endif %}"href="{% url 'article:index' %}">首页</a></li>
+
+                <li class="fl"><a class=" {% if request.path|slice:'8' == '/course/' %}
+                active
+                {% endif %} "href="{% url 'course:index' %}">教程</a></li>
+             <li class="fl"><a class=" {% if request.path|slice:'7' == '/forum/' %}
+                active
+                {% endif %}" href="{% url 'forum:forum' %}">社区论坛</a></li>
+{#                <li class="fl"><a class=" {% if request.path|slice:'9' == '/support/' %}#}
+{#                active#}
+{#                {% endif %}" href="{% url 'support:support' %}">支持与赞助</a></li>#}
+            </ul>
+        </nav>
+        <div class="fr user">
+            <ul class="clearfix"style="display:flex;display: -webkit-flex;">
+            <li>
+                <form role="search" method="get" id="searchform" action="{% url 'haystack_search' %}">
+                  <input type="text" name="q" placeholder="搜索" required class="form_control">
+{#                  <button type="submit">#}
+                      <button type="submit" class="form_search"></button>
+{#                  </button>#}
+                </form>
+            </li>
+                <li class="fl style" style="background: url({% static 'img/public.png' %})no-repeat 0 50%;"><a href="{% url 'article:created' %}">写文章</a></li>
+{#                <li class="fl style" style="background: url({% static 'img/phone.png' %})no-repeat 0 50%;"><a href="">手机阅读</a></li>#}
+                {% if request.user.is_authenticated %}
+                    <li class="fl avatar">
+                        <a class="img_cover" style="background: url({% if request.user.user_imag %}
+                            {{ MEDIA_URL }}{{ request.user.user_imag  }}
+                            {% elif request.user.user_image %}
+                            {{ request.user.user_image }}
+                            {% else %}
+                            {% static 'img/pc-icon.png' %}
+                        {% endif %})no-repeat;">
+                        <b id="yuan" style="width: 10px;height: 10px;
+                        position: absolute;
+                        display: none;
+                        right: 0;
+                        background: red;-webkit-border-radius: 50%;-moz-border-radius: 50%;border-radius: 50%;"></b>
+                        </a>
+                        <ul class="meau meau_hide">
+                            <li><a href="{% url 'user:person' %}">个人中心</a></li>
+                         <li><a href="{% url 'user:message' %}">消息<span class="badge" style="display: none;"></span></a></li>
+                            {% if user.is_staff  %}
+                                <li><a href="/admin">系统管理</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'logou' %}">退出</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="fl"><a href="/login">登录 </a> | <a href="{% url 'register' %}"> 注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</header>
+{% block content %}
+
+{% endblock %}
+
+<footer class="footer">
+    <p class="main">Powered by
+        <a>爱上她的歌</a>
+        <a href="http://www.miitbeian.gov.cn" target="_blank">蜀ICP备18023241号-1</a>
+    </p>
+</footer>
+ <a href="javascript:;" id="toTop" class=" fa fa-chevron-up"></a>
+<script>
+var os = function() {
+    var ua = navigator.userAgent,
+        isWindowsPhone = /(?:Windows Phone)/.test(ua),
+        isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+        isAndroid = /(?:Android)/.test(ua),
+        isFireFox = /(?:Firefox)/.test(ua),
+        isChrome = /(?:Chrome|CriOS)/.test(ua),
+        isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+        isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+        isPc = !isPhone && !isAndroid && !isSymbian;
+    return {
+        isTablet: isTablet,
+        isPhone: isPhone,
+        isAndroid: isAndroid,
+        isPc: isPc
+    };
+}();
+   if(os.isAndroid || os.isPhone) {
+   window.location.href=window.location.hash+'/webapp/#'
+} else if(os.isTablet) {
+    window.location.href=window.location.hash+'/webapp/#'
+}
+    $(function(){
+        {% if request.user.is_authenticated %}
+
+        $.ajax({
+            url:'/info/',
+            type:'get',
+            success:function (data) {
+                $('span.badge').text(data.count)
+                if(data.count>0){
+                    $("#yuan").show()
+                     $('span.badge').show()
+                }
+            }
+        })
+        {% endif %}
+
+        $('.avatar').click(function(event){
+            event.stopPropagation();
+            $('.meau').fadeIn()
+        })
+        $(document).click(function(){
+            $(".meau").fadeOut();
+            });
+        $(window).scroll(function(){
+                if ($(window).scrollTop()>100){
+                    $("#toTop").fadeIn(1500);
+                }
+                else
+                {
+                    $("#toTop").fadeOut(1000);
+                }
+        });
+            //当点击跳转链接后，回到页面顶部位置
+            $("#toTop").click(function(){
+                $('body,html').animate({scrollTop:0},500);
+                return false;
+            });
+        //底部栏位置始终在最底部
+        //console.log(window.screen.availHeight)
+        $("body").css({
+            "min-height": $(window).height()
+        })
+    })
+</script>
+{% block js %}
+{% endblock %}
+</body>
+</html>

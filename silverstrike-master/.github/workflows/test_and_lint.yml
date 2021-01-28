@@ -1,0 +1,40 @@
+name: Test and Lint
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.6, 3.7, 3.8, 3.9]
+        tox: [django3.0, django3.1, flake, codecov]
+        exclude:
+        - python: 3.6
+          tox: flake
+        - python: 3.6
+          tox: codecov
+        - python: 3.7
+          tox: flake
+        - python: 3.7
+          tox: codecov
+        - python: 3.8
+          tox: flake
+        - python: 3.8
+          tox: codecov
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox
+    - name: Test
+      env:
+        CODECOV_TOKEN: ${{ secrets.codecov_token }}
+      run: |
+        tox -e ${{ matrix.tox }}

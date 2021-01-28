@@ -1,0 +1,16 @@
+{% extends 'cards/base.html' %}
+{% load duration i18n %}
+
+{% block header %}{% trans "Last Sleep" %}{% endblock %}
+
+{% block title %}
+    {% if sleep %}
+        {% blocktrans trimmed with time=sleep.end|timesince %}
+            {{ time }} ago
+        {% endblocktrans %}
+    {% else %}
+        {% trans "None" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}{{ sleep.duration|duration_string }}{% endblock %}

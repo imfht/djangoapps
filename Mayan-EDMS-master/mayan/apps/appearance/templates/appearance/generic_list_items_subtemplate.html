@@ -1,0 +1,114 @@
+{% load i18n %}
+{% load static %}
+
+{% load common_tags %}
+{% load navigation_tags %}
+
+<div class="row">
+    <div class="col-xs-12">
+        {% if not object_list %}
+            <div class="well">
+                {% include 'appearance/no_results.html' %}
+            </div>
+        {% else %}
+            {% include 'appearance/list_header.html' %}
+            {% navigation_resolve_menu name='multi item' sort_results=True source=object_list.0 as links_multi_menus_results %}
+            <div class="well center-block">
+                <div class="row row-items">
+                    {% for object in object_list %}
+                        <div class="{{ column_class|default:'col-xs-12 col-sm-4 col-md-3 col-lg-2' }}">
+                            <div class="panel panel-primary panel-item">
+                                <div class="panel-heading">
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label for="id_indexes_0" style="cursor: auto;">
+                                                {% if links_multi_menus_results and not hide_multi_item_actions %}
+                                                    <input class="form-multi-object-action-checkbox check-all-slave checkbox" name="pk_{{ object.pk }}" style="cursor: pointer;" type="checkbox" />
+                                                {% endif %}
+
+                                                <span style="color: white; word-break: break-all; overflow-wrap: break-word;">
+                                                    {% if not hide_object %}
+                                                        {% if not hide_link %}
+                                                            <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+                                                        {% else %}
+                                                            {{ object }}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% navigation_get_source_columns source=object only_identifier=True as source_column %}
+                                                        {% navigation_source_column_resolve column=source_column as column_value %}
+                                                        {{ column_value }}
+                                                    {% endif %}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="panel-body">
+                                    {% if not hide_columns %}
+                                        {% navigation_get_source_columns source=object exclude_identifier=True as source_columns %}
+                                        {% for column in source_columns %}
+                                            <div class="text-center" style="">{% navigation_source_column_resolve column=column as column_value %}{% if column_value != '' %}{% if column.include_label %}<span class="source-column-label">{{ column.label }}</span>: {% endif %}{{ column_value }}{% endif %}</div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    {% for column in extra_columns %}
+                                        <div class="text-center"><span class="list-extra-column-label">{{ column.name }}</span>: {{ object|common_object_property:column.attribute }}</div>
+                                    {% endfor %}
+
+                                    {% if not hide_links %}
+                                        <hr/>
+                                        {% navigation_resolve_menus names='list facet,object' source=object as facet_menus_link_results %}
+
+                                        {% if facet_menus_link_results %}
+                                            <div class="dropdown text-center">
+                                                <button aria-expanded="false" aria-haspopup="true" class="btn btn-default btn-danger btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                    {% trans 'Actions' %}
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">{% trans 'Toggle Dropdown' %}</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    {% for facet_menu_link_result in facet_menus_link_results %}
+                                                        {% for link_group in facet_menu_link_result.link_groups %}
+
+                                                            {% with link_group.links as object_navigation_links %}
+                                                            {% with 'true' as as_li %}
+                                                            {% with 'true' as hide_active_anchor %}
+                                                            {% with 'btn-sm' as link_classes %}
+                                                                {% include 'navigation/generic_navigation.html' %}
+                                                            {% endwith %}
+                                                            {% endwith %}
+                                                            {% endwith %}
+                                                            {% endwith %}
+
+                                                        {% endfor %}
+
+                                                        {% if not forloop.last and facet_menu_link_result %}
+                                                            <li class="divider"></li>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    'use strict';
+
+    $(function() {
+        $('.row-items > [class*="col"] .panel-item .panel-heading').matchHeight();
+        $('.row-items > [class*="col"] .panel-item .panel-body').matchHeight();
+        $('.row-items > [class*="col"] .panel-item').matchHeight();
+    });
+</script>

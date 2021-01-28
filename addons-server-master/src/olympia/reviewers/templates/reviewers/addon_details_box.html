@@ -1,0 +1,243 @@
+  <div class="addon-info-and-previews">
+    {% if addon_name %}
+      <h2>{{ addon_name }}</h2>
+    {% endif %}
+    {% if not addon.has_per_version_previews %}
+    <div class="addon-previews">
+      {% if addon.current_previews %}
+        {% with preview=addon.current_previews[0] %}
+          <a class="screenshot thumbnail" rel="jquery-lightbox"
+            href="{{ preview.image_url }}" title="{{ preview.caption }}">
+              <img alt="" src="{{ preview.thumbnail_url }}" />
+          </a>
+        {% endwith %}
+      {% else %}
+        <img class="screenshot thumbnail" src="{{ addon.thumbnail_url }}"
+          alt="" width="200" height="150" />
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="addon-info object-lead">
+      <p{{ addon.summary|locale_html }}>{{ addon.summary|nl2br }}</p>
+      {% if version and version.is_restart_required %}
+        <div>
+          <span>{{ _('Requires Restart') }}</span>
+        </div>
+      {% endif %}
+
+      <table itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+        {% with addon_name='<span itemprop="itemreviewed">{0}</span>'|format_html(addon.name) %}
+          {# L10n: This is a caption for a table. {0} is an add-on name. #}
+          <caption>{{ _('Add-on Information for {0}')|format_html(addon_name) }}</caption>
+        {% endwith %}
+        <tbody>
+          <tr class="addon-guid">
+            <th>{{ _('Add-on ID') }}</th>
+            <td>{{ addon.guid }}</td>
+          </tr>
+          <tr class="addon-amo-id">
+            <th>{{ _('Internal AMO ID') }}</th>
+            <td>{{ addon.id }}</td>
+          </tr>
+          {% if addon.is_deleted %}
+          <tr class="addon-status">
+            <th>{{ _('Status') }}</th>
+            <td>
+                <strong>{{ addon.STATUS_CHOICES[addon.status] }}</strong>
+            </td>
+          </tr>
+          {% endif %}
+          <tr class="addon-updated">
+            <th>{{ _('Updated') }}</th>
+            <td>
+              <time datetime="{{ addon.last_updated|isotime }}">{{
+                addon.last_updated|date }}</time>
+            </td>
+          </tr>
+          {% if addon.homepage %}
+            <tr>
+              <th>{{ _('Website') }}</th>
+              <td>
+                <strong><a href="{{ addon.homepage|external_url }}">{{
+                  addon.homepage }}</a></strong>
+              </td>
+            </tr>
+          {% endif %}
+          {% if addon.support_url %}
+            <tr>
+              <th>{{ _('Support Website') }}</th>
+              <td>
+                <strong><a href="{{ addon.support_url|external_url }}">{{
+                  addon.support_url }}</a></strong>
+              </td>
+            </tr>
+          {% endif %}
+          {% if addon.has_listed_versions() %}
+          <tr>
+            <th>{{ _('Visibility') }}</th>
+            <td>
+              {% if not addon.is_disabled %}
+                {{ _('Visible') }}
+              {% elif addon.is_disabled %}
+                {{ _('Invisible') }}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {# XXX future feature: 'Localizations' ... #}
+          <tr class="meta-rating">
+            <th>{{ _('Rating') }}</th>
+            <td>
+              <p class="addon-rating">
+                {% with num=addon.total_ratings %}
+                  {% if num %}
+                  {{ addon.average_rating|float|stars }}
+                  {% with count='<span itemprop="count">{0}</span>'|format_html(num|numberfmt) %}
+                    {# Using num=count so we don't change an L10n string. #}
+                    {% set review_url_text = ngettext('{num} review', '{num} reviews', num)|format_html(num=count) %}
+                    {% if acl_is_review_moderator %}
+                      {% set review_url = url('admin:ratings_rating_changelist')|urlparams(addon=addon.pk) %}
+                      <a href="{{ review_url|absolutify }}"><strong>{{ review_url_text }}</strong></a>
+                    {% else %}
+                      <strong>{{ review_url_text }}</strong>
+                    {% endif %}
+                  {% endwith %}
+                  {% else %}
+                    <strong>{{ _('Not yet rated') }}</strong>
+                  {% endif %}
+                {% endwith %}
+              </p>
+            </td>
+          </tr>
+          <tr class="meta-stats">
+            <th>{{ _('Weekly Downloads') }}</th>
+            <td>
+              <strong class="downloads">
+                {{ addon.weekly_downloads|numberfmt }}
+              </strong>
+            </td>
+          </tr>
+          {% if addon.average_daily_users %}
+            <tr class="meta-stats">
+              <th>{{ _('Average Daily Users') }}</th>
+              <td>
+                <strong class="downloads">{{
+                  addon.average_daily_users|numberfmt }}</strong>
+              </td>
+            </tr>
+          {% endif %}
+          {% if reports %}
+          <tr class="meta-abuse">
+            <th>{{ _('Abuse Reports') }}</th>
+            <td>
+                <a href="{{ url('reviewers.abuse_reports', addon.slug)|absolutify }}{{ '?channel=unlisted' if unlisted else '' }}">
+                  <strong>{{ reports.paginator.count|numberfmt }}</strong>
+                </a>
+            </td>
+          </tr>
+          {% endif %}
+          {% if addon.privacy_policy %}
+            <tr>
+              <th>{{ _('Privacy Policy') }}</th>
+              <td>
+                <a href="{{ url('reviewers.privacy', addon.slug)|absolutify }}{{ '?channel=unlisted' if unlisted else '' }}">
+                  {{ _('View Privacy Policy') }}</a>
+              </td>
+            </tr>
+          {% endif %}
+          <tr class="requires-payment">
+            <th>{{ _('Requires Payment') }}</th>
+            <td>
+                {{ _('Yes') if addon.requires_payment else _('No') }}
+            </td>
+          </tr>
+          {% if addon.eula %}
+            <tr>
+              <th>{{ _('EULA') }}</th>
+              <td>
+                <a href="{{ url('reviewers.eula', addon.slug)|absolutify }}{{ '?channel=unlisted' if unlisted else '' }}">
+                  {{ _('View End-User License Agreement') }}</a>
+              </td>
+            </tr>
+          {% endif %}
+          {% if approvals_info %}
+            <tr class="last-approval-date">
+              <th> {{ _('Last Approval Date') }} </th>
+              <td> {{ approvals_info.last_human_review|date }}</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+
+    </div>{# /addon-info #}
+  </div>{# /addon-info-and-previews #}
+
+  <div class="reports-and-ratings">
+    {% if reports %}
+      <h3><a href="{{ url('reviewers.abuse_reports', addon.slug)|absolutify }}">{{_('Abuse Reports ({num})')|format_html(num=reports.paginator.count|numberfmt) }}</a></h3>
+      {% include "reviewers/includes/abuse_reports_list.html" %}
+    {% endif %}
+
+    {% if user_ratings %}
+      <h3><a href="{{ url('addons.ratings.list', addon.slug)|absolutify }}">{{_('Bad User Ratings ({num})')|format_html(num=user_ratings.paginator.count|numberfmt) }}</a></h3>
+      {% include "reviewers/includes/user_ratings_list.html" %}
+    {% endif %}
+  </div>
+
+  {% if addon.has_per_version_previews %}
+    <div id="addon-theme-previews-wrapper">
+      <h3>{{ _('Theme Images') }}</h3>
+      <div>
+        {% with previews = version.previews.all() if version else [] %}
+        {% for preview in previews %}
+          <img alt="" src="{{ preview.image_url }}" title="{{ _('Rendered Preview') }}" />
+        {% endfor %}
+        {% endwith %}
+      </div>
+      <div class="all-backgrounds" data-backgrounds-url="{{ url('reviewers.theme_background_images', version.id if version else 0) }}">
+      </div>
+    </div>
+  {% elif addon.description or addon.current_previews|length > 1 or addon.developer_comments %}
+    <h3 id="more-about" class="more-about">{{ _('More about this add-on') }}</h3>
+    <div class="article userinput more-about">
+      <p{{ addon.description|locale_html }}>{{ addon.description|nl2br }}</p>
+
+      {% if addon.current_previews|length > 1 %}
+        <h4>{{ _('Image Gallery') }}</h4>
+        {% for preview in addon.current_previews[1:] %}
+        <a class="screenshot thumbnail" rel="jquery-lightbox"
+          href="{{ preview.image_url }}" title="{{ preview.caption }}">
+            <img src="{{ preview.thumbnail_url }}" alt="" />
+        </a>
+        {% endfor %}
+      {% endif %}
+
+      {% if addon.developer_comments %}
+      <h4>{{ _('Developer Comments') }}</h4>
+        <div class="prose userinput">
+          <p{{ addon.developer_comments|locale_html }}>{{
+            addon.developer_comments|nl2br }}</p>
+        </div>
+      {% endif %}
+
+    </div>{# /article #}
+  {% else %}
+    <h3 id="more-about" class="more-about">{{ _('More about this add-on') }}</h3>
+    <div class="article more-about">
+      <em>
+        {{ _('Nothing to see here!  The developer did not include any details.') }}
+      </em>
+    </div>
+  {% endif %}
+
+  {% if name_translations %}
+  <div id="name-translations">
+    <h3> {{ _('Add-on name translations') }} </h3>
+    <ul>
+      {% for translations in name_translations|groupby('localized_string') %}
+        <li><strong>{% for translation in translations.list|sort(attribute='locale') %}{{ LANGUAGES.get(translation.locale|lower) }}{% if not loop.last %}, {% endif %}{% endfor %}:</strong> {{ translations.grouper }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}

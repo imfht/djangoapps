@@ -1,0 +1,38 @@
+{% load i18n booktype_tags %}
+<div class="navigation-bar">
+    <!-- Navbar -->
+    <div class="user">
+      <div class="btn-group">
+        {% include "edit/toolbar_user.html" %}
+      </div>
+      <!-- TODO: Translate languages and manage list of available languages -->
+      <div class="btn-group">
+          <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">
+            {% get_language_info for LANGUAGE_CODE as lang %}
+            {% trans lang.name %}
+            <span class="caret"></span>
+        </button>
+          <ul class="dropdown-menu pull-right">
+          {% for code, lang in LANGUAGES %}
+          <li>
+          <form class='hidden' name="setLang{{ code }}" action="{% url "set_language" %}" method="POST">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.path }}" />
+            <input type="hidden" name="language" value="{{ code }}" />
+          </form>
+          <a href="#" target="_blank" onclick="document.forms['setLang{{ code }}'].submit();return false;">
+              {{ lang }}
+              </a>
+
+          </li>
+          {% endfor %}
+          <li role="separator" class="divider"></li>
+          <li><a href="https://www.transifex.com/sourcefabric/booktype/" target="_blank">{% trans "Help us to translate Booktype" %}</a></li>          
+          </ul>
+      </div>
+    </div>
+
+    <div class="collapse-navigation"><a href="javascript:void(0)"></a></div>
+    {% booktype_site_name %}
+</div>      
+<!-- end Navbar -->
+

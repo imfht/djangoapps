@@ -1,0 +1,134 @@
+.attachment-simple {
+    .attachment-name {
+        flex-basis: 70%;
+        flex-grow: 0;
+        width: 70%;
+    }
+    .single-attachment {
+        padding: .5rem 0 .5rem .5rem;
+    }
+    .settings {
+        justify-content: flex-end;
+    }
+}
+
+.attachment-full {
+    .attachment-settings {
+        display: flex;
+        justify-content: flex-end;
+
+        > div,
+        .settings {
+            margin-right: .75rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.attachment-list {
+    .single-attachment {
+        align-items: center;
+        border-bottom: 1px solid $color-gray100;
+        display: flex;
+        padding: .5rem;
+        position: relative;
+        &:hover {
+            .settings {
+                opacity: 1;
+                transition: opacity .2s ease-in;
+            }
+        }
+        &.deprecated {
+            color: $color-link-tertiary;
+            span,
+            .attachment-name a {
+                color: $color-link-tertiary;
+            }
+        }
+    }
+    .attachment-name {
+        flex-grow: 1;
+        flex-shrink: 0;
+        padding-right: 1rem;
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .attachment-comments,
+    .editable-attachment-comment {
+        flex: 2;
+        flex-basis: 50%;
+        margin-right: .5rem;
+        span {
+            color: $grayer;
+        }
+    }
+    .attachment-size {
+        flex-basis: 20%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        text-align: center;
+        span {
+            color: $color-black600;
+        }
+    }
+    .attachment-settings {
+        flex-basis: 10%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        .editable-settings {
+            display: block;
+            opacity: 1;
+        }
+        .settings {
+            opacity: 0;
+        }
+        svg {
+            fill: $color-link-tertiary;
+            pointer-events: none;
+        }
+        .icon-edit,
+        .icon-save {
+            &:hover {
+                fill: $color-link-primary;
+            }
+        }
+        .icon-trash,
+        .icon-close {
+            &:hover {
+                fill: $color-link-red;
+            }
+        }
+        .icon-drag {
+            cursor: move;
+        }
+    }
+    .editable-attachment-deprecated {
+        display: flex;
+        padding-left: 1rem;
+        span {
+            color: $color-link-tertiary;
+        }
+        input {
+            margin-right: .2rem;
+            vertical-align: middle;
+            &:checked+span {
+                color: $color-link-tertiary;
+            }
+        }
+    }
+    .percentage {
+        background: rgba($primary, .1);
+        bottom: 0;
+        height: 40px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 45%;
+    }
+}

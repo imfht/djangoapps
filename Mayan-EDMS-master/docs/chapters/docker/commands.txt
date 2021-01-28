@@ -1,0 +1,19 @@
+.. _docker_commands:
+
+=================================
+Executing commands on a container
+=================================
+
+To perform Mayan EDMS commands in a running container that will take all the
+settings from the container, use the following command:
+
+.. code-block:: console
+
+    docker exec -ti <container name> /usr/local/bin/entrypoint.sh run_command <Mayan EDMS command>
+
+or when using Docker Compose:
+
+.. code-block:: console
+
+    docker-compose -p mayan exec app /usr/local/bin/entrypoint.sh run_command <Mayan EDMS command>
+

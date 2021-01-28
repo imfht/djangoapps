@@ -1,0 +1,61 @@
+.working-on-empty,
+.watching-empty {
+    margin-bottom: 4rem;
+    p {
+        @include font-type(regular);
+        margin: 2rem 2rem 1rem;
+        text-align: center;
+    }
+}
+
+.empty-ticket {
+    display: flex;
+    &:not(:last-child) {
+        border-bottom: 1px solid $whitish;
+        padding: 1rem 0;
+    }
+    &:last-child {
+        padding: 1rem 0 0;
+    }
+    .avatar {
+        background: darken($whitish, 5%);
+        flex-basis: 48px;
+        height: 48px;
+        margin-right: 1rem;
+        width: 48px;
+    }
+
+    .data {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .line {
+        background: $mass-white;
+        height: 1rem;
+        margin-bottom: 1rem;
+        width: 8vw;
+        @include until($widescreen) {
+            width: 30vw;
+        }
+        @include until($desktop) {
+            width: 30vw;
+        }
+        @include until($tablet) {
+            width: 30vw;
+        }
+        &:last-child {
+            margin: 0;
+            width: 18vw;
+            @include until($widescreen) {
+                width: 50vw;
+            }
+            @include until($desktop) {
+                width: 50vw;
+            }
+            @include until($tablet) {
+                width: 50vw;
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{% extends "pretixcontrol/auth/base.html" %}
+{% load bootstrap3 %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+    <div class="form-signin" action="" method="post">
+        <h3>{% trans "Hello!" %}</h3>
+        <p>
+            {% blocktrans trimmed with a_attr="href='http://pretix.eu'" %}
+                This is a self-hosted installation of <a {{ a_attr }}>pretix, your free and open source ticket sales
+                software</a>.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans trimmed %}
+                If you're looking to buy a ticket, you need to follow a direct link to an event or organizer profile.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans trimmed with a_attr="href='/control/'" %}
+                If you're looking to configure this installation, please <a {{ a_attr }}>head over here</a>.
+            {% endblocktrans %}
+        </p>
+        <p>{% trans "Enjoy!" %}</p>
+    </div>
+{% endblock %}

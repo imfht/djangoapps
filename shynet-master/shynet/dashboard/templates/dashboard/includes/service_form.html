@@ -1,0 +1,17 @@
+{% load a17t_tags %}
+
+{{form.name|a17t}}
+{{form.link|a17t}}
+{{form.collaborators|a17t}}
+
+<details {% if form.errors %}open{% endif %}>
+    <summary class="cursor-pointer text-sm">Advanced settings</summary>
+    <hr class="sep h-4">
+    {{form.respect_dnt|a17t}}
+    {{form.collect_ips|a17t}}
+    {{form.ignored_ips|a17t}}
+    {{form.ignore_robots|a17t}}
+    {{form.hide_referrer_regex|a17t}}
+    {{form.origins|a17t}}
+    {{form.script_inject|a17t}}
+</details>

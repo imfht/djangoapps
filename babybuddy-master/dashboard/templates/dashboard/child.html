@@ -1,0 +1,38 @@
+{% extends 'babybuddy/page.html' %}
+{% load cards i18n %}
+
+{% block title %}{% trans "Dashboard" %} - {{ object }}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'core:child-list' %}">{% trans "Children" %}</a></li>
+    <li class="breadcrumb-item font-weight-bold"><a href="{% url 'core:child' object.slug %}">{{ object }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Dashboard" %}</li>
+{% endblock %}
+
+{% block content %}
+    <div id="dashboard-child" class="card-columns">
+        {% card_feeding_last object %}
+        {% card_feeding_last_method object %}
+        {% card_feeding_day object %}
+        {% card_timer_list object %}
+        {% card_statistics object %}
+        {% card_sleep_last object %}
+        {% card_sleep_day object %}
+        {% card_sleep_naps_day object %}
+        {% card_tummytime_day object %}
+        {% card_diaperchange_last object %}
+        {% card_diaperchange_types object %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {% if user.settings.dashboard_refresh_rate %}
+        <script type="application/javascript">
+            BabyBuddy.Dashboard.watch('dashboard-child', {{ user.settings.dashboard_refresh_rate_milliseconds }});
+        </script>
+    {% else %}
+        <script type="application/javascript">
+            BabyBuddy.Dashboard.watch('dashboard-child', false);
+        </script>
+    {% endif %}
+{% endblock %}

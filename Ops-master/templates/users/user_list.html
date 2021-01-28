@@ -1,0 +1,441 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/select2/dist/css/select2.min.css' %}">
+
+    <style>
+        /* dataTables列内容居中 */
+        #user > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #user > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+
+        .form-horizontal .form-group {
+            margin-right: -200px;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-7 pull-left" style="margin-bottom: 3px">
+            <button class="btn btn-sm btn-success pull-left" data-toggle="modal" data-target="#UserModal" id="add-user">
+                <i class="fa fa-user-plus"></i>
+                <span class="bigger-110">新增用户</span>
+            </button>
+        </div>
+
+        <!-- UserModal  -->
+        <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="UserModalLabel">
+
+                        </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="user_detail" class="main form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="username" class="col-sm-2 control-label">用户名称</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="username" id="username"
+                                               required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="mobile" class="col-sm-2 control-label">手机号码</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="mobile" id="mobile"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="is_superuser" class="col-sm-2 control-label">超级管理员</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" name="is_superuser" id="is_superuser"
+                                                style="width: 100%;" required>
+                                            <option value="1">是</option>
+                                            <option value="0" selected>否</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="is_active" class="col-sm-2 control-label">是否激活</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" name="is_active" id="is_active"
+                                                style="width: 100%;" required>
+                                            <option value="1" selected>是</option>
+                                            <option value="0">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="groups" class="col-sm-2 control-label">所属组</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" multiple="multiple" name="groups"
+                                                id="groups" style="width: 100%;">
+                                            {% for group in groups %}
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="u_role" class="col-sm-2 control-label">用户角色</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" multiple="multiple"
+                                                name="u_role" id="u_role" style="width: 100%;">
+                                            {% for u_role in u_roles %}
+                                                <option value="{{ u_role.id }}">{{ u_role.user_role_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="user_ops"></button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!--dataTable-->
+        <div class="col-xs-12">
+            <!-- /.box -->
+            <div class="box">
+                <div class="box-body">
+                    <table id="user" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名称</th>
+                            <th>超级管理员</th>
+                            <th>所属组</th>
+                            <th>拥有角色</th>
+                            <th>是否激活</th>
+                            <th>联系方式</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- Select2 -->
+    <script src="{% static 'AdminLTE/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <!-- 输入验证 -->
+    <script src="{% static 'parsley/dist/parsley.min.js' %}"></script>
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            user_table = $('#user').DataTable({
+                "ordering": false,
+                retrieve: true,
+                ajax: {
+                    url: "{% url 'get_user' %}",
+                    method: "GET",
+                    "dataSrc": function (d) {
+                        return d.data
+                    }
+                },
+                "deferRender": true,
+                "columns": [
+                    {data: 'id'},
+                    {data: 'username'},
+                    {
+                        data: 'is_superuser',
+                        render: function (data, type, full, meta) {
+                            if (data) {
+                                return '<span class="label label-success">是</span>'
+                            } else {
+                                return '<span class="label label-danger">否</span>'
+                            }
+                        }
+                    },
+                    {
+                        data: 'groups',
+                        render: function (data, type, full, meta) {
+                            return data.join('<br>')
+                        }
+                    },
+                    {
+                        data: 'u_role',
+                        render: function (data, type, full, meta) {
+                            return data.join('<br>')
+                        }
+                    },
+                    {
+                        data: 'is_active',
+                        render: function (data, type, full, meta) {
+                            if (data) {
+                                return '<span class="label label-success">已启用</span>'
+                            } else {
+                                return '<span class="label label-danger">未启用</span>'
+                            }
+                        }
+                    },
+                    {data: 'mobile'},
+                ],
+                columnDefs: [{
+                    targets: 7,
+                    render: function (data, type, row, meta) {
+                        return `<button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                            data-id="${row.id}" data-target="#UserModal">更新
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-xs change_pwd"
+                                            data-id="${row.id}">重置密码
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs delete" data-id="${row.id}">
+                                        删除
+                                    </button>
+                    `;
+                    }
+                }]
+            });
+        });
+
+        // Initialize Select2 Elements
+        $(function () {
+            $('.select2').select2({
+                allowClear: true
+            });
+        });
+
+
+        let user_tbody = $('#user tbody');
+        let user_ops = $('#user_ops');
+
+        // 新增用户
+        $('#add-user').on('click', function () {
+            {% if perms.users.add_userprofile %}
+                $(".select2").val('').trigger('change');
+                $('.modal-title').text('新增用户');
+                user_ops.text('添加');
+
+                user_ops.unbind('click').on('click', function () {
+                    let obj = $('#user_detail');
+                    let status = obj.parsley().validate();
+                    if (status) {
+                        user_ops.attr('data-dismiss', 'modal');
+                        let data = obj.serializeJson();
+                        $.ajax({
+                            url: '{% url 'user_list' %}',
+                            type: 'POST',
+                            data: data,
+                            traditional: true,
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code === 200) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'green',
+                                        content: res.msg,
+                                    });
+                                    user_table.ajax.reload()
+                                }
+                                else {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: res.msg,
+                                    })
+                                }
+                            },
+                            error: function (response) {
+                                $.alert({
+                                    title: 'Tips',
+                                    type: 'red',
+                                    content: response.responseText,
+                                })
+                            }
+                        })
+                    }
+
+                });
+            {% endif %}
+        });
+
+        // 修改用户
+        user_tbody.on('click', '.modify', function () {
+
+            let user_id = $(this).attr('data-id');
+            $('.modal-title').text('修改用户');
+            user_ops.text('确认修改');
+
+            $.get(`/users/edit_user/${user_id}/`, function (res) {
+                let data = res.data;
+                let is_superuser = data.is_superuser ? "1" : "0";
+                let is_active = data.is_active ? "1" : "0";
+                $('#username').val(data.username);
+                $('#mobile').val(data.mobile);
+                $('#is_superuser').val(is_superuser).trigger('change');
+                $('#is_active').val(is_active).trigger('change');
+                $('#groups').val(data.groups).trigger('change');
+                $('#u_role').val(data.u_role).trigger('change');
+            });
+            user_ops.attr('data-dismiss', 'modal');
+
+            user_ops.unbind('click').on('click', function () {
+                let data = $('#user_detail').serializeJson();
+
+                $.ajax({
+                    url: `/users/edit_user/${user_id}/`,
+                    type: 'POST',
+                    data: data,
+                    traditional: true,
+                    dataType: 'json',
+                    success: function (res) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'green',
+                            content: res.msg,
+                        });
+                        user_table.ajax.reload()
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        })
+                    }
+                })
+            });
+        });
+
+        // 删除用户
+        user_tbody.on('click', '.delete', function () {
+
+            let pk = $(this).attr('data-id');
+            let tr_obj = $(this).parents('tr');
+            $.confirm({
+                title: 'Tips',
+                content: '确定要删除这条记录么？',
+                type: 'red',
+                buttons: {
+                    Ok: function () {
+                        $.ajax({
+                            url: `/users/delete_user/${pk}/`,
+                            method: 'DELETE',
+                            success: function () {
+                                user_table.row(tr_obj).remove().draw();
+                            },
+                            error: function (data) {
+                                $.alert({
+                                    title: 'Tips',
+                                    type: 'red',
+                                    content: '删除失败！' + data.responseText,
+                                })
+                            }
+                        })
+                    },
+                    Cancel: function () {
+                        //
+                    }
+                }
+            });
+        });
+
+        // 重置密码
+        user_tbody.on('click', '.change_pwd', function () {
+            let pk = $(this).attr('data-id');
+            $.confirm({
+                title: 'Tips',
+                content: '确定要为这个用户重置密码么？',
+                type: 'red',
+                buttons: {
+                    Ok: function () {
+                        $.ajax({
+                            url: '/users/reset_password/' + pk + '/',
+                            method: 'POST',
+                            success: function (res) {
+                                $.alert({
+                                    title: 'Tips',
+                                    type: 'green',
+                                    content: res.msg,
+                                })
+                            },
+                            error: function (res) {
+                                $.alert({
+                                    title: 'Tips',
+                                    type: 'red',
+                                    content: res.msg,
+                                })
+                            }
+                        })
+                    },
+                    Cancel: function () {
+                        // close
+                    }
+                }
+            });
+        });
+
+        // 将数据JSON化
+        (function ($) {
+            $.fn.serializeJson = function () {
+                let serializeObj = {};
+                let array = this.serializeArray();
+                let names = ['username', 'mobile', 'is_superuser', 'is_active'];
+                $(array).each(function () {
+                    if (serializeObj[this.name]) {
+                        if ($.isArray(serializeObj[this.name])) {
+                            serializeObj[this.name].push(this.value);
+                        } else {
+                            serializeObj[this.name] = [serializeObj[this.name], this.value];
+                        }
+                    } else {
+                        if (names.indexOf(this.name) !== -1) {
+                            serializeObj[this.name] = this.value;
+                        } else {
+                            serializeObj[this.name] = [this.value];
+                        }
+                    }
+                });
+                return serializeObj;
+            };
+        })(jQuery);
+
+    </script>
+
+{% endblock %}
+

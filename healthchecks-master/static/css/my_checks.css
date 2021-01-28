@@ -1,0 +1,216 @@
+#my-checks-tags div {
+    margin-bottom: 4px;
+}
+
+#my-checks-tags .up {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+#my-checks-tags .grace {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+#my-checks-tags .down {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+#my-checks-tags .checked {
+    box-shadow: 0 0 3px #ddd;
+    background: #333;
+    color: #eee;
+    border-color: #000;
+}
+
+#search {
+    padding-left: 15px;
+    border-radius: 16px;
+}
+
+@media (min-width: 992px) {
+    #update-timeout-modal .modal-dialog, #ping-details-modal .modal-dialog  {
+        width: 800px;
+    }
+    #update-name-modal .modal-dialog  {
+        width: 650px;
+    }
+}
+
+
+#update-timeout-form .modal-body {
+    padding-top: 35px;
+}
+
+.update-timeout-info {
+    line-height: 22px;
+}
+
+.update-timeout-label {
+    position: relative;
+    right: 3px;
+    display: inline-block;
+    text-align: right;
+    width: 100px;
+}
+
+.update-timeout-value {
+    font-size: 22px;
+    display: inline-block;
+    width: 100px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.kind-simple, .kind-cron {
+    width: 70px;
+}
+
+#update-cron-form .modal-body {
+    padding: 40px;
+}
+
+#update-cron-form label {
+    font-weight: normal;
+}
+
+#schedule-hint {
+    margin-left: 8px;
+    font-size: small;
+}
+
+#tz {
+    width: 300px;
+}
+
+#cron-description {
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 18px;
+    color: #FFF;
+    color: #333;
+    padding: 16px 8px 0px 8px;
+}
+
+#cron-preview {
+    background: #f8f8f8;
+    min-height: 298px;
+}
+
+#cron-preview p {
+    padding: 8px;
+    font-size: small;
+}
+
+#cron-preview th {
+    border-top: 0;
+    font-weight: normal;
+    font-size: small;
+}
+
+#cron-preview-table {
+    margin: 0;
+}
+
+#cron-preview-table tr td:nth-child(1) {
+    width: 120px;
+}
+
+#cron-preview-table tr td:nth-child(2) {
+    font-size: small;
+}
+
+#cron-preview-table tr td:nth-child(3) {
+    font-size: small;
+    font-family: monospace;
+    text-align: right;
+    color: #888;
+}
+
+#period-slider {
+    margin: 20px 50px 80px 50px;
+}
+
+#period-slider.noUi-connect {
+  background: #22bc66;
+}
+
+#grace-slider {
+    margin: 20px 50px 110px 50px;
+}
+
+#grace-slider.noUi-connect {
+  background: #f0ad4e;
+}
+
+#period-slider .noUi-value, #grace-slider .noUi-value {
+    width: 60px;
+    margin-left: -30px;
+}
+
+.update-timeout-terms {
+    color: #999;
+}
+
+.update-timeout-terms p {
+    margin: 0;
+}
+
+.update-timeout-terms span {
+    font-weight: bold;
+}
+
+.label-tag {
+    background-color: #eee;
+    color: #555;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.label-confirmation {
+    background-color: #22bc66;
+    color: #fff;
+    font-style: normal;
+    font-weight: 500;
+}
+
+#show-usage-modal  .modal-dialog {
+     width: 1100px;
+}
+
+#usage-examples-title {
+    margin-bottom: 25px;
+}
+
+#show-usage-modal .modal-body {
+    padding: 0;
+}
+
+#show-usage-modal pre {
+    margin: 0;
+    padding: 15px;
+}
+
+#show-usage-modal .highlight:nth-child(n+2) {
+    border-top: 1px solid #ddd;
+}
+
+.add-check-note {
+    color: #888;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+#update-name-modal .modal-body {
+    padding: 15px 40px;
+}
+
+#my-checks-bottom-actions {
+    margin-bottom: 20px;
+}

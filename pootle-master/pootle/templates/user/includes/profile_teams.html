@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="user-teams">
+  {% if site_permissions %}
+  <ul class="user-site-roles">
+    {% for permission in site_permissions %}
+    <li>{{ permission }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <h3>{{ teams_title }}</h3>
+  {% if teams %}
+  <dl>
+    {% for code, team in teams.items %}
+    <dt><a href="{{ team.url }}">{{ team.name }}</a></dt>
+    {% if team.role and not anon_request %}<dd>{{ team.role }}</dd>{% endif %}
+    {% endfor %}
+  </dl>
+  {% else %}
+  {{ no_teams_message }}
+  {% endif %}
+</div>

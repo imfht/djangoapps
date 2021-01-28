@@ -1,0 +1,54 @@
+.admin-swimlane-item(ng-if="!displaySwimlaneSingleForm")
+    .admin-swimlane-item-start
+        .admin-swimlane-item-drag
+            tg-svg(svg-icon="icon-draggable")
+        .admin-swimlane-item-name {{value.name}}
+    .admin-swimlane-item-end
+        button.btn-default-swimlane(
+            type="button"
+            ng-click="setDefaultSwimlane(value)"
+            ng-if="values.length > 1"
+            ng-attr-title="{{getDefaultTitle(value)}}"
+        )
+            tg-svg.btn-default-swimlane-icon(
+                ng-class="{'default': value.id == project.default_swimlane}"
+                svg-icon="icon-star"
+            )
+            span.default-text(ng-class="{'visibility-hidden': value.id != project.default_swimlane}") {{'ADMIN.PROJECT_KANBAN_OPTIONS.DEFAULT' | translate }}
+        button.form-button.edit-swimlane-single(
+            type="button"
+            ng-click="editSwimlaneSingleForm($event)"
+            arial-label="{{'COMMON.EDIT' | translate }}"
+        )
+            tg-svg(svg-icon="icon-edit")
+
+        button.form-button.delete-swimlane(
+            ng-disabled="value.id == project.default_swimlane && project.swimlanes.length > 1"
+            type="button"
+            arial-label="{{'COMMON.DELETE' | translate }}"
+            ng-click="removeSwimlaneDialog($event, value)"
+            ng-attr-title="{{ removeSwimlaneTitle(value) }}"
+        )
+            tg-svg(svg-icon="icon-trash")
+form.admin-swimlane-form(ng-if="displaySwimlaneSingleForm")
+    input(
+        type="text"
+        maxlength="48"
+        ng-model="swimlaneSingleForm.name"
+        ng-value="value.name"
+        placeholder="{{'ADMIN.PROJECT_KANBAN_OPTIONS.SWIMLANE_NAME' | translate }}"
+    )
+    button.form-button.add-swimlane-single(
+        type="button"
+        max
+        arial-label="{{'COMMON.SAVE' | translate }}"
+        ng-click="updateSwimlane(value)"
+    )
+        tg-svg(svg-icon="icon-check-empty")
+
+    button.form-button.cancel-swimlane-single(
+        type="button"
+        arial-label="{{'COMMON.CANCEL' | translate }}"
+        ng-click="cancelEditSwimlaneSingleForm($event)"
+    )
+        tg-svg(svg-icon="icon-close")

@@ -1,0 +1,31 @@
+.ticket-created-by {
+    display: flex;
+    justify-content: flex-end;
+    @include until($tablet) {
+        margin: 1rem 0 .5rem;
+    }
+    .user-avatar {
+        flex-basis: 2rem;
+        flex-grow: 0;
+        margin-left: .5rem;
+        img {
+            @include avatar-img(2rem);
+        }
+    }
+    .created-by {
+        .created-title,
+        .created-date {
+            @include font-type(regular);
+            @include font-size(small);
+            color: $gray;
+            display: block;
+            text-align: right;
+        }
+        .created-title {
+            color: $primary;
+        }
+        .created-date {
+            margin-left: .5rem;
+        }
+    }
+}

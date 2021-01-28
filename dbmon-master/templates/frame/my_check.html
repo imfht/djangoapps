@@ -1,0 +1,140 @@
+{% extends 'base/base_site.html' %}
+
+{% block head_tips %}
+    <div class="btn btn-xs btn-box-tool"><span style="color: red">Tips: 目前仅支持Oracle巡检</span></div>
+{% endblock  %}
+
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        自定义巡检
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li class="active">自定义巡检</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+          <div class="row">
+              <div class="box-body">
+              <form class="" action="" method="POST">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>类型</label>
+                <select class="form-control select2" style="width: 100%;" name="select_type" id="select_type" onchange="select_tag()">
+                  <option selected="selected">{{ select_type }}</option>
+                    <option>Oracle数据库</option>
+                  <option>MySQL数据库</option>
+                  <option>Linux主机</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+                <div class="form-group">
+                <label>巡检周期</label>
+                <select class="form-control select2" style="width: 100%;" name="date_range">
+                  <option selected="selected">{{ date_range }}</option>
+                    <option>1天</option>
+                  <option>7天</option>
+                  <option>30天</option>
+                </select>
+              </div>
+                <button type="submmit" class="btn btn-info btn-flat" name="go_check">开始巡检Go!</button>
+              <!-- /.form-group -->
+
+            </div>
+
+            <!-- /.col -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>选择巡检设备</label>
+                <select id="select_tags" class="form-control select2"  multiple="multiple"
+                         name="select_tags" required="required">
+                  {% for oracletags in oracletagsinfo %}
+                      <option>{{ oracletags.tags }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+              </form>
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+
+    <div class="box-footer">
+      <table class="table table-hover">
+          <div class="box-header">
+              <h3 class="box-title">巡检记录</h3>
+            </div>
+                <tbody><tr>
+                  <th>序号</th>
+                  <th>巡检类型</th>
+                  <th>设备标签</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                  <th>巡检时间</th>
+                  <th>巡检结果</th>
+                  <th>巡检异常</th>
+                  <th>操作</th>
+                </tr>
+                {% for each in check_list %}
+                <tr>
+                  <td>{{ each.check_tag }} </td>
+                  <td>{{ each.check_type }} </td>
+                  <td>{{ each.server_tag}} </td>
+                  <td>{{ each.begin_time}} </td>
+                  <td>{{ each.end_time}} </td>
+                  <td>{{ each.chk_time}} </td>
+                  <td ><li><a href="/download?file_tag={{ each.check_tag }}&select_form=excel"  download="" >EXCEL</a>
+                           <a href="/download?file_tag={{ each.check_tag }}&select_form=txt"  download="" >TEXT</a>
+                       </li>
+                 </td>
+                <td> <a href="#" ><li onclick="return pop_detail('{{ each.check_tag }}')">查看</li></a></td>
+                <td ><li><a href="/checklist_del?check_tag={{ each.check_tag }}" onclick="javascript:return del();" >删除</a>
+                       </li>
+                 </td>
+                 </tr>
+                {% endfor %}
+              </tbody></table>
+        </div>
+      </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+ function select_tag(){
+   var select=document.getElementById("select_type");
+   var c=select.value;
+   var tags=document.getElementById("select_tags");
+          switch(c)
+   {
+   case "Linux主机": tags.innerHTML="{% for linuxtags in linuxtagsinfo %}  <option>{{ linuxtags.tags }}</option>  {% endfor %}";
+   break;
+   case "Oracle数据库":tags.innerHTML="{% for oracletags in oracletagsinfo %}  <option>{{ oracletags.tags }}</option>  {% endfor %}";
+   break;
+   case "MySQL数据库":tags.innerHTML="{% for mysqltags in mysqltagsinfo %}  <option>{{ mysqltags.tags }}</option>  {% endfor %}";
+   break;
+   default:alert("error");
+   }
+   };
+
+  function pop_detail(m){
+    layer.open({
+    type: 2,
+    title: '巡检异常',
+    closeBtn: 1,
+    area: ['700px', '350px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/check_err?check_tag='+ m]
+  });
+}
+
+
+</script>
+{% endblock %}

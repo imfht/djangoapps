@@ -1,0 +1,18 @@
+{% extends 'cards/base.html' %}
+{% load duration i18n %}
+
+{% block header %}{% trans "Today's Naps" %}{% endblock %}
+
+{% block title %}
+    {% if count %}
+        {% blocktrans trimmed with plural=count|pluralize %}
+            {{ count }} nap{{ plural }}
+        {% endblocktrans %}
+    {% else %}
+        {% trans "None" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if total %}{{ total|duration_string }}{% endif %}
+{% endblock %}

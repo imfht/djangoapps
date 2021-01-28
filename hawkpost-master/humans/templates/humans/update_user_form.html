@@ -1,0 +1,109 @@
+{% extends "layout/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+<div class="section-definer-light">
+  <section class="section-resized-settings">
+    <p class="title center-xs">{% trans "UPDATE YOUR SETTINGS" %}</p>
+    <div class="row">
+      <ul class="settings__nav subtitle">
+        <div class="col-xs-12 nav-st no-padding text-left">
+          <li id="tab1" class="sett__nav__item text-darkest active">{% trans "Profile" %}</li>
+          <li id="tab2" class="sett__nav__item text-darkest">{% trans "Keys" %}</li>
+          {% if not form.instance.has_github_login %}
+          <li id="tab3" class="sett__nav__item text-darkest">{% trans "Password" %}</li>
+          {%endif %}
+        </div>
+      </ul>
+
+      <div class="center-form center-xs">
+        <form id="form" action="" method="post">
+          {% csrf_token %}
+          <div class="input-anim-settings">{{ form.non_field_errors }}
+            <div class="row around-xs text-darkest">
+              <div id="accordion">
+                <ul class="no-padding">
+                  <li class="section active" id="section1">
+                    <div class="col-xxs-12 col-xs-12 col-md-12 start-xs">
+                      <div class="form__block">
+                        {{ form.first_name.errors }} {{ form.first_name.label_tag }} {{ form.first_name }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.last_name.errors }} {{ form.last_name.label_tag }} {{ form.last_name }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.organization.errors }} {{ form.organization.label_tag }} {{ form.organization }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.timezone.errors }} {{ form.timezone.label_tag }} {{ form.timezone }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.language.errors }} {{ form.language.label_tag }} {{ form.language }}
+                      </div>
+                    </div>
+                  </li>
+                  <li class="section" id="section2">
+                    <div class="col-xxs-12 col-xs-12 col-md-12 start-xs">
+                      <div class="col-xs-12 no-padding mb-normal">
+                        <span class="text-blue smalltext">
+                          {% blocktrans %}You can provide the public key in a static away <strong> or </strong> provide a link to your key in a public key server so we can fetch it for you (recommended).{% endblocktrans %}
+                        </span>
+                        <br>
+                        <span class="text-blue smalltext">
+                          {% trans "To verify the log of the last changes to your key please click" %} <b><a class="md-trigger text-blue" data-modal="modal-key-changes">{% trans "here" %}</a></b>.
+                        </span>
+                      </div>
+                      <div class="row label-form-b">
+                        <div class="col-xs-6">{{ form.public_key.label_tag }}<input type="radio" name="type" id="publickey_option" class="radio_button" value="publickey" checked="checked"></div>
+                        <div class="col-xs-6">{{ form.keyserver_url.label_tag }}<input type="radio" name="type" id="keyserver_option" class="radio_button" value="keyserver">
+                        </div>
+                      </div>
+                      <div class="form__block varying" id="keyserver_url">
+                        {{ form.keyserver_url.errors }} {{ form.keyserver_url }}
+                      </div>
+                      <div class="margin-b-s form__block key active varying" id="public_key">
+                        {{ form.public_key.errors }} {{ form.public_key }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.fingerprint.errors }} {{ form.fingerprint.label_tag }} {{ form.fingerprint }}
+                      </div>
+                    </div>
+                  </li>
+                  <li class="section" id="section3">
+                    <div class="col-xxs-12 col-xs-12 col-md-12 start-xs">
+                      <div class="form__block">
+                        {{ form.current_password.errors }} {{ form.current_password.label_tag }} {{ form.current_password }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.new_password2.errors }} {{ form.new_password1.label_tag }} {{ form.new_password1 }}
+                      </div>
+                      <div class="form__block">
+                        {{ form.new_password2.errors }} {{ form.new_password2.label_tag }} {{ form.new_password2 }}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-xs-12 form__block">
+                <input type="submit" class="btn-blue smalltext" value="{% trans "Save" %}" />
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="text-center">
+          <small class="check smalltext text-darkest">
+            {% trans "Do you wish to delete your account? if yes, just click" %} <a class="text-blue"href="{% url "humans_delete" %}">{% trans "here" %}</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% include "humans/key_change_modal.html" %}
+{% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'javascripts/update_user_form.js' %}"></script>
+{% endblock scripts %}

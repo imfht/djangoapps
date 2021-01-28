@@ -1,0 +1,216 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-03 17:56+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/adminactions/byrows_update.py:29 src/adminactions/export.py:47
+#: src/adminactions/export.py:249 src/adminactions/export.py:331
+#: src/adminactions/graph.py:49 src/adminactions/mass_update.py:247
+#: src/adminactions/merge.py:82
+msgid "Sorry you do not have rights to execute this action"
+msgstr ""
+
+#: src/adminactions/byrows_update.py:55
+msgid "Updated record(s)"
+msgstr ""
+
+#: src/adminactions/byrows_update.py:89
+msgid "By rows update"
+msgstr ""
+
+#: src/adminactions/export.py:142
+msgid "Export as CSV"
+msgstr ""
+
+#: src/adminactions/export.py:158
+msgid "Export as XLS"
+msgstr ""
+
+#: src/adminactions/export.py:320
+msgid "Export as fixture"
+msgstr ""
+
+#: src/adminactions/export.py:412
+msgid "Export delete tree"
+msgstr ""
+
+#: src/adminactions/forms.py:37 src/adminactions/forms.py:60
+msgid "Header"
+msgstr ""
+
+#: src/adminactions/forms.py:38
+msgid "Delimiter"
+msgstr ""
+
+#: src/adminactions/forms.py:39
+msgid "Quotechar"
+msgstr ""
+
+#: src/adminactions/forms.py:41
+msgid "Quoting"
+msgstr ""
+
+#: src/adminactions/forms.py:42
+msgid "All"
+msgstr ""
+
+#: src/adminactions/forms.py:43
+msgid "Minimal"
+msgstr ""
+
+#: src/adminactions/forms.py:44
+msgid "None"
+msgstr ""
+
+#: src/adminactions/forms.py:45
+msgid "Non Numeric"
+msgstr ""
+
+#: src/adminactions/forms.py:47
+msgid "Escapechar"
+msgstr ""
+
+#: src/adminactions/forms.py:48
+msgid "Datetime format"
+msgstr ""
+
+#: src/adminactions/forms.py:49
+msgid "Date format"
+msgstr ""
+
+#: src/adminactions/forms.py:50
+msgid "Time format"
+msgstr ""
+
+#: src/adminactions/forms.py:51 src/adminactions/forms.py:74
+msgid "Columns"
+msgstr ""
+
+#: src/adminactions/forms.py:61
+msgid "Use display"
+msgstr ""
+
+#: src/adminactions/graph.py:162
+msgid "Graph selected records"
+msgstr ""
+
+#: src/adminactions/mass_update.py:231
+#, python-format
+msgid "Updated %s records"
+msgstr ""
+
+#: src/adminactions/mass_update.py:371
+msgid "Mass update"
+msgstr ""
+
+#: src/adminactions/merge.py:35
+msgid "Dependencies"
+msgstr ""
+
+#: src/adminactions/merge.py:36
+msgid "Move"
+msgstr ""
+
+#: src/adminactions/merge.py:36
+msgid "Delete"
+msgstr ""
+
+#: src/adminactions/merge.py:167
+msgid "Please select exactly 2 records"
+msgstr ""
+
+#: src/adminactions/merge.py:199
+#, python-format
+msgid "Merge selected %(verbose_name_plural)s"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/any_model.html:26
+#: src/adminactions/templates/adminactions/byrows_update.html:20
+#: src/adminactions/templates/adminactions/charts.html:18
+#: src/adminactions/templates/adminactions/export_csv.html:46
+#: src/adminactions/templates/adminactions/export_fixture.html:6
+#: src/adminactions/templates/adminactions/export_xls.html:19
+#: src/adminactions/templates/adminactions/mass_update.html:26
+#: src/adminactions/templates/adminactions/merge.html:5
+#: src/adminactions/templates/adminactions/merge_preview.html:5
+msgid "Home"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/byrows_update.html:30
+msgid "Please correct the error below."
+msgstr ""
+
+#: src/adminactions/templates/adminactions/byrows_update.html:30
+msgid "Please correct the errors below."
+msgstr ""
+
+#: src/adminactions/templates/adminactions/export_csv.html:69
+msgid "Export"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:35
+msgid "Field"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:36
+msgid "Master"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:36
+msgid "This will be preserved"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:38
+msgid "swap"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:39
+msgid "Result"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:41
+msgid "Other"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:41
+msgid "This will be removed"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge.html:70
+#: src/adminactions/templates/adminactions/merge_preview.html:9
+msgid "Preview"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge_preview.html:8
+msgid "Merge records"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge_preview.html:18
+msgid "Key"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge_preview.html:23
+msgid "Original"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge_preview.html:24
+msgid "After Merging"
+msgstr ""
+
+#: src/adminactions/templates/adminactions/merge_preview.html:39
+msgid "Merge"
+msgstr ""

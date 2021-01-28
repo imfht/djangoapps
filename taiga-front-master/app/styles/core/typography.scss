@@ -1,0 +1,98 @@
+// Typography
+// Font face
+
+@each $font-face in
+    Ubuntu-Regular,
+    Ubuntu-Medium {
+    @font-face {
+        font-family: '#{$font-face}';
+        src: url('../fonts/#{$font-face}.ttf') format('truetype');
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: $color-black900;
+    font-weight: normal;
+    line-height: 1.5;
+
+    a {
+        font-weight: inherit;
+    }
+}
+
+h1 {
+    @include font-type(bold);
+    @include font-size(larger);
+    color: $color-link-primary;
+    margin-block-end: 1rem;
+    .date {
+        @include ellipsis(500px);
+        @include font-type(regular);
+        @include font-size(small);
+        color: $grey-70;
+    }
+}
+
+h2 {
+    @include font-size(larger);
+    @include font-type(regular);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+p {
+    line-height: 1.5;
+    margin: 0 0 20px;
+
+    img {
+        margin: 0;
+    }
+}
+
+em {
+    font-style: italic;
+}
+
+small {
+    @include font-size(x-small);
+}
+
+strong {
+    font-weight: bold;
+}
+
+hr {
+    border: solid $blackish;
+    border-width: 1px 0 0;
+    clear: both;
+    height: 0;
+    margin: 10px 0 30px;
+}
+
+// __Links__
+a,
+a:visited {
+    color: $color-link-primary;
+    text-decoration: none;
+
+    &:hover {
+        color: $color-black600;
+        transition: color .3s linear;
+    }
+}
+
+a.secondary,
+a.secondary:visited {
+    color: $color-black600;
+    text-decoration: none;
+
+    &:hover {
+        color: $color-link-primary;
+        transition: color .3s linear;
+    }
+}

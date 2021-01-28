@@ -1,0 +1,24 @@
+{
+  "name": "shuup.regions",
+  "version": "1.0.0",
+  "description": "Auto load regions for Country when select input changes",
+  "main": "build_resources.js",
+  "scripts": {
+    "watch": "node build_resources --watch",
+    "build": "node build_resources --sync"
+  },
+  "shuup": {
+    "static_build": true
+  },
+  "author": "Shuup Team <shuup@shuup.com>",
+  "license": "OSL-3.0",
+  "private": true,
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "parcel-bundler": "^1.12.4",
+    "shuup-static-build-tools": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3"
+  }
+}

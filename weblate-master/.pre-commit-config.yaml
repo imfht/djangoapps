@@ -1,0 +1,103 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-xml
+      - id: check-toml
+      - id: requirements-txt-fixer
+      - id: check-merge-conflict
+      - id: check-json
+      - id: fix-encoding-pragma
+        args: [--remove]
+      - id: mixed-line-ending
+        args: [--fix=lf]
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.25.0
+    hooks:
+      - id: yamllint
+  - repo: local
+    hooks:
+      - id: isort
+        name: isort
+        entry: isort
+        language: system
+        types: [python]
+      - id: pyupgrade
+        name: pyupgrade
+        entry: pyupgrade --py36-plus
+        language: system
+        types: [python]
+      - id: black
+        name: black
+        entry: black
+        language: system
+        types: [python]
+      - id: flake8
+        name: flake8
+        entry: flake8
+        language: system
+        types: [python]
+      - id: blacken-docs
+        name: blacken-docs
+        entry: blacken-docs
+        language: system
+        files: '\.(rst|md|markdown|py|tex)$'
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.2.1
+    hooks:
+      - id: prettier
+        files: "\\.(\
+          css|less|scss\
+          |graphql|gql\
+          |js|jsx\
+          |json\
+          |md|markdown|mdown|mkdn\
+          |mdx\
+          |vue\
+          |yaml|yml\
+          )$"
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v7.18.0
+    hooks:
+      - id: eslint
+        args: ["--format=compact"]
+        additional_dependencies:
+          - prettier@2.2.1
+          - eslint@>=6.2.2
+          - eslint-plugin-import@>=2.18.0
+          - eslint-plugin-node@>=9.1.0
+          - eslint-plugin-promise@>=4.2.1
+          - eslint-plugin-standard@>=4.0.0
+          - eslint-config-prettier@latest
+          - eslint-plugin-prettier@latest
+  - repo: https://github.com/awebdeveloper/pre-commit-stylelint
+    rev: 0.0.2
+    hooks:
+      - id: stylelint
+        args: ["--formatter=compact"]
+        additional_dependencies:
+          - stylelint@latest
+          - stylelint-config-prettier@latest
+          - stylelint-prettier@latest
+          - prettier@2.2.1
+
+exclude: "^.*\\.(\
+  csv|\
+  svg|\
+  wsdl(\\.[^.]*)?\
+  )|\
+  weblate/trans/tests/data/memory-broken\\.json|\
+  weblate/templates/browserconfig\\.xml|\
+  weblate/templates/configuration/custom\\.css|\
+  weblate/trans/tests/data/cs-CZ\\.rc|\
+  weblate/static/vendor/.*\
+  $"

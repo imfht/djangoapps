@@ -1,0 +1,181 @@
+# 
+# Translators:
+# Istvan Farkas <istvan.farkas@gmail.com>, 2015
+# Istvan Farkas <istvan.farkas@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-09-13 00:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Hungarian (http://www.transifex.com/spirit-project/spirit/language/hu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:33
+msgid "Category"
+msgstr "Kategória"
+
+#: forms.py:34
+msgid "Choose a category"
+msgstr "Kategória választása"
+
+#: models.py:32
+msgid "category"
+msgstr "kategória"
+
+#: models.py:35
+msgid "title"
+msgstr "cím"
+
+#: models.py:37
+msgid "date"
+msgstr "dátum"
+
+#: models.py:38
+msgid "last active"
+msgstr "utolsó aktivitás"
+
+#: models.py:39
+msgid "reindex at"
+msgstr ""
+
+#: models.py:41
+msgid "pinned"
+msgstr "kiemelve"
+
+#: models.py:42
+msgid "globally pinned"
+msgstr "globálisan kiemelve"
+
+#: models.py:43
+msgid "closed"
+msgstr "lezárva"
+
+#: models.py:46
+msgid "views count"
+msgstr "megtekintések száma"
+
+#: models.py:47
+msgid "comment count"
+msgstr "hozzászólások száma"
+
+#: models.py:53
+msgid "topic"
+msgstr "téma"
+
+#: models.py:54
+msgid "topics"
+msgstr "témák"
+
+#: templates/spirit/topic/_render_list.html:48
+msgid "There are no topics here, yet"
+msgstr "Még nincsenek témák"
+
+#: templates/spirit/topic/_top_bar.html:17
+#: templates/spirit/topic/_top_bar.html:32
+msgid "All Categories"
+msgstr "Összes kategória"
+
+#: templates/spirit/topic/_top_bar.html:29
+msgid "All Subcategories"
+msgstr "Összes alkategória"
+
+#: templates/spirit/topic/_top_bar.html:41
+#: templates/spirit/topic/_top_bar.html:44
+msgid "Create Topic"
+msgstr "Téma indítása"
+
+#: templates/spirit/topic/active.html:5
+msgid "Latest active topics"
+msgstr "Legfrissebb témák"
+
+#: templates/spirit/topic/detail.html:12
+msgid "Main"
+msgstr "Fő"
+
+#: templates/spirit/topic/detail.html:39 templates/spirit/topic/detail.html:43
+msgid "edit"
+msgstr "szerkeszt"
+
+#: templates/spirit/topic/detail.html:51
+msgid "Moderate"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:57
+msgid "Select comments to move"
+msgstr "Mozgatni kívánt hozzászólások kiválasztása"
+
+#: templates/spirit/topic/detail.html:60
+msgid "Undelete topic"
+msgstr "Téma törlés visszavonása"
+
+#: templates/spirit/topic/detail.html:63
+msgid "Delete topic"
+msgstr "Téma törlése"
+
+#: templates/spirit/topic/detail.html:67
+msgid "Open topic"
+msgstr "Téma megnyitása"
+
+#: templates/spirit/topic/detail.html:70
+msgid "Close topic"
+msgstr "Téma lezárása"
+
+#: templates/spirit/topic/detail.html:74
+msgid "Unpin topic"
+msgstr "Téma kiemelése"
+
+#: templates/spirit/topic/detail.html:77
+msgid "Pin topic"
+msgstr "Téma kiemelés visszavonása"
+
+#: templates/spirit/topic/detail.html:81
+msgid "Unpin topic globally"
+msgstr "Globális kiemelés visszavontása"
+
+#: templates/spirit/topic/detail.html:84
+msgid "Pin topic globally"
+msgstr "Téma globális kiemelése"
+
+#: templates/spirit/topic/detail.html:106
+msgid "Reply"
+msgstr "Válasz"
+
+#: templates/spirit/topic/detail.html:114
+msgid "Move selected comments to"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:120
+msgid "Move"
+msgstr "Mozgatás"
+
+#: templates/spirit/topic/moderate.html:5
+#: templates/spirit/topic/moderate.html:9
+msgid "Moderate topic"
+msgstr "Téma moderálása"
+
+#: templates/spirit/topic/moderate.html:14
+msgid "Apply"
+msgstr "Végrehajt"
+
+#: templates/spirit/topic/publish.html:5
+#: templates/spirit/topic/publish.html:20
+msgid "Publish topic"
+msgstr "Téma beküldése"
+
+#: templates/spirit/topic/publish.html:38
+msgid "Publish"
+msgstr "Publikál"
+
+#: templates/spirit/topic/update.html:5 templates/spirit/topic/update.html:9
+msgid "Update topic"
+msgstr "Téma frissítése"
+
+#: templates/spirit/topic/update.html:13
+msgid "Update"
+msgstr "Frissít"

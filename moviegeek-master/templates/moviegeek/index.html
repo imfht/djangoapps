@@ -1,0 +1,245 @@
+{% extends "moviegeek/base.html" %}
+
+{% block head %}
+    <script>
+        $(document).ready(function(){
+
+            $('[data-toggle="popover"]').popover();
+
+            $('.movie').on('show.bs.popover', function () {
+              var contentid;
+              contentid = $(this).attr("id");
+              add_impression({{ user_id }}, 'details', contentid, '{{ session_id }}',
+                                        '{{ csrf_token }}');
+            });
+          });
+
+          function get_cb_recs(userid) {
+            url = '/rec/cb/user/' + userid + '/'
+            element_name = 'cb_recs'
+
+            get_recs(url, element_name)
+        }
+
+        function get_cf_recs(userid) {
+            url = '/rec/cf/user/' + userid + '/'
+            element_name = 'cf_recs'
+
+            get_recs(url, element_name)
+        }
+
+        function get_recs(url, element_name) {
+            $.getJSON(url,
+                    function(result) {
+                        if ((result.data != null) && (result.data.length > 0)) {
+                            recs = document.getElementById(element_name)
+                            recs.style.display = 'block'
+
+                            result.data.forEach(function(element, index, array) {
+                                add_movie(element[0], recs)
+
+                            });
+
+                        }
+
+                    });
+        }
+
+        function add_movie(id, recs) {
+            $.getJSON(get_url(id), function(mov) {
+                image_url = 'http://image.tmdb.org/t/p/w500/'
+                + mov.movie_results[0].poster_path
+
+                rec_div = document.createElement('div')
+                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                a = document.createElement('a')
+                a.setAttribute('href', '/movies/movie/' + id)
+
+                img = document.createElement('img')
+                img.setAttribute('src', image_url)
+                img.setAttribute('class',"img-responsive")
+                img.setAttribute('title', mov.movie_results[0].title)
+                a.appendChild(img)
+
+                rec_div.appendChild(a)
+
+                recs.appendChild(rec_div)
+
+            })
+
+        }
+        function get_association_rule_recs(userid) {
+            url = '/rec/ar/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+                        recs = document.getElementById('association_rules_recs')
+                        recs.style.display = 'block'
+
+                        result.data.forEach(function(element, index, array) {
+
+                            add_movie(element.id, recs)
+
+                        });
+                    }
+
+                });
+        }
+
+
+        function getinfo(movie_id, title) {
+            url = 'https://api.themoviedb.org/3/find/tt' + movie_id + '?external_source=imdb_id&api_key={{ api_key }}'
+            $.getJSON(url,
+                      function(result) {
+
+                        if (result.movie_results != null)
+                        {
+                            img_tag =  document.getElementById('src_' + movie_id)
+                            image_url = 'http://image.tmdb.org/t/p/w500/'
+                            + result.movie_results[0].poster_path
+
+                            a = document.createElement("a");
+                            a.setAttribute('href', "/movies/movie/" + movie_id);
+                            a.setAttribute('onclick', "add_impression({{user_id}}, 'more_details', " +
+                                                      movie_id + ", '{{ session_id }}','{{ csrf_token }}')")
+                            a.innerHTML= 'more details'
+
+                            save_for_later_a = document.createElement("a");
+                            save_for_later_a.setAttribute('onclick',
+                             "add_impression({{user_id}}, 'save_for_later', " + movie_id +
+                                              ", '{{ session_id }}','{{ csrf_token }}')")
+                            save_for_later_a.innerHTML = 'save for later';
+
+                            popover_div = '<div style="width: 200px;">' +
+                                          '<strong>released:</strong> ' + result.movie_results[0].release_date + '<br />' +
+                                          '<strong>language:</strong> ' + result.movie_results[0].original_language + '<br />' +
+                                          '<strong>avg tweet rating</strong>: '+ result.movie_results[0].vote_average + '<br />' +
+                                          save_for_later_a.outerHTML + '<br />' +
+                                          a.outerHTML +
+                                          '</div>'
+
+
+                            popover_content = 'amazing film <br/>' + a.outerHTML
+
+                            img = document.createElement("img");
+                            img.setAttribute('id', movie_id);
+                            img.setAttribute('class', 'movie img-rounded');
+                            img.setAttribute('src', image_url);
+                            img.setAttribute('style','padding: 0px 0px 0px 0px;height: 150px')
+                            img.setAttribute('title', title);
+
+                            div = document.createElement("div");
+                            div.setAttribute('class', 'col-xs-2');
+                            div.appendChild(img)
+
+                            document.createElement("div");
+
+                            div.setAttribute('onclick', "add_impression({{user_id}}, 'details', "
+                                                     + movie_id
+                                                     + ", '{{ session_id }}','{{ csrf_token }}')")
+
+                            $('#movies').append(div)
+
+                            $('#' + movie_id).popover({
+                                html: true,
+                                content: popover_div,
+                                trigger: 'click'
+                            })
+                        }
+                      }
+            )
+          }
+        {% if movies %}
+            {% for movie in movies %}
+                {% if movie.movie_id %}getinfo('{{movie.movie_id}}', '{{movie.title}}');{% endif %}
+            {% endfor %}
+        {% endif %}
+
+      function getTopContent() {
+
+          $.getJSON('/rec/chart', function(result) {
+            var ul = document.getElementById("top_content");
+
+            result.data.forEach(function(element, index, array) {
+                var li = document.createElement("li")
+                li.innerHTML = '<a ' +
+                               'onclick=\'PostRecClicked(\"'
+                               + element.movie_id + '\", \"rec:chart\")\''
+                              + "href='/movies/movie/"+ element.movie_id + "'>"
+                              + (index + 1) + ". "
+                              + element.title + "</a>";
+                ul.appendChild(li)
+               });
+            })
+         };
+         $(document).on('click', function (e) {
+    $('[data-toggle="popover"],[data-original-title]').each(function () {
+        //the 'is' for buttons that trigger popups
+        //the 'has' for icons within a button that triggers a popup
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false  // fix for BS 3.3.6
+        }
+
+    });
+});
+    </script>
+{% endblock head %}
+
+{% block content %}
+    <div class="col-xs-8 main max-size">
+        <div id="movies" class="row"></div>
+
+        <div id="association_rules_recs" class="row" style="display: none">
+            <h2>Based on what you and others have bought</h2>
+
+        </div>
+        <div id="cf_recs" class="row" style="display: none">
+            <h2>Users who liked what you like also like</h2>
+
+        </div>
+         <div id="cb_recs" class="row" style="display: none">
+            <h2>Similar Content</h2>
+
+        </div>
+        <div class="row">
+        {% if movies.has_other_pages %}
+        <ul class="pagination">
+            {% if movies.has_previous %}
+                <li><a href="?page={{movies.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in pages %}
+                {% if i == movies.number %}
+                    <li class="active">
+                        <span>{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="?page={{i}}">{{ i}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if movies.has_next %}
+                <li><a href="?page={{movies.next_page_number}}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        </div>
+    </div>
+    <div id="right" class="col-xs-2">
+        <div class="well">
+            <ol id="top_content" class="nav nav-sidebar"></ol>
+        </div>
+    </div>
+    <script type="text/javascript">
+        getTopContent();
+        get_association_rule_recs({{user_id}})
+        get_cf_recs({{user_id}})
+        get_cb_recs({{user_id}})
+    </script>
+{% endblock content %}

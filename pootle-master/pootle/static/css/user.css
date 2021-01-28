@@ -1,0 +1,295 @@
+/*
+ * Copyright (C) Pootle contributors.
+ *
+ * This file is a part of the Pootle project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+.edit-profile-btn
+{
+    margin: 0 1em 1.5em;
+}
+
+/* user teams */
+
+.user-teams ul.user-site-roles
+{
+    text-align: center;
+    padding: 0.3em;
+    font-size: 1.2em;
+}
+
+.user-teams dl
+{
+    margin-top: 0.2em;
+}
+
+.user-teams dt
+{
+    font-size: 1.3em;
+    margin-top: 0.2em;
+}
+
+.user-teams dd
+{
+    margin-left: 0.5em;
+}
+
+/* user activity */
+
+.user-activity .last-activity
+{
+    position: relative;
+    top: 0;
+    font-size: 1em;
+}
+
+.user-activity .last-activity .avatar
+{
+    position: relative;
+    float: left;
+}
+
+.user-activity .last-activity .user-info
+{
+    float: left;
+    width: 80%;
+    margin-left: 0.3em;
+}
+
+/* user bio */
+
+.user-bio
+{
+    text-align: center;
+}
+
+.user-bio img
+{
+    margin-top: 2em;
+}
+
+.user-bio-text
+{
+    padding: 1em;
+    font-size: 1.5em;
+    font-style: italic;
+}
+
+/* user-ranking */
+
+.user-ranking
+{
+    background: rgba(221, 221, 221, 0.5);
+    font-size: 1.2em;
+    border-radius: 1.5em;
+    padding: 0.5em 1em;
+    color: #5a8295;
+    margin: 0.5em 0;
+}
+
+/* user scores */
+
+.user-scores
+{
+    text-align: center;
+    font-size: 1.5em;
+    padding: 0.5em 0;
+}
+
+.user-scores .user-score
+{
+    background: rgba(221, 221, 221, 0.2);
+    display: inline;
+}
+
+/* user social links */
+
+.user-social-links
+{
+    margin: 1em 0;
+    text-align: center;
+}
+
+.user-social-links li
+{
+    display: inline-block;
+    margin: 0 2em;
+}
+
+.user-social-links i
+{
+    vertical-align: middle;
+    margin-right: 0.5em;
+    position: relative;
+    top: -2px;
+}
+
+/* profile page */
+
+#profile-page #content
+{
+    background: url(../images/bg.png) 0 0 repeat-x;
+    margin: 0;
+}
+
+#profile-page h3
+{
+    margin-top: 0.7em;
+    font-size: 1.4em;
+}
+
+
+#user-profile-left
+{
+    width: 30%;
+    float: left;
+    box-sizing: border-box;
+    padding: 1em;
+    background: linear-gradient(to bottom, rgba(200, 200, 200, 0.5), rgba(200, 200, 200, 0));
+    min-height: 10em;
+}
+
+#user-profile-center
+{
+    width: 40%;
+    float: left;
+}
+
+#user-profile-right
+{
+    width: 30%;
+    float: left;
+    box-sizing: border-box;
+    padding: 1em;
+    background: linear-gradient(to bottom, rgba(200, 200, 200, 0.5), rgba(200, 200, 200, 0));
+    min-height: 10em;
+}
+
+#user-profile-bottom
+{
+    clear: both;
+    background-color: #f5fbfd;
+    padding: 1em 2em;
+    font-size: 1.5em;
+}
+
+/* USER PROFILES */
+
+
+/* User profile editing form */
+
+.lightbox-body.user-edit
+{
+    font-size: 1.2em;
+}
+
+#user-edit
+{
+    width: 500px;
+}
+
+#user-edit label
+{
+    width: 30%;
+}
+
+#user-edit .fields label,
+#user-edit .fields input,
+#user-edit .fields textarea,
+#user-edit .fields .helptext
+{
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+
+#user-edit .field-wrapper
+{
+    margin-bottom: 1em;
+}
+
+#user-edit .fields input,
+#user-edit .fields textarea
+{
+    width: 70%;
+    padding: 0.3em;
+    line-height: 1.2;
+}
+
+#user-edit .fields input[type="checkbox"]
+{
+    width: auto;
+}
+
+#user-edit #id_twitter
+{
+    width: 35%;
+}
+
+#user-edit #id_bio
+{
+    height: 5em;
+}
+
+#user-edit .helptext,
+#user-edit .errorlist,
+#user-edit .buttons
+{
+    margin-left: 30%;
+}
+
+html[dir="rtl"] #user-edit .helptext,
+html[dir="rtl"] #user-edit .errorlist,
+html[dir="rtl"] #user-edit .buttons
+{
+    margin-left: auto;
+    margin-right: 30%;
+}
+
+#user-edit .buttons
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#user-edit .helptext
+{
+    position: absolute;
+    margin-top: -0.2em;
+    left: 80px;
+    width: 40%;
+}
+
+html[dir="rtl"] #user-edit .helptext
+{
+    left: auto;
+    right: 80px;
+}
+
+#user-edit .divider
+{
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    clear: both;
+}
+
+
+/* USER SETTINGS */
+
+.user-settings h2
+{
+    margin-top: 1em;
+}
+
+
+/* profile bio */
+
+#user-profile .user-bio .user-display-name
+{
+    background: linear-gradient(to bottom, rgba(200, 200, 200, 0.3), rgba(200, 200, 200, 0));
+    min-height: 5em;
+    padding: 1em;
+}

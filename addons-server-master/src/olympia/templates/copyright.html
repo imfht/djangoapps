@@ -1,0 +1,32 @@
+<div id="copyright">
+  <p id="footer-links">
+    {% block footer_links %}
+      <a href="https://www.mozilla.org/privacy/websites/">
+        {{ _('Privacy Policy') }}
+      </a> &nbsp;|&nbsp;
+      <a href="https://www.mozilla.org/about/legal/">
+        {{ _('Legal Notices') }}
+      </a> &nbsp;|&nbsp;
+      <a href="https://www.mozilla.org/about/legal/fraud-report/">
+        {{ _('Report Trademark Abuse') }}
+      </a>
+      {% block extra_footer_links %}
+        {% if not hide_mobile_link %}
+          &nbsp;|&nbsp;<a class="mobile-link" href="#" title="{{ _('The new website supports mobile and desktop clients') }}">{{ _('View the new site') }}</a>
+        {% endif %}
+        &nbsp;|&nbsp;<a href="https://status.mozilla.org">{{ _('Site Status')}}</a>
+        &nbsp;|&nbsp;<a href="https://developer.mozilla.org/en-US/Add-ons/AMO/Policy/Contact">{{ _('Report a bug')}}</a>
+      {% endblock %}
+    {% endblock %}
+  </p>
+  <p>
+    {% trans %}
+      Except where otherwise
+      <a href="https://www.mozilla.org/about/legal/">noted</a>,
+      content on this site is licensed under the <br />
+      <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+        Creative Commons Attribution Share-Alike License v3.0
+      </a> or any later version.
+    {% endtrans %}
+  </p>
+</div>

@@ -1,0 +1,194 @@
+.admin-webhooks {
+    .webhooks-table {
+        margin-bottom: 1rem;
+        .row {
+            border-bottom: 0;
+            padding: .5rem 0;
+        }
+        .row:hover {
+            .webhook-options-wrapper {
+                opacity: 1;
+                transition: opacity .2s linear;
+            }
+        }
+    }
+
+    .table-header {
+        @include font-type(medium);
+        border-bottom: 1px solid $gray-light;
+    }
+    .table-body {
+        .webhook-service {
+            color: $gray;
+        }
+    }
+    .single-webhook-wrapper {
+        border-bottom: 1px solid $whitish;
+    }
+    .webhook-service,
+    .webhook-url {
+        margin-right: .5rem;
+    }
+    .webhook-service {
+        flex-basis: 20%;
+        flex-shrink: 0;
+    }
+    .webhook-url {
+        flex-basis: 60%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        overflow: hidden;
+        span {
+            @include ellipsis(85%);
+            color: $gray-light;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        a {
+            color: $primary;
+            cursor: pointer;
+            margin-left: .5rem;
+            white-space: nowrap;
+            &:hover {
+                color: $primary-light;
+            }
+        }
+    }
+    .webhook-options {
+        flex-basis: 100px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-left: auto;
+        a {
+            cursor: pointer;
+            display: inline-block;
+            margin-right: .5rem;
+        }
+        svg {
+            fill: $gray-light;
+            &:hover {
+                fill: $primary;
+                transition: fill .2s linear;
+            }
+        }
+    }
+    .webhook-options-wrapper {
+        opacity: 0;
+        transition: opacity .3s linear;
+    }
+    .webhook-url-inputs {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        fieldset {
+            flex-grow: 1;
+            margin-right: .3rem;
+        }
+    }
+
+    .webhooks-history {
+        display: none;
+    }
+
+    .history-single-wrapper {
+        border-bottom: 1px solid $whitish;
+        margin-left: 22%;
+    }
+    .history-single {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        padding: .5rem;
+        transition: background .2s linear;
+        &:hover {
+            background: rgba($primary-light, .1);
+            transition: background .2s linear;
+        }
+        &.history-single-open {
+            &:hover {
+                background: none;
+            }
+            .icon-arrow-bottom {
+                transform: rotate(180deg);
+                transition: transform .3s linear;
+            }
+        }
+        .icon-arrow-bottom {
+            transform: rotate(0);
+            transition: transform .3s linear;
+        }
+    }
+    .history-response-icon {
+        background: $gray;
+        border-radius: 25%;
+        display: inline-block;
+        height: .8rem;
+        margin-right: .5rem;
+        width: .8rem;
+        &.history-success {
+            background: $primary-light;
+        }
+        &.history-error {
+            background: $red;
+        }
+    }
+    .history-single-response {
+        @include slide(1000px, hidden, $min: 0);
+    }
+    .history-single-request-header,
+    .history-single-response-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 1.5rem 0 .5rem;
+        span:first-child {
+            @include font-type(medium);
+            color: $gray-light;
+        }
+        a {
+            @include font-size(small);
+            color: $gray-light;
+            &:hover {
+                color: $primary-light;
+                transition: color .2s linear;
+            }
+        }
+        .icon {
+            margin-right: .3rem;
+            vertical-align: middle;
+        }
+    }
+    .history-single-request-body,
+    .history-single-response-body {
+        .response-container {
+            @include font-type(mono);
+            align-content: center;
+            align-items: center;
+            background: $whitish;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-bottom: .5rem;
+        }
+        span {
+            @include font-size(small);
+            color: $gray-light;
+            flex-basis: 20%;
+            flex-grow: 1;
+            flex-shrink: 0;
+            text-align: center;
+        }
+        textarea {
+            @include font-type(mono);
+            border: 0;
+            flex-grow: 2;
+            min-height: 7.5rem;
+        }
+    }
+    .history-single-response-body {
+        textarea {
+            min-height: 10rem;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{% extends "rest_framework/base.html" %}
+
+{% load static %}
+
+{% block bootstrap_theme %}
+{% include "snippets/meta-css.html" %}
+{% endblock %}
+
+{% block branding %}
+{% include "snippets/branding.html" %}
+{% endblock %}
+
+{% block description %}
+{{ block.super }}
+{% endblock %}

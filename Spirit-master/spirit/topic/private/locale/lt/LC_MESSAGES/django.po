@@ -1,0 +1,126 @@
+# 
+# Translators:
+# sirex <sirexas@gmail.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2018-01-30 15:40+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/spirit-project/spirit/language/lt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: forms.py:75
+msgid "Invite users"
+msgstr ""
+
+#: forms.py:85
+msgid "user1, user2, ..."
+msgstr "dalyvis1, dalyvis2, ..."
+
+#: forms.py:120
+msgid "Invite user"
+msgstr "Pakviesti dalyvį"
+
+#: forms.py:127
+msgid "username"
+msgstr "naudotojo vardas"
+
+#: forms.py:142 forms.py:177
+#, python-format
+msgid "%(username)s is already a participant"
+msgstr "%(username)s jau pakviestas"
+
+#: models.py:29
+msgid "private topic"
+msgstr "uždara tema"
+
+#: models.py:30
+msgid "private topics"
+msgstr "uždaros temos"
+
+#: templates/spirit/topic/private/_invite_form.html:7
+msgid "Invite"
+msgstr "Pakviesti"
+
+#: templates/spirit/topic/private/_top_bar.html:11
+#: templates/spirit/topic/private/_top_bar.html:30
+msgid "Participating in"
+msgstr "Dalyvauja"
+
+#: templates/spirit/topic/private/_top_bar.html:17
+#: templates/spirit/topic/private/_top_bar.html:26
+msgid "Left"
+msgstr "Paliko"
+
+#: templates/spirit/topic/private/_top_bar.html:37
+msgid "Create private topic"
+msgstr "Kurti uždarą temą"
+
+#: templates/spirit/topic/private/delete.html:5
+msgid "Remove user from private topic"
+msgstr "Pašalinti dalyvį iš uždaros temos"
+
+#: templates/spirit/topic/private/delete.html:10
+#, python-format
+msgid "Removing %(username)s's from %(topic_title)s"
+msgstr "Šalinamas %(username)s's iš %(topic_title)s"
+
+#: templates/spirit/topic/private/delete.html:16
+msgid "Remove"
+msgstr "Šalinti"
+
+#: templates/spirit/topic/private/detail.html:11
+#: templates/spirit/topic/private/index.html:5
+msgid "Private topics"
+msgstr "Privačios temos"
+
+#: templates/spirit/topic/private/detail.html:23
+msgid "Participants"
+msgstr "Dalyviai"
+
+#: templates/spirit/topic/private/detail.html:50
+msgid "Leave topic"
+msgstr "Palikti temą"
+
+#: templates/spirit/topic/private/index_author.html:5
+msgid "Created private topics"
+msgstr "Sukurtos uždaros temos"
+
+#: templates/spirit/topic/private/index_author.html:20
+msgid "join"
+msgstr "prisijungti"
+
+#: templates/spirit/topic/private/index_author.html:24
+msgid "There are no topics here, yet"
+msgstr "Kol kas temų nėra"
+
+#: templates/spirit/topic/private/join.html:5
+msgid "Join topic"
+msgstr "Prisijungti prie temos"
+
+#: templates/spirit/topic/private/join.html:10
+#, python-format
+msgid "Do you want to join %(topic_title)s?"
+msgstr "Ar norite prisijungti prie %(topic_title)s?"
+
+#: templates/spirit/topic/private/join.html:20
+msgid "Join"
+msgstr "Prisijungti"
+
+#: templates/spirit/topic/private/publish.html:5
+msgid "Publish a private topic"
+msgstr "Atverti uždarą temą"
+
+#: templates/spirit/topic/private/publish.html:9
+msgid "Publish private topic"
+msgstr "Atverti uždarą temą"
+
+#: templates/spirit/topic/private/publish.html:26
+msgid "Publish"
+msgstr "Skelbti"

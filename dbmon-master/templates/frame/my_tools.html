@@ -1,0 +1,48 @@
+{% extends 'base/base_site.html' %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+      <h1>
+        系统运维
+        <small>系统、主机层面</small>
+      </h1>
+    </section>
+
+        <table class="table table-bordered text-center">
+         <tbody>
+                <a href="/log_collect"><button type="button" class="btn bg-olive margin">日志采集</button></a>
+                <a href="/easy_start"><button type="button" class="btn bg-olive margin">一键重启</button></a>
+                <a href="/show_web_stats"><button type="button" class="btn bg-olive margin">HTTP监控</button></a>
+                <a href="/show_tcp_stats"><button type="button" class="btn bg-olive margin">TCP监控</button></a>
+              </tbody></table>
+    <section class="content-header">
+      <h1>
+        Oracle数据库
+      </h1>
+    </section>
+        <table class="table table-bordered text-center">
+         <tbody>
+                <a href="/oracle_install"><button type="button" class="btn bg-olive margin">一键部署</button></a>
+                <a href="/oracle_ctl"><button type="button" class="btn bg-olive margin">操作面板</button></a>
+                <a href="/sql_exec"><button type="button" class="btn bg-olive margin">上线工具</button></a>
+                <a href="/oracle_lock_manage"><button type="button" class="btn bg-olive margin">行锁查杀</button></a>
+                <a href="/oracle_backup"><button type="button" class="btn bg-olive margin">备份管理</button></a>
+                <a href="/oracle_switchover"><button type="button" class="btn bg-olive margin">容灾切换</button></a>
+                <a href="/oracle_logminer"><button type="button" class="btn bg-olive margin">日志挖掘</button></a>
+                <a href="/oracle_audit"><button type="button" class="btn bg-olive margin">数据审计</button></a>
+              </tbody></table>
+            <section class="content-header">
+      <h1>
+        MySQL数据库
+      </h1>
+    </section>
+        <table class="table table-bordered text-center">
+         <tbody>
+                <a href="/mysql_install"><button type="button" class="btn bg-olive margin">一键部署</button></a>
+         <a href="/mysql_ctl"><button type="button" class="btn bg-olive margin">操作面板</button></a>
+              </tbody></table>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+#!/bin/bash
+
+VERBOSITY=0
+
+SRC_DIR=$(dirname $0)/..
+
+# Placeholders
+PACKAGE_VERSION_PLACEHOLDER="PACKAGE VERSION"
+MSGID_BUGS_TO_PLACEHOLDER="Report-Msgid-Bugs-To:"
+
+# Filename constants
+POT_DIR="./locale/templates"
+DJANGO_POT="$POT_DIR/LC_MESSAGES/django.po"
+DJANGO_JS_POT="$POT_DIR/LC_MESSAGES/djangojs.po"
+POOTLE_POT="$POT_DIR/pootle.pot"
+POOTLE_JS_POT="$POT_DIR/pootle_js.pot"
+
+# Header settings
+PACKAGE="Pootle"
+VERSION=$(python -m pootle.core.utils.version main)
+MSGID_BUGS_TO="https://github.com/translate/pootle/issues/new"
+
+REQUIRED_GETTEXT_VERSION=0.19.7
+if [[ $(xgettext --version | head -1 | sed 's/^[^0-9]*//') < "$REQUIRED_GETTEXT_VERSION" ]]; then
+    echo "Gettext >=$REQUIRED_GETTEXT_VERSION required"
+    exit 1
+fi
+
+cd $SRC_DIR
+
+# Common folders to ignore when extracting
+ignore="\
+	--ignore assets \
+	--ignore po \
+	--ignore migrations \
+	--ignore static/images \
+	--ignore static/css \
+	--ignore log \
+	--ignore dbs \
+	--ignore tools \
+	--ignore custom \
+	"
+
+django-admin.py makemessages -v $VERBOSITY $ignore --ignore static/js --extension py,txt,html --locale templates
+
+# settings.conf extraction
+
+find settings -name "*.conf" | xargs xgettext --join-existing --output=$DJANGO_POT --language=Python --from-code=utf-8
+
+# JavaScript extraction
+
+# makemessages is rubbish at this so use xgettext directly
+# Until xgettext properly supports JavaScript extraction we use Python, but
+# first we extract using JavaScript just to get the ones that do actually work.
+find static/js -name "*.js" |  egrep -v "(node_modules|\.bundle\.js)" | xargs xgettext --keyword=tct --keyword=t --keyword=nt:1,2 --output=$DJANGO_JS_POT --language=JavaScript --from-code=utf-8 --add-comments=Translators
+sed -i"" -e "s/charset=CHARSET/charset=UTF-8/" $DJANGO_JS_POT
+find static/js -name "*.js" |  egrep -v "(node_modules|\.bundle\.js)" | xargs xgettext --join-existing --output=$DJANGO_JS_POT --language=Python --from-code=utf-8 --add-comments=Translators --keyword=tct --keyword=t --keyword=nt:1,2
+
+# Extract localisable content from HTML pages used by JS
+xgettext --join-existing --output=$DJANGO_JS_POT --language=Python --from-code=utf-8 --add-comments=Translators $(find templates -name "*.html")
+
+# Copyright header replacement
+cat <<EOF >$POOTLE_POT
+# Copyright (C) Pootle contributors.
+#
+# This file is a part of the Pootle project. It is distributed under the GPL3
+# or later license. See the LICENSE file for a copy of the license and the
+# AUTHORS file for copyright and authorship information.
+EOF
+
+cp $POOTLE_POT $POOTLE_JS_POT
+
+tail -n +5 $DJANGO_POT >> $POOTLE_POT
+tail -n +5 $DJANGO_JS_POT >> $POOTLE_JS_POT
+rm $DJANGO_POT $DJANGO_JS_POT
+
+# Gettext Header replacements
+sed -i"" -e "s/$PACKAGE_VERSION_PLACEHOLDER/$PACKAGE $VERSION/" $POOTLE_POT
+sed -i"" -e "s|$MSGID_BUGS_TO_PLACEHOLDER |$MSGID_BUGS_TO_PLACEHOLDER $MSGID_BUGS_TO|" $POOTLE_POT
+
+sed -i"" -e "s/$PACKAGE_VERSION_PLACEHOLDER/$PACKAGE $VERSION/" $POOTLE_JS_POT
+sed -i"" -e "s|$MSGID_BUGS_TO_PLACEHOLDER |$MSGID_BUGS_TO_PLACEHOLDER $MSGID_BUGS_TO|" $POOTLE_JS_POT
+
+
+# Revert if we only have a header change
+[ "$(git status --porcelain ${POT_DIR})" != "?? ${POT_DIR}/" ] && git checkout --quiet -- $(git difftool -y -x 'diff --unified=3 --ignore-matching-lines=POT-Creation --ignore-matching-lines=X-Generator -s' ${POT_DIR} |
+egrep "are identical$" |
+sed "s/^Files.*.\.pot and //;s/\(\.pot\).*/\1/") || echo "No header only changes, so no reverts needed"

@@ -1,0 +1,128 @@
+.table-team {
+    .row {
+        padding: .5rem;
+    }
+    .username {
+        flex-basis: 220px;
+        min-width: 25%;
+    }
+    .member-stats {
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex: 6;
+        justify-content: flex-end;
+    }
+    .attribute {
+        @include font-type(regular);
+        flex: 1;
+        position: relative;
+        text-align: center;
+        .icon {
+            @include svg-size(1.75rem);
+            fill: $color-black600;
+        }
+        .points {
+            @include font-size(larger);
+            @include font-type(regular);
+            color: $color-black700;
+        }
+        .top {
+            fill: $color-link-primary;
+            opacity: 1;
+        }
+        &:hover {
+            .popover {
+                display: block;
+            }
+        }
+    }
+    .leave-project {
+        @include font-size(small);
+        color: $color-link-red;
+        display: flex;
+        .icon {
+            @include svg-size(.8rem);
+            fill: currentColor;
+            margin-right: .2rem;
+        }
+        &:hover {
+            color: $red;
+            .icon {
+                color: currentColor;
+                transition: fill .3s linear;
+            }
+        }
+    }
+    .team-header {
+        @include font-type(regular);
+        @include font-type(medium);
+        border-bottom: 0;
+    }
+    .hero {
+        width: 100%;
+        .row {
+            border-bottom: 1px solid $color-gray100;
+            border-top: 1px solid $color-gray100;
+            margin: 1rem 0;
+            padding: 1.5rem 1rem;
+        }
+    }
+    .avatar {
+        align-items: center;
+        display: flex;
+        img {
+            flex-basis: 66px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 66px;
+        }
+        .avatar-data {
+            margin-left: 1rem;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+            }
+        }
+        .name,
+        .position {
+            display: block;
+            width: 100%;
+        }
+        .name {
+            @include font-type(medium);
+            align-items: center;
+            display: flex;
+
+            tg-svg {
+                display: block;
+                margin-left: .5rem;
+            }
+        }
+        .position {
+            @include font-type(regular);
+            color: $gray-light;
+        }
+    }
+    .popover {
+        @include popover(
+            $width: 100%,
+            $left: 0,
+            $bottom: 2rem,
+            $arrow-width: 15px,
+            $arrow-left: calc( 50% - 7px),
+            $arrow-top: calc( 100% - 7px),
+            $align: center,
+            $background-color: $color-black600,
+            $text-color: $color-white
+        );
+    }
+    .icon-badge {
+        fill: $color-link-primary;
+        position: relative;
+        stroke: $color-link-primary;
+        top: .15rem;
+    }
+}

@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load package_tags %}
+
+{% block head_title %}{{ package.title }}{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ package.repo_description }}" />
+  <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
+  {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>
+                        <a href="{% url 'packages' %}">{% trans "Packages" %}</a> ›› {{ package.title }}
+                        <div class="pull-right">
+                            <div class="btn btn-default">
+                            <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                                </div>
+                        </div>
+                    </h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    {% comment %}
+<!--TODO block until we get things sorted out -->
+{% if warnings %}
+  <ul class="messages">
+    {% if pypi_ancient %}
+      <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
+    {% endif %}
+    {% if no_development %}
+      <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>
+    {% endif %}
+    {% if pypi_no_release %}
+      <li class="note">NOTE: This package is not available for download from PyPI. It may be using a third-party site to host its downloadable package files.</li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endcomment %}
+
+    <div class="row">
+        <div class="col-md-8 main">
+            <div class="outline">{{ package.repo_description }}</div>
+
+            {% comment %}
+    <h3>Usage</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>{% trans "Category" %}</th>
+          <th>{% trans "# Using This" %}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>
+              <a href="{% url 'category' package.category.slug %}">{{ package.category }}</a>
+            </td>
+            <td>
+                {{ package.usage.count }}
+                &nbsp;
+                {% with package as package %}
+                    {% usage_button %}
+                {% endwith %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    <!-- end Usage panel -->
+    {% endcomment %}
+            <h2>Repo Activity
+                <div class="pull-right" id="fetch-cell">
+                    {% if package.last_fetched %}
+                        <span class="small-text"> Last fetched: {{ package.last_fetched|timesince }} ago</span>&nbsp;
+                    {% endif %}
+                    <a class="btn btn-default btn-xs"
+                       href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+                    {% comment %}
+            {% if repo.title != "Github" %}
+              <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+            {% else %}{# if repo.title == "Github" #}
+              <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
+            {% endif %}
+          {% endcomment %}
+                </div>
+            </h2>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>{% trans "Commits" %}</th>
+                    <th><span class="glyphicon glyphicon-star"></span></th>
+                    <th><span class="glyphicon glyphicon-random"></span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
+                    <td><img
+                            src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ package.commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20"/>
+                    </td>
+                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                    <td>{{ package.repo_forks|default:"n/a" }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- end Repo panel -->
+
+            <!-- start PyPI panel -->
+            <h2>Releases</h2>
+
+            {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" and package.pypi_url|slice:":4" == "http" %}
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Version" %}</th>
+                        <th>{% trans "License" %}</th>
+                        <th>{% trans "Released" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Python 3?" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for version in package.version_set.by_version_not_hidden %}
+                        <tr>
+                            <td>{{ version.number }}</td>
+                            <td>{{ version.pretty_license|default:"none" }}</td>
+                            <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
+                            <td>{{ version.pretty_status }}</td>
+                            <td>
+                                {% if version.supports_python3 %}
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                {% else %}
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="panel-body">
+                    <p>{% trans "No PyPI release" %}</p>
+                </div>
+            {% endif %}
+            <!-- end PyPI panel -->
+
+            <!-- start Participants panel -->
+
+
+            <!-- end Participants panel -->
+
+        </div> <!-- end six column section -->
+        <div class="">
+            <div class="col-md-4 sidebar">
+
+                <h3>{% trans "Documentation" %}</h3>
+                <div class="pull-right">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'edit_documentation' package.slug %}"><span
+                                class="glyphicon glyphicon-plus"></span></a>
+                    {% endif %}
+                </div>
+                <p>{{ package.documentation_url|urlize }}</p>
+
+                <h3>PyPi</h3>
+                <p><a href="{{ package.pypi_url }}" target="_blank">{{ package.pypi_url }}</a></p>
+
+                <h3>Repo</h3>
+                <p><a href="{{ package.repo_url }}" target="_blank">{{ package.repo_url }}</a></p>
+
+
+                <h3>{% trans "Comparison Grids" %}</h3>
+                <div class="pull-right">
+                    {% if request.user.is_authenticated and profile.can_add_grid %}
+                        <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+                    {% endif %}
+                </div>
+
+
+                {% for grid in package.grids %}
+                    <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+                {% endfor %}
+                {% if request.user.is_authenticated and profile.can_add_grid %}
+                    {% include "package/includes/_attach_grid.html" %}
+                {% endif %}
+
+                <h3>{% trans "Sites using this package" %}</h3>
+                <div class="pull-right">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'add_example' package.slug %}"><span
+                                class="glyphicon glyphicon-plus"></span></a>
+                    {% endif %}
+                </div>
+
+                {% with package.active_examples as examples %}
+                    {% if examples %}
+                        <ul>
+                            {% for example in examples %}
+                                <li>
+                                    <a href="{{ example.pretty_url }}">{{ example.title }}</a>
+                                    {% if request.user.is_authenticated %}&nbsp;
+                                        <a href="{% url 'edit_example' package.slug example.id %}"><span
+                                                class="glyphicon glyphicon-pencil"></span></a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No sites using this package have been listed yet.</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="row" style="padding-bottom: 20px;">
+        <div class="col-sm-12">
+            <h2>{% trans "Contributors" %}</h2>
+
+            <p>
+                {% for participant in package.participant_list %}
+                    <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
+  <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block extra_body %}
+
+<script type="text/javascript">
+    $(function() {
+
+        $('#find-a-grid').click(function(e) {
+            e.preventDefault();
+            $('#find-a-grid').hide();
+            $('#find-a-grid-form').show();
+            $('#find-a-grid-input').focus();
+
+            $('#find-a-grid-input').keyup(function() {
+                var search_text = $('input#find-a-grid-input').val();
+                var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
+                console.log(search_text);
+                $.get(search_text, function(data) {
+                  $('#target').html(data).show("slow");
+                });
+            });
+
+            $("#find-a-grid-form").keypress(function(e) {
+                  if (e.which == 13) {
+                    return false;
+                  };
+            });
+
+        });
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,361 @@
+=================
+PyCon 2010 script
+=================
+
+This is my "working script" -- I'll be using these commands, verbatim, as I
+walk through the class. They probably only work on Ubuntu 9.10.
+
+These notes are primarily for me only, so they may not make a whole lot of
+sense without my narrative. However, for those not in the class, judicious use
+of ``man`` and Google along with experimentation should make for an
+interesting afternoon.
+
+Pre-class
+=========
+
+Just to make sure everything's in place...
+
+Boot the severs::
+
+    local$ cloudservers boot pycon-web1
+    local$ cloudservers boot pycon-web2
+    local$ cloudservers boot pycon-db1
+    local$ cloudservers boot pycon-db2
+    
+``~/.ssh/config``::
+
+    Host pycon-web1
+        HostName 67.23.41.152
+        User root
+
+    Host pycon-web2
+        HostName 174.143.144.232
+        User root
+
+    Host pycon-db1
+        HostName 174.143.146.239
+        User root
+
+    Host pycon-db2
+        HostName 67.23.41.160
+        User root
+
+Keys::
+
+    local$ ssh-copy-id pycon-web1
+    local$ ssh-copy-id pycon-web2
+    local$ ssh-copy-id pycon-db1
+    local$ ssh-copy-id pycon-db2
+
+Better tab completion::
+
+    <all>$ aptitude install bash-completion
+    <all>$ echo ". /etc/bash_completion" >> .bashrc
+
+Pre-fetch the big data file::
+
+    web1$ wget XXXXXX
+
+1. Getting started
+==================
+
+Bootstrap up the example app::
+
+    web1$ aptitude install git-core python-dev postgresql-dev postgresql-client build-essential libpq-dev subversion
+    web1$ mkdir -p /home/web/static
+    web1$ cd /home/web
+    web1$ git clone git://github.com/jacobian/django-deployment-workshop.git
+    web1$ cd django-deployment-workshop/fumblerooski-site/
+    web1$ python bootstrap.py
+    web1$ ./bin/buildout
+    web1$ ./bin/django runserver 0.0.0.0:8000
+    
+Get ``http://pycon-web1:8000/`` - operational error. Exactly what I'd expect.
+
+2. PostgreSQL
+=============
+    
+Install and configure Postgres.
+
+    db1$ aptitude install git-core postgresql
+    db1$ mkdir -p /home/web
+    db1$ cd /home/web
+    db1$ git clone git://github.com/jacobian/django-deployment-workshop.git
+    db1$ cd /etc/postgresql/8.4/main/
+    db1$ invoke-rc.d postgresql-8.4 stop
+    db1$ mv postgresql.conf postgresql.conf.orig
+    db1$ mv pg_hba.conf pg_hba.conf.orig
+    db1$ ln -s /home/web/django-deployment-workshop/postgresql/postgresql.conf .
+    db1$ ln -s /home/web/django-deployment-workshop/postgresql/pg_hba.conf .
+
+Edit config files pg_hba.conf to include the correct IP addresses, then start::
+
+    db1$ vim pg_hba.conf
+    db1$ vim postgresql.conf
+    db1$ invoke-rc.d postgresql-8.4 start
+
+And create users and database. Root user for convenience::
+
+    db1$ sudo -u postgres createuser root
+    db1$ createuser fumblerooski
+    db1$ createdb -O fumblerooski fumblerooski
+
+Wire up the app to PostgreSQL, load data, take a look::
+
+    web1$ cd /home/web/django-deployment-workshop/fumblerooski-site
+    web1$ vim fski/settings.py # DATABASE_HOST = '...'
+    web1$ zcat /root/fumblerooski-dump.sql.gz | ./bin/django dbshell
+    web1$ ./bin/django runserver 0.0.0.0:8000    
+
+Hit ``http://pycon-web1:8000/`` -- *boom*.
+
+Take questions while the data loads.
+
+3. mod_wsgi
+===========
+
+Install Apache and mod_wsgi, and zap away all the Ubuntu cruft::
+
+    web1$ aptitude install apache2 libapache2-mod-wsgi
+    web1$ cd /etc/apache2/
+    web1$ rm -rf apache2.conf conf.d/ httpd.conf magic mods-* sites-* ports.conf 
+
+Add our config. Remember to make a python eggs dir (it should be writable by
+apache, but 777 is easier)::
+
+    web1$ ln -s /home/web/django-deployment-workshop/apache/apache2.conf .
+    web1$ mkdir -m777 -p /var/www/.python-eggs
+    web1$ invoke-rc.d apache2 restart
+
+Hit ``http://pycon-web1/`` -- *boom*.
+
+4. fabfiles
+===========
+
+Run the fabfile::
+
+    local$  ./bin/fab -f ../fabfiles/single-server.py deploy
+    
+5. Multiple web servers
+=======================
+
+Run the fabfile::
+
+    local$  ./bin/fab -f ../fabfiles/multiple-webs.py setup:hosts=pycon-web2
+    
+While this is running, talk about configuration management.
+
+Hit ``http://pycon-web2/`` -- *boom*.
+
+6. Load balancers
+=================
+
+Set up Nginx on web1::
+
+    web1$ aptitude install nginx 
+    web1$ cd /etc/nginx/
+    web1$ rm -rf conf.d/ fastcgi_params koi-* nginx.conf sites-* win-utf 
+    web1$ ln -s /home/web/django-deployment-workshop/nginx/nginx.conf .
+
+Edit Apache conf to listen on local IP, port 8000::
+
+    web1$ vim /etc/apache2/apache2.conf
+    web1$ invoke-rc.d apache2 restart
+
+Edit Nginx to point to correct backend - just web1 for now::
+
+    web1$ vim /etc/nginx/nginx.conf 
+    web1$ invoke-rc.d nginx start
+
+Check it out::
+
+    local$ curl -I http://pycon-web1/
+
+Edit Apache on web2 for local IP, port 8000::
+
+    web2$ vim /etc/apache2/apache2.conf 
+    web2$ invoke-rc.d apache2 restart
+
+Edit Nginx to point to both backends::
+
+    web1$ vim /etc/nginx/nginx.conf 
+    web1$ invoke-rc.d nginx restart
+
+Check it out, looking at ``X-Handled-By``::
+    
+    local$ curl -I http://pycon-web1/
+
+7. Caching servers
+==================
+
+Install, enable, config memcached::
+
+    web1$ aptitude install memcached
+    web1$ echo "ENABLE_MEMCACHED=yes" > /etc/default/memcached
+    web1$ rm /etc/memcached.conf
+    web1$ ln -s /home/web/django-deployment-workshop/memcached/memcached.conf /etc/memcached.conf
+
+Make memcached listen on the internal IP, then start it (and check)::
+
+    web1$ vim /etc/memcached.conf 
+    web1$ invoke-rc.d memcached start
+    web1$ echo stats | nc -q1 <internal-ip> 11211
+
+Repeat on web2.
+
+Edit ``fski/settings.py`` to point to both cache servers::
+
+    CACHE_BACKEND = "memcached://<web1>:11211;<web2>:11211/"
+    
+    MIDDLEWARE_CLASSES = (
+        'django.middleware.cache.UpdateCacheMiddleware',
+        ...
+        'django.middleware.cache.FetchFromCacheMiddleware',
+    )
+
+Remember to do this on both servers.
+
+Reload:
+
+    web1$ invoke-rc.d apache2 reload
+    web2$ invoke-rc.d apache2 reload
+
+Check that it's working.
+
+Check cache stats::
+
+    web1$ echo stats | nc -q1 <web1> 11211
+    web1$ echo stats | nc -q1 <web2> 11211
+
+8. Database connection middleware
+=================================
+
+Install pgpool2. There's a bug in the current Ubuntu we'll need to work around
+with a custom ``/etc/default/pgpool2``::
+
+    web1$ aptitude install pgpool2
+    web1$ pkill pgpool
+    web1$ rm /etc/default/pgpool2
+    web1$ ln -s /home/web/django-deployment-workshop/pgpool/etc-default-pgpool /etc/default/pgpool2
+    web1$ rm /etc/pgpool.conf 
+    web1$ ln -s /home/web/django-deployment-workshop/pgpool/pgpool-single-db.conf /etc/pgpool.conf
+
+Fix up ``pgpool.conf`` to point to the backend (``db1``). Start it and check::
+
+    web1$ vim /etc/pgpool.conf 
+    web1$ invoke-rc.d pgpool2 start
+    web1$ psql -l
+
+Repeat on ``web2``.
+
+Modify Django to use pgpool::
+
+    DATABASE_HOST = ''
+
+Again, remember both hosts. Reload:
+
+    web1$ invoke-rc.d apache2 reload
+    web2$ invoke-rc.d apache2 reload
+
+Check it out.
+
+9. Database redundancy
+======================
+
+Set up archiving on the master; uncomment lines in ``postgresql.conf``::
+
+    db1$ aptitude install rsync
+    db1$ mkdir /pg_archive
+    db1$ chown postgres:postgres /pg_archive/
+    db1$ vim /etc/postgresql/8.4/main/postgresql.conf
+    db1$ invoke-rc.d postgresql-8.4 restart
+    db1$ ls /pg_archive/
+    db1$ psql template1 -c "select pg_switch_xlog();"
+    db1$ ls /pg_archive/
+
+Set up Postgres on the slave, making sure it's off while we complete the setup::
+
+    db2$ aptitude install git-core postgresql-client postgresql-contrib 
+    db2$ invoke-rc.d postgresql-8.4 stop
+    db2$ mkdir -p /home/web
+    db2$ cd /home/web/
+    db2$ git clone git://github.com/jacobian/django-deployment-workshop.git
+    db2$ cd /etc/postgresql/8.4/main/
+    db2$ mv postgresql.conf postgresql.conf.orig
+    db2$ mv pg_hba.conf pg_hba.conf.orig
+    db2$ ln -s /home/web/django-deployment-workshop/postgresql/postgresql.conf .
+    db2$ ln -s /home/web/django-deployment-workshop/postgresql/pg_hba.conf .
+
+Remember to fix IPs::
+
+    db2$ vim /etc/postgresq/8.4/main/postgresql.conf
+    db2$ vim /etc/postgresq/8.4/main/pg_hba.conf
+
+Set up ``pg_standby``::
+
+    db2$ aptitude install rsync
+    db2$ ln -s /usr/lib/postgresql/8.4/bin/pg_standby /usr/local/bin/pg_standby
+    db2$ mkdir /pg_archive 
+    db2$ chown postgres:postgres /pg_archive
+    db2$ cd /var/lib/postgresql/8.4/main/
+    db2$ ln -s /home/web/django-deployment-workshop/postgresql/recovery.conf .
+    db2$ chown postgres:postgres recovery.conf
+    
+Set up a keypair::
+
+    db2$ cd /var/lib/postgresql 
+    db2$ mkdir .ssh 
+    db2$ ssh-keygen -t dsa 
+            --> /var/lib/postgresql/.ssh/no-pass
+    db2$ chown -R postgres:postgres /var/lib/postgresql/.ssh 
+    db2$ cat /var/lib/postgresql/.ssh/no-pass.pub
+
+Copy the public key onto db1::
+
+    db1$ cd /var/lib/postgresql/
+    db1$ mkdir .ssh
+    db1$ vim .ssh/authorized_keys2
+    db1$ chown -R postgres:postgres .ssh/
+
+Test that the passwords-less connection works and that rysnc will work::
+
+    db2$ RSYNC_RSH="ssh -i /var/lib/postgresql/.ssh/no-pass" rsync --dry-run postgres@<db1>:/pg_archive/
+
+Create a baseline backup::
+
+    db1$ psql template1 -c "select pg_start_backup('baseline');"
+    db1$ cd /
+    db1$ tar -cvzf pg-backup.tar.gz /var/lib/postgresql/8.4/main/
+    db1$ psql template1 -c "select pg_stop_backup();"
+
+Transfer the backup from the primary to the backup::
+
+    db2$ cd /
+    db2$ scp -i /var/lib/postgresql/.ssh/no-pass postgres@<db1>:/pg-backup.tar.gz .
+    db2$ tar -xvzf pg-backup.tar.gz
+
+Copy over the WAL files::
+
+    db2$ RSYNC_RSH="ssh -i /var/lib/postgresql/.ssh/no-pass" rsync -arv --remove-source-files postgres@<db1>:/pg_archive/* /pg_archive/
+
+In real life, the above would be a cron job::
+
+    RSYNC_RSH="ssh -i /var/lib/postgresql/.ssh/no-pass"
+    */5 * * * * rsync -arv --remove-source-files postgres@<db1>:/pg_archive/* /pg_archive/
+
+Start PostgreSQL and verify it is in recovery mode::
+
+    db2$ invoke-rc.d postgresql-8.4 start
+    db2$ tail -f /var/log/postgresql/standby.log
+
+Afterwards
+==========
+
+Stop the VMs::
+
+    local$ cloudservers delete pycon-web1
+    local$ cloudservers delete pycon-web2
+    local$ cloudservers delete pycon-db1
+    local$ cloudservers delete pycon-db2
+    
+Clean up ``/etc/hosts`` and ``~/.ssh/config``.

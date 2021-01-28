@@ -1,0 +1,136 @@
+/*
+ * Copyright (C) Pootle contributors.
+ *
+ * This file is a part of the Pootle project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+/* Standard button */
+
+.btn
+{
+    border: medium none;
+    border-radius: 4px;
+
+    outline: 0;
+    cursor: pointer;
+
+    display: inline-block;
+
+    background-image: none;
+
+    text-align: center;
+
+    transition: all 0.25s linear 0s;
+
+    /* btn-normal size */
+    font-size: inherit;
+    padding: 0.5em 1em;
+}
+
+.btn,
+a.btn,
+a.btn:link
+{
+    color: #fff !important;
+    text-decoration: none;
+}
+
+/* Sizes */
+
+.btn-xl
+{
+    font-size: 1.6em;
+    padding: 1em 2em;
+}
+
+.btn-lg
+{
+    font-size: 1.4em;
+}
+
+.btn-sm
+{
+    font-size: 0.9em;
+}
+
+.btn-xs
+{
+    font-size: 0.8em;
+    border-radius: 3px;
+}
+
+
+/* Button types */
+
+.btn
+{
+    background-color: #72a6c4;
+}
+
+.btn.btn-primary
+{
+    background-color: #72a6c4;
+}
+
+.btn.btn-success
+{
+    background-color: #5fb336;
+}
+
+.btn.btn-info
+{
+    background-color: #3498db;
+}
+
+.btn.btn-warning
+{
+    background-color: #f1c40f;
+}
+
+.btn.btn-danger
+{
+    background-color: #d2322d;
+}
+
+.btn:hover,
+.btn:focus
+{
+    -webkit-filter: brightness(120%);
+    filter: brightness(120%);
+}
+
+.btn:disabled,
+.btn-disabled,
+.btn:disabled:active,
+.btn-disabled:active,
+.btn:disabled:hover,
+.btn-disabled:hover,
+.btn:disabled:focus,
+.btn-disabled:focus
+{
+    cursor: default;
+    pointer-events: none;   /* Not standard yet */
+
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.5;
+
+    -webkit-filter: grayscale(50%);
+    filter: grayscale(50%);
+}
+
+/* Zoom */
+
+/* FIXME: whenever we use preprocessors, these should just reference
+ * btn-<size> */
+
+body.zoom-out-1 .btn
+{
+    min-width: 100px;
+}
+
+body.zoom-out-2 .btn
+{
+    min-width: 90px;
+}

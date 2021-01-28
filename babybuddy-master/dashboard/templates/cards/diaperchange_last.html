@@ -1,0 +1,18 @@
+{% extends 'cards/base.html' %}
+{% load i18n %}
+
+{% block header %}{% trans "Last Diaper Change" %}{% endblock %}
+
+{% block title %}
+    {% if change %}
+        {% blocktrans trimmed with time=change.time|timesince %}
+            {{ time }} ago
+        {% endblocktrans %}
+    {% else %}
+        {% trans "None" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if change %}{{ change.attributes|join:', ' }}{% endif %}
+{% endblock %}

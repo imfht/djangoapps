@@ -1,0 +1,126 @@
+{% extends "pretixcontrol/organizers/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load money %}
+{% block inner %}
+    <h1>
+        {% blocktrans trimmed with card=card.secret %}
+            Gift card: {{ card }}
+        {% endblocktrans %}
+        {% if card.testmode %}
+            <span class="label label-warning">{% trans "TEST MODE" %}</span>
+        {% endif %}
+        <a href="{% url "control:organizer.giftcard.edit" organizer=request.organizer.slug giftcard=card.id %}"
+                class="btn btn-default">
+            <i class="fa fa-edit"></i> {% trans "Edit" %}
+        </a>
+    </h1>
+    <div class="row">
+        <div class="col-md-10 col-xs-12">
+            <div class="panel panel-primary items">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {% trans "Details" %}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>{% trans "Gift card code" %}</dt>
+                        <dd>{{ card.secret }}</dd>
+                        <dt>{% trans "Creation date" %}</dt>
+                        <dd>{{ card.issuance|date:"SHORT_DATETIME_FORMAT" }}</dd>
+                        <dt>{% trans "Current value" %}</dt>
+                        <dd>{{ card.value|money:card.currency }}</dd>
+                        <dt>{% trans "Currency" %}</dt>
+                        <dd>{{ card.currency }}</dd>
+                        <dt>{% trans "Expire date" %}</dt>
+                        <dd>{% if card.expires %}{{ card.expires|date:"SHORT_DATETIME_FORMAT" }}{% else %}–{% endif %}</dd>
+                        {% if card.conditions %}
+                            <dt>{% trans "Special terms and conditions" context "giftcard" %}</dt>
+                            <dd>{{ card.conditions }}</dd>
+                        {% endif %}
+                        {% if card.issued_in %}
+                            <dt>{% trans "Issued through sale" %}</dt>
+                            <dd>
+                                <a href="{% url "control:event.order" event=card.issued_in.order.event.slug organizer=card.issued_in.order.event.organizer.slug code=card.issued_in.order.code %}">
+                                    {{ card.issued_in.order.full_code }}</a>-{{ card.issued_in.positionid }}
+                            </dd>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+            <div class="panel panel-default items">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {% trans "Transactions" %}
+                    </h3>
+                </div>
+                <form class="" method="post" action="">
+                    {% csrf_token %}
+                    <table class="panel-body table">
+                        <thead>
+                        <tr>
+                            <th>{% trans "Date" %}</th>
+                            <th>{% trans "Order" %}</th>
+                            <th class="text-right">{% trans "Value" %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in card.transactions.all %}
+                            <tr>
+                                <td>{{ t.datetime|date:"SHORT_DATETIME_FORMAT" }}</td>
+                                <td>
+                                    {% if t.order %}
+                                        <a href="{% url "control:event.order" event=t.order.event.slug organizer=t.order.event.organizer.slug code=t.order.code %}">
+                                            {{ t.order.full_code }}
+                                        </a>
+                                        {% if t.refund and t.value > 0 and t.value <= card.value %}
+                                            <button type="submit" name="revert" value="{{ t.pk }}"
+                                                    class="btn btn-default btn-xs" data-toggle="tooltip"
+                                                    title="{% trans "Create a payment on the respective order that cancels out with this transaction. The order will then likely be overpaid." %}">
+                                                <span class="fa fa-repeat"></span>
+                                                {% trans "Revert" %}
+                                            </button>
+                                        {% endif %}
+                                    {% else %}
+                                        <em>{% trans "Manual transaction" %}{% if t.text %}: {{ t.text }}{% endif %}</em>
+                                    {% endif %}
+                                </td>
+                                <td class="text-right">
+                                    {{ t.value|money:card.currency }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="text" class="form-control helper-display-block" placeholder="{% trans "Text" %}"
+                                        name="text">
+                            </td>
+                            <td class="text-right form-inline">
+                                <input type="text" class="form-control input-sm" placeholder="{% trans "Value" %}" name="value">
+                                <button class="btn btn-primary">
+                                    <span class="fa fa-plus"></span>
+                                </button>
+                            </td>
+
+                        </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {% trans "Gift card history" %}
+                    </h3>
+                </div>
+                {% include "pretixcontrol/includes/logs.html" with obj=card %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

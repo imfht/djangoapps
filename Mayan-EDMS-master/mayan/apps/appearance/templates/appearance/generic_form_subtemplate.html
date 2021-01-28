@@ -1,0 +1,103 @@
+{% load i18n %}
+{% load static %}
+
+{% if title %}
+<h4>
+    {{ title }}
+</h4>
+<hr>
+{% endif %}
+
+<div class="well">
+    {% if form.is_multipart %}
+        <form action="{{ form_action }}" class="{{ form_css_classes|default:'' }}" enctype="multipart/form-data" method="{{ submit_method|default:'post' }}" name="{{ form.prefix|default:'' }}" target="{{ submit_target|default:'_self' }}">
+    {% else %}
+        <form action="{{ form_action }}" class="{{ form_css_classes|default:'' }}" method="{{ submit_method|default:'post' }}" name="{{ form.prefix|default:'' }}" target="{{ submit_target|default:'_self' }}">
+    {% endif %}
+        {{ wizard.management_form }}
+
+        {% if step_field %}
+            <input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
+        {% endif %}
+
+        {% if submit_method != 'GET' and submit_method != 'get' %}
+            {% csrf_token %}
+        {% endif %}
+
+        {% if next %}
+            <input name="next" type="hidden" value="{{ next }}" />
+        {% endif %}
+
+        {% if previous %}
+            <input name="previous" type="hidden" value="{{ previous }}" />
+        {% endif %}
+
+        {% for hidden_field in hidden_fields %}
+           {{ hidden_field.as_hidden }}
+        {% endfor %}
+
+        {% if form.management_form %}
+            {% with form as formset %}
+                {{ formset.management_form }}
+
+                {% if form_display_mode_table %}
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-striped">
+                            <tbody>
+                            <tr>
+                                {% for field in formset.forms.0.visible_fields %}
+                                    <th>
+                                        {{ field.label_tag }}{% if field.field.required and not read_only %} ({% trans 'required' %}){% endif %}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                {% endif %}
+
+                {% for form in formset.forms %}
+                    {% include 'appearance/generic_form_instance.html' %}
+                {% empty %}
+                    <tr><td class="text-center" colspan=99>
+                        {% include 'appearance/no_results.html' %}
+                    </td></tr>
+                {% endfor %}
+
+                {% if form_display_mode_table %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            {% endwith %}
+        {% else %}
+            {% include 'appearance/generic_form_instance.html' %}
+        {% endif %}
+        {% if not read_only %}
+            {% if not form.management_form or wizard.management_form or form.forms %}
+            {# Is a normal form, a wizard form, or a formset with at least one form #}
+                <div class="form-group">
+                    <button class="btn btn-primary btn-hotkey-default" name="{% if form.prefix %}{{ form.prefix }}-submit{% else %}submit{% endif %}" type="submit">
+                        {% if submit_icon_class %}
+                            {{ submit_icon_class.render }}
+                        {% else %}
+                            <i class="fa fa-check"></i>
+                        {% endif %}
+                        {% if submit_label %}{{ submit_label }}{% else %}{% if form.instance %}{% trans 'Save' %}{% else %}{% trans 'Submit' %}{% endif %}{% endif %}
+                    </button>
+                    {% if previous %}
+                          &nbsp;<a class="btn btn-default" onclick='history.back();'>
+                            <i class="fa fa-times"></i> {% if cancel_label %}{{ cancel_label }}{% else %}{% trans 'Cancel' %}{% endif %}
+                          </a>
+                    {% endif %}
+
+                    {% for button in extra_buttons %}
+                        <button class="btn btn-default" name="{% if form.prefix %}{{ form.prefix }}-{{ button.name }}{% else %}{{ button.name }}{% endif %}" type="submit">
+                            {% if button.icon_class %}
+                                {{ button.icon_class.render }}
+                            {% endif %}
+                            {% if button.label %}{{ button.label }}{% else %}{% if object %}{% trans 'Save' %}{% else %}{% trans 'Submit' %}{% endif %}{% endif %}
+                        </button>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </form>
+</div>

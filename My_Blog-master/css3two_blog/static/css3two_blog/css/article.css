@@ -1,0 +1,80 @@
+article {
+    padding-left: 55px;
+    padding-right: 43px;
+    padding-top: 1em;
+    padding-bottom: 1.5em;
+}
+
+article header {
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    background: url("../images/title_bg.png") bottom left repeat-x;
+}
+
+.content .blog-index article header {
+    background: none;
+}
+
+.blog-index article+article {
+    background: url("../images/title_bg.png") top left repeat-x;
+}
+
+article header time {
+    font-family: "PT Sans Caption";
+    color: rgb(150, 150, 150);
+}
+
+h1.title-link {
+    font-family: 'Crimson Text', serif;
+    font-weight: normal;
+}
+
+h1.title {
+    font-family: 'Crimson Text', serif;
+    font-weight: normal;
+}
+
+.title-link a {
+    color: #000000;
+    text-decoration: none;  /* link has underline by default */
+}
+
+.title-link a:hover {
+    color: rgb(1, 129, 235);
+    text-decoration: underline;
+}
+
+header {
+    font-family: "Lato", "Verdana", sans-serif;
+}
+
+div.pagination {
+    text-align: center;
+    font-size: .95em;
+    position: relative;
+    background: url("../images/title_bg.png") top left repeat-x;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    margin-top: 10px;
+    margin-left: 55px;
+    margin-right: 55px;
+}
+
+div.pagination a {
+    text-decoration: none;
+    color: #aaa;
+}
+
+div.pagination a:hover {
+    color: rgb(1, 129, 235);
+}
+
+div.pagination a.prev {
+    position: absolute;
+    right: 0;
+}
+
+div.pagination a.next {
+    position: absolute;
+    left: 0;
+}

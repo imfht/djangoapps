@@ -1,0 +1,99 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        MySQL慢查询解析
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">MySQL</a></li>
+        <li class="active">慢查询解析</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+        <div class="box box-success">
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+            <form action="" method="post" id="myform">
+                <div class="box-tools pull-left">
+              <div class="form-group">
+                <label>选择MySQL数据库：</label>
+                <select onchange="submitForm();" class="form-control select2" style="width: 100%;" name="select_tags">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tagsdefault }}</option>
+                  {% for tags in tagsinfo %}
+                  <option>{{ tags.tags }}</option>
+                   {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+                      <!-- SELECT2 EXAMPLE -->
+            </form>
+          </div>
+        </div>
+
+     </div>
+          <div class="box box-solid ">
+              <!-- /.box-header -->
+              <div class="box-header">
+              <h3 class="box-title">慢查询解析结果</h3>
+            </div>
+        <div class="box-body">
+        <!-- /.box-body -->
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="table1" class="table table-bordered table-hover" style="table-layout: auto">
+                <thead>
+                <tr>
+                    <th>执行时间</th>
+                    <th>主机信息</th>
+                    <th>执行库</th>
+                    <th>SQL文本</th>
+                    <th>耗时</th>
+                    <th>锁等待耗时</th>
+                    <th>rows_examined</th>
+                    <th>rows_sent</th>
+                </tr>
+                </thead>
+                {% for slow_query in slow_query_list %}
+                 <tr>
+                 <td>{{ slow_query.start_time}} </td>
+                 <td>{{ slow_query.client_host }} </td>
+                 <td>{{ slow_query.db_name }} </td>
+                 <td> <li><a href="#"  onclick="pop_content('{{ slow_query.id }}')" >{{ slow_query.sql_text }}</a></li> </td>
+                 <td>{{ slow_query.query_time }} </td>
+                 <td>{{ slow_query.lock_time }} </td>
+                 <td>{{ slow_query.rows_examined }} </td>
+                 <td>{{ slow_query.rows_sent }} </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+      </div>
+     </div>
+      </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+    function pop_content(n){
+    layer.open({
+    type: 2,
+    title: 'sql文本',
+    closeBtn: 1,
+    area: ['750px', '350px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/show_sqltext_mysql/?id='+n,],
+    });
+}
+function submitForm(){
+    var form = document.getElementById("myform");
+    form.submit();
+}
+    </script>
+{% endblock %}

@@ -1,0 +1,74 @@
+# Reference for exteranl_links and bridge containers
+# https://blog.virtualzone.de/2016/09/docker-compose-link-containers-outside-compose-file-using-external_links.html
+
+version: '2'
+services:
+  base:
+    build: .
+    image: promgen
+    command: docker-compose-bootstrap
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+      DATABASE_URL: mysql://promgen:promgen@mysql:3306/promgen
+      SECRET_KEY: asdf
+
+  web:
+    extends: base
+    command: web -b 0.0.0.0:8000
+    ports:
+      - "8080:8000"
+    links:
+      - mysql
+      - redis
+    environment:
+      DEBUG: 1
+
+  worker:
+    extends: base
+    command: worker -l info --queues localhost,celery
+    links:
+      - prometheus
+      - mysql
+      - redis
+    volumes:
+      - ./docker:/etc/prometheus
+
+  prometheus:
+    image: prom/prometheus
+    links:
+      - alertmanager
+      - blackbox
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker:/etc/prometheus
+      - ./docker/prom_data:/prometheus
+
+  blackbox:
+    image: prom/blackbox-exporter
+    network_mode: bridge
+    volumes:
+      - ./docker:/etc/prometheus
+
+  alertmanager:
+    image: prom/alertmanager
+    command: --config.file=/etc/prometheus/alertmanager.yml
+    links:
+      - web
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./docker:/etc/prometheus
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: promgen
+      MYSQL_USER: promgen
+      MYSQL_PASSWORD: promgen
+    volumes:
+      - ./docker/mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis

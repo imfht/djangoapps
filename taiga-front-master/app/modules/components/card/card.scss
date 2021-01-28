@@ -1,0 +1,585 @@
+$wrap-padding: 0 .75rem;
+$card-section-margin-bottom: .5rem;
+/* stylelint-disable color-no-hex */
+$iocaine: #b400d1;
+/* stylelint-enable color-no-hex */
+
+.card {
+    background-color: $color-white;
+    border-radius: 4px;
+    box-shadow: 4px 4px 8px rgba($color-gray400, .5);
+    contain: content;
+    cursor: move;
+    display: block;
+    margin: 1rem;
+    outline: none;
+    overflow: hidden;
+    transition: box-shadow .2s ease-in;
+    a {
+        contain: content;
+    }
+    .loading-extra.loading {
+        padding: .2rem;
+        text-align: center;
+    }
+    &.gu-mirror {
+        border: 1px solid $color-solid-primary;
+        pointer-events: none;
+    }
+    &.tg-multiple-drag-mirror {
+        margin: 0;
+    }
+    &:hover {
+        box-shadow: 3px 3px 6px darken($whitish, 10%);
+    }
+}
+
+.card-inner {
+    background: $color-white;
+    border-radius: .25rem;
+    padding: 1rem 0 .75rem 0;
+
+    .wrapper-assigned-to-data {
+        display: contents;
+    }
+    .belong-to-epic-pill-wrapper {
+        padding: 0;
+    }
+    &.type-task.zoom-2,
+    &.type-task.zoom-3 {
+        .card-assigned-to {
+            position: static;
+            .card-actions {
+                left: 1px;
+                width: calc(100% - 2px);
+            }
+        }
+        .wrapper-assigned-to-data {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin-top: .5rem;
+            position: relative;
+        }
+    }
+    &.type-task {
+        &.zoom-0 {
+            .card,
+            .card-inner.card-blocked {
+                min-height: 45px;
+            }
+        }
+        &.zoom-1 {
+            display: flex;
+            tg-card-assigned-to {
+                margin-left: auto;
+            }
+            .card-title {
+                a {
+                    display: flex;
+                }
+            }
+            .card-actions {
+                flex-direction: row-reverse;
+                height: 100%;
+                justify-content: flex-start;
+                top: 0;
+            }
+            .card-assigned-to-action {
+                span {
+                    display: none;
+                }
+            }
+            .card-assigned-to,
+            .card-title {
+                margin-bottom: 0;
+                position: static;
+            }
+        }
+        .icon {
+            @include svg-size(.95rem);
+        }
+        .card-iocaine {
+            margin-left: .5rem;
+            svg {
+                fill: $iocaine;
+            }
+        }
+    }
+    &.type-us {
+        .card-data {
+            justify-content: space-between;
+            margin-bottom: $card-section-margin-bottom;
+        }
+        .card-assigned-to {
+            margin-bottom: $card-section-margin-bottom;
+        }
+        .card-statistics {
+            margin-left: auto;
+        }
+    }
+    &.with-fold-action {
+        padding: 1rem 0 0 0;
+    }
+    &.zoom-3 {
+        .card-tag {
+            min-width: auto;
+        }
+    }
+    &.zoom-0 {
+        display: flex;
+        padding: .5rem .75rem;
+
+        .card-title {
+            margin: 0 .25rem 0 0;
+            order: -1;
+            padding: .25rem 0 0 0;
+            white-space: nowrap;
+
+            a {
+                align-items: center;
+                display: flex;
+                float: left;
+                height: 20px;
+                padding: .2rem 0 0 .2rem;
+            }
+        }
+        .card-epic {
+            margin: 0 .25rem 0 0;
+        }
+        tg-card-assigned-to {
+            margin: 0 0 0 auto;
+        }
+        .card-assigned-to {
+            margin: 0;
+            padding: 0;
+        }
+    }
+    &.card-blocked {
+        background: $color-solid-red;
+        border: 1px solid $color-link-red;
+        .card-title a,
+        .card-owner-name,
+        .card-estimation {
+            color: $color-black900;
+        }
+        .card-task a {
+            &.blocked-task {
+                color: $red;
+            }
+        }
+        .card-owner-actions {
+            background: rgba($red-light, .9);
+
+            a:hover {
+                color: $white;
+            }
+        }
+        .card-actions {
+            /* stylelint-disable max-line-length */
+            background: linear-gradient(0deg, rgba($color-solid-red, .25), rgba($color-solid-red, .25)), rgba($color-white, .95);
+
+            a:hover,
+            button:hover {
+                background: linear-gradient(0deg, rgba(228, 64, 87, .25), rgba(228, 64, 87, .25)), $color-gray400;
+            }
+            /* stylelint-enable max-line-length */
+        }
+        .card-tasks ul {
+            /* stylelint-disable color-no-hex */
+            background: #ffdada;
+            border-color: #ffdada;
+            /* stylelint-enable color-no-hex */
+        }
+        .card-unfold {
+            svg {
+                fill: $color-link-tertiary;
+            }
+            &:hover {
+                svg {
+                    fill: $color-link-primary;
+                }
+            }
+        }
+        .btn-form:not(.card-delete),
+        .btn-link[variant='icon'] {
+            &:hover {
+                color: $color-black900;
+                & > tg-svg {
+                    fill: currentColor;
+                }
+            }
+        }
+
+    }
+}
+
+.card-compact-epics {
+    display: contents;
+
+    .card-epics {
+        display: contents;
+    }
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    padding: $wrap-padding;
+
+    .card-tag {
+        @include font-size(xsmall);
+
+        border-radius: 2px;
+        color: $color-white;
+        display: block;
+        margin-block-end: $card-section-margin-bottom;
+        margin-inline-end: .5rem;
+        max-width: 17ch;
+        min-height: 8px;
+        min-width: 40px;
+        overflow: hidden;
+        padding: 0 .25rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:last-child {
+            margin-inline-end: 0;
+        }
+    }
+}
+
+.card-epics {
+    display: flex;
+    flex-wrap: wrap;
+    padding: $wrap-padding;
+}
+
+.card-epic {
+    align-items: center;
+    display: flex;
+    margin: 0 .5rem .5rem 0;
+
+    .epic-color {
+        border-radius: 6px;
+        display: block;
+        height: 12px;
+        width: 12px;
+    }
+    .epic-name {
+        @include font-size(xsmall);
+
+        color: $color-black600;
+        display: block;
+        margin-left: .25rem;
+        max-width: 155px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &:hover {
+        .epic-color {
+            opacity: .5;
+        }
+        .epic-name {
+            color: $color-link-primary;
+        }
+    }
+}
+
+.card-assigned-to {
+    display: flex;
+    padding: $wrap-padding;
+    position: relative;
+
+    .card-user-avatar {
+        margin-right: -.25rem;
+        position: relative;
+    }
+
+    .card-not-assigned {
+        align-items: center;
+        display: flex;
+    }
+
+    .card-not-assigned-title {
+        @include font-size(small);
+        color: $color-link-tertiary;
+        margin-left: .5rem;
+    }
+
+    .card-iocaine-user-bg {
+        bottom: 0;
+        pointer-events: none;
+        position: absolute;
+        svg {
+            display: block;
+            height: 18px;
+            width: 30px;
+        }
+    }
+
+    .extra-assigned {
+        @include font-size(small);
+        align-items: center;
+        background-color: $color-gray100;
+        color: $color-link-tertiary;
+        display: flex;
+        justify-content: center;
+    }
+
+    img,
+    .extra-assigned {
+        border: 2px solid $color-white;
+        border-radius: 15px;
+        display: flex;
+        height: 30px;
+        width: 30px;
+    }
+
+    &.is_iocaine {
+        .card-user-avatar img {
+            border-color: $iocaine;
+        }
+    }
+
+    &:hover {
+        .card-actions {
+            display: flex;
+        }
+    }
+}
+
+.card-actions {
+    align-items: center;
+    background: rgba($color-white, .95);
+    display: none;
+    height: 30px;
+    justify-content: space-between;
+    left: 0;
+    padding: $wrap-padding;
+    position: absolute;
+    width: 100%;
+
+    button {
+        align-items: center;
+    }
+}
+
+.card-detail-actions {
+    display: flex;
+}
+
+.btn-link[variant='icon'].card-assigned-to-action {
+    &:hover {
+        background: $color-gray300;
+    }
+}
+
+.btn-form.card-delete {
+    &:hover {
+        color: $color-link-red;
+    }
+}
+
+.card-title {
+    margin-bottom: $card-section-margin-bottom;
+    padding: $wrap-padding;
+    .card-ref {
+        @include font-type(medium);
+        color: $color-link-primary;
+    }
+    .card-subject {
+        color: $color-black900;
+    }
+    a {
+        @include font-size(small);
+        display: block;
+
+        &:hover {
+            .card-ref {
+                color: $color-black900;
+            }
+            .card-subject {
+                color: $color-link-primary;
+            }
+        }
+    }
+    span {
+        padding-right: .25rem;
+    }
+}
+
+.card-data {
+    align-items: center;
+    color: $gray-light;
+    display: flex;
+    font-size: 14px;
+    padding: $wrap-padding;
+    .card-status-tag {
+        font-size: .75rem;
+        height: .1rem;
+        line-height: .1rem;
+        padding: 0 .5em 0 0;
+    }
+    .card-estimation {
+        @include font-size(xsmall);
+        background: $color-gray200;
+        border-radius: 2px;
+        margin: 0;
+        padding: .25rem;
+
+        &.not-estimated {
+            font-size: .8125rem;
+        }
+    }
+    .card-lock {
+        margin-left: .5rem;
+
+        svg {
+            fill: $color-link-red;
+        }
+    }
+}
+
+.card-statistics-init {
+    align-items: center;
+    display: flex;
+
+    .card-due-date {
+        margin-left: .5rem;
+    }
+}
+
+.card-statistics {
+    @include font-size(xsmall);
+    align-items: center;
+    color: $grey-30;
+    display: flex;
+    margin-top: 0; /* override taiga-seed css */
+    .statistic {
+        align-content: center;
+        color: $color-link-tertiary;
+        display: flex;
+        margin-left: .5rem;
+    }
+    .icon {
+        @include svg-size(.75rem);
+        fill: $color-link-tertiary;
+        margin-right: .2rem;
+    }
+    .card-completed-tasks {
+        @include font-size(xsmall);
+        background-color: $color-gray100;
+        color: $color-black900;
+        padding: .2rem;
+        &.completed {
+            color: $color-link-green;
+        }
+    }
+}
+
+.card-unfold {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    outline: none;
+    &:hover {
+        svg {
+            fill: $color-link-primary;
+        }
+    }
+    svg {
+        align-items: center;
+        display: flex;
+        fill: $color-gray400;
+        height: 1.1rem;
+        width: 1.1rem;
+    }
+}
+
+.card-tasks {
+    padding: $wrap-padding;
+
+    ul {
+        background-color: $color-gray100;
+        border-bottom: 1px solid $color-gray300;
+        list-style: none;
+        margin-bottom: 0;
+    }
+}
+
+.card-task {
+    @include font-size(xsmall);
+    .card-task-ref {
+        color: $color-link-primary;
+        margin-right: .25rem;
+    }
+    a {
+        color: $grey-70;
+        display: block;
+        overflow: hidden;
+        padding: .5rem .75rem;
+        text-overflow: ellipsis;
+        transition: color .2s;
+        white-space: nowrap;
+        &.blocked-task {
+            color: $red-light;
+        }
+        &.closed-task {
+            color: $gray-light;
+            opacity: .5;
+            text-decoration: line-through;
+        }
+        &:hover {
+            color: $color-link-primary;
+        }
+    }
+}
+
+.card-slideshow {
+    margin-bottom: $card-section-margin-bottom;
+    position: relative;
+    .slideshow-icon {
+        cursor: pointer;
+        display: flex;
+        position: absolute;
+        top: 35%;
+    }
+    svg {
+        @include svg-size(1.2rem);
+        fill: $color-solid-primary;
+    }
+    .slideshow-left,
+    .slideshow-right {
+        align-items: center;
+        background: rgba($color-white, .3);
+        height: 24px;
+        justify-content: center;
+        transition: background .2s;
+        width: 24px;
+        &:hover {
+            background: $color-black900;
+        }
+    }
+    .slideshow-left {
+        left: 0;
+    }
+    .slideshow-right {
+        right: 0;
+    }
+    img {
+        width: 100%;
+    }
+}
+
+.card-slideshow-wrapper {
+    align-items: center;
+    display: flex;
+    height: 90px;
+    justify-content: center;
+    overflow: hidden;
+}

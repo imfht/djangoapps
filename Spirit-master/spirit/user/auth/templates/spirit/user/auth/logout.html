@@ -1,0 +1,17 @@
+{% extends "spirit/_base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Log out" %}{% endblock %}
+
+{% block content %}
+  <div class="layout__article">
+    <h1 class="headline">{% trans "Are you sure you want to log out?" %}</h1>
+
+    <form action="." method="post">
+      {% csrf_token %}
+
+      <input class="button" type="submit" name="post" value="{% trans "Log out" %}" />
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+#project-selector a {
+    color: #333;
+}
+
+#project-selector a:hover {
+    text-decoration: none;
+}
+
+#project-selector a:hover .project {
+    border-color: #0091EA;
+}
+
+#project-selector .project {
+    border-color: #ddd;
+    padding: 24px 24px 24px 64px;
+    position: relative;
+    min-height: 120px;
+}
+
+#project-selector .project h4 {
+    font-weight: bold;
+    margin-top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#project-selector .project.selected {
+    border-color: #0091EA;
+}
+
+#project-selector .project .status {
+    position: absolute;
+    left: 24px;
+}
+
+#project-selector #add-project .project {
+    border-style: dashed;
+    padding: 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #999;
+    line-height: 120px;
+}
+
+#project-selector #add-project:hover .project {
+    border-color: #0091EA;
+    color: #333;
+}
+

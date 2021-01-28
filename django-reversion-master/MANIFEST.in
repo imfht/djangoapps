@@ -1,0 +1,9 @@
+include reversion/templates/reversion/*.html
+include reversion/locale/*/LC_MESSAGES/django.*
+include LICENSE
+include README.rst
+include CHANGELOG.rst
+include MANIFEST.in
+recursive-include docs *
+recursive-include tests *.py
+prune docs/_build

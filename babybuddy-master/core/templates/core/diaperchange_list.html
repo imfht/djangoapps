@@ -1,0 +1,75 @@
+{% extends 'babybuddy/page.html' %}
+{% load bootstrap i18n widget_tweaks %}
+
+{% block title %}{% trans "Diaper Changes" %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Diaper Changes" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Diaper Changes" %}
+        {% if perms.core.add_diaperchange %}
+            <a href="{% url 'core:diaperchange-add' %}" class="btn btn-sm btn-success">
+                <i class="icon icon-diaperchange" aria-hidden="true"></i> {% trans "Add Diaper Change" %}
+            </a>
+        {% endif %}
+    </h1>
+    {% include 'babybuddy/filter.html' %}
+    <div class="table-responsive">
+        <table class="table table-instances">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>{% trans "Child" %}</th>
+                    <th class="text-center">{% trans "Wet" %}</th>
+                    <th class="text-center">{% trans "Solid" %}</th>
+                    <th>{% trans "Color" %}</th>
+                    <th>{% trans "Amount" %}</th>
+                    <th>{% trans "Time" %}</th>
+                    <th class="text-center">{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for change in object_list %}
+                    {% cycle "odd" "even" as row_class silent %}
+                    <tr class="{{ row_class }}">
+                        <th scope="row"><a href="{% url 'core:child' change.child.slug %}">{{ change.child }}</a></th>
+                        <td class="text-center">{{ change.wet|bool_icon }}</td>
+                        <td class="text-center">{{ change.solid|bool_icon }}</td>
+                        <td>{{ change.get_color_display }}</td>
+                        <td>{{ change.amount|default_if_none:"" }}</td>
+                        <td>{{ change.time }}</td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="{% trans "Actions" %}">
+
+                                {% if perms.core.change_diaperchange %}
+                                    <a href="{% url 'core:diaperchange-update' change.id %}" class="btn btn-primary">
+                                        <i class="icon icon-update" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.core.delete_diaperchange %}
+                                    <a href="{% url 'core:diaperchange-delete' change.id %}" class="btn btn-danger">
+                                        <i class="icon icon-delete" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% if change.notes %}
+                        <tr class="{{ row_class }} row-details">
+                            <td colspan="7"><i class="icon icon-note mr-2" aria-hidden="true"></i>{{ change.notes }}</td>
+                        </tr>
+                    {% endif %}
+                {% empty %}
+                    <tr>
+                        <th colspan="6">{% trans "No diaper changes found." %}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'babybuddy/paginator.html' %}
+{% endblock %}

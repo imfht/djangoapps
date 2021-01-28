@@ -1,0 +1,19 @@
+# robots.txt file for Mozilla Add-ons, addons.mozilla.org
+User-agent: *
+Allow: /
+
+{# The downloads live at locale-agnostic URLs now. #}
+{% for app in apps -%}
+Disallow: /{{ app.short }}/downloads/
+{% endfor %}
+
+{# Spacing is a little weird because it makes the output prettier #}
+{% for lang in settings.AMO_LANGUAGES -%}
+
+Allow: /{{ lang }}/firefox{{ url('collections.list', add_prefix=False) }}{{ mozilla_user_id }}/
+{% for app in apps %}
+Disallow: /{{ lang }}/{{ app.short }}{{ url('search.search', add_prefix=False) }}
+Disallow: /{{ lang }}/{{ app.short }}{{ url('collections.list', add_prefix=False) }}
+{% endfor %}
+
+{% endfor %}

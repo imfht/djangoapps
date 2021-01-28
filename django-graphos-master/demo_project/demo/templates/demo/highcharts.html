@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+  <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="http://code.highcharts.com/highcharts-3d.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/funnel.js"></script>
+  <script src="https://code.highcharts.com/modules/treemap.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+  <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+  <script src="https://code.highcharts.com/mapdata/countries/us/custom/us-all-territories.js"></script>
+  <script src="https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js"></script>
+
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link href="/{{STATIC_URL}}css/highmaps.css" rel="stylesheet">
+{% endblock %}
+
+{% block menu %}
+  <ul class="nav nav-tabs">
+      <li><a href="{% url 'demo_home' %}">Home</a></li>
+      <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+      <li><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+      <li><a href="{% url 'demo_morris_demo' %}">Morris</a></li>
+      <li><a href="{% url 'demo_matplotlib_demo' %}">Matplotlib</a></li>
+      <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+      <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+      <li class="active"><a href="{% url 'demo_highcharts_demo' %}" >Highcharts</a></li>
+      <li><a href="{% url 'demo_c3js_demo' %}">C3JS</a></li>
+      <li><a href="{% url 'demo_time_series_example' %}">Time Series Example</a></li>
+  </ul>
+{%  endblock %}
+
+{% block content %}
+    <div>
+        <p>
+            graphos.renderer.highcharts provides charting via Highcharts chart API.
+        </p>
+    </div>
+
+    <div id="line_chart" class="well">
+
+        {{ line_chart.as_html }}
+        <pre class="code">
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            gchart.LineChart(data_source, options={'title': "Sales Growth"})
+        </pre>
+    </div>
+    <br />
+
+    <div id="column_chart" class="well">
+        {{ column_chart.as_html }}
+    </div>
+
+    <br />
+
+    <div id="bar_chart" class="well">
+        {{ bar_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="candlestick_chart" class="well">
+        {{ candlestick_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="pie_chart" class="well">
+        {{ pie_chart.as_html }}
+    </div>
+
+    <div id="area_chart" class="well">
+        {{ area_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="scatter_chart" class="well">
+        {{ scatter_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="scatter_multi_series_chart" class="well">
+        {{ scatter_multi_series_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="donut_chart" class="well">
+        {{ donut_chart.as_html }}
+    </div>
+    <br />
+
+    <div id="multi_axis_chart" class="well">
+        {{ multi_axis_chart.as_html }}
+    </div>
+
+    <div id="highmap_chart" class="well">
+      {{ highmap_chart.as_html }}
+    </div>
+
+    <div id="highmap_chart_point" class="well">
+      {{ highmap_chart_point.as_html }}
+    </div>
+
+    <div id="highmap_chart_bubble" class="well">
+      {{ highmap_chart_bubble.as_html }}
+    </div>
+
+    <div id="highmap_chart_lat_lon" class="well">
+      {{ highmap_chart_lat_lon.as_html }}
+    </div>
+
+    <div id="highmap_chart_multi_series" class="well">
+      {{ highmap_chart_multi.as_html }}
+    </div>
+
+    <div id="highmap_chart_multi_series_bubble" class="well">
+      {{ highmap_chart_multi_bubble.as_html }}
+    </div>
+
+    <div id="highmap_chart_multi_series_lat_lon" class="well">
+      {{ highmap_chart_multi_lat_lon.as_html }}
+    </div>
+
+    <div id="heat_map" class="well">
+      {{ heat_map.as_html }}
+    </div>
+
+    <div id="funnel" class="well">
+      {{ funnel.as_html }}
+    </div>
+
+    <div id="treemap" class="well">
+      {{ treemap.as_html }}
+    </div>
+
+    <div id="pie_donut" class="well">
+      {{ pie_donut.as_html }}
+    </div>
+
+    <div id="bubble_chart_single" class="well">
+      {{ bubble_chart_single.as_html }}
+    </div>
+
+    <div id="bubble_chart_multi" class="well">
+      {{ bubble_chart_multi.as_html }}
+    </div>
+    <br />
+
+{% endblock %}

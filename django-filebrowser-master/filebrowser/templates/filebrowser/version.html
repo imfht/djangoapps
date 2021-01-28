@@ -1,0 +1,65 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load static i18n fb_tags fb_versions %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "filebrowser/css/filebrowser.css" %}" />
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    {% ifequal query.pop '1' %} <!-- FileBrowseField -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_FileBrowseField.js" %}"></script>
+    {% endifequal %}
+    {% ifequal query.pop '2' %} <!-- TinyMCE -->
+    <script language="javascript" type="text/javascript" src="{% static "grappelli/tinymce/jscripts/tiny_mce/tiny_mce_popup.js" %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCE.js" %}"></script>
+    {% if query.mce_rdomain %}<script language="javascript">document.domain = "{{ query.mce_rdomain }}"</script>{% endif %}
+    {% endifequal %}
+    {% ifequal query.pop '4' %} <!-- TinyMCEv4 -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv4.js" %}"></script>
+    {% endifequal %}
+    {% ifequal query.pop '5' %} <!-- TinyMCE v5 -->
+    <script language="javascript" type="text/javascript" src="{% static "filebrowser/js/FB_TinyMCEv5.js" %}"></script>
+    {% endifequal %}
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}grp-change-list grp-filebrowser{% if query.pop %} grp-popup{% endif %}{% endblock %}
+{% block content-class %}{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- OBJECT-TOOLS -->
+{% block object-tools %}{{ image_version.path }}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    {% if fileobject.filetype == "Image" %}
+        {% version fileobject.path settings_var.ADMIN_THUMBNAIL as thumbnail_version %}
+        {% version fileobject.path query.version as image_version %}
+        {% ifequal query.pop '1' %} <!-- FileBrowseField -->
+        <script type="text/javascript" charset="utf-8">
+            (function($) {
+                $(document).ready(function() {
+                    FileSubmit('{{ image_version.path }}', '{{ image_version.url }}', '{{ thumbnail_version.url }}', '{{ image_version.filetype }}');
+                });
+            })(grp.jQuery);
+        </script>
+        {% endifequal %}
+        {% if query.pop == "2" or query.pop == "4" or query.pop == "5" %} <!-- TinyMCE version 3, 4 and 5 -->
+        <script type="text/javascript" charset="utf-8">
+            (function($) {
+                $(document).ready(function() {
+                    FileBrowserDialogue.fileSubmit('{{ image_version.url|escapejs }}');
+                });
+            })(grp.jQuery);
+        </script>
+        {% endif %}
+    {% endif %}
+{% endblock %}

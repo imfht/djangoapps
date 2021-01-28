@@ -1,0 +1,38 @@
+{% extends "projects/admin/base.html" %}
+
+{% load i18n assets %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block title %}{% trans "Languages" %} | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="settings-container centered" lang="{{ LANGUAGE_CODE }}">
+  <p>{% trans "Here you can add, edit, or delete the languages for this project." %}</p>
+  {% if not can_add %}
+  <div class="alert alert-info">
+    {% trans 'There are no templates for this project, so adding new languages from this screen is disabled.' %}
+  </div>
+  <div>
+    {% if layout_style == "gnu" %}
+    {% blocktrans %}Pootle will look on the filesystem for files named: {{ template_path }}{% endblocktrans %}
+    {% else %}
+    {% blocktrans %}Pootle will look on the filesystem for a folder named {{ template_path }}{% endblocktrans %}
+    {% endif %}
+  </div>
+  {% else %}
+  {% include "admin/_generic_formset.html" %}
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+{% assets 'js_admin_general_app' %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+<script type="text/javascript">
+  $(function () {
+    PTL.commonAdmin.init({page: 'formset'});
+  });
+</script>
+{% endblock %}

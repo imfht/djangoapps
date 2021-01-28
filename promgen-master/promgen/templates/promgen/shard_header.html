@@ -1,0 +1,13 @@
+{% load i18n %}
+<div class="well">
+  {% if shard.proxy %}
+  <promql-query class="label" href='{{shard.url}}/api/v1/query' query='sum(scrape_samples_scraped)'>Samples: </promql-query>
+  <promql-query class="label" href='{{shard.url}}/api/v1/query' query='count(up)'>Exporters: </promql-query>
+  {% endif %}
+
+  {% if user.is_superuser %}
+  <a class="btn btn-danger btn-sm pull-right" role="button" href="{% url 'admin:promgen_shard_change' shard.id %}">
+    {% trans "Admin" %}
+  </a>
+  {% endif %}
+</div>

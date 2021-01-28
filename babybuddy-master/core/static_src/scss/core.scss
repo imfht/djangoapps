@@ -1,0 +1,29 @@
+#view-core\:child {
+    .child-photo {
+        max-width: 150px;
+    }
+}
+
+#view-core\:child-list {
+    .picture-column {
+        text-align: center;
+        width: 65px;
+        min-width: 65px;
+    }
+
+    .child-list {
+        th,
+        td {
+            vertical-align: middle;
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    #view-core\:child {
+        .child-detail-column {
+            position: fixed;
+            width: 100%;
+        }
+    }
+}

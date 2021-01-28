@@ -1,0 +1,34 @@
+extends:
+  - airbnb-base/legacy
+rules:
+  no-empty-label: off
+  space-after-keywords: off
+  space-return-throw-case: off
+  no-labels: error
+  keyword-spacing: error
+  func-names:
+    - error
+    - never
+  space-before-function-paren:
+    - error
+    - never
+  comma-dangle:
+    - error
+    - always-multiline
+  no-use-before-define:
+    - error
+    - functions: false
+  no-multiple-empty-lines:
+    - error
+    - max: 1
+  indent:
+    - error
+    - 2
+env:
+  browser: true
+  jquery: true
+  es6: true
+globals:
+  Waypoint: false
+  moment: false
+  Stats: false

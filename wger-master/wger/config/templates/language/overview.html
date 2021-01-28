@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n static wger_extras %}
+
+{% block title %}{% trans "Languages" %}{% endblock %}
+
+
+{% block content %}
+    <div class="list-group">
+        {% for language in language_list %}
+            <a href="{% url 'core:language:view' language.id %}" class="list-group-item">
+                <span class="glyphicon glyphicon-chevron-right float-right"></span>
+                {{ language.full_name }}
+            </a>
+        {% empty %}
+            <a href="{% url 'core:language:add' %}" class="list-group-item">
+            {% trans "Nothing found." %}<br>{% trans "Add one now." %}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+
+{#         #}
+{# Options #}
+{#         #}
+{% block options %}
+    <a href="{% url 'core:language:add' %}" class="btn btn-success btn-sm wger-modal-dialog">
+        {% trans "Add" %}
+    </a>
+{% endblock %}

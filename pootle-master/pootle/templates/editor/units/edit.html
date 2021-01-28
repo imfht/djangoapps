@@ -1,0 +1,346 @@
+{% load core i18n common_tags store_tags cleanhtml locale fs_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<td colspan="2" rowspan="1" class="translate-full translate-focus{% if unit.isfuzzy %} fuzzy-unit{% endif %}" dir="{% locale_dir %}">
+  <div class="translate-lightbox js-translate-lightbox"></div>
+  <div class="translate-container{% if failing_checks %} error{% endif %}">
+    <div class="unit-path">
+      <ul>
+        <li><span class="content-wrapper">{{ language.name }}</span></li>
+        <li><span class="content-wrapper">{{ project }}</span></li>
+        <li><span class="content-wrapper">{{ unit.store.path }}</span></li>
+        <li><span class="content-wrapper">{% blocktrans with url=unit.get_translate_url id=unit.id %}<a href="{{ url }}">Unit #{{ id }}</a>{% endblocktrans %}</span></li>
+      </ul>
+    </div>
+    <div class="translate-{% locale_align %}">
+      <!-- Priority -->
+      {% if priority %}
+      <div class="sidebar" dir="{% locale_dir %}">
+        <span class="sidetitle" lang="{{ LANGUAGE_CODE }}">{% trans "Priority:" %}</span>
+        <div class="translate-priority">{{ priority }}</div>
+      </div>
+      {% endif %}
+      {% if unit.getcontext and unit.locations != unit.context %}
+      <!-- Context information and comments -->
+      <div class="translate-context sidebar">
+        <span class="sidetitle" lang="{{ LANGUAGE_CODE }}">{% trans "Context:" %}</span>
+        <div class="translate-context-value">
+          {{ unit.getcontext }}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if unit.locations %}
+      <!-- Location comments -->
+      <div class="comments sidebar">
+        <span class="sidetitle" lang="{{ LANGUAGE_CODE }}">{% trans "Locations:" %}</span>
+	{% if cantranslatexlang %}
+        <a lang="en" dir="ltr" class="translate-locations" title="{{ unit.locations }}"
+           href="{{ unit.get_search_locations_url }}">{{ unit.locations|truncatewords:4 }}</a>
+	{% else %}
+	<span lang="en"
+	      dir="ltr"
+	      class="translate-locations">{{ unit.locations|truncatewords:4 }}</span>
+	{% endif %}
+	{% upstream_link_short unit.store.translation_project.project unit.locations %}
+      </div>
+      {% endif %}
+
+      <!-- Terminology suggestions -->
+      {% if terms %}
+      <div id="tm" class="sidebar" dir="{% locale_dir %}">
+        <span class="sidetitle" lang="{{ LANGUAGE_CODE }}">{% trans "Terminology:" %}</span>
+        {% for term in terms %}
+        <div class="tm-unit js-editor-copytext" data-string="{{ term.target }}"
+          title="{% trans 'Insert the translated term into the editor' %}">
+          <span class="tm-original" dir="{{ source_language.direction }}" lang="{{ source_language.code }}">{{ term.source }}</span>
+          <span class="tm-translation" dir="{{ language.direction }}" lang="{{ language.code }}">{{ term.target }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if unit.developer_comment %}
+      <!-- Developer comments -->
+      <div class="comments sidebar">
+        <div lang="{{ source_language.code }}" dir="{{ source_language.direction }}">
+          <span class="sidetitle" lang="{{ LANGUAGE_CODE }}">{% trans "Comments:" %}</span>
+          <div class="js-developer-comments developer-comments">
+            {{ unit.developer_comment|urlize|url_target_blank|url_trim|linebreaks }}
+          </div>
+        </div>
+        {% with image_urls=unit.developer_comment|image_urls %}
+          {% if image_urls %}
+          <div class="developer-images hr">
+          {% for image_url in image_urls %}
+            <a class="js-dev-img" href="{{ image_url }}"
+               title="{% trans 'Click to open the image in a popup' %}">
+            <img src="{{ image_url }}"/>
+            </a>
+          {% endfor %}
+          </div>
+          {% endif %}
+        {% endwith %}
+      </div>
+      {% endif %}
+
+      {% if project.screenshot_search_prefix %}
+      <!-- Screenshot links -->
+      <div class="screenshot-link sidebar">
+        <a href="{{ unit.get_screenshot_url }}" target="_blank">
+          {% trans 'Screenshots...' %}
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="translate-middle">
+      <!-- Quality Checks -->
+      <div id="translate-checks-block" class="js-unit-checks"
+        dir="{% locale_dir %}">
+      {% include 'editor/units/xhr_checks.html' %}
+      </div>
+      <div id="target-item-content">
+        <form action="" method="post" name="translate" id="translate">
+          <div class="sources">
+            <!-- Alternative source language translations -->
+            {% for altunit_id, altunit in altsrcs.items %}
+            <div class="source-language alternative">
+              <div class="translation-text-headers" lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}">
+                <div class="language-name">{{ altunit.language_name }}</div>
+                {% if cansuggest or cantranslate %}
+                <div class="translate-toolbar">
+                  <span class="js-mt-{{ altunit.language_code }}"></span>
+                  <a class="icon-copy js-copyoriginal"
+                     data-language-code="{{ altunit.language_code }}"
+                     title="{% trans 'Copy into translation' %}" accesskey="c"></a>
+                </div>
+                {% endif %}
+              </div>
+              <div data-id="{{ altunit_id }}" class="js-mount-editor-alt-src"></div>
+            </div>
+            {% endfor %}
+            <!-- Original -->
+            <div class="source-language original">
+              <div class="translation-text-headers" lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}">
+                <div class="language-name">{{ source_language.name }}</div>
+                {% if cansuggest or cantranslate %}
+                <div class="translate-toolbar">
+                  <span class="report-issue">
+                    <a class="js-popup-ajax"
+                       href="{% url 'pootle-contact-report-error' %}?report={{ unit.id }}">
+                      {% trans "Report a problem with this string" %}
+                    </a>
+                  </span>
+                  <span class="js-mt-{{ source_language.code }}"></span>
+                  <a class="icon-copy js-copyoriginal"
+                     data-language-code="{{ source_language.code }}"
+                     title="{% trans 'Copy into translation' %}" accesskey="c"></a>
+                </div>
+                {% endif %}
+              </div>
+              <div class="js-mount-editor-original-src"></div>
+            </div>
+          </div>
+          <!-- Buttons, resize links, special characters -->
+          <div class="buttons translate-buttons-block" lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}">
+            {% if cantranslate %}
+            <input type="submit" name="submit" tabindex="11" accesskey="s"
+              class="btn btn-success submit unit-submit js-submit" disabled
+              value="{% trans 'Submit' %}"
+              title="{% trans 'Submit translation and go to the next string (Ctrl+Enter)' %}" />
+            {% endif %}
+            {% if cansuggest %}
+            <input type="submit" name="suggest" tabindex="11" accesskey="s"
+              class="btn btn-warning suggest unit-submit js-suggest" disabled
+              value="{% trans 'Suggest' %}"
+              title="{% trans 'Suggest translation and go to the next string (Ctrl+Enter)' %}" />
+            {% endif %}
+            {% if cansuggest and cantranslate %}
+            <div class="switch-suggest-mode tiny" lang="{{ LANGUAGE_CODE }}">
+                <div class="suggest"><a href="#" title="{% trans 'Switch to translation mode (Ctrl+Shift+Space)' %}">&harr; {% trans "Submit" %}</a></div>
+              <div class="submit"><a href="#" title="{% trans 'Switch to suggestion mode (Ctrl+Shift+Space)' %}">&harr; {% trans "Suggest" %}</a></div>
+            </div>
+            {% endif %}
+            <div class="translate-fuzzy-block js-fuzzy-block{% if not has_admin_access and not unit.isfuzzy %} hide{% endif %}"
+              lang="{{ LANGUAGE_CODE }}"
+              title="{% trans 'Mark this string as needing further work (Ctrl+Space)' %}">
+              {{ form.is_fuzzy }} {{ form.is_fuzzy|label_tag:'' }}
+            </div>
+          </div>
+          <!-- Translation -->
+          <div id="orig{{ unit.index }}" class="js-translate-translation translate-translation" lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}">
+            {% if unit.istranslated or unit.isfuzzy %}
+	    {% if unit.change.submitted_by %}
+            <div id="target-item-gravatar">
+	      <a href="{% url 'pootle-user-profile' unit.change.submitted_by.username %}"
+		 title="{{ unit.change.submitted_by.display_name|force_escape|force_escape }}">
+		{% avatar unit.change.submitted_by.username unit.change.submitted_by.email_hash 24 %}
+	      </a>
+            </div>
+            {% endif %}
+            {% endif %}
+
+            {% block target_field %}
+            <div class="js-mount-editor"></div>
+	    <div class="js-auto-match-msg auto-match-msg hide">
+	      {% trans "Showing match from similar translations" %}
+	    </div>
+
+            <script type="text/javascript">
+              PTL.reactEditor.init({
+                initialValues: {{ unit_values|to_js }},
+                isDisabled: {{ form.target_f.field.widget.attrs.disabled|yesno:'true,false' }},
+                currentLocaleCode: '{{ language.code }}',
+                currentLocaleDir: '{{ language.direction }}',
+                unitId: {{ unit.id }},
+                sourceValues: {{ unit.source_f.strings|to_js }},
+                sourceLocaleCode: '{{ source_language.code }}',
+                sourceLocaleDir: '{{ source_language.direction }}',
+                hasPlurals: {{ has_plurals|yesno:'true,false' }},
+                targetNplurals: {{ target_nplurals }},
+                alternativeSources: {{ altsrcs|to_js }},
+                fileType: '{{ filetype }}',
+                suggestions: {{ suggestions_dict|to_js }},
+              });
+            </script>
+            {% endblock %}
+
+            <div class="extras-bar">
+              <a id="js-toggle-timeline" href="{% url 'pootle-xhr-units-timeline' unit.id %}"><i class="icon-timeline" title="{% trans 'Show Timeline' %}"></i></a>
+              {% block translator_comment_edit_trigger %}
+              {% if cantranslate %}<a class="js-editor-comment" tabindex="15"><i class="icon-comment-add" title="{% trans 'Add Comment' %}"></i></a>{% endif %}
+              {% endblock %}
+              <a class="js-toggle-raw"><i class="icon-raw-mode" title="{% trans 'Raw View' %}"></i></a>
+            </div>
+            <div class="unit-meta">
+              <span id="js-char-count">
+                {% if unit_values|length == 1 %}
+                  {% blocktrans count counter=unit_values|first|length %}
+                    {{ counter }} character
+                  {% plural %}
+                    {{ counter }} characters
+                  {% endblocktrans %}
+                {% else %}
+                  {% blocktrans with counter=unit_values|map_to_lengths|join:" / " %}
+                    {{ counter }} characters
+                  {% endblocktrans %}
+                {% endif %}
+              </span>
+              {% if unit.istranslated or unit.isfuzzy %}
+              {% if unit.change.submitted_by and unit.change.submitted_on %}
+              <br>
+              <time
+                title="{{ unit.change.submitted_on|dateformat }}"
+                datetime="{{ unit.change.submitted_on.isoformat }}">{{ unit.change.submitted_on|relative_datetime_format }}</time>
+              {% with reviewer=accepted_suggestion.reviewer %}
+              {% if reviewer %}
+              <br>
+              <span>({% blocktrans with profile_url=reviewer.get_absolute_url %}reviewed by <a href="{{ profile_url }}">{{ reviewer }}</a>{% endblocktrans %})</span>
+              {% endif %}
+              {% endwith %}
+              {% endif %}
+              {% endif %}
+            </div>
+            {% if special_characters %}
+              {% if cantranslate or cansuggest %}
+              <div class="editor-specialchars-block" lang="{{ language.code }}">
+                {% for specialchar in special_characters %}
+                <a class="editor-specialchar js-editor-copytext"
+                   title="{% blocktrans trimmed with character_name=specialchar.name character_code=specialchar.hex_code %}
+                   Insert {{ character_name }} (Unicode value {{ character_code }}) into the editor
+                   {% endblocktrans %}"
+                   data-string="&#{{ specialchar.code }};">
+                   {% if specialchar.display.isspace %}&nbsp;{% else %}{{ specialchar.display }}{% endif %}</a>
+                {% endfor %}
+              </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </form>
+        {% block translator_comment_form_wrapper %}
+        {% if cantranslate %}
+        <div id="editor-comment" class="js-editor-comment-form hide">
+          <form id="js-comment-form">
+            {% block translator_comment_form %}
+            {{ comment_form.translator_comment }}
+            {% endblock %}
+            <input type="submit" class="btn btn-xs btn-primary"
+                      value="{% trans 'Submit' %}" />
+          </form>
+        </div>
+        {% endif %}
+        {% endblock %}
+      </div>
+      <!-- Latest comment, [timeline of changes], suggestions from users
+           and Translation Memory -->
+      <div id="extras-container">
+        {% block translator_comment %}
+        {% if unit.translator_comment %}
+        <!-- Latest comment -->
+        <div id="translator-comment" lang="{{ LANGUAGE_CODE }}">
+          {% include "editor/units/xhr_comment.html" %}
+        </div>
+        {% endif %}
+        {% endblock %}
+        {% if suggestions %}
+        <div id="suggestions">
+          <div class="extra-item-title">{% trans 'User suggestions' %}</div>
+          {% for sugg in suggestions %}
+          <div id="suggestion-{{ sugg.id }}"
+            class="js-user-suggestion extra-item-block{% if canreview %} can-review{% endif %}"
+            data-translation-aid="{{ sugg.target }}"
+            data-sugg-id="{{ sugg.id }}"
+            data-suggestor-id="{{ sugg.user.id }}">
+            {% if sugg.user %}
+            <div class="extra-item-gravatar">
+	      <a href="{% url 'pootle-user-profile' sugg.user.username %}"
+		 title="{{ sugg.user.display_name|force_escape|force_escape }}">
+		{% avatar sugg.user.username sugg.user.email_hash 20 %}
+	      </a>
+            </div>
+            {% endif %}
+            <div class="suggestion-actions">
+              {% if canreview %}
+                <a accesskey="a" class="suggestion-action suggestion-toggle js-suggestion-toggle"
+                  data-sugg-id="{{ sugg.id }}" data-translation-aid="{{ sugg.target }}">
+                  <i class="icon-desc suggestion-expand" dir="{% locale_dir %}"
+                    title="{% trans 'More options' %}"></i>
+                  <i class="icon-asc suggestion-collapse" dir="{% locale_dir %}"
+                    title="{% trans 'Less options' %}"></i>
+                </a>
+                <a accesskey="a" class="suggestion-action js-suggestion-accept"
+                  data-sugg-id="{{ sugg.id }}">
+                  <i class="icon-accept" dir="{% locale_dir %}"
+                    title="{% trans 'Accept suggestion' %}"></i>
+                </a>
+                <a accesskey="r" class="suggestion-action js-suggestion-reject"
+                  data-sugg-id="{{ sugg.id }}">
+                  <i class="icon-reject" dir="{% locale_dir %}"
+                    title="{% trans 'Reject suggestion' %}"></i>
+                </a>
+              {% elif user.is_authenticated and user == sugg.user %}
+                <a accesskey="r" class="suggestion-action js-suggestion-reject"
+                  data-sugg-id="{{ sugg.id }}">
+                  <i class="icon-reject" dir="{% locale_dir %}"
+                    title="{% trans 'Remove suggestion' %}"></i>
+                </a>
+              {% endif %}
+            </div>
+            <div class="js-mnt-suggestion" data-id="{{ sugg.id }}"></div>
+            <div class="suggestion-feedback js-mnt-suggestion-feedback-{{ sugg.id }}"></div>
+            {% block suggestion_comment %}{% endblock %}
+            {% if sugg.creation_time %}
+            <time class="extra-item-meta"
+              title="{{ sugg.creation_time|dateformat }}"
+              datetime="{{ sugg.creation_time.isoformat }}">{{ sugg.creation_time|relative_datetime_format }}</time>
+            {% else %}
+            <time class="extra-item-meta">{% trans 'A long time ago' %}</time>
+            {% endif%}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</td>

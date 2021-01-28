@@ -1,0 +1,248 @@
+{% from "devhub/includes/macros.html" import some_html_tip, select_cats %}
+{% from "includes/forms.html" import tip %}
+{% extends "devhub/addons/submit/base.html" %}
+
+{% block title %}{{ dev_page_title(_('Describe Add-on'), addon) }}{% endblock %}
+
+{% block primary %}
+  <h3>{{ _('Describe Add-on') }}</h3>
+  <form method="post" id="submit-describe" class="item">
+    {{ form.non_field_errors() }}
+    {% csrf_token %}
+    {% if waffle.switch('content-optimization') %}
+    <div class="addon-submission-field">
+      <div class="combine-name-summary">
+        <label for="id_name">{{ _("Name and Summary:") }}<span class="req" title="{{ _('required') }}">*</span></label>
+        {{ form.name }}&nbsp;{{ form.summary }}
+        {{ form.name.errors }}
+        {{ form.summary.errors }}
+      </div>
+      <div class="edit-addon-details">
+        {{ _('The summary should explain what your add-on does, clearly and '
+             'concisely. Both the name and summary will appear on your product '
+             'page and search results. They have a combined maximum length of '
+             '70 characters and a minimum length of 2 characters for each.') }}
+        <div class="char-count"
+             data-for-names="name,summary"
+             data-maxlength="{{ form.name.field.min_length + form.summary.field.max_length }}"></div>
+        <div class="char-count"
+             data-text-prefix="{{ _('Summary') }}&nbsp;"
+             data-text-postfix=";&nbsp;"
+             data-for-startswith="{{ form.summary.auto_id }}_"
+             data-minlength="{{ form.summary.field.min_length }}"></div>
+        <div class="char-count"
+             data-text-prefix="{{ _('Name') }}&nbsp;"
+             data-text-postfix=";&nbsp;"
+             data-for-startswith="{{ form.name.auto_id }}_"
+             data-minlength="{{ form.name.field.min_length }}"></div>
+      </div>
+      <div class="edit-addon-details">
+        <div id="name-summary-locales-warning" class="error">
+          {% trans max_length=form.name.field.min_length + form.summary.field.max_length %}
+          Warning: you have name/summary values in other locales that will be
+          automatically cropped to fit under the limit of {{ max_length }}
+          characters.  To edit these go to Edit Product Page after the submission
+          process is complete.
+          {% endtrans %}
+        </div>
+      </div>
+    </div>
+    <div class="addon-submission-field slug-edit">
+      <label>{{ _("Add-on URL:") }}</label>
+      <div id="slug_edit" class="edit_with_prefix edit_initially_hidden">
+        <span>{{ settings.SITE_URL }}</span>{{ form.slug }}
+        <div class="edit-addon-details">
+          {{ _('Please use only letters, numbers, underscores, and dashes in your URL.') }}
+        </div>
+      </div>
+      <span id="slug_readonly">
+        {{ settings.SITE_URL }}/&hellip;/<span id="slug_value"></span>
+        <a id="edit_slug" href="#">{{ _('Edit') }}</a>
+      </span>
+      {{ form.slug.errors }}
+    </div>
+    {% else %}
+    <div class="addon-submission-field">
+      <label for="id_name">{{ _("Name:") }}</label>
+      <span class="tip tooltip" title="{{ _('Name on listing on this site. May be different to the name inside the add-on, which is shown inside Firefox') }}" data-oldtitle="">?</span>
+      {{ form.name }}
+      {{ form.name.errors }}
+    </div>
+    <div class="addon-submission-field slug-edit">
+      <label>{{ _("Add-on URL:") }}</label>
+      <div id="slug_edit" class="edit_with_prefix edit_initially_hidden">
+        <span>{{ settings.SITE_URL }}</span>{{ form.slug }}
+        <div class="edit-addon-details">
+          {{ _('Please use only letters, numbers, underscores, and dashes in your URL.') }}
+        </div>
+      </div>
+      <span id="slug_readonly">
+        {{ settings.SITE_URL }}/&hellip;/<span id="slug_value"></span>
+        <a id="edit_slug" href="#">{{ _('Edit') }}</a>
+      </span>
+      {{ form.slug.errors }}
+    </div>
+    <div class="addon-submission-field">
+      <label>{{ _('Summary:') }}<span class="req" title="{{ _('required') }}">*</span></label>
+      {{ form.summary }}
+      {{ form.summary.errors }}
+      <div class="edit-addon-details">
+        {{ _('This summary should clearly explain what your add-on does. It will be shown in listings and searches, and it will be used by reviewers to test your add-on.') }}
+        <div class="char-count"
+             data-for-startswith="{{ form.summary.auto_id }}_"
+             data-maxlength="{{ form.summary.field.max_length }}"></div>
+      </div>
+    </div>
+    {% endif %}
+    {% if addon.type == amo.ADDON_EXTENSION %}
+    <div class="addon-submission-field">
+      <label>{{ _('Description:') }}
+      {% if form.description.field.min_length %}
+        <span class="req" title="{{ _('required') }}">*</span>
+      {% endif %}</label>
+      {{ form.description }}
+      {{ form.description.errors }}
+      <div class="edit-addon-details">
+        {{ _("A longer explanation of features, functionality, and other relevant information. "
+             "This field is only displayed on the addon's product page. " +
+             ('Minimum length: 10 characters; ' if form.description.field.min_length else '') +
+             "Recommended length: 250 characters. "
+             "If you need a longer description, make sure the first 250 characters contain the most important description points.") }}
+        <div class="char-count"
+             data-for-startswith="{{ form.description.auto_id }}_"
+             data-minlength="{{ form.description.field.min_length }}"></div>
+      </div>
+      {{ some_html_tip() }}
+    </div>
+    {% endif %}
+    {% if addon.type != amo.ADDON_STATICTHEME %}
+    <div class="addon-submission-field">
+      <label for="{{ form.is_experimental.auto_id }}">
+      {{ form.is_experimental }}
+      {{ _('This add-on is experimental') }}
+      </label>
+      <span class="tip tooltip"
+            title="{{ _('Check this option if your add-on is experimental '
+                        'or otherwise not ready for general use.  The '
+                        'add-on will be listed but will have reduced '
+                        'visibility.  You can change this setting later.')
+                  }}">?</span>
+    </div>
+    <div class="addon-submission-field">
+      <label for="{{ form.requires_payment.auto_id }}">
+      {{ form.requires_payment }}
+      {{ _('This add-on requires payment, non-free services or software, or '
+           'additional hardware.') }}
+      </label>
+      <span class="tip tooltip"
+            title="{{ _("Check this box if this add-on's core features require "
+                        "some form of payment upfront or after a trial period "
+                        "in order to work.")
+                  }}">?</span>
+    </div>
+    <div id="addon-categories-edit" class="addon-submission-field"
+         data-max-categories="{{ amo.MAX_CATEGORIES }}">
+      {{ cat_form.non_form_errors() }}
+      {{ cat_form.management_form }}
+      {% for form in cat_form.initial_forms %}
+        {{ select_cats(amo.MAX_CATEGORIES, form) }}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div id="addon-categories-edit" class="addon-submission-field">
+      <label>{{ _('Select a category for this add-on:') }}<span class="req" title="{{ _('required') }}">*</span></label>
+      {{ cat_form.category.errors }}
+      {{ cat_form.category }}
+    </div>
+    {% endif %}
+    <div class="addon-submission-field">
+      <label for="{{ form.support_email.auto_id }}">
+      {{ _('Support email:') }}
+      </label>
+      {{ form.support_email }}
+      {{ form.support_email.errors }}
+    </div>
+    <div class="addon-submission-field">
+      <label for="{{ form.support_url.auto_id }}">
+      {{ _('Support website:') }}
+      </label>
+      {{ form.support_url }}
+      {{ form.support_url.errors }}
+    </div>
+    {% if license_form %}
+      <b>{{ _('License:') }}<span class="req" title="{{ _('required') }}">*</span></b>
+      {{ license_form.builtin.errors }}
+      {% if addon.type == amo.ADDON_STATICTHEME %}
+        {% include 'devhub/addons/includes/cc_license_chooser.html' %}
+      {% endif %}
+      <div class="addon-submission-field" {% if addon.type == amo.ADDON_STATICTHEME %} id="license-list" {% endif %}>
+        {{ _('Please choose a license appropriate for the rights you grant.') }}
+        {{ license_form.builtin }}
+        {% set show_other = (license_form.initial.builtin == license_other_val or
+                            (license_form.errors and not license_form.builtin.errors)) %}
+        <div class="license-other {{ 'js-hidden' if not show_other }}"
+            data-val="{{ license_other_val }}">
+            {{ license_form.non_field_errors() }}
+            {{ license_form.name.errors }}
+            {{ license_form.name.label_tag() }}
+            {{ license_form.name }}
+            {{ license_form.text.errors }}
+            {{ license_form.text.label_tag() }}
+            {{ license_form.text }}
+            {{ some_html_tip() }}
+          </div>
+      </div>
+    {% endif %}
+    {% if addon.type != amo.ADDON_STATICTHEME %}
+      {% set policy_form_data = policy_form.data if policy_form.is_bound else policy_form.initial %}
+      <div class="optional-terms">
+        <div class="addon-submission-field">
+          {{ policy_form.has_priv }}
+          {{ policy_form.has_priv.label_tag() }}
+          <span class="tip tooltip"
+            title="{{ _("If your add-on transmits any data from the user's computer, "
+                        "a privacy policy is required that explains what data is sent "
+                        "and how it is used.")
+                  }}">?</span>
+          <div class="priv {{ 'hidden' if not policy_form_data.has_priv }}">
+            {{ policy_form.privacy_policy.errors }}
+            {{ policy_form.privacy_policy.label_tag() }}
+            {{ policy_form.privacy_policy }}
+          </div>
+        </div>
+      </div>
+      <div class="addon-submission-field">
+        <label for="{{ reviewer_form.approval_notes.auto_id }}">
+          {{ _('Notes to Reviewer:') }}
+        </label>
+        <div class="source-submission-note">
+          <p>{{ _('Is there anything our reviewers should bear in mind when reviewing this add-on?') }}</p>
+          {% if sources_provided %}
+            <p>
+              <span class="req">{{ _('Remember') }}</span>:
+              {% trans policy_requirements_open='<a href="https://extensionworkshop.com/documentation/publish/source-code-submission">'|safe, policy_requirements_close='</a>'|safe %}
+              If you submitted source code, but did not include instructions, you must provide them here.
+              Enter step-by-step build instructions to create an exact copy of the add-on code, per
+              {{ policy_requirements_open }}policy requirements{{ policy_requirements_close }}.
+              {%- endtrans -%}
+            </p>
+          {% endif %}
+        </div>
+        {{ reviewer_form.approval_notes }}
+        <p>{{ _('These notes will only be visible to you and our reviewers.') }}</p>
+      </div>
+    {% endif %}
+    <div class="submission-buttons addon-submission-field">
+      <button type="submit">
+        {{ _('Submit Version') }}
+      </button>
+      &nbsp;
+      <button class="button delete-button confirm-submission-cancel"
+              formnovalidate
+              type="button"
+              formaction="{{ url('devhub.addons.cancel', addon.slug) }}">
+          {{ _('Cancel and Disable Version') }}
+      </button>
+    </div>
+  </form>
+{% endblock primary %}

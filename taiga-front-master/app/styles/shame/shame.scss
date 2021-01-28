@@ -1,0 +1,27 @@
+// Shame SCSS declarations to be refactorized
+
+_:-ms-fullscreen,
+:root .taskboard-table-body {
+    .taskboard-row {
+        min-height: auto;
+    }
+}
+
+// Prevent IE Bug when the user clicks in the svg path the js event click doesn't work
+
+svg {
+    pointer-events: none;
+}
+
+// Avoid previous selector to remove event on child SVG click.
+
+a[ng-click] svg {
+    pointer-events: auto;
+}
+
+// chrome url break
+tg-card {
+    .card-title span:last-child {
+        word-break: break-word;
+    }
+}

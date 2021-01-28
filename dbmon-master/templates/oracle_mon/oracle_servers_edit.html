@@ -1,0 +1,267 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+         <div class="box box-solid">
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" action="" method="POST">
+              <div class="box-body">
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">标签</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="tags" value={{ oracle_server_edit.tags }}>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">主机IP</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="host" value={{ oracle_server_edit.host }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">端口号</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="port" value={{ oracle_server_edit.port }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">版本</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="version">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{{ oracle_server_edit.version }}</option>
+                          <option>11g</option>
+                          <option>12c</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">服务名</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="service_name" value={{ oracle_server_edit.service_name }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">数据库监控用户</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="user" value={{ oracle_server_edit.user }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">数据库监控用户密码</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" value={{ oracle_server_edit.password }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">服务名(CDB)</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="service_name_cdb" value={{ oracle_server_edit.service_name_cdb }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">数据库监控用户(CDB)</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="user_cdb" value={{ oracle_server_edit.user_cdb }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">数据库监控用户密码(CDB)</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password_cdb" value={{ oracle_server_edit.password_cdb }}>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">操作系统监控用户名</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="user_os" value={{ oracle_server_edit.user_os }}>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">操作系统监控用户密码</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password_os" value={{ oracle_server_edit.password_os }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">SSH端口</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="ssh_port_os" value="{{ oracle_server_edit.ssh_port_os }}">
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">通断告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="connect">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.connect == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">表空间使用率告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="tbs">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.tbs == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">adg延迟告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="adg">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.adg == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">临时表空间使用率告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="temp_tbs">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.temp_tbs == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">undo表空间使用率告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="undo_tbs">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.undo_tbs == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">连接数使用率告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="conn">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.conn == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">后台日志告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="err_info">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.err_info == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">失效索引告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="invalid_index">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.invalid_index == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">锁异常告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="oracle_lock">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.oracle_lock == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">密码过期告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="oracle_pwd">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.oracle_pwd == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">综合性能告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="oracle_event">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.oracle_event == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">pga使用率告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="oracle_pga">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.pga == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">归档使用率告警</label>
+                  <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" name="oracle_archive">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <option selected="selected">{% if oracle_server_edit.archive == '0' %} 禁用 {% else %} 启用 {% endif %} </option>
+                          <option>启用</option>
+                          <option>禁用</option>
+                      </select>
+                  </div>
+                </div>
+                     <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-info pull-right" name="commit">保存</button>
+              </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascripts %}
+ {#回传参数至父层#}
+<script type="text/javascript">
+        var index = parent.layer.getFrameIndex(window.name);
+        var success = {{ status }};
+        if ( success == '1' ) {
+            parent.$("#handle_status").val('1');
+              parent.layer.close(index);
+        } else if( success == '2' ) {
+            parent.$("#handle_status").val('2');
+            parent.layer.close(index);
+        }
+</script>
+{% endblock %}

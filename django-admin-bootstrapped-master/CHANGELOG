@@ -1,0 +1,301 @@
+==== 2.5.7 (2015-12-15) ====
+
+- travis-ci integration (Jacek Wielemborek)
+- Handle fieldsets with empty lines (Kevin Gu)
+- Require django < 1.9 (Riccardo)
+
+==== 2.5.6 (2015-09-27) ====
+
+- Fix data-admin-url model lookup for Django 1.8 ContentType #218 (Andrew Yager)
+- Fix glyphicon display for generic-lookup #214 (Andrew Yager)
+- Add space before caret in language selector #219 (Benoit Formet)
+- Fix duplicate error messages in tabular inlines #220 (Josh Kelley)
+
+==== 2.5.5 (2015-09-05) ====
+
+- Fix current page highlightning #207 (Riccardo)
+- Cleanup style in templatetags (Bang Dao)
+- Bootstrapify non-form and non-field errors for inlines #213 (Andrei Menkou, Riccardo)
+
+==== 2.5.4 (2015-07-02) ====
+
+- Boostrap more auth/user/change_password.html (Josh Kelley)
+- Cleanup filter-horizontal style (Walker Boyle, Riccardo)
+- Cleanup file-upload widget (Walker Boyle)
+- Bootstrapify admin/related_widget_wrapper.html (Riccardo)
+
+==== 2.5.2 (2015-06-24) ====
+
+- Fix user model username handling #200 (Riccardo)
+- Remove duplicated breadcrumbs dividers #201 (Riccardo)
+- Bootstrapify auth/user/change_password.html (Riccardo)
+- Upgrade bootstrap to 3.3.5 #202 (Riccardo)
+
+==== 2.5.1 (2015-06-15) ====
+
+- Cleanup time and m2m widget rendering (Riccardo)
+- Fix AdminSplitDateTime bootstrap3 rendering #168 (Riccardo)
+- Support setting admin site title as upstream django #195 (Riccardo)
+
+==== 2.5.0 (2015-04-24) ====
+
+- Bump minimum django version to 1.8 (Riccardo)
+- Hide custom way to override admin and app titles (Riccardo)
+- Update templates to match django 1.8 features (Riccardo)
+- Convert more fields to dab_field_rendering (Riccardo)
+- Add RTL support (Ali Vakilzade)
+- Add missing locale middleware to test project (Riccardo)
+
+==== 2.4.0 (2015-04-02) ====
+
+WARNING: we plan to do a very quick cycle for this series and move to django 1.8 support only
+
+- bootstrap3 sub-application has been removed (Riccardo)
+- Drop bootstrap3 theme for a flat look (Riccardo)
+- Drop unmaintaned django-cms integration #52, #112 (Riccardo)
+- Cleanup change list actions spacing #186 (David Rideout)
+- Bump minimum django version to 1.7 (Riccardo)
+- Hide fieldset rows without visible fields (Sylvain Fankhauser)
+- Update screenshots in README.rst #187 (Riccardo)
+- Update bootstrap to 3.3.4 #184 (Riccardo)
+
+==== 2.3.5 (2015-03-13) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Reverted commit that broken fieldsets on django 1.6. Oops! (Riccardo)
+
+==== 2.3.4 (2015-03-10) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Django 1.8 compatibility fixes #177, #178 (Joel Burton)
+- Fixed some glyphicons classes conversion from bootstrap 2 (Riccardo)
+- Django 1.9 compatibility fixes (Riccardo)
+- Fix running test project under a wsgi server (Riccardo)
+- Cleanup change list actions and pagination a bit (Riccardo)
+- Hide fieldset rows without visible fields (Sylvain Fankhauser)
+- Add ability to run tests from setup (Riccardo)
+
+==== 2.3.3 (2015-02-10) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Import firstof from future to ensure Django 1.8 compatibility #175 (Jamie Curle)
+- Fix CheckboxSelectMultiple style #174 (Riccardo)
+- Fix input-group-addon rendering #172 (Riccardo)
+
+==== 2.3.2 (2015-01-23) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Cleanup messages tags usage in alerts #166 (Patrick Miller)
+- Cope with django-bootstrap3 api update #171 (Fernando Gonzalez)
+- Update bootstrap to 3.3.2 #170 (Riccardo)
+- Make the filter menu in change list scrollable #169 (Riccardo)
+
+==== 2.3.1 (2014-12-08) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Add missing import in custom field rendering #162 (James Oakley)
+- Add missing timezone handling to base template #164 (qxcv)
+- Add custom field rendering tests #163 (Riccardo)
+
+==== 2.3.0 (2014-12-04) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Fix "Add model" button focus #156 (Riccardo)
+- Cleanup django-filer templates (UI is terrible though) #158 (Riccardo)
+- Add support for custom field rendering #152 (Riccardo)
+
+==== 2.2.1 (2014-11-26) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Fix "Add model" button hover #156 (Riccardo)
+- Remove spurious hamburger icon in index (Riccardo)
+- Fix collapsible handling with stacked inlines #129 (Brandon Cazander)
+
+==== 2.2.0 (2014-11-19) ====
+
+WARNING: bootstrap3 application is deprecated, would be removed in the next major release
+Please remove it from the INSTALLED_APPS in settings.py
+
+- Move bootstrap3 static and templates back to django admin bootstrapped (Riccardo)
+- Upgrade bootstrap to 3.3.1 (Riccardo)
+- Make inner header responsive #144 (Riccardo)
+
+==== 2.1.1 (2014-11-10) ====
+
+- Add missing translation to search button (Chun-Wei Shen)
+- Fix js error on add view #155 (Riccardo, Marc)
+- Fix opts.module_name RemovedInDjango18Warning #154 (Riccardo)
+
+==== 2.1.0 (2014-10-23) ====
+
+- Make form labels bigger (Marcio Mazza)
+- Cleanup applicated related fields (P.A. Schembri)
+- Don't break fieldsets with empty inlines (Christopher Trudeau)
+- Fixup app label in breadcrumbs (P.A. Schembri)
+- Navbar fixups #143 (Riccardo)
+- Improve header contrast #150 (Riccardo)
+- Cleanup login ui #142 (Riccardo)
+
+==== 2.0.5 (2014-10-08) ====
+
+- Fix hidden display of actions links in change_list (Marcio Mazza)
+- Remove hardcoded username and password label for login #137 (Riccardo)
+- Make navbar RTL aware #139 (pajooh)
+- Show save button on change list conditionally #138 (Riccardo)
+- Rework application dropdown (Riccardo)
+
+==== 2.0.4 (2014-09-25) ====
+
+- Add missing jquery-migrate.js #134 (Andy Kilner)
+
+==== 2.0.3 (2014-09-18) ====
+
+- Fix inline fieldsets collapsing in stacked inlines (Riccardo)
+- Fix application label in breadcrumbs #133 (P.A. Schembri)
+
+==== 2.0.1 (2014-09-15) ====
+
+- Add missing models.py in bootstrap3 for django 1.6 #132 (Riccardo)
+
+==== 2.0.0 (2014-09-12) ====
+
+- Removal of bootstrap2 theme (Riccardo)
+- Drop support for django < 1.6 (Riccardo)
+- Django 1.7 support #117, #118, #124 (Riccardo)
+- Remove hardcoded urls (history, delete, etc...) #121, #123 (Riccardo)
+- Fix checkboxes rendering with bootstrap 3.2.0 #126 (Riccardo)
+
+==== 1.6.8 (2014-08-22) ====
+
+WARNING: bootstrap2 is deprecated, please upgrade to bootstrap3, it will be removed in the next major release
+
+- Upgrade bootstrap3 to bootstrap 3.2.0 #125 (Riccardo)
+
+==== 1.6.7 (2014-08-12) ====
+
+WARNING: bootstrap2 is deprecated, please upgrade to bootstrap3, it will be removed in the next major release
+
+- Fix fieldsets horizontal #110 (Riccardo)
+- Fix app_name not visible with django 1.7 (Peter Lauri)
+- Separate messages alert so that each message gets proper rendering #116 (Riccardo)
+- Update compatibility to django >= 1.4, django < 1.7 #119 (Peter Lauri, Riccardo)
+
+==== 1.6.6 (2014-07-23) ====
+
+WARNING: bootstrap2 is deprecated, please upgrade to bootstrap3, it will be removed in a few releases
+
+- Fix fieldsets with more than one field per row #110 (Riccardo)
+- Fix language selector (Riccardo)
+- bootstrap3 misc fixes #111 (David Rideout)
+- fix django cms template in django 1.6 #107 (Riccardo, nordbit)
+
+==== 1.6.5 (2014-05-24) ====
+
+- lot of bugfixes for the Bootstrap 3 theme (Guillaume Andreu Sabater, xwrogue3)
+- jquery scrollable fixes wrt inlines (xwrogue3)
+
+==== 1.6.4 (2014-01-16) ====
+
+- lot of bugfixes for the Bootstrap 3 theme
+
+==== 1.6.3 (2013-12-04) ====
+
+- Added jquery-migrate to better support external plugins
+- Bootstrap 3: fix display of column groups. Also uses bootstrap grid for layout of multiple fields per row
+- Error in README: updated instruction refering to where to place templates when embedding them in an app
+- Fixing actions_on_top Go button not working
+
+==== 1.6.2 (2013-11-28) ====
+
+- Boostrap 3 theme (thanks to ze-phyr-us). In order to use it, add `django_admin_bootstrapped.bootstrap3` before `django_admin_bootstrapped` into your `INSTALLED_APPS` setting.
+
+==== 1.6.1 (2013-11-16) ====
+
+- FIX #56: jquery now loaded from local installation, not the CDN
+- FIX #65: recent actions now has working urls
+
+==== 1.6.0 (2013-11-08) ====
+
+- django 1.6 compatibility
+- experimental support to Django-CMS 2.4. This is thanks to a fork of kayluhb, which has never been transformed in a PR, but still it's worth a try.
+- Python 3 compatibility (it has always been compatible, but now it's flagged appropriately as such)
+- changed version to 1.6 to reflect the 'Stable' status of the project and the compatibility with Django 1.6
+
+==== 0.4.3 (2013-08-27) ====
+
+- display errors properly for inlines (thanks to jmagnusson)
+
+==== 0.4.2 (2013-08-10) ====
+
+- checkboxes now properly aligned
+- admin title translation now working with a dedicated template
+
+==== 0.4.1 (2013-05-29) ====
+
+- tooltips for title attributes
+- generic relation lookup plugin
+- FIX: Twitter Bootstrap Responsive Navbar Broken on Small Screens (http://stackoverflow.com/questions/10185384/twitter-bootstrap-responsive-navbar-broken-on-small-screens) as reported by Fernando (https://twitter.com/fersan3)
+- FIX: login page responsive layout
+- FIX #6: autocapitalization disabled in the login form (mobile friendly)
+- FIX #13: boolean fields will show the help text if provided
+- FIX #36: list filters now partially usable on a mobile fine
+
+==== 0.4 (2013-05-27) ====
+
+- added compatibility for django-cms (thanks to kayluhb)
+- xhtml cleanup (thanks to Ricklef Wohlers)
+- UI cleanup (thanks to intuxicated & yceruto)
+- Twitter Bootstrap version 2.3.1 (thanks to yceruto)
+- admin static files now loaded using relative urls (thanks to jmagnusson)
+
+==== 0.3.2 (2013-02-06) ====
+
+- temporary bugfix for change_list actions
+
+==== 0.3.1 (2013-01-19) ====
+
+- registration template fixes
+
+
+- registration template fixes
+
+==== 0.3 (2013-01-17) ====
+
+- dropped tabs in homepage in favour of vanilla list of available applications
+- application dropdown menu for fast access in navbar
+- filters moved to a dropdown in navbar to gain screen space
+- added documentation for the translation goodies
+
+==== 0.2 (2012-12-04) ====
+
+- sortable inlines
+- inlines wrapped in wells for UI consistency
+
+==== 0.1.1 (2012-11-20) ====
+
+- added a test project
+- upgrade to Twitter Bootstrap 2.2.1 (issue #8)
+- implemented inline tabular view
+- fixed the messages styling
+- temporary fix for the page title
+- open is now the default style for the stacked inlines
+- filters in the change list views are now positioned on the left, to handle wide tables
+- pagination rendered with a smaller style (issue #2)
+
+==== 0.1.0 (2012-10-22) ====
+
+- first release

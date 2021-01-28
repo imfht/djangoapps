@@ -1,0 +1,190 @@
+{% extends 'silverstrike/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content_header %}
+<h1>{{ category.name|title }}
+  <small>{{ month|date:'F Y'}}</small>
+</h1>
+<ol class="breadcrumb">
+  <li><a href="/">{% trans 'Home' %}</a></li>
+  <li><a href="{% url 'categories' %}">{% trans 'Categories' %}</a></li>
+  <li class="active">{{ category.name|title }}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+  <div class="box-body">
+    <div class="text-center">
+      <a href="{% url 'category_month' category.id previous_month.year previous_month.month %}" class="btn btn-xs btn-default">{% trans 'Previous' %}</a>
+      <span>{{ current_month|date:'F Y'}}</span>
+      <a href="{% url 'category_month' category.id next_month.year next_month.month %}" class="btn btn-xs btn-default">{% trans 'Next' %}</a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">{% trans 'Overview' %}</h3>
+      </div>
+      <div class="box-body">
+        <center><canvas id="historyChart"></canvas></center>
+      </div>
+      <div class="box-footer">
+        <a class="btn btn-warning" href="{% url 'category_update' category.id %}">{% trans 'Edit' %}</a>
+        <a class="btn btn-danger" href="{% url 'category_delete' category.id %}">{% trans 'Delete' %}</a>
+      </div>
+    </div>
+    <div class="box">
+  <div class="box-header">
+    <h3 class="box-title">{% trans 'Transactions' %}</h3>
+  </div>
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <th>{% trans 'Title' %}</th>
+        <th>{% trans 'Date' %}</th>
+        <th>{% trans 'Amount' %}</th>
+      </tr>
+      {% for split in splits %}
+      <tr>
+        <td><a href="{{ split.get_absolute_url }}">{{ split.title }}</a></td>
+        <td>{{ split.date }}</td>
+        <td>{{ split.amount }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="box-footer">
+    <a class="btn btn-primary" href="{% url 'transactions' %}?category={{ category.id }}" >{% trans 'Show all transactions' %}</a>
+  </div>
+</div>
+  </div>
+  <div class="col-md-4">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">{% trans 'Distribution by Source' %}</h3>
+      </div>
+      <div class="box-body">
+        <center><canvas id="myChart"></canvas></center>
+      </div>
+    </div>
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">{% trans 'Distribution by Destination' %}</h3>
+      </div>
+      <div class="box-body">
+        <center><canvas id="destinationChart"></canvas></center>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/Chart.bundle.min.js' %}"></script>
+<script type="text/javascript">
+  $('select').change(function() {
+    $( "select option:selected" ).each(function() {
+      window.location.href = "{{ request.path }}?page=" + $(this).val();
+    });
+  });
+  var colors =
+    ['#357ca5',
+     '#008d4c',
+     '#db8b0b',
+     '#ca195a',
+     '#555299',
+     '#4285f4',
+     '#db4437',
+     '#f4b400',
+     '#0f9d58',
+     '#ab47bc',
+     '#00acc1',
+     '#ff7043',
+     '#9e9d24',
+     '#5c6bc0',
+     '#f06292',
+     '#00796b',
+     '#c2185b'
+  ];
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'pie',
+      options: {
+        responsive: false,
+        legend: {
+          position: 'none'
+        }
+      },
+      data: {
+          labels: [
+    {% for account, spent in account_spending.items %}
+    "{{ account.name }}",
+    {% endfor %}
+    ],
+          datasets: [{
+              backgroundColor: colors,
+              data: [
+                {% for account, spent in account_spending.items %}
+                {{ spent }},
+                {% endfor %}
+      ]
+          }]
+      }
+  });
+
+  var destinationtx = document.getElementById("destinationChart").getContext('2d');
+  var destinationChart = new Chart(destinationtx, {
+      type: 'pie',
+      options: {
+        responsive: false,
+        legend: {
+          position: 'none'
+        }
+      },
+      data: {
+          labels: [
+    {% for account, spent in destination_spending.items %}
+    "{{ account.name }}",
+    {% endfor %}
+    ],
+          datasets: [{
+              backgroundColor: colors,
+              data: [
+                {% for account, spent in destination_spending.items %}
+                {{ spent }},
+                {% endfor %}
+      ]
+          }]
+      }
+  });
+  var historytx = document.getElementById("historyChart").getContext('2d');
+  var historyChart = new Chart(historytx, {
+      type: 'bar',
+      options: {
+        responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        legend: {
+          position: 'none'
+        }
+      },
+      data: {
+          labels: ["{{ month_before|date:'F Y'}}", "{{ previous_month|date:'F Y'}}", "{{ current_month|date:'F Y'}}"],
+
+          datasets: [{
+              backgroundColor: colors[0],
+              data: [{{ sum_two_months_ago }}, {{ sum_last_month }}, {{ sum_this_month }}]
+          }]
+      }
+  });
+</script>
+{% endblock %}

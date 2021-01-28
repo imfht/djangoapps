@@ -1,0 +1,139 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Berny <berny@bernhard-marx.de>, 2019
+# Ingo Buchholz <ingo.buchholz@takwa.de>, 2020
+# Mathias Behrle <mathiasb@m9s.biz>, 2020
+# Marvin Haschker <marvin@haschker.me>, 2020
+# Roberto Rosario, 2020
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-13 10:28+0000\n"
+"PO-Revision-Date: 2019-12-03 05:23+0000\n"
+"Last-Translator: Roberto Rosario, 2020\n"
+"Language-Team: German (Germany) (https://www.transifex.com/rosarior/teams/13584/de_DE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps.py:28 events.py:6 permissions.py:5
+msgid "File caching"
+msgstr "Datei-Caching"
+
+#: events.py:10
+msgid "Cache created"
+msgstr "Cache erstellt"
+
+#: events.py:13
+msgid "Cache edited"
+msgstr "Cache bearbeitet"
+
+#: events.py:16
+msgid "Cache purged"
+msgstr "Cache geleert"
+
+#: links.py:21
+msgid "File caches"
+msgstr "Datei-Caches"
+
+#: links.py:26 links.py:30
+msgid "Purge cache"
+msgstr "Cache leeren"
+
+#: models.py:28
+msgid "Internal name of the defined storage for this cache."
+msgstr "Interner Name des Dateispeichers für diesen Cache."
+
+#: models.py:29
+msgid "Defined storage name"
+msgstr "Definierter Speichername"
+
+#: models.py:32
+msgid "Maximum size of the cache in bytes."
+msgstr "Maximale Größe des Cache in Bytes."
+
+#: models.py:34 models.py:53
+msgid "Maximum size"
+msgstr "Maximale Größe"
+
+#: models.py:38 models.py:136
+msgid "Cache"
+msgstr "Cache"
+
+#: models.py:39
+msgid "Caches"
+msgstr "Caches"
+
+#: models.py:51
+msgid "Size at which the cache will start deleting old entries."
+msgstr "Größe, bei der der Cache beginnt, alte Einträge zu löschen."
+
+#: models.py:60
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: models.py:78
+msgid "Current size"
+msgstr "Momentane Größe"
+
+#: models.py:79
+msgid "Current size of the cache."
+msgstr "Aktuelle Größe des Caches."
+
+#: models.py:139
+msgid "Name"
+msgstr "Name"
+
+#: models.py:144 models.py:217
+msgid "Cache partition"
+msgstr "Cache-Partition"
+
+#: models.py:145
+msgid "Cache partitions"
+msgstr "Cache-Partitionen"
+
+#: models.py:220
+msgid "Date time"
+msgstr "Datum & Zeit"
+
+#: models.py:222
+msgid "Filename"
+msgstr "Dateiname"
+
+#: models.py:224
+msgid "File size"
+msgstr "Dateigröße"
+
+#: models.py:232
+msgid "Cache partition file"
+msgstr "Cache-Partitionsdatei"
+
+#: models.py:233
+msgid "Cache partition files"
+msgstr "Cache-Partitionsdateien"
+
+#: permissions.py:8 queues.py:7
+msgid "Purge a file cache"
+msgstr "Datei-Cache leeren"
+
+#: permissions.py:11
+msgid "View a file cache"
+msgstr "Datei-Cache anzeigen"
+
+#: views.py:21
+msgid "File caches list"
+msgstr "Liste Datei-Caches"
+
+#: views.py:37
+msgid "Submit the selected cache for purging?"
+msgid_plural "Submit the selected caches for purging?"
+msgstr[0] "Den ausgewählten Cache zum Löschen senden?"
+msgstr[1] "Die ausgewählten Caches wirklich löschen?"

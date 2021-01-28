@@ -1,0 +1,23 @@
+{% extends 'cards/base.html' %}
+{% load duration i18n %}
+
+{% block header %}{% trans "Last Tummy Time" %}{% endblock %}
+
+{% block title %}
+    {% if tummytime %}
+        {% blocktrans trimmed with time=tummytime.time|timesince %}
+            {{ time }} ago
+        {% endblocktrans %}
+    {% else %}
+        {% trans "Never" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if tummytime %}
+        {{ tummytime.duration|duration_string }}
+        {% if tummytime.milestone %}
+            <br /> {{ tummytime.milestone }}
+        {% endif %}
+    {% endif %}
+{% endblock %}

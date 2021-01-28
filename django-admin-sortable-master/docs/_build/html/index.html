@@ -1,0 +1,253 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to Django Admin Sortable’s documentation! &mdash; Django Admin Sortable 1.7.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Django Admin Sortable 1.7.0 documentation" href="#"/>
+        <link rel="next" title="Quickstart" href="quickstart.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="#" class="fa fa-home"> Django Admin Sortable</a>
+        
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuring Django Admin Sortable</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#static-media">Static Media</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Using Django Admin Sortable</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#models">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#django-admin">Django Admin</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="django-cms.html">Django-CMS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known-issues.html">Known Issue(s)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rationale.html#why-another-drag-and-drop-ordering-plugin">Why another drag-and-drop ordering plugin?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="status.html">Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Future Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Django Admin Sortable</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Welcome to Django Admin Sortable&#8217;s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="welcome-to-django-admin-sortable-s-documentation">
+<h1>Welcome to Django Admin Sortable&#8217;s documentation!<a class="headerlink" href="#welcome-to-django-admin-sortable-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Django Admin Sortable is a super-easy way to add drag-and-drop ordering to almost any model you manage through Django admin. Inlines for a sortable model may also be made sortable, enabling individual items or groups of items to be sortable.</p>
+<div class="section" id="supported-django-versions">
+<h2>Supported Django Versions<a class="headerlink" href="#supported-django-versions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="django-1-4-x">
+<h3>Django 1.4.x<a class="headerlink" href="#django-1-4-x" title="Permalink to this headline">¶</a></h3>
+<p>Use django-admin-sortable 1.4.9 or below.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">v1.5.2 introduced backwards incompatible changes for Django 1.4.x</p>
+</div>
+</div>
+<div class="section" id="django-1-5-x">
+<h3>Django &gt;= 1.5.x<a class="headerlink" href="#django-1-5-x" title="Permalink to this headline">¶</a></h3>
+<p>Use the latest version of django-admin-sortable.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">v1.6.6 introduced a backwards-incompatible change for <code class="docutils literal"><span class="pre">sorting_filters</span></code>. Please update your <code class="docutils literal"><span class="pre">sorting_filters</span></code> attribute(s) to the new, tuple-based format.</p>
+</div>
+</div>
+</div>
+<div class="section" id="what-s-new-in-version">
+<h2>What&#8217;s New in 1.7.0?<a class="headerlink" href="#what-s-new-in-version" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Python 2.6 backwards compatibility. Thanks <a class="reference external" href="https://github.com/EnTeQuAk">&#64;EnTeQuAk</a></li>
+</ul>
+</div>
+<div class="section" id="contents">
+<h2>Contents:<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuring Django Admin Sortable</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#static-media">Static Media</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Using Django Admin Sortable</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#models">Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#adding-sortable-to-an-existing-model">Adding Sortable to an existing model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#django-admin">Django Admin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#overriding-queryset">Overriding <code class="docutils literal"><span class="pre">queryset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#overriding-queryset-for-an-inline-model">Overriding <code class="docutils literal"><span class="pre">queryset()</span></code> for an inline model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#sorting-subsets-of-objects">Sorting subsets of objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#extending-custom-templates">Extending custom templates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="django-cms.html">Django-CMS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known-issues.html">Known Issue(s)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rationale.html">Rationale</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rationale.html#why-another-drag-and-drop-ordering-plugin">Why another drag-and-drop ordering plugin?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="status.html">Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="future.html">Future Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quickstart">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014, Brandon Taylor.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.7.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

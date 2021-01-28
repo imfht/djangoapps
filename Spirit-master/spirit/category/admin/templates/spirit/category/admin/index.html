@@ -1,0 +1,94 @@
+{% extends "spirit/_base.html" %}
+
+{% load spirit_tags i18n %}
+
+{% block title %}{% trans "Category list" %}{% endblock %}
+
+{% block content %}
+  {% load_settings 'ST_ORDERED_CATEGORIES' %}
+
+  <div class="layout__admin">
+    {% include "spirit/admin/_nav_menu.html" with active="categories" %}
+
+    <h1 class="headline">{% trans "Category list" %}</h1>
+
+    <div class="admin__category_menu">
+      <div class="admin__category_menu__new_category">
+        <a
+          class="button"
+          href="{% url "spirit:admin:category:create" %}"
+        >{% trans "Create Category" %}</a>
+      </div>
+    </div>
+    <div class="admin__items_list">
+      {% for c in categories %}
+        <div class="admin__items_list__item js-clickable-area">
+          <div class="admin__items_list__item__title">
+            {% if st_settings.ST_ORDERED_CATEGORIES %}
+              <a
+                class="js-post"
+                href="{% url "spirit:admin:category:move_up" category_id=c.pk %}"
+              ><i class="fa fa-arrow-up"></i></a>
+              <a
+                class="js-post"
+                href="{% url "spirit:admin:category:move_dn" category_id=c.pk %}"
+              ><i class="fa fa-arrow-down"></i></a>
+            {% endif %}
+            <a
+              {% if c.color %}style="color: {{ c.color }}"{% endif %}
+              href="{{ c.get_absolute_url }}"
+            >{{ c.title }}</a>
+            {% if c.is_removed %}
+              <i class="fa fa-trash-o"></i>
+            {% endif %}
+            {% if c.is_closed %}
+              <i class="fa fa-lock"></i>
+            {% endif %}
+          </div>
+          <div class="admin__items_list__item__action">
+            <a
+              class="js-clickable-area-target"
+              href="{% url "spirit:admin:category:update" category_id=c.pk %}"
+            ><i class="fa fa-cog"></i> {% trans "edit" %}</a>
+          </div>
+        </div>
+
+        {% for subc in c.category_set.all.ordered %}
+          <div class="admin__items_list__item js-clickable-area">
+            <div class="admin__items_list__item__title">
+              {% if st_settings.ST_ORDERED_CATEGORIES %}
+                <a
+                  class="js-post"
+                  href="{% url "spirit:admin:category:move_up" category_id=subc.pk %}"
+                ><i class="fa fa-arrow-up"></i></a>
+                <a
+                  class="js-post"
+                  href="{% url "spirit:admin:category:move_dn" category_id=subc.pk %}"
+                ><i class="fa fa-arrow-down"></i></a>
+              {% endif %}
+
+              --- <a
+                {% if subc.color %}style="color: {{ subc.color }}"{% endif %}
+                href="{{ subc.get_absolute_url }}"
+              >{{ subc.title }}</a>
+
+              {% if subc.is_removed %}
+                <i class="fa fa-trash-o"></i>
+              {% endif %}
+
+              {% if subc.is_closed %}
+                <i class="fa fa-lock"></i>
+              {% endif %}
+            </div>
+            <div class="admin__items_list__item__action">
+              <a
+                class="js-clickable-area-target"
+                href="{% url "spirit:admin:category:update" category_id=subc.pk %}"
+              ><i class="fa fa-cog"></i> {% trans "edit" %}</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

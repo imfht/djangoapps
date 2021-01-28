@@ -1,0 +1,8 @@
+- hosts: gerapy1
+  become: yes
+  roles:
+  - common
+  - openresty
+  - python3
+  - scrapyd
+  - supervisor

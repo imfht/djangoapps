@@ -1,0 +1,11 @@
+fieldset(title="{{ 'TASK.TITLE_ACTION_IOCAINE' | translate }}")
+    label.btn-icon.is-iocaine(
+        for="is-iocaine"
+        class!="<% if(isEditable){ %>is-editable<% }; %> <% if(isIocaine){ %>active<% }; %>"
+    )
+        tg-svg(svg-icon="icon-iocaine")
+    input(
+        type="checkbox"
+        id="is-iocaine"
+        name="is-iocaine"
+    )

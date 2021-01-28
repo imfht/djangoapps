@@ -1,0 +1,45 @@
+.admin-submenu {
+    li {
+        @include font-type(regular);
+        border-bottom: 1px solid $default-tags;
+        text-transform: uppercase;
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+    ul {
+        a {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0 1rem 1rem;
+            transition: none;
+            span {
+                display: block;
+                max-width: 85%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+    input {
+        margin: 0 1rem;
+        width: 85%;
+    }
+    .button-gray {
+        display: flex;
+        justify-content: center;
+        margin: 0 1rem;
+        padding: .5rem 0;
+        text-align: center;
+        &:hover {
+            background-color: $blackish;
+        }
+    }
+
+    .btn-menu-full {
+        display: flex;
+        margin: 0 1rem;
+        width: calc(100% - 2rem);
+    }
+}

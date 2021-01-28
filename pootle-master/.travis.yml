@@ -1,0 +1,96 @@
+# https://travis-ci.org/#!/translate/pootle
+dist: trusty
+sudo: true
+language: python
+services:
+  - docker
+
+env:
+  global:
+    # for this to work you also need to comment out build condition
+    # as travis' conditions are currently broken
+    - FORCE_REBUILD=false
+    - FORCE_REBUILD_DATA=false
+
+cache:
+  directories:
+    - pootle/static/js/node_modules
+    - pootle/assets
+    - $HOME/virtualenv/python2.7.14/bin
+    - $HOME/virtualenv/python2.7.14/lib
+    - $HOME/virtualenv/python2.7/bin
+
+stages:
+  - name: build
+    if: branch = master AND type = push
+  - name: test
+    # if: branch = DOESNOTEXIST
+  - name: publish
+    # we want this to only run on ~release~, master?
+    if: branch = DOESNOTEXIST
+
+install:
+  - pip install -qr requirements/host.txt
+
+jobs:
+  include:
+    - stage: build
+      env: TRAVIS_ENV=build
+      script:
+      - export DOCKER_USERNAME=${DOCKER_USERNAME:-translatetravis2}
+      - makey build-travis-images
+
+    - stage: test
+      env: TRAVIS_ENV=linting
+      script:
+      - export LOCAL_USER_ID=$UID
+      - export DOCKER_USERNAME=${DOCKER_USERNAME:-translatetravis2}
+      - docker-compose -f docker-compose.travis.yml pull --include-deps travis-sqlite
+      - makey makey-sqlite-travis travis-lint
+    -
+      if: type = cron
+      env: TRAVIS_ENV=sqlite
+      script:
+      - export LOCAL_USER_ID=$UID
+      - export DOCKER_USERNAME=${DOCKER_USERNAME:-translatetravis2}
+      - docker-compose -f docker-compose.travis.yml pull --include-deps travis-sqlite
+      - makey makey-sqlite-travis travis-test
+    -
+      env: TRAVIS_ENV=postgres
+      script:
+      - export LOCAL_USER_ID=$UID
+      - export DOCKER_USERNAME=${DOCKER_USERNAME:-translatetravis2}
+      - docker-compose -f docker-compose.travis.yml pull --include-deps travis-postgres
+      - makey makey-postgres-travis travis-test
+    -
+      env: TRAVIS_ENV=mariadb
+      script:
+      - export LOCAL_USER_ID=$UID
+      - export DOCKER_USERNAME=${DOCKER_USERNAME:-translatetravis2}
+      - docker-compose -f docker-compose.travis.yml pull --include-deps travis-mariadb
+      - makey makey-mariadb-travis travis-test
+
+    - stage: publish
+      env: TRAVIS_ENV=publish-demo
+      script:
+      - makey publish
+
+notifications:
+  email:
+    on_failure: always
+    on_success: change
+  irc:
+    on_failure: always
+    on_success: change
+    channels:
+      - "chat.freenode.net#pootle-dev"
+    use_notice: true
+    skip_join: true
+    template:
+      - "(%{branch} @ %{commit} : %{author}): %{message} %{build_url}"
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/a6e983c90a9617548a6d
+    on_success: change
+    on_failure: always
+    on_start: never

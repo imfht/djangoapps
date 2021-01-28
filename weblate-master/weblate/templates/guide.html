@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load translations %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Community localization checklist" %}</a></li>
+
+<a class="pull-right flip" href="{{ object.get_widgets_url }}">
+<img src="{% url 'widget-image' project=object.project.slug component=object.slug widget='svg' color='badge' extension='svg' %}" />
+</a>
+{% endblock %}
+
+{% block content %}
+
+{% announcements component=object %}
+
+{% include "snippets/component/state.html" %}
+
+{% perm 'component.edit' object as user_can_edit_component %}
+
+<div class="panel panel-default">
+<div class="panel-heading">{% trans "Community localization checklist" %}</div>
+<div class="panel-body">
+{% trans "Here you can find guidance to make your localization project attractive to the community." %}
+</div>
+
+<table class="table table-striped">
+{% for guide in guidelines %}
+{% if guide.is_relevant %}
+{% if guide.group %}
+<tr><th colspan="3">
+  {{ guide.description }}
+  {% documentation_icon guide %}
+</th></tr>
+{% else %}
+<tr>
+    <td>
+        {% if guide.passed %}
+        <span class="green">{% icon "check.svg" %}</span>
+        {% else %}
+        <span class="red">{% icon "alert.svg" %}</span>
+        {% endif %}
+    </td>
+    <td>
+      {{ guide.description }}
+      {% documentation_icon guide %}
+    </td>
+    <td class="buttons-cell">
+        {% if user_can_edit_component %}
+        <a class="btn btn-primary" href="{{ guide.get_url }}">{% trans "Configure" %}</a>
+        {% endif %}
+    </td>
+</tr>
+{% endif %}
+{% endif %}
+{% endfor %}
+</table>
+<div class="panel-footer">
+<a href="{% url 'component' project=object.project.slug component=object.slug %}" class="btn btn-primary">{% trans "Return to the component" %}</a>
+</div>
+</div>
+
+{% endblock %}

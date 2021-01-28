@@ -1,0 +1,31 @@
+{% load i18n staticfiles booktype_tags %}
+<!doctype html>
+<html lang="en" class="custom-scroll">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans "Booktype Edit" %}</title>
+  {% booktype_site_favicon %}
+  {% booktype_site_metadata %}
+
+
+    {% block header %}
+    {% endblock %}
+
+    {% google_analytics %}
+</head>
+<body>
+  {% block navigation %}
+  {% endblock %}
+
+
+  {% block content %}
+  {% endblock %}
+
+  {% include "core/utils.html" %}
+
+  {% block misc %}
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load compress static hc_extras %}
+
+{% block content %}
+
+<div class="row">
+<form
+    id="login-tfa-form"
+    class="col-sm-6 col-sm-offset-3"
+    data-options="{{ options }}"
+    method="post"
+    encrypt="multipart/form-data">
+    <h1>Two-factor Authentication</h1>
+
+    {% csrf_token %}
+    <input id="credential_id" type="hidden" name="credential_id">
+    <input id="authenticator_data" type="hidden" name="authenticator_data">
+    <input id="client_data_json" type="hidden" name="client_data_json">
+    <input id="signature" type="hidden" name="signature">
+
+    <div id="waiting" class="hide">
+        <h2>Waiting for security key</h2>
+        <p>
+            Follow your browser's steps to authenticate with your security key.
+        </p>
+
+        <div class="spinner started">
+            <div class="d1"></div>
+            <div class="d2"></div>
+            <div class="d3"></div>
+        </div>
+    </div>
+
+    <div id="error" class="alert alert-danger hide">
+        <p>
+            <strong>Something went wrong.</strong>
+        </p>
+        <p id="error-text"></p>
+
+        <div class="text-right">
+            <button id="retry" type="button" class="btn btn-danger">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <div id="success" class="hide">
+        <div class="alert alert-success">
+            <strong>Success!</strong>
+            Credential acquired.
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/cbor.js' %}"></script>
+<script src="{% static 'js/login_tfa.js' %}"></script>
+{% endcompress %}
+{% endblock %}

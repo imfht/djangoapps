@@ -1,0 +1,11 @@
+{% extends 'css3two_blog/blog_base.html' %}
+{% load static %}
+
+{% block content %}
+{% autoescape off %}
+  <article>
+    {{ projects.display_html }}
+  </article>
+{% endautoescape %}
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+a.list-itemtype-ticket(
+    href="{{ ::vm.duty.get('url') }}"
+    title="{{ ::duty.get('subject') }}"
+    ng-class="{'blocked': vm.duty.get('is_blocked'), 'blocked-project': vm.duty.getIn(['project', 'blocked_code'])}"
+)
+    .list-itemtype-avatar(ng-if="vm.type == 'working-on'")
+        img(
+            tg-project-logo-small-src="::vm.duty.get('project')"
+            title="{{ ::vm.duty.getIn(['project', 'name']) }}"
+        )
+    .list-itemtype-avatar(ng-if="vm.type == 'watching'")
+        img(
+            ng-if="vm.duty.get('assigned_to_extra_info')"
+            title="{{ ::vm.duty.get('assigned_to_extra_info').get('full_name_display') }}"
+            tg-avatar="vm.duty.get('assigned_to_extra_info')"
+        )
+        img(
+            ng-if="!vm.duty.get('assigned_to_extra_info')"
+            src="/#{v}/images/unnamed.png"
+            title="{{'ACTIVITY.VALUES.UNASSIGNED' | translate}}"
+        )
+    .list-itemtype-ticket-data
+        .list-itemtype-data-meta
+            span.ticket-project {{ ::vm.duty.getIn(['project', 'name']) }}
+
+            span.ticket-type {{ ::vm.getDutyType() }}
+            span.ticket-status(ng-style="{'color': vm.duty.get('status_extra_info').get('color')}") {{ ::vm.duty.get('status_extra_info').get('name') }}
+            span.ticket-blocked
+                tg-svg(
+                    ng-if="vm.duty.getIn(['project', 'blocked_code'])"
+                    svg-icon="icon-blocked-project",
+                    svg-title-translate="PROJECT.BLOCKED_PROJECT.BLOCKED"
+                )
+
+        .list-itemtype-data-title
+            span.ticket-id(tg-bo-ref="duty.get('ref')")
+            span.ticket-title
+                span.ticket-blocked(
+                    ng-if="::vm.duty.get('is_blocked')"
+                    title="{{::vm.duty.get('blocked_note')}}"
+                ) {{ 'COMMON.BLOCKED' | translate }}
+                span(ng-bind-html="duty.get('subject') | emojify")
+    div(ng-switch="vm.isHidden")
+        button.btn-link.button-hide(
+            variant='icon'
+            ng-switch-when="false"
+            title="{{ 'HOME.SET_HIDDEN' | translate }}"
+        )
+            tg-svg(svg-icon="icon-unwatch")
+        button.btn-link.button-hide(
+            variant='icon'
+            ng-switch-when="true"
+            title="{{ 'HOME.SET_VISIBLE' | translate }}"
+        )
+            tg-svg(svg-icon="icon-watch")

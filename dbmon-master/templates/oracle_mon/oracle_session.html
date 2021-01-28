@@ -1,0 +1,130 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle session信息
+      </h1>
+        </h1>
+    </section>
+{% endblock %}
+{% block content %}
+          <div class="box box-solid">
+            <!-- form start -->
+            <form class="form-horizontal" action="" method="POST">
+              <div class="box-body">
+                  {% for oracle_session in oracle_sessions %}
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">tags</label>
+                  <div class="col-sm-10">
+                    <h5>{{ tags }}</h5>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label class="col-sm-2 control-label">ORACLE_USER</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.ORACLE_USER }}</h5>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label class="col-sm-2 control-label">LOGON_TIME</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.LOGON_TIME }}</h5>
+                  </div>
+                </div>
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">UNIX_USER</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.UNIX_USER }}</h5>
+                  </div>
+                </div>
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">SID</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.SID }}</h5>
+                  </div>
+                </div>
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">SERIAL</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.SERIAL }}</h5>
+                  </div>
+                </div>
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">UNIX_PID</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.UNIX_PID }}</h5>
+                  </div>
+                </div>
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">STATUS</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.STATUS }}</h5>
+                  </div>
+                </div>
+                      <div class="form-group">
+                  <label class="col-sm-2 control-label">PROCESS</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.PROCESS }}</h5>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="col-sm-2 control-label">OSUSER</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.OSUSER }}</h5>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="col-sm-2 control-label">PROGRAM</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.PROGRAM }}</h5>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="col-sm-2 control-label">MODULE</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.MODULE }}</h5>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="col-sm-2 control-label">MACHINE</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.MACHINE }}</h5>
+                  </div>
+                </div>
+                              <div class="form-group">
+                  <label class="col-sm-2 control-label">EVENT</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.EVENT }}</h5>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label class="col-sm-2 control-label">SQL_TEXT</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.SQL_TEXT }}</h5>
+                  </div>
+                </div>
+                    <div class="form-group">
+                  <label class="col-sm-2 control-label">SQL_ID</label>
+                  <div class="col-sm-10">
+                    <h5><a href="/oracle_sql?tags={{ tags }}&sql_id={{ oracle_session.SQL_ID }}" >{{ oracle_session.SQL_ID }}</a></h5>
+                  </div>
+                </div>
+                     <div class="form-group">
+                  <label class="col-sm-2 control-label">KILL_SH</label>
+                  <div class="col-sm-10">
+                    <h5>{{ oracle_session.KILL_SH }}</h5>
+                  </div>
+                </div>
+                     <!-- /.box-body -->
+              <div class="box-footer">
+                     <div class="pull-right">
+                <a href="/kill_session?tags={{ tags }}&session_id={{ oracle_session.SID }}&kill_sh={{ oracle_session.KILL_SH }}" class="btn btn-danger btn-block btn-flat">KILL</a>
+              </div>
+                  {% endfor %}
+              </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+{% endblock %}

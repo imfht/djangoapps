@@ -1,0 +1,87 @@
+section.admin-kanban-powerups
+    div.project-values-title
+        h2 {{ sectionName | translate }}
+        button.btn-small(
+            variant="primary"
+            translate="ADMIN.PROJECT_KANBAN_OPTIONS.ACTION_ADD_SWIMLANE"
+            ng-click="displaySwimlaneForm()"
+        )
+
+    .admin-swimlanes-manager
+
+        .admin-swimlanes-list(
+            ng-if="values"
+            tg-sortable-swimlanes
+        )
+            .tooltip(
+                ng-if="values.length == 1 && isNewSwimlane"
+                translate="ADMIN.PROJECT_KANBAN_OPTIONS.POPUP_NEW_SWIMLANE"
+            )
+            .sortable
+                .admin-swimlane-single(
+                    tg-bind-scope
+                    tg-project-swimlanes-single
+                    ng-repeat="value in values track by value.id"
+                )
+                    include ../admin/project-kanban-swimlane-single
+
+        form.admin-swimlanes-form(
+            ng-show="isFormVisible"
+            tg-bind-scope
+        )
+            input#admin-swimlanes-form-input(
+                type="text"
+                placeholder="{{'ADMIN.PROJECT_KANBAN_OPTIONS.SWIMLANE_NAME' | translate }}"
+                ng-model="swimlane.name"
+            )
+            button.form-button.add-swimlane(
+                arial-label="{{'COMMON.SAVE' | translate }}"
+                ng-click="ctrl.addSwimlane()"
+            )
+                tg-svg(svg-icon="icon-check-empty")
+
+            button.form-button.cancel-swimlane(
+                arial-label="{{'COMMON.CANCEL' | translate }}"
+                ng-click="hideSwimlaneForm()"
+            )
+                tg-svg(svg-icon="icon-close")
+        .empty(
+            ng-if="!values.length && !isFormVisible && !deletingSwimlane"
+            translate="ADMIN.PROJECT_KANBAN_OPTIONS.NO_SWIMLANES")
+
+    .project-values-title
+        h2(translate="ADMIN.PROJECT_KANBAN_OPTIONS.WIP_LIMITS")
+
+    .admin-wip-manager(ng-if="!values.length")
+        tg-wip-limit-selector(
+            ng-repeat="status in ctrl.filterArchivedProjectStatuses() track by status.id"
+            status="status"
+        )
+
+    .admin-wip-manager(
+        ng-if="values.length"
+    )
+        .admin-swimlane-wip-single(
+            tg-project-swimlanes-wip
+            ng-repeat="value in values track by value.id"
+        )
+            button.admin-swimlane-title(
+                ng-class="{folded: wipClosed}"
+                ng-click="toggleWipVisibility()"
+            )
+                h2.title-name  {{ value.name }}
+                tg-svg.unfold-action(
+                    ng-if="!wipClosed"
+                    svg-icon="icon-unfolded-swimlane"
+                )
+                tg-svg.fold-action(
+                    ng-if="wipClosed"
+                    svg-icon="icon-folded-swimlane"
+                )
+            .admin-wip-container(
+                ng-if="!wipClosed"
+            )
+                tg-wip-limit-selector(
+                    ng-repeat="status in ctrl.filterArchivedSwimlaneStatus(value) track by status.id"
+                    status="status"
+                )

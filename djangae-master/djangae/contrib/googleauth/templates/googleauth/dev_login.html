@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            margin: 0px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            background-color: #44B78B;
+            color: #eeeeee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .form-container .form-row {
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+
+        .form-row .left {
+            padding: 5px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-row .right {
+            padding: 5px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <div class="form-container">
+            <div class="form-row">
+                <div class="left">
+                    Email address:
+                </div>
+                <div class="right">
+                    {{form.email}}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="right">
+                    <input type="submit" value="Log-in" />
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

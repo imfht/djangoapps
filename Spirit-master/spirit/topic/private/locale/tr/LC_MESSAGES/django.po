@@ -1,0 +1,126 @@
+# 
+# Translators:
+# Alper Buluc <ihtiyaroyuncu@yandex.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2018-01-30 15:40+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/spirit-project/spirit/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: forms.py:75
+msgid "Invite users"
+msgstr ""
+
+#: forms.py:85
+msgid "user1, user2, ..."
+msgstr "kullanıcı1, kullanıcı2"
+
+#: forms.py:120
+msgid "Invite user"
+msgstr "Kullanıcı davet et"
+
+#: forms.py:127
+msgid "username"
+msgstr "kullanıcı adı"
+
+#: forms.py:142 forms.py:177
+#, python-format
+msgid "%(username)s is already a participant"
+msgstr "%(username)s zaten katıldı"
+
+#: models.py:29
+msgid "private topic"
+msgstr "gizli konu"
+
+#: models.py:30
+msgid "private topics"
+msgstr "gizli konular"
+
+#: templates/spirit/topic/private/_invite_form.html:7
+msgid "Invite"
+msgstr "Davet Et"
+
+#: templates/spirit/topic/private/_top_bar.html:11
+#: templates/spirit/topic/private/_top_bar.html:30
+msgid "Participating in"
+msgstr "Şuraya katılınıyor"
+
+#: templates/spirit/topic/private/_top_bar.html:17
+#: templates/spirit/topic/private/_top_bar.html:26
+msgid "Left"
+msgstr "Sol"
+
+#: templates/spirit/topic/private/_top_bar.html:37
+msgid "Create private topic"
+msgstr "Gizli konu oluştur"
+
+#: templates/spirit/topic/private/delete.html:5
+msgid "Remove user from private topic"
+msgstr "Kullanıcıyı gizli konudan çıkar"
+
+#: templates/spirit/topic/private/delete.html:10
+#, python-format
+msgid "Removing %(username)s's from %(topic_title)s"
+msgstr ""
+
+#: templates/spirit/topic/private/delete.html:16
+msgid "Remove"
+msgstr "Kaldır"
+
+#: templates/spirit/topic/private/detail.html:11
+#: templates/spirit/topic/private/index.html:5
+msgid "Private topics"
+msgstr "Gizli konular"
+
+#: templates/spirit/topic/private/detail.html:23
+msgid "Participants"
+msgstr "Katılımcılar"
+
+#: templates/spirit/topic/private/detail.html:50
+msgid "Leave topic"
+msgstr "Konudan ayrıl"
+
+#: templates/spirit/topic/private/index_author.html:5
+msgid "Created private topics"
+msgstr "Gizli konular oluştur"
+
+#: templates/spirit/topic/private/index_author.html:20
+msgid "join"
+msgstr "katıl"
+
+#: templates/spirit/topic/private/index_author.html:24
+msgid "There are no topics here, yet"
+msgstr "Henüz konu yok"
+
+#: templates/spirit/topic/private/join.html:5
+msgid "Join topic"
+msgstr "Konuya katıl"
+
+#: templates/spirit/topic/private/join.html:10
+#, python-format
+msgid "Do you want to join %(topic_title)s?"
+msgstr ""
+
+#: templates/spirit/topic/private/join.html:20
+msgid "Join"
+msgstr "Katıl"
+
+#: templates/spirit/topic/private/publish.html:5
+msgid "Publish a private topic"
+msgstr "Bir gizli konuyu yayınla"
+
+#: templates/spirit/topic/private/publish.html:9
+msgid "Publish private topic"
+msgstr "Gizli konu yayınla"
+
+#: templates/spirit/topic/private/publish.html:26
+msgid "Publish"
+msgstr "Yayınla"

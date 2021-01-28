@@ -1,0 +1,60 @@
+@import "../../pretixbase/scss/_variables.scss";
+@import "../../bootstrap/scss/_bootstrap.scss";
+@import "../../fontawesome/scss/font-awesome.scss";
+@import "../../pretixbase/scss/_theme.scss";
+
+body {
+	background: #fbf7fc;
+}
+
+footer {
+	text-align: center;
+	padding: 10px 0;
+	font-size: 11px;
+}
+
+.logo {
+    width: 200px;
+    margin: auto;
+    display: block;
+    margin-top: 10%;
+	margin-bottom: 30px;
+    height: auto;
+    max-width: 100%;
+}
+.form-signin {
+	@extend .well;
+
+	background: white;
+	box-shadow: 0 7px 14px 0 rgba(78, 50, 92, 0.1),0 3px 6px 0 rgba(0,0,0,.07);
+	border: 1px solid white;
+
+	max-width: 330px;
+	margin: auto;
+	padding-bottom: 0;
+
+	.control-label {
+		display: none;
+	}
+
+	.buttons {
+		text-align: right;
+	}
+
+    h3 {
+        margin-top: 0;
+    }
+
+	p:last-child {
+		margin-bottom: 20px;
+	}
+}
+
+.container > .alert {
+    max-width: 330px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+@import "../../pretixbase/scss/_rtl.scss";
+@import "../../bootstrap/scss/_rtl.scss";

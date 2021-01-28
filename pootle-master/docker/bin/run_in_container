@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Runs commands in container
+
+APP_SCRIPTS_DIR=$(readlink -f --canonicalize $(eval echo $APP_SCRIPTS_DIR))
+
+
+case "$1" in
+    "bash")
+        echo "Running bash command: ${@:2}"
+        $APP_SCRIPTS_DIR/run_bash "${@:2}";;
+    "shell")
+        echo 'Running shell'
+        $APP_SCRIPTS_DIR/run_interactive;;
+    "db")
+        echo "Running db command: ${@:2}"
+        $APP_SCRIPTS_DIR/run_db "${@:2}";;
+    "pootle")
+        echo "Running pootle command: pootle ${@:2}"
+        $APP_SCRIPTS_DIR/run_shell "${@:2}";;
+    "settings")
+        PARTS=${@:2}
+        PARTS=(${PARTS//// })
+        if [[ ! -z "${PARTS[@]:1}" ]]; then
+            EXTRA=$(printf "['%s']" "${PARTS[@]:1}")
+        fi
+        CMD='"from django.conf import settings; print settings.'"${PARTS[0]}$EXTRA"'"'
+        $APP_SCRIPTS_DIR/run_shell 'shell -c '$CMD;;
+    *)
+        echo 'Running server'
+        $APP_SCRIPTS_DIR/run_shell "runserver 0.0.0.0:8000 --insecure";;
+esac

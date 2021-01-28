@@ -1,0 +1,11 @@
+{% with list_objects_length=list_objects|length %}
+    {% for object in list_objects %}
+        <li>
+            {% if list_objects_length > 1 %}
+                {% include "adminsortable/shared/object_rep.html" %}
+            {% else %}
+                {{ object }}
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endwith %}

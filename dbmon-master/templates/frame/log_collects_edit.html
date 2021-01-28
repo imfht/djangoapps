@@ -1,0 +1,77 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <div class="box box-solid">
+            <!-- form start -->
+            <form class="form-horizontal" action="" method="POST">
+              <div class="box-body">
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">程序归属</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="app_name" value={{ log_collect_edit.app_name }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">主机IP</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="host" value={{ log_collect_edit.host }}>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">采集用户名</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="user" value={{ log_collect_edit.user }}>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">用户密码</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" value={{ log_collect_edit.password }}>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">日志名称</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="log_name" value={{ log_collect_edit.log_name }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">日志源路径</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="log_path" value={{ log_collect_edit.log_path }}>
+                  </div>
+                </div>
+                     <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-info pull-right" name="commit">更新</button>
+              </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascripts %}
+ {#回传参数至父层#}
+<script type="text/javascript">
+        var index = parent.layer.getFrameIndex(window.name);
+        var success = {{ status }};
+        if ( success == '1' ) {
+            parent.$("#handle_status").val('1');
+              parent.layer.close(index);
+        } else if( success == '2' ) {
+            parent.$("#handle_status").val('2');
+            parent.layer.close(index);
+        }
+</script>
+{% endblock %}

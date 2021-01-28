@@ -1,0 +1,28 @@
+{% load i18n static themes %}
+
+<h3>{% trans "Choose Your Design" %}</h3>
+<div class="design-tab-content">
+   <p>{% trans "Select from the themes available" %}</p>
+
+   <div class="row">
+     <div class="col-md-7">
+
+       <select id="styleoptions">
+         {% list_themes %}
+       </select>
+     </div>
+
+     <div class="col-md-3 reset-button">
+        <button class="btn btn-info">{% trans "reset" %}</button>
+     </div>
+   </div>
+
+   <style id="embeduserstyle">
+   </style>
+
+   {% list_theme_options %}
+</div>
+
+<script type="text/html" id="embedUserStyleTemplate">
+  {% include 'themes/embed_user_style_template.html' %}
+</script>

@@ -1,0 +1,325 @@
+.admin-attributes {
+    .admin-attributes-section {
+        margin-bottom: 2rem;
+        .checksley-error-list {
+            height: 0;
+            position: relative;
+            li {
+                @include font-type(regular);
+                background: rgba($red, .7);
+                position: absolute;
+                width: 100%;
+            }
+        }
+        .admin-tags-section-wrapper-empty {
+            color: $gray-light;
+            padding: 10vh 0 0;
+            text-align: center;
+        }
+        .loading-spinner {
+            max-height: 3rem;
+            max-width: 3rem;
+        }
+    }
+}
+
+.admin-roles {
+    header {
+        position: relative;
+    }
+    h1 {
+        margin-bottom: 0;
+    }
+    p {
+        @include font-type(regular);
+        @include font-size(large);
+        color: $gray-light;
+    }
+}
+
+.project-values-title {
+    align-content: center;
+    align-items: center;
+    background: $color-gray400;
+    display: flex;
+    justify-content: space-between;
+    padding: .8em 1rem;
+    text-transform: uppercase;
+    h2 {
+        @include font-type(regular);
+        @include font-size(large);
+        margin: 0;
+        span {
+            margin-left: .5rem;
+            text-transform: none;
+        }
+    }
+}
+
+.admin-swimlanes-manager {
+    $swimlanes-width: 500px;
+    margin-block-end: 1.5rem;
+    margin-block-start: 1.5rem;
+    padding-inline-start: 1rem;
+
+    .empty {
+        @include font-type(regular);
+        @include font-size(small);
+        align-items: center;
+        color: $color-black600;
+        display: flex;
+        justify-content: center;
+        min-height: 50px;
+    }
+
+    .admin-swimlanes-form,
+    .admin-swimlane-form {
+        align-items: center;
+        display: flex;
+        width: $swimlanes-width;
+    }
+
+    .admin-swimlane-form {
+        padding-block-end: .5rem;
+        padding-block-start: .5rem;
+    }
+
+    .admin-swimlanes-form {
+        margin-block-start: .5rem;
+    }
+
+    .add-swimlane,
+    .add-swimlane-single {
+        margin-inline-end: .25rem;
+        margin-inline-start: .5rem;
+    }
+
+    .admin-swimlane-single {
+        opacity: 1;
+        &.ng-leave {
+            transition: all linear .3s;
+            transition-delay: .2s;
+            &.ng-leave-active {
+                opacity: 0;
+            }
+        }
+    }
+
+    .admin-swimlanes-list {
+        position: relative;
+        width: $swimlanes-width;
+    }
+
+    .tooltip {
+        @include popover(
+            $bottom: 2rem,
+            $background-color: $color-black900,
+            $hover-background: $color-black900,
+            $text-color: $color-gray400,
+            $hover-text-color: $color-gray400,
+            $left: calc(50% - 190/2 * 1px),
+            $padding: 1rem,
+            $width: 220px
+        );
+        @include font-type(regular);
+        @include font-size(small);
+        display: block;
+        &.ng-enter {
+            opacity: 0;
+            transition: all cubic-bezier(.25, .46, .45, .94) .4s;
+            transition-delay: .5s;
+            &.ng-enter-active {
+                opacity: 1;
+            }
+        }
+        &.ng-leave {
+            transition: all cubic-bezier(.25, .46, .45, .94) .3s;
+            &.ng-leave-active {
+                opacity: 0;
+            }
+        }
+        &::after {
+            border-color: $color-black900 transparent transparent transparent;
+            border-style: solid;
+            border-width: 8px 8px 0 8px;
+            bottom: -8px;
+            box-shadow: 3px 4px 14px 0 rgba($color-link-primary, .15);
+            content: '';
+            left: calc(50% - 4px);
+            position: absolute;
+        }
+    }
+
+    .admin-swimlane-item {
+        @include font-type(regular);
+        align-items: center;
+        background: $color-gray100;
+        border-radius: 3px;
+        color: $color-black600;
+        display: flex;
+        justify-content: space-between;
+        padding: .75rem 1rem;
+
+        .admin-swimlane-item-start,
+        .admin-swimlane-item-end {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .admin-swimlane-item-drag {
+            fill: $color-link-primary;
+            margin-inline-end: 1rem;
+        }
+
+        .delete-swimlane {
+            &[disabled] {
+                background: none;
+                .icon {
+                    fill: $color-gray400;
+                }
+            }
+            &[disabled]:hover {
+                background: none;
+                .icon {
+                    fill: $color-gray400;
+                }
+            }
+            &:hover {
+                .icon {
+                    fill: $color-link-red;
+                }
+            }
+        }
+
+        &:hover {
+            cursor: grab;
+        }
+    }
+
+    .btn-default-swimlane {
+        align-items: center;
+        background: none;
+        display: flex;
+        &:hover {
+            .btn-default-swimlane-icon {
+                .icon {
+                    fill: $color-solid-yellow;
+                    stroke: $color-link-yellow;
+                }
+            }
+        }
+        .btn-default-swimlane-icon {
+            .icon {
+                fill: none;
+                height: 13px;
+                margin-inline-end: .25rem;
+                stroke: $color-gray400;
+                width: 13px;
+            }
+            &.default {
+                .icon {
+                    fill: $color-solid-yellow;
+                    stroke: $color-solid-yellow;
+                }
+            }
+        }
+        .default-text {
+            @include font-size(xsmall);
+            font-style: italic;
+            &.visibility-hidden {
+                visibility: hidden;
+            }
+        }
+    }
+}
+
+.admin-wip-manager {
+    margin-block-start: 1.5rem;
+    margin-inline-start: 1rem;
+    width: 500px;
+
+    .admin-swimlane-title {
+        align-items: center;
+        background: $color-white;
+        border-bottom: 1px solid $color-white;
+        box-shadow: 4px 4px 4px rgba($color-gray400, .5);
+        display: flex;
+        margin-bottom: 1px;
+        padding: .625rem 1rem;
+        transition: all .6 ease;
+        width: 100%;
+        z-index: $first-layer;
+
+        &.folded {
+            border-bottom: solid 1px $color-gray200;
+
+            tg-svg {
+                fill: $color-link-tertiary;
+            }
+
+            .title-name {
+                color: $color-link-tertiary;
+            }
+        }
+
+        &:hover {
+            tg-svg {
+                fill: $color-black600;
+            }
+
+            .title-name {
+                color: $color-black600;
+            }
+        }
+
+        tg-svg {
+            fill: $color-link-primary;
+            height: 1rem;
+            transition: all .6 ease;
+            width: 1rem;
+        }
+
+        .title-name {
+            @include font-size(small);
+            @include font-type(medium);
+            color: $color-link-primary;
+            flex: 1 1 auto;
+            margin-bottom: 0;
+            margin-right: .75rem;
+            text-align: initial;
+            transition: all .6 ease;
+        }
+    }
+
+    .admin-swimlane-wip-single {
+        overflow: hidden;
+    }
+
+    .admin-wip-container {
+        overflow-x: hidden;
+
+        &.ng-move,
+        &.ng-enter,
+        &.ng-leave {
+            transition: all linear .25s;
+        }
+
+        &.ng-leave.ng-leave-active,
+        &.ng-move,
+        &.ng-enter {
+            opacity: 0;
+        }
+
+        &.ng-leave,
+        &.ng-move.ng-move-active,
+        &.ng-enter.ng-enter-active {
+            opacity: 1;
+        }
+    }
+
+    .admin-wip-list {
+        position: relative;
+        width: 500px;
+    }
+}

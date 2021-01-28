@@ -1,0 +1,135 @@
+# 
+# Translators:
+# Esteban Castro Borsani <ecastroborsani@gmail.com>, 2020
+# Esteban Castro Borsani <ecastroborsani@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-10-25 09:22+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/spirit-project/spirit/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: tags/time.py:32
+msgid "now"
+msgstr "ahora"
+
+#: tags/time.py:36
+#, python-format
+msgid "%(count)ss"
+msgstr "%(count)ss"
+
+#: tags/time.py:40
+#, python-format
+msgid "%(count)sm"
+msgstr "%(count)sm"
+
+#: tags/time.py:43
+#, python-format
+msgid "%(count)sh"
+msgstr "%(count)sh"
+
+#: tasks.py:208
+#, python-brace-format
+msgid "{user} commented on {topic}"
+msgstr "{user} comento en {topic}"
+
+#: tasks.py:218
+#, python-brace-format
+msgid "{user} mention you on {topic}"
+msgstr "{user} te menciono en {topic}"
+
+#: tasks.py:250
+msgid "New notifications"
+msgstr "Nuevas notificaciones"
+
+#: templates/403.html:10
+msgid "You do not have sufficient permissions to access this page"
+msgstr "No tienes suficientes privilegios para acceder a esta sección"
+
+#: templates/404.html:10
+msgid "what you are looking for is gone..."
+msgstr "lo que busca ya no esta..."
+
+#: templates/spirit/_base.html:29
+#, python-brace-format
+msgid "{user} has mention you on {topic}"
+msgstr "{user} te ha mencionado en {topic}"
+
+#: templates/spirit/_base.html:30
+#, python-brace-format
+msgid "{user} has commented on {topic}"
+msgstr "{user} ha comentado en {topic}"
+
+#: templates/spirit/_base.html:31
+msgid "Show all"
+msgstr "Mostrar todo"
+
+#: templates/spirit/_base.html:32
+msgid "No new notifications, yet"
+msgstr "Aun no hay notificaciones nuevas"
+
+#: templates/spirit/_base.html:33
+msgid "unread"
+msgstr "sin leer"
+
+#: templates/spirit/_header.html:43
+msgid "Profile"
+msgstr "Perfil"
+
+#: templates/spirit/_header.html:47
+msgid "Topics"
+msgstr "Temas"
+
+#: templates/spirit/_header.html:51
+msgid "Unread topics"
+msgstr "Respuestas sin leer"
+
+#: templates/spirit/_header.html:55
+msgid "Private topics"
+msgstr "Temas privados"
+
+#: templates/spirit/_header.html:60
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/spirit/_header.html:65
+msgid "Log out"
+msgstr "Cerrar sesión"
+
+#: templates/spirit/_header.html:83
+msgid "Log in"
+msgstr "Ingresar"
+
+#: templates/spirit/utils/paginator/_paginator.html:5
+#, python-format
+msgid "Page %(number)s of %(num_pages)s"
+msgstr "Pagina %(number)s de %(num_pages)s"
+
+#: templates/spirit/utils/paginator/_paginator.html:9
+msgid "Last"
+msgstr "Ultima"
+
+#: templates/spirit/utils/paginator/_paginator.html:11
+msgid "First"
+msgstr "Primera"
+
+#: templates/spirit/utils/paginator/_yt_paginator.html:5
+msgid "Page 1 of 1"
+msgstr "Pagina 1 de 1"
+
+#: utils/markdown/utils/quote.py:36
+#, python-format
+msgid "@%(username)s said:"
+msgstr "@%(username)s dijo:"
+
+#: utils/ratelimit/decorators.py:25
+#, python-format
+msgid "Too many submissions, wait %(time)s."
+msgstr "Demasiados envios, espera %(time)s."

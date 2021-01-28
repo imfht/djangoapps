@@ -1,0 +1,59 @@
+# main links
+main:
+   - title: "Docs"
+     url: /get-started/
+   - title: "Support"
+     url: /support/
+   - title: "Source"
+     url: https://github.com/nesdis/djongo/
+
+docs:
+  - title: "Usage"
+    children:
+    - title: "Get Started"
+      url: /get-started/
+    - title: "Integrating Django"
+      url: /integrating-django-with-mongodb/
+  - title: "Djongo Fields"
+    children:
+    - title: "Embedded Field"
+      url: /using-django-with-mongodb-data-fields/
+    - title: "Array Field"
+      url: /using-django-with-mongodb-array-field/
+    - title: "Array Reference Field"
+      url: /using-django-with-mongodb-array-reference-field/
+    - title: "Other fields"
+      url: /using-django-with-other-fields/
+
+  - title: "DjongoNxt"
+#    url: /djongonxt/
+    children:
+    - title: "Indexes"
+      url: /djongonxt-indexes/
+    - title: "Model Query"
+      url: /djongonxt-model-query/
+    - title: "Model Creation"
+      url: /djongonxt-model-creation/
+    - title: "Model Update"
+      url: /djongonxt-model-update/
+    - title: "Database Transactions"
+      url: /djongonxt-database-transactions/
+#    - title: "Aggregation"
+#      url: /djongonxt-aggregation/
+#    - title: "Contact"
+#      url: /djongonxt-more-info/
+  - title: "Get DjongoNxt"
+    url: /support/
+
+  - title: "Side stuff"
+    children:
+    - title: "Djongo vs Others"
+      url: /djongo-comparison/
+    - title: "Djongo Design"
+      url: /django-mongodb-connector-design-document/
+#      - title: "Roadmap"
+#        url: /roadmap/
+
+#  - title: "Donate"
+#    url: /donate/
+#    thumbnail: /assets/images/heart.png

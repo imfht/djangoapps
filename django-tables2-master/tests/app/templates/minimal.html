@@ -1,0 +1,20 @@
+{% load django_tables2 %}
+<table>
+    <tr>
+    {% for column in table.columns %}
+        <th>{{ column.header }}</th>
+    {% endfor %}
+    </tr>
+    {% for row in table.paginated_rows %}
+        <tr>
+            {% for column, cell in row.items %}
+                <td>{{ cell }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    {% if table.page.has_next %}
+        <a href="{% querystring table.prefixed_page_field=table.page.next_page_number %}">
+            next
+        </a>
+    {% endif %}
+</table>

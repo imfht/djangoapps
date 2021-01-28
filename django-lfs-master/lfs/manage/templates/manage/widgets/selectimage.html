@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<select {{ finalattrs|safe }}>
+    {% for id, urls in choices %}
+        {% with id|stringformat:"s" as idstring %}
+            {% if idstring == currentvalue or id == currentvalue %}
+                <option value="{{ id }}" title="{{ urls.image }}" selected="selected">{{ urls.name }}</option>
+            {% else %}
+                <option value="{{ id }}" title="{{ urls.image }}">{{ urls.name }}</option>
+            {% endif %}
+        {% endwith %}
+    {% endfor %}
+</select>

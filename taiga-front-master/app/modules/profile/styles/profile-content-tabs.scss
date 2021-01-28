@@ -1,0 +1,30 @@
+.profile-content-tabs {
+    border-top: 1px solid $whitish;
+    display: flex;
+    z-index: $first-layer;
+    .tab {
+        color: $gray-light;
+        display: flex;
+        padding: 1rem;
+        &:hover,
+        &.active {
+            color: $gray;
+            transition: color .2s linear;
+        }
+        &.active {
+            background: $white;
+            border-left: 1px solid $whitish;
+            border-right: 1px solid $whitish;
+            position: relative;
+            top: 1px;
+            transition: color .2s linear;
+        }
+    }
+    .icon {
+        fill: $grey-70;
+        height: .8rem;
+        margin-right: .5rem;
+        stroke: $grey-70;
+        transition: fill .2s linear;
+    }
+}

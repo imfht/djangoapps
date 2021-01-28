@@ -1,0 +1,68 @@
+{% set urls = [
+  (addon.get_dev_url(), _('Edit Product Page')),
+  (addon.get_dev_url('owner'), _('Manage Authors & License')),
+  (addon.get_dev_url('versions'), _('Manage Status & Versions')),
+  ] %}
+{% set latest_version=addon.find_latest_version(None) %}
+
+<section class="secondary" role="complementary">
+  <div class="addon-status">
+    <ul class="addon-details">
+      {% include "devhub/includes/addon_details.html" %}
+    </ul>
+    <p class="addon-upload">
+      {% if (addon.has_complete_metadata() or addon.status != amo.STATUS_NULL) and not addon.is_disabled %}
+        <strong>
+          {% set version_upload_url = url('devhub.submit.version', addon.slug) %}
+          <a href="{{ version_upload_url }}"
+             class="version-upload">
+            {{ _('Upload New Version') }}</a>
+        </strong>
+        &middot;
+      {% endif %}
+      <a href="{{ addon.get_dev_url('versions') }}">{{ _('View All' ) }}</a>
+    </p>
+  </div>
+  <div class="highlight" id="edit-addon-nav">
+    <ul class="refinements">
+      {% for url, title in urls %}
+        <li {% if url in request.path|urlencode %}class="selected"{% endif %}>
+          <a href="{{ url }}">{{ title }}</a></li>
+      {% endfor %}
+
+      {% if check_addon_ownership(request, addon) and addon.promoted_subscription and addon.promoted_subscription.is_active %}
+      <li class="stripe-customer-portal">
+        <form method="POST" action="{{ url('devhub.addons.subscription_customer_portal', addon.slug) }}">
+          {% csrf_token %}
+          <button class="link" type="submit">{{ _('Manage Billing on Stripe') }}</button>
+        </form>
+      </li>
+      {% endif %}
+    </ul>
+    <ul class="refinements">
+      {% if show_listed_fields %}
+      <li><a href="{{ addon.get_url_path() }}">
+        {{ _('View Product Page') }}</a></li>
+      {% endif %}
+      {% if action_allowed(amo.permissions.ADDONS_EDIT) %}
+        <li><a href="{{ url('reviewers.review', addon.slug) }}">
+          {{ _('Listed Review Page') }}</a></li>
+        <li><a href="{{ url('reviewers.review', 'unlisted', addon.slug) }}">
+          {{ _('Unlisted Review Page') }}</a></li>
+      {% endif %}
+      {% if action_allowed(amo.permissions.REVIEWS_ADMIN) %}
+        <li><a href="{{ url('admin:addons_addon_change', addon.id) }}">
+          {{ _('Admin Manage') }}</a></li>
+      {% endif %}
+      <li><a href="{{ url('devhub.feed', addon.slug) }}">
+        {{ _('View Recent Changes') }}</a></li>
+      {% if addon.type in amo.ADDON_TYPES_WITH_STATS %}
+        <li class="view-stats">
+          <a href="{{ url('stats.overview', addon.slug) }}">
+            {{ _('View Statistics Dashboard') }}
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</section>

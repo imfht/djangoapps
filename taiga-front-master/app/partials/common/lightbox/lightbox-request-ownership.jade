@@ -1,0 +1,12 @@
+tg-lightbox-close
+
+.content
+    h2.title(translate="ADMIN.PROJECT_PROFILE.REQUEST_OWNERSHIP_CONFIRMATION_TITLE")
+    p(translate="ADMIN.PROJECT_PROFILE.REQUEST_OWNERSHIP_DESC")
+
+    button.btn-small(
+        variant="primary"
+        ng-click="request()",
+        tg-loading="loading"
+    )
+        span(translate="ADMIN.PROJECT_PROFILE.REQUEST_OWNERSHIP_BUTTON")

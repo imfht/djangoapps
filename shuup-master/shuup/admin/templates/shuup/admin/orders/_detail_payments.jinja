@@ -1,0 +1,70 @@
+<div class="d-sm-none d-md-block table-responsive">
+    <table class="table table-striped {% if not payments %} hidden {% endif %}">
+        <thead>
+        <tr>
+            <th>{% trans %}Date{% endtrans %}</th>
+            <th>{% trans %}Identifier{% endtrans %}</th>
+            <th>{% trans %}Description{% endtrans %}</th>
+            <th class="text-right">{% trans %}Amount{% endtrans %}</th>
+            <th>{% trans %}Actions{% endtrans %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for payment in payments %}
+            <tr>
+                <td>{{ payment.created_on|datetime }}</td>
+                <td>{{ payment.payment_identifier }}</td>
+                <td>{{ payment.description }}</td>
+                <td class="text-right">{{ payment.amount|money }}</td>
+                <td>
+                    {% if not (payment.order.is_complete() or payment.order.is_canceled()) %}
+                    <a
+                        href="{{ url('shuup_admin:order.delete-payment', pk=payment.order_id) }}"
+                        data-payment="{{ payment.pk }}"
+                        name="delete-payment-link"
+                        class="btn btn-danger btn-sm"
+                    >
+                        <i class="fa fa-close"></i> {{ _("Delete") }}
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="d-none d-sm-block d-md-none mobile-list-group {% if not payments %} hidden {% endif %}">
+    <ul class="list-group">
+        {% for payment in payments %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-8">
+                        {{ payment.created_on|datetime }}<br>
+                        {{ payment.description }}<br>
+                        {% trans %}Identifier{% endtrans %}: {{ payment.payment_identifier }}
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        <strong>{{ payment.amount|money }}</strong>
+                    </div>
+                    <div class="col-xs-1 text-center">
+                        {% if not (payment.order.is_complete() or payment.order.is_canceled()) %}
+                        <a
+                            href="{{ url('shuup_admin:order.delete-payment', pk=payment.order_id) }}"
+                            data-payment="{{ payment.pk }}"
+                            name="delete-payment-link"
+                            class="btn btn-danger btn-sm"
+                        >
+                            <i class="fa fa-close"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% if not payments %}
+    <div id="no-payments-text">
+        <p>{% trans %}No payments have been created yet.{% endtrans %}</p>
+    </div>
+{% endif %}

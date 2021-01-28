@@ -1,0 +1,117 @@
+{% extends 'oscar/dashboard/layout.html' %}
+
+{% load currency_filters %}
+{% load sorting_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Offers" %} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans "Offers" %}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block header %}
+    <div class="page-header">
+        <a href="{% url 'dashboard:offer-metadata' %}" class="btn btn-primary float-right"><i class="fas fa-plus-circle"></i> {% trans "Create new offer" %}</a>
+        <h1>{% trans "Offers" %}</h1>
+    </div>
+{% endblock header %}
+
+{% block dashboard_content %}
+    <div class="card card-body">
+        <form method="get" class="form-inline">
+            {% include 'oscar/dashboard/partials/form_fields_inline.html' with form=form %}
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
+        </form>
+    </div>
+
+    <form method="post" class="order_table">
+        {% csrf_token %}
+        <table class="table table-striped table-bordered">
+            <caption>
+                <i class="fas fa-gift"></i> {{ queryset_description }}
+                {% if is_filtered %}
+                    <a href="{% url 'dashboard:offer-list' %}" >{% trans "Reset" %}</a>
+                {% endif %}
+            </caption>
+            {% if offers %}
+                <tr>
+                    <th>{% anchor 'name' _('Offer name') %}</th>
+                    <th>{% anchor 'start_datetime' _('Start date') %}</th>
+                    <th>{% anchor 'end_datetime' _('End date') %}</th>
+                    <th>{% trans "Priority" %}</th>
+                    <th>{% trans "Incentive" %}</th>
+                    <th>{% trans "Condition" %}</th>
+                    <th>{% trans "Is available?" %}</th>
+                    <th>{% trans "Restrictions" %}</th>
+                    <th>{% anchor 'num_applications' _('Uses') %}</th>
+                    <th>{% anchor 'total_discount' _('Cost') %}</th>
+                    <th></th>
+                </tr>
+                {% for offer in offers %}
+                    <tr>
+                        <td><a href="{% url 'dashboard:offer-detail' pk=offer.pk %}">{{ offer.name }}</a></td>
+                        <td>{{ offer.start_datetime|default:"-" }}</td>
+                        <td>{{ offer.end_datetime|default:"-" }}</td>
+                        <td>{{ offer.priority }}</td>
+                        <td>{{ offer.benefit.description|safe }}</td>
+                        <td>{{ offer.condition.description|safe }}</td>
+                        <td>{% if offer.is_available %}
+                                <span class="badge badge-success">{% trans "Yes" %}</span>
+                            {% else %}
+                                <span class="badge badge-danger">{% trans "No" %}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% for restriction in offer.availability_restrictions %}
+                                {% if not restriction.is_satisfied %}
+                                    <label class="badge badge-danger">
+                                        {{ restriction.description }}
+                                    </label>
+                                {% else %}
+                                    {{ restriction.description }}<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ offer.num_applications }}</td>
+                        <td>{{ offer.total_discount|currency }}</td>
+                        <td>
+                            <div class="btn-toolbar">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {% trans "Actions" %}
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="{% url 'offer:detail' slug=offer.slug %}">
+                                            {% trans "Browse" %}
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'dashboard:offer-detail' pk=offer.pk %}">
+                                            {% trans "Stats" %}
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'dashboard:offer-metadata' pk=offer.pk %}">
+                                            {% trans "Edit" %}
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'dashboard:offer-delete' pk=offer.pk %}">
+                                            {% trans "Delete" %}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            {% else %}
+                <tr><td>{% trans "No offers found." %}</td></tr>
+            {% endif %}
+        </table>
+        {% include "oscar/dashboard/partials/pagination.html" %}
+    </form>
+{% endblock dashboard_content %}

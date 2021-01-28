@@ -1,0 +1,42 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+name = "pypi"
+verify_ssl = true
+
+[packages]
+twisted = "*"
+cryptography = ">=2.3"
+watchdog = "*"
+jinja2 = "*"
+pychalk = "*"
+service-identity = "*"
+six = "*"
+autobahn = "*"
+pyopenssl = "*"
+attrs = ">=19.3.0"
+
+[dev-packages]
+bumpversion = "*"
+#
+# Pytest
+#
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-twisted = "*"
+#
+# Frameworks
+#
+django = "*"
+flask = "*"
+#
+# Other Dev
+#
+urllib3 = "*"
+requests = "*"
+coverage = "*"
+codecov = "*"
+gunicorn = "*"
+
+[pipenv]
+allow_prereleases = true

@@ -1,0 +1,2367 @@
+# Changelog
+
+We follow the CalVer (https://calver.org/) versioning scheme: YY.MINOR.MICRO.
+
+20.22.0 (2020-12-08)
+====================
+- Update emails for Registries Moderation
+
+20.21.0 (2020-11-24)
+====================
+- Miscellaneous fixes for Registries Moderation integration
+- Add Registries Moderation notification management
+
+20.20.0 (2020-11-03)
+====================
+- Add storage limits to nodes
+
+20.19.0 (2020-11-02)
+====================
+- Add four new registration forms
+- Fix missing case for storage caps in admin app
+- Add GET endpoints for registries moderation
+- Add admin app for registries moderation
+
+20.18.0 (2020-10-12)
+====================
+- Add admin panel for storage usage
+- Make scopes play better with files
+
+20.17.0 (2020-09-16)
+====================
+- Re-enable calculation of storage cache with more efficient updates
+- Add node storage limits to node model
+- Add registration moderation state machine
+- Update zotero requirements
+- Update QA notes in PR template
+
+20.16.0 (2020-09-09)
+====================
+- Fix bug in EGAP schema display on branded registries
+- Add script to purge deleted files
+
+20.15.0 (2020-09-01)
+====================
+- Fix OSF Provider not sending data to SHARE
+- Allow osf_admin to create Brand in admin app
+- Move SHARE fields from PreprintProvider to AbstractProvider
+- Models and API to associate a registration provider with schemas
+- Allow admin app to associate registration forms with providers
+- Enable API to create registration that belongs to a registration provider
+- Admin app permissions for branding
+- Allow EGAP schema in /v2/providers/registrations/<id>/schemas.
+- Handle 502s on admin app setup SHARE source
+- Prepend provider names in SHARE on staging/test
+- Send SHARE errors to sentry instead of desk
+- Management command to reindex OSF registrations in SHARE
+- Serialize branded_discovery_page boolean on Registration Provider
+- Prevent API from accepting registration form for a provider that doesn't support that form
+- Branded Registries admin app fixes
+
+20.14.0 (2020-07-13)
+====================
+- Add brands to registration providers
+- Index last login field
+- Skip probabilistic test failures on CI
+- Add limited-use raw ES6 metrics endpoint
+- Add management command to move EGAP registrations to EGAP provider
+
+20.13.0 (2020-06-30)
+====================
+- Fixes for EGAP migration
+- Add bulk ham-ify in admin app for preprints and users
+- Add bibliographic_contributors relationship to preprints
+- Replace missing admin functionality for preprint providers
+- Fix sparse node children endpoints
+
+20.12.0 (2020-06-24)
+====================
+- Fix EGAP form
+- Prevent forward addon from being checked for spam if it is not present
+
+20.11.0 (2020-06-17)
+====================
+- Add more tests for ending embargos
+- Fix filenames containing &s preventing registrations from registering
+- Ensure API complains when trying to embargo using deprecated methods
+- Modify EGAP form and add new form
+- Update EGAP import script to use new form
+- Remove Authors from registration forms
+- Ensure forks have region of forked-from node
+- Fix statistics for institutional dashboard node counts
+- Allow institutional dashboard to export user stats as CSV
+- Fix probabilistically failing tests
+
+20.10.0 (2020-06-04)
+====================
+- Use proper bibliographic status for registration creators
+- Fix Figshare Article Type 4 "Fileset" Deprecation
+- Add management command to add and remove waffle flags and switches
+
+20.9.0 (2020-06-02)
+===================
+- Update Django to 1.11.28
+- Fix to prevent preprints from getting into a bad state
+- Fix broken /v2/ endpoint in browsable API
+- Make institution metrics department ids unique
+- Serve institution dashboard route
+- Add meaningful error message to Sloan indicators
+- Sort and filter institution user metrics properly
+- Fix Sloan preprint API inconsistencies
+- Fix admin app preprint provider post-upgrade
+- Fix API filtering for non-root node giving 502
+
+20.8.0 (2020-05-12)
+===================
+- Fix permissions for draft registrations when branched from node
+- Add burst rate throttling
+- Fix institutional metrics user name
+- Fix type of summary_metrics relationship from institutions
+- Remove unused code from prereg challenge
+
+20.7.0 (2020-05-05)
+===================
+- Added Institutional Dashboard api and models
+- Normalized user tags
+- Updated email to tell people about Chronos
+
+20.6.0 (2020-05-01)
+===================
+- Additional fixes for Sloan Signals of Trust
+
+20.5.0 (2020-04-20)
+===================
+- Fixes for Sloan Signals of Trust
+
+20.4.0 (2020-03-23)
+===================
+- Add DraftNode Model and improve DraftRegistrations
+- Add Sloan Signals of Trust functionality
+- Add waffle flag for EGAP Registration Schema
+- Upgrade werkzeug to 1.0
+- Fix opening two pages in ember-osf-web would log user out
+- Fix API not found error upon logging in
+
+20.3.0 (2020-02-04)
+===================
+- Fix typo in waffle flag pages
+- Update language for withdrawal declined email
+- Optimize update_storage_usage_cache
+- Update docker-compose readme for python 3
+- Allow write contributors to edit metadata on registrations
+- Fix composite queries for Impact
+- Update log fetching to only get current level of node
+
+20.2.0 (2020-01-29)
+===================
+- Fix bugs in EGAP migration script
+
+20.1.0 (2020-01-15)
+===================
+- Switch to Python 3
+
+19.32.0 (2019-12-16)
+===================
+- Add SchemaBlocks, normalization for Registration.registered_meta
+- Update RegistrationSchemas
+- EGAP Ingestor improvements
+
+19.31.0 (2019-11-7)
+===================
+- EGAP: Parse project structure, add contributors, add files, ingest the draft registration, and add a Jupyter notebook
+- Modify a Chronos field for proper contributor classification
+
+19.30.0 (2019-10-16)
+===================
+- Fix weirdness around deleted nodes by not deleing OSF Storage
+- Make deleted fields on models and addons into date fields
+- API v2: Chronos users can have more name options
+- Python 3 backwards compatibility changes
+
+19.29.0 (2019-10-02)
+===================
+- Use new pagecounter fields for increased query efficiency
+- Allow meetings to be sorted on download count
+- Remove old permissions fields now that we have Guardian
+
+19.28.0 (2019-09-24)
+===================
+- API v2: Use consistent naming for JSON API type (kebab-case)
+- API v2: Fix sorting on fields with source attribute
+- API v2: Add SparseLists for Nodes and Registrations
+- Management command to remove duplicate files and folders
+
+19.27.0 (2019-09-18)
+===================
+- Automatically map subjects when a preprint is moved to a different
+  preprint provider in the admin app
+- Gitlab: return all repos to which the user has access
+- Upgrade Bower
+- Py3 backwards compatible changes
+
+19.26.0 (2019-09-11)
+===================
+- Create a custom through table for linking files and versions
+  for storing version names.  Supports different versions of the same
+  file having different names.
+- Update README for populating institutions.
+
+
+19.25.0 (2019-09-05)
+===================
+- Automate account deactivation if users have no content
+- Clean up EZID workflow
+- Check redirect URL's for spam
+
+19.24.0 (2019-08-27)
+===================
+- APIv2: Allow creating a node with a license attached on creation
+- APIv2: Prevent creating a node link to the node itself, a parent, or a child
+- APIv2: Have the move/copy WB hooks update storage usage
+- Exclude collection groups from user page in Django's admin app
+- Have osfstorage move/copy hooks recursively update the latest file version's region
+- Fix password reset tokens
+- Do not reveal entire google drive file path in node logs
+- Allow logging in from password reset and forgot password pages
+- Fix broken social links on add contributors modal
+- Fix email typos in embargoed registration emails
+- Improve registration and retraction node log display text
+- Fix logs if cron job automatically approves a withdrawal
+
+19.23.0 (2019-08-19)
+===================
+- Represents scopes as an m2m field on personal access tokens instead of a CharField
+- APIv2.17 treats scopes as relationships on tokens instead of attributes.  Earlier
+API versions still serialize scopes as attributes.
+
+19.22.0 (2019-08-14)
+===================
+- APIv2: Editable registrations
+- APIv2.16 treats subjects as relationships instead of attributes
+
+19.21.0 (2019-08-12)
+===================
+- PageCounter optimization part I: split _id field into four columns, `action`,
+`file_id`, `resource_id`, and `version`.
+- Adds a management command (migrate_pagecounter_data) to populate these new
+columns in the PageCounter table over time.
+
+19.20.0 (2019-07-29)
+===================
+- Waffle cookies - Override to allow cookies to be set for waffle flags
+- Add ab_testing_home_page_version_b waffle flag for A/B testing of home page
+- APIv2: Allow preprint admins to view preprint request actions
+
+19.19.0 (2019-07-24)
+===================
+- Add periodic task that checks for and sets stuck Crossref DOIs
+- Add script that gathers monthly metrics on the number of registrations and retractions created
+- Chronos: Send license info
+- Chronos: Use sync_manuscript for ChronosSubmissionDetailSerializer
+
+19.18.0 (2019-07-15)
+===================
+- Remove any Notification Subscriptions attached to Registrations
+- Add file counts to registrations
+- Stop locking rows when fetching registration schemas
+- Update AsPredicted schema to the latest version
+- Correctly set registration states when auto-approving embargo termination requests
+- APIv2: Serialize collected_metadata relationship on Collection serializer
+- Fix preprint metrics counts and include source info.
+
+19.17.0 (2019-07-08)
+===================
+- Admin app: paginating nodes and preprints, and adding bulk ham functionality for nodes
+- Testmon - only run tests for code that's changed - except on master/develop merges
+- Fix ampersand displays
+- Prevent clickmashing on Add Contributor modal
+- APIv2: Prevent adding unregistered contributors with blacklisted emails
+- APIv2: Allow OAuth application client secret reset by PATCHing client_secret to null
+- APIv2: Add better parser support for handling application/json content type
+- Fix display of Anonymous VOL citation-related logs
+
+19.16.0 (2019-07-03)
+===================
+- Fangorn rate limiting - spaces out requests when moving large groups of files
+
+19.15.0 (2019-06-27)
+===================
+- Add a management command for measuring data storage usage metrics
+
+19.14.0 (2019-06-26)
+===================
+- Chronos: Limit Submission URL visibility
+- APIv2: Private meetings endpoints optimizations.
+- Modifications to how meetings and submissions are related - instead of using
+tags, using a m2m field.
+
+19.13.0 (2019-06-17)
+===================
+- "Groups-guardian" release.  Switches to django-guardian for permissions on AbstractNodes
+- Switches Preprints to using guardian direct foreign keys for performance improvements
+- APIv2: OSF Groups functionality, allows groups of users to be added to projects
+
+19.12.0 (2019-06-10)
+===================
+- APIv2: View-only Links/Anonymous VOL's for Registrations improvements
+
+19.11.0 (2019-06-06)
+===================
+- APIv2: Private endpoints for meetings backend
+
+19.10.0 (2019-06-04)
+===================
+- Update retired Bitbucket endpoints
+- APIv2: Fix VersionedDateTimeField to handle later versions appropriately
+- Inspect user profile info for spam
+- Update test datacite prefixes
+- Point new help links to zendesk
+- APIv2: Fix CollectedMetaDetail where submission belongs to multiple collections
+- Py3 backwards compatible changes
+- Reduce number of queries for at mentions
+- Remove dead code that was obsolete after partial registrations
+- Better track where users are signing up from
+
+19.9.0 (2019-06-03)
+===================
+- Add EGAP registration (not migrated yet)
+- APIv2: Check if email is verified when deleting
+- Fix casing issue that is preventing CSRF token from getting passed with Request access
+- Chronos: Send supplemental node link and add capability to switch to diff Chronos servers
+
+
+19.8.0 (2019-05-16)
+===================
+- APIv2: Don't throttle safe requests to UserEmailList
+- Modify payload sent to Chronos
+
+19.7.0 (2019-04-22)
+===================
+- Update from jessie to stretch
+- APIv2: Add ability to update user's default storage location
+- APIv2: Allow access to preprint metric data for date ranges
+- Backend support for new registries overview page, including:
+- Modify approval links format for registrations
+- Add article_doi field to registrations
+- APIv2: Make several registration fields editable by admins
+- APIv2: Expose more withdrawn registration fields
+- APIv2: Add node/registration bibliographic contributor list endpoints
+- APIv2: Fix DELETE CollectionLinkedRegistrationsRelationship 500 error
+- APIv2: Fix children count on NodeSerializer
+
+19.6.0 (2019-04-09)
+===================
+- Add support for sending withdrawal request denied emails
+- Bump libreoffice version in unoconv docker service
+
+19.5.0 (2019-04-01)
+===================
+- Display OSF Storage Usage on project overview page
+- APIv2: turn on wb hook tests on travis
+- APIv2: display related counts on user relationship fields
+- Banner for IE users
+- Allow embedding quickfiles in a wiki
+- Migrate old forks whose last_logged date doesn't match the forked date
+
+19.4.0 (2019-03-28)
+===================
+- Chronos backend
+- APIv2: user_passwords type change
+- Preprint withdrawal email template changes
+
+19.3.0 (2019-03-04)
+===================
+- Generate absolute url for confirmation url in claim user email
+- Allow searching by contributor and tags on collections
+- APIv2: Add render links when serializing files and file versions, html links for files
+
+19.2.0 (2019-02-18)
+===================
+- Backend for File Metadata
+- Make embedded wiki images viewable with VOL
+- APIv2: Two factor improvements
+- APIv2: Request deactivation through user settings
+- APIv2: Initiate registration withdrawal
+- APIv2: Handle validation errors on tokens and applications requests
+- APIv2: Handle requesting user guid from files endpoint
+
+19.1.0 (2019-01-30)
+===================
+- Track OSFS file versions
+
+19.0.0 (2019-01-23)
+===================
+- APIv2: Allow doubly confirming new emails and account merges
+- APIv2: Deleting nodes deletes entire hierarchy
+- APIv2: Initiate resending confirmation emails for unconfirmed emails
+- Learn more license link opens in new tab
+- APIv2 - withdrawal date/justification included on children
+- Limit file size uploads
+- Impact: request relevant indices
+- Fix institution settings FAQ link
+- Remove legacy registrations
+- Don't add provider=osf query param when clicking on preprint in search
+
+18.9.0 (2018-12-19)
+===================
+
+- Disable Prereg Challenge UI when osf_preregistration flag is active.
+
+18.8.0 (2018-12-13)
+===================
+
+- Remove the dependency of Preprints on Nodes, a.k.a. "The Node Preprint Divorce". Preprints no longer store metadata on nodes.
+  Nodes optionally provide supplemental materials for preprints, but other than that are independent of preprints.
+
+18.7.0 (2018-12-05)
+===================
+
+- Add "OSF Preregistration" registration schema. It will automatically become active on Jan 1, 2019.
+- Add ENABLE_INACTIVE_SCHEMAS waffle switch. When active, APIv2 will return both active and inactive schemas.
+- Remove invalid registration schemas.
+
+18.6.0 (2018-11-15)
+===================
+
+- Support for partial registrations.
+- APIv2: Fix error when adding an email on a blacklisted domain.
+- APIv2: Optimizations for collections endpoints.
+- Upgrade djangorestframework to 3.9.0.
+- Update subject lines in emails with "OSF" instead of "Open Science Framework."
+- Remove legacy forks and analytics pages.
+
+18.5.0 (2018-10-31)
+===================
+
+- APIv2: Return explicitly assigned node permissions for current user
+- APIv2: Add wiki_enabled attribute to nodes
+- Remove forked dependencies
+- Clean up unused settings
+- Fix Prereg weekly digest
+
+18.4.0 (2018-10-23)
+===================
+
+- Store preprint views and downloads in Elasticsearch using django-elasticsearch-metrics.
+  This feature is behind the elasticsearch_metrics waffle switch.
+- Add link on OSF Search to institutions landing page.
+- Fix for editing tags on registrations.
+- Remove unnecessary is_claimed field on OSFUser.
+- Add celerybeatjob to clear out stale Session records.
+- Fix syncing registration tags with SHARE.
+
+18.3.0 (2018-10-10)
+===================
+
+- Migrate registrations into OSFRegistries
+- Update registries API and models
+- Update elastic mapping for collection submissions
+- Add additional CollectionProvider fields
+
+18.2.0 (2018-10-02)
+===================
+
+- APIv2: Add email account management.
+- APIv2: Add password reset functionality.
+
+18.1.0 (2018-09-25)
+===================
+
+- Add custom citations to projects
+
+18.0.0 (2018-09-20)
+===================
+
+- Switch to CalVer.
+- APIv2: Allow social fields on users to be updated.
+- APIv2: Fix bug that caused 500 responses to be returned
+  for addon folder endpoints.
+- Add waffle switch to disable engagement emails.
+- Fix for removing self from projects and nested components.
+
+0.157.0 (2018-09-18)
+====================
+
+- APIv2: Select draft registration metaschema using relationship.
+- APIv2: Don't require attributes on POST requests.
+- APIv2: Add settings management (mailing lists, 2fa).
+- APIv2: Return null for empty to-one relationships instead of omitting them.
+- Fix for Google Analytics custom dimensions to make consistent with other apps.
+
+0.156.0 (2018-09-17)
+====================
+
+- Storage internationalization. Projects can be configured to store OSFStorage data
+  in a given storage region.
+- Remove wiki-related code from Node model.
+
+0.155.0 (2018-09-12)
+====================
+
+- Admin: Add view for creating and managing RegistrationProviders.
+- APIv2: Add view for claiming unregistered users.
+- Show "reviews_state" on withdrawn preprints.
+- Show "review_actions" on withdrawn preprints to moderators.
+- Send registration parent information to SHARE.
+- Rename CollectedGuidMetaData to CollectionSubmission.
+
+0.154.0 (2018-09-09)
+====================
+
+- Admin: Add download counts to metrics.
+- APIv2: Refactor Dataverse addon settings for APIv2.
+- APIv2: Optimizations to nodes list endpoints.
+- Upgrade to new-style Django middleware
+- Wiki code cleanup.
+- Update project citations to use "OSF."
+- Remove legacy dashboard and landing page code.
+- Remove duplicate fields on Registration model.
+
+0.153.0 (2018-08-28)
+====================
+
+- Add Admin view for non-moderated withdrawal requests
+- Add anchors to sections on My Projects page
+- Add collection subjects to project overview page
+- Add Moderator Preprint Withdrawal Notification Emails
+- Add special case to resolve_guid for Registries
+- Add V2 routes for RegistrationProvider
+- Allow duplicate _id's across different AbstractProvider types
+- Update CrossRef upon preprint withdrawal
+- Update django-guardian usage with AbstractProvider
+
+0.152.0 (2018-08-21)
+====================
+
+- Use markdown-it-atrules for Wiki embeds.
+- Remove unused submissions.js.
+- Use preferred https://doi.org/ domain for DOI urls.
+
+0.151.0 (2018-08-13)
+====================
+
+- APIv2: Add Node Settings endpoint.
+- APIv2: Add employers and eductional_institutions to user serializer.
+- APIv2: Add endpoints for account export and deactivation requests.
+- APIv2: Retrieve/delete user external identities.
+- Move addon max file size limits to settings files.
+- APIv2: Generalize metaschema models and endpoints. /metaschemas/ is now deprecated. Use /schemas/registrations/ instead.
+- Upgrade flake8 and associated packages.
+- Add pre-commit.
+- Add logging to daily keen scripts.
+
+0.150.0 (2018-08-01)
+====================
+
+- Change relationship between BaseFileNode and Node from a foreign key to a generic foreign key. This
+  is in preparation for files to be attached to preprints.
+
+0.149.0 (2018-07-22)
+====================
+
+- Remove "Copy citations" button for Zotero folders and optimize loading large folders.
+- Improve speed of test suite.
+- Admin: Add ability to remove stuck registrations
+
+0.148.0 (2018-07-18)
+====================
+
+- Create RegistrationProvider model
+- Create PreprintWithdrawalRequest model
+- Add collections logos to project overview
+- Return None relationships for withdrawn preprints
+- Fix "Other" Subject ordering
+- Replace OSF-internal usage of preprint assets with ProviderAssetFiles
+- Fix preprint download permissions checking
+- Fix collectionSubmission ES mapping
+
+0.147.0 (2018-07-11)
+====================
+
+- Add choices for ProviderAssetFileNames
+- Add Comments to Reviews email
+- Add ProviderAssetFile API endpoints, AbstractProvider relationship
+- Admin View for creating/managing CollectionProviders
+- Admin view for preprint spam removal
+- Make v2/search accept POST for getting raw data
+- Fix: Add provider to ES collectionSubmission documents
+- Fix: CSS for banners created in OSF Admin
+- Fix: Update preprint citation to use OSF Preprints
+- Fix: Prevent ConcurrentObjectUseError with ProviderAssetFiles
+
+0.146.0 (2018-07-02)
+====================
+
+- Migrate from EZID to Datacite (for nodes) and Crossref (for preprints) for creating DOIs.
+
+0.145.0 (2018-06-27)
+====================
+
+- Add more metadata and relationships to API requests in support of Analytics page updates
+- Allow PATCHing of View Only Links in API v2
+- Create a scopes endpoint for User PAT Settings updates
+- Improve /v2/ route to allow for fewer requests by spaces
+
+0.144.0 (2018-06-13)
+====================
+
+- Allow deleting child components from component widget dropdown
+- Make preprints checkable for spam
+- Add fields required for preprint withdrawal
+- Add support for GC asset file storage
+- Index collection submissions with ES
+- Add new citation styles
+- Improve banners with dynamic links
+- Add workflow states/transitions for preprint withdrawal
+- Improve support for GitHub Organization repos
+- Fix required perms for removing a collected object
+
+0.143.0 (2018-06-11)
+====================
+
+- Fix MLA citations for preprints
+- Copy changes for Prereg Challenge wind-down.
+- Copy changes to clarify immutability of registrations.
+- Disallow accessing inactive users' quick files.
+- Fixes to wiki drag-and-drop behavior.
+- Fix rendering wide tables in the wiki.
+- Admin: Force-archive stuck registrations
+- API: Return more profile information (employment and education) for users.
+
+0.142.0 (2018-05-29)
+====================
+
+- Add UI with metadata when a project is in a public collection
+- Add /v2/providers/<type> routes, version out /preprint_providers/
+- Add post-submission call-to-action emails for preprints
+- Add moderation notifications
+- Add SHARE source whitelist to admin app
+- Extend collections API with new fields and relations
+- Normalize other moderation emails
+- Fix: moderators added through UI can now set their password
+- Fix: only update SHARE with preprint data once per update
+
+0.141.0 (2018-05-22)
+====================
+
+- Store storage region on users and node-osfstorage addons.
+- Add HTML formatting to all transactional emails.
+- API: Add folder/project listing functionality to node settings endpoints
+for GitHub, Zotero, and Mendeley addons.
+- API: Optimize comment listing views.
+- Optimize a number of GUID queries.
+- Update a number of dependencies that were blocking Python 3 upgrade.
+- Lots of bug fixes.
+
+0.140.0 (2018-04-27)
+====================
+
+- Users can request to be a contributor on projects.
+- Include "Create view-only link" button on Project Overview page.
+
+0.139.0 (2018-04-18)
+====================
+
+- Add CC-BY-NC-ND and CC-BY-SA 4.0 license options for preprint providers.
+- Optimize meetings page.
+- Upgrade Dropbox client version.
+- Add field to PreprintProvider to toggle Hypothesis commenting.
+- Fix using django-waffle with groups.
+- Fix bug that caused project to be unreachable if it had a deleted BitBucket addon.
+- Fix incorrect OSF Meeting instructions.
+- Remove unused fonts and styles from landing page.
+- Hide hierarchy on search results if parent is priate.
+- API: Fix /data/relationships/referent/type for /guids/<registration-id>/?resolve=false endpoint.
+- API: Optimize node delete endpoint.
+- Admin: Fix typos.
+
+0.138.0 (2018-04-05)
+====================
+
+- Normalize the wiki page and wiki version models. Adds the WikiPage and WikiVersion models.
+Deprecates NodeWikiVersion, Node.wiki_pages_versions, and Node.wiki_pages_current.
+- API: Add wiki write functionality.
+
+0.137.0 (2018-03-27)
+====================
+
+- API endpoints to support moderator management
+- API endpoints for NotificationSubscriptions
+- Create Collection, CollectedGuidMetadata models
+- Use django-guardian for Collections
+- Add Subjects to AbstractNodes
+- Generalize PreprintProvider branding as AbstractProvider (TypedModel)
+- Add 'works' as a choice for preprint_word
+
+0.136.0 (2018-03-23)
+====================
+
+- Add registered reports landing page (/registeredreports/).
+- Drag-and-drop images into the wiki.
+- Embed OSF files in the wiki using `@[osf](GUID)`.
+- Fixes for sitemap script.
+
+0.135.0 (2018-03-15)
+====================
+
+- Display file metadata for addon files deleted outside of the OSF.
+- Add decorator for feature-flagging EmbOSF routes.
+- Add footer to OSF landing page foor logged out users.
+- Make loading indicators consistent.
+- Show DOIs on withdrawn registrations.
+- Make support email configurable in settings.
+- Install bootstrap with npm and add it to vendor bundle.
+- Improve opt out links in notification emails.
+- Don't allow force checking in files that are checked out by Prereg reviewers.
+- API: Add ?info query parameter to get metadata about folders.
+- API: Require "id" and "type" for POST and PATCH requests to preprint endpoints.
+- API: Fix embedding identifiers in preprint list.
+- API: Add download links to file versions.
+- API: Performance improvements to node updates.
+
+0.134.0 (2018-02-28)
+====================
+
+- Add support for Zotero Group libraries
+- Add registered reports registration form.
+- Upgrade requests dependency.
+- Send logged in/logged out status and page to Google Analytics.
+- Remove ARK creation.
+- Admin: Add banner creator.
+- API: Optimize InstitutionNodeList Endpoint.
+- API: Fix embeds on user endpoints.
+- API: Endpoints for requesting project access.
+- API: Remove old documentation and link to new docs.
+- Fix showing component logs on forks.
+- Quick files with the qatest tag don't appear in search.
+
+0.133.0 (2018-02-07)
+====================
+
+- Routing and UI changes for Quick Files.
+
+0.132.0 (2018-02-06)
+====================
+
+- Rename Moderation groups when PreprintProvider _id's change.
+- Add facebook_app_id to PreprintProvider.
+- Remove bower from docker-compose.override.yml for registries.
+
+0.131.0 (2018-02-01)
+====================
+
+- Admin: request and set SHARE API tokens.
+- Admin: Set maintenance banners.
+- Lint api_tests.
+- Send correct emails to unregistered users added to components.
+
+0.130.0 (2018-01-30)
+====================
+
+- Integrate django-waffle for feature flagging.
+- Upgrade to webpack 3.
+- Move identifiers code to website/identifiers/
+- Lint osf_tests.
+
+0.129.0 (2018-01-26)
+====================
+
+- Return 410 for deleted files.
+- Fix preprint citation suffixes.
+- Send prereg CSVs to prereg@cos.io.
+- Include `_id` in admin app preprint provider export.
+- Clear contributor search box after adding contributor.
+- Add snippet of component description in component list.
+- Allow implicit read admins to be easily added to components.
+- Navigation bar fixes (username alignment in firefox, long usernames).
+- Remove "Register without review" button from pending preregistrations.
+- Gracefully ignore waterbutler `download_file` and `download_zip` actions.
+- Fix registrations not submitted to Prereg Challenge appearing in admin app.
+- Prevent "Admin on parent projects" section from appearing on top level projects.
+
+0.128.0 (2018-01-19)
+====================
+
+- Upgrade to Django 1.11.9
+- Remove legacy invoke tasks.
+- Update insecure dependencies.
+- Use django_celery_beat's DatabaseScheduler.
+- Integrate nplusone for detecting n+1 queries.
+- Remove helper remove() and remove_one() methods.
+- Rename DateByVersion class to VersionedDateTimeField.
+- Improve metadata retention of Dataverse and Figshare files.
+- Minor optimizations for UserNodes and RegistrationContributorsList API views.
+- Allow disable_auto_now_fields context manager to disable auto_now updates for all models.
+
+0.127.0 (2018-01-10)
+====================
+
+- Generalize Action/Machine/Workflow code and API endpoints.
+- Make "inv_migrate" search much faster.
+- Updates to OSF Admin metrics.
+- Remove modularodm as a dependency.
+
+0.126.0 (2017-12-14)
+====================
+- Citation Widget: Some Journal Styles Missing
+- Display registration status of DraftRegistrations (if any) in Prereg
+- Subsequent files do not receive a modal when copied over to a folder
+- Unable to authorize figshare accounts with unicode in name
+- fix incorrect method name in oauth node config js
+- In Fangorn, Github's [Open] button only points to the default branch
+- Popular Public and New & Noteworthy -- making a project private causes error
+- Admin app: accessing list of user's permissions 502s
+- Unable to mark node as Ham
+- Templating a registration breaks and creates a malformed registration
+- Withdrawn registration pages cause sentry errors
+- Registration created both with and w/o prereg review -- case where user selects "register w/out review" first
+- OwnCloud incorrectly logs folder deletions as "file" in logs
+- Should not show "Add important information..." in wiki widget for registrations
+- Admin app, check group permissions (not system tag)
+- Remove urls for folder in api
+- Download URLs 404 for Box file revisions
+- Multi-field filtering is broken on staging and production
+- Citations preview should show the full name field if the individual name sections are blank
+- Incorrect error message is shown for Dataverse 500 error
+- File checked out to Alex DeHaven after Prereg Challenge submission is approved.
+- Don't use {} as a attribute default value
+- [admin app] Searching for user names that contain periods or commas returns 502
+- Forks total includes registrations
+- Fix spelling for new VOL section in project settings
+- Special characters do not render on registration forms
+- "Sign In -->" for Institutions with custom domains goes to wrong url -- incorrectly routes already-logged-in users to their dashboard
+- Add unregistered contributor modal doesn't strip leading/trailing spaces from email address
+- Failing email validation in 'add unreg contrib' modal permanently disables 'Add' button
+- Add loading indicator when authorizing Dataverse or importing auth from profile to project settings
+- Prevent SendGrid from sending emails to randomly generated users locally
+- Make support email address configurable
+- Project titles on the Project Overview page wrap in undesirable way
+- API: View-only parameter needs to be added to all WB links
+- Username not displaying properly in activity logs of My Projects page
+- Error sending Keen data to pageviews: <An error occurred!>
+- Iterative 0.126.0 Fixes
+- "Add-ons" and "Settings" tabs display on public projects for non-contributors
+- Increase registration test failure allowance
+- Project navigation breaks, 'settings' shifts strangely, sometimes shows 'comments'
+- The GitHub Fangorn interface lacks a Download-as-zip button for folders
+- Add Arabixiv logo for sign up page
+- Clean up gravatar specific methods
+- Search in 'add link' should show all your projects by default
+- Incorrect grammar in My Projects slow load error text
+- Clear Deactivate Flag on User Accounts
+- Add new logo / branding to OSF Meetings
+- Add user's registrations and preprints relationships to user serializer
+- There should not be a link to Box.com in the Welcome to the OSF email
+- Users Should be Alerted of Maintenance on All Pages
+- Add Embargo Date Management to Admin App
+- Cancel changes button on admin preprint config
+- Move Number of Forks, Links, Templates to Analytics Tab
+- Move "Add-ons" to own tab on Node Overview, out of Project Settings
+- API: Attempting to PATCH a registration needs corrected error code & message
+- Remove QA test items from elastic search
+- Admin: Checking "Domain redirect enabled" with no domain redirects to OSF landing page
+- 'Sign Up' webpage title issue
+- Send users an email about fork fail/success
+- Update language in engagement email
+- Always show dropdown on Configure Wiki Settings
+- Add project logs to admin app
+- Search by contributor's profile information
+- Enable account merging in admin app
+- Email users who have started but not finished a pre-reg application
+- Mod Meta Deletion followup
+- Trigger for wiki widget "Read More" does not match display field length
+- Improve node category visual recognition
+- Allow tags to be added after a registration is created
+- Remove WBv0-using code from the OSF
+- Show preprint provider logos in Admin
+- Add metatags to projects and components for better Zotero export
+- Add ability to rename a file on the file detail page
+- Change placeholder text in dashboard search box
+- Missing Restriction On String Size On Given, Middle, Family name, etc
+- Add "latest" version tag and have BAPI use this by default
+- Add links to status page
+- Allow ampersand in project description
+- Character count increase and better count for comments
+- Add flag to indicate custom highlighted taxonomy is used
+- Change FAQ link
+
+0.125.0 (2017-12-05)
+====================
+
+- Add GitLab addon
+- Add OneDrive addon
+- Upgrade a number of Python dependencies
+- Use django-celery-beat for managing periodic tasks
+- Optimizations for files grid and adding contributors
+- APIv2 optimizations
+- Admin: Add custom taxonomy UI
+- Quick files UI on profile pages
+- APIv2 immediately returns preprint DOIs
+- Add `created` and `modified` fields to all models
+- Address Django deprecation warnings
+- Remove modularmodm as a dependency
+- Remove redundant osf.utils.auth module
+
+0.124.0 (2017-11-13)
+====================
+
+- Browser plugin for preprint partner preview
+- Importing preprint provider on production - taxonomies fix
+- Admin import should be fault tolerant for new fields
+- Titles for private linked nodes are visible in logs
+- Can't find unclaimed record for user
+- Opening a file in another tab using the "⌘" symbol causes the Files widget to perform inadequately
+- Make undecorated links in the wiki clickable
+- Add notification email on preprint submission
+- Include Biobliographic/Non-bibliographic option in Add Contributor Modal
+- Add Physical COS Address to Transactional\Notification Emails
+- Fix small errors on OSF Metrics
+- Add image sizing to wiki
+- Make "import contributors" a one-click process
+- Really allow users to affiliate registrations
+- Detect Child Components as Deleting Project
+- Improve the prereg Challenge approved submission email to encourage promotion on social media
+- Add original publication date field for preprints, citation changes
+- Update docker and docker-sync settings
+
+0.123.0 (2017-10-26)
+====================
+
+- Preprint moderation backend.
+
+0.122.0 (2017-10-16)
+====================
+- Probabilistic test failures due to uniqueness constraint on usernames
+- View-only link returns 403 for add-on files
+- Test failure test_get_preprint_count
+- Templating nodes that are linked to each other hit max recursion
+- Add MarXiv logo for sign up page
+- Add EarthArXiv logo for sign up page
+- Audit and fixing of wrapping across site
+- Make the sitemap raise first 10 issues to sentry then log the rest
+- Remove "Preprints" from Thesis Commons Register page
+- Remove unused scripts
+
+0.121.0 (2017-10-01)
+====================
+
+- Preprint title, description, and other fields may be edited through the preprints detail endpoint.
+- Remove AlternativeCitation code.
+- Remove usages of modularodm in favor of the Django ORM.
+- Use SELECT FOR UPDATE queries for requests that do DB writes.
+- Quick Files models and API.
+- Upgrade to jQuery 3.
+
+0.120.0 (2017-08-23)
+====================
+- User Profile: ampersand (&) is not decoded (&amp;) when editing/viewing employment/education
+- [Production] No indication when user add/remove affiliations from project takes 15-20 seconds
+- OSF Storage: Moving files between components breaks links in logs
+- Contributor can attempt to reorder components on a registration
+- Forking a project with a long name fails
+- Prereg form - unable to add contributors if some questions are unanswered
+- Forking a link via project overview page fails
+- Non-bibliographic preprint contributor removed from preprint, still on SHARE search
+- My Projects: Collections containing Registrations are slow to load and incorrectly show "this collection is empty" message
+- Institutions pages: registrations missing contrib names
+- BasicAuthProviderMixin downcases profile_url and urls should be treated as case-sensitive.
+- Pressing enter submits add component even if button is inaccessible
+- Unregistered users added to OSF projects -- new names should overwrite old names
+- Fix cors for custom domains
+- API 502s when refreshing github metadata (was: TypeError: Can't compare datetime.datetime to NoneType)
+- Registrations Settings Page is throwing 404 errors - Prod and Staging
+- Cannot access retracted registrations
+- Update support email addresses from cos.io to osf.io on the support page
+- Fix JS tests and run them on Travis
+- Embargoed registration red alert has wrong language & grammar
+- Sorting OSF Meetings instances in Admin app
+- Send objects from Thesis Commons to SHARE with type=Thesis
+- Add View-only links to Node Settings Page
+- Retry when failing to send data to SHARE
+- Track Number of Preprints by Provider in Admin App
+- Clarify user project invitation if there is a preprint associated
+- Modify Prereg Challenge Landing page
+- Test Optimization: Api tokens, addons, taxonomies, test
+- Add tests for sitemap generation
+- Remove mod-meta usage on the OSF
+- Pytest Conversion api_tests/users
+- Don't render all contributors for contributor-related logs
+- API: Add title and contributor fields to preprints
+
+0.119.0 (2017-08-10)
+====================
+
+- Add Bitbucket addon.
+- Prevent UnorderedObjectListWarning in API
+- Prevent invalid social fields from being passed to user endpoints.
+- Admin: Fix importing preprint providers on production
+- Remove "Watch project" code
+- Make ever_mentioned a ManyToMany field
+- Remove unused mongo code in framework.mongo
+- Reduce number of queries made by triggered mails script
+- Add a context manager to prevent auto_now fields from from getting updated during migrations
+- Remove model name aliasing in imports
+- Remove dead badges code
+- Add view OSF Subjects Permissions
+- Upgrade to Node.js 8
+- Checkouts and is_preprint checks need optimizing
+- Expand functionality of maintenance notice to allow custom message and severity level
+- Test optimizations
+- Add preprint_word field to preprint provider endpoints
+- Add event tracking to navbar
+
+0.118.0 (2017-08-03)
+====================
+
+- Support for custom taxonomies.
+
+0.117.0 (2017-07-13)
+====================
+- Profile: long Personal Website URLs run over in cause problems in display #5270
+- Show error message if user doesn't complete captcha
+- Add-ons, Revisions page missing column heading, and list user as "Anonymous Contributor"
+- Rename "Newest Public Projects" to "New and Noteworthy" on "new projects" tab
+- Forked and templated projects do not send contributor emails
+- Copy to clipboard button when creating View-only Links is broken in Safari
+- Admin app, reset password modal shows email from previous user accessed (not current user)
+- Citations leave off suffixes
+- API: Should not be allowed to add unconfirmed users to a node via GUID
+- Display Acceptable Licenses in Admin Preprint Config
+- Clicking Add Component too quickly gives grey screen
+- Files checked out to David Mellor while under Prereg Review
+- Wrong citations showing for some unregistered contributors
+- Deleting an at mention in comment throws JS error
+- Cannot delete @mention in Firefox
+- Admin spam lists are broken
+- Add preprint filter on OSF search
+- Language change: Resend confirmation email page should say "unconfirmed email address"
+- Fix SSRN logo on User Search results
+- Add Common Actions in Dropdown on Component Widget
+- Allow users to autopopulate tags in new component creation
+- Arbitrarily Reindex OSF things in SHARE and OSF Search via admin
+- Make 'GUID has no deep URL' sentry error less annoying
+- Linking to the eligible journal list in the OSF preregistration challenge workflow
+- Preprint providers should not have subjects_acceptable in API response
+- Surface Unregistered Contributor Emails in Admin
+- Allow "highlighted" taxonomy per provider
+- Move External Link to Project Settings Page
+- ImpactStory link in profile is "Not Secure"
+- Distinguish Staging Admin from Production Admin
+
+0.116.0 (2017-07-05)
+====================
+- Allow Styling in Admin App Preprint Provider HTML Fields
+- OSF side changes for new navbar
+- Distinguish Staging Admin from Production Admin
+- Create Scope to Get User Email Address
+- Cachebust CSS assets
+
+0.115.0 (2017-06-21)
+====================
+
+- Port maintenance code to use Postgres
+- Remove MODMCompatibilityQueryset.
+- Remove unused APIv1 profile, pointer, and project endpoints.
+- Fix importing Preprint Provider from JSON.
+
+0.114.0 (2017-06-13)
+====================
+
+- Replies notifications sending double entries to some users
+- GitHub is misspelled on osf.io/support page
+- All fangorn errors on non-Chrome browsers report as "Cannot upload folder"
+- Author link on OSF meeting site isn't updating
+- Prereg Challenge: "Learn more here" link on Notice form is broken
+- "Check in file" button is missing from file widget
+- Dashboard "Search for more projects" button url shows zero search results in elastic search
+- Unable to Cancel a Registration if Project is Deleted Shortly After Creation
+- Clicking "Add" button multiple times when adding an unconfirmed user results in error
+- NodeProviderDetail endpoint 502s
+- Preprint is not orphaned if its file is deleted
+- Preprint deletion tests and cleanup (OSF-7938 followup)
+- Facebook link in footer needs to be updated
+- Preprint emails need updating to handle 2-word preprint providers
+- APIv2: Filtering on User's tags is broken
+- Admin not handling custom preprint taxonomies correctly
+- Admin requires all subjects to be checked to create full bepress taxonomy
+- Admin app 502s when saving preprint providers
+- Modify Column Widths on My Projects page to maximize Project Title column
+- Make preprint_provider model easier to maintain
+- Change button text on final Registration modal
+- Use Short URL's for Downloads on File View Page
+- No longer offer Election Pre-reg form
+- Remove FAQ page and Update Support to Point to new FAQ
+- Allow popup from Dataverses other than UVA
+
+0.113.0 (2017-06-05)
+====================
+
+- Normalize user emails in database (add Email model).
+- Remove legacy MODM models and unused mongo-related code.
+- Remove unnecessary gravatar endpoint from APIv1.
+- Use upstream django-typed-models package on PyPI.
+
+0.112.0 (2017-06-01)
+====================
+
+- Render project lists on profile pages client-side for faster load times.
+
+0.111.0 (2017-05-31)
+====================
+
+- Automatically create DOIs for preprints.
+- API: Support sparse fieldsets.
+- Dev: Refactor API OAuth Application tests to use pytest fixtures for better performance.
+
+0.110.0 (2017-05-26)
+====================
+
+- [production] Can't view file revisions/versions if sharejs is down
+- User can enter invalid Copyright year on projects with no license
+- Deactivated users can be added to a node via API
+- Incorrect link to get API token from "other" Dataverses
+- Can't drag files from any Storage Provider to Dataverse
+- Searching for Contributors is Broken
+- Admin tests are not run on Travis (and ~11 fail)
+- Test Optimization: PreprintIsValidListMixin
+- staging1 - Scielo submit preprint form shows two Engineering disciplines
+- Improve CAS/OSF Logout Logic: OSF Part
+- Remove usages of StoredFileNode and FileNode
+- Use custom JSON encoder to implement datetime-aware JSON fields
+- Update branded domains (fixes)
+- Add Location and Date to Meetings pages
+- Hide OSF for Institutions Logos from Dashboard Until 5 Projects Affiliated
+- Update Google+ Link on footer
+- Users should see language explaining the components inherit the license of the parent project upon creation
+- Add UVA to list of available Dataverses
+- Remove demo, apitest dataverses from dropdown list
+- Remove v1 share registration code
+- Create a log when user creates or removes VOL link
+- Add London and Central Canada for S3 bucket locations
+- Update Docs for branded preprint provider domains
+- Change icons on top right of Project Overview page to make them more universal
+- Add preprint_providers and institutions to Admin app with import/export
+- "close" ERPC
+- Update image on Lab@DC OSF4I page
+- Update text on UC OSF4I page
+- Add default license field, serve as first item through provider/licenses endpoint
+- Populate register.mako from database
+- Make preprint and registries landing pages much more basic
+- Update Keen Analytics scripts to be runnable manually in Django
+- API: Create a way to filter a preprints search on subject name/text in addition to  subject_id
+
+0.109.0 (2017-05-10)
+====================
+
+- Support custom taxonomies for preprint providers.
+
+0.108.0 (2017-05-08)
+====================
+- [My Projects] Icon for Uncategorized disappears when project/component is highlighted
+- Comment pane should not appear in anonymous view-only links
+- Moving multiple GitHub files into folder fails
+- Incorrect heading text is displayed in copy or move "taking longer than expected" message
+- Files added to OSF Storage display incorrect time stamps
+- Update Social Links to ImpactStory
+- & in file name causes registration to fail
+- Prereg banner on Dashboard misbehaves on mobile and requires hard refresh to show correct color
+- Retractions should show the date retracted in the metadata
+- Update Default to Collapsed Preview Pane on My Projects Page
+- Add Search by User Name and Search by Email to Admin App
+- Finish user serialization
+- Add Banner to Private Project That Has Preprint
+- Generate Account Confirmation + Password reset Links in Admin App
+- Redirect osf.io/explore (and osf.io/explore/activity) to osf.io/activity
+- Better way to surface registration form
+- Improve wording on move/replace file modal
+- Change Default Language on Wiki without Content
+- Update Language when there are no components on a project
+- Change text prompt if no tags applied
+- Change Project Description Prompt text
+- Change No License Prompt Text
+- Improve Language for Non-Admins on Registrations Tab
+- Add timestamp to APIv2 file versions
+- Make wiki versioning more clear to users
+
+
+0.107.0 (2017-04-28)
+====================
+
+- Upgrade to Django 1.11.
+- Remove BaseFileNode.wrapped() method.
+- Remove guid_string field from models.
+- Preprints: Add LawArxiv.
+- Admin: Add Date Registration Initiated to node view.
+- Admin: Add link between projects and registrations.
+
+0.106.0 (2017-04-21)
+====================
+
+- Registrations with 100+ nodes fail with content_length_mismatch error
+- [Win 10] DropZone patch for Windows folder uploads (IE / Firefox)
+- Submitting to OSF4M using deleted project name does not create new project
+- Fangorn edit undefined
+- API 502s when refreshing github metadata (was: TypeError: Can't compare datetime.datetime to NoneType)
+- API 502s when requesting Github file metadata w/ version=2.2
+- Search unhappy with some users
+- Registries: "Withdrawn" label not appearing on newly-withdrawn registrations
+- Retraction detail pages throw mithril mounting error
+- Preprint Provider detail not 404-ing if not found
+- Sitemap index datemod -> lastmod
+- Cannot change GitHub branches on staging/staging3
+- When project marked spam, update EZID DOI status to Unavailable
+- Populate Fangorn text input on rename
+- Allow UVA dataverse-specific Pop-up in Fangorn upon publishing dataset/verse
+- Linked Registrations on Nodes in API
+- OSF - Convert all Dropbox v1 API code/clients to v2 API before deadline
+- Update dockerfile to support running registries locally
+
+0.105.0 (2017-04-02)
+====================
+
+- Migrate from TokuMX to Postgres and ModularODM to DjangoORM. APIv1 code is monkeypatched to use Django models.
+
+0.104.0 (2016-12-19)
+====================
+- Various APIv2 fixes and improvements to support Preprints.
+
+0.103.0 (2016-12-14)
+====================
+- Update WaterButler Dropbox Provider to use Dropbox v2 API
+- Update figshare for ExternalAccount
+- Update Figshare provider to use v2 API
+- Figshare interface improvements to go with API v2 update.
+- Update analytics display on admin dashboard
+- Add log entry for authorizing figshare through project settings for the first time
+- Keep modal from freezing when Creating a second component
+- Fix attribute error splitting username in None for analytics task
+- Ensure registration doesn't fail if two files in Google Drive have the same name
+- Fix ModularODM KeyError with osfguidstoragefile
+- Add Ohio region for S3 bucket locations
+- Update Google Analytics Linker on osf.io
+
+Migrations
+----------
+python -m scripts.migration.migrate_googledoc_paths
+python -m scripts.migration.migrate_googledoc_paths --no-i-mean-it
+python -m scripts.figshare.migrate_folder_logs
+
+0.102.0 (2016-11-30)
+====================
+- Add support for branded preprint providers
+- API v2 Add license write capability for nodes
+- API v2 Add licenses to preprints
+- Warn users on attempt to delete a node that is attached to a preprint
+- Add branded login for preprint-based logins
+- Add branded emails if registering through a branded preprint service
+- API v2 Remove ability for users to create a preprint with a deleted node
+
+Migrations
+----------
+python -m scripts.migration.migrate_subjects_from_plos_to_bepress --file /code/BePress.json
+python -m scripts.migrate_logs_branded_preprints.py
+python -m scripts.populate_preprint_providers
+
+Post-release: python -m scripts.migration.migrate_meetings_preprints_to_preprintservices --auto 9000
+
+0.101.0 (2016-11-23)
+====================
+- Fix renaming, download button, zip is broken on GitHub non-default branch
+- Prevent 500 error when oving a folder from a OSF in component to OSF storage in parent
+- Ensure IE can view files in a VOL
+- Improve error messaging for attempted moves/deletes of primary file on private preprint project
+- Make comment reply filter work
+- Fix revoked gdrive (external account) authorization
+- Improve UI for creating VOLs with nested components
+- Normalize API v2 timestamps
+- Show affiliated components in Institution Dashboard
+- Fix formatting for User Settings, Configure Addons for OwnCloud, Amazon S3, Dataverse
+- Allow Read + Write contributors adding affiliation for project with components
+- Make Prerender be able to request an appropriate number of times
+- Remove link for more information on S3 create bucket modal
+- Document Preprints endpoints
+- Add second-round nightly keen analytics
+- Create Landing Page for OSFRegistries
+- Remember where user came from during ORCiD account creation/linking
+
+0.100.0 (2016-11-09)
+====================
+- Support for editing preprints
+
+0.99.0 (2016-11-01)
+===================
+- Preprint service and migration
+
+0.98.0 (2016-10-31)
+===================
+- Keep the file editor widget on file view page from sometimes being created twice
+- Make public activity page load much more quickly
+- Update Wiki preview Length
+- Hide OSF for Institutions Logos from Dashboard Until 5 Projects Affiliated
+- On the files widget, handle renaming a file when sort-by-date is selected
+- Don't break addons when adding addons to ADDONS_REQUESTED in local.py
+- Remove reliance on Object.remove to increase IE support
+- Fix broken retraction due to incompatible text entry
+- Capitalize home wiki in wiki commenting logs
+- Ensure files in search could be visited even if they didn't have GUIDs
+- Fix Node relationship on NodeWiki for Registrations
+- Keep signing Up w/ an existing non-registered User from issuing password reset email
+- Allow deleting of replies to comments on files
+- Allow restoring deleted replies to a comment
+- Prevent renaming of files with ']' from causing problems
+- Allow IE to update project category from the settings page
+- Allow admin app to pull statistics for users from workshops and webinars
+- Allow admin app to link users to desk.com tickets
+- Allow IE to update project title and description from settings page
+- Fix shortened iframe for PDF files in MFR
+
+0.97.0 (2016-10-20)
+===================
+- API v2 Versioning
+- API v2 Redirect swagger docs to Browseable API
+- Fix wiki formatting for legacy wiki pages
+- Ensure bad file moves don't delete files
+- API v2 Make private nodes private in inter-node file moves
+- Don't create user twice in claim edge case
+- Retain formatting in preregistration
+- Render wiki on project summary widget properly in all cases
+- Fixes for throttling
+- Allow search to find words separated by things that aren't spaces
+- API v2.1 Make pagination meta match JSON API Spec
+- Move institution login to CAS
+- API v2 Create file GUIDs
+- Standardize terminology: registration form
+- Clarify that prereg comments are not registered
+- Decouple identifiers from registrations
+- API Expose latest file version
+- Update Fangorn to use WB V1 API
+- Add My Preprints to My Projects
+- Update "this project" box at the top of registration overview page
+- Add change folder toggle button
+- Improvements to invoke tasks for dockerization
+- Support test-level database isolation
+
+Migrations
+-----------
+
+- python -m scripts.encrypt_external_accounts_unicode
+
+0.96.0 (2016-10-12)
+===================
+- Add ownCloud addon
+- Encrypt addon credentials
+
+Migrations
+-----------
+
+- python -m scripts.encrypt_external_accounts
+
+0.95.0 (2016-10-05)
+===================
+- Replace GPL-only django-queryset-csv library (the last of the GPL)
+- Allow domain with umlaut to be added to OSF social profile
+- API v2 search
+- Fix bottom margin of Dashboard quick project search
+- Normalize OSF verification key
+- Add prereg banner to OSF dashboard
+- Pin MODM dependency
+- Surface analytics initialization script
+- Add error messaging on project page, files page, and prereg form "cannot upload folders"
+- Change preprint logs to say 'made' instead of 'initiated'
+- Fix raven-js calls on the OSF
+- Capitalize wiki's Home page on many of the logs
+- Remove legacy SHARE code
+
+0.94.4 (2016-10-05)
+===================
+- Allow components of projects with unconfirmed contributors to inherit contributors properly
+
+0.94.0 (2016-09-22)
+===================
+- Remove GPLv3-only python-crontab library
+- API Put index on on contributor detail
+- Make analytics for OSF4I differentiate properly between nodes and projects
+- Fix My Projects registrations that aren't yours have blank contributor names and throw 404 error when expanded
+- Fix filtering by Name and Modified Date on Files page
+- Improve look of Institution logos on project pages
+- API Add citations for projects
+- Add unit tests for ORCiD login
+- Auto-link bare URLs in node descriptions
+- Alert when you cannot delete a project when they click the delete button
+- Add social icons to user profile
+- Change download count to not include contributors' downloads
+
+0.93.0 (2016-09-14)
+===================
+
+- Update/replace GPLv3-licensed pyzotero
+- Remove spurious \.png with problematic file name
+- Allow ability to add DOIs/ARKs to Public Projects
+- Add API rate limiting mechanism that works for all authorizations
+- Reference institutions with institution viewer text for empty collections
+- Put rabbitmq into the setup task
+- Replace "newest Public Projects" with "Noteworthy Public Projects
+- Tell Read-only contributors why they can't affiliate a project with their institution
+- Add date_modified lt/gt/lte/gte filter to registrations
+- Refactor the registration modal
+- Fix Varnish tests
+
+Migrations
+----------
+
+- python -m scripts.migration.migrate_retraction_dates
+
+0.92.0 (2016-09-06)
+===================
+
+- Ensure Mendeley 500 does not prevent file tree from loading
+- API Remove unused routes for registrations
+- Allow access to meetings in Admin App when unconfirmed users are contributors to meeting
+- Allow homepage link text to be not-required in Admin app
+- API Allow filtering on providers by type
+- Create analytics script for institutions data
+- API Make VOLs append view_only query parameter to generated links
+- Raise minimum password length to 8 characters
+- Add SSRN ID to social links
+- Warn users they cannot search by email address
+- Improve look of Institution Logos on dashboard
+- Display component descriptions in search results
+- Make log urls relative
+- Update At.js dependency
+- Refactor search tests
+
+0.91.0 (2016-08-28)
+===================
+
+- API Endpoints for Preprints (also includs providers and taxonomies)
+- API Download Counts for OSF Storage Files
+
+Migrations
+----------
+
+- python -m scripts.update_taxonomies
+- python -m scripts.populate_preprint_providers
+
+0.90.0 (2016-08-26)
+===================
+
+- Add login with ORCID.
+
+0.89.0 (2016-08-25)
+===================
+
+- API Fail gracefully on unexpected filter modifier
+- API Make adding unregistered contributors work properly
+- API Show in-common users with correct query parameter
+- API Return contributor index when creating contributor
+- Admin easy removal of spam users and projects
+
+0.88.2 (2016-08-25)
+===================
+
+- Remove Keen migration banner
+
+0.88.1 (2016-08-25)
+===================
+
+- Make Github addon logging more tolerant to problems
+
+0.88.0 (2016-08-22)
+===================
+
+- Dropzone now correctly identifying and rejecting folders
+- Admin for Prereg should no longer accept two clicks for one registration
+- Add ability for cookie auth API contributors to create users
+- Allow read+write Contributors to affiliate projects with institutions
+- API endpoints for managing External Links
+- API endpoints for managing View Only Links
+- API methods for re-ordering contributors
+- API multi-field filtering
+- API contributors serializer has relationship to node
+
+0.87.8 (2016-08-17)
+===================
+
+- Fix case-sensitive url on preprints page
+
+0.87.7 (2016-08-17)
+===================
+
+- Add PsyArχiv to the preprints page
+
+0.87.6 (2016-08-17)
+===================
+
+- Fix paginated() to fix migrations (esp migrate_search())
+
+0.87.5 (2016-08-16)
+===================
+
+- Modify wording on ERPC langing page
+
+0.87.4 (2016-08-15)
+===================
+
+- Fix generation of prereg file guids
+
+0.87.3 (2106-08-15)
+===================
+
+- Pin Dropzone to a commit
+
+0.87.2 (2106-08-14)
+===================
+
+- Fix buttons not showing on file detail page in some circumstances
+
+0.87.1 (2016-08-11)
+===================
+
+- Add ERPC registration schema and landing page.
+
+0.87.0 (2016-08-11)
+===================
+
+- Keep anonymous View Only Links from showing name in prereg schemas.
+- APIv2: Make comments link properly to/from registrations as well as nodes.
+- Fix randomly-failing Karma test.
+- Keep private-projects analytics page from giving Forbidden Error.
+- Make tooltips work on Personal Access Token page.
+- APIv2: Make a version of Bulk DELETE that does not rely on JSON body.
+- Make icons more consistent across the site.
+- Update treebeard version so we can finally select across more than one page.
+- Remove inappropriate buttons from file version detail view.
+- Don't show a profile page for unconfirmed users.
+- Modify language for some dialog boxes.
+- Add spell checking to wiki.
+- APIv2: link to templated_from node.
+- Display all of the password warning on mobile devices and small windows.
+- Border changes on file widget.
+- Side navbar looks better when scrolling.
+- Show draft registrations in reverse chronological order.
+
+0.86.0 (2016-08-04)
+===================
+
+- APIv2: Add bulk support for contributor endpoints.
+- APIv2: Add endpoint to create unregistered users.
+- Dev: Remove dependencies on personal GitHub forks.
+- Social media sharing bar on project overview and file detail pages.
+- Add version toggle link on file detail pages.
+- Various UI fixes.
+
+0.85.0 (2016-08-01)
+===================
+
+- APIv2: Add S3 addon management.
+
+0.84.0 (2016-07-28)
+===================
+
+- Migrate Piwik to Keen.
+
+0.83.0 (2016-07-25)
+===================
+
+- Add @mentions to comments.
+- Add password strength verification to password inputs.
+
+Migrations
+----------
+
+- python -m scripts.add_global_subscriptions
+
+0.82.0 (2016-07-19)
+===================
+
+- APIv2: Add "current_user_can_comment" field to nodes, registrations, wikis, and files.
+- APIv2: Add "node" relationship to file representations.
+- APIv2: Fix filtering fields whose name does not match source field name.
+- APIv2: Add support for folder listing for Box and Dropbox.
+- Add contextual information to search results in "Add links" modal.
+- Fix bug that generated extra addon deauthorization logs.
+- Fix page numbering on log feeds.
+- Add rate limit for resending confirmation emails.
+- Fix for search UI.
+
+Migrations
+----------
+
+- python -m scripts.box.migrate_folder_language
+
+0.81.0 (2016-07-07)
+===================
+
+- APIv2: By default, GUID endpoint returns the data for the GUID's referent instead of redirecting to the referent's URL. Use the `?resolve=true` parameter to redirect.
+- APIv2: IDs for contributors are of the form <nodeid>-<userid>.
+- APIv2: All keys returned in "user" endpoint response objects are snake_case.
+- On "My projects" page, show permissions information when a project is selected.
+- Use HTTPS URLS on DOI links.
+- Set HttpOnly flag on cookies.
+- Replace jquery.cookie (deprecated) with js-cookie.
+- Improved error messaging for Dropbox addon.
+- More help text for Collections and Bookmarks.
+- Upgrade to invoke 0.13.0.
+
+0.80.0 (2016-06-30)
+===================
+
+- Make log feed UI and language consistent across pages.
+- Make "Add component" UI and language consistent across pages.
+
+0.79.0 (2016-06-28)
+===================
+
+- APIv2: Add endpoints for managing addons.
+
+0.78.0 (2016-06-27)
+===================
+
+- Use CAS for all authentication for OSF.
+- On regisration's file pages, show links to original source file.
+- Creating a wiki page whose name is the same as a previously deleted wiki page will no longer restore the wiki page's versions.
+- Add more contextual information about component hierarchy to the My Projects widget.
+- Add Date Modified column to file browsers.
+- Automatically turn URLs in comments into clickable links.
+- Add new AsPredicted registration schema.
+- UI fixes.
+
+0.77.0 (2016-06-20)
+===================
+
+- Add "global" user notification settings.
+- Remove auto-forwarding behavior from External Link addon.
+- APIv2: Endpoints for creating registrations and draft registrations.
+- APIv2: Embedded resources return relationship links.
+- Many UI fixes and improvements.
+
+0.76.0 (2016-06-08)
+===================
+
+- Improve auth flow when adding a secondary email.
+- Admin: Bug fixes and improvements to prereg module.
+- Many UI fixes and security improvements.
+- APIv2: Add file tags to file endpoint responses.
+- APIv2: Read-only routes for wikis.
+- APIv2: Add license information to node endpoints.
+
+0.75.0 (2016-06-02)
+===================
+
+- Add support for affiliating users and projects with multiple institutions.
+- Use multiple celery queues and queue prioritization.
+
+Migrations
+----------
+
+- python -m scripts.migration.migrate_primary_institutions
+
+0.74.0 (2016-05-25)
+===================
+
+- Numerous fixes for displaying logs consistently.
+
+Migrations
+----------
+
+- python -m scripts.migrate_regressed_registration_logs
+
+0.73.0 (2016-05-19)
+===================
+
+- Allow category to be set from project dashboard page.
+- Improve algorithm for computing "New and Noteworthy" nodes.
+- Improve error messaging for file rendering.
+- Improve UI for personal access tokens page.
+- Responsiveness fixes for file grid.
+- Many UI fixes.
+- APIv2: Add forks endpoints.
+- APIv2: Fix sorting for /users/<user_id>/nodes/
+- APIv2: Add institutions to FULL_READ scope.
+
+0.72.0 (2016-05-17)
+===================
+
+- Make all pages escape user values on the frontend.
+- Remove usage of knockout-punches and remove strip_ko Mako filter.
+
+0.71.0 (2016-05-11)
+===================
+
+- Admin: create new user form.
+- Admin: refactor registration.
+- Admin: refactor and bugfixes for prereg module.
+- Admin: refactor and bugfixes for spam module.
+
+0.70.0 (2016-05-09)
+===================
+
+- Allow multiple files to be attached to pre-registrations.
+- Add "Pre-Registration in Social Psychology (van 't Veer & Giner-Sorolla, 2016)".
+
+Migrations
+----------
+
+- python -m scripts.migration.migrate_registration_extra_drafts
+- python -m scripts.migration.migrate_registration_extra
+
+0.69.0 (2016-05-03)
+===================
+
+- Add links to new Guides page at http://help.osf.io.
+
+0.68.0 (2016-04-28)
+===================
+
+- Wiki commenting.
+- End embargoes early.
+- UI fixes.
+
+Migrations
+----------
+
+See https://openscience.atlassian.net/browse/OSF-6081
+
+0.67.0 (2016-04-21)
+===================
+
+- Change "Retraction" to "Withdrawal".
+- Multiple GitHub accounts can be associated with a user account.
+- Multiple S3 accounts can be associated with a user account.
+- Dev: Remove various unnecessary backrefs, including nodelog -> node backref.
+- Dev: Lots of addons refactoring.
+- Dev: Use celerybeat for periodic task execution.
+- Bug fixes.
+
+Migrations
+----------
+
+See https://openscience.atlassian.net/browse/OSF-5986
+
+0.66.0 (2016-03-16)
+===================
+
+- Redesign of Dashboard and addition of "My Projects" page.
+- OSF4Institutions landing pages.
+- Commenting on addon files.
+- Admin: Marking comments as spam; disabling users; view registrations.
+- Various UI improvements.
+
+Migrations
+----------
+
+See https://openscience.atlassian.net/browse/OSF-5861
+
+0.65.0 (2016-03-02)
+===================
+
+- Add UI for adding contributors from parent projects to subprojects.
+- Add UI for removing a contributor from multiple subprojects.
+- Add Baidu Scholar links to user profiles.
+- APIv2: Allow client to request specific relationship counts, e.g. `?related_counts=children`.
+- Backend for OSF4Institutions: nodes and users can be affiliated with an institution (alpha; disabled on production).
+- Add visitor tracking with Keen.io.
+- Refactor Google Drive addon to use generic views.
+- Use Sendgrid API for sending emails; add categorization of emails.
+- UI fixes.
+
+0.64.0 (2016-02-10)
+===================
+
+- By default, any OSF user can comment on public projects.
+- Add UI to make multiple projects in a hierarchy public or private.
+- APIv2: Filtering on text fields is case-insensitive.
+- APIv2: Fix bug in using `page[size]` with embedding.
+- UI fixes.
+
+0.63.0 (2016-02-02)
+===================
+
+- Added date_modified field to Node (no longer a property).
+- Add ResearchGate links to user profiles.
+- Add Academia.edu links to user profiles.
+- Components may be categorized as "Software".
+- Reorganize wiki configuration on project settings page.
+- APIv2: Support filtering nodes by `root` and `parent.`
+- APIv2: Nodes are sorted by date modified by default.
+- APIv2: Add materialized_path, date_created, date_modified, and extras.hashes fields to file responses.
+- APIv2: Support 'ne' as a comparison operator.
+- APIv2: When doing bulk updates, objects for which the client doesn't have access can be skipped using `?skip_uneditable=true` (experimental).
+- Dev: Remove node__contributed and node__created backrefs to improve performance and prevent locking errors.
+- UI fixes.
+
+Migrations
+----------
+
+- python -m scripts.migration.migrate_date_modified_for_existing_nodes
+- python -m scripts.migration.migrate_root_and_parent_on_node
+
+0.62.0 (2016-01-25)
+===================
+
+- File commenting.
+
+Migrations
+----------
+
+- python -m scripts.update_comments
+
+0.61.0 (2016-01-06)
+===================
+
+- APIv2: Support filtering against multiple ids, e.g. ?filter[id]=abc12,def34
+- APIv2: Support authentication with view-only link keys.
+- Wiki: Disable snippet autocomplete by default.
+- Merge Admin app into codebase.
+- Many UI fixes.
+
+0.60.0 (2015-12-17)
+===================
+
+- UI updates to Contributors page. Adds filtering and responsiveness.
+- UI updates to Employment and Education profile sections
+- Multiple Dropbox accounts can be associated with a user account.
+- Prereg beta: Many bug fixes and UI improvements, including author import.
+- APIv2: Bulk extension support for collections endpoints.
+- APIv2: Require target_id and type to be passed when creating comments.
+- APIv2: Allow filtering on relationships, e.g. filtering by a comment's target with ?filter[target]=<target_id>
+
+Migrations
+----------
+
+- python -m scripts.dropbox.migrate_to_external_accounts
+- python -m scripts.prereg.migrate_metadata_for_uploaders
+
+0.59.0 (2015-12-02)
+===================
+
+- Add Prereg Challenge workflow.
+- APIv2: Omit relationship objects for null and missing relationships.
+- APIv2: Support embedded resources.
+- Add button to reset client secret for developer applications.
+
+0.58.0 (2015-11-18)
+===================
+
+- Add draft registrations.
+
+0.57.0 (2015-11-17)
+===================
+
+- APIv2: Replace JSONAPIHyperlinkRelated field with RelationshipField.
+- APIv2: Add collections endpoints (staging/dev environments only).
+- APIv2: Fix ordering and pagination of OSF Storage files.
+- Add personal access tokens for APIv2.
+- APIv2: Access MD5 and SHA256 hashes for OSF Storage files.
+
+0.56.0 (2015-11-13)
+===================
+
+- APIv2: Add commenting endpoints.
+- APIv2: Add support for bulk operations using JSON API's Bulk Extension (experimental).
+- APIv2: Fix date_modified field for all fields.
+- UI fixes.
+
+0.55.0 (2015-11-04)
+===================
+
+- File Check-out/Check-in.
+- Add tags to files.
+- Search files by name and tags.
+- Add licenses to projects.
+- Multiple Google Drive accounts can be associated with a user account.
+- Redesign of OSF Meetings landing page.
+- APIv2: Comparison operators for filtering.
+
+Migrations
+----------
+
+* scripts.migration.migrate_index_for_existing_files
+* scripts.googledrive.migrate_to_external_account
+* scripts.googledrive.connect_external_accounts
+
+0.54.0 (2015-10-25)
+===================
+
+- Add engagement emails.
+- Multiple Box.com accounts can be associated with a user account.
+- Dev: Improve speed of Travis builds.
+- APIv2: JSON API compliance fixes.
+
+Migrations
+----------
+
+* scripts.migrate_date_last_login_for_current_users
+* scripts.migrate_mailing_lists_to_mailchimp_field
+* scripts.box.migrate_to_external_account
+* scripts.box.connect_external_account
+
+0.53.4 (2015-10-20)
+===================
+
+- Enable UI for creating developer applications.
+
+0.53.0 (2015-10-08)
+===================
+
+- Use JWTs for authenticating with Waterbutler and MFR.
+
+0.52.0 (2015-10-07)
+===================
+
+- Add Share button on file detail pages with UI for embedding rendered files.
+- User profiles can have multiple personal websites.
+- Update Add contributor UI to show current contributors in search.
+- APIv2: Lots of documentation updates.
+- APIv2: Fix bug that caused a 500 when updating a user's name.
+- APIv2: Fix bug that caused an invalid log when updating a Node's title or description.
+- Dev: Remove dead file GUID code left over from 0.50.0.
+
+0.51.0 (2015-09-24)
+===================
+
+- Alpha release of API v2.
+
+0.50.0 (2015-09-17)
+===================
+
+- Migration of all addon file collecitons to a single GuidFile collection.
+
+0.49.0 (2015-09-11)
+===================
+
+- Add email subscriptions to file events, configurable from project settings.
+- File rendering: Add support for multi-sheet XLSX files.
+- File rendering: Add filtering support for tabular formats.
+- APIv2: Responses are compliant with the JSON API 1.0 spec.
+- APIv2: Unauthenticated responses correctly return a 401 rather than 403 response.
+- APIv2: Add endpoints and UI for creating Developer Applications (hidden until APIv2 is released).
+- Log file rename events.
+
+0.48.0 (2015-08-31)
+===================
+
+- Add project settings that allows a project's wiki to be editable by any OSF user.
+- MD5 and SHA1 hashes appear in a file's Revisions table.
+- Update UI for OSF Meetings page.
+- Various UI improvements.
+
+0.47.0 (2015-08-15)
+===================
+
+- Project registrations require approval from admin contributors.
+- Add tokens module for implementing JWT token-based actions. Currently allows
+generating URLs for registration approval/disapproval, embargo
+approval/disapproval, and retraction approval/disapproval.
+- Change sign-up flow: users are taken to Dashboard after confirming their
+email address.
+- APIv2: Fix serialization of Node tags. Remove Node system tags from
+response.
+- APIv2: Fix node and user endpoints so that they don't return deleted
+nodes/users.
+- APIv2: Implement POST and PATCH for the User resource.
+
+0.46.0 (2015-08-17)
+===================
+
+- Send email notification when user is added to a project.
+- Condense large contributor lists on the Project Overview page; make them expand/collapse-able.
+- SHARE: Major refactor: Query formatting and aggregations done client-side;
+add initial code for displaying raw and normalized documents.
+- SHARE: Search uses latest version of SHARE Schema.
+- APIv2: Add functionality for creating components.
+- APIv2: Fix bugs with the /me/ shorthand in URLs.
+- Add dates to registrations in search results.
+- Many UI consistency fixes.
+
+0.45.0 (2015-08-10)
+===================
+
+- S3: Uploads to S3 are encrypted.
+- S3: When creating a bucket, allow selecting bucket location.
+- UI fixes.
+
+0.44.0 (2015-07-29)
+===================
+
+- Add "View on" links to files stored in figshare, GitHub, and Google Drive.
+- API: Allow "me" to be used as a shortcut in URLs for the current authenticated user, e.g. "/users/me", "users/me/nodes/".
+- API: Bug fixes.
+- UI and language fixes.
+
+0.43.0 (2015-07-22)
+===================
+
+- Improved add-on user settings UI.
+- Improved wiki menu/table of contents (based on Treebeard).
+- More style changes for consistency with OSF Style Guidelines.
+- Many UI bug fixes.
+- Dev: Allow markup-safe rendering of mako files by passing ``trust=False`` parameter to OsfWebRenderer.
+
+0.42.6 (2015-07-14)
+===================
+
+- Enable parallel uploads for OSF Storage, figshare, Box.com, Dropbox, S3, and Google Drive.
+- Improve performance when uploading large files.
+
+0.42.0 (2015-07-13)
+===================
+
+- File renderer: Support for rendering .ppt, .pptx, .xlt, .svg, and many more formats.
+- Dataverse: Can select between different Dataverse repositories.
+- Site-wide style changes which implement the new OSF Style Guidelines (https://github.com/CenterForOpenScience/osf-style)
+- Improve look and feel of FAQ page.
+- Can upload files to a new project from the Dashboard.
+- Dev: Remove legacy API key-related code.
+- Dev: Fix spurious session creation.
+- Many UI bug fixes.
+
+0.41.0 (2015-06-24)
+===================
+
+- Updated landing page and navbar UI.
+- API: DELETE Node endpoint.
+- API: Add support for Sentry.
+- Dev: Add jshint to Travis builds.
+- Many UI bug fixes.
+
+0.40.0 (2015-06-22)
+===================
+
+- Registrations must be retracted rather than made private.
+- Registrations may be embargoed for up to four years. During this period, a
+registration remains private.
+- Addon files get archived when they are registered.
+
+0.39.0 (2015-06-15)
+===================
+
+- Many bug fixes and UI improvements. See
+https://github.com/CenterForOpenScience/osf.io/issues?page=1&q=milestone%3A0.39.0+is%3Aclosed
+for a list of closed PRs.
+
+0.38.0 (2015-06-07)
+===================
+
+- API v2 pre-release
+- Modular File Renderer as a service
+- File editing user interface improvements
+- Collaborative file editing for text files
+
+0.37.0 (2015-05-25)
+===================
+
+- Move & Copy files/folders between storage providers and nested folders
+- Rename files and folders
+- Download folders as Zip
+- OSF Storage deleted files/folders are moved to a "trash bin" collection
+- Central Authentication Service (CAS & Federated Authentication)
+- Enhanced logging with direct links to files/folder objects
+
+0.36.0 (2015-05-15)
+===================
+
+- Updated UI for project organizer and file browser: multi-select, action
+toolbar, batch delete.
+- Can merge user accounts by adding a confirmed user's email address as a
+secondary email.
+
+0.35.0 (2015-05-06)
+===================
+
+- All projects, regardless of their category (Hypothesis, Methods and
+  Measures, etc.), can have subprojects within them.
+- Add buttons on Account Settings page to request exporting account data and
+deactivating account.
+
+0.34.0 (2015-04-28)
+===================
+
+- Add ability to create folders to storage addons.
+
+Migrations
+----------
+
+- scripts/osfstorage/migrate_from_oldels.py
+- scripts/osfstorage/finish_oldel_migration.py
+
+0.33.10 (2015-04-27)
+====================
+
+- Add migrations necessary to support OSF Storage folders.
+- Fixes to DISK_SAVING_MODE.
+
+0.33.0 (2015-04-20)
+===================
+
+- Update Dataverse addon for compatibility with Dataverse 4.0.
+
+0.32.0 (2015-04-18)
+===================
+
+- Add file tree to file detail pages.
+
+0.31.0 (2015-04-12)
+===================
+
+- Updates to SHARE search API, UI, and documentation page.
+- Add SHARE provider registration page.
+- Users can associate multiple emails to their account.
+- DOIs and ARKs can be created for public registrations.
+- Updated login UI.
+- Fix consistency of addon logs display.
+- Dev: Refactor folderpicker for consistency of addon settings UI.
+- Dev: Update markdown-it to version 4.1 along with plugins
+markdown-it-sanitizer, markdown-it-toc, and markdown-toc-video.
+
+0.30.0 (2015-03-27)
+===================
+
+- Wiki: Single-column view: uses page scrolling rather than container
+scrolling when only one column is enabled.
+- SHARE: Updated UI: added filtering by provider.
+- Remove combined login/register/forgot-password page. Sign-in can be done in the navbar.
+Registration can be done on the landing page.
+- Dev: Add unique compound indices for addon file GUID collections.
+- Dev: Improved speed of Travis CI builds.
+- Dev: Cleanup of dead frontend code.
+- Dev: Automated auditing of Glacier backups and parity files.
+
+0.29.0 (2015-03-19)
+===================
+
+- Improved sign-in: add sign-in form to navbar; remove two-factor input from sign-in form.
+- Upgrade to newest modular-file-renderer with improved PDF rendering.
+- Fix rendering of PDFs and PDB files in Safari and IE.
+- Updated Getting Started page.
+- SHARE: Add endpoint for paginated ATOM feed.
+- SHARE: Remove hardcoded provider code and information.
+- Dev: Search migrations no longer result in search downtime.
+- Dev: Lots of dead code removed from addons.
+- Dev: Updates to front-end dependencies. Manage more dependencies with npm rather than bower.
+- Dev: Add JS testing stack.
+- Dev: Upgrade to Font Awesome 4.
+- Lots of minor UI fixes.
+
+0.28.0 (2015-02-28)
+===================
+
+- Add email notifications. Can subscribe to new comments made on projects and
+components. Emails can be sent in "transactional" or "digest" mode.
+
+0.27.0 (2015-02-27)
+===================
+
+- Add Mendeley addon.
+- Add Zotero addon.
+- Add Google Drive addon.
+- Add Box.com addon.
+- New wiki layout with toggle-able columns.
+- New client-side markdown renderer, with support for table of contents
+(@[toc](Table of Contents)) and embedded YouTube and Vimeo videos
+(@[youtube](<video_id>) or @[vimeo](<video_id>)). NOTE: Wiki versions created before this
+release date will still use the older renderer. Update your wikis to use the new
+renderer.
+
+0.26.0 (2015-02-20)
+===================
+
+- Change to permissions model: Admins on a project are able to view and
+register private subprojects and components.
+
+0.25.0 (2015-02-15)
+===================
+
+- Wiki: Real-time collaborative editing powered by ShareJS.
+- Wiki: Markdown snippets support.
+- Wiki: Add MathJax support.
+- Files: File versions are retrieved from Waterbutler.
+- Files: Extensive refactor to unify file detail pages.
+- CiteProc-compliant citation widget. Add an extra input to select from
+hundreds of citation styles.
+- Developers: CSS is now loaded within JS modules using webpack. Webassets is
+removed.
+- Various UI fixes.
+
+0.24.0 (2015-01-29)
+===================
+
+- Significant UI changes sitewide, esp. with navbar, project navigation, project overview widgets, project
+organizer.
+- New filebrowser. Replace HGrid with treebeard. Affects project organizer,
+  files viewer, and conference poster view.
+- Use the waterbutler service for handling all storage addon CRUD.
+
+0.23.0 (2015-01-16)
+===================
+
+- Developers: Use webpack for asset bundling and minification. All JS modules
+follow the CommonJS module style. Replaces script.js and webassets.
+- Enable the Notifications widget on the user settings page.
+- Add "Edit your profile" button on user profile pages. Remove "in-place"
+profile editing.
+- Email confirmation tokens expire after 24 hours.
+- Lots of refactoring to the conference email submission service.
+- Various minor UI fixes.
+- Developers: Update stale requirements: celery, bleach, furl,
+elasticsearch.py.
+
+0.22.0 (2014-12-17)
+===================
+
+- Add API for subscribing/unsubscribing users to Mailchimp mailing lists. Add
+sync_email.py script to add all registered, confirmed users to the OSF General
+Mailing list.
+- Add "Add to Dashboard" button in project header to add a project to the
+dashboard organizer.
+- Add "Account Settings" page with form to change password.
+- Growl-style notifications and messages.
+- Developers: Switch elasticsearch client to elasticsearch-py.
+- Developers: Remove ``get_current_user`` function. Use the auth decorators
+(e.g. ``must_be_logged_in`` instead).
+
+0.21.17 (2014-12-02)
+====================
+
+Hotfix release
+
+- Add an endpoint for receiving the webhook payload from the OSF upload
+service when files are backed up to a Amazon Glacier archive.
+- Fix a bug in accessing nested files in S3 addon.
+
+0.21.13 (2014-11-24)
+====================
+
+Hotfix release
+
+- Display warning about private Github repos on a public project on files and
+statistics pages.
+- Refactor celery task for rendering files so that file contents are not
+passed to message broker.
+- Use celery to asynchronously provision Piwik sites.
+
+0.21.0 (2014-11-19)
+===================
+
+- OSF storage addon now uses the new OSF Upload Service backed by Rackspace
+Cloudfiles.
+- UI and backend improvements to search.
+- UI fixes to addons' file detail pages.
+- Enable drag-and-drop uploads from Project Overview page.
+
+0.20.0 (2014-10-31)
+===================
+
+Lots of new UI features and responsiveness improvements.
+
+- "Onboarder" interface: Go to a project, create a project, register a project, and upload files from the dashboard.
+- Responsive index page, header, footer, project navbars, login page, public activity, and user activity meters.
+- Various minor UI fixes to user settings page and view file pages.
+
+0.19.0 (2014-10-22)
+===================
+
+- Wiki names have mixed-case page names.
+- Allow mixed casing in wiki page names.
+- Wiki rename events are logged.
+- Improved load time of Getting Started page, as well as some minor UI fixes.
+- Improvements and bugfixes to user settings pages.
+- Various UI fixes to the wiki.
+- Fix importing Dataverse authentication to a project.
+- Fix project "Link" counts and lists.
+- Modal dialogs are more visually consistent.
+- Language fixes on FAQ page.
+
+0.18.0 (2014-10-14)
+===================
+
+- Paginate search results in Add Contributor widget.
+- Speed improvements to contributor manager widget.
+- Add "ongoing" option to Education and Employment sections of user profile.
+- Improved mimetype detection when downloading a file through the Github
+addon.
+- Unread comment counts appear in comment tab.
+- Lots of bug fixes and minor UI improvements to the wiki.
+- Wiki page names can have punctuation and special characters.
+- Lots of UI fixes to the profile configuration pages.
+- Larger project title and description inputs.
+- Confirmation codes for project deletion are more fun =)
+- Allow multiple users to authenticate with the same Github credentials for
+the Github addon.
+- Includes all fixes from the "Sprint: Initial" milestone: https://github.com/CenterForOpenScience/openscienceframework.org/issues?q=milestone%3A%22Sprint+%3A+Initial%22+
+- Update required versions of requests, webassets, and bleach.
+
+Migrations
+----------
+
+- scripts/migrate_piwik_derived_nodes.py
+- scripts/migration/migrate_profile_dates.py
+- scripts/migrate_github_oauth_settings.py
+
+Schema changes
+--------------
+
+- Remove fork_list and registration_list fields from Node model. NOTE: A
+migration was NOT performed to remove these fields.
+- Add AddonGithubOauthSettings model.
+- Remove oauth_access_token and oauth_token_type fields from
+AddonGitHubUserSettings model.
+
+0.17.0 (2014-09-23)
+===================
+
+- New project organizer on user dashboard.
+- Improvements to wiki interface.
+- Allow wiki pages to be deleted.
+- Developers: Switch to the TokuMX MongoDB distribution for handling database
+transactions.
+- Developers: Add a number of missing JS error handlers.
+- Developers: ``$.osf.postJSON`` and ``$.osf.putJSON`` no longer take
+callbacks as arguments. They return jQuery XHR objects, so use the Promise
+interface instead.
+
+0.16.1 (2014-09-12)
+===================
+
+- Developers: Add JS error handling where it was missing.
+- Developers: Add code for TokuMX transactions, but disable it for now.
+
+0.16.0 (2014-09-04)
+===================
+
+- Add two-factor authentication.
+- Developers: Remove all imports from ``framework/__init__.py``. This solves
+and prevents a number of circular import problems throughout the codebase.
+
+
+0.15.1 (2014-08-28)
+===================
+
+- Bugfix release. Fixes a number of minor UI bugs.
+- Fix anonymization in HTTP API.
+
+0.15.0 (2014-08-11)
+===================
+
+- View-only links: Add option to anonymize contributors.
+- Wiki: Add support for fenced code blocks; syntax highlighting; allow ID attributes in tags.
+- Improvements to "Add contributors" UI: Identicons; show projects in common.
+- Non-contributors don't see tags input if there are no tags on a project.
+- Add prompt if there are unsaved wiki changes.
+- Wiki logs link to wiki pages.
+- Add confirmation dialog when deselecting addons from the user profile page.
+- Registered users no longer have "key ring" of view-only link keys. View-only
+links will appear the same, regardless of whether you are logged in or not.
+- Project deletion events are logged.
+- Developers: All deprecated Solr code removed.
+- Developers: Bower components are no longer added to the git tree. Use `bower
+install` to installthem.
+- Developers: Various improvements to logging.
+- Developers: ``URLLookup`` class is deprecated. Use ``api_url_for`` and
+``web_url_for`` in your tests.
+- Developers: Test cases that subclass ``OsfTestCase`` *must* call ``super()``
+in the ``setUp`` and ``tearDown`` methods.
+- Developers: Update stale requirements.
+- Various bugfixes and minor UI improvements.
+
+# vi: ft=markdown

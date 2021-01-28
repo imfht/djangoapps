@@ -1,0 +1,20 @@
+{% load spirit_tags i18n %}
+
+<div class="layout__topics">
+  {% for t in topics %}
+    <div class="layout__topics__topic js-clickable-area">
+      <div class="topic__title">
+        <a
+          class="topic__link js-clickable-area-target"
+          href="{% url 'spirit:topic:detail' pk=t.pk slug=t.fields.slug %}"
+        >{{ t.fields.title }}</a>
+      </div>
+      <div class="topic__category"
+      >{{ t.fields.main_category_name }}</div>
+      <div class="topic__comments"
+      ><i class="fa fa-comment"></i> {{ t.fields.comment_count }}</div>
+      <div class="topic__date" title="{{ t.fields.last_active }}"
+      ><i class="fa fa-clock-o"></i> {{ t.fields.last_active|shortnaturaltime }}</div>
+    </div>
+  {% endfor %}
+</div>

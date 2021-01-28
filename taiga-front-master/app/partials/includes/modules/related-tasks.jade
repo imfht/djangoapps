@@ -1,0 +1,16 @@
+section.related-tasks(
+    tg-related-tasks
+    ng-show="showRelatedTasks()"
+)
+    .related-tasks-header
+        span.related-tasks-title(translate="COMMON.SUBTASKS")
+        div(tg-related-task-create-button)
+    .related-tasks-body(tg-tasks-sortable="reorderTask(task, newIndex)")
+        .row.single-related-task.js-related-task(
+            ng-repeat="task in tasks"
+            ng-class="{closed: task.is_closed, blocked: task.is_blocked, iocaine: task.is_iocaine}"
+            tg-related-task-row
+            tg-bind-scope
+            ng-model="task"
+        )
+        div(tg-related-task-create-form)

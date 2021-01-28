@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <link href="{% static 'bootstrap-fileinput/css/fileinput.min.css' %}" media="all" rel="stylesheet" type="text/css"/>
+
+    <style>
+        /* dataTables列内容居中 */
+        #role > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #role > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+
+        .form-horizontal .form-group {
+            margin: 0;
+        }
+
+        .form-horizontal .control-label {
+            text-align: unset;
+            margin-bottom: 5px;
+        }
+
+        .form-horizontal .col-sm-6 {
+            width: 100%;
+        }
+
+        #content {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-7 pull-left" style="margin-bottom: 3px; margin-top: 3px">
+            <button class="btn btn-sm btn-success pull-left" data-toggle="modal" style="margin-left: 2px"
+                    data-target="#RoleAddModal">
+                <i class="fa fa-edit"></i>
+                <span class="bigger-110">在线添加role</span>
+            </button>
+            <button class="btn btn-sm btn-success pull-left" data-toggle="modal" style="margin-left: 2px"
+                    data-target="#RoleUploadModal">
+                <i class="fa fa-upload"></i>
+                <span class="bigger-110">上传role</span>
+            </button>
+        </div>
+        <div class="col-xs-12">
+            <!-- /.box -->
+            <div class="box">
+                <!-- dataTable -->
+                <div class="box-body">
+                    <table id="role" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>剧本名称</th>
+                            <th>剧本描述</th>
+                            <th>添加日期</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for role in roles %}
+                            <tr>
+                                <td>{{ role.role_name }}</td>
+                                <td>{{ role.role_desc|default:"" }}</td>
+                                <td>{{ role.role_time|date:"Y-m-d H:i:s" }}</td>
+                                <td>
+                                    <a href="{% url 'role_detail' role.id %}">
+                                        <button type="button" class="btn btn-success btn-xs">详细/修改
+                                        </button>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-xs delete"
+                                            data-id="{{ role.id }}">
+                                        删除
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+
+            <!-- RoleAddModal  -->
+            <div class="modal fade" id="RoleAddModal" tabindex="-1" role="dialog"
+                 aria-labelledby="RoleAddModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="RoleAddModalLabel">
+                                添加role
+                            </h4>
+                        </div>
+                        {% if perms.task.add_ansiblerole %}
+                            <div class="modal-body">
+                                <form id="role_form" class="main form-horizontal">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="role_name" class="col-sm-2 control-label">role名称</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" name="role_name" id="role_name" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="role_desc" class="col-sm-2 control-label">role描述</label>
+                                            <div class="col-sm-6">
+                                                <textarea class="form-control" name="role_desc" rows="5"
+                                                          id="role_desc"></textarea>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="role_add">确认添加</button>
+                            </div>
+                        {% else %}
+                            <div class="modal-body">
+                                抱歉！您没有此操作的权限！如有疑问，请联系管理员！
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                            </div>
+                        {% endif %}
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <!-- RoleUploadModal  -->
+            <div class="modal fade" id="RoleUploadModal" tabindex="-1" role="dialog"
+                 aria-labelledby="RoleUploadModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="RoleUploadModalLabel">
+                                上传role
+                            </h4>
+                        </div>
+                        {% if perms.task.add_ansiblerole %}
+                            <div class="modal-body">
+                                <form id="role_detail" class="main form-horizontal">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="role_desc" class="col-sm-2 control-label">role描述</label>
+                                            <div class="col-sm-6">
+                                                <textarea class="form-control" name="role_desc" rows="5"
+                                                          id="role_desc"></textarea>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="role_file" class="col-sm-2 control-label">role文件</label>
+                                            <div class="col-sm-6">
+                                                <input type="file" id="role_file" class="file" name="role_file"
+                                                       required>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="role_ops">上传</button>
+                            </div>
+                        {% else %}
+                            <div class="modal-body">
+                                抱歉！您没有此操作的权限！如有疑问，请联系管理员！
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                            </div>
+                        {% endif %}
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- DataTables -->
+    <script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap-fileinput/js/fileinput.min.js' %}"></script>
+    <script src="{% static 'ace/js/ace.js' %}"></script>
+    <script src="{% static 'ace/js/mode-yaml.js' %}"></script>
+    <script src="{% static 'ace/js/theme-monokai.js' %}"></script>
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            role_table = $('#role').DataTable({
+                columnDefs: [{
+                    'targets': [-1,],
+                    'orderable': false
+                }],
+                "order": [[0, "asc"]]
+            });
+        });
+
+        $('#role_add').on('click', function () {
+            let role_name = $('#role_name').val();
+            let role_desc = $('#role_form #role_desc').val();
+            if (role_name.length === 0) {
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: "role名称不能为空",
+                })
+            } else {
+                $.get('/run/check_name/?role_name=' + role_name, function (res) {
+                    if (res.code === 500) {
+                        $.confirm({
+                            title: 'Tips',
+                            content: res.msg,
+                            type: 'red',
+                            buttons: {
+                                OK: function () {
+                                    $('#role_form #role_name').val('')
+                                },
+                            }
+                        });
+                    } else {
+                        window.location.href = `/run/role_add/?&role_name=${role_name}&role_desc=${role_desc}`
+                    }
+                })
+            }
+        });
+
+
+        $("#role_file").fileinput({
+            language: 'zh',
+            showUpload: false,
+            dropZoneEnabled: false,
+            msgPlaceholder: '只能上传zip格式的压缩文件',
+            allowedFileExtensions: ["zip"],
+            showPreview: false,
+            showCaption: true,
+            maxFileSize: 10240,
+            uploadUrl: "{% url 'role_list' %}",
+            mergeAjaxCallbacks: true,
+            ajaxSettings: {
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                error: function (response) {
+                    $.alert({
+                        title: 'Tips',
+                        type: 'red',
+                        content: response.msg,
+                    })
+                },
+            },
+            browseLabel: '浏览文件',
+            removeLabel: '删除',
+        }).on('fileuploaded', function (event, data, previewId, index) {
+            $.ajax({
+                url: "{% url 'role_list' %}",
+                type: 'POST',
+                traditional: true,
+                dataType: 'json',
+                data: {
+                    role_name: data.files[0].name,
+                    role_desc: $('#role_desc').val()
+                },
+                success: function (res) {
+                    if (res.code === 200) {
+                        $.confirm({
+                            title: 'Tips',
+                            content: res.msg,
+                            type: 'green',
+                            buttons: {
+                                Ok: function () {
+                                    window.location.reload()
+                                },
+                            }
+                        });
+                    }
+                },
+                error: function (response) {
+                    $.alert({
+                        title: 'Tips',
+                        type: 'red',
+                        content: response.responseText,
+                    })
+                }
+            })
+        });
+
+        // 上传role
+        $('#role_ops').on('click', function () {
+            let role_file = $("#role_file").val();
+            if (role_file.length === 0) {
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '请注意必选项！',
+                })
+            } else {
+                let role_name = role_file.slice(role_file.lastIndexOf('\\') + 1,).split('.zip')[0];
+                $.get('/run/check_name/?role_name=' + role_name, function (res) {
+                    if (res.code === 500) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: res.msg,
+                        });
+                    } else {
+                        $("#role_file").fileinput('upload');
+                    }
+                })
+
+            }
+        });
+
+
+        // 删除role
+        $('#role tbody').on('click', '.delete', function () {
+            {% if perms.task.delete_ansiblerole %}
+                let pk = $(this).attr('data-id');
+                let tr_obj = $(this).parents('tr');
+                $.confirm({
+                    title: 'Tips',
+                    content: '确定要删除这条记录么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: function () {
+                            $.ajax({
+                                url: '/run/role_del/' + pk + '/',
+                                method: 'DELETE',
+                                success: function (res) {
+                                    role_table.row(tr_obj).remove().draw();
+                                    if (res.code === 500) {
+                                        $.alert({
+                                            title: 'Tips',
+                                            type: 'red',
+                                            content: res.msg,
+                                        })
+                                    } else {
+                                        // pass
+                                    }
+                                },
+                                error: function (data) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '删除失败！' + data.responseText,
+                                    })
+                                }
+                            })
+                        },
+                        Cancel: function () {
+                            //
+                        }
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '抱歉！您没有删除任务的权限！如有疑问，请联系管理员！',
+                });
+            {% endif %}
+        });
+    </script>
+
+{% endblock %}
+
+>

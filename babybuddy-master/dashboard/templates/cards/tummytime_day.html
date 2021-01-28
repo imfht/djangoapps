@@ -1,0 +1,24 @@
+{% extends 'cards/base.html' %}
+{% load duration i18n %}
+
+{% block header %}{% trans "Today's Tummy Time" %}{% endblock %}
+
+{% block title %}
+    {% if stats.count > 0 %}
+        {{ stats.total|duration_string }}
+    {% else %}
+        {% trans "None" %}
+    {% endif %}
+{% endblock %}
+
+{% block listgroup %}
+    <ul class="list-group list-group-flush text-muted small">
+    {% for instance in instances %}
+        <li class="list-group-item">
+            {% blocktrans trimmed with duration=instance.duration|duration_string end=instance.end|time %}
+                {{ duration }} at {{ end }}
+            {% endblocktrans %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

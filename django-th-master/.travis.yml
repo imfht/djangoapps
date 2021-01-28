@@ -1,0 +1,23 @@
+language: python
+python:
+- '3.6'
+script:
+- tox
+sudo: false
+addons:
+  apt:
+    packages:
+    - libtidy-dev
+    - pandoc
+    - redis-server
+services:
+- redis-server
+install:
+- pip install tox
+deploy:
+  provider: pypi
+  user: foxmask
+  password:
+    secure: WIXep4jx43v39WyW2/Q47KmXJ6iP2DsZl6ArbkI2x1XpPQrncI/YZN54RJdXW1AJA8z76+jWvLhFHfpQaBnz6e98ThrDnYayjrkp0SNPURB2aKFxkmtYjF+rC9onP4rm9nDCxt6NHAm+Y0eKKRyFlhRPSyVI7qkSp77GY3TOlEc=
+  on:
+    tags: true

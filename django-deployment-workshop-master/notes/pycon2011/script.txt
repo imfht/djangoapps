@@ -1,0 +1,192 @@
+=================
+PyCon 2011 script
+=================
+
+This is my "working script" -- I'll be using these commands, verbatim, as I
+walk through the class. They probably only work on Ubuntu 10.04
+
+These notes are primarily for me only, so they may not make a whole lot of
+sense without my narrative. However, for those not in the class, judicious use
+of ``man`` and Google along with experimentation should make for an
+interesting afternoon.
+
+All of the follow commands assume I'm running as root. Judicious use of
+``sudo`` would be required otherwise.
+
+Pre-class
+---------
+
+Boot::
+
+    local$ cd vagrant
+    local$ vagrant up
+    
+Update apt; hostname (for prompts); better tab completion::
+
+    <all>$ aptitude update
+    <all>$ hostname <whatever>
+    <all>$ aptitude install bash-completion
+    <all>$ echo ". /etc/bash_completion" >> ~/.bashrc
+
+Hosts file for easier web-ing::
+
+    33.33.33.10 pycon-web1
+    33.33.33.11 pycon-web2
+    33.33.33.20 pycon-db1
+        
+1. Getting started
+------------------
+
+Bootstrap up the example app::
+
+    web1$ mkdir -p /home/web
+    web1$ aptitude install git-core python-dev python-setuptools \ 
+                           postgresql-dev postgresql-client build-essential \
+                           libpq-dev subversion mercurial
+    web1$ easy_install virtualenv
+    web1$ git clone git://github.com/jacobian/django-deployment-workshop.git
+    web1$ cd /home/web
+    web1$ virtualenv myblog
+    web1$ cd myblog
+    web1$ source bin/activate
+    web1$ pip install -U pip
+    web1$ git clone git://github.com/montylounge/django-mingus.git
+    web1$ cd django-mingus/mingus
+    web1$ pip install -r stable-requirements.txt
+    web1$ mv local_settings.py.template local_settings.py
+    web1$ ./manage.py syncdb
+    web1$ ./manage.py loaddata test_data.json
+    web1$ ./bin/django runserver 0.0.0.0:8000
+    
+Get ``http://pycon-web1:8000/`` - bing!
+
+2. Database server: PostgreSQL
+------------------------------
+
+Install and configure Postgres::
+
+    db1$ aptitude install git-core postgresql
+    db1$ mkdir -p /home/web
+    db1$ cd /home/web
+    db1$ git clone git://github.com/jacobian/django-deployment-workshop.git
+    db1$ cd /etc/postgresql/8.4/main/
+    db1$ invoke-rc.d postgresql-8.4 stop
+    db1$ mv postgresql.conf postgresql.conf.orig
+    db1$ mv pg_hba.conf pg_hba.conf.orig
+    db1$ ln -s /home/web/django-deployment-workshop/postgresql/postgresql.conf .
+    db1$ ln -s /home/web/django-deployment-workshop/postgresql/pg_hba.conf .
+    db1$ invoke-rc.d postgresql-8.4 start
+
+And create users and database. Root user for convenience::
+
+    db1$ sudo -u postgres createuser root
+    db1$ createuser mingus
+    db1$ createdb -O mingus mingus
+
+Wire up the app to PostgreSQL, load data, take a look::
+
+    web1$ pip install psycopg2
+    web1$ cd /home/web/myblog/django-mingus/mingus
+    web1$ vim local_settings.py # DATABASE_HOST = '...'
+    web1$ ./manage.py syncdb
+    web1$ ./manage.py loaddata test_data.json
+    web1$ ./bin/django runserver 0.0.0.0:8000    
+
+Hit ``http://pycon-web1:8000/`` -- *boom*.
+
+3. Application servers: mod_wsgi, gunicorn
+------------------------------------------
+
+Install Apache and mod_wsgi, and zap away all the Ubuntu cruft::
+
+    web1$ aptitude install apache2 libapache2-mod-wsgi
+    web1$ mkdir /home/web/static # DocumentRoot
+    web1$ cd /etc/apache2/
+    web1$ rm -rf apache2.conf conf.d/ httpd.conf magic mods-* sites-* ports.conf 
+
+Add our config. Remember to make a python eggs dir (it should be writable by
+apache, but 777 is easier)::
+
+    web1$ ln -s /home/web/django-deployment-workshop/apache/apache2.conf .
+    web1$ ln -s /home/web/django-deployment-workshop/mingus-config/mingus.wsgi \
+                /home/web/myblog/mingus.wsgi
+    web1$ mkdir -m777 -p /var/www/.python-eggs
+    web1$ invoke-rc.d apache2 restart
+
+Hit ``http://pycon-web1/`` -- *boom*.
+
+Now try it with Gunicorn::
+
+    web1$ pip install gunicorn
+    web1$ cd /home/web/myblog/django-mingus
+    web1$ gunicorn_django -b 0.0.0.0 mingus/settings.py
+    
+Show off a few features of Gunicorn (TTIN, TTOU, etc.).
+
+4. Automation
+-------------
+
+Run the fabfile::
+
+    local$ fab deploy
+    
+Then talk about it.
+
+5. Multiple web servers
+-----------------------
+
+Add ``web2`` to the fabfile; run::
+
+    local$ fab -H pycon-web2 setup
+
+While it runs talk about configuration management a bit.
+
+6. Load balancers
+-----------------
+
+Set up Nginx on web1::
+
+    web1$ aptitude install nginx 
+    web1$ cd /etc/nginx/
+    web1$ rm -rf conf.d/ fastcgi_params koi-* nginx.conf sites-* win-utf 
+    web1$ ln -s /home/web/django-deployment-workshop/nginx/nginx.conf .
+
+Edit Apache conf to listen on port 8000::
+
+    web1$ vim /etc/apache2/apache2.conf
+    web1$ invoke-rc.d apache2 restart
+
+Edit Nginx to point to correct backend - just web1 for now::
+
+    web1$ vim /etc/nginx/nginx.conf 
+    web1$ invoke-rc.d nginx start
+
+Check it out::
+
+    local$ curl -I http://pycon-web1/
+
+Edit Apache on web2 for port 8000::
+
+    web2$ vim /etc/apache2/apache2.conf 
+    web2$ invoke-rc.d apache2 restart
+
+Edit Nginx to point to both backends::
+
+    web1$ vim /etc/nginx/nginx.conf 
+    web1$ invoke-rc.d nginx restart
+
+Check it out, looking at ``X-Handled-By``::
+    
+    local$ curl -I http://pycon-web1/
+
+7. Connection middleware
+------------------------
+
+Just look at the pgpool conf.
+
+BONUS: Configuration management
+-------------------------------
+
+Look at the Chef config. Then::
+    
+    local$ fab run_chef

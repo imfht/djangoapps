@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: '{"createTransactionModel": {"companyCode": "DEFAULT", "type": "SalesOrder",
+      "lines": [{"quantity": 3, "amount": "15.00", "taxCode": "PC040156", "taxIncluded":
+      true, "itemCode": "123", "description": "Test product"}, {"quantity": 1, "amount":
+      "10.000", "taxCode": "FR020100", "taxIncluded": true, "itemCode": "Shipping",
+      "description": null}], "code": "e4820ff0-51aa-4824-859c-d20d385bba61", "date":
+      "2021-01-25", "customerCode": 0, "addresses": {"shipFrom": {"line1": "T\u0119czowa
+      7", "line2": "", "city": "WROC\u0141AW", "region": "", "country": "PL", "postalCode":
+      "53-601"}, "shipTo": {"line1": "O\u0142awska 10", "line2": "", "city": "WROC\u0141AW",
+      "region": "", "country": "PL", "postalCode": "53-105"}}, "commit": false, "currencyCode":
+      "USD", "email": ""}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic Og==
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '765'
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://rest.avatax.com/api/v2/transactions/createoradjust
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAEA+1X227iSBD9lcjPAdnmGt5YMpEiIYgC2ZFmNQ+N3UDP+Lbd7UzYUf59TvXFgQA7
+        2VueFvFgV1dXV9WpPlX+Hog0GIWXQVKmPBgFvDuMw/U6bPUixlp46baGvauklcZh2hn2VivWjwLS
+        zitW7G6xN+7GV4PeZZAyTQbiMI5aYdSKe1Cr2C7nhb4+saQ007XChiXPq1IyuYO+3lVkY8EyruYy
+        5RKyFdPJdmK9o5NrKXmR7JzkYXENIX9KtqzY8HscNDmlkNRKlzmXD4pt+NKeQvsKLfTuQfF9+1bz
+        V16kpXTy0BxsF/ZE/Am+61kJl6EgeVIWicg4krJmmeKXQVYmTIuyeDEvOYLVothMj5aqWiIKxU3g
+        L0bXnOLd81BRdiou1b5dXWqWjfOyLjQgCdudDrJJsg/GR0DcBshGci1UYvVeZEv2FIy67f7A6eCd
+        rTJgsW8KwgnLkjpDlhGjVWfpF+SWUL7nDC4hF7NSj40UWiYHX/dS8gjHkZFgFB3C9mG95okWj/xU
+        sezji50UCs+ZyGzi8zIVa8HTo53LqDPqXI06cTsaxIO4O/gEf7w2UJemfoed6CpG3Ozp2EAYjsyf
+        Nmai4CjY3777K6MlKxSD02VBhuAUqczqfIXCHQXmnry57lKuEikqMoa9S670RSXLtE40jk4dZB5g
+        A5ytvhOiCZfaOXRYoULdap432GpZo0YFRK4+o7jj4vRWo7iN1PxeM3NRglGHUi/5OrKZx1Psn1xd
+        H+UQFpFaVFJ7aJ6org7NY3m/rryic+puEnbDqNe3dkhIsfX78RnMrN5tkWR1SnVno0y5Rr2cg28K
+        3FzGjkE1lwX0NArupjAu+cZiZN5OgPCllkJ552mHEcxYTtR2N5+OZ0RZxH98rJTYFDz1t91oOnqa
+        zJZ+bypMkfkFuryGLouycGD6hJrCkIZuw3bcCfF7S/qd5Xmtq5rqDYgs6hVJKSvB3IpcCAvNipTJ
+        9ILY1q6Ma70tJajUb+miIZyClVxzh3kzsOClLmkLiOpC6Pn6F6YE9Yg7Lj2tP2AB60LNyuKOKbXc
+        yrrhW6FuOLLs2LfhWpck2gprtqabRdg5XLc59Dxt+dNtPVzCNlfWjTGIjko5E2wlMpccBLPgWQaC
+        eP58GQBAikFvZVlvttdNjWJp60sIwSal0reFqsE3Cb+RXGy2YHnjzCPTTaktWkB80mqZwsSCZSIP
+        Sfh8+VbmiunMtzPX+5DTYiuqCo0TvhHN+ooftiO0uheGMs3h7zFU1B5S/7Ot79A+hPu4Npou9zf3
+        YRxGIY0JpOk4qjsYdo3gDCf+z1GvOKpJ636PsAAjrY43/lOSsh54PqLL6sgOyHrp+7CUDbshln/I
+        Ui4uT2rLU+X8vjx1c56nwH4sTSVX6mfz1gqtEK1oN+WPnIbBT6Kizw7iB5pQ5hn7pr6yi4guJgnd
+        sEKPHaxDmoCX8fTxfj6Zjj8Syr6947kC77LM4d3rtKKQrL+aB1CZ92YPtco47EUhBhOMyEJj/rCH
+        ZGWxaV7/lIZ/EtCSJ3+U39jFAG78C/H0Q/stZ+cJN9/85XgAl6rznL7gaDh+lZ4mn6YrHQw4zRzz
+        tokJjh3MGfgCwZQBhI7nKKieZwsqDOQPOmcGGn/Robh3/aF/8ElEWtSED6Ys9wl1eL2sEL1+6U2Y
+        1m1HRzNL4v358/MPG69uZowPAAA=
+    headers:
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 25 Jan 2021 13:39:32 GMT
+      Location:
+      - /api/v2/companies/242975/transactions/0
+      Server:
+      - Kestrel
+      ServerDuration:
+      - '00:00:00.0193082'
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+    status:
+      code: 201
+      message: Created
+version: 1

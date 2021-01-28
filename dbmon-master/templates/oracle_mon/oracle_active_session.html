@@ -1,0 +1,84 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle活动会话
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Oracle</a></li>
+        <li><a href="/oracle_monitor">实时监控</a></li>
+        <li class="active">活动会话</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+      <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">实例活动会话信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>登录时间</th>
+                    <th>会话SID</th>
+                  <th>SQL_ID</th>
+                  <th>等待事件</th>
+                    <th>阻塞会话</th>
+                    <th>用户名</th>
+                    <th>客户端用户</th>
+                    <th>客户端主机</th>
+                    <th>客户端来源</th>
+                    <th>SQL文本</th>
+                    <th>操作用户</th>
+                    <th>操作对象</th>
+                    <th>对象类型</th>
+                    <th>KILL_SH</th>
+                </tr>
+                </thead>
+                {% for oracle_active_session in oracle_active_sessions %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ tags}} </td>
+                 <td>{{ oracle_active_session.LOGON_TIME}} </td>
+                 <td> <li><a href="/oracle_session?tags={{ tags }}&session_id={{ oracle_active_session.SID }}" >{{ oracle_active_session.SID }}</a></li> </td>
+                 <td> <li><a href="/oracle_sql?tags={{ tags }}&sql_id={{ oracle_active_session.SQL_ID }}" >{{ oracle_active_session.SQL_ID }}</a></li> </td>
+                 <td>{{ oracle_active_session.EVENT}} </td>
+                 <td> <li><a href="/oracle_session?tags={{ tags }}&session_id={{ oracle_active_session.BLOCKING_SESSION }}" >{{ oracle_active_session.BLOCKING_SESSION }}</a></li> </td>
+                 <td>{{ oracle_active_session.USERNAME}} </td>
+                 <td>{{ oracle_active_session.OSUSER}} </td>
+                    <td>{{ oracle_active_session.MACHINE}} </td>
+                    <td>{{ oracle_active_session.MODULE}} </td>
+                    <td>{{ oracle_active_session.SQL_TEXT}} </td>
+                    <td>{{ oracle_active_session.OWNER}} </td>
+                    <td>{{ oracle_active_session.OBJECT_NAME}} </td>
+                    <td>{{ oracle_active_session.OBJECT_TYPE}} </td>
+                    <td>{{ oracle_active_session.KILL_SH}} </td>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if oracle_active_sessions.has_previous %}
+            <a href="?page_log={{ oracle_active_sessions.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ oracle_active_sessions.number }} 共计{{ oracle_active_sessions.paginator.num_pages }}
+        </span>
+        {% if oracle_active_sessions.has_next %}
+            <a href="?page_log={{ oracle_active_sessions.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+      </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,286 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Translators:
+# Badea Gabriel <gcbadea@gmail.com>, 2013
+# Harald Ersch, 2019-2020
+msgid ""
+msgstr ""
+"Project-Id-Version: Mayan EDMS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-13 10:28+0000\n"
+"PO-Revision-Date: 2020-09-29 12:53+0000\n"
+"Last-Translator: Harald Ersch\n"
+"Language-Team: Romanian (Romania) (http://www.transifex.com/rosarior/mayan-edms/language/ro_RO/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro_RO\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: apps.py:133 permissions.py:5 settings.py:13
+msgid "Common"
+msgstr "Comune"
+
+#: classes.py:456
+msgid "Model properties"
+msgstr "Proprietățile modelului"
+
+#: classes.py:461
+msgid "Model fields"
+msgstr "Câmpurile modelului"
+
+#: classes.py:504
+msgid "Model related fields"
+msgstr "Câmpuri legate de model"
+
+#: classes.py:509
+msgid "Model reverse fields"
+msgstr "Model câmpuri invers"
+
+#: dependencies.py:195
+msgid "Used to allow offline translation of the code text strings."
+msgstr "Folosit pentru a permite traducerea offline a șirurilor de text cod."
+
+#: dependencies.py:204
+msgid "Provides style checking."
+msgstr "Oferă verificarea stilului."
+
+#: dependencies.py:209
+msgid "Command line environment with autocompletion."
+msgstr "Mediul liniei de comandă cu autocompletare."
+
+#: dependencies.py:214
+msgid "Checks proper formatting of the README file."
+msgstr "Verifică formatarea corectă a fișierului README."
+
+#: links.py:31
+msgid "About this"
+msgstr "Despre asta"
+
+#: links.py:34
+msgid "Get the book"
+msgstr "Obțineți cartea"
+
+#: links.py:39
+msgid "Locale profile"
+msgstr "Profilul localizării"
+
+#: links.py:44
+msgid "Edit locale profile"
+msgstr "Editați profilul localizării"
+
+#: links.py:49
+msgid "Documentation"
+msgstr "Documentație"
+
+#: links.py:52
+msgid "Forum"
+msgstr "Forum"
+
+#: links.py:56 views.py:104
+msgid "License"
+msgstr "Licenţă"
+
+#: links.py:61
+msgid "Copy"
+msgstr "Copiere"
+
+#: links.py:64
+msgid "Setup"
+msgstr "Configurare"
+
+#: links.py:67
+msgid "Source code"
+msgstr "Cod sursă"
+
+#: links.py:71
+msgid "Online store"
+msgstr "Magazin online"
+
+#: links.py:75
+msgid "Get support"
+msgstr "Obțineți sprijin"
+
+#: links.py:79 queues.py:9 views.py:173
+msgid "Tools"
+msgstr "Unelte"
+
+#: literals.py:18
+msgid ""
+"This feature has been deprecated and will be removed in a future version."
+msgstr "Această caracteristică a fost depreciată și va fi eliminată într-o versiune viitoare."
+
+#: literals.py:21
+msgid ""
+"Your database backend is set to use SQLite. SQLite should only be used for "
+"development and testing, not for production."
+msgstr "Backendul bazei de date este setat să utilizeze SQLite. SQLite ar trebui folosit numai pentru dezvoltare și testare, nu pentru producție."
+
+#: literals.py:30
+msgid "Days"
+msgstr "Zile"
+
+#: literals.py:31
+msgid "Hours"
+msgstr "Ore"
+
+#: literals.py:32
+msgid "Minutes"
+msgstr "Minute"
+
+#: menus.py:8
+msgid "System"
+msgstr "Sistem"
+
+#: menus.py:10 menus.py:11
+msgid "Facet"
+msgstr "Faţetă"
+
+#: menus.py:14
+msgid "Actions"
+msgstr "Acţiuni"
+
+#: menus.py:15
+msgid "Related"
+msgstr "Înrudite"
+
+#: menus.py:16
+msgid "Secondary"
+msgstr "Secundar"
+
+#: menus.py:21 models.py:25
+msgid "User"
+msgstr "Utilizator"
+
+#: models.py:29
+msgid "Timezone"
+msgstr "Fus orar"
+
+#: models.py:32
+msgid "Language"
+msgstr "Limba"
+
+#: models.py:38
+msgid "User locale profile"
+msgstr "Profilul de localizare utilizator"
+
+#: models.py:39
+msgid "User locale profiles"
+msgstr "Profile de localizare pentru utilizatori"
+
+#: permissions.py:8
+msgid "Copy object"
+msgstr "Copiați obiectul"
+
+#: queues.py:7
+msgid "Default"
+msgstr "Implicit"
+
+#: settings.py:19
+msgid ""
+"Time to delay background tasks that depend on a database commit to "
+"propagate."
+msgstr "Timpul de întârziere pentru sarcini de fundal care depind de propagarea schimbărilor în  baza de date."
+
+#: settings.py:26
+msgid ""
+"A list of strings designating all applications that are to be removed from "
+"the list normally installed by Mayan EDMS. Each string should be a dotted "
+"Python path to: an application configuration class (preferred), or a package"
+" containing an application."
+msgstr "O listă de șiruri care desemnează toate aplicațiile care urmează să fie eliminate din lista instalată în mod normal de Mayan EDMS. Fiecare șir ar trebui să fie o cale Python punctată către: o clasă de configurare a aplicației (preferată) sau un pachet care conține o aplicație."
+
+#: settings.py:36
+msgid ""
+"A list of strings designating all applications that are installed beyond "
+"those normally installed by Mayan EDMS. Each string should be a dotted "
+"Python path to: an application configuration class (preferred), or a package"
+" containing an application."
+msgstr "O listă de șiruri care desemnează toate aplicațiile instalate dincolo de cele instalate în mod normal de Mayan EDMS. Fiecare șir ar trebui să fie o cale Python punctată către: o clasă de configurare a aplicației (preferată) sau un pachet care conține o aplicație."
+
+#: settings.py:45
+msgid ""
+"Name of the view attached to the brand anchor in the main menu. This is also"
+" the view to which users will be redirected after log in."
+msgstr "Numele afișării atașate ancorei de marcă din meniul principal. Aceasta este și perspectiva la care utilizatorii vor fi redirecționați după conectare."
+
+#: settings.py:53
+msgid "Name to be displayed in the main menu."
+msgstr "Numele care urmează să fie afișat în meniul principal."
+
+#: settings.py:59
+msgid "URL of the installation or homepage of the project."
+msgstr "Adresa URL a instalării sau a paginii de pornire a proiectului."
+
+#: settings.py:64
+msgid "Base URL path to use for all views."
+msgstr "Calea URL de bază pentru a fi utilizată pentru toate vizualizările."
+
+#: validators.py:44
+msgid "Enter a valid JSON value."
+msgstr "Introduceți o valoare JSON validă."
+
+#: validators.py:68
+msgid "Enter a valid YAML value."
+msgstr "Introduceți o valoare validă YAML."
+
+#: validators.py:84
+msgid ""
+"Enter a valid 'internal name' consisting of letters, numbers, and "
+"underscores."
+msgstr "Introduceți un \"nume intern\" valabil format din litere, numere și subliniere."
+
+#: views.py:27
+msgid "About"
+msgstr "Despre"
+
+#: views.py:40
+msgid "Current user locale profile details"
+msgstr "Detaliile  profilului locației utilizatorului curent"
+
+#: views.py:46
+msgid "Edit current user locale profile details"
+msgstr "Editați detaliile profilului de localizare a utilizatorului actual"
+
+#: views.py:95
+msgid "Dashboard"
+msgstr "Panou principal"
+
+#: views.py:116
+#, python-format
+msgid "Fields to be copied: %s"
+msgstr "Câmpuri de copiat: %s"
+
+#: views.py:125
+#, python-format
+msgid "Make a copy of %(object_name)s \"%(object)s\"?"
+msgstr "Faceți o copie a %(object_name)s \"%(object)s\"?"
+
+#: views.py:134
+msgid "Object copied successfully."
+msgstr "Obiectul a fost copiat cu succes."
+
+#: views.py:151
+msgid ""
+"No results here means that don't have the required permissions to perform "
+"administrative task."
+msgstr "Niciun rezultat aici înseamnă că nu aveți permisiunile necesare pentru a efectua o sarcină administrativă."
+
+#: views.py:154
+msgid "No setup options available."
+msgstr "Nu sunt disponibile opțiuni de configurare."
+
+#: views.py:158
+msgid "Setup items"
+msgstr "Configurați elemente"
+
+#: views.py:160
+msgid "Here you can configure all aspects of the system."
+msgstr "Aici puteți configura toate aspectele sistemului."
+
+#: views.py:175
+msgid "These modules are used to do system maintenance."
+msgstr "Aceste module sunt folosite pentru întreținerea sistemului."

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block header %}
+<script>
+$(document).ready(function() {
+    wgerInitCaloriesCalculator();
+});
+</script>
+{% endblock %}
+
+<!--
+        Title
+-->
+{% block title %}{% trans "Daily calories calculator" %}{% endblock %}
+
+
+<!--
+        Main Content
+-->
+{% block content %}
+
+<h3>1 - {%trans "Basal metabolic rate" %}</h3>
+<p>{% blocktrans %}The basal metabolic rate is the amount of energy expended daily
+at rest. This is the minimum energy needed for the body to function, without any
+additional physical activity.{% endblocktrans %}</p>
+<form action="{% url 'nutrition:calories:bmr' %}"
+      method="post"
+      class="calories-autoform wger-form"
+      id="bmr-form">
+    {% crispy form %}
+</form>
+
+<div id="bmr-result-container" style="display:none;">
+    <p>{% trans 'Your basic metabolic rate is: ' %}
+    <strong>
+        <span id="bmr-result-value">{{user.userprofile.calculate_basal_metabolic_rate|floatformat:2}}</span>
+    </strong>
+    </p>
+</div>
+
+
+
+
+<h3>2 - {%trans "Physical activities" %}</h3>
+<p>{% blocktrans %}The physical activity level (PAL) is a factor used to to express
+the additional physical activity and is used to calculate the total energy
+required per day.{% endblocktrans %}</p>
+<form action="{% url 'nutrition:calories:activities' %}"
+      method="post"
+      class="wger-form calories-autoform"
+      id="activities-form">
+    {% crispy form_activities %}
+</form>
+
+<div id="activities-result-container" style="display:none;">
+    <p>{% trans 'Factor for daily activities: ' %} <strong><span id="activities-result-value">{{user.userprofile.calculate_activities|floatformat:2}}</span></strong></p>
+</div>
+
+
+
+
+
+<h3>3 - {% trans "Total daily calories" %}</h3>
+<p>{% blocktrans %}The base caloric intake is the amount of calories your metabolism
+needs based on your level of physical activity.{% endblocktrans %}</p>
+<form action=""
+      method="post"
+      class="wger-form calories-autoform"
+      id="base-calories-form">
+    {% csrf_token %}
+    <table class="table">
+        <tr>
+            <td>{% trans "Basic caloric intake" %}</td>
+            <td><span id="id_base_calories"></span></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" class="btn btn-light btn-block" value="{% trans 'Calculate basic caloric intake' %}" id="form-calculate-daily-calories">
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<p>{% blocktrans %}The total calories are the actual total calories per day. This
+might include e.g. a surplus or deficit if you are bulking or cutting. Alternatively
+you might just enter yourself the amount of calories if you know the value.{% endblocktrans %}
+</p>
+
+<form action=""
+      method="post"
+      class="wger-form"
+      id="total-calories-form">
+
+    {{ form_calories.additional_calories|as_crispy_field }}
+    {{ form_calories.calories|as_crispy_field }}
+
+    <p>
+        <input type="submit" class="btn btn-light btn-block" value="{% trans 'Transfer basic intake to total daily calories' %}" id="form-transfer-calories">
+    </p>
+
+    <p>
+        <input type="submit" class="btn btn-light btn-block" value="{% trans 'Add additional calories to total daily calories' %}" id="add-calories-total">
+    </p>
+
+    <p>
+        <input type="submit" class="btn btn-light btn-block" value="{% trans 'Save total calories to profile' %}" id="form-update-calories">
+    </p>
+</form>
+{% endblock %}
+
+
+{#                 #}
+{#    Side bar     #}
+{#                 #}
+{% block sidebar %}
+<h4>{% trans "Info" %}</h4>
+<p>{% blocktrans %}Please note that these calculations can only be an
+approximation. If you base your nutrition plan on these values, observe
+yourself for some weeks and change the total amount if needed.{% endblocktrans %}</p>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% if object %}
+        {{ object }}
+    {% else %}
+        {% trans "Add a Child" %}
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'core:child-list' %}">{% trans "Children" %}</a></li>
+    {% if object %}
+        <li class="breadcrumb-item font-weight-bold"><a href="{% url 'core:child' object.slug %}">{{ object }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Update" %}</li>
+    {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Add a Child" %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if object %}
+        {% blocktrans trimmed %}
+            <h1>Update <span class="text-info">{{ object }}</span></h1>
+        {% endblocktrans %}
+    {% else %}
+        <h1>{% trans "Add a Child" %}</h1>
+    {% endif %}
+    {% include 'babybuddy/form.html' %}
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        BabyBuddy.DatetimePicker.init($('#datetimepicker_birth_date'), {
+            format: 'L',
+            viewMode: 'years',
+            extraFormats: ['YYYY-MM-DD']
+        });
+    </script>
+{% endblock %}

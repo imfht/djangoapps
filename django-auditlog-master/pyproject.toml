@@ -1,0 +1,6 @@
+[tool.black]
+target-version = ["py35"]
+
+# black compatible isort
+[tool.isort]
+profile = "black"

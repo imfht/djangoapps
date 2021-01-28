@@ -1,0 +1,43 @@
+#
+# Common requirements for wger
+#
+
+# Application
+bleach~=3.2
+django-bootstrap-breadcrumbs~=0.9
+django-formtools~=2.2
+django-recaptcha==2.0.6
+Django~=3.1
+django-crispy-forms~=1.10
+django_compressor~=2.4
+django_extensions~=3.1
+django-sortedm2m~=3.0
+django-storages~=1.11
+easy-thumbnails~=2.7
+icalendar==4.0.7
+invoke~=1.5
+pillow~=8.1
+python-mimeparse
+reportlab==3.5.60
+matplotlib>=3.1
+requests
+setuptools>=18.5
+sphinx
+
+# AWS
+#boto3
+
+
+# REST API
+django-cors-headers>=3.0
+django-filter==2.4.0
+djangorestframework~=3.12
+
+
+# Explicitly set versions as a workaround for CI/Devel.
+# This is just intended to make life easier, has no deeper meaning and
+# can be removed if needed.
+docutils>=0.10,<0.17  # for botocore
+six>=1.12.0  # for django-compressor
+
+

@@ -1,0 +1,201 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Translators:
+# Roberto Rosario, 2015
+# Roberto Rosario, 2017-2019
+msgid ""
+msgstr ""
+"Project-Id-Version: Mayan EDMS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-13 10:28+0000\n"
+"PO-Revision-Date: 2019-04-30 16:39+0000\n"
+"Last-Translator: Roberto Rosario\n"
+"Language-Team: Spanish (http://www.transifex.com/rosarior/mayan-edms/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps.py:27 links.py:31 links.py:36 links.py:41 permissions.py:5 views.py:33
+msgid "Events"
+msgstr "Eventos"
+
+#: apps.py:39 apps.py:67
+msgid "Date and time"
+msgstr "Fecha y hora"
+
+#: apps.py:42 apps.py:70
+msgid "Actor"
+msgstr "Actor"
+
+#: apps.py:46 apps.py:75
+msgid "Event"
+msgstr "Evento"
+
+#: apps.py:50 apps.py:80
+msgid "Target"
+msgstr "Objetivo"
+
+#: apps.py:54
+msgid "Action object"
+msgstr "Objeto de acción"
+
+#: apps.py:59 forms.py:10 forms.py:67
+msgid "Namespace"
+msgstr "Categoría"
+
+#: apps.py:62 forms.py:14 forms.py:71
+msgid "Label"
+msgstr "Etiqueta"
+
+#: apps.py:86
+msgid "Seen"
+msgstr "Visto"
+
+#: classes.py:142
+#, python-format
+msgid "Unknown or obsolete event type: %s"
+msgstr "Tipo de evento desconocido u obsoleto: %s"
+
+#: forms.py:18 forms.py:75
+msgid "Subscription"
+msgstr "Suscripción"
+
+#: forms.py:20 forms.py:77
+msgid "No"
+msgstr "No"
+
+#: forms.py:21 forms.py:78
+msgid "Subscribed"
+msgstr "Suscrito"
+
+#: html_widgets.py:57
+msgid "System"
+msgstr "Sistema"
+
+#: links.py:27
+msgid "My events"
+msgstr "Mis eventos"
+
+#: links.py:45 models.py:63 views.py:74
+msgid "Event subscriptions"
+msgstr "Suscripciones de eventos"
+
+#: links.py:50
+msgid "Mark as seen"
+msgstr "Marcar como visto"
+
+#: links.py:53
+msgid "Mark all as seen"
+msgstr "Marcar todos como vistos"
+
+#: links.py:59
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+#: models.py:22
+msgid "Name"
+msgstr "Nombre"
+
+#: models.py:26
+msgid "Stored event type"
+msgstr "Tipo de evento almacenado"
+
+#: models.py:27
+msgid "Stored event types"
+msgstr "Tipos de eventos almacenados"
+
+#: models.py:52 models.py:78 models.py:109
+msgid "User"
+msgstr "Usuario"
+
+#: models.py:56 models.py:113
+msgid "Event type"
+msgstr "Tipo de evento"
+
+#: models.py:62
+msgid "Event subscription"
+msgstr "Suscripción de evento"
+
+#: models.py:82
+msgid "Action"
+msgstr "Acción"
+
+#: models.py:84
+msgid "Read"
+msgstr "Leido"
+
+#: models.py:90
+msgid "Notification"
+msgstr "Notificación"
+
+#: models.py:91 views.py:132
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: models.py:119
+msgid "Object event subscription"
+msgstr "Suscripción a eventos de objetos"
+
+#: models.py:120
+msgid "Object event subscriptions"
+msgstr "Suscripciones a eventos de objetos"
+
+#: permissions.py:8
+msgid "Access the events of an object"
+msgstr "Acceder a los eventos de un objeto"
+
+#: views.py:56
+#, python-format
+msgid "Error updating event subscription; %s"
+msgstr "Error al actualizar la suscripción al evento; %s"
+
+#: views.py:61
+msgid "Event subscriptions updated successfully"
+msgstr "Las suscripciones de eventos se actualizaron con éxito"
+
+#: views.py:127
+msgid "Subscribe to global or object events to receive notifications."
+msgstr "Suscríbase a eventos globales o de objetos para recibir notificaciones."
+
+#: views.py:130
+msgid "There are no notifications"
+msgstr "No hay notificaciones"
+
+#: views.py:179
+msgid ""
+"Events are actions that have been performed to this object or using this "
+"object."
+msgstr "Los eventos son acciones que se han realizado a este objeto o utilizando este objeto."
+
+#: views.py:182
+msgid "There are no events for this object"
+msgstr "No hay eventos para este objeto"
+
+#: views.py:184
+#, python-format
+msgid "Events for: %s"
+msgstr "Eventos para: %s"
+
+#: views.py:224
+#, python-format
+msgid "Error updating object event subscription; %s"
+msgstr "Error al actualizar la suscripción al evento de objeto; %s"
+
+#: views.py:230
+msgid "Object event subscriptions updated successfully"
+msgstr "Las suscripciones a eventos de objeto se actualizaron con éxito"
+
+#: views.py:243
+#, python-format
+msgid "Event subscriptions for: %s"
+msgstr "Suscripciones de eventos para: %s"
+
+#: views.py:295
+#, python-format
+msgid "Events of type: %s"
+msgstr "Eventos de tipo: %s"

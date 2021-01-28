@@ -1,0 +1,78 @@
+<h5>{{ _('Actions') }}</h5>
+<ul>
+{% set show_listed=addon.has_listed_versions() %}
+{% if not addon.has_complete_metadata() and addon.status == amo.STATUS_NULL and addon.can_request_review() %}
+  {% if check_addon_ownership(request, addon, dev=True) %}
+    <li>
+      <form action="{{ url('devhub.request-review', addon.slug) }}" method="post" class="resume">
+        {% csrf_token %}
+        <button
+          class="link tooltip" type="submit"
+          title="{{ _("Resume the submission process for this add-on")}}">
+          {{ _('Resume') }}
+        </button>
+      </form>
+    </li>
+  {% endif %}
+  {% if check_addon_ownership(request, addon) and addon.can_be_deleted() %}
+    <li>
+      <a href="#" class="delete-addon tooltip"
+         title="{{ _('Delete this add-on.') }}">{{ _('Delete') }}</a>
+      <div class="modal-delete modal hidden">
+        {% include "devhub/addons/listing/delete_form.html" %}
+      </div>
+    </li>
+  {% endif %}
+{% else %}
+  {% if check_addon_ownership(request, addon, dev=True) %}
+    <li>
+      <a href="{{ addon.get_dev_url() }}" class="tooltip"
+         title="{{ _("Edit details on this add-on's product page") }}">
+        {{ _('Edit Product Page') }}</a>
+    </li>
+    {% if not addon.is_disabled %}
+      <li>
+        {% set version_upload_url = url('devhub.submit.version', addon.slug) %}
+        <a href="{{ version_upload_url }}" class="tooltip"
+           title="{{ _('Upload a new version of this add-on') }}">
+          {{ _('New Version') }}</a>
+      </li>
+    {% endif %}
+    {% if addon.current_version and not addon.current_version.is_compatible_by_default %}
+      <li class="compat"
+          data-src="{{ url('devhub.ajax.compat.status', addon.slug) }}">
+        {% include "devhub/addons/ajax_compat_status.html" %}
+        <div class="compat-error-popup popup error hidden"></div>
+        <div class="compat-update-modal modal hidden"></div>
+      </li>
+    {% endif %}
+  {% endif %}
+  {% if addon.type in amo.ADDON_TYPES_WITH_STATS and addon.status != amo.STATUS_DISABLED %}
+    <li>
+      <a href="{{ url('stats.overview', addon.slug) }}" class="tooltip"
+        title="{{ _('Daily statistics on downloads and users') }}">
+        {{ _('Statistics') }}</a>
+    </li>
+  {% endif %}
+  <li>
+    <a href="#" class="more-actions">{{ _('More') }}</a>
+    <div class="more-actions-popup popup hidden">
+      {% set manage_urls = [
+        (addon.get_dev_url('owner'), _('Manage Authors & License')),
+        (addon.get_dev_url('versions'), _('Manage Status & Versions')),
+      ] %}
+      <ul>
+        {% for url, title in manage_urls %}
+          <li><a href="{{ url }}">{{ title }}</a></li>
+        {% endfor %}
+      </ul>
+      <ul>
+        {% if show_listed %}
+            <li><a href="{{ addon.get_url_path() }}">{{ _('View Product Page') }}</a></li>
+        {% endif %}
+        <li><a href="{{ url('devhub.feed', addon.slug) }}">{{ _('View Recent Changes') }}</a></li>
+      </ul>
+    </div>
+  </li>
+{% endif %}
+</ul>

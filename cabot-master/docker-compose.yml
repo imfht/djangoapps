@@ -1,0 +1,53 @@
+version: '2'
+services:
+  web:
+    extends:
+      file: docker-compose-base.yml
+      service: base
+    env_file:
+      - conf/development.env
+    command: python manage.py runserver 0.0.0.0:5001
+    ports:
+      - "5001:5001"
+    links:
+      - redis
+      - db
+
+  worker:
+    extends:
+      file: docker-compose-base.yml
+      service: base
+    env_file:
+      - conf/development.env
+    command: celery worker -A cabot --loglevel=DEBUG --concurrency=16 -Ofair
+    environment:
+      - SKIP_INIT=1
+      - WAIT_FOR_MIGRATIONS=1
+    links:
+      - redis
+      - db
+
+  beat:
+    extends:
+      file: docker-compose-base.yml
+      service: base
+    env_file:
+      - conf/development.env
+    command: celery beat -A cabot --loglevel=DEBUG
+    environment:
+      - SKIP_INIT=1
+      - WAIT_FOR_MIGRATIONS=1
+    links:
+      - redis
+      - db
+
+  redis:
+    image: redis:alpine
+
+  db:
+    image: postgres:alpine
+    volumes:
+      - datavolume:/var/lib/postgresql/data
+
+volumes:
+  datavolume:

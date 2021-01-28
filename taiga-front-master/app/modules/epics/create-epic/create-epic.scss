@@ -1,0 +1,95 @@
+.lightbox-create-epic {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+    .create-epic-container {
+        max-width: 700px;
+        width: 90%;
+    }
+    .subject-container {
+        align-items: center;
+        display: flex;
+        .subject {
+            padding-left: 1rem;
+            width: 100%;
+        }
+    }
+    .tags-block {
+        width: 100%;
+        .tags-container {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+        .tag {
+            align-items: center;
+            display: flex;
+            font-size: .875rem;
+            min-height: 2rem;
+            &:first-child {
+                margin-inline-start: 0;
+            }
+        }
+    }
+    .attachments {
+        margin-bottom: 0;
+    }
+    .settings {
+        display: flex;
+        justify-content: center;
+        fieldset {
+            margin-right: .5rem;
+            &:hover {
+                color: $color-white;
+                transition: all .2s ease-in;
+                transition-delay: .2s;
+            }
+            &:last-child {
+                margin: 0;
+            }
+        }
+        input {
+            display: none;
+            &:checked+label {
+                background: $color-link-primary;
+                border: 1px solid $color-link-primary;
+                color: $white;
+            }
+            &:checked+.blocked {
+                background: $color-link-red;
+                border: 1px solid $color-link-red;
+                color: $color-white;
+            }
+        }
+    }
+    label {
+        @include font-size(small);
+        background: $color-gray100;
+        border: 1px solid $color-gray200;
+        color: $color-black600;
+        cursor: pointer;
+        display: block;
+        padding-block-end: .5rem;
+        padding-block-start: .5rem;
+        text-align: center;
+        text-transform: none;
+        transition: all .2s ease-in;
+        &:hover {
+            background: $color-link-primary;
+            border: 1px solid $color-link-primary;
+            color: $color-white;
+        }
+        &.blocked {
+            &:hover {
+                background: $color-link-red;
+                border: 1px solid $color-link-red;
+            }
+        }
+    }
+    .create-epic-button {
+        display: block;
+        width: 100%;
+    }
+}

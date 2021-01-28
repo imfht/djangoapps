@@ -1,0 +1,68 @@
+{% extends "pretixbase/email/base.html" %}
+{% load eventurl %}
+{% load i18n %}
+{% block header %}
+    <h1>
+        {% if notification.url %}<a href="{{ notification.url }}">{% endif %}
+        {{ notification.title }}
+        {% if notification.url %}</a>{% endif %}
+    </h1>
+{% endblock %}
+{% block content %}
+    <tr>
+        <td class="containertd">
+            <!--[if gte mso 9]>
+                    <table cellpadding="20"><tr><td>
+            <![endif]-->
+            <div class="content">
+                {% if notification.detail %}
+                    <p>{{ notification.detail }}</p>
+                {% endif %}
+                {% if notification.attributes %}
+                    <table>
+                        {% for attr in notification.attributes %}
+                            <tr>
+                                <td>
+                                    <strong>{{ attr.title }}</strong>
+                                </td>
+                                <td>
+                                    {{ attr.value|linebreaksbr }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+                {% if notification.actions %}
+                    <p class="actions" style="text-align: center">
+                        {% for action in notification.actions %}
+                            <a href="{{ action.url }}" class="button">{{ action.label }}</a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            </div>
+            <!--[if gte mso 9]>
+                    </td></tr></table>
+            <![endif]-->
+        </td>
+    </tr>
+    {% include "pretixbase/email/separator.html" %}
+    <tr>
+        <td class="containertd">
+            <!--[if gte mso 9]>
+                    <table cellpadding="20"><tr><td>
+            <![endif]-->
+            <div class="content">
+                {% trans "You receive these emails based on your notification settings." %}<br>
+                <a href="{{ settings_url }}">
+                    {% trans "Click here to view and change your notification settings" %}
+                </a><br>
+                <a href="{{ disable_url }}">
+                    {% trans "Click here disable all notifications immediately." %}
+                </a>
+            </div>
+            <!--[if gte mso 9]>
+                    </td></tr></table>
+            <![endif]-->
+        </td>
+    </tr>
+{% endblock %}

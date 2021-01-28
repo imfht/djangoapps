@@ -1,0 +1,118 @@
+{% load i18n %}
+{% load account socialaccount %}
+{% load staticfiles %}
+
+<div class="md-modal-xs md-effect-1 " id="modal-login">
+  <div class="md-content-xs ">
+    <button type="button" class="md-close btn-none"><i class="fa fa-times fa-lg" aria-hidden="true"></i></button>
+    <div class="row-s start-xs">
+      <form class="login smalltext text-lightest" id="login-form-js" method="POST" action="{% url 'account_login' %}">
+        <div class="col-xs-12">
+          <h3 class="title text-lightest">{% trans "LOGIN" %}</h3>
+          <p>{% blocktrans %}If you have not created an account yet, then please <a class=" md-trigger text-blue" href="#modal-signup" data-modal="modal-signup"><span>sign up</span></a>.{% endblocktrans %}</p>
+          <p class="no-padding">
+            <div class="login-or">
+              <p class="no-padding smalltext">{% trans "Login using your email address:" %}</p>
+            </div>
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+            {% include "socialaccount/snippets/login_extra.html" %}
+            {% else %}
+            <p class="no-padding smalltext">{% blocktrans %}If you have not created an account yet, then please <a class="text-darkest md-trigger" data-modal="modal-signup">sign up</a> first.{% endblocktrans %}</p>
+            {% endif %}
+          </p>
+          <div class="start-xs text-lightest ">
+            {% csrf_token %}
+            <div class="input-anim">
+              <span id="login-form-errors-js"></span>
+              <p>
+                {{ login_form.login.label_tag }} {{ login_form.login }}{{ login_form.login.errors }}
+              </p>
+              <p>
+                {{ login_form.password.label_tag }} {{ login_form.password }}{{ login_form.password.errors }}
+              </p>
+            </div>
+            <label class="input-anim" for="id_remember">
+              <p class="no-padding"> {{ login_form.remember.errors }}
+                <div class="flex-in">
+                  {{ login_form.remember.label_tag }}
+                  {{ login_form.remember }}
+                </div>
+              </p>
+            </label>
+          </div>
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+        </div>
+        <div class="col-xs-12">
+          <button class="primaryAction btn-blue md-trigger" data-modal="modal-login" type="submit">{% trans "Login" %}</button>
+        </div>
+        <div class="col-xs-12 text-lightest">
+          <a class="smalltext secondaryAction u-blockify text-center" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+        </div>
+        {% if socialaccount_providers %}
+        <div class="col-xs-12 center-xs middle-xs flex-in full-width mt-small">
+          <hr class="full-width">
+          <p class="no-padding left-right">OR</p>
+          <hr class="full-width">
+        </div>
+        {% endif %}
+      </form>
+      <div class="col-xs-12 middle-xs mt-small smalltext">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="md-modal-xs md-effect-1" id="modal-signup">
+  <div class="md-content-xs ">
+    <button type="button" class="md-close btn-none"><i class="fa fa-times fa-lg" aria-hidden="true"></i></button>
+    <div class="row-s start-xs ">
+      <form class="signup start-xs smalltext text-lightest" id="signup-form-js" method="post" action="{% url 'account_signup' %}">
+        <div class="col-xs-12">
+          <h3 class="title text-lightest">{% trans "SIGN UP" %}</h3>
+          <div class="login-or"><p class="smalltext">{% trans "Sign up via email address:" %}</p></div>
+          {% csrf_token %}
+          <div class="start-xs text-lightest">
+            <div class="input-anim">
+              <span id="signup-form-errors-js"></span>
+              <p>
+                {{ signup_form.email.label_tag }} {{ signup_form.email }}{{ signup_form.email.errors }}
+              </p>
+              <p>
+                {{ signup_form.password1.label_tag }} {{ signup_form.password1 }} {{ signup_form.password1.errors }}
+              </p>
+              <p>
+                {{ signup_form.password2.label_tag }} {{ signup_form.password2 }} {{ signup_form.password2.errors }}
+              </p>
+            </div>
+          </div>
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+        </div>
+        <div class="col-xs-12">
+          <button class="btn-blue mt-small" type="submit">{% trans "Sign Up" %}</button>
+        </div>
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div class="col-xs-12 center-xs middle-xs flex-in full-width mt-small">
+          <hr class="full-width">
+          <p class="no-padding left-right">{% trans "OR" %}</p>
+          <hr class="full-width">
+        </div>
+      </form>
+      <div class="col-xs-12 middle-xs mt-small smalltext">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+      </div>
+      {% endif %}
+      <div class="col-xs-12">
+        <p class="smalltext text-center">{% blocktrans %}Already have an account? Then please <a class=" md-trigger text-blue" href="#modal-login" data-modal="modal-login">Sign in</a>{% endblocktrans %}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="md-overlay"></div>
+<script src="{% static 'javascripts/auth_modals.js' %}"></script>

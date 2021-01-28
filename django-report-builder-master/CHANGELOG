@@ -1,0 +1,68 @@
+## 6.4
+
+- Added Django 3.0 and 3.1 support (Thanks mzelazkiewicz)
+
+## 6.3.2
+
+- Fixed admin widgets (Thanks predatell)
+- Angular updated to version 8
+
+## 6.3.1
+
+Botched 6.3.0 build process, no actual changes here
+
+## 6.3
+
+- Added Django 2.2 support. Django 1.11 and 2.1 are still supported.
+- Unit tests finally run in Python 3.7 thanks to Celery supporting it
+- Angular updated to version 7
+
+## 6.2
+
+- Added Python 3.7 support
+
+## 6.1
+
+- Added Django 2.1 support. 2.0 and 1.11 are still supported.
+- Upgrade frontend to Angular 6
+- Fixed django admin report edit page missing assets
+
+## 6.0
+
+- Added django 2.0 support. Droped support for Django 1.8 and 1.10 as Django no longer supports them
+- Bug fixes
+
+## 5.0
+
+- Potentially breaking change - Rebuilt frontend in Angular 5. Should only affect those who customize the frontend.
+
+## 4.0
+
+- Breaking Change - drop support for python 2.7
+- Added scheduled reports to email reports on recurring basis (with celery)
+
+## 3.6
+
+- Last version to support python 2.7
+- Fix bug affecting Django 1.10 and 1.11
+- Moved to tox for testing
+
+## 3.5
+
+- Compatible with Django 1.11
+- Manifest containers only needed static assets, greatly reducing file size.
+- No longer testing in Django 1.9, but probably still works.
+- Remains in maintence mode - no features
+
+## 3.4
+
+- Switched from default angular theme to something more neutral
+- Updated Angular Material version
+- Some CSS fixes
+- Limited Django 1.10 (use >=3.4.2) support see #239
+- Django rest framework 3.4 support
+
+
+## 3.3 
+
+Official support is now for Django 1.8 and 1.9. Python 2.7 and 3.5 (I'm sure 3.4 works but no longer unit testing it). For Django < 1.8 please use the 3.2 release.

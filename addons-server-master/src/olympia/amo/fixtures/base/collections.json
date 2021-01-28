@@ -1,0 +1,44 @@
+[
+    {
+        "pk": 433359,
+        "model": "translations.translation",
+        "fields": {
+            "localized_string": "WebDev",
+            "created": "2009-06-09 23:35:09",
+            "locale": "en-US",
+            "modified": "2009-06-09 23:35:09",
+            "id": 394557,
+            "localized_string_clean": null
+        }
+    },
+    {
+        "pk": 80,
+        "model": "bandwagon.collection",
+        "fields": {
+            "uuid": "a5f1b177-c01d-c306-3030-e01598892405",
+            "default_locale": "en-US",
+            "created": "2009-06-09 23:35:10",
+            "nickname": "webdev",
+            "modified": "2009-06-09 23:37:36",
+            "addon_count": 2,
+            "application": 1,
+            "listed": 1,
+            "type": 0,
+            "name": 394557,
+            "slug": "lolwut",
+            "author": 10482
+        }
+    },
+    {
+        "pk": 207981,
+        "model": "bandwagon.collectionaddon",
+        "fields": {
+            "created": "2009-06-09 23:35:10",
+            "modified": "2009-06-09 23:35:10",
+            "comments": null,
+            "user": 10482,
+            "collection": 80,
+            "addon": 3615
+        }
+    }
+]

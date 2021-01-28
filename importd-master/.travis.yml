@@ -1,0 +1,49 @@
+sudo: false
+
+
+language: python
+
+
+python:
+    - 2.7
+    - 3.5
+    - pypy
+    - pypy3
+    - nightly
+
+
+os:
+    - linux
+#   - osx
+
+
+before_install: pip install --upgrade tox pip virtualenv wheel setuptools --quiet
+
+
+install: pip install fhurl gunicorn smarturls dj-database-url --quiet
+
+
+before_script: pyclean --verbose .
+
+
+script: tox
+
+
+# after_script: true  # runs after tests
+
+# after_success: true  # runs when all tests passed
+
+# after_failure: true  # runs when failed
+
+
+notifications:
+    email:
+        recipients: upadhyay@gmail.com
+        template:
+          - "%{repository}@%{branch}: %{message}(%{build_url})"
+          - "Build: %{build_number},SHA: %{commit},Committer: %{author},Diff: %{compare_url}"
+        on_success: always
+        on_failure: always
+
+
+cache: apt

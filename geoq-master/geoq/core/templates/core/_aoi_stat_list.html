@@ -1,0 +1,33 @@
+<ul class="statlist pull-right">
+    <li title="{{ object.job.project.name }}">
+        <i class="icon-briefcase"></i>
+        <a href="{{ object.job.project.get_absolute_url }}">{{ object.job.project.name }}</a>
+    </li>
+    <br/>
+    <li title="This Work Cell is {{ object.status }}">
+        <i class="icon-th"></i>
+        {% if object.status == 'In work' %}
+            {% if object.analyst == request.user %}You are{% else %}{{ object.analyst }} is{% endif %} on it.
+        {% elif object.status == 'Assigned' %}
+            Assigned to {% if object.assignee_name == request.user %}you{% else %}{{ object.assignee_name }}{% endif %}
+        {% else %}
+        {{ object.status }}
+        {% endif %}
+    </li>
+    {% if object.status == 'In work' %}
+    {% if 'accounts.change_aoi' in request.base_perms %}
+    {% if object.analyst == request.user %}
+    <li title="Unassign this Work Cell">
+        <i class="icon-circle-arrow-down"></i>
+        <a href="{% url 'aoi-update-status' object.id 'Unassigned' %}">Release</a>
+    </li>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% if 'accounts.delete_aoi' in request.base_perms %}
+    <li title="Delete this Work Cell">
+        <i class="icon-trash"></i>
+        <a href="{% url 'aoi-delete' object.id %}">Delete</a>
+    </li>
+    {% endif %}
+</ul>

@@ -1,0 +1,73 @@
+.project-values-row {
+    align-items: center;
+    border-bottom: 1px solid $whitish;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    div {
+        margin-left: 1rem;
+        position: relative;
+    }
+    .icon {
+        cursor: pointer;
+        fill: $gray-light;
+        opacity: 0;
+        &:hover {
+            fill: $grayer;
+            transition: all .2s ease-in;
+        }
+    }
+}
+
+.project-values-header {
+    @include font-type(medium);
+    border-bottom: 3px solid $whitish;
+}
+.project-values-body {
+    form {
+        &:last-child {
+            .project-values-row {
+                border: 0;
+            }
+        }
+    }
+    .project-values-row {
+        &:hover {
+            background: lighten($primary, 60%);
+            cursor: move;
+            transition: background .2s ease-in;
+            .icon {
+                opacity: 1;
+                transition: opacity .2s ease-in;
+            }
+        }
+    }
+}
+
+.project-values-name {
+    flex-basis: 0;
+    flex-grow: 3;
+}
+.project-values-value {
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+.project-values-isclosed,
+.project-values-settings {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.project-values-settings {
+    a {
+        display: inline-block;
+        margin-right: .5rem;
+    }
+    svg {
+        &.icon-trash {
+            fill: $red-light;
+        }
+    }
+}

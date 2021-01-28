@@ -1,0 +1,110 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% trans "Argument Analysis Platform. Create and analyze argument maps online." %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="description" content="{% block description %}{% trans "Argument analysis and mapping platform" %}{% endblock %}" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/h5bp.css" %}" />
+    <link rel="stylesheet" href="{% static "css/normalize.css" %}" />
+    <link rel="stylesheet" href="{% static "css/main.css" %}?v=3.2.6" />
+    <link rel="icon" type="image/png" href="{% static "img/favicon.png" %}" />
+    <link rel="image_src" type="image/png" href="https://arguman.org{% static "img/logo-large.png" %}" />
+    <meta property="og:image" content="http://arguman.org{% static "img/logo-large.png" %}"/>
+    <meta name="google-site-verification" content="g-YRAePbSzX5_eMCqQvkkYqecMlQNAIxhRXmeAKMmiQ" />
+    {% block extra-meta %}{% endblock %}
+</head>
+<body{% block body-attrs %}{% endblock %}>
+{% block header %}
+<header class="container">
+    {% if announcements.exists %}
+    <ul class="announcements">
+        {% for announcement in announcements %}
+            <li><strong>{% trans "Announcement:" %} </strong> <a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div id="logo">
+        <a href="{% if user.is_anonymous %}/{% else %}{% url "newsfeed" %}{% endif %}">
+            argüman
+            <img src="{% static "img/logo.png" %}" alt=""/></a>
+    </div>
+    <nav>
+        <ul id="site-navigation">
+            <li><a href="{% url "about" %}">{% trans "about" %}</a></li>
+            <li><a href="{% url "blog" %}">{% trans "blog" %}</a></li>
+            {% if user.is_anonymous %}
+            <li><a href="{% url "auth_registration" %}">{% trans "register" %}</a></li>
+            <li><a href="{% url "auth_login" %}">{% trans "login" %}</a></li>
+            {% else %}
+            <li><a class="new-argument-link" href="{% url "new_argument" %}">{% trans "new argument" %}</a></li>
+            <li><a class="username" href="{% url "auth_profile" user.username %}">{{ user.username|truncatechars:14 }}</a>
+                (<a href="{% url "auth_logout" %}">{% trans "logout" %}</a>)</li>
+            {% endif %}
+            <li class="inline-search pull-right">
+                <form action="{% url "contentions_search" %}">
+                    <input type="search" name="keywords" id="keyword" placeholder="{% trans "search keywords" %}">
+                </form>
+            </li>
+            <li class="social-links">
+                {% get_current_language as language %}
+                {% trans "Languages:" %}
+                <a {% if language == "en" %}class="active" {% endif %}
+                    href="http://en.arguman.org">English</a>
+                <a {% if language == "es" %}class="active" {% endif %}
+                    href="http://es.arguman.org">Español</a>
+                <a {% if language == "fr" %}class="active" {% endif %}
+                    href="http://fr.arguman.org">{% trans "Français" %}</a>
+                <a {% if language == "pl" %}class="active" {% endif %}
+                    href="http://pl.arguman.org">{% trans "Polski" %}</a>
+                <a {% if language == "tr" %}class="active" {% endif %}
+                    href="http://tr.arguman.org">Türkçe</a>
+                <a {% if language == "zh-hans" %}class="active" {% endif %}
+                    href="http://ch.arguman.org">{% trans "中文" %}</a>
+                <br>
+                {% trans "Follow on twitter:" %} <a href="https://twitter.com/argumentmapping" target="_blank">@argumentmapping</a> <br />
+		        Subreddit: <a href="https://www.reddit.com/r/arguman" target="_blank">/r/arguman</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block footer %}
+<footer>
+    <div class="container">
+        <p>
+            {% blocktrans trimmed %}
+                <p>arguman is an free/libre software project — sponsored by<a href="https://prisync.com/"><img src="http://arguman.org/static/img/prisync.png" alt="prisync" width="100" style="margin-left: 10px;mix-blend-mode: multiply;"></a>
+
+</p>
+            {% endblocktrans %}
+        </p>
+        <p>
+            <a href="/tos">{% trans "Terms of Service" %}</a> |
+            <a href="https://github.com/fatiherikli/arguman.org/issues">{% trans "Feedback" %}</a> |
+            <a href="https://paypal.me/arguman">{% trans "Donate" %}</a> |
+            <a href="mailto:argumananalizi@gmail.com">argumananalizi@gmail.com</a>
+    </p>
+    </div>
+</footer>
+{% endblock %}
+<script type="text/javascript" src="{% static "js/lib/jquery-1.10.2.min.js" %}"></script>
+<script type="text/javascript" src="{% static "js/lib/jquery-ui.custom.min.js" %}"></script>
+<script type="text/javascript" src="{% static "js/lib/class.js" %}"></script>
+<script type="text/javascript" src="{% static "js/lib/hipo.infinity-scroll.js" %}"></script>
+<script type="text/javascript" src="{% static "js/main.js?v=3.2.2" %}"></script>
+{% block extra-scripts %}{% endblock %}
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-55983865-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</body>
+</html>

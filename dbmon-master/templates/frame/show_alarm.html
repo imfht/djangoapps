@@ -1,0 +1,54 @@
+{% extends 'base/base_site.html' %}
+{% block style %}
+ <style>
+     .table tr th {
+    font-size: 12px;
+    }
+    .table tr td {
+    font-size: 12px;
+    }
+
+  </style>
+{% endblock  %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        监控告警
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li class="active">监控告警</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-body" style="overflow: auto">
+                <table id="table1" class="table table-bordered table-striped" >
+                <thead>
+                <tr>
+                  <th>tags</th>
+                  <th>设备URL</th>
+                  <th>告警类型</th>
+                  <th>告警内容</th>
+                  <th>告警时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for messageinfo in messageinfo_list %}
+                <tr>
+                  <td>{{ messageinfo.tags }} </td>
+                  <td>{{ messageinfo.url}} </td>
+                  <td>{{ messageinfo.alarm_type}} </td>
+                  <td>{{ messageinfo.alarm_content}} </td>
+                  <td>{{ messageinfo.alarm_time}} </td>
+                 </tr>
+                {% endfor %}
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+{% endblock %}

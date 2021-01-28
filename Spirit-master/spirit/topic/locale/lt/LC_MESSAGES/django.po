@@ -1,0 +1,180 @@
+# 
+# Translators:
+# sirex <sirexas@gmail.com>, 2016-2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-09-13 00:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/spirit-project/spirit/language/lt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: forms.py:33
+msgid "Category"
+msgstr "Kategorija"
+
+#: forms.py:34
+msgid "Choose a category"
+msgstr "Pasirinkite kategoriją"
+
+#: models.py:32
+msgid "category"
+msgstr "kategorija"
+
+#: models.py:35
+msgid "title"
+msgstr "antraštė"
+
+#: models.py:37
+msgid "date"
+msgstr "data"
+
+#: models.py:38
+msgid "last active"
+msgstr "paskutinis aktyvumas"
+
+#: models.py:39
+msgid "reindex at"
+msgstr ""
+
+#: models.py:41
+msgid "pinned"
+msgstr "prisegta"
+
+#: models.py:42
+msgid "globally pinned"
+msgstr "globaliai prisegta"
+
+#: models.py:43
+msgid "closed"
+msgstr "uždaryta"
+
+#: models.py:46
+msgid "views count"
+msgstr "peržiūrų skaičius"
+
+#: models.py:47
+msgid "comment count"
+msgstr "komentarų skaičius"
+
+#: models.py:53
+msgid "topic"
+msgstr "tema"
+
+#: models.py:54
+msgid "topics"
+msgstr "temos"
+
+#: templates/spirit/topic/_render_list.html:48
+msgid "There are no topics here, yet"
+msgstr "Kol kas temų nėra"
+
+#: templates/spirit/topic/_top_bar.html:17
+#: templates/spirit/topic/_top_bar.html:32
+msgid "All Categories"
+msgstr "Visos kategorijos"
+
+#: templates/spirit/topic/_top_bar.html:29
+msgid "All Subcategories"
+msgstr "Visos pakategorės"
+
+#: templates/spirit/topic/_top_bar.html:41
+#: templates/spirit/topic/_top_bar.html:44
+msgid "Create Topic"
+msgstr "Kurti temą"
+
+#: templates/spirit/topic/active.html:5
+msgid "Latest active topics"
+msgstr "Paskutinės aktyvios temos"
+
+#: templates/spirit/topic/detail.html:12
+msgid "Main"
+msgstr "Pagrindinis"
+
+#: templates/spirit/topic/detail.html:39 templates/spirit/topic/detail.html:43
+msgid "edit"
+msgstr "keisti"
+
+#: templates/spirit/topic/detail.html:51
+msgid "Moderate"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:57
+msgid "Select comments to move"
+msgstr "Pažymėkite komentarus perkėlimui"
+
+#: templates/spirit/topic/detail.html:60
+msgid "Undelete topic"
+msgstr "Atstatyti temą"
+
+#: templates/spirit/topic/detail.html:63
+msgid "Delete topic"
+msgstr "Trinti temą"
+
+#: templates/spirit/topic/detail.html:67
+msgid "Open topic"
+msgstr "Atidaryti temą"
+
+#: templates/spirit/topic/detail.html:70
+msgid "Close topic"
+msgstr "Uždaryti temą"
+
+#: templates/spirit/topic/detail.html:74
+msgid "Unpin topic"
+msgstr "Nusegti temą"
+
+#: templates/spirit/topic/detail.html:77
+msgid "Pin topic"
+msgstr "Prisegti temą"
+
+#: templates/spirit/topic/detail.html:81
+msgid "Unpin topic globally"
+msgstr "Nusegti temą globaliai"
+
+#: templates/spirit/topic/detail.html:84
+msgid "Pin topic globally"
+msgstr "Prisegti temą globaliai"
+
+#: templates/spirit/topic/detail.html:106
+msgid "Reply"
+msgstr "Atsakyti"
+
+#: templates/spirit/topic/detail.html:114
+msgid "Move selected comments to"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:120
+msgid "Move"
+msgstr "Perkelti"
+
+#: templates/spirit/topic/moderate.html:5
+#: templates/spirit/topic/moderate.html:9
+msgid "Moderate topic"
+msgstr "Moderuoti temą"
+
+#: templates/spirit/topic/moderate.html:14
+msgid "Apply"
+msgstr "Taikyti"
+
+#: templates/spirit/topic/publish.html:5
+#: templates/spirit/topic/publish.html:20
+msgid "Publish topic"
+msgstr "Skelbti temą"
+
+#: templates/spirit/topic/publish.html:38
+msgid "Publish"
+msgstr "Skelbti"
+
+#: templates/spirit/topic/update.html:5 templates/spirit/topic/update.html:9
+msgid "Update topic"
+msgstr "Atnaujinti temą"
+
+#: templates/spirit/topic/update.html:13
+msgid "Update"
+msgstr "Atnaujinti"

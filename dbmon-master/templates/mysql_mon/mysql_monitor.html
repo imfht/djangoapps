@@ -1,0 +1,852 @@
+{% extends 'base/base_site.html' %}
+
+{% block style %}
+ <style>
+     .table tr th {
+    font-size: 12px;
+    }
+    .table tr td {
+    font-size: 12px;
+    }
+    [aria-controls="example1"] {
+    }
+
+    li{list-style: none;}/*这里设置*/
+
+  </style>
+{% endblock  %}
+
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        实时监控
+        <small>MySQL</small>
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">MySQL</a></li>
+        <li class="active">实时监控</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+      <div class="box box-solid">
+            <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
+          <p>
+              <span class="label label-{{ check_status }}">{{ mysql_status }}</span>
+              <span class="label label-default">更新时间：{{ mysqlinfo.chk_time }}</span>
+          </p>
+              </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+            <form action="" method="post" id="myform">
+                <div class="box-tools pull-left">
+              <div class="form-group">
+                <label>选择Mysql数据库：</label>
+                <select onchange="submitForm();" class="form-control select2" style="width: 100%;" name="select_tags">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tagsdefault }}</option>
+                  {% for tags in tagsinfo %}
+                  <option>{{ tags.tags }}</option>
+                   {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+           <!-- /.row -->
+          <div class="col-md-6">
+              <div class="panel panel-default pull-right" >
+                  <a href="#"><button type="button" class="btn btn-default" onclick="return pop('{{ mysqlinfo.tags }}','{{ osinfo.host }}')" >获取实例日志</button>
+                  </a>
+			</h2>
+          </div>
+           	<div class="panel panel-default pull-right" >
+               <a data-toggle="collapse" href="#linuxconf" target="_blank" class="btn btn-default">配置信息</a>
+			</h2>
+          </div>
+        </div>
+        <div class="row">
+            <div id="linuxconf" class="panel-collapse collapse">
+			 <div class="col-sm-12 invoice-col">
+            <div class="box-body" style="overflow: auto">
+              <table id="example1" class="table table-bordered table-hover" style="table-layout: auto">
+                  <tr>
+                 <td>MySQL版本: {{ mysqlinfo.version}} </td>
+                 </tr>
+                  <tr>
+                 <td>数据目录: {{ mysqlinfo.mysql_datadir }} </td>
+                 <td>最大连接数: {{ mysqlinfo.max_connections }} </td>
+                 </tr>
+                  <tr>
+                 <td>InnoDB缓冲区大小: {{ mysqlinfo.innodb_buffer_pool_size }} MB</td>
+                 <td>排序区: {{ mysqlinfo.sort_buffer_size }} KB</td>
+                 </tr>
+                  <tr>
+                 <td>慢查询是否开启: {{ mysqlinfo.mysql_slow_query}}</td>
+                 <td>二进制日志: {{ mysqlinfo.mysql_binlog }}</td>
+                 </tr>
+              </table>
+            </div>
+
+        </div>
+		</div>
+
+        </div>
+        <!-- /.box-body -->
+        </div>
+            <div class="row">
+        <div class="col-md-4">
+          <!-- AREA CHART -->
+            <div class="box-body chart-responsive">
+              <div class="chart" id="conn-chart" style="height: 300px; "></div>
+            </div>
+            <!-- /.box-body -->
+          <!-- /.box -->
+
+        </div>
+            <div class="col-md-4">
+          <!-- AREA CHART -->
+            <div class="box-body chart-responsive">
+              <div class="chart" id="table-chart" style="height: 300px; "></div>
+            </div>
+            <!-- /.box-body -->
+          <!-- /.box -->
+
+        </div>
+                <div class="col-md-4">
+          <!-- AREA CHART -->
+            <div class="box-body chart-responsive">
+              <div class="chart" id="file-chart" style="height: 300px; "></div>
+            </div>
+            <!-- /.box-body -->
+          <!-- /.box -->
+
+        </div>
+
+      </div>
+        <!-- /.box-body -->
+          <!-- interactive chart -->
+            <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="conn_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_conn();" class="form-control select2" style="width: 100%;" name="select_conn">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ conn_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="conn-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          <!-- /.box -->
+          <!-- interactive chart -->
+            <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="ps_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_ps();" class="form-control select2" style="width: 100%;" name="select_ps">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ ps_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="ps-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          <!-- interactive chart -->
+            <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="thread_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_thread();" class="form-control select2" style="width: 100%;" name="select_thread">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ thread_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="thread-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+
+            <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="net_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_net();" class="form-control select2" style="width: 100%;" name="select_net">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ net_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="net-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+
+      </div>
+
+
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+  //表单提交
+function submitForm(){
+    var form = document.getElementById("myform");
+    form.submit();
+}
+
+  //表单提交
+function submitForm_conn(){
+    var form_conn = document.getElementById("conn_range");
+    form_conn.submit();
+}
+
+  //表单提交
+function submitForm_undo(){
+    var form_undo = document.getElementById("undo_range");
+    form_undo.submit();
+}
+
+  //表单提交
+function submitForm_tmp(){
+    var form_tmp = document.getElementById("tmp_range");
+    form_tmp.submit();
+}
+  //表单提交
+function submitForm_ps(){
+    var form_ps = document.getElementById("ps_range");
+    form_ps.submit();
+}
+  //表单提交
+function submitForm(){
+    var form = document.getElementById("myform");
+    form.submit();
+}
+
+ //表单提交
+function submitForm_conn(){
+    var form_conn = document.getElementById("conn_range");
+    form_conn.submit();
+}
+
+  //表单提交
+function submitForm_ps(){
+    var form_ps = document.getElementById("ps_range");
+    form_ps.submit();
+}
+
+  //表单提交
+function submitForm_thread(){
+    var form_thread = document.getElementById("thread_range");
+    form_thread.submit();
+}
+
+  //表单提交
+function submitForm_net(){
+    var form_net = document.getElementById("net_range");
+    form_net.submit();
+}
+
+     // ####################  【连接数使用率】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_conn_used = echarts.init(document.getElementById('conn-chart'));
+        // 指定图表的配置项和数据
+        var option_conn_used = {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}%"
+                  },
+         series: [
+           {
+            name: 'CONN',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: '连接数使用率'}],
+            axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+       setInterval(function () {
+          option_conn_used.series[0].data[0].value = ({{ mysqlinfo.conn_rate }}).toFixed(2) - 0;
+          myChart_conn_used.setOption(option_conn_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_conn_used.setOption(option_conn_used);
+
+
+   // ####################  【表缓存使用情况】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_table_used = echarts.init(document.getElementById('table-chart'));
+        // 指定图表的配置项和数据
+         data = [{
+                 value: {{ mysqlinfo.open_tables }},
+                 name: '已打开表数'
+             }, {
+                 value: {{ mysqlinfo.table_open_cache }} - {{ mysqlinfo.open_tables }},
+                 name: '可用表缓存',
+             }]
+
+        var option_table_used = {
+         title :{
+             text: '表缓存使用情况',
+             x:'center'
+         },
+           series: [{
+               name: '表缓存使用',
+               type: 'pie',
+               hoverAnimation: false,
+               radius : [0, '70%'],
+               avoidLabelOverlap: false,
+               label: {
+                   normal: {
+                       position: 'inner',
+                       formatter: "{c}\n{b}",
+                       fontSize: 12,
+                   }
+               },
+               labelLine: {
+                   normal: {
+                       show: false
+                   }
+               },
+               color: ['#D07070', '#84d4c5'],
+               data: data
+           }]
+        };
+       setInterval(function () {
+          myChart_table_used.setOption(option_table_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_table_used.setOption(option_table_used);
+
+  // ####################  【文件缓存使用情况】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_file_used = echarts.init(document.getElementById('file-chart'));
+        // 指定图表的配置项和数据
+         data = [{
+                 value: {{ mysqlinfo.open_files }},
+                 name: '已打开文件数'
+             }, {
+                 value: {{ mysqlinfo.open_files_limit }} - {{ mysqlinfo.open_files }},
+                 name: '可用文件句柄',
+             }]
+
+        var option_file_used = {
+         title :{
+             text: '打开文件数情况',
+             x:'center'
+         },
+           series: [{
+               name: '打开文件数',
+               type: 'pie',
+               hoverAnimation: false,
+               radius : [0, '70%'],
+               avoidLabelOverlap: false,
+               label: {
+                   normal: {
+                       position: 'inner',
+                       formatter: "{c}\n{b}",
+                       fontSize: 12,
+                   }
+               },
+               labelLine: {
+                   normal: {
+                       show: false
+                   }
+               },
+               color: ['#D07070', '#84d4c5'],
+               data: data
+           }]
+        };
+       setInterval(function () {
+          myChart_file_used.setOption(option_file_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_file_used.setOption(option_file_used);
+
+    // ####################  【连接数使用率趋势】图形  ####################
+ var myChart_conn_grow = echarts.init(document.getElementById('conn-grow-chart'));
+ option_conn_grow = {
+     title: {
+         text: '连接数使用率',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in conngrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'连接数使用率',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in conngrow_list %}{{ i.conn_rate }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_conn_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_conn_grow.hideLoading();  //显示完成后不显示loading
+     myChart_conn_grow.setOption(option_conn_grow, true);
+ },500);
+
+  // ####################  【QPS&TPS趋势】图形  ####################
+ var myChart_ps_grow = echarts.init(document.getElementById('ps-grow-chart'));
+ option_ps_grow = {
+     title: {
+         text: 'QPS&TPS',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['QPS','TPS']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in qpsgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale: true
+     },
+     series: [
+         {
+             name:'QPS',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#a57fd4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#a57fd4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#a57fd4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in qpsgrow_list %}{{ i.qps }},{% endfor %}]
+         },
+               {
+             name:'TPS',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d44e5a"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d44e5a"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d44e5a",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tpsgrow_list %}{{ i.tps }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_ps_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_ps_grow.hideLoading();  //显示完成后不显示loading
+     myChart_ps_grow.setOption(option_ps_grow, true);
+ },500);
+
+  // ####################  【thread趋势】图形  ####################
+ var myChart_thread_grow = echarts.init(document.getElementById('thread-grow-chart'));
+ option_thread_grow = {
+     title: {
+         text: 'Threads',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['running','connected','cached']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in threadgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale: true
+     },
+     series: [
+         {
+             name:'connected',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#a57fd4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#a57fd4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#a57fd4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in threadgrow_list %}{{ i.threads_connected }},{% endfor %}]
+         },
+        {
+             name:'running',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d44e5a"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d44e5a"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d44e5a",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in threadgrow_list %}{{ i.threads_running }},{% endfor %}]
+         },
+                    {
+             name:'cached',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#22d4bf"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#22d4bf"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#22d4bf",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in threadgrow_list %}{{ i.threads_cached }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_thread_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_thread_grow.hideLoading();  //显示完成后不显示loading
+     myChart_thread_grow.setOption(option_thread_grow, true);
+ },500);
+
+
+   // ####################  【网络流量趋势】图形  ####################
+ var myChart_net_grow = echarts.init(document.getElementById('net-grow-chart'));
+ option_net_grow = {
+     title: {
+         text: '网络流量',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['Bytes received','Bytes sent']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in netgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale: true
+     },
+     series: [
+        {
+             name:'Bytes received',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d44e5a"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d44e5a"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d44e5a",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in netgrow_list %}{{ i.bytes_received }},{% endfor %}]
+         },
+                    {
+             name:'Bytes sent',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#22d4bf"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#22d4bf"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#22d4bf",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in netgrow_list %}{{ i.bytes_send }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_net_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_net_grow.hideLoading();  //显示完成后不显示loading
+     myChart_net_grow.setOption(option_net_grow, true);
+ },500);
+
+</script>
+
+<script>
+function pop(m){
+    layer.open({
+    type: 2,
+    title: m,
+    closeBtn: 1,
+    area: ['900px', '600px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/get_mysql_errorlog/?tags='+ m]
+  });
+}
+</script>
+{% endblock %}

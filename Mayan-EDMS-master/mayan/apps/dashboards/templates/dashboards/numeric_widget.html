@@ -1,0 +1,37 @@
+{% load i18n %}
+
+{% load appearance_tags %}
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 match-height">
+    <div class="panel panel-secondary dashboard-widget">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-2">
+                    {% if icon %}
+                        <i class="dashboard-widget-icon {{ icon }}"></i>
+                    {% elif icon_class %}
+                        <div class="dashboard-widget-icon">
+                            {% appearance_icon_render icon_class enable_shadow=True %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-xs-10 text-right">
+                    <strong>{{ label }}</strong>
+                    <div class="huge">
+                        {{ count }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if link %}
+            <a href="{{ link }}">
+                <div class="panel-footer">
+                    <span class="pull-left">{% trans 'View details' %}</span>
+                    <span class="pull-right">{% appearance_icon_render link_icon_class %}</span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        {% endif %}
+    </div>
+</div>
+

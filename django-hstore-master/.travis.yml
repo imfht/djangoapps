@@ -1,0 +1,43 @@
+language: python
+sudo: false
+
+services:
+  - postgresql
+
+python:
+  - "2.7"
+  - "3.4"
+
+env:
+  - DJANGO="django>=1.10,<1.11"
+  - DJANGO="django>=1.9,<1.10"
+  - DJANGO="django>=1.8,<1.9"
+
+branches:
+  only:
+    - master
+
+before_install:
+  - pip install -U pip setuptools wheel
+
+# command to install requirements
+install:
+  - pip install $DJANGO
+  - pip install -r requirements.txt
+  - pip install coverage coveralls
+  - python setup.py -q install
+
+before_script:
+  - psql template1 -c 'create extension hstore;'
+  - createdb django_hstore
+  - psql -U postgres -d django_hstore -c "CREATE EXTENSION postgis;"
+  - psql -U postgres -d django_hstore -c "CREATE EXTENSION postgis_topology;"
+  - createdb django_hstore_psycopg2
+
+# command to run tests, e.g. python setup.py test
+script:
+  - ./runtests.py --settings=settings_psycopg
+  - coverage run --source django_hstore runtests.py
+
+after_success:
+  coveralls

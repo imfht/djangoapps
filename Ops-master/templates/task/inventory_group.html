@@ -1,0 +1,118 @@
+<div class="col-sm-7 pull-left" style="margin-bottom: 3px; margin-top: 3px">
+    <button class="btn btn-sm btn-success pull-left" data-toggle="modal" id="add-ans-group"
+            data-target="#AnsGroupModal">
+        <i class="fa fa-plus-square"></i>
+        <span class="bigger-110">新增主机组</span>
+    </button>
+</div>
+<div class="col-xs-12">
+    <!-- /.box -->
+    <div class="box">
+        <!-- dataTable -->
+        <div class="box-body">
+            <table id="ans_group" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>主机组名称</th>
+                    <th>组内主机</th>
+                    <th>主机组变量</th>
+                    <th>主机组描述</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for group in inventory %}
+                    <tr>
+                        <td>{{ group.ans_group_name }}</td>
+                        <td>
+                            {% for foo in group.ans_group_hosts.all %}
+                                {{ foo.assets.asset_management_ip }}<br>
+                            {% endfor %}
+                        </td>
+                        <td>{{ group.ans_group_vars }}</td>
+                        <td>{{ group.ans_group_memo }}</td>
+                        <td>{{ group.ans_group_datetime|date:"Y-m-d H:i:s" }}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal" data-id="{{ group.id }}"
+                                    data-target="#AnsGroupModal">修改
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ group.id }}">删除
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <!-- AnsGroupModal  -->
+    <div class="modal fade" id="AnsGroupModal" tabindex="-1" role="dialog"
+         aria-labelledby="AnsGroupModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="AnsGroupModalLabel">
+
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="ans_group_info" class="main form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="ans_group_name" class="col-sm-2 control-label">主机组名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="ans_group_name"
+                                           id="ans_group_name" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ans_group_hosts" class="col-sm-2 control-label">组内主机</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control select2" multiple="multiple" id="ans_group_hosts"
+                                            name="ans_group_hosts" style="width: 100%;">
+                                        {% for host in hosts %}
+                                            <option value="{{ host.id }}">{{ host.assets.asset_management_ip }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ans_group_vars"
+                                       class="col-sm-2 control-label">主机组变量</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="ans_group_vars"
+                                           id="ans_group_vars" placeholder="字典格式"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ans_group_memo"
+                                       class="col-sm-2 control-label">主机组描述</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="ans_group_memo" id="ans_group_memo"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="space-24"></div>
+
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="ans_group_ops"></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

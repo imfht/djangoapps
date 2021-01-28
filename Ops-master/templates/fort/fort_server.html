@@ -1,0 +1,858 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/select2/dist/css/select2.min.css' %}">
+
+    <style>
+        /* dataTables列内容居中 */
+        #fort > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #fort > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+
+        .form-horizontal .form-group {
+            margin-right: -200px;
+        }
+
+        .col-sm-6 {
+            width: 45%
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-7 pull-left" style="margin-bottom: 3px">
+            <button class="btn btn-sm btn-success pull-left" data-toggle="modal" id="add-fort-modal"
+                    data-target="#FortModal">
+                <i class="fa fa-plus-square"></i>
+                <span class="bigger-110">新增主机</span>
+            </button>
+            <button class="btn btn-sm btn-warning pull-left" data-toggle="modal" style="margin-left: 2px"
+                    data-target="#updateBlackCommands">
+                <i class="fa fa-bolt"></i>
+                <span class="bigger-110">配置统一禁用命令</span>
+            </button>
+        </div>
+
+        <!-- FortModal  -->
+        <div class="modal fade" id="FortModal" tabindex="-1" role="dialog"
+             aria-labelledby="FortModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="FortModalLabel">
+                            新增主机
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add_fort" class="main form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="server" class="col-sm-2 control-label">主机</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="server" name="server"
+                                                style="width: 100%;">
+                                            {% for host in hosts %}
+                                                <option value="{{ host.id }}">{{ host.assets.asset_management_ip }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="server_protocol" class="col-sm-2 control-label">协议</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="server_protocol" name="server_protocol"
+                                                style="width: 100%;">
+                                            {% for server_protocol in server_protocols %}
+                                                <option value="{{ server_protocol.0 }}">{{ server_protocol.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="server_status" class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="server_status" name="server_status"
+                                                style="width: 100%;">
+                                            {% for status in server_status %}
+                                                <option value="{{ status.0 }}">{{ status.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="add-fort">添加
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!-- FortUserModal  -->
+        <div class="modal fade" id="FortUserModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="FortUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="FortUserModalLabel">
+
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="main form-horizontal" id="fort_user_info">
+                            <fieldset>
+                                <div class="form-group" style="display: none;">
+                                    <label for="fort_server" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="fort_server" id="fort_server"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fort_username" class="col-sm-2 control-label">用户名称</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="fort_username"
+                                               id="fort_username" required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fort_user_status" class="col-sm-2 control-label">用户状态</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="fort_user_status"
+                                                name="fort_user_status"
+                                                style="width: 100%;">
+                                            {% for user_status in fort_user_status %}
+                                                <option value="{{ user_status.0 }}">{{ user_status.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="form-password">
+                                    <label for="fort_password" class="col-sm-2 control-label">用户密码</label>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control" name="fort_password"
+                                               id="fort_password" required/>
+                                    </div>
+                                    <span><button type="button" class="btn btn-default gen-pass">生成随机密码</button></span>
+                                </div>
+
+                                <div class="form-group" id="vnc_port">
+                                    <label for="fort_vnc_port" class="col-sm-2 control-label">VNC端口</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="fort_vnc_port"
+                                               id="fort_vnc_port" required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fort_belong_user" class="col-sm-2 control-label">所属用户</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="fort_belong_user"
+                                                multiple="multiple" name="fort_belong_user"
+                                                style="width: 100%;">
+                                            {% for user in users %}
+                                                <option value="{{ user.id }}">{{ user.username }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fort_belong_group" class="col-sm-2 control-label">所属组</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control select2" id="fort_belong_group"
+                                                multiple="multiple" name="fort_belong_group"
+                                                style="width: 100%;">
+                                            {% for group in groups %}
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="black_commands">
+                                    <label for="fort_black_commands" class="col-sm-2 control-label">该用户禁用命令</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control" id="fort_black_commands"
+                                                  name="fort_black_commands"
+                                                  placeholder="建议使用绝对路径，多个命令使用逗号隔开"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fort_user_memo" class="col-sm-2 control-label">用户说明</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control" id="fort_user_memo"
+                                                  name="fort_user_memo"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="space-24"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="fort_user_ops"></button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!--dataTable-->
+        <div class="col-xs-12">
+            <!-- /.box -->
+            <div class="box">
+                <div class="box-body">
+                    <table id="fort" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>主机</th>
+                            <th>账号</th>
+                            <th>协议</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for fort_server in fort_servers %}
+
+                            <tr>
+                                <td>{{ fort_server.server.assets.asset_management_ip }}</td>
+                                <td>
+                                    {% for fort_user in fort_server.fortserveruser_set.all %}
+                                        {% if fort_user.fort_user_status == 0 %}
+                                            <span class="badge bg-red update-fort-user" data-toggle="modal"
+                                                  data-target="#FortUserModal" data-user-id="{{ fort_user.id }}"
+                                                  data-server-id="{{ fort_server.server.id }}"
+                                                  data-protocol="{{ fort_server.server_protocol }}"
+                                                  style="cursor: pointer">{{ fort_user.fort_username }}</span>&nbsp;
+                                        {% elif fort_user.fort_user_status == 1 %}
+                                            <span class="badge bg-green update-fort-user" data-toggle="modal"
+                                                  data-target="#FortUserModal" data-user-id="{{ fort_user.id }}"
+                                                  data-server-id="{{ fort_server.server.id }}"
+                                                  data-protocol="{{ fort_server.server_protocol }}"
+                                                  style="cursor: pointer">{{ fort_user.fort_username }}</span>&nbsp;
+                                        {% endif %}
+                                    {% endfor %}
+                                    <button type="button" class="btn btn-info btn-xs add-fort-user" data-toggle="modal"
+                                            data-target="#FortUserModal" data-server-id="{{ fort_server.server.id }}"
+                                            data-fort-server="{{ fort_server.id }}"
+                                            data-protocol="{{ fort_server.server_protocol }}"><i class="fa fa-plus"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    {% if fort_server.server_protocol == 'ssh' %}
+                                        <small class="label label-primary"> {{ fort_server.get_server_protocol_display }}</small>
+                                    {% elif fort_server.server_protocol == 'vnc' %}
+                                        <small class="label label-warning"> {{ fort_server.get_server_protocol_display }}</small>
+                                    {% else %}
+                                        <small class="label label-info"> {{ fort_server.get_server_protocol_display }}</small>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if fort_server.server_status == 0 %}
+                                        <span class="badge bg-red">{{ fort_server.get_server_status_display }}</span>
+                                    {% else %}
+                                        <span class="badge bg-green">{{ fort_server.get_server_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs disable_server"
+                                            data-id="{{ fort_server.id }}">禁用
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-xs enable_server"
+                                            data-id="{{ fort_server.id }}">解禁
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs delete"
+                                            data-id="{{ fort_server.id }}">删除
+                                    </button>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row -->
+
+    {% include 'fort/update_black_commands.html' %}
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- Select2 -->
+    <script src="{% static 'AdminLTE/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            fort_server_table = $('#fort').DataTable({
+                columnDefs: [{
+                    'targets': [-1],
+                    'orderable': false
+                }],
+                "order": [[0, "asc"]]
+            });
+        });
+
+        // Initialize Select2 Elements
+        $(function () {
+            $('.select2').select2({
+                allowClear: true
+            });
+        });
+
+        // 处理在modal中select2当选框无法搜索的问题
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {
+        };
+
+        let fort_server_tbody = $('#fort tbody');
+
+        // 添加主机
+        $('#add-fort-modal').click(function () {
+            $(".select2").val('').trigger('change');
+
+            $('#add-fort').on('click', function () {
+                let data = {
+                    server: $('#server').val(),
+                    server_protocol: $('#server_protocol').val(),
+                    server_status: $('#server_status').val()
+                };
+                $.ajax({
+                    url: '/api/fort/',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function () {
+                        location.reload()
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        })
+                    }
+                });
+            });
+        });
+
+        // 删除主机
+        fort_server_tbody.on('click', '.delete', function () {
+            {% if perms.auth.delete_fortserver %}
+                let pk = $(this).attr('data-id');
+                let tr_obj = $(this).parents('tr');
+                $.confirm({
+                    title: 'Tips',
+                    content: '确定要删除这条记录么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: function () {
+                            $.ajax({
+                                url: '/api/fort/' + pk + '/',
+                                method: 'DELETE',
+                                success: function () {
+                                    fort_server_table.row(tr_obj).remove().draw();
+                                },
+                                error: function (data) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '删除失败！' + data.responseText,
+                                    })
+                                }
+                            })
+                        },
+                        Cancel: function () {
+                            //
+                        }
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '抱歉！您没有删除主机的权限！如有疑问，请联系管理员！',
+                });
+            {% endif %}
+        });
+
+        // 禁用主机
+        fort_server_tbody.on('click', '.disable_server', function () {
+            let fort_server_id = $(this).attr('data-id');
+            let fort_server_td_obj = $(this).parents('tr').children();
+            $.ajax({
+                url: '/api/fort/' + fort_server_id + '/',
+                type: 'PATCH',
+                data: JSON.stringify({server_status: 0}),
+                dataType: 'json',
+                contentType: "application/json",
+                success: function () {
+                    fort_server_td_obj[3].innerHTML = '<span class="badge bg-red">禁用</span>'
+                },
+                error: function (response) {
+                    $.alert({
+                        title: 'Tips',
+                        type: 'red',
+                        content: response.responseText,
+                    })
+                }
+            });
+        });
+
+        // 解禁主机
+        fort_server_tbody.on('click', '.enable_server', function () {
+
+            let fort_server_id = $(this).attr('data-id');
+            let fort_server_td_obj = $(this).parents('tr').children();
+            $.ajax({
+                url: '/api/fort/' + fort_server_id + '/',
+                type: 'PATCH',
+                data: JSON.stringify({server_status: 1}),
+                dataType: 'json',
+                contentType: "application/json",
+                success: function () {
+                    fort_server_td_obj[3].innerHTML = '<span class="badge bg-green">正常</span>'
+                },
+                error: function (response) {
+                    $.alert({
+                        title: 'Tips',
+                        type: 'red',
+                        content: response.responseText,
+                    })
+                }
+            });
+        });
+
+        let fort_user_ops = $('#fort_user_ops');
+        // 添加用户
+        fort_server_tbody.on('click', '.add-fort-user', function () {
+            document.getElementById('fort_user_info').reset();
+            $(".select2").val('').trigger('change');
+            $('#fort_username').removeAttr("readonly");
+            $('#form-password').css('display', '');
+            $('#delete_fort_user').remove();
+
+            let server_id = $(this).attr('data-server-id');
+            let fort_server = $(this).attr('data-fort-server');
+            let fort_protocol = $(this).attr('data-protocol');
+            $('#FortUserModalLabel').text('新增用户');
+            fort_user_ops.text('添加');
+
+            if (fort_protocol === 'ssh') {
+                $('#vnc_port').css('display', 'none');
+                $("[data-toggle='tooltip']").tooltip('destroy');
+                $('#black_commands').css('display', 'block');
+                fort_user_ops.unbind('click').on('click', function () {
+
+                    let fort_black_commands = $('#fort_black_commands').val();
+                    let black_commands = gen_sudo_conf(fort_black_commands);
+                    let data = {
+                        fort_server: fort_server,
+                        fort_username: $('#fort_username').val(),
+                        fort_password: $('#fort_password').val(),
+                        fort_user_status: $('#fort_user_status').val(),
+                        fort_black_commands: fort_black_commands,
+                        fort_user_memo: $('#fort_user_memo').val(),
+                        fort_belong_user: $('#fort_belong_user').val(),
+                        fort_belong_group: $('#fort_belong_group').val(),
+                    };
+
+                    let host_ids = [];
+                    host_ids.push(server_id);
+                    let ansible_data = {
+                        hostGroup: ["custom"],
+                        ans_group_hosts: host_ids,
+                        ansibleModule: 'shell',
+                        ansibleModuleArgs: `useradd ${data.fort_username} && echo "${data.fort_password}" | passwd --stdin ${data.fort_username} && echo '${data.fort_username}  ALL\\=(ALL)       NOPASSWD: ALL,${black_commands}' > /etc/sudoers.d/${data.fort_username}`,
+                        run_user: '{{ request.user.id }}',
+                        remote_ip: '{{ remote_ip }}'
+                    };
+                    let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+                    let socket = new WebSocket(ws_scheme + '://' + window.location.host + "/ws/ans_module_log/");
+
+                    socket.onopen = function () {
+                        socket.send(JSON.stringify(ansible_data));
+                    };
+
+                    socket.onmessage = function (e) {
+                        if (e.data.indexOf('success') !== -1) {
+                            $.ajax({
+                                url: '/api/fort_user/',
+                                type: 'POST',
+                                data: JSON.stringify(data),
+                                dataType: 'json',
+                                contentType: "application/json",
+                                success: function () {
+                                    window.location.reload();
+                                },
+                                error: function (response) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '数据库添加用户失败！' + response.responseText,
+                                    })
+                                }
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: '服务器添加用户失败！' + e.data,
+                            })
+                        }
+                    };
+
+                    socket.onerror = function (e) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: '服务器添加用户失败！' + e,
+                        })
+                    }
+                });
+            } else if (fort_protocol === 'vnc') {
+                $('#vnc_port').css('display', 'block');
+                fort_user_ops.attr({"data-toggle": "tooltip", "title": "VNC服务器需要手动连接服务器添加该用户"});
+                $('#black_commands').css('display', 'block');
+
+                add_fort_user(server_id, fort_server)
+            } else if (fort_protocol === 'rdp') {
+                $('#vnc_port').css('display', 'none');
+                fort_user_ops.attr({"data-toggle": "tooltip", "title": "Windows服务器需要手动连接服务器添加该用户"});
+                $('#black_commands').css('display', 'none');
+
+                add_fort_user(server_id, fort_server)
+            }
+        });
+
+        // 更新/删除用户
+        fort_server_tbody.on('click', '.update-fort-user', function () {
+            $("[data-toggle='tooltip']").tooltip('destroy');
+            let fort_user_id = $(this).attr('data-user-id');
+            let server_id = $(this).attr('data-server-id');
+            let fort_protocol = $(this).attr('data-protocol');
+            $('.modal-title').text('修改用户');
+            fort_user_ops.text('保存');
+            if (!$('#delete_fort_user')[0]) {
+                fort_user_ops.after('<button type="button" class="btn btn-danger" data-dismiss="modal" id="delete_fort_user">删除</button>');
+            }
+            $('#fort_username').attr("readonly", "readonly");
+            $('#form-password').css('display', 'none');
+
+            if (fort_protocol === 'ssh') {
+                $('#black_commands').css('display', 'block');
+                $('#vnc_port').css('display', 'none');
+            } else if (fort_protocol === 'vnc') {
+                $('#black_commands').css('display', 'block');
+                $('#vnc_port').css('display', 'block');
+            } else if (fort_protocol === 'rdp') {
+                $('#black_commands').css('display', 'none');
+                $('#vnc_port').css('display', 'none');
+            }
+
+            $.get('/api/fort_user/' + fort_user_id + '/', function (data) {
+                $('#fort_username').val(data.fort_username);
+                $('#fort_user_status').val(data.fort_user_status).trigger('change');
+                $('#fort_belong_user').val(data.fort_belong_user).trigger('change');
+                $('#fort_belong_group').val(data.fort_belong_group).trigger('change');
+                $('#fort_black_commands').val(data.fort_black_commands);
+                $('#fort_user_memo').val(data.fort_user_memo);
+                if (fort_protocol === 'vnc') {
+                    $('#fort_vnc_port').val(data.fort_vnc_port)
+                }
+            });
+
+            $('#fort_black_commands').change(function () {
+                $('#fort_black_commands').data('changed', true)
+            });
+
+            // 更新用户信息
+            fort_user_ops.unbind('click').on('click', function () {
+                let fort_black_commands = $('#fort_black_commands');
+
+                let data = {
+                    fort_user_status: $('#fort_user_status').val(),
+                    fort_belong_user: $('#fort_belong_user').val(),
+                    fort_belong_group: $('#fort_belong_group').val(),
+                    fort_black_commands: fort_black_commands.val(),
+                    fort_user_memo: $('#fort_user_memo').val(),
+                    fort_vnc_port: $('#fort_vnc_port').val()
+                };
+
+                if (fort_black_commands.data('changed')) {
+                    let username = $('#fort_username').val();
+                    let fort_black_commands = $('#fort_black_commands').val();
+                    let black_commands = gen_sudo_conf(fort_black_commands);
+                    let ansible_data = {
+                        hostGroup: ["custom"],
+                        ans_group_hosts: server_id.split(""),
+                        ansibleModule: 'shell',
+                        ansibleModuleArgs: `echo '${username}  ALL\\=(ALL)       NOPASSWD: ALL,${black_commands}' > /etc/sudoers.d/${username}`,
+                        run_user: '{{ request.user.id }}',
+                        remote_ip: '{{ remote_ip }}'
+                    };
+
+                    let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+                    let socket = new WebSocket(ws_scheme + '://' + window.location.host + "/ws/ans_module_log/");
+
+                    socket.onopen = function () {
+                        socket.send(JSON.stringify(ansible_data));
+                    };
+
+                    socket.onmessage = function (e) {
+                        if (e.data.indexOf('success') !== -1) {
+                            $.ajax({
+                                url: '/api/fort_user/' + fort_user_id + '/',
+                                type: 'PATCH',
+                                data: JSON.stringify(data),
+                                dataType: 'json',
+                                contentType: "application/json",
+                                success: function () {
+                                    window.location.reload();
+                                },
+                                error: function (response) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '数据库更新用户失败！' + response.responseText,
+                                    })
+                                }
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: '服务器更新用户失败！' + e.data,
+                            })
+                        }
+                    };
+
+                    socket.onerror = function (e) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: '服务器更新用户失败！' + e,
+                        })
+                    }
+                } else {
+                    $.ajax({
+                        url: '/api/fort_user/' + fort_user_id + '/',
+                        type: 'PATCH',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        contentType: "application/json",
+                        success: function () {
+                            window.location.reload();
+                        },
+                        error: function (response) {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: response.responseText,
+                            })
+                        }
+                    });
+                }
+            });
+
+            // 删除用户
+            $('#delete_fort_user').unbind('click').on('click', function () {
+                $.confirm({
+                    title: 'Tips',
+                    content: '确定要删除么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: function () {
+                            if (fort_protocol === 'ssh' || fort_protocol === 'vnc') {
+                                let username = $('#fort_username').val();
+                                let host_ids = [];
+                                host_ids.push(server_id);
+                                let ansible_data = {
+                                    hostGroup: ["custom"],
+                                    ans_group_hosts: host_ids,
+                                    ansibleModule: 'user',
+                                    ansibleModuleArgs: 'name=' + username + ' state=absent remove=yes',
+                                    run_user: '{{ request.user.id }}',
+                                    remote_ip: '{{ remote_ip }}'
+                                };
+                                let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+                                let socket = new WebSocket(ws_scheme + '://' + window.location.host + "/ws/ans_module_log/");
+
+                                socket.onopen = function () {
+                                    socket.send(JSON.stringify(ansible_data));
+                                };
+
+                                socket.onmessage = function (e) {
+                                    if (e.data.indexOf('success') !== -1) {
+                                        $.ajax({
+                                            url: '/api/fort_user/' + fort_user_id + '/',
+                                            type: 'DELETE',
+                                            success: function () {
+                                                window.location.reload();
+                                            },
+                                            error: function (response) {
+                                                $.alert({
+                                                    title: 'Tips',
+                                                    type: 'red',
+                                                    content: '数据库删除用户失败！' + response.responseText,
+                                                })
+                                            }
+                                        });
+                                    } else {
+                                        $.alert({
+                                            title: 'Tips',
+                                            type: 'red',
+                                            content: '服务器删除用户失败！' + e.data,
+                                        })
+                                    }
+                                };
+
+                                socket.onerror = function (e) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '服务器删除用户失败！' + e,
+                                    })
+                                }
+                            } else {
+                                $.ajax({
+                                    url: '/api/fort_user/' + fort_user_id + '/',
+                                    type: 'DELETE',
+                                    success: function () {
+                                        window.location.reload();
+                                    },
+                                    error: function (response) {
+                                        $.alert({
+                                            title: 'Tips',
+                                            type: 'red',
+                                            content: '数据库删除用户失败！' + response.responseText,
+                                        })
+                                    }
+                                });
+                            }
+                        },
+                        Cancel: function () {
+                            // close
+                        }
+                    }
+                });
+            });
+        });
+
+
+        // 生成sudo配置文件内容
+        function gen_sudo_conf(user_black_commands) {
+            let command_list = [];
+            let black_commands = String();
+            if (user_black_commands.length === 0) {
+                black_commands = '{{ black_commands.black_commands }}'
+            } else {
+                black_commands = '{{ black_commands.black_commands }}' + ',' + user_black_commands;
+            }
+            let t_commands_list = black_commands.split(',');
+            for (let i = 0; i < t_commands_list.length; i++) {
+                command_list.push('!' + t_commands_list[i].trim())
+            }
+
+            let u_command_list = Array.from(new Set(command_list));
+            return u_command_list.join(',')
+        }
+
+        function add_fort_user(server_id, fort_server) {
+            $("[data-toggle='tooltip']").tooltip();
+            fort_user_ops.unbind('click').on('click', function () {
+                let data = {
+                    fort_server: fort_server,
+                    fort_username: $('#fort_username').val(),
+                    fort_password: $('#fort_password').val(),
+                    fort_user_status: $('#fort_user_status').val(),
+                    fort_user_memo: $('#fort_user_memo').val(),
+                    fort_belong_user: $('#fort_belong_user').val(),
+                    fort_belong_group: $('#fort_belong_group').val(),
+                    fort_vnc_port: $('#fort_vnc_port').val()
+                };
+
+                $.ajax({
+                    url: '/api/fort_user/',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: '数据库添加用户失败！' + response.responseText,
+                        })
+                    }
+                });
+            });
+        }
+
+
+        // 生成随机密码
+        $('.gen-pass').on('click', function () {
+            let pass = randomWord(20);
+            $('#fort_password').val(pass)
+        });
+
+        function randomWord(num) {
+            let str = "",
+                arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+            for (let i = 0; i < num; i++) {
+                let pos = Math.round(Math.random() * (arr.length - 1));
+                str += arr[pos];
+            }
+            return str;
+        }
+
+    </script>
+
+{% endblock %}
+

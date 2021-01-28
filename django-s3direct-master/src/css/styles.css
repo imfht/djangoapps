@@ -1,0 +1,44 @@
+.s3direct {
+  float: left;
+}
+
+.s3direct .progress {
+  background: #333;
+  width: 200px;
+  position: relative;
+  overflow: visible;
+  height: 25px;
+  border-radius: 0;
+}
+
+.s3direct .cancel-button {
+  position: absolute;
+  right: -20px;
+  font-size: 25px;
+  line-height: 25px;
+}
+
+.s3direct .cancel-button:focus {
+  text-decoration: none;
+}
+
+.s3direct .file-remove {
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.s3direct .progress,
+.s3direct .file-link,
+.s3direct .file-remove,
+.s3direct .file-input {
+  display: none;
+  float: left;
+  clear: left;
+}
+
+.s3direct.progress-active .progress,
+.s3direct.link-active .file-link,
+.s3direct.link-active .file-remove,
+.s3direct.form-active .file-input {
+  display: block;
+}

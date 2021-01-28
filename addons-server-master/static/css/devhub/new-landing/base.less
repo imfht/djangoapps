@@ -1,0 +1,221 @@
+@import (less) '../../common/normalize.css';
+@import 'fonts';
+
+// Grid
+@grid-max: 960px;
+@medium: ~"only screen and (min-width: 700px)";
+@large: ~"only screen and (min-width: 960px)";
+@notlarge: ~"only screen and (max-width: 959px)";
+@retina: ~"only screen and (min-resolution: 1.5dppx)";
+@side-margin: 10px;
+@medium-side-margin: 24px;
+
+// Fonts
+@font-primary: 'Fira Sans', sans-serif;
+
+// Colors
+@color-text: #333;
+@color-items:#015fdf;
+@color-callout-border: #FDC900;
+
+// Color Schemes
+// Default
+@color-scheme-default-background: #F9F9FA;
+
+// Light
+@color-scheme-light-text: @color-text;
+@color-scheme-light-background: #fff;
+
+// Medium
+@color-scheme-medium-text: #fff;
+@color-scheme-medium-background: linear-gradient(46deg, #E31586, #FC4054, #FF9641);
+
+// Dark
+@color-scheme-dark-text: #fff;
+@color-scheme-dark-background: #09204d;
+@color-scheme-dark-items: #b1b1b3;
+
+// Buttons
+@color-button-default: #0996F8;
+@color-button-primary: #fff;
+@color-button-register: #015fdf;
+@color-button-signout: rgba(12,12,12,0.1);
+@color-button-default-text: #fff;
+@color-button-primary-text: @color-items;
+@color-button-register-text: #fff;
+@color-button-signout-text: @color-text;
+
+// State colors in 'My Addons'
+@color-version-state-disabled: #9b9898;
+@color-version-state-nominated: #ff9216;
+@color-version-state-approved: #329902;
+@color-version-state-admin-disabled: #d92215;
+
+@color-publish-channel-listed: #01bdad;
+@color-publish-channel-unlisted: #7a2f7a;
+
+// Common styles
+* {
+  font-family: @font-primary;
+  // widths take into account padding + borders.
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: content-box;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+.link(@color, @decoration: none) {
+  color: @color;
+  text-decoration: @decoration;
+
+  &:link {
+    color: @color;
+  }
+
+  &:visited {
+    color: fadeout(@color, 10%);
+  }
+
+  &:hover {
+    color: fadeout(@color, 20%);
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: fadeout(@color, 10%);
+  }
+}
+
+a {
+  .link(@color-items);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: column;
+  line-height: 1.35;
+
+  // prevent horizontal scrollbars.
+  overflow-x: hidden;
+
+  &.user-signedin {
+    // But not for our signed-in 'My Addons' section
+    // since this is not supposed to be responsive (yet)
+    overflow-x: auto;
+  }
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 1.2;
+  margin-bottom: 0;
+  margin-top: 20px;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px;
+}
+h4 {
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+}
+h4 {
+  font-weight: 400;
+}
+
+@media @large {
+  h1, h2, h3 {
+    font-weight: 400;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+}
+
+.stars {
+    display: inline-block;
+    vertical-align: middle;
+    width: 63px;
+    height: 12px;
+    background: url(../../../img/impala/stars.png) no-repeat left top;
+    text-indent: -9999px;
+    margin-right: 4px;
+
+    &.stars-4 { background-position: -13px 0; }
+    &.stars-3 { background-position: -26px 0; }
+    &.stars-2 { background-position: -39px 0; }
+    &.stars-1 { background-position: -52px 0; }
+    &.stars-0 { background-position: -65px 0; }
+    &.large {
+        display: block;
+        background: url(../../../img/impala/stars-16.png) no-repeat left top;
+        width: 89px;
+        height: 16px;
+
+        &.stars-4 { background-position: -18px 0; }
+        &.stars-3 { background-position: -36px 0; }
+        &.stars-2 { background-position: -54px 0; }
+        &.stars-1 { background-position: -70px 0; }
+    }
+
+    .html-rtl & {
+        transform: scale(-1, 1);
+        overflow: hidden;
+    }
+}
+
+.rating a {
+  color: #0996F8;
+  font-size: 11px;
+}
+
+.rating b {
+  font-size: 14px;
+}
+
+// Common component utilities
+@import 'common';
+
+// Generic Components
+@import 'button';
+@import 'logo';
+@import 'navigation';
+
+// Content sections
+@import 'sections/overview';
+@import 'sections/more-information';
+@import 'sections/my-addons';
+@import 'sections/submit-or-manage';
+@import 'sections/get-involved';
+@import 'sections/banner';
+@import 'sections/connect';
+
+// Developer Footer
+@import 'dev-footer';
+
+// Tooltip
+@import '../../impala/tooltips';
+
+// Site Footer
+@import '../../photon-site/footer';

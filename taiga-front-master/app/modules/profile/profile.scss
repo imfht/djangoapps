@@ -1,0 +1,64 @@
+.profile {
+    display: flex;
+    min-height: $main-height;
+    padding: 2rem 0;
+    .profile-bar {
+        margin-right: 1rem;
+        width: 200px;
+    }
+    .main {
+        display: flex;
+        padding: 0;
+    }
+    .timeline-wrapper {
+        margin-right: 3.5rem;
+        width: 768px;
+        > div {
+            opacity: 1;
+            padding-top: 0;
+            position: relative;
+            transition: all .3s cubic-bezier(.09, .43, .35, .95);
+            &.ng-hide {
+                opacity: 0;
+                padding-top: .5vh;
+            }
+        }
+        .spin {
+            margin: 10% auto;
+            width: 3rem;
+            img {
+                @include loading-spinner;
+                max-height: 3rem;
+                max-width: 3rem;
+            }
+        }
+
+    }
+    .profile-sidebar {
+        flex-basis: 150px;
+        flex-shrink: 0;
+        width: 150px;
+        .button-gray {
+            display: block;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    }
+    .empty-tab {
+        padding: 5vh;
+        text-align: center;
+        svg {
+            fill: $whitish;
+            height: 10rem;
+            margin: 2rem auto;
+            text-align: center;
+            width: 10rem;
+        }
+        p {
+            color: $gray-light;
+            font-size: .9rem;
+            margin: 0;
+        }
+    }
+}

@@ -1,0 +1,180 @@
+# 
+# Translators:
+# jumasheff <jumasheff@gmail.com>, 2020
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-09-13 00:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Kyrgyz (http://www.transifex.com/spirit-project/spirit/language/ky/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ky\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: forms.py:33
+msgid "Category"
+msgstr "Категория"
+
+#: forms.py:34
+msgid "Choose a category"
+msgstr "Категория тандаңыз"
+
+#: models.py:32
+msgid "category"
+msgstr "категория"
+
+#: models.py:35
+msgid "title"
+msgstr "баш аты"
+
+#: models.py:37
+msgid "date"
+msgstr "датасы"
+
+#: models.py:38
+msgid "last active"
+msgstr "акыркы аракеттер"
+
+#: models.py:39
+msgid "reindex at"
+msgstr "кайра индекстелген датасы"
+
+#: models.py:41
+msgid "pinned"
+msgstr "кадалган"
+
+#: models.py:42
+msgid "globally pinned"
+msgstr "глобалдык түрдө кадалган"
+
+#: models.py:43
+msgid "closed"
+msgstr "жабык"
+
+#: models.py:46
+msgid "views count"
+msgstr "көрүүлөр саны"
+
+#: models.py:47
+msgid "comment count"
+msgstr "жорумдар саны"
+
+#: models.py:53
+msgid "topic"
+msgstr "тема"
+
+#: models.py:54
+msgid "topics"
+msgstr "тема"
+
+#: templates/spirit/topic/_render_list.html:48
+msgid "There are no topics here, yet"
+msgstr "Темалар азырынча жок"
+
+#: templates/spirit/topic/_top_bar.html:17
+#: templates/spirit/topic/_top_bar.html:32
+msgid "All Categories"
+msgstr "Бардык категориялар"
+
+#: templates/spirit/topic/_top_bar.html:29
+msgid "All Subcategories"
+msgstr "Бардык субкатегориялар"
+
+#: templates/spirit/topic/_top_bar.html:41
+#: templates/spirit/topic/_top_bar.html:44
+msgid "Create Topic"
+msgstr "Тема түзүү"
+
+#: templates/spirit/topic/active.html:5
+msgid "Latest active topics"
+msgstr "Соңку жигердүү темалар"
+
+#: templates/spirit/topic/detail.html:12
+msgid "Main"
+msgstr "Негизги"
+
+#: templates/spirit/topic/detail.html:39 templates/spirit/topic/detail.html:43
+msgid "edit"
+msgstr "өзгөртүү"
+
+#: templates/spirit/topic/detail.html:51
+msgid "Moderate"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:57
+msgid "Select comments to move"
+msgstr "Жылдыруу үчүн жорумдарды тандаңыз"
+
+#: templates/spirit/topic/detail.html:60
+msgid "Undelete topic"
+msgstr "Теманы жок кылууну кайтаруу"
+
+#: templates/spirit/topic/detail.html:63
+msgid "Delete topic"
+msgstr "Теманы жок кылуу"
+
+#: templates/spirit/topic/detail.html:67
+msgid "Open topic"
+msgstr "Теманы ач"
+
+#: templates/spirit/topic/detail.html:70
+msgid "Close topic"
+msgstr "Теманы жап"
+
+#: templates/spirit/topic/detail.html:74
+msgid "Unpin topic"
+msgstr "Теманы кадоодон алып сал"
+
+#: templates/spirit/topic/detail.html:77
+msgid "Pin topic"
+msgstr "Теманы када"
+
+#: templates/spirit/topic/detail.html:81
+msgid "Unpin topic globally"
+msgstr "Теманы глобалдык кадоодон алып сал"
+
+#: templates/spirit/topic/detail.html:84
+msgid "Pin topic globally"
+msgstr "Теманы глобалдык түрдө када"
+
+#: templates/spirit/topic/detail.html:106
+msgid "Reply"
+msgstr "Жооп берүү"
+
+#: templates/spirit/topic/detail.html:114
+msgid "Move selected comments to"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:120
+msgid "Move"
+msgstr "Жылдыруу"
+
+#: templates/spirit/topic/moderate.html:5
+#: templates/spirit/topic/moderate.html:9
+msgid "Moderate topic"
+msgstr "Теманы модерациялоо"
+
+#: templates/spirit/topic/moderate.html:14
+msgid "Apply"
+msgstr "Колдон"
+
+#: templates/spirit/topic/publish.html:5
+#: templates/spirit/topic/publish.html:20
+msgid "Publish topic"
+msgstr "Теманы жарыяла"
+
+#: templates/spirit/topic/publish.html:38
+msgid "Publish"
+msgstr "Жарыялоо"
+
+#: templates/spirit/topic/update.html:5 templates/spirit/topic/update.html:9
+msgid "Update topic"
+msgstr "Теманы жаңыртуу"
+
+#: templates/spirit/topic/update.html:13
+msgid "Update"
+msgstr "Жаңыртуу"

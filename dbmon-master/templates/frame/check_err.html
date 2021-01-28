@@ -1,0 +1,41 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+        <div class="box box-solid">
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>巡检类型</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                    <th>设备标签</th>
+                  <th>异常分类</th>
+                    <th>异常信息</th>
+                </tr>
+                </thead>
+                {% for each in check_err %}
+                 <tr>
+                 <td>{{ each.check_type }} </td>
+                 <td>{{ each.begin_time }} </td>
+                 <td>{{ each.end_time }} </td>
+                 <td>{{ each.server_tag }} </td>
+                 <td>{{ each.check_err_type }}</td>
+                 <td>{{ each.check_err }} </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

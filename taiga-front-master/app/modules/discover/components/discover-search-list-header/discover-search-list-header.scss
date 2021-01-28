@@ -1,0 +1,92 @@
+.discover-results-header {
+    .discover-results-header-inner {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+    }
+    svg {
+        @include svg-size(1.2rem);
+        fill: $gray-light;
+        margin-right: .25rem;
+    }
+    .title {
+        @include font-type(medium);
+        @include font-size(larger);
+        align-self: center;
+        display: flex;
+        text-transform: uppercase;
+    }
+    h2 {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+}
+
+.filter-discover-search {
+    display: flex;
+    .discover-search-filter {
+        display: flex;
+        margin-right: 1rem;
+        &.active {
+            color: $color-link-primary;
+            svg {
+                fill: $color-link-primary;
+            }
+        }
+    }
+    svg {
+        @include svg-size(.8rem);
+    }
+}
+
+.discover-search-subfilter {
+    @include arrow('bottom', $mass-white, $mass-white, 1, 8);
+    align-items: center;
+    background: $mass-white;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    &.most-liked-subfilter {
+        &::after,
+        &::before {
+            left: 85%;
+        }
+    }
+    &.most-active-subfilter {
+        &::after,
+        &::before {
+            left: 95%;
+        }
+    }
+    &.ng-enter {
+        animation: dropdownFade .2s;
+    }
+    .results {
+        @include font-size(small);
+        color: $red-light;
+        display: block;
+        padding: .5rem 1rem;
+        transition: all .2s;
+        &:hover {
+            color: $red;
+        }
+    }
+    .filter-list {
+        display: flex;
+        margin: 0;
+        margin-left: auto;
+        a {
+            display: block;
+            padding: .5rem 1rem;
+            transition: all .2s;
+            &:hover {
+                background: $grey-10;
+                color: $gray;
+            }
+            &.active {
+                background: $color-link-primary;
+                color: $white;
+            }
+        }
+    }
+}

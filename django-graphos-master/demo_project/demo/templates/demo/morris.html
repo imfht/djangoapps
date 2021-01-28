@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+
+<link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+
+{% endblock %}
+
+{% block menu %}
+  <ul class="nav nav-tabs">
+      <li><a href="{% url 'demo_home' %}">Home</a></li>
+      <li><a href="{% url 'demo_tutorial' %}">Tutorial</a></li>
+      <li><a href="{% url 'demo_gchart_demo' %}">Gchart</a></li>
+      <li class="active"><a href="{% url 'demo_morris_demo' %}">Morris</a></li>
+      <li><a href="{% url 'demo_matplotlib_demo' %}">Matplotlib</a></li>
+      <li><a href="{% url 'demo_flot_demo' %}">Flot</a></li>
+      <li><a href="{% url 'demo_yui_demo' %}">Yui</a></li>
+      <li><a href="{% url 'demo_highcharts_demo' %}">Highcharts</a></li>
+      <li><a href="{% url 'demo_c3js_demo' %}">C3JS</a></li>
+      <li><a href="{% url 'demo_time_series_example' %}">Time Series Example</a></li>
+  </ul>
+{%  endblock %}
+
+{% block content %}
+    <div>
+        <p>
+            graphos.renderer.morris provides charting via morris and raphael.js.
+        </p>
+    </div>
+
+    <h2>Line Chart</h2>
+    <div id="line_chart" class="well">
+
+        {{ line_chart.as_html }}
+        <pre class="code">
+            queryset = Account.objects.all()
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            chart = morris.LineChart(data_source)
+        </pre>
+    </div>
+    <br />
+    <h2>Bar Chart</h2>
+    <div id="bar_chart" class="well">
+
+        {{ bar_chart.as_html }}
+        <pre class="code">
+            data = [
+                   ['Year', 'Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+                   ['2004', 1000, 400, 100, 600],
+                   ['2005', 1170, 460, 120, 310],
+                   ['2006', 660, 1120, 50, -460],
+                   ['2007', 1030, 540, 100, 200],
+                   ]
+            simple_data_source = SimpleDataSource(data=data)
+            bar_chart = morris.BarChart(simple_data_source)
+        </pre>
+    </div>
+    <br />
+
+    <h2>Donut Chart</h2>
+    <div id="donut_chart" class="well">
+
+        {{ donut_chart.as_html }}
+        <pre class="code">
+            queryset = Account.objects.all()
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            donut_chart = morris.DonutChart(data_source)
+        </pre>
+    </div>
+    <br />
+
+    <h2>Area Chart</h2>
+    <div id="area_chart" class="well">
+
+        {{ area_chart.as_html }}
+        <pre class="code">
+            queryset = Account.objects.all()
+            data_source = ModelDataSource(queryset, fields=['year', 'sales',],)
+            area_chart = morris.AreaChart(data_source)
+        </pre>
+    </div>
+    <br />
+{% endblock %}

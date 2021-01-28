@@ -1,0 +1,262 @@
+{% load static %}
+{% load user_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>会话 - {{ host.hostname }} - {{ host.remote_user.username }}@{{ host.ip }}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link href="{% static 'font-awesome/5.10.0-11/all.min.css' %}" rel="stylesheet">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+  
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/toastr/toastr.min.css' %}">
+  
+  <!-- webssh -->
+  <link rel="stylesheet" href="{% static 'webssh/xterm/3.14.5/xterm.min.css' %}">
+  <link rel="stylesheet" href="{% static 'webssh/xterm/3.14.5/addons/fullscreen.min.css' %}">
+  
+  <!-- 弹出窗口插件 -->
+  <link rel="stylesheet" href="{% static 'css/iziModal.min.css' %}">
+  
+  <!-- bootstrap-fileinput -->
+  <link rel="stylesheet" href="{% static 'bootstrap-fileinput/css/fileinput.min.css' %}">
+
+  <!-- custom -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+</head>
+<body>
+
+<span id="hostid" hidden>{{ host.id }}</span>
+
+<div class="container-fluid content-list" id="headers" style="background-color: #E3F2FD">
+	<div class="row pt-2 pb-1">
+		<div class="col-lg-6">
+			<h5>
+			主机：{{ host.hostname }}&nbsp;&nbsp;协议：{{ host.get_protocol_display }}&nbsp;&nbsp;连接：{{ host.remote_user.username }}@{{ host.ip }}:{{ host.port }}
+			<a href="javascript:void(0)" class="btn btn-sm btn-danger ml-2 session-close"><i class="far fa-times-circle"></i> 断开</a>
+			</h5>
+		</div>
+		
+		{% if request|has_permission:'webssh终端文件上传' %}
+		<div class="col-lg-3" id="up">
+			<input type="file" id="upload_file" class="file pb-2" name="upload_file" required>
+		</div>
+		{% endif %}
+		
+		{% if request|has_permission:'webssh终端文件下载' %}
+		<div class="col-lg-3" id="down">
+		  <form action="{% url 'webssh_api:session_download' host.id %}" method="post" class="form" target="_blank" onsubmit="return check_download_file();">
+			  {% csrf_token %}
+			  <div class="input-group mt-1 mt-xs-1 mt-md-1 mt-lg-0">
+				  <input type="text" class="form-control" id="download_file" name="download_file" placeholder="全路径，例如/tmp/text.txt">
+				  <input type="text" id="real_download_file" name="real_download_file" hidden>
+				  <div class="input-group-append">
+					<button type="submit" class="btn btn-info">&nbsp;&nbsp;下载</button>
+				  </div>
+			  </div>
+		  </form>
+		</div>
+		{% endif %}
+		
+	</div>
+</div>
+
+<div class="mt-1 content-list" id="terminal" ></div>
+
+<!-- 断开连接 -->
+<div id="modal-close" class="iziModal">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 p-3">
+				<h4 class="text-center mt-3">确定要断开当前连接吗？</h4>
+			</div>
+			<div class="col-6 p-3">
+				<button type="button" class="btn btn-block btn-secondary" data-iziModal-close>取消</button>
+			</div>
+			<div class="col-6 p-3">
+				<a href="javascript:void(0)"><button type="button" class="btn btn-block btn-success" onclick="close_session();" data-iziModal-close>确定</button></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- jQuery -->
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- FastClick -->
+<script src="{% static 'adminlte/plugins/fastclick/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'adminlte/plugins/toastr/toastr.min.js' %}"></script>
+
+<!-- 弹出框插件 -->
+<script src="{% static 'js/iziModal.min.js' %}"></script>
+
+<!-- bootstrap-fileinput -->
+<script src="{% static 'bootstrap-fileinput/js/fileinput.min.js' %}"></script>
+<!--script src="{% static 'bootstrap-fileinput/js/locales/zh.js' %}"></script-->
+
+<!-- webssh xterm v4 版本不支持 zmodem 插件-->
+<script src="{% static 'webssh/zmodem/zmodem.devel.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/xterm.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/fit.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/attach.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/fullscreen.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/search.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/terminado.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/webLinks.min.js' %}"></script>
+<script src="{% static 'webssh/xterm/3.14.5/addons/zmodem.min.js' %}"></script>
+<script src="{% static 'webssh/webssh.js' %}"></script>
+
+<!-- bootbox -->
+<script src="{% static 'bootbox/5.4.0/bootbox.min.js' %}"></script>
+
+<script>
+	websocket();
+	
+	$("#modal-close").iziModal({
+		iconClass: 'icon-announcement',
+		width: 450,
+	});
+	$(document).on('click', '.session-close', function (event) {
+		event.preventDefault();
+		$('#modal-close').iziModal('open');
+	});
+	
+	close_session = function () {
+		sock.close();
+		term.write('连接已关闭...\n\r');
+		$(".session-close").attr("hidden", true);
+		$("#up").attr("hidden", true);
+		$("#down").attr("hidden", true);
+		$("body").removeAttr("onbeforeunload"); //删除刷新关闭提示属性
+	};
+	
+	// 上传文件 -- start
+	$("#upload_file").fileinput({
+        language: 'zh',
+        showUpload: true,
+		uploadAsync: false,
+        dropZoneEnabled: false,
+        msgPlaceholder: '上传文件，最大支持4GB',
+        showPreview: false,
+        showCaption: true,
+		showCancel: true,
+        maxFileSize: 4194304,	// 单位kb，最大文件4GB，
+        maxFileCount: 1,
+        uploadUrl: "{% url 'webssh_api:session_upload' host.id %}",
+		enableResumableUpload: true,
+		resumableUploadOptions: {
+            chunkSize: 25600, // 分片大小 25 MB，设置更大速度更块一些，但是服务器侧占用资源也较多
+        },
+		mergeAjaxCallbacks: true,
+		ajaxSettings: {
+			headers: {'X-CSRFToken': '{{ csrf_token }}'},
+			success: function (response) {
+                //$.alert({
+                //    title: 'Tips',
+                //    type: 'green',
+                //    content: response.msg,
+                //})
+				toastr.options.closeButton = true;
+				toastr.options.showMethod = 'slideDown';
+				toastr.options.hideMethod = 'fadeOut';
+				toastr.options.closeMethod = 'fadeOut';
+				toastr.options.timeOut = 5000;	
+				toastr.options.extendedTimeOut = 0;	
+				toastr.options.progressBar = true;
+				toastr.options.positionClass = 'toast-top-right';
+				if (response.complete == true && response.uploaded == true) {
+					// 消息框
+					toastr.success('文件"' + response.filename + '"已上传到目录"' + response.remote_path + '"');
+				} else {}
+            },
+		},
+        //ajaxSettings: {
+            //headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            //success: function (response) {
+                //$.alert({
+                //    title: 'Tips',
+                //    type: 'green',
+                //    content: response.msg,
+                //})
+				//console.log("上传成功");
+            //},
+            //error: function (response) {
+                //$.alert({
+                //    title: 'Tips',
+                //    type: 'red',
+                //    content: response.msg,
+                //})
+				//console.log("上传错误");
+            //},
+        //},
+        browseLabel: '选择',
+        removeLabel: '清空',
+        uploadLabel: '上传',
+    }).on('fileuploaded', function(event, previewId, index, fileId) {
+        //console.log('File uploaded', previewId, index, fileId);
+    }).on('fileuploaderror', function(event, data, msg) {
+        //console.log('File uploaded error', data.previewId, data.index, data.fileId, msg);
+		toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 0;	
+		toastr.options.extendedTimeOut = 0;	
+		toastr.options.progressBar = true;
+		toastr.options.positionClass = 'toast-top-right';
+		toastr.error('文件上传错误: ' + data.fileId);
+    }).on('filebatchuploadcomplete', function(event, preview, config, tags, extraData) {
+        //console.log('File batch upload complete', preview, config, tags, extraData);
+    });
+	// 上传文件 -- end
+	
+	// 下载文件 -- start
+	check_download_file = function() {
+		if ($("#download_file").val() == '') {
+			$('#download_file').removeClass("is-valid");
+			$('#download_file').addClass("is-invalid");
+			return false;
+		}
+		$('#download_file').removeClass("is-invalid");
+		//$('#download_file').addClass("is-valid");
+		download_file = $('#download_file').val();
+		$('#download_file').val("");
+		$('#real_download_file').val(download_file);
+		return true;
+	};
+	// 下载文件 -- end
+	
+</script>
+
+<!-- 动画特效 -->
+<script src="{% static 'velocity/1.5.2/velocity.min.js' %}"></script>
+<script src="{% static 'velocity/1.5.2/velocity.ui.min.js' %}"></script>
+<script>
+	$(".content-list").velocity("transition.slideUpBigIn", { stagger: 150, drag: true });
+	//$(".content-list").velocity("transition.slideRightBigIn", { stagger: 120, drag: true });	
+</script>
+
+<!-- 页面加载完后再显示，更好的显示特效 -->
+<script>
+	document.addEventListener("DOMContentLoaded", function(){
+		$(".content-list").css("display", "block");
+	});
+</script>
+
+</body>
+</html>

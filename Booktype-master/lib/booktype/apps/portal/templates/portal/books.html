@@ -1,0 +1,142 @@
+{% extends "core/base.html" %}
+{% load i18n profile messaging_tags staticfiles reader_tags booktype_tags compress %}
+{% block extra_header %}
+    {% compress js %}
+    <script type="text/javascript" src="{% static "portal/js/frontpage.js" %}"></script>
+    <script type="text/javascript" src="{% static "account/js/register.js" %}"></script>
+    <script type="text/javascript" src="{% static "reader/js/infopage.js" %}"></script>
+    {% endcompress %}
+{% endblock %}
+
+{% block content %}
+    <div id="bookThumbModal" class="modal fade bookInfoModal cleanModalInfo" tabindex="-1" role="dialog" aria-labelledby="editBookInfoModal" aria-hidden="true">
+    </div>
+    <div class="container">
+        <div class="row two-col">
+            <div class="books-widget col-md-8">
+                <div class="box gray">
+                    <h2 class="box-title-alter">
+                        {% trans "Books" %}
+
+                        <div class="btn-toolbar float-right">
+
+                            <div class="btn-group float-right">
+                                <button class="btn btn-default btn-sm showGrid" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Show in a grid" %}"><i class="fa fa-th"></i></button>
+                                <button class="btn btn-default btn-sm showList" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Show in a list" %}"><i class="fa fa-list-ul"></i></button>
+                            </div>
+
+                        </div>
+
+                    </h2>
+
+                        <div class="book-thumb showing-books" id="books-prew">
+                            {% for book in books_list %}
+                                {% include "account/dashboard_book_template.html" %}
+                            {% empty %}
+                            <div class="grid-4">
+                                {% trans "There are no books yet" %}.
+                            </div>
+                            {% endfor %}
+                        </div>
+                {% booktype_pagination books_list %}
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                {% if not request.user.is_authenticated %}
+                <div class="login-widget box gray">
+                    <script>
+                        $(function() {
+                            $("#formsignin").booktypeSignin({'url': '{% url "accounts:signin" %}'});
+                        });
+                    </script>
+                        <div class="signin-block">
+                            {% include "account/form_signin.html" %}
+                        </div>
+                        <div class="box-bottom-white">
+                            <p>{% trans "Not a member? Please fill the " %}<a href="{% url "accounts:signin" %}">{% trans "Registration form" %}</a></p>
+                        </div>
+                </div>
+                {% endif %}
+
+                <div class="box white">
+                    <h2 class="box-title">{% trans "Latest Books" %}</h2>
+                    <ul class="list border-top">
+                        {% for book in latest_books %}
+                        <li>
+                            <figure>
+                                {% if book.cover %}
+                                    <img src="{% url "reader:book_cover" book.url_title %}" />
+                                {% else %}
+                                    <img src="{% static "core/img/list-default.png" %}"/>
+                                {% endif %}
+                            </figure>
+                            <div class="list-info">
+                                <h4><a href="{% url "reader:infopage" book.url_title %}">{{ book.title }}</a></h4>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>{% trans "There are no books yet" %}.</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h2 class="box-title">{% trans "Published Books" %}</h2>
+                    <ul class="list border-top">
+                        {% for book in published_books %}
+                        <li>
+                            <figure>
+                                    {% if book.cover %}
+                                        <img src="{% url "reader:book_cover" book.url_title %}" />
+                                    {% else %}
+                                        <img src="{% static "core/img/list-default.png" %}"/>
+                                    {% endif %}
+                            </figure>
+                            <div class="list-info">
+                                <h4><a href="{% url "reader:infopage" book.url_title %}">{{ book.title }}</a></h4>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>{% trans "There are no published books at the moment" %}.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="box white">
+                    <h2 class="box-title">{% trans "Recent Activity" %}</h2>
+                    <ul class="list border-top user-avatar circle">
+                        {% for base_activ in latest_activity %}
+                        {% verbose_activity base_activ as activity %}
+                        <li>
+                            <figure><img src="{% url "view_profilethumbnail" activity.user %}?width=48" alt="{{ activity.user }}"></figure>
+                            <div class="list-info">
+                                <span class="time">{% blocktrans with time_t=activity.modified|timesince %}{{time_t}} ago{% endblocktrans %}</span>
+                                <h4>
+                                  {% has_perm 'account.can_view_user_info' as access %}
+                                  {% if access or request.user == activity.user %}
+                                    <a href="{% url "accounts:view_profile" activity.user.username %}">{{ activity.user }}</a>
+                                  {% else %}
+                                    {{ activity.user }}
+                                  {% endif %}
+                                </h4>
+                                <p>
+                                    {{ activity.verbose }}
+                                    {% if activity.link_url %}
+                                    <a href="{{ activity.link_url }}">"{{ activity.link_text }}"</a>.
+                                    {% endif %}
+
+                                    <span>#{{ activity.book.url_title }}</span>
+                                </p>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>{% trans "There is no activity yet" %}.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of container -->
+{% endblock %}

@@ -1,0 +1,28 @@
+{% load humanize %}
+{% load i18n %}
+{% if user.notifications.exists %}
+<div class="notifications">
+{% if notifications %}
+    <ul>
+        {% for notification in notifications %}
+            {% if notification.get_target_object %}
+            <li>
+                <time>{{ notification.date_created|naturaltime }}</time>
+                {{ notification.render }}
+            </li>
+            {% endif %}
+        {% endfor %}
+        {% if show_see_more_button %}
+            <li class="see-more"><a href="{% url "notifications" %}" class="notifications-link">{% trans "See all" %}</a></li>
+        {% endif %}
+    </ul>
+{% else %}
+{#    <div class="empty">#}
+{#        {% trans "You have no new notifications." %}#}
+{#        {% if show_see_more_button %}#}
+{#            <a href="{% url "notifications" %}" class="notifications-link">{% trans "See all" %}</a>#}
+{#        {% endif %}#}
+{#    </div>#}
+{% endif %}
+</div>
+{% endif %}

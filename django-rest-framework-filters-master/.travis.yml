@@ -1,0 +1,39 @@
+language: python
+dist: bionic
+
+python:
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+install:
+  - travis_retry pip install -U six setuptools pip wheel
+  - travis_retry pip install -U tox tox-travis coverage
+script:
+  - tox
+after_success:
+  - coverage report
+  - bash <(curl -s https://codecov.io/bash)
+
+matrix:
+  include:
+    - python: "3.8"
+      env: TOXENV="performance"
+      script: tox -- -v 2
+    - python: "3.8"
+      env: TOXENV="warnings"
+    - python: "3.8"
+      env: TOXENV="isort,lint"
+
+    - python: "3.8"
+      env: TOXENV="dist"
+      script:
+        - python setup.py bdist_wheel
+        - rm -r djangorestframework_filters.egg-info
+        - tox --installpkg ./dist/djangorestframework_filters-*.whl
+        - tox  # test sdist
+
+  allow_failures:
+    - env: TOXENV="warnings"
+  fast_finish: true

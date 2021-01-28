@@ -1,0 +1,24 @@
+.loading-bar {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    .item {
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-name: loadBar;
+        animation-timing-function: ease-in;
+        background: $gray;
+        flex: 1;
+        height: 5px;
+    }
+
+    $colors-list: $yellow-pear $green-japanese-laurel $red-amaranth $purple-eggplant $green-olive;
+    @each $current-color in $colors-list {
+        $i: index($colors-list, $current-color) - 1;
+        .item-#{$i} {
+            animation-delay: #{$i}s;
+            background: $current-color;
+        }
+    }
+}

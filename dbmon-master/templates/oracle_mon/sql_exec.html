@@ -1,0 +1,71 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle上线工具
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">自动化运维</a></li>
+        <li><a href="/my_tools">工具包</a></li>
+        <li class="active">Oracle上线脚本执行</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+         <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">执行sql脚本列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>脚本编号</th>
+                    <th>脚本名</th>
+                    <th>目标库</th>
+                  <th>执行结果</th>
+                </tr>
+                </thead>
+                {% for sql in sqls %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ sql.sql_no}} </td>
+                 <td>{{ sql.sql_name}} </td>
+                     <td>{{ sql.db_name}} </td>
+                 <td><span class="badge bg-{{ sql.result_color }}">{{ sql.result }}</span></td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if sqls.has_previous %}
+            <a href="?page_sql={{ sqls.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ sqls.number }} 共计{{ sqls.paginator.num_pages }}
+        </span>
+        {% if sqls.has_next %}
+            <a href="?page_sql={{ sqls.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+            <div class="form-group">
+                  <input type="file" multiple="multiple" id="sqlfile" name="myfile">
+                  <p class="help-block">上传sql脚本.</p>
+                  <input type="submit" value="提交"/>
+             <div class="box-tools pull-right">
+    <li><a href="/log_info?log_type={{ log_type }}" >查看执行日志</a></li>
+         </div>
+         </div>
+      </div>
+      </div>
+{% endblock %}

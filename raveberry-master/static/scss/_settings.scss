@@ -1,0 +1,39 @@
+#most_active_device {
+	white-space: pre;
+}
+#request_activity {
+	white-space: pre;
+}
+#playlist {
+	white-space: pre;
+}
+#upgrade_config {
+	white-space: pre;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#changelog_modal .modal-content {
+	display: flex;
+	flex-direction: column;
+}
+#upgrade_modal .modal-content {
+	display: flex;
+	flex-direction: column;
+}
+
+.system-install-only.is-disabled
+{
+	pointer-events:none;
+	position:relative;
+	opacity:0.5;
+
+	&:after
+	{
+		position:absolute;
+		content:attr(disabled-note) "";
+		width:100%;
+		text-align: center;
+		top:30%;
+		color:white;
+	}
+}

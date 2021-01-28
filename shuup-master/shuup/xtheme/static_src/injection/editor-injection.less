@@ -1,0 +1,201 @@
+@color-green: #74AD40;
+@color-blue: #55ACCC;
+@editor-bg-color: #fff;
+
+
+.footer-bottom {
+    .xt-ph-edit .placeholder-help-text {
+        color: #eeeeee;
+    }
+}
+
+.xt-ph-edit {
+    border: 2px dashed @color-blue;
+    min-height: 40px;
+    cursor: pointer;
+    padding: 0.2rem;
+    margin-bottom: 10px;
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.3s;
+        opacity: 0;
+        background: @color-blue;
+        z-index: 100;
+    }
+    &>* {
+        pointer-events: none;
+    }
+    &:hover {
+        border-style: solid;
+
+        &:before {
+            opacity: 0.5;
+        }
+    }
+
+    .xt-toolbar {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+
+        .configure {
+            padding: 20px;
+            font-size: 20px;
+        }
+    }
+
+    .placeholder-help-text {
+        font-size: 12px !important;
+        text-align: left;
+        color: #fff !important;
+        padding: 5px;
+        background: @color-blue !important;
+        font-weight: bold;
+
+        .layout-identifier {
+            float: right;
+            font-size: 10px;
+            font-weight: normal;
+        }
+    }
+}
+
+.placeholder-edit-wrap:nth-child(even) {
+    .xt-ph-edit {
+        border: 2px dashed darken(@color-blue, 20%) !important;
+
+        &:hover {
+            border-style: solid !important;
+        }
+
+        .placeholder-help-text {
+            background: darken(@color-blue, 20%) !important;
+        }
+    }
+}
+
+.xt-edit-toggle, .xt-snippet-injection {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0.9rem 1rem;
+    button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        border: 0;
+        background: @color-blue !important;
+        color: #fff !important;
+        font-size: 14px !important;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background 0.1s;
+        &:hover, &:focus {
+            background: darken(@color-blue, 5%) !important;
+        }
+    }
+}
+
+#xt-sidebar-toggler {
+    font-family: 'Open Sans', sans-serif;
+    padding: 6px 12px;
+    background: #fff;
+    text-align: center;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    font-weight: bold;
+    color: @color-blue;
+    cursor: pointer;
+    box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.05);
+    white-space: nowrap;
+    font-size: 12px;
+
+    position: fixed;
+    z-index: 9999999;
+    left: 0;
+    bottom: 1.5rem;
+    transform: translateX(0px);
+    transition: transform 0.5s;
+
+    i {
+        margin-right: 5px;
+        &:before {
+            content:  "\f101";
+        }
+    }
+
+    @media (max-width: 560px) {
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    &.visible {
+        @media (min-width: 560px) {
+            transform: translateX(450px);
+            z-index: 999998;
+        }
+
+        i:before {
+            content: "\f100";
+        }
+    }
+}
+
+#xt-edit-sidebar {
+    display: none;
+    font-family: 'Open Sans', sans-serif;
+    position: fixed;
+    z-index: 999999; // Can we go higher?
+    left: 0;
+    top: 0;
+    max-width: 450px;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    background: #fff;
+    box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+
+    &.visible {
+        display: block;
+    }
+
+    &.popout {
+        display: block;
+        height: 80%;
+        width: 90%;
+        max-width: 100%;
+        top: 10%;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 10px 10px 135px -17px rgba(0,0,0,0.75);
+        left:0;
+        right:0;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+
+    @media (max-width: 560px) {
+        padding-bottom: 5rem;
+        max-width: 100%;
+    }
+
+    #xt-edit-sidebar-container {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        position: relative;
+        height: 100%;
+
+        iframe {
+            width: 100%;
+            height: 99%; // yes, 99% to prevent parent from scrolling in some buggy browsers
+            border: none;
+        }
+    }
+}

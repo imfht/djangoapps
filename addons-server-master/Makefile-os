@@ -1,0 +1,31 @@
+.PHONY: help_redirect
+help_redirect:
+	@$(MAKE) help --no-print-directory
+
+.PHONY: help_submake
+help_submake:
+	@echo "Host only commands:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile-os | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@echo "\nAll other commands will be passed through to the docker 'web' container make:"
+	@make -f Makefile-docker help_submake
+
+.PHONY: update_docker
+update_docker: ## update all the docker images
+	docker-compose exec worker make update_deps
+	docker-compose exec web make update
+	docker-compose restart web
+	docker-compose restart worker
+
+.PHONY: shell
+shell: ## connect to a running addons-server docker shell
+	docker-compose exec web bash
+
+.PHONY: shell
+rootshell: ## connect to a running addons-server docker shell with root user
+	docker-compose exec --user root web bash
+
+%: ## This directs any other recipe (command) to the web container's make.
+	docker-compose exec web make $(MAKECMDGOALS) ARGS=$(ARGS)
+
+# You probably want to put new commands in Makefile-docker, unless they operate
+# on multiple containers or are host-os specific.

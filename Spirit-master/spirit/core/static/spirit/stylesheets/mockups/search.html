@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Topics</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="../vendors/font-awesome.min.css">
+	<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+	<div class="layout__header">
+		<a class="header__logo" href="#">Spirit</a>
+	</div>
+
+	<div class="layout__article">
+		<h1 class="headline">Search categories</h1>
+
+		<form method="get" action="/search/">
+			<div class="field">
+				<label for="id_q">Search:</label>
+				<ul class="errorlist"><li>Your search must contain at least 3 characters.</li></ul>
+				<input type="search" name="q" id="id_q">
+			</div>
+			<div class="field">
+				<label>Filter by:</label>
+				<ul id="id_category">
+					<li><label for="id_category_0"><input type="checkbox" name="category" value="4" id="id_category_0">
+						Announcements</label>
+					</li>
+					<li><label for="id_category_1"><input type="checkbox" name="category" value="5" id="id_category_1">
+						Bugs</label>
+					</li>
+					<li><label for="id_category_2"><input type="checkbox" name="category" value="3" id="id_category_2">
+						Development</label>
+					</li>
+					<li><label for="id_category_3"><input type="checkbox" name="category" value="7" id="id_category_3">
+						Feature Requests</label>
+					</li>
+					<li><label for="id_category_4"><input type="checkbox" name="category" value="8" id="id_category_4">
+						Test Posting</label>
+					</li>
+					<li><label for="id_category_5"><input type="checkbox" name="category" value="2" id="id_category_5">
+						Uncategorized</label>
+					</li>
+				</ul>
+			</div>
+			<input class="button" type="submit" value="Search">
+		</form>
+
+	</div>
+
+	<div class="layout__footer">
+		<a class="footer__logo" href="http://www.spirit-project.com" >Spirit</a>
+	</div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+{% extends "pretixcontrol/organizers/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load bootstrap3 %}
+{% block inner %}
+    <h1>{% trans "Connect to device:" %} {{ device.name }}</h1>
+
+    <div>
+        <ol>
+            <li>
+                {% trans "Download an app that is compatible with pretix. For example, our check-in app <strong>pretixSCAN</strong> is available on all major platforms." %}<br>
+                <a href="https://pretix.eu/about/{% if "de" in request.LANGUAGE_CODE %}de{% else %}en{% endif %}/scan"
+                        class="btn btn-default" target="_blank">
+                    {% trans "Download pretixSCAN" %}
+                </a>
+            </li>
+            <li>
+                {% trans "Open the app that you want to connect and optionally reset it to the original state." %}
+            </li>
+            <li>{% trans "Scan the following configuration code:" %}<br><br>
+                <script type="text/json" data-replace-with-qr>{{ qrdata|safe }}</script><br>
+                {% trans "If your app/device does not support scanning a QR code, you can also enter the following information:" %}
+                <br>
+                <strong>{% trans "System URL:" %}</strong> {{ settings.SITE_URL }}<br>
+                <strong>{% trans "Token:" %}</strong> {{ device.initialization_token }}
+            </li>
+        </ol>
+    </div>
+    <a href="{% url "control:organizer.devices" organizer=request.organizer.slug %}"
+            class="btn btn-default"><i class="fa fa-arrow-left"></i>
+        {% trans "Device overview" %}
+    </a>
+    <script type="text/javascript" src="{% static "pretixcontrol/js/ui/devices.js" %}"></script>
+{% endblock %}

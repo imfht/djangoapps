@@ -1,0 +1,118 @@
+{
+  "id": 1,
+  "name": "Internals",
+  "owner": 1,
+  "members": [
+    {
+      "id": 1,
+      "username": "testuser",
+      "email": "t@t.com",
+      "first_name": "Ragnar",
+      "last_name": "Rebase",
+      "avatar": null
+    },
+    {
+      "id": 3,
+      "username": "daveice",
+      "email": "dave@ice.com",
+      "first_name": "Dave",
+      "last_name": "Ice",
+      "avatar": null
+    }
+  ],
+  "labels": [
+    { "board": 1, "color": "#3298dc", "id": 1, "name": "Info" },
+    { "board": 1, "color": "#00D1B2", "id": 2, "name": "Wontfix" },
+    { "board": 1, "color": "#3298dc", "id": 3, "name": "Enhancement" },
+    { "board": 1, "color": "#ffdd57", "id": 4, "name": "Invalid" }
+  ],
+  "columns": [
+    {
+      "id": 3,
+      "title": "In progress",
+      "tasks": [
+        {
+          "id": 5,
+          "created": "2020-05-17T08:26:51.806330Z",
+          "modified": "2020-05-17T09:02:10.724890Z",
+          "title": "Cookie Consent",
+          "description": "Add cookie consent functionality.",
+          "task_order": 3,
+          "priority": "H",
+          "assignees": [],
+          "labels": [],
+          "column": 3
+        },
+        {
+          "id": 4,
+          "created": "2020-05-17T08:26:51.806330Z",
+          "modified": "2020-05-17T09:02:10.724890Z",
+          "title": "User settings",
+          "description": "Implement user settings.",
+          "task_order": 4,
+          "priority": "M",
+          "assignees": [],
+          "labels": [],
+          "column": 3
+        }
+      ],
+      "column_order": 1
+    },
+    {
+      "id": 1,
+      "title": "Backlog",
+      "tasks": [
+        {
+          "id": 1,
+          "created": "2020-05-17T08:26:51.806330Z",
+          "modified": "2020-05-17T09:02:10.724890Z",
+          "title": "Implement Landing page",
+          "description": "Implement the landing page.\n\n**Use figma designs provided by Steve.**",
+          "task_order": 1,
+          "priority": "L",
+          "assignees": [],
+          "labels": [],
+          "column": 1
+        },
+        {
+          "id": 2,
+          "created": "2020-05-17T08:26:51.806330Z",
+          "modified": "2020-05-17T09:02:10.724890Z",
+          "title": "Profile page detail view",
+          "description": "Implement the profile page detail view.",
+          "task_order": 2,
+          "priority": "L",
+          "assignees": [3],
+          "labels": [],
+          "column": 1
+        }
+      ],
+      "column_order": 2
+    },
+    {
+      "id": 2,
+      "title": "Todo",
+      "tasks": [
+        {
+          "id": 3,
+          "created": "2020-05-17T08:26:51.806330Z",
+          "modified": "2020-05-17T09:02:10.724890Z",
+          "title": "User friends",
+          "description": "Implement the user friends component. Building the API is not part of this task.",
+          "task_order": 5,
+          "priority": "L",
+          "assignees": [],
+          "labels": [3],
+          "column": 2
+        }
+      ],
+      "column_order": 3
+    },
+    {
+      "id": 4,
+      "title": "Done",
+      "tasks": [],
+      "column_order": 4
+    }
+  ]
+}

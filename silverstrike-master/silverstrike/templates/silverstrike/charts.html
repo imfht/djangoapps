@@ -1,0 +1,319 @@
+{% extends 'silverstrike/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content_header %}
+<h1>{% trans 'Charts' %}
+  <small>{% trans 'because they are fun!' %}</small>
+</h1>
+<ol class="breadcrumb">
+  <li><a href="/">{% trans 'Home' %}</a></li>
+  <li class="active">{% trans 'Charts' %}</li>
+</ol>
+{% endblock %}
+{% block content %}
+<div class="box">
+  <div class="box-header">
+  <div class="row text-center">
+    <button id="12month" class="btn btn-s btn-default range-chooser">{% trans 'Last year' %}</button>
+    <button id="6month" class="btn btn-s btn-default range-chooser">{% trans 'Last 6 Months' %}</button>
+    <button id="3month" class="btn btn-s btn-default range-chooser">{% trans 'Last 3 Months' %}</button>
+    <button id="currentMonth" class="btn btn-s btn-default range-chooser">{% trans 'Current Month' %}</button>
+    <!--button id="custom" class="btn btn-s btn-default range-chooser">Custom Range</button-->
+  </div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-8">
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title">{% trans 'Balance' %}</h3>
+  </div>
+  <div class="box-body">
+    <canvas id="balanceChart" width="400" height="200"></canvas>
+  </div>
+</div>
+<div class="box">
+  <div class="box-header">
+    <h3 class="box-title">{% trans 'Personal Accounts' %}</h3>
+  </div>
+  <div class="box-body">
+    <canvas id="myChart" width="400" height="200"></canvas>
+  </div>
+</div>
+</div>
+<div class="col-md-4">
+  <div class="box">
+    <div class="box-header">
+      <h3 class="box-title">{% trans 'Spending by category' %}</h3>
+    </div>
+    <div class="box-body">
+      <center><canvas id="categoryChart"></canvas></center>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/Chart.bundle.min.js' %}"></script>
+<script type="text/javascript">
+var colors =
+  ['#357ca5',
+   '#008d4c',
+   '#db8b0b',
+   '#ca195a',
+   '#555299',
+   '#4285f4',
+   '#db4437',
+   '#f4b400',
+   '#0f9d58',
+   '#ab47bc',
+   '#00acc1',
+   '#ff7043',
+   '#9e9d24',
+   '#5c6bc0',
+   '#f06292',
+   '#00796b',
+   '#c2185b'
+];
+var balanceChart = null;
+var accountChart = null;
+var categoryChart = null;
+var drawChart = function(res) {
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var data = {
+      labels: res.labels,
+      datasets: []
+  };
+  for (var i = 0; i < res.dataset.length; i++) {
+    var dataset = {
+      label: res.dataset[i].name,
+      fill: false,
+      pointRadius: 2,
+      backgroundColor: colors[i],
+      borderColor: colors[i],
+      data: res.dataset[i].data
+    };
+    data.datasets.push(dataset);
+  }
+  accountChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+          tooltips: {
+            mode: 'index',
+            position: 'nearest',
+            intersect: false,
+            caretPadding: 5
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+};
+var drawBalances = function(res) {
+  var ctx = document.getElementById("balanceChart").getContext('2d');
+  var data = {
+      labels: res.labels,
+      datasets: []
+  };
+  var dataset = {
+    label: 'Balance',
+    fill: false,
+    pointRadius: 2,
+    backgroundColor: '#357ca5',
+    borderColor: '#357ca5',
+    data: res.data
+  };
+  data.datasets.push(dataset);
+  balanceChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+          tooltips: {
+              mode: 'index',
+              position: 'nearest',
+              intersect: false,
+              caretPadding: 5
+          },
+          legend: {
+            position: 'none'
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+};
+
+var drawCategorieChart = function (res) {
+  var ctx = document.getElementById("categoryChart").getContext('2d');
+  categoryChart = new Chart(ctx, {
+      type: 'pie',
+      options: {
+        responsive: false,
+        legend: {
+          position: 'none'
+        }
+      },
+      data: {
+          labels: res.categories,
+          datasets: [{
+              backgroundColor: colors,
+              data: res.spent
+          }]
+      }
+  });
+};
+
+var updateBalanceChart = function(chartData) {
+  balanceChart.data.labels = chartData.labels;
+  balanceChart.data.datasets[0].data = chartData.data;
+  balanceChart.update();
+};
+
+var updateAccountChart = function(chartData) {
+  accountChart.data.labels = chartData.labels;
+  for (var i = 0; i < chartData.dataset.length; i++) {
+    accountChart.data.datasets[i].data = chartData.dataset[i].data;
+
+  }
+  accountChart.update();
+};
+
+var updateCategoryChart = function(chartData) {
+  categoryChart.data.labels = chartData.categories;
+  categoryChart.data.datasets[0].data = chartData.spent;
+  categoryChart.update();
+};
+
+var one_month = 0;
+var three_months = 1;
+var six_months = 2;
+var twelve_months = 3;
+var accountChartData = new Array(4);
+var balanceChartData = new Array(4);
+var categoryChartData = new Array(4);
+
+
+// initialize
+$.getJSON("{% url 'api_accounts_balance' minus_3_months today %}", {}, function(res, status) {
+  drawChart(res);
+  accountChartData[three_months] = res;
+});
+$.getJSON("{% url 'api_balance' minus_3_months today %}", {}, function(res, status) {
+  drawBalances(res);
+  balanceChartData[three_months] = res;
+});
+
+$.getJSON("{% url 'category_spending' minus_3_months today %}", {}, function(res, status) {
+  drawCategorieChart(res);
+  categoryChartData[three_months] = res;
+});
+
+// update charts
+$('#12month').click(function() {
+  if (accountChartData[twelve_months] == null) {
+    $.getJSON("{% url 'api_accounts_balance' minus_12_months today %}", {}, function(res, status) {
+      updateAccountChart(res);
+      accountChartData[twelve_months] = res;
+    });
+  } else {
+      updateAccountChart(accountChartData[twelve_months]);
+  }
+  if (balanceChartData[twelve_months] == null) {
+    $.getJSON("{% url 'api_balance' minus_12_months today %}", {}, function(res, status) {
+      updateBalanceChart(res);
+      balanceChartData[twelve_months] = res;
+    });
+  } else {
+    updateBalanceChart(balanceChartData[twelve_months]);
+  }
+  if (categoryChartData[twelve_months] == null) {
+    $.getJSON("{% url 'category_spending' minus_12_months today %}", {}, function(res, status) {
+      updateCategoryChart(res);
+      categoryChartData[twelve_months] = res;
+    });
+  } else {
+    updateCategoryChart(categoryChartData[twelve_months]);
+  }
+});
+
+
+$('#6month').click(function() {
+  if (accountChartData[six_months] == null) {
+    $.getJSON("{% url 'api_accounts_balance' minus_6_months today %}", {}, function(res, status) {
+      updateAccountChart(res);
+      accountChartData[six_months] = res;
+    });
+  } else {
+    updateAccountChart(accountChartData[six_months]);
+  }
+
+  if (balanceChartData[six_months] == null) {
+    $.getJSON("{% url 'api_balance' minus_6_months today %}", {}, function(res, status) {
+      updateBalanceChart(res);
+      balanceChartData[six_months] = res;
+    });
+  } else {
+    updateBalanceChart(balanceChartData[six_months]);
+  }
+
+  if (categoryChartData[six_months] == null) {
+    $.getJSON("{% url 'category_spending' minus_6_months today %}", {}, function(res, status) {
+      updateCategoryChart(res);
+      categoryChartData[six_months] = res;
+    });
+  } else {
+    updateCategoryChart(categoryChartData[six_months]);
+  }
+});
+
+$('#3month').click(function() {
+  updateAccountChart(accountChartData[three_months]);
+  updateBalanceChart(balanceChartData[three_months]);
+  updateCategoryChart(categoryChartData[three_months]);
+});
+
+
+$('#currentMonth').click(function() {
+  if (accountChartData[one_month] == null) {
+    $.getJSON("{% url 'api_accounts_balance' first_day_of_month last_day_of_month %}", {}, function(res, status) {
+      updateAccountChart(res);
+      accountChartData[one_month] = res;
+    });
+  } else {
+    updateAccountChart(accountChartData[one_month]);
+  }
+
+  if (balanceChartData[one_month] == null) {
+    $.getJSON("{% url 'api_balance' first_day_of_month last_day_of_month %}", {}, function(res, status) {
+      updateBalanceChart(res);
+      balanceChartData[one_month] = res;
+    });
+  } else {
+    updateBalanceChart(balanceChartData[one_month]);
+  }
+
+  if (categoryChartData[one_month] == null) {
+    $.getJSON("{% url 'category_spending' first_day_of_month last_day_of_month %}", {}, function(res, status) {
+      updateCategoryChart(res);
+      categoryChartData[one_month] = res;
+    });
+  } else {
+    updateCategoryChart(categoryChartData[one_month]);
+  }
+});
+</script>
+{% endblock %}

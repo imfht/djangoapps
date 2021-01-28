@@ -1,0 +1,131 @@
+{% macro auth_block(extra_classes="") %}
+    <div class="auth-block {{ extra_classes }}">
+        <div class="auth-block-content">
+            <div class="auth-block-logo">
+                <img src="{{ static("shuup_admin/img/logo_icon.svg") }}" alt="Shuup">
+            </div>
+            <div class="auth-block-body">{{ caller() }}</div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro content_with_sidebar(content_id="", extra_classes="") %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 section-navigation d-none d-lg-block" data-navigatee="{{ content_id }}"></div>
+            <div class="col-md-12 col-lg-9 {{ extra_classes }}">
+                {{ caller() }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro content_block(heading, icon, extra_classes="", id="", collapsed=False) %}
+    <div id="{{ id }}" class="content-block {% if collapsed %}collapsed{% endif %}">
+        <div class="title">
+            {% if heading %}
+                <h2 class="block-title d-flex align-items-center">{% if icon %} <i class="fa {{ icon }}"></i> {% endif %}{{ heading }}</h2>
+            {% endif %}
+            <a href="#" class="toggle-contents" data-toggle="collapse" data-target="">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="content-wrap collapse {{ extra_classes }}" >
+            <div class="content">
+                {{ caller() }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro content_block_subtitle(heading, title, icon, full_width=False, top_line=True, bottom_line=True) %}
+    <div class="title subtitle {% if bottom_line == false %}bottom-line{% endif %}{% if top_line %}top-line{% endif %}{% if full_width %}w-100{% endif %}">
+        <{{heading}} class="block-subtitle d-flex align-items-center">
+            {% if icon %}
+                <i class="fa {{ icon }}"></i>
+            {% endif %}
+            {{ title }}
+        </{{heading}}>
+    </div>
+{% endmacro %}
+
+{% macro text_between_fields() %}
+    <div class="row">
+        <div class="text-between-fields col-12 p-4">
+            {{ caller() }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro info_row(header, value, url=None, class="") %}
+    {% if value is defined and value is not none and value != "" %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ header }}</h5>
+            <span {% if class %} class="{{ class }}"{% endif %}>
+                {%- if url %}<a href="{{ url }}">{% endif -%}
+                {{ value }}
+                {%- if url %}</a>{% endif -%}
+            </span>
+        </div>
+        {% if caller %}
+            <dd>{{ caller() }}</dd>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro form_section(title, icon="fa-info-circle") %}
+    {% set ss_caller = caller %}
+    {% call content_block(title, icon=icon) %}
+        {{ ss_caller() }}
+    {% endcall %}
+{% endmacro %}
+
+{% macro multi_section_single_form(form_id) %}
+<form method="post" id="{{ form_id }}">{% csrf_token %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 section-navigation" data-navigatee="{{ form_id }}"></div>
+            <div class="col-md-9">
+                {{ caller() }}
+            </div>
+        </div>
+    </div>
+</form>
+{% endmacro %}
+
+{% macro single_section_form(form_id, form, section_title="") %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 section-navigation" data-navigatee="{{ form_id }}"></div>
+            <div class="col-md-9">
+                <form method="post" id="{{ form_id }}" novalidate>
+                    {% csrf_token %}
+                    {% set ss_caller = caller %}
+                    {% call content_block(section_title or _("General Information"), "fa-info-circle") %}
+                        {% if ss_caller %}
+                            {{ ss_caller() }}
+                        {% else %}
+                            {% for field in form %}
+                                {{ bs3.field(field) }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endcall %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{%- macro render_objects(objs) -%}
+    {%- for obj in objs -%}
+        {{- render_object(obj) -}}
+        {%- if not loop.last %}, {% endif -%}
+    {%- endfor -%}
+{%- endmacro -%}
+
+{%- macro render_object(obj) -%}
+    {% set url = shuup_admin.model_url(obj) %}
+    {% if url %}<a href="{{ url }}">{% endif %}
+        {{- obj -}}
+    {% if url %}</a>{% endif %}
+{%- endmacro -%}

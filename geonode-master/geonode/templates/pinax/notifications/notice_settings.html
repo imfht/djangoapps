@@ -1,0 +1,56 @@
+{% extends "pinax/notifications/base.html" %}
+
+{% load i18n %}
+{% load user_messages %}
+
+{% block body_id %}notification-settings{% endblock %}
+
+{% block head_title %}{% trans "Notification Settings" %}{% endblock %}
+
+{% block body %}
+    <h2>{% trans "Notification Settings" %}</h2>
+
+    {% url "account_settings" as email_url %}
+    {% if not request.user.email %}
+        {% blocktrans %}
+        <p class="alert alert-warning">
+            <span class="warning">Note</span>:
+            You do not have a verified email address to which notices can be sent. <a href="{{ email_url }}">Add one</a> now.
+        </p>
+        {% endblocktrans %}
+    {% endif %}
+
+    <form method="POST" class="form" action="">
+        {% csrf_token %}
+        <table class="table table-striped notice_settings">
+            <tr>
+                <th>{% trans "Notification Type" %}</th>
+                {% for header in notice_settings.column_headers %}
+                    <th>
+                        {% trans header.title %}
+                    </th>
+                {% endfor %}
+            </tr>
+            {% for row in notice_settings.rows %}
+                {% show_notification row.notice_type.label request.user as notice_enabled %}
+                <tr class="notice-row" {% if not notice_enabled %}style="visibility:collapse"{% endif %}>
+                    <td>
+                        <strong>{% trans row.notice_type.display %}</strong><br/>
+                        <span class="notice_type_description">
+                            {% trans row.notice_type.description %}
+                        </span>
+                    </td>
+                    {% for cell in row.cells %}
+                        <td>
+                            <input type="checkbox" name="{{ cell.0 }}" {% if not notice_enabled %}disabled="true"{% else %}{% if cell.1 %}checked="yes"{% endif %}{% endif %} />
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary pull-right">{% trans "Change" %}</button>
+        </div>
+    </form>
+{% endblock %}

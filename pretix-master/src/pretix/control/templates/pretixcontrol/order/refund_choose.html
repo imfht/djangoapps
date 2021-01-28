@@ -1,0 +1,212 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load money %}
+{% block title %}
+    {% trans "Refund order" %}
+{% endblock %}
+{% block content %}
+    <h1>
+        {% trans "Refund order" %}
+        <a class="btn btn-link btn-lg"
+                href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+            {% blocktrans trimmed with order=order.code %}
+                Back to order {{ order }}
+            {% endblocktrans %}
+        </a>
+    </h1>
+    <form method="post" href="">
+        {% csrf_token %}
+        <fieldset class="form-inline form-refund-choose">
+            <legend>{% trans "How should the refund be sent?" %}</legend>
+            <p>
+                {% blocktrans trimmed %}
+                    Any payments that you selected for automatical refunds will be immediately communicate the refund
+                    request to the respective payment provider. Manual refunds will be created as pending refunds, you
+                    can then later mark them as done once you actually transferred the money back to the customer.
+                {% endblocktrans %}
+            </p>
+
+            <h4>{% trans "Refund to original payment method" %}</h4>
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Payment" %}</th>
+                        <th>{% trans "Payment details" %}</th>
+                        <th>{% trans "Amount not refunded" %}</th>
+                        <th class="text-right flip refund-amount">{% trans "Refund amount" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in payments %}
+                        <tr>
+                            <td>{{ p.full_id }}<br/>{{ p.payment_date|date:"SHORT_DATETIME_FORMAT" }}<br/>{{ p.payment_provider.verbose_name }}</td>
+                            <td class="payment-details">{{ p.html_info|default_if_none:""|safe }}</td>
+                            <td>{{ p.available_amount|money:request.event.currency }}</td>
+                            <td class="text-right flip refund-amount">
+                                {% if p.partial_refund_possible %}
+                                    <div class="input-group">
+                                        <input type="text" name="refund-{{ p.pk }}"
+                                                {% if p.propose_refund %}
+                                                    value="{{ p.propose_refund|floatformat:2 }}"
+                                                {% else %}
+                                                    placeholder="{{ p.propose_refund|floatformat:2 }}"
+                                                {% endif %}
+                                                title="" class="form-control">
+                                        <span class="input-group-addon">
+                                            {{ request.event.currency }}
+                                        </span>
+                                    </div>
+                                {% elif p.full_refund_possible %}
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="refund-{{ p.pk }}"
+                                                value="{{ p.amount|floatformat:2 }}"
+                                                {% if p.propose_refund == p.amount %}checked{% endif %}>
+                                        {% trans "Full amount" %} ({{ p.amount|money:request.event.currency }})
+                                    </label>
+                                {% else %}
+                                    <em class="text-muted">{% trans "This payment method does not support automatic refunds." %}</em>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>{% trans "Refund to a different payment method" %}</h4>
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Payment method" %}</th>
+                        <th>{% trans "Receipient / options" %}</th>
+                        <th class="text-right flip refund-amount">{% trans "Refund amount" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for prov, form in new_refunds %}
+                        <tr>
+                            <td>
+                                <strong>
+                                    {{ prov.verbose_name }}
+                                </strong>
+                            </td>
+                            <td>
+                                {{ form|safe }}
+                            </td>
+                            <td class="text-right flip refund-amount">
+                                <div class="input-group">
+                                    <input type="text" name="newrefund-{{ prov }}"
+                                            placeholder="{{ 0|floatformat:2 }}"
+                                            title="" class="form-control">
+                                    <span class="input-group-addon">
+                                        {{ request.event.currency }}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><strong>{% trans "Transfer to other order" %}</strong></td>
+                        <td>
+                            <input type="text" name="order-offsetting" placeholder="{% trans "Order code" %}"
+                                    value="" title="" class="form-control">
+                        </td>
+                        <td class="text-right flip refund-amount">
+                            <div class="input-group">
+                                <input type="text" name="refund-offsetting"
+                                        title="" class="form-control" placeholder="{{ 0|floatformat:2 }}">
+                                <span class="input-group-addon">
+                                    {{ request.event.currency }}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>{% trans "Create a new gift card" %}</strong>
+                        </td>
+                        <td>
+                            <div class="text-muted">
+                                {% trans "The gift card can be used to buy tickets for all events of this organizer." %}
+                            </div>
+                        </td>
+                        <td class="text-right flip refund-amount">
+                            <div class="input-group">
+                                <input type="text" name="refund-new-giftcard"
+                                        title="" class="form-control"
+                                        {% if giftcard_proposal %}
+                                            value="{{ giftcard_proposal|floatformat:2 }}"
+                                        {% else %}
+                                            placeholder="{{ giftcard_proposal|floatformat:2 }}"
+                                        {% endif %}
+                                >
+                                <span class="input-group-addon">
+                                    {{ request.event.currency }}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>{% trans "Manual refund" %}</strong></td>
+                        <td>
+                            <label class="radio no-bold">
+                                <input type="radio" name="manual_state" value="created" checked>
+                                {% trans "Keep transfer as to do" %}
+                            </label><br>
+                            <label class="radio no-bold">
+                                <input type="radio" name="manual_state" value="done">
+                                {% trans "Mark refund as done" %}
+                            </label>
+                        </td>
+
+                        <td class="text-right flip refund-amount">
+                            <div class="input-group">
+                                <input type="text" name="refund-manual"
+                                        {% if remainder %}
+                                            value="{{ remainder|floatformat:2 }}"
+                                        {% else %}
+                                            placeholder="{{ remainder|floatformat:2 }}"
+                                        {% endif %}
+                                        title="" class="form-control">
+                                <span class="input-group-addon">
+                                            {{ request.event.currency }}
+                                        </span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        <p>&nbsp;</p>
+
+        <input type="hidden" name="start-action" value="{{ start_form.cleaned_data.action }}">
+        <input type="hidden" name="start-mode" value="{{ start_form.cleaned_data.mode }}">
+        <input type="hidden" name="start-partial_amount" value="{{ partial_amount }}">
+
+        <div class="form-group">
+            <label class="control-label" for="id_comment">{% trans "Refund reason" %}</label>
+            <input type="text" name="comment" class="form-control" title="{% trans "May be shown to the end user or used e.g. as part of a payment reference." %}" id="id_comment"
+                    value="{{ comment|default:"" }}">
+            <div class="help-block">{% trans "May be shown to the end user or used e.g. as part of a payment reference." %}</div>
+        </div>
+
+        <div class="row checkout-button-row">
+            <div class="col-md-4">
+                <a class="btn btn-block btn-default btn-lg"
+                        href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+                    {% trans "Cancel" %}
+                </a>
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                <button class="btn btn-block btn-danger btn-lg" type="submit" name="perform" value="true">
+                    {% trans "Perform refund" %}
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+{% endblock %}

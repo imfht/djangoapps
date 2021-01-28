@@ -1,0 +1,18 @@
+[report]
+exclude_lines =
+    pragma: no cover
+    raise ImportError
+    except AttributeError
+
+[run]
+omit =
+    */migrations/*, *tests*
+    setup.py
+    django_th/th_tox
+    django_th/wsgi.py
+    django_th/settings_docker.py
+    django_th/th_settings_sample.py
+    django_th/local_settings_sample.py
+    django_th/management/commands/*
+    */from_*.py
+

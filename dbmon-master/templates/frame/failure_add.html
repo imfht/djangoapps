@@ -1,0 +1,155 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        新建故障记录
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">故障管理</a></li>
+        <li class="active">新建故障记录</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+        <div id="overview-content" class="ibox-content">
+         <form method="post" class="form-horizontal" action="">
+          <div class="panel-group" id="accordion">
+           <div class="panel panel-default">
+            <div class="panel-heading">
+             <h4 class="panel-title"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true"> 故障概述 </a><i class="indicator glyphicon  pull-right glyphicon-chevron-down"></i> </h4>
+            </div>
+               </br>
+            <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障标题</label>
+              <div class="col-sm-8">
+               <input type="text" class="form-control" name="title" placeholder="必填" />
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障级别</label>
+              <div class="col-sm-4">
+               <select class="form-control select2" style="width: 100%;"  name="level" >  <option selected="selected">----</option> <option>非常严重</option> <option>严重</option> <option>中等</option> <option>一般</option> <option>无影响</option> </select>
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障分类</label>
+              <div class="col-sm-4">
+               <select class="form-control select2" style="width: 100%;" id="type" name="type" >  <option selected="selected">----</option> <option>Linux主机</option> <option>Oracle数据库</option> <option>MySQL数据库</option> <option>应用程序</option> <option>第三方服务</option> <option>硬件故障</option> </select>
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">影响范围</label>
+              <div class="col-sm-8">
+               <input type="text" class="form-control" name="related" placeholder="可编辑" />
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障状态</label>
+              <div class="col-sm-4">
+               <select class="form-control select2" style="width: 100%;"  name="status" >  <option selected="selected">----</option> <option>处理中</option> <option>已恢复</option> <option>待改进</option> <option>已完结</option> </select>
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障时间</label>
+              <div class="col-sm-6">
+               <div class="input-group">
+                <div class="input-group-addon">
+                 <i class="fa fa-clock-o"></i>
+                </div>
+                <input type="text" name="date2" id="date2" class="form-control" placeholder="请选择时间范围" />
+                <input type="hidden" id="startTime" name="startTime" class="form-control" />
+                <input type="hidden" id="endTime" name="endTime" class="form-control" />
+               </div>
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">主导解决人</label>
+              <div class="col-sm-4">
+               <input type="text" class="form-control" name="person" placeholder="" />
+              </div>
+             </div>
+             <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障影响</label>
+              <div class="col-sm-8">
+               <textarea name="effect" rows="6" cols="40" class="form-control" placeholder="请按如下文本格式编写:
+1. ......
+2. ......
+3. ......"></textarea>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="panel panel-default">
+            <div class="panel-heading">
+             <h4 class="panel-title"> <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false"> 故障分析 </a><i class="indicator glyphicon glyphicon-chevron-up pull-right"></i> </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false">
+                <div class="box-body pad">
+              <form>
+                    <textarea id="editor1" name="analyze" rows="10" cols="80">
+                    </textarea>
+              </form>
+            </div>
+
+            </div>
+           </div>
+           <div class="panel panel-default">
+            <div class="panel-heading">
+             <h4 class="panel-title"> <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false"> 原因与方案 </a><i class="indicator glyphicon glyphicon-chevron-up pull-right"></i> </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" aria-expanded="false">
+                <div class="box-body">
+                    <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">故障原因</label>
+              <div class="col-sm-8">
+               <textarea name="reason" id="reason" rows="6" cols="40" class="form-control" ></textarea>
+              </div>
+             </div>
+                    <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">解决方案</label>
+              <div class="col-sm-8">
+               <textarea name="solution" id="solution" rows="6" cols="40" class="form-control"></textarea>
+              </div>
+             </div>
+            </div>
+            </div>
+           </div>
+             <div class="pull-right">
+                <button type="submit" class="btn btn-primary btn-block btn-flat" name="commit">提交</button>
+              </div>
+          </div>
+
+         </form>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+
+function pop_content(n){
+    layer.open({
+    type: 2,
+    title: '故障内容',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/failure_content?id='+n,],
+  });
+}
+
+$(function () {
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace('editor1',
+        {
+            height : '300px'
+        })
+    //bootstrap WYSIHTML5 - text editor
+    $('.textarea').wysihtml5()
+  })
+</script>
+{% endblock %}

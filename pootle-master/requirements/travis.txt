@@ -1,0 +1,19 @@
+# Travis testing https://travis-ci.org/translate/pootle
+
+-r tests.txt
+-r _docs.txt
+-r _lint.txt
+
+tox==3.0.0
+
+# Databases
+-r _db_mysql.txt
+-r _db_postgresql.txt
+
+# Elasticsearch TM
+-r _es_5.txt
+
+# Test coverage
+codecov==2.0.15
+coverage==4.5.1
+coveralls==1.3.0

@@ -1,0 +1,19 @@
+{% if waffle.flag('flag') %}
+  flag on
+{% else %}
+  flag off
+{% endif %}
+
+{% if waffle.switch('switch') %}
+  switch on
+{% else %}
+  switch off
+{% endif %}
+
+{% if waffle.sample('sample') %}
+  sample on
+{% else %}
+  sample off
+{% endif %}
+
+{{ waffle.wafflejs() }}

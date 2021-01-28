@@ -1,0 +1,69 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Weight" %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Weight" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Weight" %}
+        {% if perms.core.add_weight %}
+            <a href="{% url 'core:weight-add' %}" class="btn btn-sm btn-success">
+                <i class="icon icon-weight" aria-hidden="true"></i> {% trans "Add Weight" %}
+            </a>
+        {% endif %}
+    </h1>
+    {% include 'babybuddy/filter.html' %}
+    <div class="table-responsive">
+        <table class="table table-instances">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>{% trans "Child" %}</th>
+                    <th>{% trans "Weight" %}</th>
+                    <th>{% trans "Date" %}</th>
+                    <th class="text-center">{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for weight in object_list %}
+                    {% cycle "odd" "even" as row_class silent %}
+                    <tr class="{{ row_class }}">
+                        <th scope="row"><a href="{% url 'core:child' weight.child.slug %}">{{ weight.child }}</a></th>
+                        <td>{{ weight.weight }}</td>
+                        <td>{{ weight.date }}</td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="{% trans "Actions" %}">
+
+                                {% if perms.core.change_weight %}
+                                    <a href="{% url 'core:weight-update' weight.id %}" class="btn btn-primary">
+                                        <i class="icon icon-update" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.core.delete_weight %}
+                                    <a href="{% url 'core:weight-delete' weight.id %}" class="btn btn-danger">
+                                        <i class="icon icon-delete" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% if weight.notes %}
+                        <tr class="{{ row_class }} row-details">
+                            <td colspan="4"><i class="icon icon-note mr-2" aria-hidden="true"></i>{{ weight.notes }}</td>
+                        </tr>
+                    {% endif %}
+                {% empty %}
+                    <tr>
+                        <th colspan="4">{% trans "No weight entries found." %}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'babybuddy/paginator.html' %}
+{% endblock %}

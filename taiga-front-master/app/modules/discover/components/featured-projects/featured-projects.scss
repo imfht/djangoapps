@@ -1,0 +1,32 @@
+@import '../../../../styles/dependencies/mixins/project-card';
+
+.featured-projects {
+    @include centered;
+    .title {
+        @include font-type(medium);
+        @include font-size(larger);
+        color: $grayer;
+        text-align: center;
+    }
+}
+.featured-projects-inner {
+    align-items: stretch;
+    display: flex;
+    flex-grow: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0 -.5rem;
+}
+
+.featured-project {
+    @include project-card;
+    display: flex;
+    flex-basis: 23%;
+    flex-wrap: wrap;
+    @include until($desktop) {
+        flex-basis: 45%;
+    }
+    @include until($tablet) {
+        flex-basis: 100%;
+    }
+}

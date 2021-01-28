@@ -1,0 +1,22 @@
+language: python
+matrix:
+  include:
+    - python: 3.7
+      env: TOXENV=py37
+    - python: 3.8
+      env: TOXENV=py38
+    - python: 3.8
+      env: TOXENV=flake8
+install:
+  - pip install tox
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+script:
+  # https://stackoverflow.com/a/38776394/48362
+  - gcloud version || true
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud version
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1 gcloud components install cloud-datastore-emulator beta
+  - tox

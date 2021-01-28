@@ -1,0 +1,146 @@
+.single-project {
+    .single-project-intro {
+        display: flex;
+        margin-bottom: 2rem;
+    }
+    .project-logo {
+        margin-right: 1rem;
+        width: 6rem;
+        img {
+            width: 100%;
+        }
+    }
+    .single-project-title-wrapper {
+        flex: 1;
+    }
+    .intro-options {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+    }
+    .intro-title {
+        align-items: center;
+        display: flex;
+        gap: .25rem;
+        .icon-private {
+            fill: $color-gray400;
+            height: 24px;
+            width: 24px;
+        }
+    }
+    .project-name {
+        color: $color-link-primary;
+        margin-bottom: 0;
+    }
+    .private {
+        @include svg-size(1.1rem);
+    }
+    .track-buttons-container {
+        align-items: center;
+        display: flex;
+        gap: .75rem;
+    }
+    .track-container {
+        @include list-itemtype-track;
+    }
+    .description {
+        @include font-type(regular);
+        @include font-size(medium);
+        margin: 0;
+    }
+    .project-data {
+        display: flex;
+    }
+    .title {
+        @include font-size(medium);
+        @include font-type(regular);
+        @include font-type(medium);
+        align-content: center;
+        background: $mass-white;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+        padding: .5rem 1rem;
+    }
+    .single-project-tags {
+        align-items: center;
+        display: flex;
+        gap: .5rem;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        .tag {
+            @include font-size(small);
+            align-items: center;
+            display: flex;
+            min-height: 2rem;
+        }
+    }
+    .timeline {
+        flex: 1;
+        flex-shrink: 3;
+        margin-right: 1rem;
+        max-width: 960px;
+        width: 0;
+    }
+    .looking-for-people {
+        .looking-for-people-content {
+            margin: .5rem auto 2rem;
+        }
+        img {
+            width: 100%;
+        }
+        h3 {
+            @include font-size(small);
+        }
+        .is-empty {
+            margin-bottom: .5rem;
+        }
+        p {
+            @include font-size(small);
+            @include font-type(regular);
+            margin-bottom: .5rem;
+        }
+        a {
+            color: $primary;
+            font-size: .8rem;
+            font-weight: 600;
+        }
+        .contact-team {
+            margin-bottom: 1rem;
+        }
+    }
+    .involved-data {
+        flex-basis: 220px;
+        width: 220px;
+    }
+    .involved-team {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        li {
+            flex-basis: 24%;
+            margin-right: .14rem;
+            position: relative;
+            &:nth-child(4n) {
+                margin-right: 0;
+            }
+        }
+        a {
+            display: block;
+        }
+        img {
+            border-radius: 50%;
+            width: 100%;
+        }
+        .icon-badge {
+            @include svg-size(1.2rem);
+            background-color: $white;
+            bottom: 5%;
+            fill: $color-link-primary;
+            padding: .1rem;
+            position: absolute;
+            right: 5%;
+        }
+    }
+}

@@ -1,0 +1,100 @@
+{% load static %}
+{% load url from future %}
+{% load settings_variables %}
+{% load version %}
+
+<script>
+    $(document).ready(function() {
+        if (typeof site_settings!="undefined" && site_settings.gamification && site_settings.gamification.server) {
+            gamification.init({
+                server_url: site_settings.gamification.server,
+                proxy_url: "{% url 'proxy' %}",
+                project_names: site_settings.gamification.project,
+                user_name: "{{ request.user.username }}",
+                $badge_container: $('#badge-container')
+            });
+        }
+    });
+</script>
+
+
+<div class="navbar navbar-fixed-top">
+
+    <div class="navbar-inner">
+        {% block menu %}
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <a class="brand" style="padding:5px 20px" href="{%url 'home' %}">{% block brand %}<img id="menu-logo" src="{% static 'images/GeoQ-Logo.png' %}"/>GeoQ{% endblock %}</a>
+                <div class="btn-group pull-right">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="icon-user"></i> {{request.user.username}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% if request.user.is_authenticated %}
+                            {% if request.user.is_staff%}
+                                <li><a href="{% url 'admin:index' %}" target="_new">Admin Site</a></li>
+                                <li class="divider"></li>
+                            {% endif %}
+                                <li><a href="{% url 'userena_profile_edit' request.user.username %}">Edit Profile</a></li>
+                                <li><a href="{% url 'userena_signout' %}">Sign Out</a></li>
+                        {% else %}
+                                <li><a href="{% url 'userena_signin' %}?next={{ request.path }}">Sign In</a></li>
+                             {% if not prevent_signups %}
+                                <li><a href="{% url 'userena_signup' %}?next={{ request.path }}">Sign Up</a></li>
+                             {% endif %}
+                        {% endif%}
+                        <li><a href="#">{% version_date %}</a></li>
+                        <li><a href="#">{% version_number %}</a></li>
+                    </ul>
+                </div>
+                <div class="nav-collapse">
+                    <ul class="nav navbar-nav">
+                        {%for key,value in menu_items.items%}
+                            {%if not value.dropdown%}
+                                <li class="{% if value.active %}active{% endif%}"><a href="{{value.url}}"  {% if value.target %}target="{{ value.target }}"{% endif %} >{{key}}</a></li>
+                            {%else%}
+                                <li class="dropdown {%if value.active%}active{%endif%}">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        {{key}}
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {%for k,v in value.dropdown.items%}
+                                            {% if k == "break" %}
+                                                <li class="divider"></li>
+                                            {% elif not v.submenu %}
+                                                <li><a href="{{v.url}}" target="{% if v.target %}{{ v.target }}{% else %}_new{% endif %}">{{k}}</a></li>
+                                            {% else %}
+                                                <li class="dropdown-submenu">
+                                                    <a tabindex="-1" href="#">{{ k }}</a>
+                                                    <ul class="dropdown-menu">
+                                                        {% for sk,sv in v.submenu.items %}
+                                                            <li><a href="{{sv.url}}" target="{% if sv.target %}{{ sv.target }}{% else %}_new{% endif %}">{{sk}}</a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {%endfor%}
+                                    </ul>
+                                </li>
+                            {%endif%}
+                        {%endfor%}
+                    </ul>
+                    <ul class="nav navbar-right">
+
+                        <li id="navbar-badges" class="text-right">
+                            <p id="badge-container" class="navbar-text user-badge">
+                            </p>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        {% endblock %}
+    </div>
+</div>

@@ -1,0 +1,54 @@
+.table-product-overview {
+
+    td:last-child, th:last-child {
+        border-right: 1px solid #ddd;
+    }
+
+    .item.categorized td:first-child {
+        padding-left: 20px;
+    }
+    .variation td:first-child {
+        padding-left: 20px;
+    }
+    .variation.categorized td:first-child {
+        padding-left: 40px;
+    }
+    td:not(:first-child),
+    th:not(:first-child) {
+        border-left: 1px solid #ddd;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+    td:not(:first-child),
+    th:not(:first-child):not(.text-center) {
+        text-align: right;
+    }
+    span.sum-net, span.sum-gross {
+        display: none;
+    }
+    tfoot {
+        border-top: 2px solid #ddd;
+    }
+}
+@media(min-device-width: $screen-lg-min) {
+    .table-product-overview {
+        td:not(:first-child),
+        th:not(:first-child):not(.text-center) {
+            width: 120px;
+        }
+    }
+}
+
+#sumtoggle {
+    margin-top: 20px;
+}
+
+.logentry {
+    .meta {
+        font-size: 12px;
+        margin: 0 0 5px;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+}

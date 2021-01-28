@@ -1,0 +1,151 @@
+{% extends "premises/base_contention.html" %}
+{% load i18n %}
+{% load static %}
+{% load premise_tags %}
+{% load humanize %}
+
+{% block content %}
+    <div id="keyboard-manager-info">
+        <span class="keys">
+            <span class="left">←</span>
+            <span class="up-down">↑<br />↓</span>
+            <span class="right">→</span>
+        </span>
+        <p>{% trans "You can use arrow keys to navigate in the map." %}</p>
+    </div>
+    <div id="loading">{% trans "Loading tree..." %}</div>
+    <div id="app" class="tree-view">
+        <div class="tree-contention">
+            <h3><span>{{ contention.formatted_title|safe }}</span></h3>
+        </div>
+        <div class="tree-contention-actions">
+            {% if user.is_authenticated %}
+            {% if edit_mode %}
+                <a href="{% url "contention_edit" serialized.slug %}">{% trans "edit" %}</a>
+            {% endif %}
+            <a href="{% url "new_premise" contention.slug %}">{% trans "add premise" %}</a>
+            {% endif %}
+        </div>
+        <div class="root">
+            <div class="connector root-connector"></div>
+        </div>
+        <div class="tree-container">
+            {% with premises=serialized.premises level=1 %}
+                {% include "premises/tree.html" %}
+            {% endwith %}
+        </div>
+        {% if not serialized.premises %}
+            <div id="empty-state">
+                {% trans "The argument have no premises." %}<br />
+                {% if user.is_authenticated %}
+                <a href="{% url "new_premise" contention.slug %}">{% trans "Add a premise" %}</a>
+                {% endif %}
+                {% if edit_mode %} |
+                    <a href="{% url "contention_edit" serialized.slug %}">{% trans "Edit argument" %}</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="list-view-indicator" class="tooltip">
+        <button class="close">×</button>
+        {% blocktrans trimmed %}
+        The argument is too complex. You can switch to list view.
+        {% endblocktrans %}
+    </div>
+
+    <div id="timeline"></div>
+    <div id="tree-overview">
+        {% if serialized.overview.support > serialized.overview.objection %}
+        <div class="support">
+            <div class="label">%{{ serialized.overview.support|floatformat }} {% trans "support rate" %}</div>
+        </div>
+        {% endif %}
+        {% if serialized.overview.objection > serialized.overview.support %}
+        <div class="objection">
+            <div class="label">%{{ serialized.overview.objection|floatformat }} {% trans "objection rate" %}</div>
+        </div>
+        {% endif %}
+        {% if serialized.overview.objection == serialized.overview.support %}
+        <div class="neutral">
+            <div class="label">{% trans "Neutral support and objection rate." %}</div>
+        </div>
+        {% endif %}
+        <div class="last-update">
+            {% with last=contention.published_premises.last %}
+            {% if last %}
+                {% trans "last update:" %} <a
+                href="{% url "auth_profile" last.user.username %}">{{ last.user.username|lower }}</a>
+                <time datetime="{{ last.date_creation }}">({{ last.date_creation|naturaltime }})</time>
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+    {% if user.is_anonymous %}
+    {% include "auth/login_popup.html" %}
+    {% endif %}
+    {% if contention.related_contentions %}
+        <div class="recommendation-sidebar">
+            {% for relation in contention.related_contentions %}
+                <h3>
+                    <a href="{{ relation.noun.get_absolute_url }}">
+                        {{ relation.noun }}
+                        <span>
+                        {% with hypernym=relation.noun.hypernyms.first %}
+                            {{ hypernym.relation_type_label }}
+                            {{ hypernym.target }}
+                        {% endwith %}
+                        </span>
+                    </a>
+                </h3>
+                <ul>
+                    {% for contention in relation.contentions %}
+                        <li><a href="{% url "contention_detail" contention.slug %}#related">{{ contention.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra-scripts %}
+<script type="text/javascript">
+    arguman.editMode = {{ edit_mode|yesno:"true,false" }};
+    arguman.contention = {
+        "id": {{ serialized.id }}
+    };
+    arguman.authenticatedUser = {
+        "id": {{ user.id|default:"null" }}
+    };
+
+    var treeView = new arguman.Tree({
+        onRender: function () {
+            var navigator = new arguman.Navigator({
+                el: "#app",
+                info: "#keyboard-manager-info",
+                treeView: treeView
+            });
+
+            var timeline = new arguman.Timeline({
+                treeView: treeView,
+                navigator: navigator
+            });
+
+            navigator.render();
+            timeline.render();
+
+        }
+    });
+
+    $(window).load(function () {
+        treeView.render();
+    });
+
+    (new arguman.NounLoader()).render();
+    (new arguman.DraggablePage()).render();
+</script>
+{% endblock %}
+
+
+{% block footer %}{% endblock %}

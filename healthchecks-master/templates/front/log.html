@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load compress humanize static hc_extras %}
+
+{% block title %}Ping Log - {{ site_name }}{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'hc-checks' check.project.code %}">{{ check.project }}</a></li>
+            <li>
+                <a href="{% url 'hc-details' check.code %}">
+                    {{ check.name_then_code }}
+                </a>
+            </li>
+            <li class="active">Log</li>
+
+            <li id="format-switcher-container" class="pull-right hidden-xs">
+                <div id="format-switcher" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default btn-xs" data-format="UTC">
+                        <input type="radio" name="date-format" checked>
+                        UTC
+                    </label>
+
+                    {% if check.kind == "cron" and check.tz != "UTC" %}
+                    <label class="btn btn-default btn-xs" data-format="{{ check.tz }}">
+                        <input type="radio" name="date-format">
+                        {{ check.tz }}
+                    </label>
+                    {% endif %}
+
+                    <label class="btn btn-default btn-xs active" data-format="local">
+                        <input type="radio" name="date-format">
+                        Browser's time zone
+                    </label>
+                </div>
+            </li>
+        </ol>
+
+    {% if events %}
+    <div class="table-responsive">
+    <table class="table" id="log">
+        {% for event in events %}
+        {% if event.n %}
+        <tr class="ok" data-dt="{{ event.created.isoformat }}" data-url="{% url 'hc-ping-details' check.code event.n  %}">
+            <td class="n-cell">
+                <span class="hash">#</span>{{ event.n }}
+            </td>
+            <td class="date"></td>
+            <td class="time"></td>
+            <td class="event">
+                {% if event.exitstatus %}
+                <span class="label label-danger">Status {{ event.exitstatus }}</span>
+                {% elif event.kind == "fail" %}
+                <span class="label label-danger">Failure</span>
+                {% elif event.kind == "start" %}
+                <span class="label label-start">Started</span>
+                {% elif event.kind == "ign" %}
+                <span class="label label-ign">Ignored</span>
+                {% else %}
+                <span class="label label-success">OK</span>
+                {% endif %}
+            </td>
+            <td class="details">
+                {% if event.delta %}
+                <div class="delta">
+                    <span class="icon-timer"></span>
+                    {{ event.delta|hms }}
+                </div>
+                {% endif %}
+
+
+                {% if event.scheme == "email" %}
+                    {{ event.ua }}
+                    <span class="ua-body">
+                        {% if event.body %}
+                            -  {{ event.body|truncatechars:150 }}
+                        {% endif %}
+                    </span>
+                {% else %}
+                    {{ event.scheme|upper }}
+                    {{ event.method }}
+                    {% if event.remote_addr %}
+                    from {{ event.remote_addr }}
+                    {% endif %}
+                    <span class="ua-body">
+                        {% if event.ua %}
+                        - {{ event.ua }}
+                        {% endif %}
+                        {% if event.body %}
+                        -  {{ event.body|truncatechars:150 }}
+                        {% endif %}
+                    </span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+        {% if event.check_status %}
+        <tr class="missing" data-dt="{{ event.created.isoformat }}">
+            <td class="n-cell">
+                <span class="icon-missing"></span>
+            </td>
+            <td class="date"></td>
+            <td class="time"></td>
+            <td class="alert-info" colspan="2">
+                {% include "front/event_summary.html" %}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    {% if show_limit_notice and limit < 1000 %}
+    <p class="alert alert-info">
+        <strong>Showing last {{ limit }} pings.</strong>
+        Want to see more?
+        <a href="{% url 'hc-pricing' %}">
+            Upgrade your account!
+        </a>
+    </p>
+    {% endif %}
+
+    </div>
+    {% else %}
+        <div class="alert alert-info">Log is empty. This check has not received any pings yet.</div>
+    {% endif %}
+    </div>
+</div>
+
+<div id="ping-details-modal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="ping-details-body">Loading</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/moment-timezone-with-data-10-year-range.min.js' %}"></script>
+<script src="{% static 'js/log.js' %}"></script>
+{% endcompress %}
+{% endblock %}

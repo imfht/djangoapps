@@ -1,0 +1,31 @@
+{% load i18n %}
+<option
+   {% if page == 'browse' %}selected="selected"{% endif %}
+   value="browse"
+   data-href="{{ browse_url }}">
+  {% trans "Browse" %}
+</option>
+<option
+   {% if page == 'translate' %}selected="selected"{% endif %}
+   {% if page == 'export' %}selected="selected"{% endif %}
+   value="translate"
+   data-href="{{ translate_url }}">
+  {% trans "Translate" %}
+</option>
+{% if user.is_superuser or request.permissions.administrate %}
+<option disabled></option>
+<option
+   {% if page == 'admin-terminology' %}selected="selected"{% endif %}
+   value="admin-terminology"
+   class="admin"
+   data-href="{% url 'pootle-terminology-manage' language.code project.code %}">
+  {% trans "Terminology" %}
+</option>
+<option
+   {% if page == 'admin-permissions' %}selected="selected"{% endif %}
+   value="admin-permissions"
+   class="admin"
+   data-href="{% url 'pootle-tp-admin-permissions' language.code project.code %}">
+  {% trans "Permissions" %}
+</option>
+{% endif %}

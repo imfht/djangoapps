@@ -1,0 +1,34 @@
+{% macro render_row(label, dict) %}
+    <tr>
+        <td class="text-nowrap">{{ label }}</td>
+        <td class="text-right text-nowrap">{{ dict["sales"]|money }}</td>
+        <td class="text-right text-nowrap">{{ dict["num_orders"] }}</td>
+        <td class="text-right text-nowrap">{{ dict["num_customers"] }}</td>
+    </tr>
+{% endmacro %}
+
+<div class="color-block block-green">
+    <h2 class="block-title">
+        {% trans %}Store Overview{% endtrans %}
+    </h2>
+    <div class="block-content">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-right">{% trans %}Sales{% endtrans %}</th>
+                        <th class="text-right">{% trans %}Orders{% endtrans %}</th>
+                        <th class="text-right">{% trans %}Customers{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ render_row(_("Today"), daily) }}
+                    {{ render_row(_("Month to date (MTD)"), mtd) }}
+                    {{ render_row(_("Year to date (YTD)"), ytd) }}
+                    {{ render_row(_("Totals"), totals) }}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

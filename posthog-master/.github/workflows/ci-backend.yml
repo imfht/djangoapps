@@ -1,0 +1,336 @@
+name: Backend CI
+
+on:
+    - pull_request
+
+jobs:
+    backend-code-quality:
+        name: Code quality checks
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: postgres
+                ports: ['5432:5432']
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        steps:
+            - uses: actions/checkout@v1
+              with:
+                  fetch-depth: 1
+
+            - name: Set up Python 3.8
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/requirements-dev.txt') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-
+
+            - name: Install Python dependencies with pip
+              run: |
+                  python -m pip install -U pip
+                  python -m pip install -r requirements.txt
+                  python -m pip install -r requirements-dev.txt
+              if: steps.cache.outputs.cache-hit != 'true'
+
+            - name: Check formatting
+              run: |
+                  black --check .
+                  isort --check-only .
+
+            - name: Lint with flake8
+              run: |
+                  # stop the build if there are Python syntax errors or undefined names
+                  flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+                  # exit-zero treats all errors as warnings
+                  flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
+
+            - name: Typecheck
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+              run: |
+                  mypy .
+
+    django:
+        name: Django tests – Py ${{ matrix.python-version }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ['3.7.8', '3.8.5', '3.9.0']
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: postgres
+                ports: ['5432:5432']
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+            clickhouse-server:
+                image: yandex/clickhouse-server
+                ports:
+                    - '8123:8123'
+                    - '9000:9000'
+                    - '9440:9440'
+                    - '9009:9009'
+        steps:
+            - uses: actions/checkout@v1
+              with:
+                  fetch-depth: 1
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
+            - name: Install requirements.txt dependencies with pip
+              run: |
+                  python -m pip install --upgrade pip
+                  python -m pip install -r requirements.txt
+                  python -m pip install freezegun fakeredis
+              if: steps.cache.outputs.cache-hit != 'true'
+
+            - name: Check migrations
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+              run: python manage.py makemigrations --check --dry-run
+
+            - name: Run posthog tests
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+              run: |
+                  mkdir -p frontend/dist
+                  touch frontend/dist/index.html
+                  touch frontend/dist/layout.html
+                  touch frontend/dist/shared_dashboard.html
+                  python manage.py test posthog -v 2
+            - name: Run EE tests
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  PRIMARY_DB: 'clickhouse'
+                  CLICKHOUSE_HOST: 'localhost'
+                  CLICKHOUSE_DATABASE: 'posthog_test'
+                  CLICKHOUSE_SECURE: 'False'
+                  CLICKHOUSE_VERIFY: 'False'
+              run: |
+                  mkdir -p frontend/dist
+                  touch frontend/dist/index.html
+                  touch frontend/dist/layout.html
+                  touch frontend/dist/shared_dashboard.html
+                  python manage.py test ee --testrunner="ee.clickhouse.clickhouse_test_runner.ClickhouseTestRunner"
+
+    cloud:
+        name: Django tests – Cloud
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: postgres
+                ports: ['5432:5432']
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+            clickhouse-server:
+                image: yandex/clickhouse-server
+                ports:
+                    - '8123:8123'
+                    - '9000:9000'
+                    - '9440:9440'
+                    - '9009:9009'
+
+        steps:
+            - name: Fetch posthog-production
+              run: |
+                  curl -L https://github.com/posthog/posthog-production/tarball/master | tar --strip-components=1 -xz --
+                  mkdir deploy/
+
+            - name: Checkout master
+              uses: actions/checkout@v2
+              with:
+                  ref: 'master'
+                  path: 'deploy/'
+
+            - name: Link posthog-production at master
+              run: |
+                  cp -r multi_tenancy deploy/
+                  cp -r messaging deploy/
+                  cat multi_tenancy_settings.py >> deploy/posthog/settings.py
+                  cat requirements.txt >> deploy/requirements.txt
+
+            - name: Set up Python 3.8
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-
+
+            - name: Install requirements.txt dependencies with pip
+              run: |
+                  cd deploy
+                  python -m pip install --upgrade pip
+                  python -m pip install -r requirements.txt
+                  python -m pip install freezegun fakeredis
+              if: steps.cache.outputs.cache-hit != 'true'
+
+            # The 2-step migration process (first master, then current branch) verifies that it'll always
+            # be possible to migrate to the new version without problems in production
+            - name: Migrate initially at master, then remove master deploy code
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+              run: |
+                  python deploy/manage.py migrate
+                  rm -rf deploy
+
+            - name: Checkout current branch
+              uses: actions/checkout@v2
+              with:
+                  path: 'deploy/'
+
+            - name: Link posthog-production at current branch
+              run: |
+                  cp -r multi_tenancy deploy/
+                  cp -r messaging deploy/
+                  cat multi_tenancy_settings.py >> deploy/posthog/settings.py
+                  cat requirements.txt >> deploy/requirements.txt
+
+            - name: Check migrations
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+              run: |
+                  cd deploy
+                  python manage.py makemigrations --check --dry-run
+                  python manage.py migrate
+
+            - name: Run posthog tests
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+              run: |
+                  cd deploy
+                  mkdir -p frontend/dist
+                  touch frontend/dist/index.html
+                  touch frontend/dist/layout.html
+                  touch frontend/dist/shared_dashboard.html
+                  python manage.py test posthog --keepdb -v 2 --exclude-tag=skip_on_multitenancy
+
+            - name: Run cloud tests (posthog-production)
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+                  PRIMARY_DB: 'clickhouse'
+                  CLICKHOUSE_HOST: 'localhost'
+                  CLICKHOUSE_DATABASE: 'posthog_test'
+                  CLICKHOUSE_SECURE: 'False'
+                  CLICKHOUSE_VERIFY: 'False'
+              run: |
+                  cd deploy
+                  python manage.py test multi_tenancy messaging --keepdb -v 2 --exclude-tag=skip_on_multitenancy
+            - name: Run EE tests
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+                  PRIMARY_DB: 'clickhouse'
+                  CLICKHOUSE_HOST: 'localhost'
+                  CLICKHOUSE_DATABASE: 'posthog_test'
+                  CLICKHOUSE_SECURE: 'False'
+                  CLICKHOUSE_VERIFY: 'False'
+              run: |
+                  cd deploy
+                  python manage.py test ee --keepdb
+
+    foss:
+        name: Django tests – FOSS
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:12
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: postgres
+                ports: ['5432:5432']
+                options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+        steps:
+            - uses: actions/checkout@v1
+              with:
+                  fetch-depth: 1
+
+            - name: Set up Python 3.8
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-
+
+            - name: Install requirements.txt dependencies with pip
+              run: |
+                  python -m pip install --upgrade pip
+                  python -m pip install -r requirements.txt
+                  python -m pip install freezegun fakeredis
+              if: steps.cache.outputs.cache-hit != 'true'
+
+            - name: Remove ee
+              run: |
+                  rm -rf ee/
+
+            - name: Check migrations
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+                  REDIS_URL: 'redis://localhost'
+              run: python manage.py makemigrations --check --dry-run
+
+            - name: Run tests
+              env:
+                  SECRET_KEY: '6b01eee4f945ca25045b5aab440b953461faf08693a9abbf1166dc7c6b9772da' # unsafe - for testing only
+                  DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+              run: |
+                  mkdir -p frontend/dist
+                  touch frontend/dist/index.html
+                  touch frontend/dist/layout.html
+                  touch frontend/dist/shared_dashboard.html
+                  python manage.py test -v 2 --exclude-tag=ee

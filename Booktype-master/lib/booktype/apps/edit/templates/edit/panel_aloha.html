@@ -1,0 +1,533 @@
+{% load i18n booktype_tags static %}
+
+<div class="template templateAlohaToolbar">
+   {% include "edit/aloha_menu.html" %}
+   {% include "edit/aloha_toolbar.html" %}
+</div>
+
+<div class="template templateAlohaContent">
+  <div id="contenteditor" class="" dir="{{ book_dir}}" lang="{{ book_language }}"></div>
+</div>
+
+<script type="text/html" id="templateAlohaFull">
+   <a href="#" class="zenBtn" id="zen" data-original-title="{% trans 'Zen mode' %}" rel="tooltip" data-placement="left"><i class="fa fa-angle-double-up"></i></a>
+</script>
+
+<div id="find-replace" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+           {% trans "Find &amp; Replace" %}
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+             <input type="text" class="form-control" name="find" placeholder="{% trans "Find" %}">
+           </div>
+           <div class="form-group">
+             <input type="text" class="form-control" name="replace" placeholder="{% trans "Replace" %}">
+           </div>
+           <div class="checkbox"><label><input type="checkbox" name="match-case">{% trans "Match Case" %}</label></div>
+           <span class="msg-report hide" style="color: green">{% trans "Finished" %}</span>
+         </div>
+         <div class="modal-footer">
+           <button class="btn btn-default pull-left cancel-button operation-findandreplace" aria-hidden="true">{% trans "Cancel" %}</button>
+
+           <button class="btn btn-default replace-button operation-findandreplace" aria-hidden="true">{% trans "Replace" %}</button>
+           <button class="btn btn-default replace-all-button operation-findandreplace" aria-hidden="true">{% trans "Replace All" %}</button>
+           <button class="btn btn-default prev-button operation-findandreplace" aria-hidden="true">{% trans "&lt; Prev" %}</button>
+           <button class="btn btn-default next-button operation-findandreplace" aria-hidden="true">{% trans "Next $gt;" %}</button>
+         </div>
+       </div>
+   </div>
+ </div>
+
+<div id="elCount" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3>{% trans "Word count" %}</h3>
+        </div>
+        <div class="modal-body">
+            <b>{% trans "Whole book" %}</b><br/>
+            {% trans "Book word count" %}: <span class="all_wcount">-</span><br/>
+            {% trans "Book character count" %}: <span class="all_charcount">-</span><br/>
+            {% trans "Book character count (with spaces)" %}: <span class="all_charspacecount">-</span><br/><br/>
+            <b>{% trans "Chapter" %}</b><br>
+            {% trans "Word count" %}: <span class="wcount">-</span><br/>
+            {% trans "Character count" %}: <span class="charcount">-</span><br/>
+            {% trans "Character count (with spaces)" %}: <span class="charspacecount">-</span>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{% trans "OK" %}</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div id="newLink" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Link" %}</h3>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+            <input type="text" class="form-control" name="url" placeholder="URL">
+        </div>
+      <div class="form-group">
+            <input type="text" class="form-control" name="title" placeholder="Title">
+      </div>
+      <div class="linktochapter">
+        <div class="linktochapter-header">
+          <i class="fa fa-chevron-down toggle-close"></i>
+          <i class="fa fa-chevron-right toggle-open"></i>
+          <span class="linktochapter-title">Or link to existing chapter</span>
+        </div>
+        <div class="linktochapter-content">
+          <ul>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-default operation-unlink" aria-hidden="true">{% trans "Break link" %}</button>
+      <button class="btn btn-primary operation-insert">{% trans "Insert link" %}</button>
+    </div>
+  </div>
+ </div>
+</div>
+
+<div id="colorDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+     <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Color" %}</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+  <!--    <button class="btn btn-primary">{% trans "Set" %}</button> -->
+    </div>
+  </div>
+ </div>
+</div>
+
+<div id="footnoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Footnote" %}</h3>
+    </div>
+    <div class="modal-body">
+        <textarea style="width: 95%" rows="10" class="form-control"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary operation-insert">{% trans "Insert footnote" %}</button>
+    </div>
+  </div>
+ </div>
+</div>
+
+<div id="htmleditDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "HTML Edit" %}</h3>
+    </div>
+    <div class="modal-body" style="height: 500px;">
+        <textarea class="form-control"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary operation-set">{% trans "Set" %}</button>
+    </div>
+  </div>
+ </div>
+</div>
+
+<!-- Insert Image Modal -->
+<div id="imageManager" class="modal fade responsive-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans "Insert Image" %}</h4>
+        </div>
+        <div class="modal-body tabbable">
+          <div class="modal-left-pane">
+            <h4>{% trans "Sources" %}</h4>
+              <ul class="nav nav-tabs">
+                <li class="active"><a class="medialibrary" href="#medialibrary" data-toggle="tab">{% trans "Media library" %}</a></li>
+                {% check_perm 'edit.upload_attachment' %}
+                <li><a href="#uploadimage" data-toggle="tab">{% trans "Upload Image" %}</a></li>
+                {% endcheck_perm %}
+                <!-- <li><a href="#from_web" data-toggle="tab">From Web</a></li> -->
+              </ul>
+          </div><!-- end modal-left-pane -->
+          <div class="modal-right-pane tab-content">
+            <div class="tab-pane" id="uploadimage">
+              <div class="drag-area">
+                  <div class="drag-area-title">
+                    {% trans "Drag Your Images Here" %}
+                  </div>
+                  <div class="drag-area-button">
+                   <span class="btn btn-success fileinput-button">
+                      <i class="fa fa-arrow-circle-o-up"></i> {% trans "or Select them from folder" %}
+                        <input class="upload-file" type="file" name="files[]" multiple data-url="../_upload/">
+                   </span>
+                  </div>
+              </div>
+              <div class="alert-wrapper hidden">
+                <div class="alert alert-warning animated" role="alert">
+                  {% trans "Please wait, we are processing your image..." %}
+                  <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane active" id="medialibrary">
+              <div id="media-image-search">
+                <input type="text" placeholder="{% trans "Search by filename or size" %}">
+              </div>
+              <div class="image-info-container">
+                <div class="image-preview">
+                  <img src="">
+                </div>
+                <div class="image-info">
+                </div>
+                <div class="edit-metadata">
+                  <div class="form-group">
+                    <label for="imageTitle">{% trans "Image Title" %}</label>
+                    <input type="email" class="form-control image-title"  placeholder="{% trans "Enter Title" %}">
+                  </div>
+                  <div class="form-group">
+                    <label for="imageTitle">{% trans "Image Caption" %}</label>
+                    <textarea rows="8" class="form-control image-description" placeholder="{% trans "Caption" %}"></textarea>
+                  </div>
+                </div>
+
+                <a class="btn btn-default btn-xs cancel-metadata-btn" href="#">{% trans "Cancel" %}</a>
+                <!--
+                <a class="btn btn-primary btn-xs save-metadata-btn" href="#">{% trans "Save Metadata" %}</a>
+                -->
+                <a class="btn btn-default btn-xs metadata-btn" href="#"><i class="fa fa-pencil"></i> {% trans "Edit caption" %}</a>
+                <a class="btn btn-default btn-xs closeinfo" href="#"><i class="fa fa-chevron-right"></i></a>
+              </div>
+
+              <ul class="uploads-grid">
+              </ul>
+            </div>
+            <div class="tab-pane" id="from_web">
+              <input type="text" class="form-control" id="webSearch" placeholder="{% trans "Enter image link" %}">
+            </div>
+          </div><!-- end modal-right-pane -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+          <button type="button" class="btn btn-primary insert-image">{% trans "Insert" %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script type="text/html" id='templateImageInfo'>
+      <ul>
+        <li><span>{% trans "File Name" %}:</span> <%= name %></li>
+        <li><span>{% trans "Modified" %}:</span> <%= timestamp %></li>
+        <li><span>{% trans "File Size" %}:</span> <%= filesize %></li>
+        <li><span>{% trans "Dimensions" %}:</span> <%= dimension %></li>
+      </ul>
+      <h5></h5>
+      <p></p>
+  </script>
+
+  <script type="text/html" id='templateImageThumbnail'>
+     <li data-media-id="<%= media_id %>" data-filename="<%= name %>">
+       <img src="<%= preview %>" data-src="static/<%= name %>" style="max-width: 150px" data-search="<%= name %>,<%= dimension[0] %>,<%= dimension[1] %>"/>
+         <a class="image-dropdown-button" data-toggle="dropdown"><i class="fa fa-caret-down"></i></a>
+         <ul class="dropdown-menu" style="">
+           {% trans "Edit metadata" %}
+           <li><a href="static/<%= name %>" target="_blank"><i class="fa fa-download"></i> {% trans "Download" %}</a></li>
+           {% check_perm 'edit.rename_attachment' %}
+             <li><a href="#" class="rename-attachment"><i class="fa fa-edit"></i> {% trans "Rename" %}</a></li>
+           {% endcheck_perm %}
+           {% check_perm 'edit.remove_attachment' %}
+             <li><a href="#" class="delete-attachment"><i class="fa fa-trash"></i> {% trans "Delete" %}</a></li>
+           {% endcheck_perm %}
+         </ul>
+     </li>
+  </script>
+
+  <div id="imagePopup" style="display: none;">
+    <a href="#" class="remove"><i class="fa fa-times-circle"></i> {% trans "REMOVE" %}&nbsp;</a>
+    <a href="#" class="bk-image-editor-start"><i class="fa fa-adjust"></i> {% trans "EDIT" %}&nbsp;</a>
+    <a href="#" class="bk-image-editor-stop"><i class="fa fa-power-off"></i> {% trans "STOP EDIT" %}&nbsp;</a>
+    <a href="#" class="bk-image-layout-select bk-image-layouts-list"><i class="fa fa-columns"></i> {% trans "LAYOUTS" %}&nbsp;</a>
+    <a href="#" class="bk-image-layout-select bk-image-layout-selected"><i class="fa fa-check"></i> {% trans "SAVE LAYOUT" %}&nbsp;</a>
+    <div class="bk-image-editor-ui-controls">
+      <hr>
+      <div class="form-group">
+        <button bk-image-editor-action="flip_vertical" class="bk-image-editor-action"><i class="fa fa-arrows-v"></i>
+        </button>&nbsp;&nbsp;
+        <button bk-image-editor-action="flip_horizontal" class="bk-image-editor-action"><i class="fa fa-arrows-h"></i>
+        </button>&nbsp;&nbsp;
+        <button bk-image-editor-action="rotate_left" class="bk-image-editor-action"><i class="fa fa-rotate-left"></i>
+        </button>&nbsp;&nbsp;
+        <button bk-image-editor-action="rotate_right" class="bk-image-editor-action"><i class="fa fa-rotate-right"></i>
+        </button>&nbsp;&nbsp;
+        <input bk-image-editor-action="toggle_fpi" type="checkbox" class="bk-image-editor-action"
+               data-width="28" data-height="23" data-size="mini"
+               data-toggle="toggle"
+               data-on="<i class='fa fa-arrows-alt'></i>" data-off="<i class='fa fa-arrows-alt'></i>">
+      </div>
+      <div class="form-group">
+        <label for="bk-image-editor-zoom-slider">{% trans "Zoom" %}</label>
+        <input id="bk-image-editor-zoom-slider" type="text" data-slider-min="-100" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-orientation="horizontal" data-slider-selection="after">
+      </div>
+      <div class="form-group">
+        <label for="bk-image-editor-contrast-slider">{% trans "Contrast" %}</label>
+        <input id="bk-image-editor-contrast-slider" type="text" data-slider-min="0" data-slider-max="200" data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal" data-slider-selection="after">
+      </div>
+      <div class="form-group">
+        <label for="bk-image-editor-contrast-slider">{% trans "Brightness" %}</label>
+        <input id="bk-image-editor-brightness-slider" type="text" data-slider-min="0" data-slider-max="200" data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal" data-slider-selection="after">
+      </div>
+      <div class="form-group">
+        <label for="bk-image-editor-contrast-slider">{% trans "Blur" %}</label>
+        <input id="bk-image-editor-blur-slider" type="text" data-slider-min="0" data-slider-max="300" data-slider-step="10" data-slider-value="0" data-slider-orientation="horizontal" data-slider-selection="after">
+      </div>
+      <div class="form-group">
+        <label for="bk-image-editor-contrast-slider">{% trans "Saturate" %}</label>
+        <input id="bk-image-editor-saturate-slider" type="text" data-slider-min="0" data-slider-max="300" data-slider-step="5" data-slider-value="0" data-slider-orientation="horizontal" data-slider-selection="after">
+      </div>
+    </div>
+    <div class="bk-image-layout-ui-controls">
+      <hr>
+      <img class="image-layout-1image" src="{% static 'edit/img/1_image.png' %}">
+      <img class="image-layout-1image_1caption_bottom" src="{% static 'edit/img/1_image_1_caption_bottom.png' %}">
+      <img class="image-layout-1image_1caption_left" src="{% static 'edit/img/1_image_1_caption_left.png' %}">
+      <img class="image-layout-1image_1caption_right" src="{% static 'edit/img/1_image_1_caption_right.png' %}">
+      <img class="image-layout-2images" src="{% static 'edit/img/2_images.png' %}">
+      <img class="image-layout-2images_1caption_bottom" src="{% static 'edit/img/2_images_1_caption_bottom.png' %}">
+      <img class="image-layout-2images_2captions_bottom" src="{% static 'edit/img/2_images_2_captions_bottom.png' %}">
+      <hr>
+      <table>
+        <tr>
+          <td class="color-image"></td>
+          <td>{% trans "image" %}</td>
+          <td class="color-caption"></td>
+          <td>{% trans "text" %}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<!-- End Insert Image Modal -->
+
+<div id="saveContentWithCommentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h2 class="modal-title" id="myModalLabel">{% trans "Save with comment" %}</h2>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          <section>
+            <label for="description">{% trans "Comment" %}</label>
+            <textarea class="form-control" name="comment" cols="40" rows="7"></textarea>
+          </section>
+        </div>
+        <div class="modal-footer">
+          <section class='pull-right'>
+            <button type="button" data-action="save" class="btn btn-success">{% trans "Save" %}</button>
+            <button type="button" data-action="close" class="btn btn-default">{% trans "Cancel" %}</button>
+          </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="contentModifiedModal" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{% trans "Chapter has been modified" %}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{% trans "This chapter has been modified. Do you want to save it before closing?" %}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel btn-default">{% trans "Discard changes" %}</button>
+        <button type="button" class="btn btn-save btn-primary">{% trans "Save changes" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="themeChangedModal" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{% trans "Book theme was changed" %}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{% trans "Book theme was changed. Do you want to apply it right now?" %}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-action="cancel" class="btn btn-cancel btn-default">{% trans "Cancel" %}</button>
+        <button type="button" data-action="apply" class="btn btn-save btn-primary">{% trans "Apply" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="columnsDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3>{% trans "Columns" %}</h3>
+        </div>
+        <div class="modal-body">
+          <form autocomplete="off">
+
+          <div class="control-group">
+            <label class="control-label" for="columnsNumber">{% trans "Number of columns" %}</label>
+            <div class="controls">
+              <select id="columnsNumber" name="columnsNumber">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="columnsValign">{% trans "Vertical alignment" %}</label>
+            <div class="controls">
+              <select name="valign" id="columnsValign">
+                <option value="">{% trans "Turn off" %}</option>
+                <option value="justify">{% trans "Justify" %}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="columnsGap">{% trans "Column gap (in mm)" %}</label>
+            <div class="controls">
+              <select id="columnsGap" name="gap">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="checkbox">
+            <label><input type="checkbox" id="columnsStart" name="start"> {% trans "Column continues after the marker" %}</label>
+          </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default btn-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Close" %}</button>
+          <button class="btn btn-primary btn-ok" aria-hidden="true">{% trans "OK" %}</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div id="splitChapter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bod-color">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">{% trans "Split Chapter" %}</h3>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="chapter_id" value=""/>
+        <input type="text" name="chapter" placeholder="{% trans "New chapter title" %}" class="form-control">
+        <div class="alert alert-danger" style="margin-top: 15px;" role="alert"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+        <button class="btn btn-primary operation-split">{% trans "Split Chapter" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalPageBreak" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bod-color">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{% trans "Remove page break" %}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{% trans "Do you want to remove page break?" %}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default operation-cancel">{% trans "Cancel" %}</button>
+        <button type="button" class="btn btn-primary operation-remove">{% trans "Remove page break" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="infoboxDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3>{% trans "Infobox" %}</h3>
+        </div>
+        <div class="modal-body">
+          <div class="control-group">
+            <label for="box-title">{% trans "Title" %}</label>
+            <input type="text" class="form-control" name="box-title" placeholder="{% trans 'Write your infobox title here' %}" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default btn-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+          <button class="btn btn-primary btn-insert" aria-hidden="true">{% trans "Insert" %}</button>
+        </div>
+      </div>
+  </div>
+</div>

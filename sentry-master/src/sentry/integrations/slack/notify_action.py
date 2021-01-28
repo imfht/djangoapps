@@ -1,0 +1,239 @@
+import logging
+import six
+
+import sentry_sdk
+
+from django import forms
+from django.utils.translation import ugettext_lazy as _
+
+from sentry import features
+
+from sentry.models import Integration
+from sentry.rules.actions.base import IntegrationEventAction
+from sentry.shared_integrations.exceptions import (
+    ApiError,
+    DeprecatedIntegrationError,
+    DuplicateDisplayNameError,
+)
+from sentry.utils import metrics, json
+
+from .client import SlackClient
+from .utils import (
+    build_group_attachment,
+    build_upgrade_notice_attachment,
+    get_channel_id,
+    get_integration_type,
+    strip_channel_name,
+)
+
+logger = logging.getLogger("sentry.rules")
+
+
+class SlackNotifyServiceForm(forms.Form):
+    workspace = forms.ChoiceField(choices=(), widget=forms.Select())
+    channel = forms.CharField(widget=forms.TextInput())
+    channel_id = forms.HiddenInput()
+    tags = forms.CharField(required=False, widget=forms.TextInput())
+
+    def __init__(self, *args, **kwargs):
+        # NOTE: Workspace maps directly to the integration ID
+        workspace_list = [(i.id, i.name) for i in kwargs.pop("integrations")]
+        self.channel_transformer = kwargs.pop("channel_transformer")
+
+        super(SlackNotifyServiceForm, self).__init__(*args, **kwargs)
+
+        if workspace_list:
+            self.fields["workspace"].initial = workspace_list[0][0]
+
+        self.fields["workspace"].choices = workspace_list
+        self.fields["workspace"].widget.choices = self.fields["workspace"].choices
+
+        # XXX(meredith): When this gets set to True, it lets the RuleSerializer
+        # know to only save if and when we have the channel_id. The rule will get saved
+        # in the task (integrations/slack/tasks.py) if the channel_id is found.
+        self._pending_save = False
+
+    def clean(self):
+        channel_id = None
+        if self.data.get("input_channel_id"):
+            logger.info(
+                "rule.slack.provide_channel_id",
+                extra={
+                    "slack_integration_id": self.data.get("workspace"),
+                    "channel_id": self.data.get("channel_id"),
+                },
+            )
+            # default to "#" if they have the channel name without the prefix
+            channel_prefix = self.data["channel"][0] if self.data["channel"][0] == "@" else "#"
+            channel_id = self.data["input_channel_id"]
+
+        cleaned_data = super(SlackNotifyServiceForm, self).clean()
+
+        workspace = cleaned_data.get("workspace")
+        try:
+            integration = Integration.objects.get(id=workspace)
+        except Integration.DoesNotExist:
+            raise forms.ValidationError(
+                _(
+                    "Slack workspace is a required field.",
+                ),
+                code="invalid",
+            )
+
+        channel = cleaned_data.get("channel", "")
+
+        # XXX(meredith): If the user is creating/updating a rule via the API and provides
+        # the channel_id in the request, we don't need to call the channel_transformer - we
+        # are assuming that they passed in the correct channel_id for the channel
+        if not channel_id:
+            try:
+                channel_prefix, channel_id, timed_out = self.channel_transformer(
+                    integration, channel
+                )
+            except DeprecatedIntegrationError:
+                raise forms.ValidationError(
+                    _(
+                        'Workspace "%(workspace)s" is using the deprecated Slack integration. Please re-install your integration to enable Slack alerting again.',
+                    ),
+                    code="invalid",
+                    params={
+                        "workspace": dict(self.fields["workspace"].choices).get(int(workspace)),
+                    },
+                )
+            except DuplicateDisplayNameError:
+                domain = integration.metadata["domain_name"]
+
+                params = {"channel": channel, "domain": domain}
+
+                raise forms.ValidationError(
+                    _(
+                        'Multiple users were found with display name "%(channel)s". Please use your username, found at %(domain)s/account/settings#username.',
+                    ),
+                    code="invalid",
+                    params=params,
+                )
+
+        channel = strip_channel_name(channel)
+
+        if channel_id is None and timed_out:
+            cleaned_data["channel"] = channel_prefix + channel
+            self._pending_save = True
+            return cleaned_data
+
+        if channel_id is None and workspace is not None:
+            params = {
+                "channel": channel,
+                "workspace": dict(self.fields["workspace"].choices).get(int(workspace)),
+            }
+
+            raise forms.ValidationError(
+                _(
+                    'The slack resource "%(channel)s" does not exist or has not been granted access in the %(workspace)s Slack workspace.'
+                ),
+                code="invalid",
+                params=params,
+            )
+
+        cleaned_data["channel"] = channel_prefix + channel
+        cleaned_data["channel_id"] = channel_id
+
+        return cleaned_data
+
+
+class SlackNotifyServiceAction(IntegrationEventAction):
+    form_cls = SlackNotifyServiceForm
+    label = "Send a notification to the {workspace} Slack workspace to {channel} and show tags {tags} in notification"
+    prompt = "Send a Slack notification"
+    provider = "slack"
+    integration_key = "workspace"
+
+    def __init__(self, *args, **kwargs):
+        super(SlackNotifyServiceAction, self).__init__(*args, **kwargs)
+        self.form_fields = {
+            "workspace": {
+                "type": "choice",
+                "choices": [(i.id, i.name) for i in self.get_integrations()],
+            },
+            "channel": {"type": "string", "placeholder": "i.e #critical"},
+            "tags": {"type": "string", "placeholder": "i.e environment,user,my_tag"},
+        }
+
+    def after(self, event, state):
+        channel = self.get_option("channel_id")
+        tags = set(self.get_tags_list())
+
+        try:
+            integration = self.get_integration()
+        except Integration.DoesNotExist:
+            # Integration removed, rule still active.
+            return
+
+        # XXX:(meredith) No longer support sending workspace app notifications unless explicitly
+        # flagged in. Flag is temporary and will be taken out shortly
+        if get_integration_type(integration) == "workspace_app" and not features.has(
+            "organizations:slack-allow-workspace", event.group.project.organization
+        ):
+            return
+
+        def send_notification(event, futures):
+            with sentry_sdk.start_transaction(
+                op="slack.send_notification", name="SlackSendNotification", sampled=1.0
+            ) as span:
+                rules = [f.rule for f in futures]
+                attachments = [
+                    build_group_attachment(event.group, event=event, tags=tags, rules=rules)
+                ]
+                # XXX(meredith): Needs to be ripped out along with above feature flag. This will
+                # not be used unless someone was explicitly flagged in to continue workspace alerts
+                integration_type = get_integration_type(integration)
+                if integration_type == "workspace_app":
+                    # stick the upgrade attachment first
+                    attachments.insert(0, build_upgrade_notice_attachment(event.group))
+
+                span.set_tag("integration_type", integration_type)
+                span.set_tag("has_slack_upgrade_cta", len(attachments) > 1)
+                payload = {
+                    "token": integration.metadata["access_token"],
+                    "channel": channel,
+                    "link_names": 1,
+                    "attachments": json.dumps(attachments),
+                }
+
+                client = SlackClient()
+                try:
+                    client.post("/chat.postMessage", data=payload, timeout=5)
+                except ApiError as e:
+                    self.logger.info(
+                        "rule.fail.slack_post",
+                        extra={
+                            "error": six.text_type(e),
+                            "project_id": event.project_id,
+                            "event_id": event.event_id,
+                            "channel_name": self.get_option("channel"),
+                        },
+                    )
+
+        key = "slack:{}:{}".format(integration.id, channel)
+
+        metrics.incr("notifications.sent", instance="slack.notification", skip_internal=False)
+        yield self.future(send_notification, key=key)
+
+    def render_label(self):
+        tags = self.get_tags_list()
+
+        return self.label.format(
+            workspace=self.get_integration_name(),
+            channel=self.get_option("channel"),
+            tags="[{}]".format(", ".join(tags)),
+        )
+
+    def get_tags_list(self):
+        return [s.strip() for s in self.get_option("tags", "").split(",")]
+
+    def get_form_instance(self):
+        return self.form_cls(
+            self.data, integrations=self.get_integrations(), channel_transformer=self.get_channel_id
+        )
+
+    def get_channel_id(self, integration, name):
+        return get_channel_id(self.project.organization, integration, name)

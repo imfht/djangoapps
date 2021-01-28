@@ -1,0 +1,35 @@
+{% extends "package/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Edit package example" %}{% endblock %}
+
+{% block body %}
+
+    <h2>{% trans "Edit package example" %}</h2>
+    
+    <form action="{{ request.path }}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ form|crispy }}
+            <div class="form_block">
+                <input class="btn btn-default" type="submit" name="edit" value="{% trans "Edit" %}">            
+                <a href="{% url 'package' package_example.package.slug %}">{% trans "cancel" %}</a>     
+            </div>
+        </fieldset>
+
+    </form>
+    {% if user.id == package_example.created_by.id %}
+        <a class="btn btn-danger" name="delete" href="{% url 'delete_example' package_example.package.slug package_example.id %}" id="example-delete-btn">{% trans "Delete" %}</a>
+        </form>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block extra_body %}
+<script>
+    $("#id_title").focus();
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends '_base_only_content.html' %}
+{% load static %}
+{% load i18n %}
+{% block html_title %} {{ title }} {% endblock %}
+{% block title %} {{ title }}{% endblock %}
+
+{% block custom_head_css_js %}
+    <style>
+        .passwordBox {
+            max-width: 660px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% if errors %}
+            <p>
+            <div class="alert alert-danger">
+                {{ errors }}
+            </div>
+            </p>
+        {% endif %}
+
+        {% if messages %}
+            <p>
+            <div class="alert alert-success" id="messages">
+                {{ messages|safe }}
+            </div>
+            </p>
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-3">
+                <a href="{{ redirect_url }}" class="btn btn-primary block full-width m-b">{% trans 'Return' %}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_foot_js %}
+<script>
+    var time = '{{ interval }}';
+    if (!time) {
+        time = 5;
+    } else {
+        time = parseInt(time);
+    }
+
+    function redirect_page() {
+        if (time >= 0) {
+            var messages = '{{ messages|safe }}， <b>' + time + '</b> ...';
+            $('#messages').html(messages);
+            time--;
+            setTimeout(redirect_page, 1000);
+        } else {
+            window.location.href = "{{ redirect_url }}";
+        }
+    }
+    {% if auto_redirect %}
+        window.onload = redirect_page;
+    {% endif %}
+</script>
+{% endblock %}
+

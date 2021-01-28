@@ -1,0 +1,30 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n static %}
+
+{% block title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'core:child-list' %}">{% trans "Children" %}</a></li>
+    <li class="breadcrumb-item font-weight-bold"><a href="{% url 'core:child' object.slug %}">{{ object }}</a></li>
+    <li class="breadcrumb-item">{% trans "Reports" %}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        {% if html %}
+            {{ html|safe }}
+        {% else %}
+            <div class="jumbotron text-center">
+                <i class="icon icon-sad" aria-hidden="true"></i>
+                {% trans "There is not enough data to generate this report." %}
+                <i class="icon icon-sad" aria-hidden="true"></i>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static "babybuddy/js/graph.js" %}"></script>
+    <script>Plotly.setPlotConfig({locale: '{{ LOCALE }}'})</script>
+    {{ js|safe }}
+{% endblock %}

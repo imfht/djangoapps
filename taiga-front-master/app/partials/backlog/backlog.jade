@@ -1,0 +1,184 @@
+doctype html
+
+div.wrapper(tg-backlog, ng-controller="BacklogController as ctrl",
+            ng-init="section='backlog'")
+    tg-project-menu
+
+    main.main.scrum
+
+        section.backlog
+            include ../includes/components/mainTitle
+
+            div.backlog-summary(tg-toggle-burndown-visibility)
+                include ../includes/components/summary
+
+                div.empty-burndown(ng-if="showGraphPlaceholder && project.i_am_admin")
+                    tg-svg(svg-icon="icon-graph")
+                    div.empty-text
+                        p.title(translate="BACKLOG.CUSTOMIZE_GRAPH")
+                        p {{'BACKLOG.CUSTOMIZE_GRAPH_TEXT' | translate}} #[a(href="", tg-nav="project-admin-project-values-points:project=project.slug", title="{{'BACKLOG.CUSTOMIZE_GRAPH_TITLE' | translate}}") {{'BACKLOG.CUSTOMIZE_GRAPH_ADMIN' | translate}}]
+
+                div.graphics-container.js-burndown-graph
+                    div.burndown(tg-burndown-backlog-graph)
+
+            .backlog-table
+                .backlog-top
+                    .backlog-menu
+                        .backlog-header
+                            .backlog-header-title
+                                h2 Backlog
+                                ng-container(ng-if="ctrl.selectedFilters.length")
+                                    span.backlog-stories-number.squared {{userstories.length}}
+                                    span.backlog-stories-number(
+                                        translate="BACKLOG.TOTAL_STORIES_FILTERED",
+                                        translate-values="{totalUserStories: ctrl.totalUserStories}"
+                                    )
+                                span.backlog-stories-number(
+                                    ng-if="!ctrl.selectedFilters.length"
+                                    translate="BACKLOG.TOTAL_STORIES",
+                                    translate-values="{totalUserStories: ctrl.totalUserStories}"
+                                )
+                            .backlog-header-options
+                                include ../includes/components/addnewus
+
+                        .backlog-table-options
+                            .backlog-table-options-start
+                                button.btn-filter.e2e-open-filter.ng-animate-disabled(
+                                    id="show-filters-button"
+                                    ng-class="{'active': ctrl.activeFilters}"
+                                )
+                                    tg-svg(svg-icon="icon-filters")
+                                    span.text(
+                                        ng-if="!ctrl.activeFilters"
+                                        translate="BACKLOG.FILTERS.TITLE"
+                                    )
+                                    span.text(
+                                        ng-if="ctrl.activeFilters"
+                                        translate="BACKLOG.FILTERS.HIDE_TITLE"
+                                    )
+                                    span.selected-filters(ng-if="ctrl.selectedFilters.length") {{ctrl.selectedFilters.length}}
+
+                                tg-input-search(
+                                    q="ctrl.filterQ"
+                                    change="ctrl.changeQ(q)"
+                                )
+
+                                .display-tags-button#show-tags(ng-if="userstories.length")
+                                    .check.js-check(
+                                        ng-class="{'active': ctrl.showTags}"
+                                    )
+                                        input(
+                                            type="checkbox"
+                                            id="show-tags-input"
+                                            ng-checked="ctrl.showTags"
+                                            ng-model="ctrl.showTags"
+                                        )
+                                        div
+                                    label(
+                                        for="show-tags-input"
+                                        translate="BACKLOG.TAGS.SHOW"
+                                    )
+
+                            .backlog-table-options-end
+                                button.btn-filter.move-to-current-sprint.move-to-sprint.e2e-move-to-sprint(
+                                    ng-if="currentSprint"
+                                    title="{{'BACKLOG.MOVE_US_TO_CURRENT_SPRINT' | translate}}"
+                                    id="move-to-current-sprint"
+                                )
+                                    span.text(translate="BACKLOG.MOVE_US_TO_CURRENT_SPRINT")
+                                    tg-svg(svg-icon="icon-add-to-sprint")
+                                button.btn-filter.move-to-latest-sprint.move-to-sprint.e2e-move-to-sprint(
+                                    ng-if="!currentSprint"
+                                    title="{{'BACKLOG.MOVE_US_TO_LATEST_SPRINT' | translate}}"
+                                    id="move-to-latest-sprint"
+                                )
+                                    span.text(translate="BACKLOG.MOVE_US_TO_LATEST_SPRINT")
+                                    tg-svg(svg-icon="icon-add-to-sprint")
+
+                                button.btn-filter.active.velocity-forecasting-btn.ng-animate-disabled.e2e-velocity-forecasting(
+                                    ng-if="userstories.length && ctrl.displayVelocity "
+                                    title="{{'BACKLOG.FORECASTING.TITLE' | translate}}"
+                                    ng-click="ctrl.toggleVelocityForecasting()"
+                                    tg-check-permission="add_milestone"
+                                )
+                                    tg-svg(svg-icon="icon-fold-column")
+                                    span.text(translate="BACKLOG.FORECASTING.BACKLOG")
+
+                                button.btn-filter.velocity-forecasting-btn.ng-animate-disabled.e2e-velocity-forecasting(
+                                    ng-if="userstories.length && !ctrl.displayVelocity && stats.speed > 0"
+                                    title="{{'BACKLOG.FORECASTING.BACKLOG' | translate}}"
+                                    translate="BACKLOG.FORECASTING.TITLE"
+                                    ng-click="ctrl.toggleVelocityForecasting()"
+                                    tg-check-permission="add_milestone"
+                                )
+
+                .backlog-manager(ng-class="{'expanded': !ctrl.activeFilters}")
+
+                    .backlog-filter(
+                        id="backlog-filter"
+                        ng-if="ctrl.activeFilters"
+                    )
+                        tg-filter(
+                            filters="ctrl.filters"
+                            custom-filters="ctrl.customFilters"
+                            selected-filters="ctrl.selectedFilters"
+                            customFilters="ctl.customFilters"
+                            on-save-custom-filter="ctrl.saveCustomFilter(name)"
+                            on-add-filter="ctrl.addFilter(filter)"
+                            on-select-custom-filter="ctrl.selectCustomFilter(filter)"
+                            on-remove-custom-filter="ctrl.removeCustomFilter(filter)"
+                            on-remove-filter="ctrl.removeFilter(filter)"
+                        )
+
+                    section.backlog-table(ng-class="{'hidden': !userstories.length}")
+                        include ../includes/modules/backlog-table
+                        .forecasting-add-sprint.e2e-velocity-forecasting-add(ng-if="ctrl.displayVelocity")
+                            span.forecasting-text(
+                                ng-if="!currentSprint"
+                                translate="BACKLOG.FORECASTING.NEW_SPRINT"
+                            )
+                            span.forecasting-text(
+                                ng-if="currentSprint"
+                                translate="BACKLOG.FORECASTING.CURRENT_SPRINT"
+                            )
+                            .button.btn-link(
+                                variant="icon"
+                            )
+                                tg-svg(svg-icon="icon-add")
+                                button.text(
+                                    translate="BACKLOG.FORECASTING.ADD_NEW_SPRINT"
+                                )
+                                button.text.short(
+                                    translate="BACKLOG.FORECASTING.ADD_NEW_SPRINT_SHORT"
+                                )
+
+
+                    .empty-backlog.js-empty-backlog(ng-class="{'hidden': userstories === undefined || userstories.length || !ctrl.filterQ.length }")
+                        p.no-match {{ 'BACKLOG.NO_MATCH' | translate:ctrl.translationData }}
+                        p.no-match-help {{ 'BACKLOG.NO_MATCH_HELP' | translate }}
+
+                    .empty-large.js-empty-backlog(ng-class="{'hidden': userstories === undefined || !!userstories.length || ctrl.filterQ.length}")
+                        p.title(translate="BACKLOG.EMPTY")
+                        button.btn-small(
+                            title="{{'BACKLOG.CREATE_NEW_US' | translate}}"
+                            variant="primary"
+                            ng-click="ctrl.addNewUs('standard')"
+                            tg-check-permission="add_us"
+                        )
+                            tg-svg(svg-icon="icon-add")
+                            span.text {{'BACKLOG.CREATE_NEW_US_EMPTY_HELP' | translate}}
+                        img(
+                            src="/#{v}/images/empty/empty_mex.png"
+                            alt="{{'BACKLOG.EMPTY' | translate}}"
+                        )
+
+        sidebar.sidebar
+            include ../includes/modules/sprints
+
+    div.lightbox.lightbox-generic-form.lightbox-create-edit(tg-lb-create-edit)
+
+    div.lightbox.lightbox-generic-bulk(tg-lb-create-bulk-userstories)
+        include ../includes/modules/lightbox-us-bulk
+
+    div.lightbox.lightbox-sprint-add-edit(tg-lb-create-edit-sprint)
+        include ../includes/modules/lightbox-sprint-add-edit

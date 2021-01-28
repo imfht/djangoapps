@@ -1,0 +1,121 @@
+/*
+ * Copyright (C) Pootle contributors.
+ *
+ * This file is a part of the Pootle project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+/*
+ * Welcome page-specific styles
+ */
+
+#welcome-page #content
+{
+    background: url(../images/bg.png) 0 0 repeat-x;
+    margin: 0;
+}
+
+#welcome-page .top
+{
+    text-align: center;
+    padding-top: 120px;
+}
+
+#welcome-page .top h1
+{
+    font-size: 44px;
+}
+
+#welcome-page .top h2
+{
+    font-size: 23px;
+    font-weight: normal;
+    color: #1a1a1a;
+    margin-top: 0.5em;
+}
+
+#welcome-page #login
+{
+    margin: 3em auto;
+}
+
+#welcome-page .section
+{
+    margin: 2em 0;
+}
+
+#welcome-page .columns
+{
+    text-align: center;
+    margin: 2em 0;
+}
+
+#welcome-page .columns-inner
+{
+    display: inline-block;
+    text-align: left;
+    width: 960px;
+}
+
+@media only screen and (max-width: 960px)
+{
+    #welcome-page .columns-inner
+    {
+        width: auto;
+    }
+}
+
+#welcome-page .column
+{
+    width: 480px;
+}
+
+@media only screen and (max-width: 480px)
+{
+    #welcome-page .column
+    {
+        width: 280px;
+    }
+
+    .gravatar
+    {
+        display: none;
+    }
+}
+
+#welcome-page .column.center
+{
+    margin: 0 auto;
+}
+
+#welcome-page .column.left,
+#welcome-page .column.right
+{
+    float: left;
+}
+
+#welcome-page .column.right
+{
+    float: right;
+}
+
+.column.center h1
+{
+    text-align: center;
+}
+
+#welcome-page .section h1
+{
+    color: #5a8295;
+}
+
+#welcome-page .section p
+{
+    margin: 0.7em 0;
+}
+
+#welcome-page .section .btn
+{
+    width: 4em;
+}

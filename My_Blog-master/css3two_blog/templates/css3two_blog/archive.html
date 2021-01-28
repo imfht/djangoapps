@@ -1,0 +1,53 @@
+﻿{% extends 'css3two_blog/blog_base.html' %}
+{% load static %}
+
+{% block pagecss %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css3two_blog/css/archive.css' %}" />
+{% endblock pagecss %}
+
+{% block content %}
+<div>
+  <script type="text/javascript">
+    //alert("{{ blogpost.display_html|truncatewords:'50' }}");
+  </script>
+  {% for category, posts_by_year in data %}
+    <article role="article">
+      <header id="category">
+        <h1 class="entry-title">
+          {% if category == "programming" %}
+            Programming
+          {% elif category == "acg" %}
+            Anime & Manga & Novel & Game
+          {% else %}
+            No Category
+          {% endif %}
+        </h1>
+      </header>
+      <div id="blog-archives">
+        {% for year, blogposts in posts_by_year %}
+          <h2>{{year}}</h2>
+          {% for blogpost in blogposts %}
+            <article>
+              <h1>
+                <a href="{{ blogpost.get_absolute_url }}">{{ blogpost.title }}</a>
+              </h1>
+              <time datetime="{{ blogpost.pub_date }}">
+                <span class="month">{{ blogpost.pub_date|date:"M"|upper }}</span>
+                <span class="day">{{ blogpost.pub_date.day }}</span>
+              </time>
+              <footer>
+                <span class="tags">
+                  posted in
+                  {% for tag in blogpost.tags.all %}
+                    {{ tag.name }},
+                  {% endfor %}
+                </span>
+              </footer>
+            </article>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock content %}

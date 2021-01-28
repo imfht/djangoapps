@@ -1,0 +1,80 @@
+.book-thumb .book-info h4{
+    height: 45px;
+}
+
+.book-thumb .book-info{
+    padding-bottom: 0px;
+}
+
+.book-info .book-btns{
+    display: none !important;
+}
+
+.book-list > div:hover .control_center_btns{
+    margin-top: -20px;
+    display: block;
+}
+
+.user-info-tabs li a,
+.user-info-tabs-content a{
+    font-weight: 600;
+    color: #4b2e82;
+}
+
+.user-info-tabs-content{
+    text-align: left;
+}
+
+.user-info-tabs-content .tab-pane figure{
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.role-entry{
+    overflow: hidden;
+    max-height: 68px;
+    position: relative;
+}
+
+.role-entry h4{
+    margin-right: 130px;
+}
+.role-entry .action-btns{
+    top: 12px;
+    position: absolute;
+    right: 0;
+}
+
+.grouped_perms + span.helptext{
+    display: none;
+}
+
+.grouped_perms legend{
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.grouped_perms ul{
+    padding-left: 10px;
+}
+
+.grouped_perms ul > li{
+    display: inline-block;
+    padding: 5px 0;
+}
+
+.grouped_perms ul > li > label{
+    width: auto;
+    min-width: 175px;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.grouped_perms ul > li > label > input[type="checkbox"]{
+    margin-top: -4px;
+}

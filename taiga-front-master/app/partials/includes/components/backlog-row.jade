@@ -1,0 +1,66 @@
+.row.us-item-row(
+    ng-repeat="us in userstories | inArray:visibleUserStories:'ref'"
+    tg-bind-scope
+    ng-class="{blocked: us.is_blocked, new: us.new}"
+    tg-class-permission="{'readonly': '!modify_us'}"
+    data-id="{{ us.id }}"
+)
+    .us-item-row-left
+        .draggable-us-row(tg-check-permission="modify_us")
+            tg-svg(svg-icon="icon-draggable")
+
+        .input(tg-check-permission="modify_us")
+            .custom-checkbox
+                input(
+                    type="checkbox"
+                    name="filter-mode"
+                    id="us-check-{{us.ref}}"
+                    value="{{option}}"
+                    ng-model="vm.filterMode"
+                )
+                label(
+                    for="us-check-{{us.ref}}",
+                    tabindex="0"
+                )
+    .user-stories.user-story-main-data
+        a.user-story-link(
+            href=""
+            tg-nav="project-userstories-detail:project=project.slug,ref=us.ref"
+            tg-nav-get-params="{\"no-milestone\": 1}"
+        )
+            span.user-story-number(tg-bo-ref="us.ref")
+            span.user-story-name(ng-bind-html="us.subject | emojify")
+        tg-due-date.due-date(
+            due-date="us.due_date"
+            is-closed="us.is_closed"
+            ng-if="us.due_date"
+            obj-type="us"
+        )
+        .tag(
+            ng-if="ctrl.showTags"
+            ng-attr-title="{{tag[0]}}"
+            ng-repeat="tag in us.tags"
+            ng-style="{background: tag[1]}"
+            ng-class="{'last':$last}"
+        ) {{tag[0]}}
+        - var hash = "#";
+        .belong-to-epic-pill(
+            ng-repeat="epic in us.epics"
+            ng-style="{'background': epic.color}"
+            ng-attr-title="#{hash}{{epic.ref}} {{epic.subject}}"
+        )
+
+    .status(tg-us-status="us" on-update="ctrl.updateUserStoryStatus()")
+        a.us-status(href="", title="{{'BACKLOG.STATUS_NAME' | translate}}")
+            span.us-status-bind
+            tg-svg(
+                tg-check-permission="modify_us",
+                svg-icon="icon-arrow-down"
+            )
+
+    div.points(tg-backlog-us-points="us")
+
+    .us-option(tg-us-edit-selector, tg-check-permission="modify_us")
+        button.us-option-popup-button.js-popup-button
+            tg-svg(svg-icon="icon-more-vertical")
+

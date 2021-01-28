@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load server_tags %}
+{% load static %}
+{% load user_tags %}
+
+  {% block title %}
+  <title>主机详细</title>
+  {% endblock title %}
+
+	{% block navheader %}
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-1">
+          <div class="col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">主机管理</li>
+			  <li class="breadcrumb-item"><a href="{% url 'server:hosts' %}">主机</a></li>
+			  <li class="breadcrumb-item active">主机详细</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+	{% endblock navheader %}
+	
+		  {% block content %}
+          <div class="card card-primary content-list">
+            <div class="card-header">
+              <h3 class="card-title">主机详细</h3>
+				<div class="card-tools">
+				  <a class="btn btn-tool" href="{% url 'server:hosts' %}">返回</a>
+				  {% if request|has_permission:'主机编辑' %}
+				  <a class="btn btn-tool" href="{% url 'server:host_edit' host.id %}?next={% if request.META.QUERY_STRING %}{{ request.META.PATH_INFO }}?{{ request.META.QUERY_STRING }}{% else %}{{ request.META.PATH_INFO }}{% endif %}" title="编辑">
+					<!--i class="fas fa-wrench"></i-->编辑
+				  </a>
+				  {% endif %}
+				  <!--button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="maximize">
+				  <i class="fas fa-expand"></i>
+                  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button-->
+				</div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body row">
+				<div class="col-3 pt-1 pb-1 border-bottom">主机名：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.hostname }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">类型：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.get_type_display }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">主机IP：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.ip }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">公网IP：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.wip | default:'' }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">协议：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.get_protocol_display }}</div>
+                {% if host.security %}<div class="col-3 pt-1 pb-1 border-bottom">rdp验证方式：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.security }}</div>{% endif %}
+				<div class="col-3 pt-1 pb-1 border-bottom">环境：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.get_env_display }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">端口：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.port }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">平台：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.get_platform_display }}</div>
+				
+				{% if not host.serverdetail %}
+				<div class="col-3 pt-1 pb-1 border-bottom">操作系统：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.release }}</div>
+				{% endif %}
+				
+				<div class="col-3 pt-1 pb-1 border-bottom">远程用户：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.remote_user.username }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">添加时间：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.create_time | date:"Y/m/d H:i:s" }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">是否启用：</div><div class="col-9 pt-1 pb-1 border-bottom">{% if host.enabled %}<span class="badge badge-success">启用</span>{% else %}<span class="badge badge-danger">禁用</span>{% endif %}</div>
+				
+				{% if host.serverdetail %}
+				<div class="col-3 pt-1 pb-1 border-bottom">型号：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.server_model | default:'' }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">CPU型号：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.cpu_model }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">物理CPU个数：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.cpu_number }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">逻辑CPU个数：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.vcpu_number }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">磁盘空间：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.disk_total }} GB</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">内存容量：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.ram_total }} GB</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">交换空间容量：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.swap_total }} GB</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">内核版本：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.kernel }}</div>
+				<div class="col-3 pt-1 pb-1 border-bottom">操作系统：</div><div class="col-9 pt-1 pb-1 border-bottom">{{ host.serverdetail.system }}</div>
+				
+				<div class="col-3 pt-1 border-bottom">文件系统：</div>
+				<div class="col-9 pt-1 border-bottom">
+					<table class="table table-hover border">
+					  <thead>
+						<tr>
+						  <th>挂载点</th>
+						  <th>总容量</th>
+						  <th>已用容量</th>
+						  <th>剩余容量</th>
+						  <th>剩余百分比</th>
+						  <th>类型</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						{% for filesystem in host.serverdetail.filesystems %}
+						<tr>
+						  <td>{{ filesystem.mount }}</td>
+						  <td>{{ filesystem.size_total | convert_byte:2 }}</td>
+						  <td>{{ filesystem.size_total | minus:filesystem.size_available | convert_byte:2 }}</td>
+						  <td>{{ filesystem.size_available | convert_byte:2 }}</td>
+						  <td>{{ filesystem.size_available | precent:filesystem.size_total }}</td>
+						  <td>{{ filesystem.fstype }}</td>
+						</tr>
+						{% endfor %}
+					  </tbody>
+					</table>
+				</div>
+				
+				<div class="col-3 pt-1 pb-1 border-bottom">网卡信息：</div>
+				<div class="col-9 pt-1 pb-1 border-bottom">
+					<table class="table table-hover border">
+					  <thead>
+						<tr>
+						  <th>名称</th>
+						  <th>MAC地址</th>
+						  <th>类型</th>
+						  <th>MTU</th>
+						  <th>速度(mbps)</th>
+						  <th>IPV4</th>
+						  <th>IPV6</th>
+						  <th>状态</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						{% for interface in host.serverdetail.interfaces %}
+						<tr>
+						  <td>{{ interface.network_card_name }}</td>
+						  <td>{{ interface.network_card_mac | default:"" }}</td>
+						  <td>{{ interface.network_card_model | default:"" }}</td>
+						  <td>{{ interface.network_card_mtu | default:"" }}</td>
+						  <td>{{ interface.network_card_speed | default:"" }}</td>
+						  <td>
+						  {{ interface.network_card_ipv4.address }}<br>
+						  {% if interface.network_card_ipv4_secondaries != 'unknown' %}
+							{% for x in interface.network_card_ipv4_secondaries %}
+								{{ x.address }}<br>
+							{% endfor %}
+						  {% endif %}
+						  </td>
+						  <td>
+						  {% if interface.network_card_ipv6 != 'unknown' %}
+							{% for x in interface.network_card_ipv6 %}
+								{{ x.address }}<br>
+							{% endfor %}
+						  {% endif %}
+						  </td>
+						  <td>{% if interface.network_card_status %}<span class="badge badge-success">正常</span>{% else %}<span class="badge badge-danger">禁用</span>{% endif %}</td>
+						</tr>
+						{% endfor %}
+					  </tbody>
+					</table>
+				</div>
+				{% endif %}
+				
+				<div class="col-3 pt-1 pb-1">备注：</div><div class="col-9 pt-1 pb-1">{{ host.memo | default:'' }}</div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card --> 
+		  {% endblock content %}

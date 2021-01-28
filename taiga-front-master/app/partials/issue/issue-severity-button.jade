@@ -1,0 +1,16 @@
+.severity-data(class!="<% if(editable){ %>clickable<% }%>")
+    .label.level-name(translate="COMMON.FIELDS.SEVERITY")
+    .level-data
+        span.label <%- severity.name %>
+        span.level-color(style!="background-color:<%- severity.color %>")
+
+    ul.popover.pop-severity
+        <% _.each(severityes, function(sv) { %>
+        li
+            a.severity(
+                href=""
+                title!="<%- sv.name %>"
+                data-severity-id!="<%- sv.id %>"
+            )
+                <%- sv.name %>
+        <% }); %>

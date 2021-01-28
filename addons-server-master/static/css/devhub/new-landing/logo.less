@@ -1,0 +1,24 @@
+.Logo {
+  display: flex;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 32px;
+    width: 32px;
+    background: url('../../../img/developers/new-landing/addons-logo-blue.svg') no-repeat left center;
+    background-size: contain;
+  }
+
+  span {
+    align-self: center;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 0;
+
+    html[dir=rtl] & {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+  }
+}

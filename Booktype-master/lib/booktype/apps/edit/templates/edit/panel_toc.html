@@ -1,0 +1,546 @@
+{% load i18n booktype_tags %}
+{% has_perm 'edit.edit_locked_chapter' as can_edit_locked_chapter %}
+{% has_perm 'edit.lock_chapter' as can_lock_chapter %}
+
+<div style="display: none;">
+  {# data-action attribute part "chapter-pk-to-replace" it's tricky #}
+  {# but it's fine for now, we don't have `url` templatetag to use in javascript #}
+  <form id="uploadDocxForm" enctype="multipart/form-data" data-action="{% url 'importer:import_to_chapter' book.url_title 'chapter-pk-to-replace' %}" method="POST">
+    {% csrf_token %}
+    {{ upload_docx_form }}
+  </form>
+</div>
+
+<div id="renameChapter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Rename Chapter" %}</h3>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" name="toc_id" value=""/>
+      <input type="text" name="chapter" placeholder="{% trans "New chapter title" %}" class="form-control">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary operation-rename">{% trans "Save" %}</button>
+    </div>
+   </div>
+ </div>
+</div>
+
+<div id="renameSection" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Rename Section" %}</h3>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" name="chapter_id" value=""/>
+      <input type="text" name="chapter" placeholder="{% trans "New section title" %}" class="form-control">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary operation-rename">{% trans "Save" %}</button>
+    </div>
+  </div>
+ </div>
+</div>
+
+
+<div id="newChapter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Create New Chapter" %}</h3>
+    </div>
+    <div class="modal-body">
+      <input type="text" name="chapter" class="form-control" placeholder="{% trans "Enter new Chapter title" %}">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary operation-create">{% trans "Create Chapter" %}</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="newSection" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">{% trans "Create New Section" %}</h3>
+    </div>
+    <div class="modal-body">
+      <input type="text" class="form-control" placeholder="{% trans "Enter new Section title" %}">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary operation-create">{% trans "Create Section" %}</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div id="removeChapter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>{% trans "Remove chapter" %}</h3>
+    </div>
+    <div class="modal-body">
+      <form>
+         <input type="hidden" name="chapter_id" value=""/>
+         <p>{% trans "Are you sure you would like to delete this chapter? You will lose all data associated to this chapter and you will not be able to undo this operation!" %}</p>
+
+        <div class="row">
+          <div class="col-md-9">
+            <input type="checkbox" id="toc_delete_chapter" name="understand" value="on"/>
+            <label for="toc_delete_chapter"><span></span>{% trans "I understand and agree" %}</label>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Close" %}</a>
+      <button class="btn btn-primary operation-remove">{% trans "Remove" %}</button>
+    </div>
+  </div>
+ </div>
+</div>
+
+<div id="removeSection" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>{% trans "Remove section" %}</h3>
+    </div>
+    <div class="modal-body">
+      <form>
+         <input type="hidden" name="chapter_id" value=""/>
+         <p>{% trans "Are you sure you would like to delete this section? You will lose all data associated to this section and you will not be able to undo this operation!" %}</p>
+
+         <div class="row">
+           <div class="col-md-9">
+             <input type="checkbox" id="toc_delete_section" name="understand" value="on"/>
+             <label for="toc_delete_section"><span></span>{% trans "I understand and agree" %}</label><br />
+             <input type="checkbox" id="delete_children" name="delete_children" value="on"/>
+             <label for="delete_children"><span></span>{% trans "Delete chapters under this section" %}</label>
+           </div>
+         </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-default operation-cancel" data-dismiss="modal" aria-hidden="true">{% trans "Close" %}</a>
+      <button class="btn btn-primary operation-remove">{% trans "Remove" %}</button>
+    </div>
+   </div>
+  </div>
+ </div>
+
+<div class="template templateTOCContent">
+    <div id="edit-info" class="alert template" style="margin-bottom:10px;">
+    {% trans "All books should contain at least one chapter and can have as many sections as you like, or none." %}
+    </div>
+    <div class="toc"></div>
+</div>
+
+<script type="text/html" id="templateHoldButtonGroup">
+<div class="btn-toolbar float-right">
+    <% if (is_locked === true){ %>
+         <div class="chapter-labels pull-left">
+            <% if (is_locked && lock_type === 2) { %>
+                <span class="label locked">{% trans "Locked" %}</span>
+            <% } else if (is_locked && lock_type === 1) { %>
+                <span class="label locked">{% trans "Locked exclusively" %}</span>
+            <% } %>
+            {% if is_owner or is_admin %}
+            <a href="" class="label label-danger terminate-edit-chapter">
+              <span class="fa fa-times-circle"></span>&nbsp;{% trans "Terminate editing" %}
+            </a>
+            {% endif %}
+         </div>
+        {% if is_owner or is_admin %}
+            <div class="btn-group">
+                <button class="btn btn-default btn-xs option-hold" rel="tooltip" data-placement="top" data-original-title="{% trans 'Unhold' %}">
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-default btn-xs option-delete">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-xs option-edit">{% trans "EDIT" %}</button>
+            </div>
+        {% elif can_edit_locked_chapter %}
+            <% if (lock_type === 2 || lock_type === 1 && lock_username === username) { %>
+                <div class="btn-group">
+                    {% check_perm 'edit.manage_chapters_hold' %}
+                    <button class="btn btn-default btn-xs option-hold" rel="tooltip" data-placement="top" data-original-title="{% trans 'Unhold' %}">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    {% endcheck_perm %}
+                    {% check_perm 'edit.delete_chapter' %}
+                    <button class="btn btn-default btn-xs option-delete">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    {% endcheck_perm %}
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs option-edit">{% trans "EDIT" %}</button>
+                </div>
+            <% } %>
+        {% endif %}
+    <% } else { %>
+        <div class="chapter-labels pull-left">
+            {% if is_owner or is_admin %}
+            <a href="" class="label label-danger terminate-edit-chapter">
+              <span class="fa fa-times-circle"></span>&nbsp;{% trans "Terminate editing" %}
+            </a>
+            {% endif %}
+        </div>
+        <div class="btn-group">
+            {% check_perm 'edit.manage_chapters_hold' %}
+            <button class="btn btn-default btn-xs option-hold" rel="tooltip" data-placement="top" data-original-title="{% trans 'Unhold' %}">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            {% endcheck_perm %}
+
+            {% check_perm 'edit.delete_chapter' %}
+            <button class="btn btn-default btn-xs option-delete">
+                <i class="fa fa-trash"></i>
+            </button>
+            {% endcheck_perm %}
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-default btn-xs option-edit">{% trans "EDIT" %}</button>
+        </div>
+    <% } %>
+</div>
+</script>
+
+<div class="template templateTOCToolbar">
+    <h2>{% trans "Table of Contents" %}</h2>
+    <div class="btn-toolbar float-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" data-toggle="button" id="detail-switch">{% trans "Detail View" %}</button>
+        </div>
+        <div class="btn-group">
+          <button id="expand" class="btn btn-default" rel="tooltip" data-placement="bottom" data-original-title="{% trans "Expand all Sections" %}"><i class="fa fa-arrow-down"></i></button>
+          <button id="collapse" class="btn btn-default" rel="tooltip" data-placement="bottom" data-original-title="{% trans "Collapse all Sections" %}"><i class="fa fa-arrow-up"></i></button>
+        </div>
+        <div class="btn-group">
+            {% check_perm 'edit.create_chapter' %}
+            <button href="#newChapter" role="button" class="btn btn-default" data-toggle="modal">
+                {% trans "New Chapter" %}
+            </button>
+            {% endcheck_perm %}
+
+            {% check_perm 'edit.create_section' %}
+            <button href="#newSection" role="button" class="btn btn-default" data-toggle="modal">
+                {% trans "New Section" %}
+            </button>
+            {% endcheck_perm %}
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="templateTOCChapterContainer">
+    <ol class="sortable{% check_perm 'edit.reorder_toc' %} allow-reorder{% endcheck_perm %}"></ol>
+</script>
+
+<script type="text/html" id="templateChapterHasComments">
+    <i title="{% trans 'Has comments' %}" class="fa fa-comments"></i>
+</script>
+
+<script type="text/html" id="templateChapterHasMarker">
+    <i title="{% trans 'Has marker' %}" class="fa fa-exclamation-triangle" style="color: red;"></i>
+</script>
+
+<script type="text/html" id="templateTOCChapter">
+<li class="item chapter" data-id="<%= data_id %>" data-chapter-id="<%= data_chapter_id %>" id="<%= id %>" >
+    <div {% check_perm not 'edit.reorder_toc' %} style="cursor: auto;"{% endcheck_perm %}>
+        <div>
+            <% var commentChunk = hasComments ? $("#templateChapterHasComments").html() : ''; %>
+            <% var markerChunk = hasMarker ? $("#templateChapterHasMarker").html() : ''; %>
+
+            <% if (is_locked) { %>
+                {% if is_owner or is_admin %}
+                    <a href="" style="color: rgb(51, 51, 51);" class="operation-edit"><i class="toc-icon-chapter-locked"></i></a>
+                    <a style="color: rgb(51, 51, 51);" href="" class="operation-edit">
+                      <span class="title"><%= title %></span>
+                    </a>
+                {% elif can_edit_locked_chapter %}
+                    <% if (lock_type === 2 || lock_type === 1 && lock_username === username) { %>
+                        <a href="" style="color: rgb(51, 51, 51);" class="operation-edit"><i class="toc-icon-chapter-locked"></i></a>
+                        <a style="color: rgb(51, 51, 51);" href="" class="operation-edit">
+                          <span class="title"><%= title %></span>
+                        </a>
+                    <% } else { %>
+                        <i class="toc-icon-chapter-locked"></i>
+                        <span class="title"><%= title %></span>
+                    <% } %>
+                {% else %}
+                    <i class="toc-icon-chapter-locked"></i>
+                    <span class="title"><%= title %></span>
+                {% endif %}
+            <% } else { %>
+                <a href="" style="color: rgb(51, 51, 51);" class="operation-edit"><i class="toc-icon-chapter"></i></a>
+                <a style="color: rgb(51, 51, 51);" href="" class="operation-edit">
+                  <span class="title"><%= title %></span>
+                </a>
+            <% } %>
+        </div>
+        <div class="toc-chapter-detail">
+            <div class="status">
+              <label for=""></label>
+              <input type="checkbox" name="mark_status" value="" />
+            </div>
+            <div class="icons"><%= commentChunk %> <%= markerChunk %></div>
+            <select name="assign_user" placeholder="{% trans 'Assign...' %}">
+              <option value="" <% if (assigned === null) { %>selected="selected"<% } %>></option>
+
+              <% if (assigned !== null) { %>
+                <option value="<%= assigned %>" selected="selected"><%= assigned %></option>
+              <% } %>
+
+              {% for user in book_members %}
+                <% if (assigned !== "{{ user }}") { %>
+                <option value="{{ user }}">{{ user }}</option>
+                <% } %>
+              {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="btn-toolbar show">
+        <div class="chapter-labels pull-left">
+            <% if (is_locked && lock_type === 2) { %>
+                <span class="label label-default">{% trans "Locked" %}</span>
+            <% } else if (is_locked && lock_type === 1) { %>
+                <span class="label label-default">{% trans "Locked exclusively" %}</span>
+            <% } %>
+            {% if is_owner or is_admin %}
+                <a href="" class="label label-danger terminate-edit-chapter">
+                  <span class="fa fa-times-circle"></span>&nbsp;{% trans "Terminate editing" %}
+                </a>
+            {% endif %}
+        </div>
+
+        {# TOC CHAPTER ACTIONS DROPDOWN #}
+        <div class="btn-group">
+            <% if (is_locked) { %>
+                {% if is_owner or is_admin %}
+                    <button class="btn btn-default btn-xs edit">{% trans "EDIT CHAPTER" %}</button>
+                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="option-rename">{% trans "Rename" %}</a></li>
+                        <li><a href="#" class="option-hold">{% trans "Hold" %}</a></li>
+                        <li><a href="#" class="option-delete">{% trans "Delete" %}</a></li>
+                        <li><a href="#" class="option-unlock">{% trans "Unlock" %}</a></li>
+                        <li><a href="#" class="option-export">{% trans "Export Content" %}</a></li>
+                        <li><a href="#" class="option-import">{% trans "Import DOCX File" %}</a></li>
+                    </ul>
+                {% elif can_edit_locked_chapter %}
+                    <% if (lock_type === 2 || lock_type === 1 && lock_username === username) { %>
+                        <button class="btn btn-default btn-xs edit">{% trans "EDIT CHAPTER" %}</button>
+                        <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          {% check_perm 'edit.rename_chapter' %}
+                              <li><a href="#" class="option-rename">{% trans "Rename" %}</a></li>
+                          {% endcheck_perm %}
+
+                          {% check_perm 'edit.manage_chapters_hold' %}
+                              <li><a href="#" class="option-hold">{% trans "Hold" %}</a></li>
+                          {% endcheck_perm %}
+
+                          {% check_perm 'edit.delete_chapter' %}
+                              <li><a href="#" class="option-delete">{% trans "Delete" %}</a></li>
+                          {% endcheck_perm %}
+
+                          {% check_perm 'edit.lock_chapter' %}
+                              <li><a href="#" class="option-unlock">{% trans "Unlock" %}</a></li>
+                          {% endcheck_perm %}
+
+                          {% check_perm 'edit.export_chapter_content' %}
+                              <li><a href="#" class="option-export">{% trans "Export Content" %}</a></li>
+                          {% endcheck_perm %}
+
+                          {% check_perm 'edit.import_to_chapter' %}
+                          <li><a href="#" class="option-import">{% trans "Import DOCX File" %}</a></li>
+                          {% endcheck_perm %}
+                        </ul>
+                    <% } %>
+                {% elif can_lock_chapter %}
+                    <% if (lock_type === 2 || lock_type === 1 && lock_username === username) { %>
+                        <button class="btn btn-default btn-xs unlock">{% trans "UNLOCK" %}</button>
+                    <% } %>
+                {% endif %}
+            <% } else { %>
+                <button class="btn btn-default btn-xs edit">{% trans "EDIT CHAPTER" %}</button>
+                <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  {% check_perm 'edit.rename_chapter' %}
+                      <li><a href="#" class="option-rename">{% trans "Rename" %}</a></li>
+                  {% endcheck_perm %}
+
+                  {% check_perm 'edit.manage_chapters_hold' %}
+                      <li><a href="#" class="option-hold">{% trans "Put on hold" %}</a></li>
+                  {% endcheck_perm %}
+
+                  {% check_perm 'edit.delete_chapter' %}
+                      <li><a href="#" class="option-delete">{% trans "Delete" %}</a></li>
+                  {% endcheck_perm %}
+
+                  {% check_perm 'edit.lock_chapter' %}
+                      <li><a href="#" class="option-lock-simple">{% trans "Lock editing" %}</a></li>
+                      <li><a href="#" class="option-lock-everyone">{% trans "Lock exclusively" %}</a></li>
+                  {% endcheck_perm %}
+
+                  {% check_perm 'edit.export_chapter_content' %}
+                      <li><a href="#" class="option-export">{% trans "Export Content" %}</a></li>
+                  {% endcheck_perm %}
+
+                  {% check_perm 'edit.import_to_chapter' %}
+                      <li><a href="#" class="option-import">{% trans "Import DOCX File" %}</a></li>
+                  {% endcheck_perm %}
+                </ul>
+            <% } %>
+        </div>
+
+        {% check_perm 'edit.change_chapter_status' %}
+            <% if (is_locked) { %>
+                {% if is_owner or is_admin %}
+                    <div class="btn-group status-dropdown">
+                        <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                          {% trans "STATUS" %} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu status-options">
+                        <% for (var i in statuses) { %>
+                            <li <% if (statuses[i][0] === item_status) { %> class="selected" <% } %> >
+                                <a href="#" data-status-id="<%= statuses[i][0] %>"><%= statuses[i][1] %></a>
+                                <input <% if (checked_statuses.indexOf(statuses[i][0]) !== -1) { %> checked="checked" <% } %> type="checkbox" name="mark_status" value="<%= statuses[i][0] %>">
+                            </li>
+                        <% } %>
+                        </ul>
+                    </div>
+                {% elif can_edit_locked_chapter %}
+                    <% if (lock_type === 2 || lock_type === 1 && lock_username === username) { %>
+                        <div class="btn-group status-dropdown">
+                            <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                              {% trans "STATUS" %} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu status-options">
+                            <% for (var i in statuses) { %>
+                                <li <% if (statuses[i][0] === item_status) { %> class="selected" <% } %> >
+                                    <a href="#" data-status-id="<%= statuses[i][0] %>"><%= statuses[i][1] %></a>
+                                    <input <% if (checked_statuses.indexOf(statuses[i][0]) !== -1) { %> checked="checked" <% } %> type="checkbox" name="mark_status" value="<%= statuses[i][0] %>">
+                                </li>
+                            <% } %>
+                            </ul>
+                        </div>
+                    <% } %>
+                {% endif %}
+            <% } else { %>
+                <div class="btn-group status-dropdown">
+                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                      {% trans "STATUS" %} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu status-options">
+                    <% for (var i in statuses) { %>
+                        <li <% if (statuses[i][0] === item_status) { %> class="selected" <% } %> >
+                            <a href="#" data-status-id="<%= statuses[i][0] %>"><%= statuses[i][1] %></a>
+                            <input <% if (checked_statuses.indexOf(statuses[i][0]) !== -1) { %> checked="checked" <% } %> type="checkbox" name="mark_status" value="<%= statuses[i][0] %>">
+                        </li>
+                    <% } %>
+                    </ul>
+                </div>
+            <% } %>
+        {% endcheck_perm %}
+    </div>
+    <ol></ol>
+</li>
+</script>
+
+<li class="item section template templateTOCSection" data-id="">
+  <div {% check_perm not 'edit.reorder_toc' %} style="cursor: auto;"{% endcheck_perm %}>
+      <span class="disclose"></span>
+      <span class="title"></span>
+  </div>
+  <div class="btn-toolbar">
+        {% check_perm 'edit.rename_section' %}
+        <div class="btn-group">
+            <button class="btn btn-default btn-xs option-rename">{% trans "RENAME" %}</button>
+        </div>
+        {% endcheck_perm %}
+
+        {% check_perm 'edit.modify_section_settings' %}
+        <div class="btn-group">
+            <button class="btn btn-default btn-xs option-settings">{% trans "SETTINGS" %}</button>
+        </div>
+        {% endcheck_perm %}
+
+        {% check_perm 'edit.delete_section' %}
+        <div class="btn-group">
+            <button class="btn btn-default btn-xs option-delete"><i class="fa fa-trash-o"></i></button>
+        </div>
+        {% endcheck_perm %}
+  </div>
+  <ol>
+  </ol>
+</li>
+
+<script type="text/html" id="modalInfoPopup">
+    <div class="modal fade" tabindex="-1" role="dialog">
+     <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3><%= header %></h3>
+        </div>
+        <div class="modal-body">
+          <%= body %>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{% trans "Close" %}</button>
+        </div>
+       </div>
+     </div>
+    </div>
+</script>
+
+<script type="text/html" id="notificationTemplate">
+  <div data-notify="container" class="alert alert-{0}" role="alert">
+    <button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>
+    <span data-notify="icon"></span>
+    <span data-notify="title">{1}</span>
+    <p data-notify="message"><small>{2}</small></p>
+  </div>
+</script>
+
+<div id="exportContentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exportContentLabel" aria-hidden="true">
+ <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="exportContentLabel">{% trans "Export Content" %}<span class="chapterTitle"></span></h3>
+    </div>
+    <div class="modal-body" style="height: 500px;">
+      <textarea class="form-control" style="height: 100%;"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary download" aria-hidden="true">{% trans "Download" %}</button>
+      <button class="btn btn-primary edit" data-dismiss="modal" aria-hidden="true">{% trans "Edit" %}</button>
+    </div>
+  </div>
+ </div>
+</div>
+
+{% include "edit/_section_settings_wizard.html" %}

@@ -1,0 +1,58 @@
+{% extends 'appearance/base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% load navigation_tags %}
+
+{% block title %}{% include 'appearance/calculate_form_title.html' with non_html_title=True %}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'cabinets/node_modules/jstree/dist/themes/default/style.min.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2" style="margin-right: -25px;">{# Remove gutter #}
+            <h4>{% trans 'Navigation:' %}</h4>
+            <div id="jstree"></div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+            {% if list_as_items %}
+                {% include 'appearance/generic_list_items_subtemplate.html' %}
+            {% else %}
+                {% include 'appearance/generic_list_subtemplate.html' %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $.getScript( "{% static 'cabinets/node_modules/jstree/dist/jstree.min.js' %}" )
+            .done(function(script, textStatus) {
+                $(function () {
+                    var jstreeElement = $('#jstree');
+
+                    jstreeElement
+                    .on('select_node.jstree', function (e, data) {
+                        if(data.selected.length) {
+                            partialNavigation.setLocation(data.instance.get_node(data.selected[0]).data.href);
+                        }
+                    })
+                    .jstree({
+                        'core' : {
+                            'data' : [
+                                {{ jstree_data|safe }}
+
+                            ],
+                            'themes' : {
+                                'responsive' : true,
+                            }
+                        },
+                    });
+                });
+            });
+    </script>
+{% endblock %}

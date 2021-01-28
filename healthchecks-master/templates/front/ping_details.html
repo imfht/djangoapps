@@ -1,0 +1,71 @@
+<div class="modal-body">
+    <h3>Ping #{{ ping.n }}
+        {% if ping.exitstatus > 0 %}
+        <span class="text-danger">(failure, exit status {{ ping.exitstatus }})</span>
+        {% elif ping.exitstatus == 0 %}
+        <span class="text-success">(exit status 0)</span>
+        {% elif ping.kind == "fail" %}
+        <span class="text-danger">(received via the <code>/fail</code> endpoint)</span>
+        {% elif ping.kind == "start" %}
+        <span class="text-success">(received via the <code>/start</code> endpoint)</span>
+        {% elif ping.kind == "ign" %}
+        <span class="text-muted">(ignored)</span>
+        {% endif %}
+    </h3>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <p>
+                <strong>Time Received</strong>
+                <code>{{ ping.created.isoformat }}</code>
+            </p>
+        </div>
+        {% if ping.remote_addr %}
+        <div class="col-sm-6">
+            <p>
+                <strong>Client IP</strong>
+                {{ ping.remote_addr }}
+            </p>
+        </div>
+        {% endif %}
+
+        {% if ping.scheme %}
+        <div class="col-sm-6">
+            <p>
+                <strong>Protocol</strong>
+                {{ ping.scheme }}
+            </p>
+        </div>
+        {% endif %}
+
+        {% if ping.method %}
+        <div class="col-sm-6">
+            <p>
+                <strong>Method</strong>
+                {{ ping.method }}
+            </p>
+        </div>
+        {% endif %}
+
+        {% if ping.scheme == "email" %}
+        <div class="col-sm-6">
+            <p>
+                <strong>From</strong>
+                {{ ping.ua }}
+            </p>
+        </div>
+        {% else %}
+        <div class="col-sm-12">
+            <p>
+                <strong>User Agent</strong>
+                <span class="ua">{{ ping.ua }}</span>
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if ping.body %}
+        <h4>Request Body</h4>
+        <pre>{{ ping.body }}</pre>
+    {% endif %}
+</div>

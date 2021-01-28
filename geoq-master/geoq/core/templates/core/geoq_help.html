@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+{% load bootstrap_toolkit %}
+{% load url from future %}
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>GeoQ: User Guide</title>
+    <script src="{{ STATIC_URL }}core/js/jquery.min.js"></script>
+
+    {% bootstrap_stylesheet_tag %}
+    {% bootstrap_stylesheet_tag "responsive" %}
+    {% bootstrap_javascript_tag %}
+
+    <style type="text/css">
+        /* CSS used here will be applied after bootstrap.css */
+        .panel a {
+            color:#777;
+        }
+
+        .panel a:hover {
+            text-decoration:none;
+            color:#222;
+        }
+
+        .panel .table td {
+            border-color: #f3f3f3;
+        }
+
+        img {
+            border:5px solid black;
+        }
+
+        .panel ol a {
+            color: #0044cc;
+        }
+    </style>
+</head>
+<body>
+{% block container %}
+<div class="container">
+<h1>
+    <a name="user-content-geoq" class="anchor" href="{% url 'home'%}">GeoQ User Guide</a></h1>
+<hr>
+<div class="container">
+<div class="row">
+<div class="col-sm-3">
+<div class="panel-group" id="accordion">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-folder-close"></span> GeoQ Overview</a>
+        </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>
+                        <h4>
+                            <a name="user-content-geographic-work-queueing-and-tasking-system" class="anchor"
+                               href="#geographic-work-queueing-and-tasking-system">
+                                <span class="octicon octicon-link"></span>
+                            </a>
+                            Geographic Work Queueing and Tasking System
+                        </h4>
+                        <p>The aim of the GeoQ system is to create an open source geographic tasking
+                            system that allows teams to collect geographic data across a large area,
+                            but manage the work in smaller geographic regions. Large areas can be
+                            quickly broken up into small 1km squares and assigned to a team.
+                            System transparency informs all groups about workflow to avoid
+                            duplication of effort.
+                        </p>
+                        <p>The GeoQ software was developed at the National Geospatial-Intelligence
+                            Agency (NGA) as a joint effort between NGA and The MITRE Corporation.
+                            The government has "unlimited rights" and is releasing this software into
+                            the public domain to increase the impact of government investments by
+                            providing developers with the opportunity to take things in new directions.
+                            You can copy, modify, combine with other software, distribute and perform
+                            the work, even for commercial purposes, all without asking permission.
+                            NGA assumes no responsibility for the use of the software by any parties,
+                            and makes no guarantees, expressed or implied, about the software quality,
+                            reliability, or any other characteristic.   We would appreciate
+                            acknowledgement if the software is used. However, the following suggested
+                            derivative or modified statement is optional:  "Elements of this work
+                            contain GeoQ: The National Geospatial-Intelligence Agency and The MITRE
+                            Corporation jointly produced this work."
+                        </p>
+
+                        <p><b>This video gives an overview of making projects and jobs:</b></p>
+{#                        <img src="{{ STATIC_URL }}images/help/VideoThumbnail.png"#}
+{#                             style="cursor:pointer"#}
+{#                             onclick="window.open('{{ STATIC_URL }}help_video/UserHelpVideo.html');" />#}
+                        <iframe class="tscplayer_inline" id="embeddedSmartPlayerInstance"
+                                src="{{ STATIC_URL }}help_video/UserHelpVideo_player.html?embedIFrameId=embeddedSmartPlayerInstance"
+                                scrolling="no" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen
+                                width="900" height="600"></iframe>
+
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user"></span> Starting a New Project</a>
+        </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table">
+                <tbody><tr>
+                    <td>
+                        <a href="#create-project">Create Project</a>
+                        <p></p>
+                        <p>
+                            The highest element within a GeoQ workflow, a Project will normally encompass
+                            all the activities surrounding a particular event. Projects can be thought of
+                            as a folder that will organize all work done for that event. Historically,
+                            Projects have been created for situations such as Superstorm Sandy, the
+                            tornado that struck Moore, OK, and Typhoon Haiyan in the Philippines.
+                        </p>
+                        <p>
+                            To create a Project, simply click the <a href="#">Create</a> link on the
+                            GeoQ home page (<b>Note: you will need to have a privileged account to have access to this function</b>):
+                            <br/>
+                        </p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/CreateNewProject1.png">
+                        <p>
+                            <br/>or the 'New' button from the Project list page: <br/><br/>
+                        </p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/CreateNewProject2.png">
+                        <p>
+                            <br/>The Create Project page will allow you to enter the appropriate information
+                            regarding your new project:<br/>
+                        </p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/CreateNewProject3.png">
+                        <p>
+                            <br/>Once saved, you'll now be able to add Jobs to your Project.
+                        </p>
+                        <br/>You will find the following tools and information once you create/select your Project. On this page you can edit your Project, add a New Job
+                        view information on the Project, and view the Jobs assigned to the Project:
+                        <p>
+                            <img src="{{ STATIC_URL }}images/help/Revised/ProjectPage.png">
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#create-new-jobs">Creating a Job</a>
+                        <p></p>
+                        <p>A Job is a task that Users will complete in each Work Cell (the area that the User wants evaluated)</p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/CreateNewJob0.png"/>
+                        <p><br/>Once you select 'Add New Job', you will be able to set up your Job settings:</p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/CreateNewJob1.png"/>
+                        <p><br/>After saving and creating your new Job, the Jobs page will appear. On this page you can create Work Cells within the Job, view the status of your Work Cells, view the Job on a map, edit the Map, etc.:</p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/JobPage.png">
+
+                        <h3>Creating Work Cells</h3>
+                        <p>Work Cells are specific areas where the Job will be completed. Once you select 'Create Workcells' you will be able to select the area where you want your job executed and prioritize each Work Cell: </p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/DrawWorkCells.png"/>
+                        <p>You can Delete Work Cells on the Job page. You can also Save the Job with its Work Cells in KML, GeoJSON, or Shapefile format:
+                            <img src="{{ STATIC_URL }}images/help/Revised/JobPage1.png"/>
+
+                        <h3>Working on the Job</h3>
+                        <p>Once you select a Work Cell, you can begin evaluating the area based on the Job given:</p>
+                        <img src="{{ STATIC_URL }}images/help/Revised/WorkingOnTheJob.png"/>
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th"></span> Maps, Layers, and Features</a>
+        </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table">
+                <tbody><tr>
+                    <td>
+                        <a href="#maps">Maps</a>
+                        <p> To create a new map, layer, or feature, select it from the dropdown box on the maps tab and click ADD NEW</p>
+                        <img src="{{ STATIC_URL }}images/help/create new.png" />
+                        <h3>Create New Map</h3>
+                        <p>Maps may be created at the administrative level to organize the set of layers needed for a job as well as the initial view</p>
+                        <img src="{{ STATIC_URL }}images/help/create new map 2.png" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#layers">Layers</a>
+                        <p>Different layers may be created to customize your map.Layers are map imagery that a user may overlay on the map while completing a job. Please note that all sections of the Create New Layer do not necessarily have to be filled out, but rather depend on the type of layer being created.
+                            <img src="{{ STATIC_URL }}images/help/create_new_layer 2.png" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#features">Features</a>
+                        <p>Feature types may be created to place on the map while completing a job.
+                            <img src="{{ STATIC_URL }}images/help/create_new_feature_type 2.png" />
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><span class="glyphicon glyphicon-th"></span> APIs and Data Access</a>
+        </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table">
+                <tbody><tr>
+                    <td>
+                        <a href="#maps">APIs</a>
+                        <p> The following endpoints can be used to Access data remotely:</p>
+                        <ul>
+                            <li><a href="{% url 'json-layers' %}">http://server/geoq/<b>api/layers.json</b></a></li>
+                            <li><a href="{% url 'json-job' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;.geojson</b></a></li>
+                            <li><a href="{% url 'json-job-grid' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;/grid/job-workcells.geojson</b></a></li>
+                            <li><a href="{% url 'kml-job' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;.kml</b></a></li>
+                            <li><a href="{% url 'kml-networked-job' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;.networked.kml</b></a></li>
+                            <li><a href="{% url 'shape-job' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;.shp.zip</b> (Workcells)</a></li>
+                            <li><a href="{% url 'shape-job-type' pk=1 type='points' %}">http://server/geoq/<b>api/jobs/&lt;id&gt;.points.shp.zip</b></a></li>
+                            <li><a href="{% url 'shape-job-type' pk=1 type='polygons' %}">http://server/geoq/<b>api/jobs/&lt;id&gt;.polygons.shp.zip</b></a></li>
+                            <li><a href="{% url 'json-job-features' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;features.json</b></a></li>
+                            <li><a href="{% url 'json-job-features-links' pk=1 %}">http://server/geoq/<b>api/jobs/&lt;id&gt;features.withlinks.json</b> (With linked items)</a></li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"><span class="glyphicon glyphicon-th"></span> Known Issues</a>
+        </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table">
+                <tbody><tr>
+                    <td>
+                        <a href="#maps">Use of Mobile Devices</a>
+                        <p> GeoQ allows mobile smartphones (iPads, iPhones, Androids) to log on to the system to review information, but currently does not support drawing features or editing workcells. We are working on this functionality.</p>
+                        <p> Note that if you are unable to log in, it's likely because you have Mobile Safari or Chrome set to not allow cookies. Disabling this setting frequently fixes the problem.</p>
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"><span class="glyphicon glyphicon-th"></span> Press/Media </a>
+        </h4>
+    </div>
+    <div id="collapseSix" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table">
+                <tbody><tr>
+                    <td>
+                        <a href="#maps">GeoQ in the News</a>
+                        <br/>
+                        <ol>
+                            <li><p>CNN May 22,2013 Satellite agency analyzes twister destruction for first responders <a href="http://security.blogs.cnn.com/2013/05/22/satellite-agency-analyzes-twister-destruction-for-first-responders/">http://security.blogs.cnn.com/2013/05/22/satellite-agency-analyzes-twister-destruction-for-first-responders/</a>  <a href="http://security.blogs.cnn.com/category/intelligence/nga/">http://security.blogs.cnn.com/category/intelligence/nga/</a></p></li>
+                            <li><p>Networkworld news, 1/14/14 White House goes nuts with safety hashtags, apps and other online tools, <a href="http://www.networkworld.com/community/blog/white-house-goes-nuts-safety-hashtags-apps-and-other-online-tools">http://www.networkworld.com/community/blog/white-house-goes-nuts-safety-hashtags-apps-and-other-online-tools</a></p></li>
+                            <li><p>Mobile Marketer, 1/23/14 Weather Channel promotes White House's hashtag system for emergencies, <a href="http://www.mobilemarketer.com/cms/news/social-networks/17027.html">http://www.mobilemarketer.com/cms/news/social-networks/17027.html</a></p></li>
+                            <li><p>Earth Imaging Journal, Fall 2013, NGA Responds to Colorado Floods <a href="http://eijournal.com/2013/nga-responds-to-colorado-floods">http://eijournal.com/2013/nga-responds-to-colorado-floods</a></p></li>
+                            <li><p>Igniting innovation in Government, Feb 2014, top 30 award winner, <a href="https://actiac.org/custom-links/10005/54950/62288">https://actiac.org/custom-links/10005/54950/62288</a></p></li>
+                            <li><p>NGA Pathfinder vol 2 2013, NGA responds to Colorado floods</p></li>
+                            <li><p>NGA Pathfinder vol 2 2013 NGA participates in joint exersise</p></li>
+                            <li><p>Waves on the water front USCG, April 2013 Page 5. <a href="http://www.uscg.mil/hq/cg5/cg544/Waves%20on%20the%20Waterfront/WOW%20APRIL%202013.pdf">http://www.uscg.mil/hq/cg5/cg544/Waves%20on%20the%20Waterfront/WOW%20APRIL%202013.pdf</a></p></li>
+                            <li><p>Geospatial intelligence forum, Q&amp;A: Letitia A. Long oct 4 2013 <a href="http://www.kmimediagroup.com/geospatial-intelligence-forum/424-articles-gif/q-a-letitia-a-long/5066-q-a-letitia-a-long">http://www.kmimediagroup.com/geospatial-intelligence-forum/424-articles-gif/q-a-letitia-a-long/5066-q-a-letitia-a-long</a></p></li>
+                            <li><p>2014 ESRI conference remarks feb 11 2014 - Steps Forward During Typhoon Haiyan Response <a href="https://www1.nga.mil/MediaRoom/SpeechesRemarks/Pages/ESRI%20Federal%20GIS%20Conference%202014%20Remarks.aspx">https://www1.nga.mil/MediaRoom/SpeechesRemarks/Pages/ESRI%20Federal%20GIS%20Conference%202014%20Remarks.aspx</a></p></li>
+                            <li><p>White house web site, Second Annual White House Safety Datapalooza, jan 31/2014 <a href="http://www.whitehouse.gov/blog/2014/01/31/second-annual-white-house-safety-datapalooza">http://www.whitehouse.gov/blog/2014/01/31/second-annual-white-house-safety-datapalooza</a></p></li>
+                            <li><p>Washington Post, White House hosts forum to discuss open data and public safety jan 17 2014, <a href="http://www.washingtonpost.com/business/on-it/white-house-hosts-forum-to-discuss-open-data-and-public-safety/2014/01/17/ec7616ba-7d46-11e3-93c1-0e888170b723_story.html">http://www.washingtonpost.com/business/on-it/white-house-hosts-forum-to-discuss-open-data-and-public-safety/2014/01/17/ec7616ba-7d46-11e3-93c1-0e888170b723_story.html</a></p></li>
+                            <li><p><a href="https://www.aspirations.org/blog/white-house-safety-datapalooza">https://www.aspirations.org/blog/white-house-safety-datapalooza</a></p></li>
+                            <li><p>Nextgov, Government data saves lives, jan 14 2014   <a href="http://www.nextgov.com/big-data/2014/01/saving-lives-government-data/76826/">http://www.nextgov.com/big-data/2014/01/saving-lives-government-data/76826/</a></p></li>
+                            <li><p>Federal times, FDA making medication data useful to the public feb 11 2014 <a href="http://apps.federaltimes.com/mobile/article/301310011">http://apps.federaltimes.com/mobile/article/301310011</a></p></li>
+                            <li><p>Video  <a href="http://www.webcaster4.com/Player/Index?webcastId=3148&amp;uid=369908&amp;g=825f4143-6dce-4013-b3a9-38d32aecb8fb&amp;sid">http://www.webcaster4.com/Player/Index?webcastId=3148&amp;uid=369908&amp;g=825f4143-6dce-4013-b3a9-38d32aecb8fb&amp;sid</a> 1:44:30 to 1:51:00 Jackie's presentation jan 2014</p></li>
+                            <li><p>Directors messages.</p></li>
+                            <li><p>NGA Facebook</p></li>
+                            <li><p>NGA Twitter, 177 most engaging tweet of gov.</p></li>
+                            <li><p>FCW Article - <a href="http://digital.fcw.com/?iid=88101&amp;startpage=page0000023#folio=18">http://digital.fcw.com/?iid=88101&amp;startpage=page0000023#folio=18</a>
+                            </p></li>
+                            <li><p>Breaking Defense Article, NGA Intel Maps 'Key' To Philippine Disaster Response; 4 More Ospreys On Way, by Colin Clark, 13 Nov 2013, <a href="http://breakingdefense.com/?s=operation+damayan&amp;submit=Search">http://breakingdefense.com/?s=operation+damayan&amp;submit=Search</a>
+                            </p></li>
+                            <li><p>GeoHuntsville slides via Drop Box   <a href="https://www.dropbox.com/s/e0r5pkijx7mv8sf/GeoHuntsville%20Public%20Released%20NGA%20GeoQ%20Briefrdb_short.pptx?dl=0">https://www.dropbox.com/s/e0r5pkijx7mv8sf/GeoHuntsville%20Public%20Released%20NGA%20GeoQ%20Briefrdb_short.pptx?dl=0</a></p></li>
+                            <li><p>GeoQ and Gamification; <a href="http://gcn.com/blogs/pulse/2014/10/nga-gamification.aspx">http://gcn.com/blogs/pulse/2014/10/nga-gamification.aspx</a></p></li>
+                            <li>Twitter mentions:
+                            <ul>
+                                <a href="https://twitter.com/NGA_GEOINT/status/532552905954713600">https://twitter.com/NGA_GEOINT/status/532552905954713600</a><br>
+                                <a href="https://twitter.com/joefrancica/status/532553242484670464">https://twitter.com/joefrancica/status/532553242484670464</a><br>
+                                <a href="https://twitter.com/Magnoliabiz/status/532552502957580289">https://twitter.com/Magnoliabiz/status/532552502957580289</a></p>
+                            </ul>
+                            </li>
+                            <li><p>Forbes Magazine Acknowledges GeoQ as Open-Source Innovation for Disaster Response Mission, <a href="http://www.forbes.com/sites/federicoguerrini/2014/12/29/the-white-house-strategy-to-improve-disaster-resilience-unlock-data-and-challenge-innovators-to-make-the-most-out-of-them/">http://www.forbes.com/sites/federicoguerrini/2014/12/29/the-white-house-strategy-to-improve-disaster-resilience-unlock-data-and-challenge-innovators-to-make-the-most-out-of-them/</a></p></li>
+                            <li><p>GovLoop states that 'Open Source is the Future of Government Technology" and mentions GeoQ as an example, <a href="https://www.govloop.com/resources/open-source-future-government-technology">https://www.govloop.com/resources/open-source-future-government-technology</a></p></li>
+                        </ol>
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+<div class="col-sm-9">
+</div>
+</div>
+</div>
+</div> <!-- container -->
+{% endblock %}
+
+</body>
+</html>

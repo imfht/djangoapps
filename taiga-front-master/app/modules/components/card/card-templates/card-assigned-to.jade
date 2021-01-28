@@ -1,0 +1,80 @@
+<% if (vm.visible('assigned_to')) { %>
+.card-assigned-to(
+    class!="<%= vm.item.getIn(['model', 'is_iocaine']) ? 'is_iocaine': '' %>"
+)
+    <% if (!vm.item.get('assigned_to')) { %>
+    .card-user-avatar.card-not-assigned
+        img(
+            title!="<%= translate('COMMON.ASSIGNED_TO.NOT_ASSIGNED') %>"
+            src="/#{v}/images/unnamed.png"
+        )
+        <% if (vm.visible('assigned_to_extended')) { %>
+        span.card-not-assigned-title <%= translate('COMMON.ASSIGNED_TO.NOT_ASSIGNED') %>
+        <% } %>
+    <% } %>
+
+    <% if (vm.item.get('assigned_to')) { %>
+    <% if (vm.item.get('assigned_users_preview')) { %>
+    <% _.forEach(vm.item.get('assigned_users_preview').toJS(), function(assignedUser, index) { %>
+    .card-user-avatar
+        <% if (index < 2 || vm.item.get('assigned_users').size == 3) { %>
+        img(
+            src!="<%- avatars[assignedUser.id].url %>"
+            title!="<%- avatars[assignedUser.id].fullName %>"
+            alt!="<%- avatars[assignedUser.id].fullName %>"
+            style!="background-color: <%- avatars[assignedUser.id].bg || '' %>"
+        )
+        <% } %>
+        //- show, 4+ (4 more assigned users)
+        //- is the third avatar ($index == 2)
+        //- only appears where there is more than 3 avatars (('assigned_users').size > 3)
+        <% if (index == 2 && vm.item.get('assigned_users').size > 3) { %>
+        span.extra-assigned(
+            title!="<%= translate('COMMON.CARD.EXTRA_ASSIGNED_USERS', { total: (vm.item.get('assigned_users').size - 2) }) %>"
+        ) <%= vm.item.get('assigned_users').size - 2 %>+
+        <% } %>
+    <% }); %>
+    <% } else { %>
+    .card-user-avatar
+        img(
+            src!="<%- avatars[vm.item.getIn(['assigned_to', 'id'])].url %>"
+            title!="<%- avatars[vm.item.getIn(['assigned_to', 'id'])].fullName %>"
+            alt!="<%- avatars[vm.item.getIn(['assigned_to', 'id'])].fullName %>"
+            style!="background-color: <%- avatars[vm.item.getIn(['assigned_to', 'id'])].bg || '' %>"
+        )
+        <% if (vm.item.getIn(['model', 'is_iocaine'])) { %>
+        .card-iocaine-user-bg
+            svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 28 17")
+                path(fill="#B400D1" fill-opacity=".5" d="M27.409 3c0 7.732-6.136 14-13.705 14C6.136 17 0 10.732 0 3s.703 3.5 8.272 3.5S27.409-4.732 27.409 3z")
+        <% } %>
+    <% } %>
+    <% } %>
+
+    <% if(vm.zoomLevel > 0 && (checkPermission(vm.getModifyPermisionKey()) || checkPermission(vm.getDeletePermisionKey()))) { %>
+    .card-actions
+        <% if(checkPermission(vm.getModifyPermisionKey())) { %>
+        button.btn-link.card-assigned-to-action(variant="icon")
+            <%= svg({svgIcon: "icon-assign-to"}) %>
+            span <%= translate('COMMON.CARD.ASSIGN_TO') %>
+        <% } %>
+
+        .card-detail-actions
+            <% if(checkPermission(vm.getModifyPermisionKey())) { %>
+            button.btn-form.e2e-edit.js-card-edit-content
+                <% if(vm.item.get('loading-edit')) { %>
+                <%= loading %>
+                <% } else { %>
+                <%= svg({svgIcon: "icon-edit", svgTitle: translate('COMMON.CARD.EDIT') }) %>
+                <% } %>
+            <% } %>
+
+            <% if(checkPermission(vm.getDeletePermisionKey())) { %>
+            button.btn-form.card-delete.e2e-edit.js-card-delete
+                <% if(vm.item.get('loading-delete')) { %>
+                <%= loading %>
+                <% } else { %>
+                <%= svg({svgIcon: "icon-trash", svgTitle: translate('COMMON.CARD.DELETE') }) %>
+                <% } %>
+            <% } %>
+    <% } %>
+<% } %>

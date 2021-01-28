@@ -1,0 +1,32 @@
+.login-form-container {
+    padding-top: 1rem;
+    .login-password {
+        position: relative;
+    }
+    input {
+        &:focus {
+            +.forgot-pass {
+                opacity: 0;
+                transition: opacity .3s linear;
+            }
+        }
+    }
+
+    a {
+        color: $color-black600;
+    }
+
+    .forgot-pass {
+        @include font-size(small);
+        color: $color-black600;
+        opacity: 1;
+        position: absolute;
+        right: 1rem;
+        top: .6rem;
+        transition: all .3s linear;
+        &:hover {
+            color: $color-black800;
+            transition: color .3s linear;
+        }
+    }
+}

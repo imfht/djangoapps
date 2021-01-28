@@ -1,0 +1,828 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-22 09:06+0000\n"
+"Last-Translator: mstfaatesss <mstfaatesss@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} yıldız"
+msgstr[1] "{0} yıldız"
+
+msgid "There was a problem contacting the server."
+msgstr "Sunucuyla bağlantı kurulurken bir hata oluştu."
+
+msgid "Select a file..."
+msgstr "Dosya seçin..."
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Eklentiniz .zip, .xpi veya .crx ile bitmelidir"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "%{0} tamamlandı"
+
+msgid "{0} of {1}"
+msgstr "{0} / {1}"
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Uploading {0}"
+msgstr "{0} yükleniyor"
+
+msgid "Error with {0}"
+msgstr "{0} hatası"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Lint ile ilgili sorunları lütfen GitHub'da rapor edin"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Eklentinizin doğrulanması {0} hata ile başarısız oldu."
+msgstr[1] "Eklentinizin doğrulanması {0} hata ile başarısız oldu."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip;ve{0} tane daha"
+msgstr[1] "&hellip;ve{0} tane daha"
+
+msgid "See full validation report"
+msgstr "Tam doğrulama raporuna bak"
+
+msgid "Validating {0}"
+msgstr "{0} doğrulanıyor"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Eklentiniz maksimum {0} olan boyutu aşıyor."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Sunucudan boş yanıt alındı. Durum: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Doğrulama sırasında beklenmeyen sunucu hatası."
+
+msgid "Finished validating {0}"
+msgstr "{0} doğrulaması tamamlandı"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Eklenti doğrulamanız zaman aşımına uğradı; eklenti özel olarak incelenecek."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Eklentiniz hata olmadan ve {0} uyarı ile doğrulandı."
+msgstr[1] "Eklentiniz hata olmadan ve {0} uyarı ile doğrulandı."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Eklentiniz hatasız olarak ve {0} mesajla doğrulandı."
+msgstr[1] "Eklentiniz hatasız olarak ve {0} mesajla doğrulandı."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "Eklentiniz hatasız ve uyarısız olarak doğrulanmıştır."
+
+msgid "Your submission will be automatically signed."
+msgstr "Gönderiminiz otomatik olarak imzalanacak."
+
+msgid "WebExtension upgrade"
+msgstr "WebExtension yükseltmesi"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr "Yükseltmeye izin veriyoruz ve hatta öneriyoruz ama bu işlemi geri alamazsınız. Kullanıcılarınız WebExtension'ı yükledikten sonra eski nesil eklentiyi yükleyemezler."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "MDN'de eski bir Firefox eklentisini dönüştürme ile ilgili bilgiler"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Ayrıntılı sürüm notlarını yazın. (Bu, sonraki adımda da yapılabilir.)"
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr "Eklentinizin tam anlamıyla denenmesi için bir sitede hesap açılması gerekiyorsa, İnceleyene Notlar kısmında deneme kullanıcı adı ve parolasını yazın. (Bu, sonraki adımda da yapılabilir.)"
+
+msgid "Add-on submission checklist"
+msgstr "Eklenti gönderimi kontrol listesi"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Gönderimi tamamlamadan önce lütfen aşağıdaki noktaları doğrulayın. Böylece inceleme sürecindeki gecikmeleri ve yanlış anlamaları en aza indirmiş olursunuz:"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+"Minify edilmiş, concatenate edilmiş veya makineyle oluşturulmuş betikler (bilinen kitaplıklar hariç) incelenecekse, bunların kendi kaynaklarının ayrı olarak bulunması gerekir. Başvurunuzun geri "
+"çevrilmesini önlemek adına, kaynak kodu gönderme sahasını kullandığınızdan emin olun."
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Doğrulama işlemleri sırasında başvurunun reddine yol açabilecek sorunlar bulundu:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Yüklediğiniz dosya türü tanınmıyor."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Dosyanız maksimum {0} boyutunu aşıyor."
+
+msgid "You cancelled the upload."
+msgstr "Yüklemeyi iptal ettiniz."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Resimler PNG veya JPG olmalıdır."
+
+msgid "Videos must be in WebM."
+msgstr "Videolar WebM olmalıdır."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Bu tema sizin {0} sürümünüzle uyumlu değil"
+
+msgid "Flagged for review"
+msgstr "İnceleme için işaretlendi"
+
+msgid "Your input is required"
+msgstr "Giriş gerekli"
+
+msgid "Marked for deletion"
+msgstr "Silmek için işaretlendi"
+
+msgid "Updating results&hellip;"
+msgstr "Sonuçlar güncelleniyor&hellip;"
+
+msgid "Category"
+msgstr "Kategori"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "<b>{0}</b> için temaları ara"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "<b>{0}</b> için uygulamaları ara"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "<b>{0}</b> için eklentileri ara"
+
+msgid "Use original"
+msgstr "Orijinalini kullan"
+
+msgid "Week of {0}"
+msgstr "{0} haftası"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} indirme"
+msgstr[1] "{0} indirme"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} kullanıcı"
+msgstr[1] "{0} kullanıcı"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} eklenti"
+msgstr[1] "{0} eklenti"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} koleksiyon"
+msgstr[1] "{0} koleksiyon"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} inceleme"
+msgstr[1] "{0} inceleme"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} satış"
+msgstr[1] "{0} satış"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} iade"
+msgstr[1] "{0} iade"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} kurulum"
+msgstr[1] "{0} kurulum"
+
+msgid "Downloads"
+msgstr "İndirme"
+
+msgid "Daily Users"
+msgstr "Günlük kullanıcı"
+
+msgid "Amount, in USD"
+msgstr "Tutar (USD)"
+
+msgid "Number of Contributions"
+msgstr "Katkı sayısı"
+
+msgid "More Info..."
+msgstr "Daha fazla bilgi..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "{0} ayrıntıları"
+
+msgid "Collections Created"
+msgstr "Oluşturulan koleksiyon"
+
+msgid "Add-ons in Use"
+msgstr "Kullanımdaki eklenti"
+
+msgid "Add-ons Created"
+msgstr "Oluşturulan eklenti"
+
+msgid "Add-ons Downloaded"
+msgstr "İndirilen eklenti"
+
+msgid "Add-ons Updated"
+msgstr "Güncellenen eklenti"
+
+msgid "Reviews Written"
+msgstr "Yazılan inceleme"
+
+msgid "User Signups"
+msgstr "Kullanıcı kaydı"
+
+msgid "Subscribers"
+msgstr "Abone"
+
+msgid "Ratings"
+msgstr "Puanlama"
+
+msgid "Sales"
+msgstr "Satış"
+
+msgid "Installs"
+msgstr "Kurulum"
+
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+msgid "Add-ons Manager"
+msgstr "Eklenti Yöneticisi"
+
+msgid "Add-ons Manager Promo"
+msgstr "Eklenti Yöneticisi Tanıtım"
+
+msgid "Add-ons Manager Featured"
+msgstr "Eklenti Yöneticisi Öne Çıkarılan"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Eklenti Yöneticisi Daha Fazla Bilgi Al"
+
+msgid "Search Suggestions"
+msgstr "Arama Önerileri"
+
+msgid "Search Results"
+msgstr "Arama Sonuçları"
+
+msgid "Homepage Promo"
+msgstr "Ana sayfa tanıtımı"
+
+msgid "Homepage Featured"
+msgstr "Ana sayfa vitrindekiler"
+
+msgid "Homepage Up and Coming"
+msgstr "Ana sayfa yükselenler"
+
+msgid "Homepage Most Popular"
+msgstr "Ana sayfa en popüler"
+
+msgid "Detail Page"
+msgstr "Ayrıntı sayfası"
+
+msgid "Detail Page (bottom)"
+msgstr "Ayrıntı sayfası (alt)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Ayrıntı sayfası (geliştirme kanalı)"
+
+msgid "Often Used With"
+msgstr "Sıklıkla birlikte kullanılanlar"
+
+msgid "Others By Author"
+msgstr "Bu yazardan"
+
+msgid "Dependencies"
+msgstr "Bağımlılıklar"
+
+msgid "Upsell"
+msgstr "Upsell"
+
+msgid "Meet the Developer"
+msgstr "Geliştiriciyle tanışın"
+
+msgid "User Profile"
+msgstr "Kullanıcı Kimliği"
+
+msgid "Version History"
+msgstr "Sürüm Geçmişi"
+
+msgid "Sharing"
+msgstr "Paylaşım"
+
+msgid "Category Pages"
+msgstr "Kategori Sayfaları"
+
+msgid "Collections"
+msgstr "Koleksiyonlar"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Category Landing Featured Carousel"
+
+msgid "Category Landing Top Rated"
+msgstr "Category Landing Top Rated"
+
+msgid "Category Landing Most Popular"
+msgstr "Category Landing Most Popular"
+
+msgid "Category Landing Recently Added"
+msgstr "Category Landing Recently Added"
+
+msgid "Browse Listing Featured Sort"
+msgstr "Browse Listing Featured Sort"
+
+msgid "Browse Listing Users Sort"
+msgstr "Browse Listing Users Sort"
+
+msgid "Browse Listing Rating Sort"
+msgstr "Browse Listing Rating Sort"
+
+msgid "Browse Listing Created Sort"
+msgstr "Browse Listing Created Sort"
+
+msgid "Browse Listing Name Sort"
+msgstr "Browse Listing Name Sort"
+
+msgid "Browse Listing Popular Sort"
+msgstr "Browse Listing Popular Sort"
+
+msgid "Browse Listing Updated Sort"
+msgstr "Browse Listing Updated Sort"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "Browse Listing Up and Coming Sort"
+
+msgid "Total Amount Contributed"
+msgstr "Toplam Katkı Miktarı"
+
+msgid "Average Contribution"
+msgstr "Ortalama Katkı"
+
+msgid "Usage"
+msgstr "Kullanım"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "İndirmeler ve Günlük Kullanıcılar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "{0} - {1} Arası İndirmeler ve Günlük Kullanıcılar"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Kurulum ve Günlük Kullanıcı, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Kurulum ve Günlük Kullanıcı, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "İndirmeler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "{0} - {1} Arası İndirmeler"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Günlük Kullanıcılar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "{0} - {1} Arası Günlük Kullanıcılar"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Uygulamalar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "{0} - {1} Arası Uygulamalar"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "Ülkeler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "{0} - {1} arası ülkeler"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Platformlar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "{0} - {1} Arası Platformlar"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Diller, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "{0} - {1} Arası Diller"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Eklenti Sürümleri, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "{0} - {1} Arası Eklenti Sürümleri"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Eklenti Durumu, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "{0} - {1} Arası Eklenti Durumu"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "İndirme Kaynakları, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "{0} - {1} Arası İndirme Kaynakları"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr ""
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr ""
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Katkılar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "{0} - {1} Arası Katkılar"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Site Ölçümleri, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Site Ölçümleri, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Kullanımdaki Eklentiler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Kullanımdaki Eklentiler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "İndirilen Eklentiler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "İndirilen Eklentiler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Oluşturulan Eklentiler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Oluşturulan Eklentiler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Güncellenen Eklentiler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Güncellenen Eklentiler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Yazılan İncelemeler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Yazılan İncelemeler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Yeni Kullanıcı Kayıtları, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Yeni Kullanıcı Kayıtları, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Oluşturulan Koleksiyonlar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Oluşturulan Koleksiyonlar, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Aboneler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Aboneler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Değerlendirmeler, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Değerlendirmeler, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Satışlar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Satışlar, {0} - {1} arasında"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Kurulumlar, son {0} gün"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Kurulumlar, {0} - {1} arasında"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "son {1} günde <b>{0}</b>"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "{1} - {2} arasında <b>{0}</b>"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "son {1} günde ortalama <b>{0}</b>"
+
+msgid "No data available."
+msgstr "Veri yok."
+
+msgid "Date"
+msgstr "Tarih"
+
+msgid "Other"
+msgstr "Diğer"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Kabul et ve kur"
+
+msgid "Add to {0}"
+msgstr "{0}’a ekle"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Yine de {0} için yükle"
+
+msgid "Download for {0} anyway"
+msgstr "Yine de {0} için indir"
+
+msgid "Not available for your platform"
+msgstr "Sizin platformunuz için mevcut değil"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Bu eklenti sizin {0} sürümünüzle uyumlu değil."
+
+msgid "View other versions"
+msgstr "Diğer sürümleri görüntüle"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "{app} {min} - {max} ile çalışır"
+
+msgid "Works with {app}"
+msgstr "{app} ile çalışır"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Yalnızca Firefox ile — Firefox'u hemen indirin!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Üzgünüz, arama eklentisi yükleyebilmeniz için Mozilla tabanlı (örn. Firefox) bir tarayıcıya ihtiyacınız var."
+
+msgid "Changes Saved"
+msgstr "Değişiklikler kaydedildi"
+
+msgid "Enter a new author's email address"
+msgstr "Yeni geliştiricinin e-posta adresini girin"
+
+msgid "There was an error uploading your file."
+msgstr "Dosyanız yüklenirken bir hata oluştu."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} dosya"
+msgstr[1] "{files} dosya"
+
+msgid "Image changes being processed"
+msgstr "Resim değişiklikleri işleniyor"
+
+msgid "Select an application first"
+msgstr "Önce bir uygulama seçin"
+
+msgid "No results found."
+msgstr "Sonuç bulunamadı."
+
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> karakter"
+msgstr[1] "<b>{0}</b> karakter"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "<b>{0}</b> karakter kaldı"
+msgstr[1] "<b>{0}</b> karakter kaldı"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Bakım nedeniyle bu özellik şu anda devre dışıdır. Lütfen daha sonra tekrar deneyin."
+
+msgid "Remove this localization"
+msgstr "Bu yerelleştirmeyi kaldır"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} bu sayfayı ilk olarak inceliyordu."
+
+msgid "{name} was viewing this add-on first."
+msgstr "İlk {name} bu eklentiye bakıyordu."
+
+msgid "Loading&hellip;"
+msgstr "Yükleniyor&hellip;"
+
+msgid "Version Notes"
+msgstr "Sürüm Notları"
+
+msgid "Notes for Reviewers"
+msgstr "Yorumcular İçin Notlar"
+
+msgid "No version notes found"
+msgstr "Hiçbir sürüm notu bulunamadı"
+
+msgid "Review Text"
+msgstr "İnceleme Metni"
+
+msgid "Review notes found"
+msgstr "İnceleme notları bulundu"
+
+msgid "Average Reviews"
+msgstr "İncelemelerin Ortalaması"
+
+msgid "Number of Reviews"
+msgstr "İncelemelerin Sayısı"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "Maksimum yükleme boyutu {0}. Daha küçük bir arka plan resmi seçin."
+
+msgid "Requested Info"
+msgstr "İstenen Bilgi"
+
+msgid "Flagged"
+msgstr "İşaretlendi"
+
+msgid "Duplicate"
+msgstr "Çift kopya"
+
+msgid "Rejected"
+msgstr "Reddedildi"
+
+msgid "Approved"
+msgstr "Onaylandı"
+
+msgid "No results found"
+msgstr "Sonuç bulunamadı"
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Reviewer"
+msgstr "İnceleyen"
+
+msgid "Status"
+msgstr "Durum"
+
+msgid "All tests passed successfully."
+msgstr "Tüm testler başarıyla geçildi."
+
+msgid "These tests were not run."
+msgstr "Bu testler çalıştırılmadı."
+
+msgid "Tests"
+msgstr "Testler"
+
+msgid "Error"
+msgstr "Hata"
+
+msgid "Warning"
+msgstr "Uyarı"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} satır {1} sütun {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} satır {1}"
+
+msgid "Add-on failed validation."
+msgstr "Eklenti, doğrulamadan geçemedi."
+
+msgid "Add-on passed validation."
+msgstr "Eklenti, doğrulamadan geçti."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} hata"
+msgstr[1] "{0} hata"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} uyarı"
+msgstr[1] "{0} uyarı"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} bildirim"
+msgstr[1] "{0} bildirim"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Doğrulama görevi tamamlanmadı veya hatalı olarak tamamlandı"
+
+msgid "Internal server error"
+msgstr "İç sunucu hatası"

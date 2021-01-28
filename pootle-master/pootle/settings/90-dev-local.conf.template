@@ -1,0 +1,176 @@
+# -*- coding: utf-8 -*-
+
+"""Sample development configuration file.
+
+This file includes settings that are suited for hacking Pootle. For further
+customizations, you can find the defaults in the ``*.conf`` files.
+"""
+
+#
+# Base
+#
+
+# Site title
+POOTLE_TITLE = u'Pootle Development Server'
+
+POOTLE_INSTANCE_ID = 'development'
+
+# A dummy secret key fine for dev
+SECRET_KEY = %(default_key)s
+
+# General Django debugging settings
+
+# Enable Django debug mode
+DEBUG = True
+
+# A list of strings representing the host/domain names that this Pootle server
+# can serve. This is a Django's security measure. More details at
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    #'${your_server}',
+]
+
+
+#
+# Backends
+#
+
+# Database backend settings
+DATABASES = {
+    'default': {
+        # Replace 'sqlite3' with 'postgresql' or 'mysql'.
+        'ENGINE': %(db_engine)s,
+        # Database name or path to database file if using sqlite3.
+        'NAME': %(db_name)s,
+        # Not used with sqlite3.
+        'USER': %(db_user)s,
+        # Not used with sqlite3.
+        'PASSWORD': %(db_password)s,
+        # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': %(db_host)s,
+        # Set to empty string for default. Not used with sqlite3.
+        'PORT': %(db_port)s,
+        # See https://docs.djangoproject.com/en/1.10/topics/db/transactions/
+        # required for Django + sqlite
+        'ATOMIC_REQUESTS': True,
+        #'OPTIONS' : {
+        #    # MySQL:
+        #    # https://docs.djangoproject.com/en/1.10/ref/databases/#setting-sql-mode
+        #    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        #},
+        'TEST': {
+            'NAME': 'test_pootle',
+        }
+    }
+}
+
+
+#
+# Cache Backend settings
+
+# For more information, check
+# https://docs.djangoproject.com/en/1.10/topics/cache/#setting-up-the-cache
+# and http://niwibe.github.io/django-redis/
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django_redis.cache.RedisCache',
+#        'LOCATION': 'redis://127.0.0.1:6379/1',
+#        'TIMEOUT': 60,
+#    },
+#    'redis': {
+#        'BACKEND': 'django_redis.cache.RedisCache',
+#        'LOCATION': 'redis://127.0.0.1:6379/2',
+#        'TIMEOUT': None,
+#    },
+#    'lru': {
+#        'BACKEND': 'django_redis.cache.RedisCache',
+#        'LOCATION': 'redis://127.0.0.1:6379/3',
+#        'TIMEOUT': 604800,  # 1 week
+#    },
+#    'exports': {
+#        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#        'LOCATION': working_path('exports/'),
+#        'TIMEOUT': 259200,  # 3 days.
+#    },
+#}
+
+
+#
+# Site
+#
+
+# Mail server settings
+#
+# By using the 'console' email backend, any emails sent while in development
+# mode will be output to stdout.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Alternatively, you can run a local dummy SMTP server with
+#   python -m smtpd -n -c DebuggingServer localhost:1025
+# and use the following settings:
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 1025
+
+
+#
+# Applications
+#
+
+#
+# webassets
+#
+# Enable debugging assets.
+#
+# When this is set, the templates will generate one script/link tag per each
+# JavaScript/CSS file instead of putting them in bundles.
+# Further details:
+#   http://elsdoerfer.name/docs/webassets/django/settings.html
+ASSETS_DEBUG = True
+
+# Controls whether bundles should be automatically built and rebuilt. If set to
+# `False` you'll need to manually generate the bundles with `pootle assets
+# build`.
+ASSETS_AUTO_BUILD = True
+
+
+#
+# Django extensions
+#
+INSTALLED_APPS += ['django_extensions']
+
+
+
+
+#
+# Translation
+#
+
+# The directory where the translation files are kept
+POOTLE_TRANSLATION_DIRECTORY = working_path('translations')
+
+# Two-tuple defining the markup filter to apply in certain textareas.
+#
+# - Accepted values for the first element are 'markdown' and
+#   'html' (deprecated).
+# - The second element should be a dictionary of keyword arguments that will be
+#   passed to the markup function.
+#
+POOTLE_MARKUP_FILTER = ('markdown', {})
+
+# Suggestions through Machine Translation services (service name, API key).
+POOTLE_MT_BACKENDS = [
+#        ('GOOGLE_TRANSLATE', ''),
+#        ('YANDEX_TRANSLATE', ''),
+]
+
+# URL for the amaGama TM server.
+AMAGAMA_URL = 'https://amagama-live.translatehouse.org/api/v1/'
+
+# Silence the DEBUG check on dev servers
+SILENCED_SYSTEM_CHECKS = [
+    'pootle.W004',  # python-levenstein not installed
+    'pootle.W005',  # DEBUG = True
+    'pootle.W010',  # DEFAULT_FROM_EMAIL has default setting
+    'pootle.W011',  # POOTLE_CONTACT_EMAIL has default setting
+]

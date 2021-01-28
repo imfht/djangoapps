@@ -1,0 +1,163 @@
+.detail {
+    background: $mass-white;
+    padding: 0;
+    .detail-header-container,
+    .detail-content {
+        background: $white;
+        padding: 1rem;
+    }
+    .detail-header-container {
+        display: flex;
+        margin: 0 0 .5rem;
+        position: relative;
+        @include until($tablet) {
+            display: block;
+        }
+    }
+    .detail-ref {
+        flex-shrink: 1;
+    }
+    .detail-header {
+        flex-grow: 1;
+        @include until($tablet) {
+            padding: 0;
+        }
+    }
+
+    .action-buttons {
+        margin-top: .5rem;
+    }
+}
+
+.subheader {
+    align-items: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @include until($tablet) {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .ticket-created-by {
+        flex-shrink: 1;
+        @include until($tablet) {
+            align-self: flex-end;
+            flex-basis: auto;
+        }
+    }
+    .tags-container {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-right: .25rem;
+    }
+    .tags-block {
+        align-items: flex-end;
+        flex: 1;
+        flex-grow: 1;
+        .tag {
+            @include font-size(small);
+
+            align-items: center;
+            display: flex;
+            min-height: 2rem;
+            &:first-child {
+                margin-inline-start: 0;
+            }
+        }
+    }
+    &.has-tags .relate-to-epic {
+        flex-basis: 100%;
+        margin-top: 0;
+    }
+}
+
+.duty-content {
+    @include cursor-progress;
+    position: relative;
+    &:hover {
+        .view-description {
+            .edit {
+
+                opacity: 1;
+                top: -1.5rem;
+                transition: all .2s linear;
+            }
+            .editable {
+                background: $mass-white;
+                cursor: pointer;
+            }
+            .no-description {
+                color: $grayer;
+            }
+        }
+    }
+    &.wysiwyg {
+        overflow: visible;
+    }
+
+    .read-mode .wysiwyg {
+        padding: 1rem;
+    }
+
+    .no-description {
+        color: $default-tags;
+        padding: 1rem;
+        padding-inline-start: 2rem;
+    }
+    .save-container {
+        position: absolute;
+        right: 1rem;
+        top: .2rem;
+        &:hover {
+            opacity: .3;
+            transition: opacity .2s linear;
+        }
+        .loading-spinner {
+            @include loading-spinner;
+            max-height: 1.5rem;
+            max-width: 1.5rem;
+        }
+    }
+    .edit {
+        cursor: pointer;
+        fill: $gray;
+    }
+    .view-description {
+        .edit {
+            background: $mass-white;
+            height: 2rem;
+            left: 0;
+            opacity: 0;
+            padding: .2rem .5rem;
+            position: absolute;
+            top: 0;
+            transition: all .2s linear;
+            width: 2rem;
+        }
+    }
+    .edit-description {
+        margin-bottom: 2rem;
+        .save {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            top: .3rem;
+        }
+        .edit {
+            display: inline-block;
+            position: absolute;
+            right: 2.5rem;
+            top: .4rem;
+            transition: all .2s linear;
+        }
+        .preview {
+            padding-top: 1.5rem;
+        }
+    }
+}
+
+.comment-list {
+    padding: 1rem;
+}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Your nutrition plans" %}{% endblock %}
+
+
+{% block content %}
+<div class="list-group">
+    {% for plan in plans %}
+        <a href="{{ plan.get_absolute_url }}" class="list-group-item">
+            <span class="glyphicon glyphicon-chevron-right float-right"></span>
+
+            <p class="list-group-item-heading h5">{{plan}}</p>
+            <p class="list-group-item-text">
+                {{ plan.creation_date }} –
+                {{ plan.get_nutritional_values.total.energy|floatformat }} {% trans "kcal" %}
+            </p>
+        </a>
+    {% empty %}
+        <a href="{% url 'nutrition:plan:add' %}" class="list-group-item">
+        {% trans "No nutrition plans." %}<br>
+        {% trans "Add one now." %}
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+
+{#         #}
+{# Options #}
+{#         #}
+{% block options %}
+    <a href="{% url 'nutrition:plan:add' %}" class="btn btn-success btn-sm">
+        {% trans "Add nutrition plan" %}
+    </a>
+{% endblock %}

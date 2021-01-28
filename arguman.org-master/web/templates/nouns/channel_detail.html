@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load humanize %}
+{% load gravatar %}
+
+{% block title %}{{ channel }}{% endblock %}
+
+{% block content %}
+
+<div class="container channel-index">
+    {% include "partials/channel_list.html" %}
+
+    <h3>{{ channel }}</h3>
+    <ul class="channel-active-users">
+    <li class="title"><span>{% trans "Regular users" %}</span></li>
+    {% for active_user in active_users %}
+        <li><a href="{{ active_user.get_absolute_url }}">{% gravatar active_user 60 %}</a></li>
+    {% endfor %}
+    </ul>
+    <div class="channel-contentions">
+        {% include "premises/contention_list.html" with show_stats=True %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra-scripts %}
+{% include "infinity-pagination.html" %}
+{% endblock %}

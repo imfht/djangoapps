@@ -1,0 +1,17 @@
+{
+    "local": {
+        "EnvironmentConfig": {
+            "API": "http://localhost:8000/api/"
+        }
+    },
+    "staging": {
+        "EnvironmentConfig": {
+            "API": "https://staging.eval.ai/api/"
+        }
+    },
+    "production": {
+        "EnvironmentConfig": {
+            "API": "https://eval.ai/api/"
+        }
+    }
+}

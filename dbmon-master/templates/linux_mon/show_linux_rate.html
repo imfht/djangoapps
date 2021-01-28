@@ -1,0 +1,43 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        评分板
+        <small>Linux主机健康度展示</small>
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">评分板</a></li>
+        <li class="active">Linux主机</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid color-palette-box">
+        <div class="box-header with-border">
+          <h3 class="box-title"><i class="fa fa-tag"> Linux主机</i></h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+              {% for each_linux in linux_rate_list %}
+            <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-{{ each_linux.linux_rate_color }}">
+            <div class="inner">
+              <h3>{{ each_linux.linux_rate }}<sup style="font-size: 20px"></sup></h3>
+              <p>{{ each_linux.linux_rate_level }}</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="/linux_monitor?tagsdefault={{ each_linux.tags }}" title="{{ each_linux.linux_rate_reason }}" class="small-box-footer" >{{ each_linux.tags }} <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+              {% endfor %}
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+{% endblock %}

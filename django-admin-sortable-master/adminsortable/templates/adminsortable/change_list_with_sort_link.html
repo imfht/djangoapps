@@ -1,0 +1,34 @@
+{% extends change_list_template_extends %}
+{% load i18n %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+    (function($) {
+        $(document).ready(function($) {
+            var url = window.location.href;
+            var urlParts = url.split('?');
+
+            if (urlParts.length === 2 && urlParts[1].substr(0, 2) !== 'q=') {
+                $('a#change-order').attr('href', './sort/?' + urlParts[1]);
+            }
+        });
+    })(django.jQuery);
+    </script>
+{% endblock %}
+
+
+{% block object-tools-items %}
+    {% for sorting_filter in sorting_filters %}
+    <li>
+        <a href="./sort/?sort_filter={{ forloop.counter0 }}">{% trans 'Change Order of' %} {{ sorting_filter }}</a>
+    </li>
+    {% empty %}
+    {% if is_sortable %}
+    <li>
+        <a id="change-order" href="./sort/">{% trans 'Change Order' %}</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+    {{ block.super }}
+{% endblock %}

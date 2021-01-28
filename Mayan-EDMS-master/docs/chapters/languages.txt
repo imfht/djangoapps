@@ -1,0 +1,61 @@
+=========
+Languages
+=========
+
+Languages choices
+=================
+
+The list of languages choices that can be used for documents is controlled
+by the setting ``DOCUMENTS_LANGUAGE_CODES``.
+
+This setting defaults to the top spoken languages in 2019
+(https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers)
+
+To add or remove languages from the list modify the setting and use the ISO
+639-3 code (https://en.wikipedia.org/wiki/ISO_639) of the language.
+
+This setting can be found in the
+:menuselection:`System --> Setup --> Settings --> Documents` menu.
+
+For example, to reduce the list to just English and Spanish use:
+
+.. code-block:: YAML
+
+    - eng
+    - spa
+
+To change the list via a Python settings module use:
+
+.. code-block:: python
+
+    DOCUMENTS_LANGUAGE_CODES = ['eng', 'spa']
+
+
+Default language
+================
+
+The default language used for documents is controlled by the setting
+``DOCUMENTS_LANGUAGE``.
+
+This setting can be found in the
+:menuselection:`System --> Setup --> Settings --> Documents` menu.
+
+
+Docker
+======
+
+If using the Docker image, these settings can also be passed to the container
+as environment variables by adding the ``MAYAN_`` prefix.
+
+Example:
+
+.. code-block:: console
+
+  -e MAYAN_DOCUMENTS_LANGUAGE_CODES='["eng", "spa"]'
+  -e MAYAN_DOCUMENTS_LANGUAGE='spa'
+
+For more information check out the
+:ref:`environment variables <environment_variables>` chapter of the
+:doc:`../chapters/settings` chapter.
+
+

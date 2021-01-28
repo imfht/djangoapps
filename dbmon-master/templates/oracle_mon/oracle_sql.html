@@ -1,0 +1,44 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle sql信息
+      </h1>
+        </h1>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">SQL_ID：{{ sql_id }}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h4>sql文本:</h4>
+              </div>
+              <div class="mailbox-read-message">
+              <pre>
+                {% for sql_text in sql_texts %}
+                {{ sql_text.SQL_TEXT }}
+                  {% endfor %}
+              </pre>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+           <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h4>执行计划:</h4>
+              </div>
+              <div class="mailbox-read-message">
+              <pre>
+                {% for sql_plan in sql_plans %}
+                {{ sql_plan.PLAN_TABLE_OUTPUT }}
+                  {% endfor %}
+              </pre>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+          </div>
+{% endblock %}

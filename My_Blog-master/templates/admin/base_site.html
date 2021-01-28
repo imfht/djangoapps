@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans "I've editted site name" %}</h1>
+<a href="/" style="margin-left: 50%;font-size: 2em">Return to Site</a>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,129 @@
+{% load hc_extras %}
+
+<div id="filtering-rules-modal" class="modal">
+    <div class="modal-dialog">
+        <form
+            action="{% url 'hc-filtering-rules' check.code %}"
+            class="form-horizontal"
+            method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h2>HTTP Requests</h2>
+                    <p>Allowed request methods for HTTP requests:</p>
+                    <label class="radio-container">
+                        <input
+                            type="radio"
+                            name="methods"
+                            value=""
+                            {% if check.methods == "" %} checked {% endif %}>
+                        <span class="radiomark"></span>
+                        HEAD, GET, POST, PUT
+                    </label>
+                    <label class="radio-container">
+                        <input
+                            type="radio"
+                            name="methods"
+                            value="POST"
+                            {% if check.methods == "POST" %} checked {% endif %}>
+                        <span class="radiomark"></span>
+                        Only POST
+                        <span class="help-block">
+                            If set, {{ site_name }} will ignore HTTP requests
+                            using any other request method.
+                        </span>
+                    </label>
+                </div>
+
+                <hr>
+
+                <div class="modal-body">
+                    <h2>Inbound Emails</h2>
+                    <label class="radio-container">
+                        <input
+                            type="radio"
+                            name="filter_by_subject"
+                            value="no"
+                            {% if not check.subject and not check.subject_fail %}checked{% endif %} />
+                        <span class="radiomark"></span>
+                        No filtering. Treat all emails as "success"
+                    </label>
+                    <label class="radio-container">
+                        <input
+                            type="radio"
+                            name="filter_by_subject"
+                            value="yes"
+                            {% if check.subject or check.subject_fail %}checked{% endif %} />
+                        <span class="radiomark"></span>
+                        Filter by keywords in the Subject line:
+                    </label>
+
+
+                    <div class="form-group">
+                        <label for="update-name-input" class="col-sm-4 control-label">
+                            Success Keywords
+                        </label>
+                        <div class="col-sm-7">
+                            <input
+                                name="subject"
+                                type="text"
+                                value="{{ check.subject }}"
+                                {% if not check.subject and not check.subject_fail %}disabled{% endif %}
+                                class="input-name form-control filter-by-subject" />
+                            <span class="help-block">
+                                Comma-separated list of keywords. If Subject contains
+                                any of the keywords, treat it as "success".
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-name-input" class="col-sm-4 control-label">
+                            Failure Keywords
+                        </label>
+                        <div class="col-sm-7">
+                            <input
+                                name="subject_fail"
+                                type="text"
+                                value="{{ check.subject_fail }}"
+                                {% if not check.subject and not check.subject_fail %}disabled{% endif %}
+                                class="input-name form-control filter-by-subject" />
+                            <span class="help-block">
+                                Comma-separated list of keywords. If Subject contains
+                                any of the keywords, treat it as "failure".
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="modal-body">
+                    <h2>Pinging a Paused Check</h2>
+                    <p>When a paused check receives a ping:</p>
+                    <label class="radio-container">
+                        <input
+                            type="radio"
+                            name="manual_resume"
+                            value=""
+                            {% if not check.manual_resume %}checked{% endif %}>
+                        <span class="radiomark"></span>
+                        Leave the paused state (default)
+                    </label>
+                    <label class="radio-container">
+                        <input
+                            type="radio"
+                            name="manual_resume"
+                            value="1"
+                            {% if check.manual_resume %}checked{% endif %}>
+                        <span class="radiomark"></span>
+                        Ignore the ping, stay in the paused state
+                    </label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

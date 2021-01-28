@@ -1,0 +1,50 @@
+.swimlane-select(ng-if="project.is_kanban_activated && swimlanesList.size")
+    .label {{ 'LIGHTBOX.CREATE_EDIT.SWIMLANE' | translate }}
+    tg-swimlane-selector(
+        ng-model="obj.swimlane"
+        swimlanes="swimlanesList"
+        default-swimlane-id="project.default_swimlane"
+        user-story="obj"
+        has-unclassified-stories="noSwimlaneUserStories"
+        ng-if="obj"
+    )
+
+section.ticket-assigned-to.multiple-assign(
+    tg-assigned-users-inline
+    ng-model="obj"
+    required-perm="modify_{{ objType }}"
+)
+.ticket-estimation
+    tg-lb-us-estimation(ng-model="obj")
+
+.ticket-detail-settings
+    tg-due-date-popover(
+        due-date="obj.due_date"
+        is-closed="obj.is_closed"
+        item="obj"
+        obj-type="us"
+        format="button"
+        not-auto-save="true"
+    )
+    button.btn-icon.team-requirement(
+        type="button"
+        aria-label="{{ 'COMMON.TEAM_REQUIREMENT' | translate }}"
+        title="{{ 'COMMON.TEAM_REQUIREMENT' | translate }}"
+        ng-class="{ 'active': isTeamRequirement() }"
+    )
+        tg-svg(svg-icon="icon-team-requirement")
+    button.btn-icon.client-requirement(
+        type="button"
+        aria-label="{{ 'COMMON.CLIENT_REQUIREMENT' | translate }}"
+        title="{{ 'COMMON.CLIENT_REQUIREMENT' | translate }}"
+        ng-class="{ 'active': isClientRequirement() }"
+    )
+        tg-svg(svg-icon="icon-client-requirement")
+
+    button.btn-icon.is-blocked(
+        type="button"
+        aria-label="{{ 'COMMON.BLOCK_TITLE' | translate }}"
+        title="{{ 'COMMON.BLOCK_TITLE' | translate }}"
+        ng-class="{ 'item-unblock': obj.is_blocked, 'item-block': !obj.is_blocked }"
+    )
+        tg-svg(svg-icon="icon-lock")

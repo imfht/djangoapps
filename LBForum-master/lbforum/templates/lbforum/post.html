@@ -1,0 +1,133 @@
+{% extends "lbforum/base_site.html" %}
+
+{% load i18n %}
+{% load lbforum_filters %}
+{% load lbforum_tags %}
+{% load lbutils %}
+{% load staticfiles %}
+
+{% block title %}{{  block.super }}{% endblock %}
+
+{% block extra_header %}
+  <script type="text/javascript" src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'markitup/markitup/skins/markitup/style.css' %}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'lbforum/scripts/markitup/sets/bbcode/style.css' %}" />
+{% endblock %}
+
+{% block content_right_bar %}
+  {% if forum.description %}
+    <div class="box">
+      <div class="inner">
+        {{ forum.description|bbcode }}
+      </div>
+    </div>
+    <div class="sep20"></div>
+  {% endif %}
+
+  <div class="box">
+    <div class="cell">{% trans "You may use" %}:</div>
+    <div class="inner">
+      &raquo; <a target="_blank" href="http://fluxbb.org/forums/help/bbcode/">BBCode</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content_content %}
+  <div class="box">
+    <div class="cell">
+      <span class="bigger">
+        <a href="{% url 'lbforum_index' %}">{% get_setting "LBFORUM_TITLE" %}</a>
+        {% if forum %}
+          <span class="chevron">&raquo;</span>
+          <a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a>
+        {% endif %}
+        {% if topic %}
+          <span class="chevron">&raquo;</span>
+          <a href="{{ topic.get_absolute_url }}">{{ topic.subject }}</a>
+        {% endif %}
+        <span> &raquo; </span>
+        {% if is_new_post %}{% trans "Post new" %}{% else %}{% trans "Edit" %}{% endif %} {{ post_type }}
+      </span>
+    </div>
+    {% if preview %}
+      <div class="cell">
+        <div class="inner">
+          <div class="content topic_content">
+            {{ form.cleaned_data.message|bbcode }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <div class="inner">
+      {% if form.errors %}
+        <strong> {% trans "Please correct the errors below." %}  </strong>
+        {{ form|form_all_error }}
+        <br/>
+      {% endif %}
+      <form action="" accept-charset="utf-8" method="post" class="frm-form" id="post-form">
+        <div class="hidden" id="hidden_fields">
+          {% csrf_token %}
+        </div>
+        {% if topic_post%}
+          {{form.subject}}
+          <div class="sep10"></div>
+        {% endif %}
+        {{ form.message }}
+        <div class="sep10"></div>
+        {% if show_forum_field %}
+          {{ form.forum }}
+        {% endif %}
+        <div class="sep10"></div>
+        <div id="uploadify" class="multi-file-upload">
+          <input id="fileInput" name="attach_file" type="file" multiple="multiple"/>
+        </div>
+
+        <ul id="uploaded_files">
+        </ul>
+        <div class="sep10"></div>
+        <input type="submit" class="super normal button" value="{% trans "Submit" %}" name="submit"/>
+        <input type="submit" class="super normal button" value="{% trans "Preview" %}" name="preview"/>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer_js %}
+  <script>
+    var URL_UPLOAD_ATTACH = "{% url 'lbattachment_upload__' %}";
+  </script>
+  <script type="text/javascript" src="{% url 'lbforum_lang_js' %}"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'markitup/markitup/jquery.markitup.js' %}" />
+  <script type="text/javascript" src="{% static 'markitup/markitup/jquery.markitup.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lbforum/scripts/markitup/sets/bbcode/set.js' %}"></script>
+  <script src="{% static 'blueimp-file-upload/js/vendor/jquery.ui.widget.js' %}"></script>
+  <script src="{% static 'blueimp-file-upload/js/jquery.fileupload.js' %}"></script>
+  <script src="{% static 'blueimp-file-upload/js/jquery.iframe-transport.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lbforum/scripts/upload_attachment.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lbforum/scripts/simple_tpl.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lbforum/scripts/common.js' %}"></script>
+  <script type="text/javascript">
+    mySettings['previewParserPath']="{% url 'markitup_preview' %}";
+    $("#id_message").markItUp(mySettings);
+    url_attachments_ajax_change_descn = "{% url 'lbattachment_change_descn__' %}";
+    url_attachments_ajax_delete = "{% url 'lbattachment_delete__' %}";
+    $(function() {
+      {% for o in attachments %}
+        add_attachment({'pk': '{{o.pk}}','url': '{% url "lbattachment_download" %}?pk={{ o.pk }}','fn': '{{o.filename}}','descn':'{{ o.description }}'});
+      {% endfor %}
+    });
+  </script>
+  <script type="text/html" id="attachment_li_tmpl">
+    <li id="attachment_<%=pk%>" class="nb">
+    <a class="filename" href="<%=url%>" target="_blank"><%=fn%></a>
+    <span class="icon descn" style="">&nbsp;</span>
+    <span style="display: none;">
+    <input class="fld-descn" value="<%=descn%>"/>
+    <a class="submit-descn" href="#">{% trans "submit" %}</a>
+    </span>
+    <span class="icon remove">&nbsp;</span>
+    <span class="icon insert">&nbsp;</span>
+    <span class="ext">&nbsp;</span>
+    </li>
+  </script>
+{% endblock %}

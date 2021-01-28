@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n static wger_extras django_bootstrap_breadcrumbs %}
+
+{% block title %}{% trans "Documents" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% if perms.gym.manage_gyms %}
+        {% breadcrumb "Gyms" "gym:gym:list" %}
+    {% endif %}
+    {% breadcrumb_raw member.userprofile.gym "gym:gym:user-list" member.userprofile.gym.pk %}
+    {% breadcrumb_raw member|format_username "core:user:overview" member.pk %}
+    {% breadcrumb "Documents" "gym:document:list" member.pk %}
+{% endblock %}
+
+
+{% block content %}
+
+<ul class="list-group">
+    {% for document in userdocument_list %}
+    <li class="list-group-item ">
+        <div class="btn-group float-right">
+            <button type="button" class="btn btn-light dropdown-toggle btn-sm" data-toggle="dropdown">
+                <span class="{% fa_class 'cog' %}"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="{{ document.document.url }}" download="{{ document.original_name }}">
+                        <span class="glyphicon glyphicon-download"></span>
+                        {% trans 'Download' %}
+                    </a>
+                </li>
+                {% if perms.gym.change_userdocument %}
+                <li>
+                    <a href="{% url 'gym:document:edit' document.pk %}">
+                        {% trans 'Edit' %}
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if perms.gym.delete_userdocument %}
+                <li>
+                    <a href="{% url 'gym:document:delete' document.pk %}"  class="wger-modal-dialog">
+                        {% trans 'Delete' %}
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+
+        <h4 class="list-group-item-heading">{{ document.name }}</h4>
+
+        <p class="list-group-item-text">{{ document.timestamp_created }} - {{ document.user|format_username }}</p>
+        {% if document.note %}
+        <p class="list-group-item-text">{{ document.note }}</p>
+        {% endif %}
+    </li>
+    {% empty %}
+        <li class="list-group-item">
+            {% trans "Nothing found" %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
+
+
+{#         #}
+{# Options #}
+{#         #}
+{% block options %}
+{% if perms.gym.add_userdocument %}
+   <a href="{% url 'gym:document:add' member.pk %}" class="btn btn-sm btn-success">
+       {% trans "Add" %}
+   </a>
+{% endif %}
+{% endblock %}

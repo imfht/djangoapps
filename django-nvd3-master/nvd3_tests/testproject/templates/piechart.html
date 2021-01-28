@@ -1,0 +1,13 @@
+{% load static %}
+<link media="all" href="{% static 'nvd3/src/nv.d3.css' %}" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src='{% static 'd3/d3.min.js' %}'></script>
+<script type="text/javascript" src='{% static 'nvd3/nv.d3.min.js' %}'></script>
+
+{% load nvd3_tags %}
+<head>
+    {% load_chart charttype chartdata "piechart_container" %}
+</head>
+<body>
+    <h1>Fruits vs Calories</h1>
+    {% include_container "piechart_container" 400 500 %}
+</body>

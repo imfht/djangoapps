@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load humanize %}
+
+<td class="number {{ class }}" data-value="{{ value }}">
+    {% if value == 0 %}
+    {% elif translate_url %}
+        <a href="{{ translate_url }}?{{ query }}">
+            {{ value|intcomma }}
+        </a>
+    {% else %}
+        {{ value|intcomma }}
+    {% endif %}
+</td>

@@ -1,0 +1,49 @@
+{% extends 'appearance/base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% load common_tags %}
+{% load dashboards_tags %}
+{% load navigation_tags %}
+
+{% block title %}{% trans 'Dashboard' %}{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function() {
+            $('.match-height').matchHeight();
+        });
+    </script>
+{% endblock javascript %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if missing_list %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans 'Getting started' %}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% trans 'Before you can fully use Mayan EDMS you need the following:' %}
+
+                        <div class="list-group">
+                            {% for missing in missing_list %}
+                                <a href="{% url missing.view %}" class="list-group-item">
+                                    <h4 class="list-group-item-heading">{{ missing.label }}</h4>
+                                    <p class="list-group-item-text">{{ missing.description }}</p>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% include 'dynamic_search/search_box.html' %}
+
+    {% dashboards_render_dashboard 'main' %}
+
+{% endblock %}

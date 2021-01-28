@@ -1,0 +1,54 @@
+{% load babybuddy_tags i18n static %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_locale as LOCALE %}
+{% get_current_timezone as TIMEZONE %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %} | Baby Buddy</title>
+
+    <link rel="stylesheet" href="{% static "babybuddy/css/app.css" %}" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "babybuddy/root/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "babybuddy/root/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "babybuddy/root/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "babybuddy/root/site.webmanifest.json" %}">
+    <link rel="mask-icon" href="{% static "babybuddy/root/safari-pinned-tab.svg" %}" color="#226f97">
+    <meta name="apple-mobile-web-app-title" content="Baby Buddy">
+    <meta name="application-name" content="Baby Buddy">
+    <meta name="msapplication-TileColor" content="#226f97">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-starturl" content="/">
+</head>
+<body style="padding-top: 3rem;">
+
+{% block nav %}{% endblock %}
+
+{% block breadcrumb_nav %}
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">{% trans "Home" %}</a></li>
+            {% block breadcrumbs %}{% endblock %}
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block page %}{% endblock %}
+
+    <script src="{% static "babybuddy/js/vendor.js" %}"></script>
+    <script>moment.locale('{{ LOCALE }}');</script>
+    <script>moment.tz.setDefault('{{ TIMEZONE }}');</script>
+    <script src="{% static "babybuddy/js/app.js" %}"></script>
+    {% if user.is_authenticated %}
+        <script>BabyBuddy.PullToRefresh.init()</script>
+    {% endif %}
+
+{% block javascript %}{% endblock %}
+</body>
+</html>

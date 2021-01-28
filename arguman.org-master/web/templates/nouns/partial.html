@@ -1,0 +1,29 @@
+{% load i18n %}
+<h3>{{ noun }}</h3>
+<ul class="relations">
+{% for relation in noun.out_relations.all %}
+<li class="{{ relation.relation_type }} relation">
+    <span>{{ relation.relation_type_label }}</span>
+    <a href="{{ relation.target.get_absolute_url }}">{{ relation.target }}</a>
+</li>
+{% endfor %}
+{% if not noun.out_relations.exists  %}
+<li class="create relation"><a href="{% url "new_relation" noun.slug %}">{% trans "add new relation" %}</a></li>
+{% endif %}
+</ul>
+
+{% if contentions.exists or indirect_contentions.exists %}
+<h3>{% trans "Arguments" %}</h3>
+<ul class="contentions relations">
+    {% for contention in contentions|slice:":3" %}
+    <li class="argument relation">
+        <a class="contention-link" href="{% url "contention_detail" contention.slug %}">{{ contention.title }}</a>
+    </li>
+    {% endfor %}
+    {% for contention in indirect_contentions|slice:":3" %}
+    <li class="argument relation">
+        <a class="contention-link" href="{% url "contention_detail" contention.slug %}">{{ contention.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

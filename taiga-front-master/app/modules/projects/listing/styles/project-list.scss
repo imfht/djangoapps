@@ -1,0 +1,110 @@
+.project-list-wrapper {
+    position: relative;
+    .project-list-title {
+        align-items: center;
+        background: $mass-white;
+        display: flex;
+        justify-content: space-between;
+        margin: 2rem 0 1rem;
+        padding: .9rem 1rem;
+        h1 {
+            @include font-type(regular);
+            @include font-size(larger);
+            color: $color-link-primary;
+            margin: 0;
+        }
+    }
+    .icon-private,
+    .icon-badge,
+    .icon-blocked-project {
+        @include svg-size();
+    }
+    .icon-badge {
+        fill: $primary-light;
+        stroke: $primary-light;
+    }
+    .create-project-btn {
+        @include font-size(small);
+        margin-right: .25rem;
+        padding: .6rem 2.5rem;
+    }
+    .import-project-button {
+        padding: .53rem .8rem;
+        &:hover {
+            .icon-upload {
+                fill: $primary-light;
+            }
+        }
+        .icon-upload {
+            fill: $white;
+        }
+
+    }
+    .project-list-section {
+        display: flex;
+    }
+    .project-list {
+        flex: 1;
+        margin-right: 2rem;
+    }
+    .help-area {
+        @include font-size(small);
+        color: $gray-light;
+        width: 200px;
+    }
+    .list-itemtype-project {
+        background: rgba($white, .6);
+        &:hover {
+            background: rgba($primary-light, .1);
+            cursor: move;
+            transition: background .3s;
+            .drag {
+                opacity: 1;
+            }
+        }
+        &.blocked-project {
+            .list-itemtype-project-image,
+            .project-title,
+            .private,
+            .project-description,
+            .icon-badge {
+                opacity: .25;
+            }
+        }
+        &.blocked-project:hover {
+            .icon-drag {
+                opacity: 1;
+            }
+        }
+        .list-itemtype-project-data-wrapper {
+            display: flex;
+        }
+        .list-itemtype-project-image {
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+    }
+    .drag {
+        align-self: center;
+        opacity: 0;
+        svg {
+            fill: $gray-light;
+            height: 1.1rem;
+            margin-right: .5rem;
+            transition: opacity .2s;
+            width: 1.1rem;
+        }
+    }
+    .gu-transit {
+        background-color: lighten($whitish, 3%);
+        height: 5rem;
+        opacity: 1;
+        * {
+            display: none;
+        }
+    }
+    .gu-mirror {
+        background: lighten($primary, 63%);
+        opacity: 1;
+    }
+}

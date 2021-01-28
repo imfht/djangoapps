@@ -1,0 +1,32 @@
+doctype html
+
+div.wrapper.memberships(
+    ng-controller="MembershipsController as ctrl"
+    ng-init="section='admin'; sectionName='ADMIN.MEMBERSHIPS.TITLE'"
+    tg-memberships
+)
+    tg-project-menu
+
+    sidebar.menu-secondary.sidebar.settings-nav(tg-admin-navigation="memberships")
+        include ../includes/modules/admin-menu
+
+    section.main.admin-membership.admin-common
+        .header-with-actions
+            header
+                include ../includes/components/mainTitle
+                .header-message(ng-if="canAddUsers == false")
+                    tg-no-more-memberships-explanation(project="project", owner-email="projectOwnerEmail")
+
+            .action-buttons(
+                    ng-if="canAddUsers == true"
+                )
+                button.btn-small(
+                    variant="primary"
+                    translate="ADMIN.MEMBERSHIPS.ADD_BUTTON"
+                    title="{{ ADMIN.MEMBERSHIPS.ADD_BUTTON_TITLE | translate }}",
+                    ng-click="ctrl.addNewMembers()"
+                )
+
+        include ../includes/modules/admin/admin-membership-table
+
+        div.paginator.memberships-paginator

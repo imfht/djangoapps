@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Your workouts" %}{% endblock %}
+
+
+{% block content %}
+    <div class="list-group">
+        {% for workout in workouts %}
+            <a href="{{ workout.get_absolute_url }}" class="list-group-item">
+                <span class="glyphicon glyphicon-chevron-right float-right"></span>
+
+                {% if workout == current_workout %}
+                <span class="badge badge-primary float-right">
+                    <em>{% trans "active" %}</em>
+                </span>
+                {% endif %}
+
+                <p class="list-group-item-heading h5">{{ workout }}</p>
+                <p class="list-group-item-text">{{ workout.creation_date }}</p>
+            </a>
+        {% empty %}
+            <a href="{% url 'manager:workout:add' %}" class="list-group-item">
+            {% trans "No workouts found." %}<br>{% trans "Add one now." %}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block options %}
+<a href="{% url 'manager:workout:add' %}" class="btn btn-success btn-sm">
+    {% trans "Add workout" %}
+</a>
+{% endblock %}

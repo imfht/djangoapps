@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Runs bash command as pootle user
+
+CMD=$@
+
+
+/bin/bash -c " \
+   . $APP_DIR/bin/activate \
+   && cd $APP_SRC_DIR \
+   && export TEST_SETTINGS=/tmp/settings.conf \
+   && . $APP_DIR/nvm/nvm.sh \
+   && nvm use node \
+   && $CMD"

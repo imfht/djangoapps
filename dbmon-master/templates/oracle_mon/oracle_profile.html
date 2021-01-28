@@ -1,0 +1,42 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">{{ profile_name }}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>配置名</th>
+                    <th>资源监控名</th>
+                  <th>资源监控类型</th>
+                    <th>资源监控限制</th>
+                    <th>采集时间</th>
+                </tr>
+                </thead>
+                {% for oracle_profile in oracle_profiles %}
+                 <tr>
+                 <td>{{ oracle_profile.PROFILE }} </td>
+                 <td>{{ oracle_profile.RESOURCE_NAME }} </td>
+                 <td>{{ oracle_profile.RESOURCE_TYPE }}</td>
+                 <td>{{ oracle_profile.LIMIT }} </td>
+                 <td>{{ oracle_profile.GET_DATE }} </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

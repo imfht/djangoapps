@@ -1,0 +1,38 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% block title %}{{ object.name }} :: {% trans "Product" %}{% endblock %}
+{% block content %}
+    {% if object.id %}
+        <h1>{% trans "Modify product:" %} {{ object.name }}</h1>
+    {% else %}
+        <h1>{% trans "Create product" %}</h1>
+        <p>{% blocktrans trimmed %}
+            You will be able to adjust further settings in the next step.
+        {% endblocktrans %}</p>
+    {% endif %}
+    {% if object.id and not object.quotas.exists %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                Please note that your product will <strong>not</strong> be available for sale until you have added your
+                item to an existing or newly created quota.
+            {% endblocktrans %}
+        </div>
+    {% elif object.pk and not object.is_available_by_time %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This product is currently not being sold since you configured below that it should only be available in a certain timeframe.
+            {% endblocktrans %}
+        </div>
+    {% endif %}
+    {% if object.hidden_if_available and object.hidden_if_available.availability.0 == 100 %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This product is currently not being shown since you configured below that it should only be visible
+                if a certain other quota is already sold out.
+            {% endblocktrans %}
+        </div>
+    {% endif %}
+
+    {% block inside %}
+    {% endblock %}
+{% endblock %}

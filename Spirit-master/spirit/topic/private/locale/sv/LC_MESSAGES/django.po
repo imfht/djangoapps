@@ -1,0 +1,125 @@
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2018-01-30 15:40+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/spirit-project/spirit/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:75
+msgid "Invite users"
+msgstr ""
+
+#: forms.py:85
+msgid "user1, user2, ..."
+msgstr "användare1, användare2, ..."
+
+#: forms.py:120
+msgid "Invite user"
+msgstr "Bjud in användare"
+
+#: forms.py:127
+msgid "username"
+msgstr "användarnamn"
+
+#: forms.py:142 forms.py:177
+#, python-format
+msgid "%(username)s is already a participant"
+msgstr "%(username)s deltar redan"
+
+#: models.py:29
+msgid "private topic"
+msgstr "privat ämne"
+
+#: models.py:30
+msgid "private topics"
+msgstr "privata ämnen"
+
+#: templates/spirit/topic/private/_invite_form.html:7
+msgid "Invite"
+msgstr "Bjud in"
+
+#: templates/spirit/topic/private/_top_bar.html:11
+#: templates/spirit/topic/private/_top_bar.html:30
+msgid "Participating in"
+msgstr ""
+
+#: templates/spirit/topic/private/_top_bar.html:17
+#: templates/spirit/topic/private/_top_bar.html:26
+msgid "Left"
+msgstr "Lämnade"
+
+#: templates/spirit/topic/private/_top_bar.html:37
+msgid "Create private topic"
+msgstr "Skapa privat ämne"
+
+#: templates/spirit/topic/private/delete.html:5
+msgid "Remove user from private topic"
+msgstr "Ta bort användare från privat ämne"
+
+#: templates/spirit/topic/private/delete.html:10
+#, python-format
+msgid "Removing %(username)s's from %(topic_title)s"
+msgstr "Tar bort %(username)s från %(topic_title)s"
+
+#: templates/spirit/topic/private/delete.html:16
+msgid "Remove"
+msgstr "Ta bort"
+
+#: templates/spirit/topic/private/detail.html:11
+#: templates/spirit/topic/private/index.html:5
+msgid "Private topics"
+msgstr "Privata ämnen"
+
+#: templates/spirit/topic/private/detail.html:23
+msgid "Participants"
+msgstr "Deltagare"
+
+#: templates/spirit/topic/private/detail.html:50
+msgid "Leave topic"
+msgstr "Lämna äme"
+
+#: templates/spirit/topic/private/index_author.html:5
+msgid "Created private topics"
+msgstr "Skapade privata ämnen"
+
+#: templates/spirit/topic/private/index_author.html:20
+msgid "join"
+msgstr "gå med"
+
+#: templates/spirit/topic/private/index_author.html:24
+msgid "There are no topics here, yet"
+msgstr "Det finns ännu inga ämnen här"
+
+#: templates/spirit/topic/private/join.html:5
+msgid "Join topic"
+msgstr "Gå med i ämne"
+
+#: templates/spirit/topic/private/join.html:10
+#, python-format
+msgid "Do you want to join %(topic_title)s?"
+msgstr "Vill du gå med i %(topic_title)s?"
+
+#: templates/spirit/topic/private/join.html:20
+msgid "Join"
+msgstr "Gå med"
+
+#: templates/spirit/topic/private/publish.html:5
+msgid "Publish a private topic"
+msgstr "Publicera ett privat ämne"
+
+#: templates/spirit/topic/private/publish.html:9
+msgid "Publish private topic"
+msgstr "Publicera privat ämne"
+
+#: templates/spirit/topic/private/publish.html:26
+msgid "Publish"
+msgstr "Publicera"

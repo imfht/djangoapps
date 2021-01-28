@@ -1,0 +1,181 @@
+# 
+# Translators:
+# 66cda7c6397d17027db0c4727dcd431a, 2015
+# 66cda7c6397d17027db0c4727dcd431a, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-09-13 00:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Polish (http://www.transifex.com/spirit-project/spirit/language/pl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: forms.py:33
+msgid "Category"
+msgstr "Kategoria"
+
+#: forms.py:34
+msgid "Choose a category"
+msgstr "Wybierz kategorię"
+
+#: models.py:32
+msgid "category"
+msgstr "kategoria"
+
+#: models.py:35
+msgid "title"
+msgstr "tytuł"
+
+#: models.py:37
+msgid "date"
+msgstr "data"
+
+#: models.py:38
+msgid "last active"
+msgstr "ostatnio aktywny"
+
+#: models.py:39
+msgid "reindex at"
+msgstr ""
+
+#: models.py:41
+msgid "pinned"
+msgstr "przypięty"
+
+#: models.py:42
+msgid "globally pinned"
+msgstr "Globalnie przypięty"
+
+#: models.py:43
+msgid "closed"
+msgstr "zamknięto"
+
+#: models.py:46
+msgid "views count"
+msgstr "liczba wyświetleń"
+
+#: models.py:47
+msgid "comment count"
+msgstr "liczba komentarzy"
+
+#: models.py:53
+msgid "topic"
+msgstr "wątek"
+
+#: models.py:54
+msgid "topics"
+msgstr "wątki"
+
+#: templates/spirit/topic/_render_list.html:48
+msgid "There are no topics here, yet"
+msgstr "Nie ma tu jeszcze wątków."
+
+#: templates/spirit/topic/_top_bar.html:17
+#: templates/spirit/topic/_top_bar.html:32
+msgid "All Categories"
+msgstr "Wszystkie kategorie"
+
+#: templates/spirit/topic/_top_bar.html:29
+msgid "All Subcategories"
+msgstr "Wszystkie podkategorie"
+
+#: templates/spirit/topic/_top_bar.html:41
+#: templates/spirit/topic/_top_bar.html:44
+msgid "Create Topic"
+msgstr "Stwórz wątek"
+
+#: templates/spirit/topic/active.html:5
+msgid "Latest active topics"
+msgstr "Ostatnie aktywne wątki"
+
+#: templates/spirit/topic/detail.html:12
+msgid "Main"
+msgstr "Główny"
+
+#: templates/spirit/topic/detail.html:39 templates/spirit/topic/detail.html:43
+msgid "edit"
+msgstr "edytuj"
+
+#: templates/spirit/topic/detail.html:51
+msgid "Moderate"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:57
+msgid "Select comments to move"
+msgstr "Zaznacz komentarze do przeniesienia"
+
+#: templates/spirit/topic/detail.html:60
+msgid "Undelete topic"
+msgstr "Przywróć wątek"
+
+#: templates/spirit/topic/detail.html:63
+msgid "Delete topic"
+msgstr "Usuń wątek"
+
+#: templates/spirit/topic/detail.html:67
+msgid "Open topic"
+msgstr "Otwórz wątek"
+
+#: templates/spirit/topic/detail.html:70
+msgid "Close topic"
+msgstr "Zamknij wątek"
+
+#: templates/spirit/topic/detail.html:74
+msgid "Unpin topic"
+msgstr "Odepnij wątek"
+
+#: templates/spirit/topic/detail.html:77
+msgid "Pin topic"
+msgstr "Przypnij wątek"
+
+#: templates/spirit/topic/detail.html:81
+msgid "Unpin topic globally"
+msgstr "Odepnij wątek globalnie"
+
+#: templates/spirit/topic/detail.html:84
+msgid "Pin topic globally"
+msgstr "Przypnij wątek globalnie"
+
+#: templates/spirit/topic/detail.html:106
+msgid "Reply"
+msgstr "Odpowiedz"
+
+#: templates/spirit/topic/detail.html:114
+msgid "Move selected comments to"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:120
+msgid "Move"
+msgstr "Przenieś"
+
+#: templates/spirit/topic/moderate.html:5
+#: templates/spirit/topic/moderate.html:9
+msgid "Moderate topic"
+msgstr "Moderuj wątek"
+
+#: templates/spirit/topic/moderate.html:14
+msgid "Apply"
+msgstr "Zastosuj"
+
+#: templates/spirit/topic/publish.html:5
+#: templates/spirit/topic/publish.html:20
+msgid "Publish topic"
+msgstr "Publikuj wątek"
+
+#: templates/spirit/topic/publish.html:38
+msgid "Publish"
+msgstr "Publikuj"
+
+#: templates/spirit/topic/update.html:5 templates/spirit/topic/update.html:9
+msgid "Update topic"
+msgstr "Uaktualnij wątek"
+
+#: templates/spirit/topic/update.html:13
+msgid "Update"
+msgstr "Uaktualnij"

@@ -1,0 +1,39 @@
+{% extends "dashboard/service_base.html" %}
+
+{% load a17t_tags %}
+
+{% block head_title %}{{object.name}} Management{% endblock %}
+
+{% block service_actions %}
+<a href="{% url 'dashboard:service' object.uuid %}" class="button field bg-neutral-000 w-auto">View &rarr;</a>
+{% endblock %}
+
+{% block service_content %}
+<div class="max-w-xl content">
+    <h5>Installation</h5>
+    <p>Place the following snippet at the end of the <code>&lt;body&gt;</code> tag on any page you'd like to track.</p>
+    <div class="card ~neutral !high font-mono text-sm">
+        {% filter force_escape %}<noscript><img
+                src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_pixel' object.uuid %}"></noscript>
+        <script src="{{script_protocol}}{{request.site.domain}}{% url 'ingress:endpoint_script' object.uuid %}"></script>
+        {% endfilter %}
+    </div>
+    <hr class="sep h-4">
+    <h5>Settings</h5>
+    <form class="card ~neutral !low p-0" method="POST">
+        {% csrf_token %}
+        <div class="p-4">
+            {% include 'dashboard/includes/service_form.html' %}
+        </div>
+        <div class="section ~neutral !normal p-4 flex justify-between">
+            <div>
+                <button type="submit" class="button ~neutral !high">Save</button>
+                <a href="{% url 'dashboard:service' object.uuid %}" class="button ~neutral !low">Cancel</a>
+            </div>
+            <div>
+                <a href="{% url 'dashboard:service_delete' object.uuid %}" class="button ~critical !high">Delete</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

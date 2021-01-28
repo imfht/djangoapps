@@ -1,0 +1,125 @@
+{% load static rules helpers %}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>{% block head_title %}Privacy-oriented analytics{% endblock %} | {{request.site.name}}</title>
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% include 'a17t/includes/head.html' %}
+  <link rel="icon" type="image/png" href="{% static 'dashboard/images/icon.png' %}">
+  <script src="{% static 'apexcharts/dist/apexcharts.min.js'%}"></script>
+  <script src="{% static 'litepicker/dist/js/main.js' %}"></script>
+  <script src="{% static 'turbolinks/dist/turbolinks.js' %}"></script>
+  <script src="{% static 'dashboard/js/base.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+  {% block extra_head %}
+  {% endblock %}
+</head>
+
+<body class="bg-neutral-100 min-h-full">
+  {% block body %}
+
+  <section class="max-w-screen-xl mx-auto px-4 py-4 md:py-12 md:flex">
+    <aside
+      class="mb-8 md:w-2/12 md:pr-6 relative flex flex-wrap md:block justify-between items-center overflow-x-hidden">
+      <a class="icon ~urge ml-2 md:ml-6 md:mb-8 md:mt-3" href="{% url 'dashboard:dashboard' %}">
+        <i class="fas fa-binoculars fa-3x text-urge-600 hidden md:block"></i>
+        <i class="fas fa-binoculars fa-2x text-urge-600 md:hidden"></i>
+      </a>
+
+      <button class="button ~neutral !low md:hidden"
+        onclick="document.getElementById('navMenuExpanded').classList.toggle('hidden')">
+        <span class="icon">
+          <i class="fas fa-bars"></i>
+        </span>
+      </button>
+      <hr class="sep h-4 md:h-8 w-full">
+      <div id="navMenuExpanded"
+        class="bg-neutral-000 shadow-lg md:shadow-none p-4 hidden rounded-lg md:block md:bg-transparent md:border-none md:p-0 w-full">
+        {% if user.owning_services.all %}
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Services</p>
+
+        {% for service in user.owning_services.all %}
+        {% url 'dashboard:service' service.uuid as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:16 url=url icon=service.link|iconify %}
+        {% endfor %}
+
+        {% endif %}
+
+        {% has_perm 'core.create_service' user as can_create %}
+        {% if can_create %}
+        {% url 'dashboard:service_create' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="+ Create" url=url %}
+
+        <hr class="sep h-8">
+        {% endif %}
+
+
+        {% if user.collaborating_services.all %}
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Collaborations</p>
+
+        {% for service in user.collaborating_services.all %}
+        {% url 'dashboard:service' service.uuid as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label=service.name|truncatechars:20 url=url %}
+        {% endfor %}
+
+        <hr class="sep h-8">
+        {% endif %}
+
+        <p class="ml-2 mb-1 supra font-medium text-gray-500 pointer-events-none">Account</p>
+
+        {% if user.is_authenticated %}
+
+        {% if user.is_superuser %}
+        {% url 'admin:index' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Admin" disable_turbolinks=True url=url %}
+        {% endif %}
+
+        {% url 'account_email' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Emails" url=url %}
+
+        {% url 'account_set_password' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Security" url=url %}
+
+        {% url 'account_logout' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Sign Out" url=url %}
+
+        {% else %}
+
+        {% url 'account_login' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Log In" url=url %}
+
+        {% url 'account_signup' as url %}
+        {% include 'dashboard/includes/sidebar_portal.html' with label="Sign Up" url=url %}
+
+        {% endif %}
+
+        <hr class="sep h-8">
+
+        {% sidebar_footer %}
+      </div>
+    </aside>
+    <div class="md:w-10/12">
+      {% if messages %}
+      <div>
+        {% for message in messages %}
+        <article class="card {{message.tags}} !high mb-2 w-full">{{message}}</article>
+        {% endfor %}
+        </ul>
+      </div>
+      <hr class="sep">
+      {% endif %}
+      <main>
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+  </section>
+  {% endblock %}
+  {% block extra_body %}
+  {% endblock %}
+</body>
+
+</html>

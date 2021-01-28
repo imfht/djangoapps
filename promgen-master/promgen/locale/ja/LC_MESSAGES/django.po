@@ -1,0 +1,174 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-20 07:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: templates/promgen/ajax_silence.html:42
+msgid "Expire"
+msgstr "Expire"
+
+#: templates/promgen/notifier_block.html:15
+msgid "Test"
+msgstr "テスト"
+
+#: templates/promgen/notifier_block.html:19
+msgid "Delete notificiation?"
+msgstr "Notificiationを削除しますか？"
+
+#: templates/promgen/notifier_block.html:21
+#: templates/promgen/project_detail_exporters.html:42
+#: templates/promgen/project_detail_hosts.html:26
+#: templates/promgen/project_detail_urls.html:15
+#: templates/promgen/rule_block.html:41
+msgid "Delete"
+msgstr "削除"
+
+#: templates/promgen/project_detail.html:20
+#: templates/promgen/service_block.html:74
+msgid "No notifications configured for this project. Please configure some"
+msgstr "このProjectにはNotifierの設定がありません。Notifierを設定してください"
+
+#: templates/promgen/project_detail_configuration.html:6
+msgid "Export Project"
+msgstr "Projectをエクスポート"
+
+#: templates/promgen/project_detail_configuration.html:7
+msgid "Update Project"
+msgstr "Projectを編集"
+
+#: templates/promgen/project_detail_configuration.html:8
+msgid "Delete this Project?"
+msgstr "Projectを削除しますか？"
+
+#: templates/promgen/project_detail_configuration.html:10
+msgid "Delete Project"
+msgstr "Projectを削除"
+
+#: templates/promgen/project_detail_exporters.html:37
+#: templates/promgen/project_detail_hosts.html:21
+#: templates/promgen/service_block.html:20
+#: templates/promgen/service_block.html:105
+#: templates/promgen/silence_form.html:28
+msgid "Silence"
+msgstr "Silence"
+
+#: templates/promgen/project_detail_exporters.html:40
+msgid "Delete this exporter?"
+msgstr "Exporterを削除しますか？"
+
+#: templates/promgen/project_detail_exporters.html:49
+msgid "Register Exporter"
+msgstr "Exporterを登録"
+
+#: templates/promgen/project_detail_hosts.html:24
+msgid "Delete this host?"
+msgstr "Hostを削除しますか？"
+
+#: templates/promgen/project_detail_hosts.html:36
+msgid "Add new host"
+msgstr "Hostを追加"
+
+#: templates/promgen/project_detail_hosts.html:37
+msgid "Edit Farm"
+msgstr "Farmを編集"
+
+#: templates/promgen/project_detail_hosts.html:38
+#: templates/promgen/project_detail_hosts.html:43
+msgid "Unlink this farm?"
+msgstr "FarmをUnlinkしますか？"
+
+#: templates/promgen/project_detail_hosts.html:40
+#: templates/promgen/project_detail_hosts.html:45
+msgid "Unlink Farm"
+msgstr "FarmをUnlink"
+
+#: templates/promgen/project_detail_hosts.html:50
+msgid "Convert to Local Farm"
+msgstr "FarmをLocalに変更"
+
+#: templates/promgen/project_detail_hosts.html:55
+msgid "Sync Farm"
+msgstr "Farmを同期"
+
+#: templates/promgen/project_detail_hosts.html:58
+msgid "New Farm"
+msgstr "New Farm"
+
+#: templates/promgen/project_detail_hosts.html:60
+msgid "Link Farm"
+msgstr "FarmをLink"
+
+#: templates/promgen/project_detail_notifiers.html:7
+#: templates/promgen/service_block.html:17
+msgid "Register Notifier"
+msgstr "Notifierを登録"
+
+#: templates/promgen/project_detail_urls.html:25
+msgid "Register URL"
+msgstr "URLを登録"
+
+#: templates/promgen/rule_block.html:39 templates/promgen/rule_form.html:158
+msgid "Delete this Rule?"
+msgstr "Ruleを削除しますか？"
+
+#: templates/promgen/rule_form.html:160
+msgid "Delete Rule"
+msgstr "Ruleを削除"
+
+#: templates/promgen/rule_list.html:22 templates/promgen/service_block.html:16
+msgid "Register Rule"
+msgstr "Ruleを登録"
+
+#: templates/promgen/service_block.html:7 templates/promgen/shard_list.html:38
+msgid "This service does not have any notifications configured. Please configure notifications to properly route alerts"
+msgstr "このServiceには通知設定がないProjectがあります。アラートを適切に通知するためにNotifierを設定してください"
+
+#: templates/promgen/service_block.html:15
+msgid "Register Project"
+msgstr "Projectを登録"
+
+#: templates/promgen/service_block.html:19
+msgid "Edit Service"
+msgstr "Serviceを編集"
+
+#: templates/promgen/service_block.html:27
+msgid "Export Rules"
+msgstr "Rulesをエクスポート"
+
+#: templates/promgen/service_block.html:28
+msgid "Export Service"
+msgstr "Serviceをエクスポート"
+
+#: templates/promgen/service_block.html:32
+msgid "Delete this service?"
+msgstr "Serviceを削除しますか？"
+
+#: templates/promgen/service_block.html:34
+msgid "Delete Service"
+msgstr "Serviceを削除"
+
+#: templates/promgen/service_block.html:72 templates/promgen/shard_list.html:36
+msgid "Notification setting warning"
+msgstr "Notifiers設定警告"
+
+#: templates/promgen/shard_list.html:16
+msgid "Register Service"
+msgstr "Serviceを登録"
+
+#: templates/promgen/project_detail_hosts.html:49
+msgid "Silence selected hosts"
+msgstr "選択したHostをSilence"

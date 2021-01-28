@@ -1,0 +1,141 @@
+{% load i18n %}<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      fieldset {
+        float: left;
+        width: 33%;
+      }
+      .actions {
+        float: left;
+        clear: both;
+      }
+      p.row {
+        margin-left: 0px;
+      }
+      .caption, .caption:hover {
+        font-weight: bold !important;
+        background: #EEE !important;
+      }
+      .grouper, .grouper:hover {
+        background: #333 !important;
+        color: #EEE !important;
+      }
+      .utils {
+
+        sheight: 70px;
+        text-align: left;
+      }
+      .utils p {
+          margin: 0;
+          padding: 0;
+      }
+      .readthedocs {
+        background: url("https://media.readthedocs.org/images/logo.png") no-repeat scroll left top transparent;
+        background-color: #404750;
+      }
+      .travis {
+        text-align: right;
+      }
+      #forkme {position: fixed; top: 0; right: 0; z-index: 10000;}
+
+.nav > li > a {
+    padding-bottom: 0;
+  }
+    </style>
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block head_extra %}
+    {% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">django-model-report</a>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">django-model-report</a>
+        </div>
+      </div><!-- /.container -->
+    </div><!-- /.navbar -->
+
+<div class="container">
+    {% block container %}
+    <div class="row">
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div class="well sidebar-nav">
+            <ul class="nav">
+              <li><p class="readthedocs">
+                  <a href="https://django-model-report.readthedocs.org/en/latest/" target="_blank">
+                    <img src="https://media.readthedocs.org/images/logo.png">
+                  </a>
+                </p></li>
+              <li><p class="travis">
+                  <a href="https://travis-ci.org/juanpex/django-model-report" target="_blank">
+                    <img src="https://travis-ci.org/juanpex/django-model-report.png" />
+                  </a>
+                </p></li>
+
+              <li class="nav-header">{% trans "Report list" %}</li>
+              {% block sidebar %}
+              {% endblock %}
+            </ul>
+          </div><!--/.well -->
+        </div>
+        <div class="col-xs-9">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+</div>
+
+<a href="https://github.com/juanpex/django-model-report"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 10000;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36200991-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

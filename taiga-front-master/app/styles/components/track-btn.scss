@@ -1,0 +1,130 @@
+
+.track-buttons-container {
+    @include font-size(small);
+    position: relative;
+}
+
+.track-button {
+    align-items: center;
+    border-radius: 4px;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    &.active {
+        .track-inner {
+            background: rgba($color-link-primary, .3);
+        }
+        .icon {
+            fill: $color-link-primary,;
+        }
+        .track-button-counter {
+            background: rgba($color-link-primary, .5);
+        }
+    }
+    // &:hover .track-icon svg {
+    //     fill: $primary;
+    //     stroke: $primary;
+    // }
+    // &.is-hover {
+    //     .track-inner {
+    //         background-color: $red-25;
+    //         color: $white;
+    //     }
+    //     .track-icon svg {
+    //         fill: $red;
+    //         stroke: $red;
+    //     }
+    //     .track-button-counter {
+    //         background-color: $red;
+    //         color: $white;
+    //     }
+    // }
+    .watch-options-arrow {
+        margin-left: auto;
+    }
+    .icon-arrow-down {
+        @include svg-size(.75rem);
+    }
+}
+
+.track-inner {
+    align-items: center;
+    background-color: $color-gray200;
+    border-radius: 4px 0 0 4px;
+    color: $color-black900;
+    display: flex;
+    flex: 1;
+    flex-basis: 140px;
+    gap: .5rem;
+    justify-content: flex-start;
+    min-width: 140px;
+    padding: .25rem 1rem;
+    // &:hover {
+    //     background-color: $grey-05;
+    //     color: $grey-90;
+    // }
+}
+
+.track-icon {
+    fill: $color-black900;
+}
+
+.track-button-counter {
+    align-items: center;
+    background: $color-gray400;
+    border-radius: 0 4px 4px 0;
+    color: $color-black900;
+    padding: .25rem .75rem;
+}
+
+.contact-team {
+    background-color: $color-gray400;
+    border-radius: 4px;
+    padding: .25rem .75rem;
+}
+
+.watch-options {
+    animation: dropdownFade .2s cubic-bezier(.09, 0, .99, .01) alternate;
+    background: $color-white;
+    border: 1px solid $color-gray400;
+    border-radius: 4px;
+    box-shadow: 4px 4px 8px rgba(46, 52, 64, .1);
+    margin: 0;
+    margin-top: 2.5rem;
+    min-width: 300px;
+    padding: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: $first-layer;
+    &.hidde {
+        animation: dropdownFade .2s cubic-bezier(.09, 0, .99, .01) reverse;
+    }
+    li {
+        margin: 0;
+        &:last-child a {
+            border: 0;
+        }
+    }
+    a {
+        align-items: center;
+        border-bottom: 1px solid rgba($gray-light, .3);
+        color: $color-link-tertiary;
+        display: flex;
+        height: 2rem;
+        justify-content: space-between;
+        &.active {
+            color: $color-link-primary;
+        }
+        &:hover {
+            color: $color-link-primary;
+        }
+    }
+    .watch-check {
+        height: 1.25rem;
+        width: 1.25rem;
+        svg {
+            fill: $color-link-primary;
+        }
+    }
+}

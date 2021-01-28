@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'settings' project=object.slug %}" method="post" enctype="multipart/form-data">
+
+{% crispy form %}
+
+<input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+</form>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+
+{% include "snippets/list-objects.html" with objects=projects label=_("Project") show_admin_badge=True %}

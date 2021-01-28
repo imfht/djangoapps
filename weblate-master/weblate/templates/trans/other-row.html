@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load translations %}
+
+<tr>
+<td>
+  {% if item.allow_merge %}
+  <input type="radio" name="merge" required="required" id="merge_{{ item.pk }}" value="{{ item.pk }}">
+  {% endif %}
+</td>
+<td class="vertical-badge">
+  {% if item.pk == unit.pk %}
+    <span class="badge pull-right flip">{% trans "This translation" %}</span>
+  {% endif %}
+  {% if item.is_propagated %}
+    <span class="badge pull-right flip">{% trans "Propagated" %}</span>
+  {% endif %}
+  {% get_state_badge item %}
+  <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
+</td>
+<td>
+  <label for="merge_{{ item.pk }}">
+    {% format_translation item.target item.translation.language item.translation.plural simple=True %}
+  </label>
+</td>
+<td>
+  {% if item.differently_translated %}
+    {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
+  {% endif %}
+</td>
+</tr>

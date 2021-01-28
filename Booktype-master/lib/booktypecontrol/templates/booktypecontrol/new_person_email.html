@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<p>
+  {% trans "Hello" %},
+</p> 
+
+<p>
+  {% blocktrans %}Your Booktype account has been created! Please go to {{server}} to log in.{% endblocktrans %}
+</p>
+
+<p>
+  {% blocktrans %}If you don't know your password, please click the password reset link on the {{server}} home page.{% endblocktrans %}
+</p>

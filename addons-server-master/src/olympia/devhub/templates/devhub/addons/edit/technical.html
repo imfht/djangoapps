@@ -1,0 +1,90 @@
+{% from "devhub/includes/macros.html" import tip, some_html_tip, empty_unless, flags %}
+
+<form method="post"
+      action="{{ url('devhub.addons.section', addon.slug, 'technical', 'edit') }}">
+  <h3>
+    {{ _('Technical Details') }}
+    {% if not editable %}
+      <a href="#" data-editurl="{{ url('devhub.addons.section', addon.slug, 'technical', 'edit') }}" class="button">
+        {{ _('Edit') }}</a>
+    {% endif %}
+  </h3>
+  <div class="item">
+    <div class="item_wrapper">
+      <table>
+        {# L10n: {0} is an addon name #}
+        <caption>{{ _('Technical Details for {0}')|format_html(addon.name) }}</caption>
+        <tbody>
+          {% if show_listed_fields and addon.type != amo.ADDON_STATICTHEME%}
+          <tr>
+            <th>
+              <label data-for="developer_comments">
+                {{ _("Developer Comments") }}
+                {{ tip(None,
+                       _("Any information end users may want to know that isn't "
+                         "necessarily applicable to the add-on summary or description. "
+                         "Common uses include listing known major bugs, information on "
+                         "how to report bugs, anticipated release date of a new version, "
+                         "etc. It is only relevant for listed add-ons.")) }}
+              </label>
+            </th>
+            <td>
+              {% if editable %}
+                {{ form.developer_comments }}
+                {{ form.developer_comments.errors }}
+                {{ some_html_tip() }}
+              {% else %}
+                {% call empty_unless(addon.developer_comments) %}
+                  <div id="developer_comments">{{ addon|all_locales('developer_comments') }}</div>
+                {% endcall %}
+              {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <th>
+              <abbr title="{{ _('Universally unique identifier') }}" class="label">
+                {{ _('UUID') }}
+              </abbr>
+              <span class="tip tooltip" title="{% trans -%}The UUID of your
+                add-on is specified in its install manifest and uniquely
+                identifies it. You cannot change your UUID once it has been
+                submitted.{%- endtrans %}">?</span>
+            </th>
+            <td>
+              {{ addon.guid }}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <abbr title="{{ _('Whiteboard') }}" class="label">
+                {{ _('Whiteboard') }}
+              </abbr>
+              <span class="tip tooltip" title="{% trans -%}The whiteboard is
+                the place to provide information relevant to your addon,
+                whatever the version, to the reviewers. Use it to provide ways
+                to test the addon, and any additional information that may
+                help. This whiteboard is also editable by reviewers.
+                {%- endtrans %}">?</span>
+            </th>
+            <td>
+              {% if editable %}
+                {{ whiteboard_form.public }}
+              {% else %}
+                {% call empty_unless(whiteboard.public) %}{{ whiteboard.public }}{% endcall %}
+              {% endif %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    {% if editable %}
+    <div class="listing-footer">
+      <button>{{ _('Save Changes') }}</button> {{ _('or') }}
+      <a href="{{ url('devhub.addons.section', addon.slug, 'technical') }}"
+        class="addon-edit-cancel">
+        {{ _('Cancel') }}</a>
+    </div>
+    {% endif %}
+  </div>
+</form>

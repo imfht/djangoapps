@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div class="contentHeader">
+    <h2>{{ chapter.title }}</h2>
+</div>
+
+<div class="contentContainer">
+    <div class="content">
+        <div class="compare_screen">
+            {% if split_output or unified_output %}
+            <div>
+              <h2 class="box-title pull-left mb0">{% trans "Comparing chapter revisions" %}</h2>
+              <div class="btn-group pull-right mt5" data-toggle="btns">
+                <button class="btn btn-sm btn-default active" href="#unified" aria-controls="home" role="tab" data-toggle="tab">{% trans "Unified" %}</button>
+                <button class="btn btn-sm btn-default" href="#split" aria-controls="profile" role="tab" data-toggle="tab">{% trans "Split" %}</button>
+              </div>
+              <div class="clearfix"></div>
+              <hr class "mb10" />
+            </div>
+
+            {% include "edit/_compare_common.html" %}
+
+            {% else %}
+            <div class="row">
+              <h2 class="box-title">{% trans "Revisions not found!" %}</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

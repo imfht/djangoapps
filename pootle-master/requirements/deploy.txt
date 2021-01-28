@@ -1,0 +1,12 @@
+# Pootle deployment
+
+-r base.txt
+
+# Database
+# MySQL
+-r _db_mysql.txt
+# Uncomment for PostgreSQL
+# -r _db_postgresql.txt
+
+# Logging
+raven==6.6.0

@@ -1,0 +1,19 @@
+site_name: Djangae Documentation
+repo_url: https://github.com/potatolondon/djangae
+pages:
+- Home: index.md
+- Installation & Deployment: installation.md
+- Local/remote management commands: sandbox.md
+- Environment: environment.md
+- Utils: utils.md
+- Storage backends: storage.md
+- Background Processing: deferred.md
+- Contrib apps:
+  - Googleauth: googleauth.md 
+  - Search: contrib_search.md
+  - Pagination: pagination.md
+  - Scheduled backups: backup.md
+  - Security: security.md
+  - Thread locking: locking.md
+- Contributing & Testing: contributing.md
+theme: readthedocs

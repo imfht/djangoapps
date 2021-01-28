@@ -1,0 +1,12 @@
+<!-- See http://www.sublimetext.com/docs/snippets for more information -->
+<snippet>
+    <content><![CDATA[
+class ${1:MODELNAME}Form(forms.ModelForm):
+    class Meta:
+        model = $1
+        fields = ('$2',)
+    ]]></content>
+    <tabTrigger>ModelForm</tabTrigger>
+    <scope>source.python</scope>
+    <description>ModelForm</description>
+</snippet>

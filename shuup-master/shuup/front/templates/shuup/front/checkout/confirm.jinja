@@ -1,0 +1,25 @@
+{% extends "shuup/front/checkout/_base.jinja" %}
+
+{% block checkout_phase_content %}
+    {{ checkout_macros.confirm_phase_order_information(basket) }}
+    {{ checkout_macros.confirm_phase_address_information(basket) }}
+    {% if orderable %}
+        {{ checkout_macros.render_confirm_form(form) }}
+    {% else %}
+        <h2>{% trans %}There are errors{% endtrans %}</h2>
+        <ul>
+        {% for error in errors %}
+            <li class="text-danger">{{ error.message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block extrajs %}
+    {{ super() }}
+    <script>
+        $("#confirm_form").on("submit", function() {
+            $(".btn-lg").text("{% trans %}Please wait...{% endtrans %}").prop("disabled", "true");
+        });
+    </script>
+{% endblock %}

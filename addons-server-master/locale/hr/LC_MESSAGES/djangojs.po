@@ -1,0 +1,850 @@
+# Language en-US translations for addons.mozilla.org package.
+# Copyright (C) 2010 THE addons.mozilla.org'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the addons.mozilla.org package.
+# Automatically generated, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: addons VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-07 19:58+0000\n"
+"Last-Translator: Ivan <1vanhorvat@protonmail.com>\n"
+"Language-Team: Croatian\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} zvjezdica"
+msgstr[1] "{0} zvjezdice"
+msgstr[2] "{0} zvjezdica"
+
+msgid "There was a problem contacting the server."
+msgstr "Dogodio se problem u povezivanju na poslužitelja."
+
+msgid "Select a file..."
+msgstr "Odaberite datoteku..."
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Tvoj dodatak trebao bi završavati sa .zip, .xpi ili .crx"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0}% završeno"
+
+msgid "{0} of {1}"
+msgstr "{0} od {1}"
+
+msgid "Cancel"
+msgstr "Odustani"
+
+msgid "Uploading {0}"
+msgstr "Učitavanje {0}"
+
+msgid "Error with {0}"
+msgstr "Greška u {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Prijavite sve povezane probleme na GitHub"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Tvoj dodatak nije prošao provjeru zbog {0} greške."
+msgstr[1] "Tvoj dodatak nije prošao provjeru zbog {0} grešaka."
+msgstr[2] "Tvoj dodatak nije prošao provjeru zbog {0} grešaka."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip;i {0} više"
+msgstr[1] "&hellip;i {0} više"
+msgstr[2] "&hellip;i {0} više"
+
+msgid "See full validation report"
+msgstr "Pogledajte cijelo izvješće ovjere"
+
+msgid "Validating {0}"
+msgstr "Ovjera {0}"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Tvoj dodatak premašuje maksimalnu veličinu od {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Primljen prazni odgovor od servera; stanje: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Neočekivana greška poslužitelja tijekom provjere."
+
+msgid "Finished validating {0}"
+msgstr "Završavanje provjere {0}"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Vrijeme za validaciju dodatka je isteklo, bit će ručno provjeren."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Tvoj dodatak je prošao provjeru bez grešaka i s {0} upozorenjem."
+msgstr[1] "Tvoj dodatak je prošao provjeru bez grešaka i s {0} upozorenja."
+msgstr[2] "Tvoj dodatak je prošao provjeru bez grešaka i s {0} upozorenja."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Tvoj dodatak je prošao provjeru bez grešaka i s {0} porukom."
+msgstr[1] "Tvoj dodatak je prošao provjeru bez grešaka i s {0} poruke."
+msgstr[2] "Tvoj dodatak je prošao provjeru bez grešaka i s {0} poruka."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "Tvoj dodatak je prošao provjeru bez grešaka ili upozorenja."
+
+msgid "Your submission will be automatically signed."
+msgstr "Tvoj podnesak je automatski potpisan."
+
+msgid "WebExtension upgrade"
+msgstr "WebExtension nadogradnja"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr "Dopuštamo i potičemo nadogradnju ali ne možete prekinuti ovaj proces. Kada korisnici budu imali WebExtension instaliran neće biti u mogućnosti instalirati zastarjeli dodatak."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Prijenos zastarjelog Firefox dodatka na MDN"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Uključite detaljne napomene o verziji (ovo se može uraditi u sljedećem koraku)."
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr "Ako je za tvoj dodatak potreban račun na web stranci kako bi se potpuno testirao, dodaj testno korisničko ime i lozinku u „Napomene za recenzente” (ovo se može uraditi u sljedećem koraku)."
+
+msgid "Add-on submission checklist"
+msgstr "Spisak za podnošenje dodatka"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Provjeri slijedeće točke prije nego završiš podnesak. Ovo će smanjiti odgode ili nesporazume tijekom procesa provjere:"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+"Smanjene, skraćene ili ostale strojno generirane skripte (isključujući poznate biblioteke) moraju se podnijeti odvojeno za pregled. Koristiti polje za prijenos izvornog koda, kako bi se izbjeglo "
+"odbijanje podneska."
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Proces validacije pronašao je slijedeće pogreške koje mogu dovesti do odbijanja:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Tip datoteke koji ste učitali nije prepoznat."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Tvoja datoteka premašuje maksimalnu veličinu od {0}."
+
+msgid "You cancelled the upload."
+msgstr "Prekinuli ste učitavanje."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Slike moraju biti u PNG ili JPG formatu."
+
+msgid "Videos must be in WebM."
+msgstr "Video mora biti u WebM formatu."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Motiv nije kompatibilan s tvojom {0} verzijom"
+
+msgid "Flagged for review"
+msgstr "Označeno za pregled"
+
+msgid "Your input is required"
+msgstr "Unos je potreban"
+
+msgid "Marked for deletion"
+msgstr "Označeno za brisanje"
+
+msgid "Updating results&hellip;"
+msgstr "Aktualiziranje rezultata …"
+
+msgid "Category"
+msgstr "Kategorija"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "Pretraži motive za <b>{0}</b>"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "Pretraži aplikacije za <b>{0}</b>"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "Pretraži dodatke za <b>{0}</b>"
+
+msgid "Use original"
+msgstr "Koristi original"
+
+msgid "Week of {0}"
+msgstr "Tjedan {0}"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} preuzimanje"
+msgstr[1] "{0} preuzimanja"
+msgstr[2] "{0} preuzimanja"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} korisnik"
+msgstr[1] "{0} korisnika"
+msgstr[2] "{0} korisnika"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} dodatak"
+msgstr[1] "{0} dodataka"
+msgstr[2] "{0} dodataka"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} zbirka"
+msgstr[1] "{0} zbirke"
+msgstr[2] "{0} zbirki"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} ocjena"
+msgstr[1] "{0} ocjena"
+msgstr[2] "{0} ocjena"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} prodaja"
+msgstr[1] "{0} prodaja"
+msgstr[2] "{0} prodaja"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} povrat novca"
+msgstr[1] "{0} povrata novca"
+msgstr[2] "{0} povrata novca"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} instaliranje"
+msgstr[1] "{0} instaliranja"
+msgstr[2] "{0} instaliranja"
+
+msgid "Downloads"
+msgstr "Preuzimanja"
+
+msgid "Daily Users"
+msgstr "Dnevni korisnici"
+
+msgid "Amount, in USD"
+msgstr "Iznos u USD"
+
+msgid "Number of Contributions"
+msgstr "Broj doprinosa"
+
+msgid "More Info..."
+msgstr "Više informacija..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "Detalji za {0}"
+
+msgid "Collections Created"
+msgstr "Zbirki napravljeno"
+
+msgid "Add-ons in Use"
+msgstr "Dodaci u upotrebi"
+
+msgid "Add-ons Created"
+msgstr "Dodataka napravljeno"
+
+msgid "Add-ons Downloaded"
+msgstr "Dodataka preuzeto"
+
+msgid "Add-ons Updated"
+msgstr "Dodataka ažurirano"
+
+msgid "Reviews Written"
+msgstr "Recenzija napisano"
+
+msgid "User Signups"
+msgstr "Korisničkih prijava"
+
+msgid "Subscribers"
+msgstr "Pretplatitelja"
+
+msgid "Ratings"
+msgstr "Ocjene"
+
+msgid "Sales"
+msgstr "Prodaje"
+
+msgid "Installs"
+msgstr "Instaliranja"
+
+msgid "Unknown"
+msgstr "Nepoznato"
+
+msgid "Add-ons Manager"
+msgstr "Upravljač dodataka"
+
+msgid "Add-ons Manager Promo"
+msgstr "Promocija upravljača dodataka"
+
+msgid "Add-ons Manager Featured"
+msgstr "Istaknuti upravljač dodataka"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Nauči više o upravljaču dodataka"
+
+msgid "Search Suggestions"
+msgstr "Prijedlozi za pretragu"
+
+msgid "Search Results"
+msgstr "Rezultati pretrage"
+
+msgid "Homepage Promo"
+msgstr "Promocija početne stranice"
+
+msgid "Homepage Featured"
+msgstr "Istaknuta početna stranica"
+
+msgid "Homepage Up and Coming"
+msgstr "Perspektivna početna stranica"
+
+msgid "Homepage Most Popular"
+msgstr "Najpopularnija početna stranica"
+
+msgid "Detail Page"
+msgstr "Stranica detalja"
+
+msgid "Detail Page (bottom)"
+msgstr "Stranica detalja (dno)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Stranica detalja (Kanal za programiranje)"
+
+msgid "Often Used With"
+msgstr "Često korišteno sa"
+
+msgid "Others By Author"
+msgstr "Ostali od autora"
+
+msgid "Dependencies"
+msgstr "Zavisnosti"
+
+msgid "Upsell"
+msgstr "Skuplje"
+
+msgid "Meet the Developer"
+msgstr "Upoznajte programera"
+
+msgid "User Profile"
+msgstr "Korisnički profil"
+
+msgid "Version History"
+msgstr "Povijest verzija"
+
+msgid "Sharing"
+msgstr "Dijeljenje"
+
+msgid "Category Pages"
+msgstr "Stranice kategorija"
+
+msgid "Collections"
+msgstr "Zbirke"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Vrtuljak istaknutih odredišnih kategorija"
+
+msgid "Category Landing Top Rated"
+msgstr "Najbolje ocijenjene odredišne kategorije"
+
+msgid "Category Landing Most Popular"
+msgstr "Najpopularnije odredišne kategorije"
+
+msgid "Category Landing Recently Added"
+msgstr "Nedavno dodane odredišne kategorije"
+
+msgid "Browse Listing Featured Sort"
+msgstr "Pretraži listu istaknutih sortirano"
+
+msgid "Browse Listing Users Sort"
+msgstr "Pretraži listu korisnika sortirano"
+
+msgid "Browse Listing Rating Sort"
+msgstr "Pretraži listu ocijenjenih sortirano"
+
+msgid "Browse Listing Created Sort"
+msgstr "Pretraži listu napravljenih sortirano"
+
+msgid "Browse Listing Name Sort"
+msgstr "Pretraži listu naziva sortirano"
+
+msgid "Browse Listing Popular Sort"
+msgstr "Pretraži listu popularnog sortirano"
+
+msgid "Browse Listing Updated Sort"
+msgstr "Pretraži listu ažuriranog sortirano"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "Pretraži listu perspektivnih sortirano"
+
+msgid "Total Amount Contributed"
+msgstr "Ukupan iznos doprinesenog"
+
+msgid "Average Contribution"
+msgstr "Prosječni doprinos"
+
+msgid "Usage"
+msgstr "Korištenje"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Preuzimanja i dnevni korisnici, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Preuzimanja i dnevni korisnici od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Instaliranja i dnevni korisnici, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Instaliranja i dnevni korisnici od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Preuzimanja, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Preuzimanja od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Dnevni korisnici, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Dnevni korisnici od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Aplikacije, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Aplikacije od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "Države, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "Države od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Platforme, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Platforme od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Jezici, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Jezici od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Verzije dodatka, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Verzije dodatka od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Stanje dodatka, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "Stanje dodatka od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Izvori preuzimanja, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Izvori preuzimanja od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr "Preuzimanje medija, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr "Preuzimanje medija od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr "Preuzimanje sadržaja, zadnjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr "Preuzimanje sadržaja od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr "Preuzimanje kampanja, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Preuzimanje kampanja od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Doprinosi, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Doprinosi od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Mjerni podaci stranice, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Mjerni podaci stranice od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Dodaci u upotrebi, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Dodaci u upotrebi od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Dodaci preuzeti, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Dodaci preuzeti od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Dodaci napravljeni, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Dodaci napravljeni od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Dodaci ažurirani, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Dodaci ažurirani od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Recenzije napisane, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Recenzije napisane od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Korisničke prijave, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Korisničke prijave od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Zbirke napravljene, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Zbirke napravljene od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Pretplatnici, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Pretplatnici od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Ocjene, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Ocjene od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Prodaja, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Prodaja od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Instaliranja, posljednjih {0} dana"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Instaliranja od {0} do {1}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "<b>{0}</b> u posljednjih {1} dana"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> od {1} do {2}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "<b>{0}</b> prosječno u posljednjih {1} dana"
+
+msgid "No data available."
+msgstr "Nema podataka."
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Other"
+msgstr "Ostali"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Prihvati i instaliraj"
+
+msgid "Add to {0}"
+msgstr "Dodaj u {0}"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Instaliraj na {0} svejedno"
+
+msgid "Download for {0} anyway"
+msgstr "Preuzmi za {0} svejedno"
+
+msgid "Not available for your platform"
+msgstr "Nije dostupno za tvoju platformu"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Ovaj dodatak nije kompatibilan s tvojom {0} verzijom."
+
+msgid "View other versions"
+msgstr "Pogledaj ostale verzije"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Radi sa {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "Radi sa {app}"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Samo s Firefoxom – nabavi Firefox odmah!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Žao nam je, za instaliranje priključka za tražilicu, potreban je Mozillin preglednik (kao što je Firefox)."
+
+msgid "Changes Saved"
+msgstr "Izmjene spremljene"
+
+msgid "Enter a new author's email address"
+msgstr "Unesite novu email adresu autora"
+
+msgid "There was an error uploading your file."
+msgstr "Dogodila se greška tijekom učitavanja tvoje datoteke."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} datoteka"
+msgstr[1] "{files} datoteke"
+msgstr[2] "{files} datoteka"
+
+msgid "Image changes being processed"
+msgstr "Obrađuju se izmjene na slici"
+
+msgid "Select an application first"
+msgstr "Najprije odaberite aplikaciju"
+
+msgid "No results found."
+msgstr "Nema rezultata."
+
+msgid "Loading..."
+msgstr "Pokretanje..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> slovo"
+msgstr[1] "<b>{0}</b> slova"
+msgstr[2] "<b>{0}</b> slova"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "preostalo <b>{0}</b> slovo"
+msgstr[1] "preostala <b>{0}</b> slova"
+msgstr[2] "preostalo <b>{0}</b> slova"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Usluga je privremeno deaktivirana tijekom radova na održavanju stranice. Pokušaj kasnije."
+
+msgid "Remove this localization"
+msgstr "Ukloni ovaj prijevod"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} je prvi pregledao stranicu."
+
+msgid "{name} was viewing this add-on first."
+msgstr "{name} je pregledao ovaj dodatak prvi."
+
+msgid "Loading&hellip;"
+msgstr "Učitavanje &hellip;"
+
+msgid "Version Notes"
+msgstr "Napomene o verziji"
+
+msgid "Notes for Reviewers"
+msgstr "Napomene za recenzente"
+
+msgid "No version notes found"
+msgstr "Nema napomena o verziji"
+
+msgid "Review Text"
+msgstr "Ocjeni tekst"
+
+msgid "Review notes found"
+msgstr "Pronađene napomene o recenziji"
+
+msgid "Average Reviews"
+msgstr "Prosječno recenzija"
+
+msgid "Number of Reviews"
+msgstr "Broj ocjena"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "Maksimalna veličina je {0} - odaberite manju sliku pozadine."
+
+msgid "Requested Info"
+msgstr "Zatražene informacije"
+
+msgid "Flagged"
+msgstr "Neprimjereno"
+
+msgid "Duplicate"
+msgstr "Duplikat"
+
+msgid "Rejected"
+msgstr "Odbijeno"
+
+msgid "Approved"
+msgstr "Odobreno"
+
+msgid "No results found"
+msgstr "Nema rezultata"
+
+msgid "Theme"
+msgstr "Motiv"
+
+msgid "Reviewer"
+msgstr "Ocjenitelj"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "All tests passed successfully."
+msgstr "Svi testovi su uspješno obavljeni."
+
+msgid "These tests were not run."
+msgstr "Ovi testovi su obavljeni."
+
+msgid "Tests"
+msgstr "Testovi"
+
+msgid "Error"
+msgstr "Pogreška"
+
+msgid "Warning"
+msgstr "Upozorenje"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} redak {1} stupac {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} redak {1}"
+
+msgid "Add-on failed validation."
+msgstr "Dodatak nije prošao ovjeru."
+
+msgid "Add-on passed validation."
+msgstr "Dodatak je prošao ovjeru."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} pogreška"
+msgstr[1] "{0} pogreške"
+msgstr[2] "{0} pogreški"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} upozorenje"
+msgstr[1] "{0} upozorenja"
+msgstr[2] "{0} upozorenja"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} bilješka"
+msgstr[1] "{0} bilješki"
+msgstr[2] "{0} bilješaka"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Zadatak ovjere se nije mogao dovršiti ili je završen sa pogreškama"
+
+msgid "Internal server error"
+msgstr "Interna pogreška poslužitelja"

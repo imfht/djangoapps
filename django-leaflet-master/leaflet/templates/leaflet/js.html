@@ -1,0 +1,26 @@
+{% load i18n %}
+{% load static %}
+{% if DEBUG %}
+<script src="{% static "leaflet/leaflet-src.js" %}"></script>
+{% else %}
+<script src="{% static "leaflet/leaflet.js" %}"></script>
+{% endif %}
+{% if SRID %}
+    <script src="{% static "leaflet/proj4.js" %}"></script>
+    <script src="{% static "leaflet/proj4leaflet.js" %}"></script>
+    <script src="{% static "proj4js/"|add:SRID|add:".js" %}"></script>
+{% endif %}
+{% if PLUGINS_JS %}
+    {% for js in PLUGINS_JS %}
+        <script src="{{ js }}"></script>
+    {% endfor %}
+{% endif %}
+<script src="{% static "leaflet/leaflet.extras.js" %}"></script>
+<script>
+    {% if with_forms %}{% include "leaflet/_leaflet_draw_i18n.js" %}{% endif %}
+    L.Control.ResetView.TITLE = "{% trans "Reset view" %}";
+    L.Control.ResetView.ICON = "url({% static "leaflet/images/reset-view.png" %})";
+    {% if FORCE_IMAGE_PATH %}
+    L.Icon.Default.imagePath = "{% static "leaflet/images/" %}";
+    {% endif %}
+</script>

@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% load url from future %}
+
+{% block title %}GeoQ: Sign in{% endblock %}
+
+{% block content %}
+<script>
+    $(document).ready(function(){
+        if (site_settings && site_settings.user_agreement_text && site_settings.user_agreement_text.text) {
+            var text = "<h1>Terms of Use</h1>"+site_settings.user_agreement_text.text;
+            $('#user_agreement_text')
+                .html(text)
+                .css('display','block');
+        }
+    });
+</script>
+
+<div id="user_agreement_text" style="display: none"></div>
+<form action="" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "Sign In" %}</legend>
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    {{ field.errors }}
+    {% comment %} Displaying checkboxes differently {% endcomment %}
+    {% if field.name == 'remember_me' %}
+    <p class="checkbox">
+    <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
+    </p>
+    {% else %}
+    <p>
+    {{ field.label_tag }}
+    {{ field }}
+    </p>
+    {% endif %}
+    {% endfor %}
+  </fieldset>
+  <input type="submit" value="{% trans "Sign In" %}" />
+  {% comment %}
+  {# comment -- TODO:Accounts -- uncomment this section after bringing back accts. #}
+  <p class="forgot-password"><a href="{% url 'userena_password_reset' %}" title="{% trans 'Forgot your password?' %}">{% trans "Forgot your password?" %}</a></p>
+  {% endcomment %}
+  {% if next %}<input type="hidden" name="next" value="{%  if not "/accounts/signout/" in next %}{{ next }}{% endif %}" />{% endif %}
+</form>
+{% endblock %}

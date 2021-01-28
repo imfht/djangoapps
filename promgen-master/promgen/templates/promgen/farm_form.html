@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Project: {{ project.name }}</h1>
+</div>
+
+<ol class="breadcrumb">
+  <li><a href="{% url 'service-list' %}">Home</a></li>
+  <li><a href="{% url 'service-detail' project.service.id %}">{{ project.service.name }}</a></li>
+  <li><a href="{% url 'project-detail' project.id %}">{{ project.name }}</a></li>
+  <li class="active">{{ view.button_label }}</li>
+</ol>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">{{ view.button_label }}</button>
+</form>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% load i18n common_tags %}
+{% if nav %}
+<li class="navigation">
+  <select id="js-select-navigation" data-initial-code="{{ page }}"
+    style="visibility: hidden;">
+    {% include nav %}
+  </select>
+</li>
+{% endif %}
+<li>
+  <select id="js-select-language" data-initial-code="{{ language.code }}"
+    style="visibility: hidden;">
+    {% if has_admin_access or page != "translate" %}
+    <option value=""></option>
+    {% endif %}
+    {% for lang_code, lang_name in all_languages.items %}
+    <option
+       value="{{ lang_code }}"
+       {% if lang_code == language.code %}selected="selected"{% endif %}>{{ lang_name }}</option>
+    {% endfor %}
+  </select>
+</li>
+<li>
+  <select id="js-select-project" data-initial-code="{{ project.code }}"
+    style="visibility: hidden;">
+    <option value=""></option>
+    {% for proj_code, proj in ALL_PROJECTS.items %}
+    <option
+       value="{{ proj_code }}"
+       data-state="{{ proj.disabled|yesno:'disabled,enabled' }}"
+       {% if proj_code == project.code %}selected="selected"{% endif %}>
+      {{ proj.fullname }}
+    </option>
+    {% endfor %}
+  </select>
+</li>
+{% if project %}
+{% if current_vfolder_pk %}
+<li id="js-breadcrumb-resource">
+  {{ resource_path }}
+</li>
+{% else %}
+{% if page == 'browse' or page == 'translate'%}
+{% if language.code != 'templates' %}
+<li id="js-breadcrumb-resource">
+  {% if language %}
+  <select
+     class="js-select2-remote js-s2-paths"
+     data-s2-placeholder="{{ paths_placeholder }}"
+     data-s2-allow-clear="true"
+     data-select2-url="/{{ language.code }}/{{ project.code }}/paths/">
+    <option>{% if resource_path %}{{ resource_path }}{% endif %}</option>
+  </select>
+  {% else %}
+  <select
+     class="js-select2-remote js-s2-paths"
+     data-s2-placeholder="{{ paths_placeholder }}"
+     data-select2-url="/projects/{{ project.code }}/paths/"
+     data-s2-allow-clear="true">
+    <option>{% if resource_path %}{{ resource_path }}{% endif %}</option>
+  </select>
+  {% endif %}
+</li>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}

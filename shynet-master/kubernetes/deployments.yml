@@ -1,0 +1,85 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "shynet-webserver"
+  namespace: "default"
+  labels:
+    app: "shynet-webserver"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "shynet-webserver"
+  template:
+    metadata:
+      labels:
+        app: "shynet-webserver"
+    spec:
+      containers:
+      - name: "shynet-webserver"
+        image: "milesmcc/shynet:latest"
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: shynet-settings
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "shynet-celeryworker"
+  namespace: "default"
+  labels:
+    app: "shynet-celeryworker"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "shynet-celeryworker"
+  template:
+    metadata:
+      labels:
+        app: "shynet-celeryworker"
+    spec:
+      containers:
+      - name: "shynet-celeryworker"
+        image: "milesmcc/shynet:latest"
+        command: ["./celeryworker.sh"]
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: shynet-settings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shynet-redis
+spec:
+  ports:
+    - port: 6379
+      name: redis
+  clusterIP: None
+  selector:
+    app: shynet-redis
+---
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: shynet-redis
+spec:
+  selector:
+    matchLabels:
+      app: shynet-redis
+  serviceName: shynet-redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: shynet-redis
+    spec:
+      containers:
+        - name: shynet-redis
+          image: redis:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+              name: redis

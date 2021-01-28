@@ -1,0 +1,46 @@
+<nav id="side-nav" class="report-menu">
+  <ul>
+    <li data-report="overview" data-layout="overview">
+      <a href="{{ url('stats.overview', addon.slug) }}">{{ _('Overview') }}</a>
+    </li>
+    {% if addon.has_listed_versions(include_deleted=True) %}
+    <li data-report="downloads">
+      <a href="{{ url('stats.downloads', addon.slug) }}">{{ _('Downloads') }}</a>
+    </li>
+    <ul>
+      <li data-report="sources">
+        <a href="{{ url('stats.sources', addon.slug) }}">{{ _('by Source') }}</a>
+      </li>
+      <li data-report="mediums">
+        <a href="{{ url('stats.mediums', addon.slug) }}">{{ _('by Medium') }}</a>
+      </li>
+      <li data-report="contents">
+        <a href="{{ url('stats.contents', addon.slug) }}">{{ _('by Content') }}</a>
+      </li>
+      <li data-report="campaigns">
+        <a href="{{ url('stats.campaigns', addon.slug) }}">{{ _('by Campaign') }}</a>
+      </li>
+    </ul>
+    {% endif %}
+    <li data-report="usage">
+      <a href="{{ url('stats.usage', addon.slug) }}">{{ _('Daily Users') }}</a>
+    </li>
+    <ul>
+      <li data-report="versions">
+        <a href="{{ url('stats.versions', addon.slug) }}">{{ _('by Add-on Version') }}</a>
+      </li>
+      <li data-report="apps">
+        <a href="{{ url('stats.apps', addon.slug) }}">{{ _('by Application') }}</a>
+      </li>
+      <li data-report="locales">
+        <a href="{{ url('stats.locales', addon.slug) }}">{{ _('by Language') }}</a>
+      </li>
+      <li data-report="os">
+        <a href="{{ url('stats.os', addon.slug) }}">{{ _('by Platform') }}</a>
+      </li>
+      <li data-report="countries">
+        <a href="{{ url('stats.countries', addon.slug) }}">{{ _('by Country') }}</a>
+      </li>
+    </ul>
+  </ul>
+</nav>

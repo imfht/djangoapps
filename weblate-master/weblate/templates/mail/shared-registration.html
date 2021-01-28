@@ -1,0 +1,29 @@
+{% load i18n %}
+
+{% blocktrans %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktrans %}
+</p>
+
+<code>
+{{ current_site_url }}{{ url }}
+</code>
+
+<p>
+{% blocktrans count count=validity %}The confirmation URL will expire after {{ count }} hour.{% plural %}The confirmation URL will expire after {{ count }} hours.{% endblocktrans %}
+{% if action == "invite" %}
+  {% blocktrans %}In case the confirmation URL is expired, you can use password reset feature to gain access to your account.{% endblocktrans %}
+{% endif %}
+</p>
+
+<div class="line buttons">
+{% if action == "reset" %}
+<a class="button" href="{{ url }}">{% trans "Confirm password reset" %}</a>
+{% elif action == "remove" %}
+<a class="button" href="{{ url }}">{% trans "Confirm account removal" %}</a>
+{% else %}
+<a class="button" href="{{ url }}">{% trans "Confirm registration" %}</a>
+{% endif %}
+</div>
+
+<p>
+  <a href="{% url 'contact' %}?t=reg">{% blocktrans %}If there is a problem with your registration, please contact us.{% endblocktrans %}</a>
+</p>

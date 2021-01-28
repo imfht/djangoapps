@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block breadcrumb %}
+    {% for is_active, dir_name, path in dir_list %}
+        <li class="breadcrumb-item {{is_active}}">
+            <a href="{{path}}">{{dir_name}}</a> 
+        </li>
+    {% endfor %}
+{% endblock %}
+
+
+{% block content %}
+
+<form method="post" novalidate>
+        {% csrf_token %}
+            
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+
+    {% for field in form.visible_fields %}
+        <div class="form-inline">
+            <div class="mx-lg-5">
+                {{ field| add_class:'form-control'}}
+                {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    {% endfor %}
+</form>
+</br>
+<div class="card">
+<table data-refresh="{{refresh}}" class="table" >
+<thead class="thead-dark">
+  <tr>
+    <th>
+    </th>
+    <th class="align-middle">Title</th>
+    <th class="align-middle px-2">
+        <div class="nav-item dropdown">
+          <div class="nav-link dropdown-toggle" href="#" id="dir-menu-common" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu
+          </div>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dir-menu-common">
+            <span class="dropdown-item" data-val="create-subdir" data-dir="{{dirname}}" api-url="{{api_url}}">Create Sub-Dir</span>
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-item" data-val="select-multiple" api-url="{{api_url}}">Select Multiple</span>
+            <span class="dropdown-item" data-val="select-all" api-url="{{api_url}}">Select All</span>
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-item" data-val="move-multiple" api-url="{{api_url}}" data-link="{{root}}/{{user.username}}/{{dirname}}/move-bookmark-multiple">Move Selected</span>
+            <span class="dropdown-item" data-val="archive-bookmark-multiple" api-url="{{api_url}}" data-link="{{root}}/{{user.username}}/{{dirname}}/archive-bookmark-multiple">Archive Selected</span>
+            <span class="dropdown-item" data-val="edit-tags-multiple" api-url="{{api_url}}" data-link="{{root}}/{{user.username}}/{{dirname}}/edit-tags-multiple">Edit Tags</span>
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-item" data-val="merge-bookmark-with" api-url="{{api_url}}" data-link="{{root}}/{{user.username}}/{{dirname}}/merge-bookmark-with">Merge With</span>
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-item" data-val="generate-media-playlist" data-dir="{{dirname}}" api-url="{{api_url}}" data-link="{{root}}/{{user.username}}/{{dirname}}/generate-media-playlist">Media Playlist</span>
+          </div>
+        </div>
+    </th>
+  </tr>
+</thead>
+<tbody id="tbody">
+  {% for index, title, netloc, loc, edit_b, remove_link, timestamp, taglist, ms, mm , archive, dir, rurl, idd, fav_path, media_element, is_subdir, rename_link in usr_list %}
+    <tr>
+        <td>{% if fav_path %}<img width="24" src="{{fav_path}}" link-id="{{idd}}">{% endif %}</td>
+      <td>
+        <a href="{{ archive }}"><span class="text-lg-left">{{title}}</span></a></br>
+            {% if not is_subdir %}
+                <small>
+                    <a href="{{loc}}" class="text-muted" id="netloc-muted">{{netloc}}</a>
+                </small>
+                {% if taglist %}
+                    <div class="badges">
+                        {% for tag in taglist %}
+                            <a href="{{root}}/{{user.username}}/tag/{{tag}}" class="badge badge-light font-weight-normal">{{tag}}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </td>
+        <td>
+        <div class="btn-group m-r-10 align-middle px-3">
+            <button aria-expanded="false" data-toggle="dropdown" class="btn btn-link dropdown-toggle waves-effect waves-light" type="button"><span class="caret"><img src="{% static 'menu.svg' %}" width="20"></span></button>
+            <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                {% if is_subdir %}
+                    <a class="dropdown-item" data-link="{{ rename_link }}" href="{{rename_link}}" title="{{key}}" data-val="dir">Rename</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" data-link="{{ remove_link }}" href="{{remove_link}}" title="{{key}}" data-val="dir">Remove</a>
+                {% else %}
+                    <span class="dropdown-item" data-link="{{ edit_b }}" title="{{title}}" data-val="url">Edit Bookmark</span>
+                    <div class="dropdown-divider"></div>
+                    
+                    <span class="dropdown-item" data-link="{{ rurl }}" title="{{title}}" data-val="url_summary" data-url="{{api_url}}">Summary</span>
+                    <span class="dropdown-item" data-link="{{ rurl }}" title="{{title}}" data-val="url_read" data-url="{{api_url}}">Read</span>
+                    {% if media_element %}
+                    <span class="dropdown-item" data-link="{{ rurl }}" title="{{title}}" data-val="url_media_public" data-url="{{api_url}}" link-id="{{idd}}">Public Link</span>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <span class="dropdown-item" data-link="{{ ms }}" title="{{title}}" data-val="url" data-url="{{api_url}}">Move To</span>
+                    
+                    <div class="dropdown-divider"></div>
+                    <span class="dropdown-item" data-link="{{ archive }}" title="{{title}}" data-val="url_archive" data-url="{{api_url}}" dir-name="{{dir}}" find-id="{{ms}}">Archive</span>
+                    <span class="dropdown-item" title="{{title}}" data-val="chromium_pdf" data-url="{{api_url}}" dir-name="{{dir}}" link-id="{{idd}}">Chromium PDF</span>
+                    <span class="dropdown-item" title="{{title}}" data-val="chromium_dom" data-url="{{api_url}}" dir-name="{{dir}}" link-id="{{idd}}">Chromium HTML</span>
+                    <div class="dropdown-divider"></div>
+                    <span class="dropdown-item" data-link="{{ remove_link }}" title="{{title}}" data-val="url">Remove</span>
+                {% endif %}
+            </ul>
+        </div>
+        </br>
+        <small>
+            {% if not is_subdir %}
+            <footer class="text-muted px-2 py-2" link-id="{{idd}}" data-url="{{api_url}}" dir-name="{{dir}}">{{timestamp}}</footer>
+            {% endif %}
+        </small>
+        </td>
+    </tr>
+  {% endfor %}
+</tbody>
+</table>
+</div>
+<nav aria-label="Page navigation">
+{% if usr_list.has_other_pages %}
+  <ul class="pagination pagination-sm justify-content-center flex-wrap py-2">
+    {% if usr_list.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ usr_list.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#"><span>&laquo;</span></a></li>
+    {% endif %}
+    {% for i in usr_list.paginator.page_range %}
+      {% if usr_list.number == i %}
+        <li class="page-item active">
+            <a class="page-link" href="#"><span>{{ i }} <span class="sr-only">(current)</span></span></a>
+        </li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if usr_list.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ usr_list.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#"><span>&raquo;</span></a></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</nav>
+{% endblock %}
+
+
+

@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+
+    db:
+      container_name: 'postgres'
+      image: postgres
+      environment:
+        POSTGRES_PASSWORD: password123
+      ports:
+        - "5432:5432"
+        # (HOST:CONTAINER)
+      volumes:
+        - pgdata:/var/lib/postgresql/data/
+      networks:
+        - proxy
+
+    web:
+      build: ./api
+      command: python manage.py runserver 0.0.0.0:8000
+      restart: always
+      volumes:
+        - api_data:/docker_api
+        # (HOST:CONTAINER)
+      ports:
+        - "8000:8000"
+        # (HOST:CONTAINER)
+      depends_on:
+        - db
+      networks:
+        - proxy
+
+volumes:
+    api_data:
+    pgdata:
+
+networks:
+    proxy:
+      # external:
+        name: my_network

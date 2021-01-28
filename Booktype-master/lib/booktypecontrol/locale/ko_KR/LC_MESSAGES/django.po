@@ -1,0 +1,947 @@
+# English (en) translation strings for Booktype Control Centre.
+# Copyright (C) 2014-2018 Booktype contributors
+# This file is distributed under the same license as the Booktype package.
+# 
+# Translators:
+# Seongho Jang <spcblack@gmail.com>, 2016
+# Seongho Jang <spcblack@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Booktype\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-09 10:15+0100\n"
+"PO-Revision-Date: 2018-05-09 19:03+0000\n"
+"Last-Translator: Seongho Jang <spcblack@gmail.com>\n"
+"Language-Team: Korean (Korea) (http://www.transifex.com/sourcefabric/booktype/language/ko_KR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-Language: English\n"
+
+#: lib/booktypecontrol/forms.py:56
+msgid "Site title"
+msgstr "사이트 제목"
+
+#: lib/booktypecontrol/forms.py:58
+msgid "Site title is required."
+msgstr "사이트 제목이 필요합니다."
+
+#: lib/booktypecontrol/forms.py:62
+msgid "Tagline"
+msgstr "태크라인"
+
+#: lib/booktypecontrol/forms.py:67
+msgid "Frontpage URL"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:70
+msgid "Can be a full absolute or relative url"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:73
+msgid "Favicon"
+msgstr "Favicon"
+
+#: lib/booktypecontrol/forms.py:75
+msgid "Upload .ico file"
+msgstr ".ico 파일 업로드"
+
+#: lib/booktypecontrol/forms.py:127
+msgid "CSS"
+msgstr "CSS"
+
+#: lib/booktypecontrol/forms.py:155
+msgid "Use anonymous page"
+msgstr "익명 페이지 사용"
+
+#: lib/booktypecontrol/forms.py:157
+msgid "Show a message, contact email or image to anonymous visitors."
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:160
+msgid "Anonymous page message"
+msgstr "익명 페이지 메시지"
+
+#: lib/booktypecontrol/forms.py:163
+msgid "Message for displaying on anonymous page."
+msgstr "익명 페이지에 표시할 메시지"
+
+#: lib/booktypecontrol/forms.py:166
+msgid "Anonymous page email"
+msgstr "익명 페이지 이메일"
+
+#: lib/booktypecontrol/forms.py:168
+msgid "Email for displaying on anonymous page."
+msgstr "익명 페이지에 표시할 이메일"
+
+#: lib/booktypecontrol/forms.py:171
+msgid "Anonymous page image"
+msgstr "익명 페이지 그림"
+
+#: lib/booktypecontrol/forms.py:173
+msgid "Use image/png files."
+msgstr "image/png 파일 사용"
+
+#: lib/booktypecontrol/forms.py:258
+msgid "Abbreviation"
+msgstr "약어"
+
+#: lib/booktypecontrol/forms.py:260
+msgid "Abbreviation is required."
+msgstr "약어가 필요합니다."
+
+#: lib/booktypecontrol/forms.py:264
+msgid "Name"
+msgstr "이름"
+
+#: lib/booktypecontrol/forms.py:266 lib/booktypecontrol/forms.py:272
+msgid "License name is required."
+msgstr "라이선스 이름이 필요합니다."
+
+#: lib/booktypecontrol/forms.py:270
+msgid "License URL"
+msgstr "라이선스 URL"
+
+#: lib/booktypecontrol/forms.py:276
+msgid "Successfully created new license."
+msgstr "새로운 라이선스를 생성했습니다."
+
+#: lib/booktypecontrol/forms.py:296
+msgid ""
+"Default: visible. If this box is unchecked, create/import wizard will "
+"suggest to mark book as hidden by default."
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:300
+msgid ""
+"If it is turned on then track changes will be enabled for all the users."
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:303
+msgid "Visible by default"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:308
+msgid "Track changes"
+msgstr "변경 사항 추적"
+
+#: lib/booktypecontrol/forms.py:313
+msgid "Default License"
+msgstr "기본 라이센스"
+
+#: lib/booktypecontrol/forms.py:316
+msgid "Default license for newly created books."
+msgstr "신규 도서의 기본 라이선스"
+
+#: lib/booktypecontrol/forms.py:319
+msgid "Default Language"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:322
+msgid "Default language for newly created books."
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:325
+msgid "Metadata to be filled"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:329
+msgid ""
+"Select the metadata fields to be filled in book creation wizard (selected "
+"fields will be optional)"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:408
+msgid "Anyone can register"
+msgstr "누구나 등록 가능"
+
+#: lib/booktypecontrol/forms.py:410
+msgid "Anyone can register on the site and create an account"
+msgstr "사이트 등록과 계정 생성이 누구나 가능합니다."
+
+#: lib/booktypecontrol/forms.py:413
+msgid "Only the superuser can create books"
+msgstr "최고 관리자만 책을 만들 수 있습니다."
+
+#: lib/booktypecontrol/forms.py:417
+msgid "Only the superuser can import books"
+msgstr "최고 관리자만 책을 불러오기 할 수 있습니다."
+
+#: lib/booktypecontrol/forms.py:445 lib/booktypecontrol/forms.py:597
+msgid "Username"
+msgstr "아이디"
+
+#: lib/booktypecontrol/forms.py:448 lib/booktypecontrol/forms.py:601
+msgid "Username is required."
+msgstr "아이디가 필요합니다."
+
+#: lib/booktypecontrol/forms.py:449 lib/booktypecontrol/forms.py:455
+#: lib/booktypecontrol/forms.py:602 lib/booktypecontrol/forms.py:607
+msgid "Illegal characters in username."
+msgstr "아이디에 사용할 수 없는 문자가 있습니다"
+
+#: lib/booktypecontrol/forms.py:461 lib/booktypecontrol/forms.py:613
+msgid "Full name"
+msgstr "전체 이름"
+
+#: lib/booktypecontrol/forms.py:463 lib/booktypecontrol/forms.py:615
+msgid "Full name is required."
+msgstr "전체 이름이 필요합니다."
+
+#: lib/booktypecontrol/forms.py:467 lib/booktypecontrol/forms.py:619
+msgid "Email"
+msgstr "이메일"
+
+#: lib/booktypecontrol/forms.py:469 lib/booktypecontrol/forms.py:621
+msgid "Email is required."
+msgstr "이메일이 필요합니다."
+
+#: lib/booktypecontrol/forms.py:473 lib/booktypecontrol/forms.py:633
+msgid "User description"
+msgstr "사용자 설명"
+
+#: lib/booktypecontrol/forms.py:478 lib/booktypecontrol/forms.py:671
+msgid "Password"
+msgstr "암호"
+
+#: lib/booktypecontrol/forms.py:480 lib/booktypecontrol/forms.py:487
+#: lib/booktypecontrol/forms.py:673 lib/booktypecontrol/forms.py:681
+msgid "Password is required."
+msgstr "암호가 필요합니다."
+
+#: lib/booktypecontrol/forms.py:485 lib/booktypecontrol/forms.py:678
+msgid "Password confirmation"
+msgstr "암호 확인"
+
+#: lib/booktypecontrol/forms.py:490 lib/booktypecontrol/forms.py:683
+msgid "Enter the same password as above, for verification."
+msgstr "확인을 위해 위와 동일한 암호를 입력하십시오."
+
+#: lib/booktypecontrol/forms.py:493
+msgid "Notify person by email"
+msgstr "이메일로 알림"
+
+#: lib/booktypecontrol/forms.py:498 lib/booktypecontrol/forms.py:639
+msgid "This person is a superuser"
+msgstr "이 사람은 최고 사용자입니다."
+
+#: lib/booktypecontrol/forms.py:502
+msgid "Successfully created new account."
+msgstr "새로운 계정을 만들었습니다."
+
+#: lib/booktypecontrol/forms.py:528
+msgid "That username is already taken."
+msgstr "이미 사용 중인 아이디입니다."
+
+#: lib/booktypecontrol/forms.py:534
+msgid "Passwords do not match."
+msgstr "암호가 맞지 않습니다"
+
+#: lib/booktypecontrol/forms.py:570
+#, python-format
+msgid "You have a new %s account"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:625
+msgid "Profile picture"
+msgstr "프로필 사진"
+
+#: lib/booktypecontrol/forms.py:643
+msgid "Active account"
+msgstr "활동 계정"
+
+#: lib/booktypecontrol/forms.py:645
+msgid "Indicate whether user's account is archived or active."
+msgstr "사용자 계정의 활성/비활성 여부를 나타남"
+
+#: lib/booktypecontrol/forms.py:667
+msgid "The two password fields didn't match."
+msgstr "암호가 서로 맞지 않습니다."
+
+#: lib/booktypecontrol/forms.py:686
+msgid "Send login data"
+msgstr "로그인 정보 전송"
+
+#: lib/booktypecontrol/forms.py:688
+msgid "Send new login data to the user via email."
+msgstr "새 로그인 정보를 사용자에게 이메일로 알림"
+
+#: lib/booktypecontrol/forms.py:692
+msgid "Short message"
+msgstr "단문"
+
+#: lib/booktypecontrol/forms.py:694
+msgid ""
+"Will be added in the bottom of email message text, after new user "
+"credentials."
+msgstr "신규 사용자의 비밀 정보 다음의 이메일  하단에 추가됨"
+
+#: lib/booktypecontrol/forms.py:696
+msgid "You can change password in your profile settings page."
+msgstr "개인 프로필 설정 페이지에서 암호를 변경할 수 있습니다."
+
+#: lib/booktypecontrol/forms.py:721 lib/booktypecontrol/forms.py:794
+msgid "Title"
+msgstr "제목"
+
+#: lib/booktypecontrol/forms.py:722 lib/booktypecontrol/forms.py:796
+#: lib/booktypecontrol/tests.py:49
+msgid "Title is required."
+msgstr "제목이 필요합니다."
+
+#: lib/booktypecontrol/forms.py:727 lib/booktypecontrol/forms.py:1101
+msgid "Description"
+msgstr "설명"
+
+#: lib/booktypecontrol/forms.py:732
+msgid "Owner"
+msgstr "소유자"
+
+#: lib/booktypecontrol/forms.py:733
+msgid "Book owner is required."
+msgstr "책 소유자가 필요합니다."
+
+#: lib/booktypecontrol/forms.py:738
+msgid "License"
+msgstr "라이선스"
+
+#: lib/booktypecontrol/forms.py:740
+msgid "License is required."
+msgstr "라이선스가 필요합니다."
+
+#: lib/booktypecontrol/forms.py:744
+msgid "Hide this book from other people"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:748
+msgid "Book image"
+msgstr "책 "
+
+#: lib/booktypecontrol/forms.py:752
+msgid "Successfully created new book."
+msgstr "새 책을 만들었습니다."
+
+#: lib/booktypecontrol/forms.py:756
+msgid "That book already exists."
+msgstr "이미 존재하는 "
+
+#: lib/booktypecontrol/forms.py:800
+msgid "URL title"
+msgstr "url 제목"
+
+#: lib/booktypecontrol/forms.py:803
+msgid "Illegal characters in URL title."
+msgstr "URL 제목에 사용할 수 없는 문자가 있습니다."
+
+#: lib/booktypecontrol/forms.py:804
+msgid ""
+"If you leave this field empty, a URL        title will be assigned "
+"automatically."
+msgstr "이 항목을 비어두면 URL 제목을 자동으로 부여합니다."
+
+#: lib/booktypecontrol/forms.py:901
+msgid "Book CSS"
+msgstr "도서 CSS"
+
+#: lib/booktypecontrol/forms.py:909
+msgid "E-Book CSS"
+msgstr "E-Book CSS"
+
+#: lib/booktypecontrol/forms.py:917
+msgid "PDF CSS"
+msgstr "PDF CSS"
+
+#: lib/booktypecontrol/forms.py:925
+msgid "ODT CSS"
+msgstr "ODT CSS"
+
+#: lib/booktypecontrol/forms.py:979
+msgid "Successfully created new group."
+msgstr "새 그룹을 "
+
+#: lib/booktypecontrol/forms.py:1016
+msgid "Successfully created new role."
+msgstr "새 역할을 만들었습니다."
+
+#: lib/booktypecontrol/forms.py:1055
+msgid "Role for anonymous users"
+msgstr "익명 사용자 "
+
+#: lib/booktypecontrol/forms.py:1059
+msgid "Role for registered users"
+msgstr "등록 사용자 역할"
+
+#: lib/booktypecontrol/forms.py:1064
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_skeletons.html:17
+msgid "None"
+msgstr "None"
+
+#: lib/booktypecontrol/forms.py:1106
+msgid "Successfully created new Book Skeleton"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:1130
+msgid "Search users"
+msgstr ""
+
+#: lib/booktypecontrol/forms.py:1133
+msgid "Search by username, email, first name or last name"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_add_person.html:4
+msgid "Add new person"
+msgstr "새로운 사람 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_archived_users.html:5
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:49
+#: lib/booktypecontrol/views.py:66
+msgid "Archived Users"
+msgstr "비활 사용자"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_archived_users.html:17
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:38
+msgid "Edit Info"
+msgstr "정보 수정"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_archived_users.html:21
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:42
+msgid "superuser"
+msgstr "최고 관리자"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_archived_users.html:24
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:45
+msgid "archived"
+msgstr "비활동"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_archived_users.html:35
+msgid "There are no archived users at the moment."
+msgstr "비활동 사용자가 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_book_skeleton_edit.html:6
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_license_edit.html:6
+msgid "Remove"
+msgstr "제거"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_license.html:4
+msgid "Add new license"
+msgstr "신규 라이선스 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_license.html:8
+msgid "Licenses"
+msgstr "라이선스"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_license_edit.html:9
+msgid "Books licensed with"
+msgstr "라이선스를 가진 도서들"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_license_edit.html:20
+msgid "No books for this license."
+msgstr "이 라이선스를 가진 도서 없음."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_books.html:11
+msgid "Add new book"
+msgstr "신규 도서 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_books.html:14
+msgid "Show in a grid"
+msgstr "표로 보기"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_books.html:15
+msgid "Show in a list"
+msgstr "목록으로 보기"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_groups.html:9
+msgid "Add new group"
+msgstr "신규 그룹 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_groups.html:20
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_roles.html:18
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:76
+msgid "Members"
+msgstr "회원"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_groups.html:20
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:15
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:76
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:51
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_statistics.html:39
+#: lib/booktypecontrol/templates/control_base.html:19
+msgid "Books"
+msgstr "책"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_groups.html:24
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_roles.html:21
+msgid "Edit"
+msgstr "편집"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_groups.html:25
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_roles.html:22
+msgid "Delete"
+msgstr "삭제"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_roles.html:9
+msgid "Add new role"
+msgstr "신규 역할 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_skeletons.html:4
+msgid "Add New"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_skeletons.html:6
+msgid "Save"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_list_of_skeletons.html:10
+msgid "Existing skeletons"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_book_skeleton.html:7
+msgid "Delete Book Skeleton"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_book_skeleton.html:11
+msgid ""
+"Are you sure you would like to delete this? You will not be able to undo "
+"this operation!"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_book_skeleton.html:15
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_group.html:15
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_license.html:19
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_role.html:15
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_settings.html:15
+msgid "Cancel"
+msgstr "취소"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_book_skeleton.html:16
+msgid "Confirm"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_group.html:7
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_group.html:16
+msgid "Delete Group"
+msgstr "그룹 삭제"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_group.html:11
+msgid ""
+"Are you sure you would like to delete this group? You will not be able to "
+"undo this operation!"
+msgstr "이 그룹을 정말로 삭제하겠습니까? 이 작업은 복구할 수 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_license.html:7
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_license.html:20
+msgid "Delete License"
+msgstr "라이선스 삭제"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_license.html:12
+msgid ""
+"There are licensed books with this license. You should change the license "
+"for these books before deleting it."
+msgstr "이 라이선스를 가진 도서들이 있습니다. 라이선스 삭제 전에 이들 도서들의 라이선스를 변경해야만 합니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_license.html:14
+msgid ""
+"Are you sure you would like to delete this license? You will not be able to "
+"undo this operation!"
+msgstr "이 라이선스를 정말로 삭제하겠습니까? 이 작업은 복구할 수 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_role.html:7
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_role.html:16
+msgid "Delete Role"
+msgstr "역할 삭제"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_delete_role.html:11
+msgid ""
+"Are you sure you would like to delete this role? You will not be able to "
+"undo this operation!"
+msgstr "이 역할을 정말로 삭제하시겠습니까? 이 작업은 복구할 수 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:13
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:38
+msgid "Recent Activity"
+msgstr "최근 활동"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:16
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:56
+#: lib/booktypecontrol/templates/control_base.html:22
+msgid "Groups"
+msgstr "그룹"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:28
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:45
+msgid "ago"
+msgstr "전"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:41
+msgid "There is no activity yet"
+msgstr "아무 활동이 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:56
+msgid "Current version"
+msgstr "현재 버전"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:62
+msgid "This user has no books"
+msgstr "이 사용자의 책은 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:82
+msgid "This user has no groups"
+msgstr "이 사용자의 그룹은 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_modal_person_info.html:87
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:11
+msgid "Close"
+msgstr "닫기"
+
+#: lib/booktypecontrol/templates/booktypecontrol/_control_center_settings.html:13
+msgid "Save changes"
+msgstr "변경 사항 저장"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:13
+msgid "Booktype update log"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:26
+msgid "Info"
+msgstr "정보"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:28
+msgid "version details"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:29
+msgid "users"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:30
+msgid "books"
+msgstr "책"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:31
+msgid "groups"
+msgstr "그룹"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:32
+msgid "database size"
+msgstr "데이타베이스 크기"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:33
+msgid "files size"
+msgstr "파일 크기"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:67
+msgid "Online Users"
+msgstr "온라인 사용자"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:79
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:109
+msgid "Working on:"
+msgstr "작업 중:"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:93
+msgid "No online users"
+msgstr "온라인 사용자 없음"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:100
+msgid "Most Active Users"
+msgstr "최근 활동 사용자"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:100
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:125
+msgid "view all"
+msgstr "모두 보기"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:118
+msgid "No most active users"
+msgstr "최근 활동 사용자 없음"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:125
+msgid "Latest Books"
+msgstr "최근 도서"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:138
+msgid "No books here"
+msgstr "여기에는 도서가 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:145
+msgid "Most Active Books"
+msgstr "최근 활동 도서"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_dashboard.html:158
+msgid "No active books here"
+msgstr "여기에는 최근 활동 도서가 없습니다."
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:5
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:48
+msgid "List of People"
+msgstr "사람 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:7
+msgid "Add Person"
+msgstr "신규 사람 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:7
+msgid "ADD PERSON"
+msgstr "사람 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:18
+msgid "Search"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_people_list.html:35
+msgid "Change password"
+msgstr "암호 변경"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:36
+#: lib/booktypecontrol/templates/control_base.html:13
+msgid "Settings"
+msgstr "설정"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:37
+#: lib/booktypecontrol/views.py:59
+msgid "Site Description"
+msgstr "사이트 설명"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:38
+#: lib/booktypecontrol/views.py:60
+msgid "Site Appearance"
+msgstr "사이트 외양"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:39
+#: lib/booktypecontrol/views.py:61
+msgid "Site Front Page"
+msgstr "사이트 첫 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:40
+#: lib/booktypecontrol/views.py:62
+msgid "Book Licenses"
+msgstr "도서 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:41
+#: lib/booktypecontrol/views.py:63
+msgid "Book Creation Defaults"
+msgstr "도서 생성 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:42
+#: lib/booktypecontrol/views.py:77
+msgid "Default Roles"
+msgstr "기본 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:43
+#: lib/booktypecontrol/views.py:64
+msgid "Privacy"
+msgstr "프라이버시"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:44
+#: lib/booktypecontrol/views.py:71
+msgid "Publishing Options"
+msgstr "출판 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:46
+#: lib/booktypecontrol/templates/control_base.html:16
+msgid "People"
+msgstr "사람들"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:47
+#: lib/booktypecontrol/views.py:65
+msgid "Add a New Person"
+msgstr "새로운 사람 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:52
+#: lib/booktypecontrol/views.py:67
+msgid "Add a New Book"
+msgstr "신규 도서 추가"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:53
+#: lib/booktypecontrol/views.py:68
+msgid "List of Books"
+msgstr "도서 목록"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:54
+#: lib/booktypecontrol/views.py:70
+msgid "Book Skeletons"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:57
+#: lib/booktypecontrol/views.py:73
+msgid "Add a New Group"
+msgstr "신규 그룹 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:58
+#: lib/booktypecontrol/views.py:74
+msgid "List of Groups"
+msgstr "그룹 목록"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:60
+#: lib/booktypecontrol/templates/control_base.html:25
+msgid "Roles"
+msgstr "역할"
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:61
+#: lib/booktypecontrol/views.py:75
+msgid "Add a New Role"
+msgstr "신규 역할 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:62
+#: lib/booktypecontrol/views.py:76
+msgid "List of Roles"
+msgstr "역할 "
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:64
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_settings.html:65
+msgid "Statistics"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_statistics.html:19
+msgid "Users increasing & signups"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_statistics.html:28
+msgid "Active users"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/control_center_statistics.html:52
+msgid "Book exports"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/new_person_email.html:4
+msgid "Hello"
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/new_person_email.html:8
+#, python-format
+msgid ""
+"Your Booktype account has been created! Please go to %(server)s to log in."
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/new_person_email.html:12
+#, python-format
+msgid ""
+"If you don't know your password, please click the password reset link on the"
+" %(server)s home page."
+msgstr ""
+
+#: lib/booktypecontrol/templates/booktypecontrol/password_changed_email.html:2
+msgid "Your password was changed. Here are your new login credentials:"
+msgstr "암호를 변경했습니다. 새로운 로그인 정보는 다음과 같습니다:"
+
+#: lib/booktypecontrol/templates/booktypecontrol/password_changed_email.html:5
+msgid "Username:"
+msgstr "아이디:"
+
+#: lib/booktypecontrol/templates/booktypecontrol/password_changed_email.html:6
+msgid "Password:"
+msgstr "암호:"
+
+#: lib/booktypecontrol/templates/control_base.html:10
+msgid "Home"
+msgstr "홈"
+
+#: lib/booktypecontrol/views.py:69
+msgid "Add Book Skeleton"
+msgstr ""
+
+#: lib/booktypecontrol/views.py:72
+msgid "Publishing Defaults"
+msgstr "출판 "
+
+#: lib/booktypecontrol/views.py:98 lib/booktypecontrol/views.py:212
+#: lib/booktypecontrol/views.py:345 lib/booktypecontrol/views.py:409
+#: lib/booktypecontrol/views.py:486 lib/booktypecontrol/views.py:528
+#: lib/booktypecontrol/views.py:558
+msgid "Admin Control Center"
+msgstr "관리자 제어 센터"
+
+#: lib/booktypecontrol/views.py:223
+msgid "Successfully saved settings."
+msgstr "설정을 저장했습니다."
+
+#: lib/booktypecontrol/views.py:228
+msgid "Unknown error while saving changes."
+msgstr "변경 사항을 저장하는데 알 수 없는 오류가 발생했습니다."
+
+#: lib/booktypecontrol/views.py:292
+msgid "List of people"
+msgstr ""
+
+#: lib/booktypecontrol/views.py:348
+msgid "Edit Person Info"
+msgstr "사람 정보 편집"
+
+#: lib/booktypecontrol/views.py:368 lib/booktypecontrol/views.py:419
+msgid "Successfully saved changes."
+msgstr "변경 사항을 저장했습니다."
+
+#: lib/booktypecontrol/views.py:390
+msgid "Rename Book"
+msgstr "도서"
+
+#: lib/booktypecontrol/views.py:394
+msgid "Book name successfully changed."
+msgstr "도서명을 변경했습니다."
+
+#: lib/booktypecontrol/views.py:430
+msgid "Your password was changed"
+msgstr "암호를 변경했습니다."
+
+#: lib/booktypecontrol/views.py:449
+#, python-format
+msgid "Change Password: %s"
+msgstr "변경 암호: %s"
+
+#: lib/booktypecontrol/views.py:464
+msgid "Group successfully deleted."
+msgstr "그룹을 삭제했습니다."
+
+#: lib/booktypecontrol/views.py:494
+msgid "Edit licence"
+msgstr "라이선스 "
+
+#: lib/booktypecontrol/views.py:500
+msgid "License successfully updated."
+msgstr "라이선스를 갱신했습니다."
+
+#: lib/booktypecontrol/views.py:512
+msgid ""
+"There are books remaining with this license.                     Unable to "
+"remove"
+msgstr "이 책들의 라이선스 변경은 없습니다. 삭제할 수 없습니다."
+
+#: lib/booktypecontrol/views.py:517
+msgid "License successfully deleted."
+msgstr "라이선스를 삭제했습니다."
+
+#: lib/booktypecontrol/views.py:536
+msgid "Edit role"
+msgstr "역할 "
+
+#: lib/booktypecontrol/views.py:540
+msgid "Role successfully updated."
+msgstr "역할을 갱신했습니다."
+
+#: lib/booktypecontrol/views.py:550
+msgid "Role successfully deleted."
+msgstr "역할을 삭제했습니다."
+
+#: lib/booktypecontrol/views.py:566
+msgid "Edit Book Skeleton"
+msgstr ""
+
+#: lib/booktypecontrol/views.py:570
+msgid "Book Skeleton successfully updated"
+msgstr ""
+
+#: lib/booktypecontrol/views.py:580
+msgid "Book Skeleton successfully deleted"
+msgstr ""
+
+#: lib/booktypecontrol/views.py:586
+msgid "Statistics and instance data"
+msgstr ""
+
+#: lib/booktypecontrol/widgets.py:22
+msgid "Currently:"
+msgstr ""

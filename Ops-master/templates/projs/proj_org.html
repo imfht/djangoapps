@@ -1,0 +1,564 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/select2/dist/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'jsplumb/css/jsplumbtoolkit-defaults.css' %}">
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+    <style>
+        /* dataTables列内容居中 */
+        #service-list > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #service-list > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+
+        #left {
+            width: 20%;
+            height: 500px;
+            border: 1px solid #000;
+            float: left;
+            padding: 0 10px;
+            position: relative;
+        }
+
+        #main {
+            width: 80%;
+            height: 500px;
+            border: 1px solid gray;
+            float: left;
+            overflow-y: auto;
+            position: relative;
+            background: url("{% static 'jsplumb/images/grid.png' %}") repeat;
+            z-index: 5;
+        }
+
+        .item {
+            background: #CCFFFF;
+            height: 30px;
+            width: 200px;
+            border: 1px solid #5F9EDF;
+            margin: 5px;
+            font: 15px/30px "微软雅黑";
+            text-align: center;
+            border-radius: 5px;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .theGrey {
+            background: #ccc !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-7 pull-left" style="margin-bottom: 3px">
+            <button class="btn btn-sm btn-success pull-left" data-toggle="modal" data-target="#ServiceModal"
+                    id="add-service">
+                <i class="fa fa-plus-square"></i>
+                <span class="bigger-110">新增应用</span>
+            </button>
+        </div>
+
+        <!--dataTable-->
+        <div class="col-xs-12">
+            <!-- /.box -->
+            <div class="box">
+                <div class="box-body">
+                    <table id="service-list" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>当前项目</th>
+                            <th>服务名称</th>
+                            <th>所在机器</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for service in services %}
+                            <tr>
+                                <td>{{ project_obj.project_name }} | {{ project_obj.get_project_env_display }}</td>
+                                <td>{{ service.service_name }}</td>
+                                <td>{{ service.service_asset.asset_management_ip }}</td>
+                                <td>{{ service.service_memo }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                            data-id="{{ service.id }}" data-target="#ServiceModal">修改
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs delete"
+                                            data-id="{{ service.id }}">删除
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <!-- ServiceModal  -->
+            <div class="modal fade" id="ServiceModal" tabindex="-1" role="dialog" aria-labelledby="ServiceModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="ServiceModalLabel">
+
+                            </h4>
+                        </div>
+                        {% if perms.projs.add_service and perms.projs.change_service %}
+                            <div class="modal-body">
+                                <form id="service_info" class="main form-horizontal">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="project" class="col-sm-2 control-label">当前项目</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2" disabled name="project"
+                                                        id="project"
+                                                        style="width: 100%;">
+                                                    <option value="{{ project_obj.id }}"
+                                                            selected>{{ project_obj.project_name }}</option>
+                                                </select>
+                                            </div>
+                                            <span>{{ project_obj.get_project_env_display }}</span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="service_name" class="col-sm-2 control-label">服务名称</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" name="service_name"
+                                                       id="service_name"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="service_asset" class="col-sm-2 control-label">所在机器</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2" name="service_asset"
+                                                        id="service_asset" style="width: 100%;">
+                                                    {% for asset in assets %}
+                                                        <option value="{{ asset.id }}">{{ asset.asset_management_ip }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="service_memo" class="col-sm-2 control-label">备注</label>
+                                            <div class="col-sm-6">
+                                            <textarea class="form-control" name="service_memo"
+                                                      id="service_memo"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-24"></div>
+
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        id="service_ops"></button>
+                            </div>
+                        {% else %}
+                            <div class="modal-body">
+                                抱歉！您没有新增应用的权限！如有疑问，请联系管理员！
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                            </div>
+                        {% endif %}
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <button type="button" class="btn btn-block btn-primary btn-flat" id="save-node"
+                            style="margin-bottom: 5px;">保存
+                    </button>
+                    <div id="left">
+                        {% for service in services %}
+                            <div class="item"
+                                 data-index="{{ service.service_name }}">{{ service.service_asset.asset_management_ip }}|{{ service.service_name }}</div>
+                        {% endfor %}
+                    </div>
+                    <div id="main">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- Select2 -->
+    <script src="{% static 'AdminLTE/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'jsplumb/js/jsplumb.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            $('#service-list').DataTable({
+                columnDefs: [{
+                    'targets': [-1],
+                    'orderable': false
+                }],
+                "order": [[0, "asc"]]
+            });
+
+            initOrg()
+        });
+
+        // Initialize Select2 Elements
+        $(function () {
+            $('.select2').select2()
+        });
+
+        // 处理在modal中select2当选框无法搜索的问题
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {
+        };
+
+
+        let service_tbody = $('#service-list tbody');
+        let service_ops = $('#service_ops');
+
+        // 新增服务
+        $('#add-service').on('click', function () {
+            document.getElementById('service_info').reset();
+            $("#project").val('{{ pk }}').trigger('change');
+            $('#service_asset').val('').trigger('change');
+            $('.modal-title').text('新增服务');
+            service_ops.text('添加');
+
+            service_ops.unbind('click').on('click', function () {
+                let data = {
+                    project: $('#project').val(),
+                    service_name: $('#service_name').val(),
+                    service_asset: $('#service_asset').val(),
+                    service_memo: $('#service_memo').val(),
+                };
+
+                $.ajax({
+                    url: '/api/service/',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function () {
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        })
+                    }
+                })
+            })
+        });
+
+        // 更新项目
+        service_tbody.on('click', '.modify', function () {
+            let service_id = $(this).attr('data-id');
+            $('.modal-title').text('修改项目信息');
+            service_ops.text('确认修改');
+            $.get('/api/service/' + service_id + '/', function (data) {
+                $('#project').val(data.project).trigger('change');
+                $('#service_name').val(data.service_name);
+                $('#service_asset').val(data.service_asset).trigger('change');
+                $('#service_memo').val(data.service_memo);
+            });
+
+            service_ops.unbind('click').on('click', function () {
+                let data = {
+                    service_name: $('#service_name').val(),
+                    service_asset: $('#service_asset').val(),
+                    service_memo: $('#service_memo').val(),
+                };
+
+                $.ajax({
+                    url: '/api/service/' + service_id + '/',
+                    type: 'PATCH',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function () {
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        })
+                    }
+                })
+            });
+        });
+
+        // 删除项目
+        service_tbody.on('click', '.delete', function () {
+            {% if perms.projs.delete_service %}
+                let pk = $(this).attr('data-id');
+                $.confirm({
+                    title: 'Tips',
+                    content: '确定要删除这条记录么？',
+                    type: 'red',
+                    buttons: {
+                        Ok: function () {
+                            $.ajax({
+                                url: '/api/service/' + pk + '/',
+                                method: 'DELETE',
+                                success: function () {
+                                    window.location.reload()
+                                },
+                                error: function (data) {
+                                    $.alert({
+                                        title: 'Tips',
+                                        type: 'red',
+                                        content: '删除失败！' + data.responseText,
+                                    })
+                                }
+                            })
+                        },
+                        Cancel: function () {
+                            //
+                        }
+                    }
+                });
+            {% else %}
+                $.alert({
+                    title: 'Tips',
+                    type: 'red',
+                    content: '抱歉！您没有删除项目的权限！如有疑问，请联系管理员！',
+                });
+            {% endif %}
+        });
+
+        // 生成架构图
+        function initOrg() {
+
+            function deepCopy(p, c) {  //克隆对象
+                let d = c || {};
+                for (let i in p) {
+                    if (!p.hasOwnProperty(i)) {
+                        continue;
+                    }
+                    if (typeof p[i] === 'object') {
+                        d[i] = (p[i].constructor === Array) ? [] : {};
+                        deepCopy(p[i], d[i]);
+                    } else {
+                        d[i] = p[i];
+                    }
+                }
+                return d;
+            }
+
+            let origin = {//起点
+                endpoint: ['Dot', {radius: 5}],  //端点的形状
+                connectorStyle: {
+                    outlineStroke: 'black',
+                    strokeWidth: 1
+                },//连接线的颜色，大小样式
+                connectorHoverStyle: {
+                    strokeWidth: 3
+                },
+                paintStyle: {fill: "lightblue", strokeWidth: 3},       //端点的颜色样式
+                isSource: true,    //是否可以拖动（作为连线起点）
+                connector: 'Straight', //连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
+                isTarget: false,    //是否可以放置（连线终点）
+                maxConnections: -1,    // 设置连接点最多可以连接几条线,-1表示无限大
+                connectorOverlays: [["Arrow", {width: 10, length: 10, location: 1}]]
+            };
+
+            let destination = {//终点
+                endpoint: ['Dot', {radius: 5}],  //端点的形状
+                connectorStyle: {
+                    outlineStroke: 'black',
+                    strokeWidth: 1
+                },//连接线的颜色，大小样式
+                connectorHoverStyle: {
+                    strokeWidth: 3
+                },
+                paintStyle: {fill: "lightblue", strokeWidth: 3},       //端点的颜色样式
+                isSource: false,    //是否可以拖动（作为连线起点）
+                connector: 'Straight',  //连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
+                isTarget: true,    //是否可以放置（连线终点）
+                maxConnections: -1,    // 设置连接点最多可以连接几条线,-1表示无限大
+                connectorOverlays: [["Arrow", {width: 10, length: 10, location: 1}]]
+            };
+
+
+            jsPlumb.bind("click", function (conn, originalEvent) {//点击线段删除
+                if (confirm("确定删除吗?"))
+                    jsPlumb.deleteConnection(conn);
+            });
+            jsPlumb.bind("connection", function (connInfo, originalEvent) {//自己连自己管控
+                if (connInfo.connection.sourceId === connInfo.connection.targetId) {
+                    alert("不能连接自己！");
+                    jsPlumb.deleteConnection(connInfo.connection);
+                }
+            });
+
+            $("#left").children().draggable({
+                helper: "clone",
+                scope: "ss",
+            });
+
+            let elementSign = 0;//标志元素唯一性
+
+            $("#main").droppable({
+                scope: "ss",
+                drop: function (event, ui) {//在目标(target)容器上释放鼠标 ,ui.draggable[0]为开始拖拽的元素
+                    elementSign++;
+                    let left = parseInt(ui.offset.left - $(this).offset().left);
+                    let top = parseInt(ui.offset.top - $(this).offset().top);
+                    let ele = $('<div class="item" data-sign="' + elementSign + '" data-index="' + $(ui.draggable[0]).attr("data-index") + '" >' + $(ui.helper).html() + '</div>');//$(ui.helper).html()取第一个JQ元素的文本
+                    ele.css({"left": left, "top": top, position: "absolute", margin: 0});
+                    $(this).append(ele);
+                    jsPlumb.addEndpoint(ele, {anchors: "BottomCenter"}, origin);//起点
+                    jsPlumb.addEndpoint(ele, {anchors: "TopCenter"}, destination);//终点
+                    jsPlumb.draggable(ele, {containment: "parent", grid: [10, 10]});//端点可以拖动设置,并且将端点限制在父级内
+                    $(ele).draggable({ //设置拖动到main区域中的元素还可以拖拽
+                        containment: "parent", grid: [10, 10] //限制拖动不超过父级边框
+                    });
+
+                    $(ui.draggable[0]).addClass("theGrey").draggable("disable"); // 禁止其拖动功能
+                }
+            });
+
+            $("#main").on("mouseenter", ".item", function () {
+                let ele = $('<span class="del-item">X</span>');
+                ele.css({position: "absolute", left: "160px", top: "-15px"});
+                $(this).append(ele);
+            }).on("mouseleave", ".item", function () {
+                $(".del-item").remove();
+            }).on("click", ".del-item", function () {
+                if (confirm("确定删除吗?")) {
+                    jsPlumb.removeAllEndpoints($(this).parent().attr("id"));
+                    let index = $(this).parent().attr("data-index");
+                    $(this).parent().remove();
+                    $("#left .item").each(function () {
+                        if ($(this).attr("data-index") === index) {
+                            $(this).removeClass("theGrey").draggable("enable"); // 激活其拖动功能
+                        }
+                    });
+                }
+            });
+
+            if ('{{ project_org }}'.length !== 0) {
+                $.get('/api/project/{{ pk }}', function (res) {
+                    let project_org = JSON.parse(res.project_org);
+
+                    let mainHTML = "";
+                    for (let i = 0; i < project_org.mainArr.length; i++) {
+                        if (elementSign < project_org.mainArr[i].sign) {//如果已经保存过,即将标记更新
+                            elementSign = project_org.mainArr[i].sign;
+                        }
+                        mainHTML += '<div class="item" data-sign="' + project_org.mainArr[i].sign + '"  data-index="' + project_org.mainArr[i].index + '" style="left:' + project_org.mainArr[i].offset.left + 'px;top:' + project_org.mainArr[i].offset.top + 'px;position:absolute;margin:0" >' + project_org.mainArr[i].text + '</div>';
+                    }
+
+                    $("#main").append(mainHTML);
+                    $("#main .item").each(function () {
+                        jsPlumb.addEndpoint(this, {anchors: "BottomCenter"}, deepCopy(origin, {uuid: $(this).attr("data-sign") + "origin"}));//起点
+                        jsPlumb.addEndpoint(this, {anchors: "TopCenter"}, deepCopy(destination, {uuid: $(this).attr("data-sign") + "destination"}));//终点
+                        jsPlumb.draggable(this, {containment: "parent", grid: [10, 10]});//端点可以拖动设置,并且将端点限制在父级内
+                        $(this).draggable({ //设置拖动到main区域中的元素还可以拖拽
+                            containment: "parent", grid: [10, 10] //限制拖动不超过父级边框
+                        });
+                    });
+                    //固定连线
+                    for (let i = 0; i < project_org.connects.length; i++) {
+                        jsPlumb.connect({uuids: [project_org.connects[i].originSign + "origin", project_org.connects[i].destinationSign + "destination"]});
+                    }
+                })
+            }
+        }
+
+
+        $('#save-node').on('click', function () {
+            let connects = [];//存储连线的数组
+            let mainArr = [];//存储元素的数组
+            $.each(jsPlumb.getAllConnections(), function (idx, connection) {
+                connects.push({
+                    ConnectionId: connection.id,
+                    start: $(connection.source).attr("data-index"),
+                    end: $(connection.target).attr("data-index"),
+                    originSign: $(connection.source).attr("data-sign"),
+                    destinationSign: $(connection.target).attr("data-sign"),
+                });
+            });
+            $("#main .item").each(function () {
+                mainArr.push({
+                    offset: $(this).position(),
+                    text: $(this).text(),
+                    index: $(this).attr("data-index"),
+                    sign: $(this).attr("data-sign"),
+                });
+            });
+
+            let serliza = JSON.stringify({"connects": connects, "mainArr": mainArr});
+
+
+            $.ajax({
+                url: "{% url 'proj_org' pk %}",
+                type: 'POST',
+                data: {data: serliza},
+                success: function (res) {
+                    if (res.code === 200) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'green',
+                            content: res.msg,
+                        })
+                    } else {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'green',
+                            content: '修改完成！',
+                        })
+                    }
+
+                },
+                error: function (response) {
+                    $.alert({
+                        title: 'Tips',
+                        type: 'red',
+                        content: response.responseText,
+                    })
+                }
+            })
+
+        });
+    </script>
+
+{% endblock %}
+

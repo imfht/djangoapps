@@ -1,0 +1,53 @@
+{% load i18n locale store_tags common_tags %}
+<div id="timeline-results">
+  <div class="extra-item-title">{% trans 'Timeline' %}</div>
+  {% for event_group in event_groups %}
+  <div class="extra-item-block">
+    <div class="extra-item-content">
+      {% if event_group.user %}
+      <div class="extra-item-gravatar">
+	<a href="{% url 'pootle-user-profile' event_group.user.username %}"
+	   title="{{ event_group.user.display_name|force_escape|force_escape }}">
+	  {% avatar event_group.user.username event_group.user.email_hash 20 %}
+	</a>
+      </div>
+      {% endif %}
+      <div class="extra-item">
+        <div class="timeline-entry">
+          {% for event in event_group.events %}
+            {% if event.state %}
+              <div class="state-change">
+                  {{ event.value }}
+              </div>
+            {% elif event.value %}
+              <div
+                  {% if event.translation %}
+                    class="js-editor-copytext" data-action="overwrite" data-string="{{ event.value }}"
+                  {% elif event.comment %}
+                    class="js-editor-copy-comment" data-string="{{ event.value }}"
+                  {% endif %}
+              >
+                {% if event.sidetitle %}
+                  <div class="sidetitle">{{ event.sidetitle }}</div>
+                {% endif %}
+                <span class="timeline-field-body js-unit-highlight"
+                      lang="{{ language.code }}"
+                >{{ event.value }}</span>
+              </div>
+            {% endif %}
+            {% if event.description %}
+              <div class="description">
+                {{ event.description }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% if event_group.datetime or event_group.via_upload %}
+        <div class="js-mount-timesince"></div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+</div>

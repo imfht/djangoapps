@@ -1,0 +1,74 @@
+div.register-form-container(tg-register)
+    form.register-form
+        tg-register-options
+
+        fieldset
+            input(
+                type="text"
+                autocorrect="off"
+                autocapitalize="none"
+                name="username"
+                ng-model="data.username"
+                data-required="true"
+                data-maxlength="255"
+                data-regexp="^[\\w.-]+$"
+                placeholder="{{'REGISTER_FORM.PLACEHOLDER_NAME' | translate}}"
+            )
+
+        fieldset
+            input(
+                type="text"
+                name="full_name"
+                ng-model="data.full_name"
+                data-required="true"
+                data-maxlength="256"
+                placeholder="{{'REGISTER_FORM.PLACEHOLDER_FULL_NAME' | translate}}"
+            )
+
+        fieldset
+            input(
+                type="email"
+                name="email"
+                ng-model="data.email"
+                data-required="true"
+                data-maxlength="255"
+                placeholder="{{'REGISTER_FORM.PLACEHOLDER_EMAIL' | translate}}"
+            )
+
+        fieldset
+            input(
+                type="password"
+                name="password"
+                tg-capslock
+                ng-model="data.password"
+                data-required="true"
+                data-minlength="4"
+                placeholder="{{'REGISTER_FORM.PLACEHOLDER_PASSWORD' | translate}}"
+            )
+
+        //- Only displays terms notice when terms plugin is loaded.
+        tg-terms-of-service-and-privacy-policy-notice(target="data.accepted_terms")
+
+        fieldset.end
+            button.btn-small.full(
+                variant="primary"
+                ng-disabled="data.accepted_terms == false"
+                title="{{'REGISTER_FORM.ACTION_SIGN_UP' | translate}}"
+                translate="REGISTER_FORM.ACTION_SIGN_UP"
+            )
+
+        .contrib-plugins-wrapper(ng-if="authPlugins.length")
+            label(translate="LOGIN_COMMON.ALT_LOGIN")
+
+            fieldset(
+                ng-repeat="plugin in authPlugins"
+                ng-include="plugin.template"
+            )
+
+        a.register-text-top(
+            href=""
+            title="{{'REGISTER_FORM.TITLE_LINK_LOGIN' | translate}}"
+            tg-nav="login"
+            tg-nav-get-params="{\"next\": \"{{nextUrl}}\"}"
+            translate="REGISTER_FORM.LINK_LOGIN"
+        )

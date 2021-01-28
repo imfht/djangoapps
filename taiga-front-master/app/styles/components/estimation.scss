@@ -1,0 +1,69 @@
+@mixin estimation {
+    .points-per-role {
+        display: flex;
+        flex-direction: column;
+    }
+    .ticket-role-points {
+        @include font-size(small);
+        background: $color-gray100;
+        color: $color-link-tertiary;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .1rem;
+        min-height: 2rem;
+        padding: .5rem;
+        position: relative;
+        &:last-child {
+            background: $color-gray300;
+            border-bottom: 0;
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
+        .points {
+            color: $color-black600;
+        }
+    }
+    .popover {
+        @include popover(
+            200px,
+            $top: 100%,
+            $left: .5rem,
+            $arrow-width: 10px,
+            $arrow-top: -5px,
+            $arrow-left: 10px,
+            $arrow-height: 10px
+        );
+        li {
+            align-items: center;
+            display: inline-flex;
+            height: 2.5rem;
+            justify-content: center;
+            padding: 0;
+            width: 2.5rem;
+        }
+        a {
+            height: 100%;
+            width: 100%;
+            &.active {
+                background: $color-link-primary;
+                color: $color-white;
+            }
+        }
+        &.fix {
+            @include popover(
+                200px,
+                $top: 100%,
+                $left: -160px,
+                $arrow-width: 10px,
+                $arrow-top: -5px,
+                $arrow-left: 90%,
+                $arrow-height: 10px
+            );
+        }
+    }
+}
+
+.ticket-estimation {
+    @include estimation;
+}

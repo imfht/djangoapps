@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Host: {{ slug }}</h1>
+</div>
+
+<ol class="breadcrumb">
+  <li><a href="{% url 'service-list' %}">Home</a></li>
+  <li class="active">{{ slug }}</li>
+</ol>
+
+<div style="display:none" data-instance="{{slug}}" class="panel panel-danger promgen-alert">
+  <div class="panel-heading">Alerts</div>
+  <table class="table table-bordered table-condensed"></table>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-body">
+    <a
+    @click.prevent="silenceSetLabels"
+    class="btn btn-warning"
+    data-instance="{{slug}}:[0-9]*"
+    href="#"
+    style="display: inline-block;"
+  >{% trans "Silence" %}</a>
+  </div>
+</div>
+
+<div class="row">
+
+<div class="col-sm-6"><div class="panel panel-primary">
+  <div class="panel-heading">Farm</div>
+  <table class="table">
+    <tr>
+      <th>Farm</th>
+    </tr>
+{% for farm in farm_list %}
+    <tr>
+      <td><a href="{{ farm.get_absolute_url }}">{{ farm.name }}</a></td>
+    </tr>
+{% endfor %}
+  </table>
+</div></div>
+
+<div class="col-sm-6"><div class="panel panel-primary">
+  <div class="panel-heading">Project</div>
+  <table class="table">
+    <tr>
+      <th>Project</th>
+    </tr>
+{% for project in project_list %}
+    <tr>
+      <td><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></td>
+    </tr>
+{% endfor %}
+  </table>
+</div></div>
+
+<div class="col-sm-6"><div class="panel panel-primary">
+  <div class="panel-heading">Exporters</div>
+  <table class="table">
+    <tr>
+      <th>Service</th>
+      <th>Project</th>
+      <th>Job</th>
+      <th>Port</th>
+      <th>Path</th>
+    </tr>
+{% for exporter in exporter_list %}
+    <tr>
+      <td><a href="{{ exporter.project.service.get_absolute_url }}">{{ exporter.project.service.name }}</a></td>
+      <td><a href="{{ exporter.project.get_absolute_url }}">{{ exporter.project.name }}</a></td>
+      <td>{{ exporter.job }}</td>
+      <td>{{ exporter.port }}</td>
+      <td>{{ exporter.path }}</td>
+    </tr>
+{% endfor %}
+  </table>
+</div></div>
+
+<div class="col-sm-6"><div class="panel panel-primary">
+  <div class="panel-heading">Notifiers</div>
+  <table class="table">
+    <tr>
+      <th>Parent</th>
+      <th>Notifier</th>
+      <th>Value</th>
+    </tr>
+{% for notifier in notifier_list %}
+    <tr>
+      <td><a href="{{ notifier.content_object.get_absolute_url }}">{{ notifier.content_object.name }}</a></td>
+      <td title="Added by: {{notifier.owner}}">{{ notifier.sender }}</td>
+      <td>{{ notifier.show_value }}</td>
+    </tr>
+{% endfor %}
+  </table>
+</div></div>
+</div>
+
+{% if rule_list %}
+{% regroup rule_list by content_object as service_list %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">Rules</div>
+  <table class="table table-bordered table-condensed">
+    {% include "promgen/rule_header.html" %}
+    {% for service in service_list %}
+    <tr>
+      <td colspan="5">
+        <h2>
+          Rules from <a href="{{ service.grouper.get_absolute_url }}">{{ service.grouper }}</a>
+        </h2>
+      </td>
+    </tr>
+    {% include "promgen/rule_block.html" with rule_list=service.list overwrite_id=service.grouper.id csrf_token=csrf_token only %}
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+
+{% endblock %}

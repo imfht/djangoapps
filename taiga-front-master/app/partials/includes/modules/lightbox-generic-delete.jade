@@ -1,0 +1,20 @@
+tg-lightbox-close
+
+form
+    h2.title
+    p
+        span.subtitle
+        span.message
+
+    .options
+        button.btn-link.btn-cancel.js-cancel(
+            variant="icon"
+        )
+            span(translate="COMMON.CANCEL")
+
+        button.btn-small.btn-confirm.js-confirm(
+            variant="destructive"
+        )
+            tg-svg(svg-icon="icon-trash")
+            span(translate="COMMON.DELETE")
+

@@ -1,0 +1,59 @@
+<button id="menu-button" class="nav-menu-button d-flex" data-toggle="tooltip" data-placement="bottom" title="{% trans %}Menu{% endtrans %}">
+    <span class="toggler">
+        <span></span>
+    </span>
+</button>
+
+<div id="site-search" class="site-search d-flex flex-grow-1">
+    <div class="desktop d-none d-md-flex flex-grow-1">
+        <input type="search" accesskey="s" id="site-search-input" class="form-control site-search-input" placeholder="{% trans %}Search for{% endtrans %}..."><i class="input-icon fa fa-search"></i>
+    </div>
+    <div class="mobile text-right d-md-none">
+        <button class="dropdown-toggle" id="dropdownSearch" type="button" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-search"></i>
+        </button>
+        <div class="dropdown-menu mobile-search-dropdown" role="menu" aria-labelledby="dropdownSearch">
+            <input type="search" id="site-search-input-mobile" class="form-control site-search-input" placeholder="{% trans %}Search for{% endtrans %}..."><i class="input-icon fa fa-search"></i>
+        </div>
+    </div>
+
+    <div id="site-search-results" class="site-search-results"></div>
+</div>
+
+{% set front_url=shuup_admin.get_front_url() %}
+{% if front_url %}
+    <div class="site-links mr-2">
+        <a class="btn btn-default" href="{{ front_url }}" target="_blank">{% trans %}Visit shop{% endtrans %}</a>
+    </div>
+{% endif %}
+<div class="dropdown">
+    <button class="dropdown-toggle btn btn-default" type="button" id="dropdownMenu" data-toggle="dropdown" aria-expanded="false" data-display="static" title="{% trans %}Settings{% endtrans %}">
+        <span class="d-inline-block d-sm-none" aria-label="{{ request.user }}"><i class="fa fa-user" aria-hidden="true"></i></span>
+        <span class="d-none d-sm-inline-block">{{ request.user }}</span>
+    </button>
+    <div class="languages dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+        {% if shuup_admin.is_authenticated(request.user) %}
+        <div class="username">
+            <span class="icon"><i class="fa fa-user"></i></span>{% trans %}Hello{% endtrans %}, <span class="user">{{ request.user }}</span>!
+        </div>
+        {% if LANGUAGES|length > 1 %}
+            {% for (code, name, local_name) in get_language_choices() %}
+            <a href="#" class="dropdown-item {% if LANGUAGE_CODE == code %} active{% endif %}" data-value="{{ code }}">{{ name }} ({{ local_name }})</a>
+            {% endfor %}
+        {% endif %}
+        <div class="dropdown-divider"></div>
+        {% if request.GET.autoRefresh %}
+            <a href="{{ request.path }}" class="auto-reload dropdown-item">{% trans %}Stop Auto Refresh{% endtrans %}</a>
+        {% else %}
+            <a href="?autoRefresh=30" class="auto-reload dropdown-item">{% trans %}Auto Refresh Every 30s{% endtrans %}</a>
+        {% endif %}
+
+        <a href="#" class="show-tour dropdown-item">{% trans %}Show Tour{% endtrans %}</a>
+        <div class="actions">
+            <a href="{{ shuup_admin.get_logout_url() }}" class="btn btn-block btn-inverse">
+                <i class="fa fa-sign-out"></i> {% trans %}Log out{% endtrans %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>

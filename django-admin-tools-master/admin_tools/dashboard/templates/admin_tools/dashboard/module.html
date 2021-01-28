@@ -1,0 +1,20 @@
+{% if not module.is_empty %}
+    <div id="module_{{ module.id }}" class="{{ module.render_css_classes }}">
+        {% if module.show_title and module.title %}<h2>{% if module.title_url %}<a href="{{ module.title_url }}">{{ module.title|capfirst }}</a>{% else %}{{ module.title|capfirst }}{% endif %}</h2>{% endif %}
+        <div class="dashboard-module-content">
+            {% spaceless %}
+            {% if module.pre_content %}
+            <p>{{ module.pre_content|safe }}</p>
+            {% endif %}
+            {% block module_content %}
+            {% for child in module.children %}
+            {{ child }}
+            {% endfor %}
+            {% endblock %}
+            {% if module.post_content %}
+            <p>{{ module.post_content|safe }}</p>
+            {% endif %}
+            {% endspaceless %}
+        </div>
+    </div>
+{% endif %}

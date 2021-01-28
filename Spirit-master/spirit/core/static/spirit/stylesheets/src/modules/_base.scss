@@ -1,0 +1,31 @@
+// Base variables
+
+// Font weights
+$light: 100;
+$regular: 400;
+$bold: 600;
+
+// Base Font
+$base-font-family: "Ubuntu" !default;
+$base-font-weight: $regular !default;
+$base-font-size: 1rem !default;
+$base-line-height: $base-font-size * 1.5 !default;
+
+// Space between elements
+$space-full: 16px * 1.5 !default;
+$space-half: $space-full / 2 !default;
+$space-quarter: $space-full / 4 !default;
+
+// XXX remove
+$base-spacing-size: $space-full !default;
+$half-spacing-size: $space-half !default;
+$quarter-spacing-size: $space-quarter !default;
+// XXX remove
+$space: $quarter-spacing-size !default;
+$space-l: $half-spacing-size !default;
+$space-xl: $base-spacing-size !default;
+
+$max-width: 1080px !default;
+
+// Usage: @media #{$medium} {}
+$medium: "screen and (min-width: 768px)";

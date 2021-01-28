@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "==19.10b0"
+flake8 = "*"
+moto = "*"
+pytest = "*"
+pytest-mock = "*"
+pytest-factoryboy = "*"
+pytest-dotenv = "*"
+python-dotenv = "*"
+
+[packages]
+boto3 = "*"
+environs = "*"
+"psycopg2-binary" = "*"
+pystache = "*"
+sqlalchemy = "*"
+
+[requires]
+python_version = "3.8"

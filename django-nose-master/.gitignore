@@ -1,0 +1,28 @@
+# Python binaries
+*.py[cod]
+
+# Editor backups, OS files
+*.swp
+*~
+.DS_Store
+
+# Distutils cruft
+*.egg-info
+South-*.egg/
+build/
+dist/
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.coverage.*
+.noseids
+nosetests.xml
+htmlcov/
+testapp.sqlite3
+
+# Sphinx documentation build
+docs/_build/*
+
+# pyenv
+.python-version

@@ -1,0 +1,35 @@
+{% extends 'css3two_blog/blog_base.html' %}
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css3two_blog/css/gfm.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css3two_blog/css/article.css' %}" />
+  <div class="blog-index">
+	<article>
+	  <h2>Contact me</h2>
+	  <p>To send me a message fill out the below form.</p>
+	  <form method="post">{% csrf_token %}
+		<p style="line-height: 20px; padding-bottom: 1px">Name:</p>
+    <input type="text" name="name">
+		<p style="line-height: 20px; padding-bottom: 1px">Your e-mail:</p>
+    <input type="text" name="email">
+		<p style="line-height: 20px; padding-bottom: 1px">Message:</p>
+    <textarea name="body" rows="10" cols="50"></textarea><br>
+		<input style="width:100px;height:30px" type="submit" value="Submit">
+	  </form>
+	</article>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+{% endblock content %}

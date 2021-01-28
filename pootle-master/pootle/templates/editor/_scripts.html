@@ -1,0 +1,45 @@
+{% load assets store_tags core %}
+<script id="tm_suggestions" type="text/template">
+{% include_raw "editor/units/xhr_tm.html" %}
+</script>
+<script id="editCtx" type="text/template">
+{% include_raw "editor/units/xhr_edit_ctx.html" %}
+</script>
+<script id="js-editor-msg" type="text/template">
+{% include_raw "editor/msg.html" %}
+</script>
+{% assets "js_editor" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% include 'editor/_extra_scripts.html' %}
+<script type="text/javascript">
+$(function() {
+  var options = {
+    tmUrl: '{{ AMAGAMA_URL }}',
+  {% if AMAGAMA_URL %}
+    tmSourceLanguages: {{ AMAGAMA_SOURCE_LANGUAGES|to_js }},
+  {% endif %}
+    pootlePath: '{{ pootle_path }}',
+    vFolder: '{{ current_vfolder_pk }}',
+    ctxPath: '{{ ctx_path }}',
+    resourcePath: '{{ resource_path }}',
+    chunkSize: {{ chunk_size }},
+    displayPriority: {{ display_priority|yesno:"true,false" }},
+    isAdmin: {{ has_admin_access|yesno:"true,false" }},
+    isAnonymous: {{ request.user.is_anonymous|yesno:"true,false" }},
+    userId: {{ request.user.id }},
+    localeDir: '{{ language.direction }}',
+    canReview: {{ canreview|yesno:"true,false" }},
+    canSuggest: {{ cansuggest|yesno:"true,false" }},
+    canTranslate: {{ cantranslate|yesno:"true,false" }},
+  };
+  {% if cansuggest or cantranslate %}
+  options.mt = [
+    {% for provider, apikey in POOTLE_MT_BACKENDS %}
+    { name: '{{ provider }}', key: '{{ apikey }}' },
+    {% endfor %}
+  ];
+  {% endif %}
+  PTL.editor.init(options);
+});
+</script>

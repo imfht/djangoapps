@@ -1,0 +1,100 @@
+{% extends "spirit/_base.html" %}
+
+{% load spirit_tags i18n %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block content %}
+  <div class="layout__comments">
+    <ul class="breadcrumb_nav">
+      <li><a href="{% url "spirit:topic:private:index" %}"
+      >{% trans "Private topics" %}</a></li>
+    </ul>
+
+    <h1 class="headline">{{ topic.title }}</h1>
+
+    <div class="layout__menu">
+      <div class="menu__dropdown js-tabs-container">
+        <div class="menu__dropdown_button">
+          <a
+            class="dropdown_button js-tab"
+            href="#"
+            data-related=".js-participants-content"
+          >{% trans "Participants" %} <i class="fa fa-chevron-down"></i></a>
+        </div>
+        <div class="menu_list_wrapper js-tab-content js-participants-content" style="display: none;">
+          <ul class="menu_list">
+            {% spaceless %}
+              {% for tp in topic.topics_private.all %}
+                <li class="menu_list__participant">
+                  <a
+                    class="menu_list__participant__user"
+                    href="{{ tp.user.st.get_absolute_url }}"
+                  >{{ tp.user.st.nickname }}</a>
+                  {% if user.pk == topic.user.pk %}
+                    <a
+                      class="menu_list__participant__remove"
+                      href="{% url "spirit:topic:private:access-remove" tp.pk %}"
+                    ><i class="fa fa-times"></i></a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            {% endspaceless %}
+          </ul>
+        </div>
+      </div>
+      <div class="menu__new_topic">
+        <a
+          class="button js-post"
+          href="{% url "spirit:topic:private:access-remove" topic_private.pk %}"
+        ><i class="fa fa-times"></i> {% trans "Leave topic" %}</a>
+      </div>
+    </div>
+
+    {% if user.pk == topic.user.pk %}
+      <div class="invite_user">
+        {% render_invite_form topic %}
+      </div>
+    {% endif %}
+
+    {% include "spirit/comment/_render_list.html" %}
+
+    {# this can be *included* here and in topic_detail #}
+    <div class="comments__footer_menu">
+      <div class="comments__footer_menu__paginator">
+        {% render_paginator comments %}
+      </div>
+      <div class="comments__footer_menu__notify">
+        {% render_notification_form user=user topic=topic %}
+      </div>
+    </div>
+
+    <div id="reply" class="comments__reply">
+      <div class="comments__reply__img">
+        {% include "spirit/comment/_avatar.html" with u=user only %}
+      </div>
+      <div class="comment__reply__info">
+        <a
+          class="comment__reply__info__link"
+          href="{{ user.st.get_absolute_url }}"
+        >{{ user.st.nickname }}</a>
+        <div class="comment__reply__info__realname">
+          {{ user.get_full_name }}
+        </div>
+      </div>
+      <div class="comment__reply__text">
+        {% render_comments_form topic=topic %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      stModules.bookmark(document.querySelectorAll('.js-comment'), {
+        csrfToken: "{{ csrf_token }}",
+        target: "{% url "spirit:comment:bookmark:create" topic.pk %}"
+      });
+    });
+  </script>
+
+{% endblock %}

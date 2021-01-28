@@ -1,0 +1,48 @@
+.project-csv {
+    margin-bottom: 2.5rem;
+    .project-values-title {
+        margin-bottom: 1rem;
+    }
+    .csv-regenerate-field {
+        align-content: center;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        a {
+            @include font-size(small);
+            display: flex;
+            margin-left: 1em;
+            white-space: nowrap;
+        }
+        .icon:not(.icon-clipboard) {
+            fill: currentColor;
+            height: .9rem;
+            margin-right: .3rem;
+            vertical-align: middle;
+            width: .9rem;
+        }
+    }
+    .field-with-options {
+        display: flex;
+        width: 100%;
+        input {
+            flex-grow: 1;
+        }
+    }
+    .option-wrapper {
+        align-items: center;
+        border: 1px solid $gray-light;
+        border-left: 0;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        display: flex;
+        padding: 0 1rem;
+    }
+    .button {
+        padding: .5rem 1rem;
+        span {
+            margin: 0;
+        }
+    }
+}

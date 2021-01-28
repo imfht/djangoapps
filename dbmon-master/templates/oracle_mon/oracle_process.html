@@ -1,0 +1,47 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>用户名</th>
+                  <th>操作系统用户名</th>
+                  <th>客户端主机信息</th>
+                    <th>客户端连接源</th>
+                    <th>连接状态</th>
+                    <th>计数</th>
+                </tr>
+                </thead>
+                {% for oracle_process in oracle_processes %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ tags}} </td>
+                 <td>{{ oracle_process.USERNAME}} </td>
+                 <td>{{ oracle_process.OSUSER}} </td>
+                 <td>{{ oracle_process.MACHINE}} </td>
+                 <td>{{ oracle_process.PROGRAM}} </td>
+                 <td>{{ oracle_process.STATUS}} </td>
+                 <td>{{ oracle_process.CNT}} </td>
+                 {% endfor %}
+              </table>
+            </div>
+      </div>
+      </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

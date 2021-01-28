@@ -1,0 +1,39 @@
+.wysiwyg-help {
+    background: $mass-white;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -.5rem;
+    padding: .45rem .5rem;
+    a {
+        display: inline-block;
+    }
+}
+
+.drag-drop-help {
+    @include font-size(xsmall);
+    color: $gray;
+}
+
+.help-markdown,
+.help-button {
+    @include font-size(xsmall);
+
+    display: flex;
+    &:hover {
+        span {
+            transition: color .2s linear;
+        }
+        .icon {
+            fill: $primary-light;
+            transition: fill .2s linear;
+        }
+    }
+    span {
+        vertical-align: text-top;
+    }
+    .icon {
+        @include svg-size(.9rem);
+        fill: $gray-light;
+        margin-right: .2rem;
+    }
+}

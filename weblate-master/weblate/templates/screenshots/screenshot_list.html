@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% perm 'screenshot.delete' object as user_can_delete_screenshot %}
+{% perm 'screenshot.edit' object as user_can_change_screenshot %}
+
+{% if add_form %}
+<form action="{% url 'screenshots' project=object.project.slug component=object.slug %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
+  <div class="panel-body">
+  {{ add_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
+
+<table class="sort table">
+<thead>
+<tr>
+<th>{% trans "Screenshot name" %}</th>
+<th>{% trans "Image" %}</th>
+<th>{% trans "Strings" %}</th>
+</tr>
+<tbody>
+{% for screenshot in object_list %}
+<tr>
+<th><a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a> <span class="badge">{{ screenshot.translation.language }}</span></th>
+<td>
+<div class="shot-list">
+{% include "screenshots/screenshot_show.html" %}
+</div>
+</td>
+{% with count=screenshot.units.count %}
+<td data-value="{{ count }}">
+    {{ count | intcomma }}
+    {% if count == 0 %}
+    <span title="{% trans "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
+    {% endif %}
+</td>
+{% endwith %}
+<td>
+{% if user_can_change_screenshot %}
+<a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a>
+{% endif %}
+</td>
+<td>
+{% if user_can_delete_screenshot %}
+<form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="POST">
+{% csrf_token %}
+<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+</form>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% include "paginator.html" %}
+
+{% endblock %}

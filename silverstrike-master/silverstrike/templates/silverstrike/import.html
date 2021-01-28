@@ -1,0 +1,29 @@
+{% extends 'silverstrike/base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block content_header %}
+<h1>Import</h1>
+<ol class="breadcrumb">
+  <li><a href="/">{% trans 'Home' %}</a></li>
+  <li class="active">{% trans 'Import' %}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-10">
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">{% trans 'Import methods' %}</h3>
+  </div>
+    <div class="box-body">
+      <h3>Bank Statements</h3>
+      <hr>
+      <a href="{% url 'import_upload' %}" class="btn btn-app">{% trans 'CSV' %}</a>
+      <h3>Export from other MoneyManagement Software</h3>
+      <hr>
+      <a href="{% url 'import_firefly' %}" class="btn btn-app">Firefly III</a>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+version: "3"
+services:
+  django:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-backend:${COMMIT_ID}
+    env_file:
+      - docker/prod/docker_production.env
+    build:
+      context: ./
+      dockerfile: docker/prod/django/Dockerfile
+    ports:
+      - "8000:8000"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_DEFAULT_REGION}
+        awslogs-group: django_production
+        awslogs-create-group: "true"
+
+  celery:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-celery:${COMMIT_ID}
+    env_file:
+      - docker/prod/docker_production.env
+    build:
+      context: ./
+      dockerfile: docker/prod/celery/Dockerfile
+    depends_on:
+      - django
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_DEFAULT_REGION}
+        awslogs-group: celery_production
+        awslogs-create-group: "true"
+
+  worker:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-worker:${COMMIT_ID}
+    build:
+      context: ./
+      dockerfile: docker/prod/worker/Dockerfile
+    env_file:
+      - docker/prod/docker_production.env
+
+  nodejs:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-frontend:${COMMIT_ID}
+    build:
+      context: ./
+      dockerfile: docker/prod/nodejs/Dockerfile
+      args:
+        NODE_ENV: production
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /code/node_modules
+      - /code/bower_components
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_DEFAULT_REGION}
+        awslogs-group: nodejs_production
+        awslogs-create-group: "true"
+
+  nodejs_v2:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-frontend-v2:${COMMIT_ID}
+    build:
+      context: ./
+      dockerfile: docker/prod/nodejs_v2/Dockerfile
+      args:
+        NODE_ENV: production
+    ports:
+      - "9999:80"
+    volumes:
+      - /code/node_modules
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: nodejs_production_v2
+        awslogs-create-group: "true"
+
+  remote-worker:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-remote-worker:${COMMIT_ID}
+    build:
+      context: ./
+      dockerfile: docker/prod/worker/Dockerfile
+    command: ["python", "-m", "scripts.workers.remote_submission_worker"]
+    env_file:
+      - docker/prod/docker_remote_worker.env
+
+  code-upload-worker:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/evalai-production-code-upload-worker:${COMMIT_ID}
+    env_file:
+      - docker/prod/docker_code_upload_worker.env
+    build:
+      context: ./
+      dockerfile: docker/prod/code-upload-worker/Dockerfile
+

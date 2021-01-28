@@ -1,0 +1,41 @@
+{% extends "manage/manage_base.html" %}
+{% load i18n %}
+
+{% block help_link %}user/management/marketing/vouchers.html{% endblock %}
+{% block left_slot %}
+    <h2 class="navigation-title">
+        {% trans "Voucher groups" %}
+    </h2>
+    <div class="navigation-body">
+        {{ navigation|safe }}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="site-actions">
+        <a class="add"
+           href="{% url 'lfs_manage_add_voucher_group' %}?came_from={% url 'lfs_manage_voucher_group' voucher_group.id %}">{% trans 'Add voucher group' %}</a>
+
+        <a class="delete delete-link"
+           dialog_message="{% trans 'Do you really want to delete this voucher group?' %}"
+           href="{% url 'lfs_delete_voucher_group' voucher_group.id %}">{% trans 'Delete voucher group' %}</a>
+    </div>
+
+    <div id="manage-tabs">
+        <ul>
+            <li class="ui-tabs-nav-item"><a href="#data">{% trans 'Data' %}</a></li>
+            <li class="ui-tabs-nav-item"><a href="#vouchers">{% trans 'Vouchers' %}</a></li>
+            <li class="ui-tabs-nav-item"><a href="#options">{% trans 'Options' %}</a></li>
+        </ul>
+
+        <div id="data">
+            {{ data_tab|safe }}
+        </div>
+        <div id="vouchers">
+            {{ vouchers_tab|safe }}
+        </div>
+        <div id="options">
+            {{ options_tab|safe }}
+        </div>
+    </div>
+{% endblock %}

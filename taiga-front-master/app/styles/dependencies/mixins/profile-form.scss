@@ -1,0 +1,64 @@
+@mixin profile-form {
+    form {
+        display: flex;
+    }
+    fieldset {
+        margin-bottom: 1rem;
+    }
+    label {
+        @include font-type(regular);
+        display: block;
+        margin-bottom: .2rem;
+    }
+    .project-details-image {
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-right: 2rem;
+        width: 180px;
+        .image {
+            width: 100%;
+        }
+    }
+    .image-container {
+        margin-bottom: .5rem;
+        position: relative;
+    }
+    .loading-overlay {
+        display: none;
+        &.active {
+            align-items: center;
+            background: rgba($blackish, .8);
+            bottom: 0;
+            display: flex;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+        }
+    }
+    .loading-spinner {
+        @include loading-spinner;
+        border: 0;
+        transform-origin: center center;
+    }
+    .use-default-image {
+        @include font-size(x-small);
+        display: block;
+        margin-top: .5rem;
+        text-align: center;
+        &:hover {
+            color: $red;
+        }
+    }
+
+    .project-details-form-data {
+        flex: 1;
+        max-width: 500px;
+    }
+    @include until($desktop) {
+        form {
+            display: block;
+        }
+    }
+}

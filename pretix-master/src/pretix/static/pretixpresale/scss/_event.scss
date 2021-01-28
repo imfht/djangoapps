@@ -1,0 +1,254 @@
+.product-row {
+    border-top: 1px solid $table-border-color;
+    .addons &:first-child {
+        border-top: 2px solid $table-border-color;
+    }
+    .addons &:last-child {
+        border-bottom: 2px solid $table-border-color;
+    }
+
+    &:last-child {
+    }
+    p  {
+        margin-bottom: 0;
+    }
+
+    .input-item-count {
+        text-align: center;
+    }
+    .input-group-price {
+        margin-bottom: 3px;
+    }
+    .input-item-price {
+        text-align: center;
+    }
+    .availability-box {
+        text-align: center;
+
+        &.gone {
+            color: $alert-danger-text;
+        }
+        &.unavailable {
+            color: $alert-warning-text;
+        }
+    }
+    .item-checkbox-label {
+        display: block;
+    }
+
+    .product-description.with-picture {
+        margin-left: 70px;
+    }
+
+    .productpicture {
+        float: left;
+        margin-right: 10px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .radio-box {
+        text-align: center;
+        label {
+            display: block;
+            width: 100%;
+            line-height: 19px;
+            margin: 0;
+        }
+    }
+    &.variation label {
+        font-weight: normal;
+    }
+    h4 {
+        font-size: inherit;
+        margin: 0;
+        line-height: inherit;
+        font-weight: bold;
+        a {
+            font-weight: bold;
+        }
+    }
+    h5 {
+        font-size: inherit;
+        font-weight: inherit;
+        margin: 0;
+        line-height: inherit;
+    }
+    .price del {
+        color: $text-muted;
+        display: block;
+    }
+    .price ins {
+        color: $brand-success;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+}
+
+.radio .variation-description {
+    padding-left: 20px;
+}
+.variation-description {
+    color: lighten($text-color, 25%);
+}
+.voucher-row {
+    margin-top: 10px;
+}
+.toggle-variation-description {
+    cursor: pointer;
+}
+#voucher-toggle {
+    display: none;
+}
+.item-with-variations .product-row.headline, .product-row.simple {
+    border-top: 2px solid $table-border-color;
+}
+.item-with-variations:last-child {
+    border-bottom: 2px solid $table-border-color;
+}
+
+.panel-body address:last-child {
+    margin-bottom: 0;
+}
+
+.product-row {
+    padding: 10px 0;
+
+    .count form {
+        display: inline;
+    }
+    .price, .count {
+        text-align: right;
+    }
+    .price small,
+    .availability-box small {
+        display: block;
+        line-height: 1;
+    }
+
+    &.total {
+        border-top: 1px solid $table-border-color;
+    }
+}
+.panel-contact dl {
+    margin-bottom: 0;
+}
+.panel-primary .panel-heading a {
+    color: white;
+}
+.checkout-button-row {
+    padding-top: 15px;
+}
+section.front-page {
+    margin-top: 30px;
+}
+.offline-banner {
+    background: $brand-danger;
+    color: white;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+
+    a {
+        text-decoration: underline;
+        color: white;
+    }
+}
+#questions_group .panel-title a {
+    line-height: 22px;
+}
+@media (max-width: $screen-sm-max) {
+    .page-header h1 small, h1.content-header small {
+        display: block;
+        white-space: normal;
+    }
+    .row-voucher > div:first-child {
+        margin-bottom: 15px;
+    }
+}
+
+.subevent-list {
+    background-color: white;
+
+    form {
+        padding: 10px 0;
+    }
+
+    .row {
+        margin: 0;
+    }
+    a.subevent-row {
+        display: block;
+        color: $text-color;
+        padding: 3px 0;
+    }
+    a.subevent-row:nth-child(2n) {
+        background-color: $gray-lighter;
+    }
+    a.subevent-row:hover {
+        text-decoration: none;
+        background-color: darken($gray-lighter, 10%);
+    }
+    .subevent-row .row > div {
+        padding: 5px;
+        min-height: 35px; /* label height */
+        vertical-align: middle;
+    }
+}
+.subevent-toggle {
+    display: none;
+}
+h2.subevent-head {
+    margin-top: 10px;
+}
+.cancel-fee-slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .slider-selection {
+        background: $brand-success;
+    }
+    .slider-handle {
+        @include slider_background-image($brand-success, darken($brand-success, 5%), mix($brand-success, darken($brand-success, 5%)));
+    }
+
+    .slider-tick-container {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    input {
+        flex: 0;
+    }
+    & > div {
+        flex: 1;
+        font-weight: bold;
+    }
+    & > div:first-child {
+        text-align: right;
+        padding-right: 20px;
+    }
+    & > div:last-child {
+        text-align: left;
+        padding-left: 20px;
+    }
+}
+#cancel-fee-custom-link {
+    margin-bottom: 20px;
+}
+.info-download {
+    margin-top: 15px;
+}
+.refund-gift-card-code {
+    font-size: 24px;
+    font-family: $font-family-monospace;
+    padding: 8px 0;
+}
+.banner-bottom, .site-notice-bottom {
+    padding-top: 15px;
+}
+.banner-top, .site-notice-top {
+    padding-bottom: 15px;
+}

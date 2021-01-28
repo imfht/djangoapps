@@ -1,0 +1,521 @@
+@import 'lib';
+
+.developer-hub {
+    #masthead .site-title {
+        small, strong {
+            display: block;
+        }
+        strong {
+            font-size: 48px;
+            line-height: 40px;
+        }
+    }
+    #page {
+        #masthead .site-title {
+            margin-top: -10px;
+        }
+        #homepage {
+            margin-right: 240px;
+        }
+        #devhub-sidebar {
+            width: 220px;
+        }
+    }
+    &.apps #page #masthead .site-title {
+        margin-top: 0;
+    }
+}
+
+.status-none b {
+    color: #999;
+}
+
+.status-lite-nom i,
+.status-nominated b,
+.status-unreviewed b {
+    font-style: normal;
+    color: #3e7987;
+}
+
+.status-incomplete b,
+.status-disabled b,
+.status-admin-disabled b,
+.status-purgatory b {
+    color: #851006;
+}
+
+.status-approved b,
+.status-lite b,
+.status-lite-nom b {
+    color: #329902;
+}
+
+.html-rtl.developer-hub {
+    .menu-nav {
+        margin-right: 0;
+    }
+    #page #homepage {
+        margin: 0 0 0 240px;
+    }
+    .sidebar-breakout,
+    .secondary.devhub-sidebar {
+        .addon-item {
+            .addon-details {
+                margin: 0 38px 10px 0;
+            }
+            img {
+                right: 0;
+            }
+        }
+        ul.refinements li a,
+        ul.refinements li button {
+            padding: 0 10px 0 0;
+        }
+
+        ul.refinements li.selected a {
+            background: url("../../img/zamboni/arrow-left-blue.png") 100% .5em no-repeat;
+        }
+    }
+}
+
+.p-light {
+    color: #777;
+    font-size: 17px;
+    line-height: 1.3em;
+}
+
+.html-rtl #devhub-promo {
+    overflow: hidden;
+
+    div.promo-container {
+        float: left;
+    }
+}
+
+.devhub-sidebar {
+    p {
+        padding: 0;
+    }
+    border-bottom: 1px solid #ccc;
+    div.item {
+        border-top: 1px solid #ccc;
+
+        h3 {
+            font-size: 15px;
+            font-weight: bold;
+            padding: 1em 0;
+        }
+        p {
+            color: #555;
+            font-family: @sans-stack;
+            line-height: 1.3em;
+            margin-bottom: 1em;
+            padding: 0;
+        }
+    }
+}
+
+/* Blog Posts on sidebar */
+.blog-posts > ul,
+.secondary.devhub-sidebar ul {
+    margin-bottom: 0;
+
+    li {
+        border: medium none;
+        padding-bottom: 1em;
+        font-family: verdana;
+        font-size: 11px;
+
+        a {
+            color: @link;
+            line-height: 13px;
+        }
+    }
+    a {
+        display: inline;
+        padding: 0;
+        margin: 0;
+    }
+    .activity-timestamp {
+        display: block;
+        color: @note-gray;
+        font-size: 10px;
+        margin-top: 0.15em;
+    }
+}
+
+.sidebar-breakout,
+.secondary.devhub-sidebar {
+    .addon-item {
+        position: relative;
+        padding: 4px;
+        padding-bottom: 10px;
+        border-bottom: 1px dotted lighten(@border-blue, 7%);
+        margin-bottom: 5px;
+        .addon-name,
+        .upload-new-version a {
+            display: block;
+        }
+        img {
+            position: absolute;
+            top: 5px;
+            left: 0;
+        }
+        .addon-details {
+            margin-left: 38px;
+            font-size: 12px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .more {
+            padding: 3px;
+        }
+        .upload-new-version {
+            font-size: 11px;
+            font-weight: bold;
+        }
+    }
+    .button {
+        display: block;
+    }
+    #link-view-all {
+        display: block;
+        margin-top: 12px;
+    }
+}
+
+.sidebar-breakout {
+    height: 100%;
+
+    .empty-box-placeholder,
+    &.island,
+    > .blog-posts {
+        height: 100%;
+
+        display: -webkit-flex;
+        display: flex;
+
+        -webkit-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .empty-box-placeholder {
+        -webkit-justify-content: center;
+        justify-content: center;
+        padding: 0 2em;
+    }
+    .empty-box-placeholder,
+    .empty-box-placeholder p {
+        text-align: center;
+    }
+}
+
+/* Devhub navigation panel */
+.secondary {
+    .addon-status {
+        background: white;
+        border: 1px solid @border-blue;
+        border-radius: 8px;
+        clear: both;
+        color: @medium-gray;
+        margin: 0 0 12px;
+        padding: 10px;
+        position: relative;
+        img {
+            left: 10px;
+            position: absolute;
+            top: 12px;
+        }
+        .addon-details {
+            font-size: 12px;
+            margin: 0 0 5px 0px;
+            li.addon-listed-status {
+                color: #444;
+            }
+            .tip {
+                border-radius: 6px;
+                font-size: 10px;
+                height: 12px;
+                line-height: 14px;
+                margin-left: 3px;
+                width: 12px;
+            }
+            li.distribution-tag-unlisted,
+            li.distribution-tag-listed {
+                padding-top: 5px;
+                border-top: 1px dotted #94bfce;
+            }
+        }
+        .addon-upload {
+            border-top: 1px dotted #94bfce;
+            font-size: 11px;
+            margin: 0;
+            padding-top: 5px;
+        }
+    }
+    ul.refinements {
+        border-bottom: 1px dotted #94bfce;
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        &:last-child {
+            border-bottom: none;
+        }
+        li a {
+            color: #3d6db5;
+            font-size: .923em;
+            font-weight: inherit;
+            padding: 0 0 0 10px;
+        }
+        li.stripe-customer-portal {
+            form {
+                margin-bottom: 0;
+            }
+
+            button {
+                color: #3d6db5;
+                font-family: inherit;
+                font-size: .923em;
+                font-weight: inherit;
+                padding: 0 0 0 10px;
+
+                &:active,
+                &:focus,
+                &:hover {
+                    box-shadow: none;
+                    top: initial;
+                }
+            }
+        }
+        li.addon-manage a {
+            display: inline;
+            &:last-child {
+                padding-left: 0;
+                &:before {
+                    content: "\00b7";
+                    padding-right: 5px;
+                }
+            }
+            &:only-child {
+                padding-left: 10px;
+                &:before {
+                    content: "";
+                    padding: 0;
+                }
+            }
+        }
+        li.selected a {
+            background: url("../../img/zamboni/arrow-right-blue.png") 0 .5em no-repeat;
+        }
+    }
+}
+
+.modal p,
+.popup p {
+    line-height: 1.3;
+    margin: 1em 0 0;
+
+    &:first-child {
+        margin: 0;
+    }
+}
+
+#upload-file {
+    #validate-field {
+        display: table;
+        width: 100%;
+        margin: 0;
+        border: 1px solid @teal;
+        overflow: hidden;
+        .border-radius(5px);
+        > div {
+            display: table-cell;
+
+            &.vf-text {
+                width: 100%;
+            }
+            &.vf-button button {
+                .border-radius(0);
+                border: none;
+                border-left: 1px solid @teal;
+                font-family: @sans-stack;
+                font-size: 1.3em;
+                line-height: 1em;
+                margin: 0;
+                padding: 5px;
+            }
+        }
+    }
+}
+
+.addon-submission-process form .optional-terms {
+    border-top: 1px solid @border-blue;
+    margin-top: 2.25em;
+    padding-top: 1em;
+}
+
+/* Paypal checker */
+#id_paypal_id, #id_support_email {
+    .border-box();
+    padding-right: 20px;
+    width: 250px;
+}
+
+.html-rtl {
+    #id_paypal_id, #id_support_email {
+        padding: 2px 5px 2px 20px;
+    }
+}
+
+#paypal-id-verify {
+    display: inline-block;
+    height: 16px;
+    left: -19px;
+    position: relative;
+    top: 3px;
+    width: 16px;
+
+    &.pp-success {
+        background-image: url(../../img/developers/input-indicators.png);
+        background-position: 16px center;
+    }
+    &.pp-unknown {
+        background-image: url(../../img/zamboni/loading-white.gif);
+    }
+    &.pp-error {
+        background-image: url(../../img/developers/input-indicators.png);
+        background-position: 0 center;
+
+        & + #paypal-id-error {
+            display: inline;
+        }
+    }
+}
+
+.html-rtl #paypal-id-verify {
+    left: auto;
+    right: -19px;
+}
+
+#paypal-id-error {
+    background-color: #888;
+    border-radius: 4px;
+    color: #FFF;
+    margin-left: -7px;
+    padding: 3px 8px;
+    position: relative;
+    display: none;
+
+    &:before {
+        border-bottom: 6px solid transparent;
+        border-right: 6px solid #888;
+        border-top: 6px solid transparent;
+        content: " ";
+        display: block;
+        height: 0;
+        left: -5px;
+        position: absolute;
+        top: 5px;
+        width: 0;
+    }
+}
+
+.html-rtl #paypal-id-error {
+    margin: 0 -7px 0 0;
+
+    &:before {
+        border: 6px solid transparent;
+        border-left-color: #888;
+        left: auto;
+        right: -11px;
+    }
+}
+
+#icon_preview {
+    float: right;
+    margin-left: 10px;
+    width: 140px;
+
+    .icon_preview {
+        border: 1px solid #6A89AC;
+        text-align: center;
+        padding: 5px;
+        background-color: #fff;
+
+        img {
+            vertical-align: middle;
+        }
+    }
+}
+.html-rtl #icon_preview {
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+#icon_preview_32 {
+    line-height: 32px;
+    width: 32px;
+    height: 32px;
+
+    img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+}
+
+#icon_preview_64 {
+    line-height: 64px;
+    width: 64px;
+    height: 64px;
+
+    img {
+        max-width: 64px;
+        max-height: 64px;
+    }
+}
+
+#icon_preview_128 {
+    line-height: 128px;
+    width: 128px;
+    height: 128px;
+
+    img {
+        max-width: 128px;
+        max-height: 128px;
+    }
+}
+
+.edit-addon-section #icons_default {
+    margin-bottom: 1em;
+}
+
+.compat-reports {
+    text-decoration: none;
+
+    span {
+        float: left;
+    }
+    &:hover {
+        span {
+            text-decoration: underline;
+        }
+    }
+    .success, .failure {
+        color: #fff;
+        float: right;
+        font-size: 10px;
+        font-weight: normal;
+        line-height: 15px;
+        margin: 4px 0 0;
+        padding: 0 5px;
+    }
+    .success {
+        .border-radius(5px 0 0 5px);
+        background: #080;
+    }
+    .failure {
+         .border-radius(0 5px 5px 0);
+        background: #800;
+    }
+}

@@ -1,0 +1,44 @@
+{% extends "devhub/base.html" %}
+
+{% if submit_page == 'version' %}
+  {% set title = _('Submit a New Version') %}
+{% else %}
+  {% set title = _('Submit a New Add-on') %}
+{% endif %}
+
+{% block title %}
+{{ dev_page_title(title) }}
+{% endblock %}
+
+{% block content %}
+{% if submit_notification_warning %}
+    <div class="notification-box warning">
+        {# The submit notification warning is controlled by admins, HTML is allowed #}
+        {{ submit_notification_warning|safe }}
+    </div>
+{% endif %}
+<header>
+  <h2 class="is_addon">{{ title }}</h2>
+</header>
+
+<section class="addon-submission-process" role="main">
+  {% block primary %}{% endblock %}
+</section>
+
+<div id="modals">
+  <div id="modal-confirm-submission-cancel" class="modal modal-confirm-submission-cancel">
+      <form method="POST" action="#">
+          <h3>{{ _("Cancel and Disable Version") }}</h3>
+          <p>
+              {% trans %}
+                Are you sure you wish to cancel and disable version?
+              {% endtrans %}
+          </p>
+          <div class="modal-actions">
+              <button class="delete-button" type="submit">{{ _("Yes, Cancel") }}</button>
+              <a href="#" class="close">{{ _("No, don't cancel") }}</a>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock content %}

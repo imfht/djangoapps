@@ -1,0 +1,39 @@
+#navbar-user {
+    height: unset;
+}
+
+.pagination select {
+    display:inline-block;
+    width:120px;
+    border-radius:0;
+    float: left;
+    vertical-align: top;
+    margin-left: -1px;
+}
+
+.flash-message {
+    right: 1rem;
+    margin-top: 1rem;
+    position: absolute;
+    z-index: 10;
+}
+
+.flash-message > .alert {
+    background-color: #323232;
+    color: white;
+}
+
+.flash-message > .alert > button {
+    color: white;
+}
+
+.force-parent-lh {
+  line-height: inherit !important;
+}
+
+/* fix for adminlte issue https://github.com/almasaeed2010/AdminLTE/issues/1607 */
+@media (max-width: 767px) {
+  .skin-blue-light .main-header .navbar .dropdown-menu li a {
+    color: unset !important;
+  }
+}

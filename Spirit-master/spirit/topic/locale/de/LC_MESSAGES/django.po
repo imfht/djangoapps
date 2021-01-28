@@ -1,0 +1,180 @@
+# 
+# Translators:
+# Sven Hessenmüller <sven.hessenmueller@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-09-13 00:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: German (http://www.transifex.com/spirit-project/spirit/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:33
+msgid "Category"
+msgstr "Kategorie"
+
+#: forms.py:34
+msgid "Choose a category"
+msgstr "Kategorie auswählen"
+
+#: models.py:32
+msgid "category"
+msgstr "Kategorie"
+
+#: models.py:35
+msgid "title"
+msgstr "Titel"
+
+#: models.py:37
+msgid "date"
+msgstr "Datum"
+
+#: models.py:38
+msgid "last active"
+msgstr "zuletzt aktiv"
+
+#: models.py:39
+msgid "reindex at"
+msgstr ""
+
+#: models.py:41
+msgid "pinned"
+msgstr "festgeheftet"
+
+#: models.py:42
+msgid "globally pinned"
+msgstr "global festgeheftet"
+
+#: models.py:43
+msgid "closed"
+msgstr "geschlossen"
+
+#: models.py:46
+msgid "views count"
+msgstr "gelesen"
+
+#: models.py:47
+msgid "comment count"
+msgstr "Kommentare"
+
+#: models.py:53
+msgid "topic"
+msgstr "Thema"
+
+#: models.py:54
+msgid "topics"
+msgstr "Themen"
+
+#: templates/spirit/topic/_render_list.html:48
+msgid "There are no topics here, yet"
+msgstr "Es gibt keine Themen, bis jetzt..."
+
+#: templates/spirit/topic/_top_bar.html:17
+#: templates/spirit/topic/_top_bar.html:32
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: templates/spirit/topic/_top_bar.html:29
+msgid "All Subcategories"
+msgstr "Alle Unterkategorien"
+
+#: templates/spirit/topic/_top_bar.html:41
+#: templates/spirit/topic/_top_bar.html:44
+msgid "Create Topic"
+msgstr "Thema erstellen"
+
+#: templates/spirit/topic/active.html:5
+msgid "Latest active topics"
+msgstr "zuletzt aktive Themen"
+
+#: templates/spirit/topic/detail.html:12
+msgid "Main"
+msgstr "Main"
+
+#: templates/spirit/topic/detail.html:39 templates/spirit/topic/detail.html:43
+msgid "edit"
+msgstr "editieren"
+
+#: templates/spirit/topic/detail.html:51
+msgid "Moderate"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:57
+msgid "Select comments to move"
+msgstr "Kommentar zum verschieben auswählen"
+
+#: templates/spirit/topic/detail.html:60
+msgid "Undelete topic"
+msgstr "Thema wiederherstellen"
+
+#: templates/spirit/topic/detail.html:63
+msgid "Delete topic"
+msgstr "Thema löschen"
+
+#: templates/spirit/topic/detail.html:67
+msgid "Open topic"
+msgstr "Thema öffnen"
+
+#: templates/spirit/topic/detail.html:70
+msgid "Close topic"
+msgstr "Thema schließen"
+
+#: templates/spirit/topic/detail.html:74
+msgid "Unpin topic"
+msgstr "Thema loslösen"
+
+#: templates/spirit/topic/detail.html:77
+msgid "Pin topic"
+msgstr "Thema gefestigen"
+
+#: templates/spirit/topic/detail.html:81
+msgid "Unpin topic globally"
+msgstr "Thema global loslösen"
+
+#: templates/spirit/topic/detail.html:84
+msgid "Pin topic globally"
+msgstr "Thema global festheften"
+
+#: templates/spirit/topic/detail.html:106
+msgid "Reply"
+msgstr "Antworten"
+
+#: templates/spirit/topic/detail.html:114
+msgid "Move selected comments to"
+msgstr ""
+
+#: templates/spirit/topic/detail.html:120
+msgid "Move"
+msgstr "verschiebe"
+
+#: templates/spirit/topic/moderate.html:5
+#: templates/spirit/topic/moderate.html:9
+msgid "Moderate topic"
+msgstr "Thema moderieren"
+
+#: templates/spirit/topic/moderate.html:14
+msgid "Apply"
+msgstr "akzeptieren"
+
+#: templates/spirit/topic/publish.html:5
+#: templates/spirit/topic/publish.html:20
+msgid "Publish topic"
+msgstr "Thema veröffentlichen"
+
+#: templates/spirit/topic/publish.html:38
+msgid "Publish"
+msgstr "veröffentlichen"
+
+#: templates/spirit/topic/update.html:5 templates/spirit/topic/update.html:9
+msgid "Update topic"
+msgstr "Thema aktualisieren"
+
+#: templates/spirit/topic/update.html:13
+msgid "Update"
+msgstr "aktualisieren"

@@ -1,0 +1,585 @@
+import $ from 'jquery';
+
+/* generic function for adding a message to message area through JS alone */
+function addMessage(status, text) {
+  $('.messages').addClass('new').empty()
+    .append('<ul><li class="' + status + '">' + text + '</li></ul>');
+  const addMsgTimeout = setTimeout(() => {
+    $('.messages').addClass('appear');
+    clearTimeout(addMsgTimeout);
+  }, 100);
+}
+window.addMessage = addMessage;
+
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, (char) => map[char]);
+}
+window.escapeHtml = escapeHtml;
+
+function initTagField(id, autocompleteUrl, options) {
+  const finalOptions = Object.assign({
+    autocomplete: { source: autocompleteUrl },
+    preprocessTag(val) {
+      // Double quote a tag if it contains a space
+      // and if it isn't already quoted.
+      if (val && val[0] !== '"' && val.indexOf(' ') > -1) {
+        return '"' + val + '"';
+      }
+
+      return val;
+    },
+  }, options);
+
+  $('#' + id).tagit(finalOptions);
+}
+window.initTagField = initTagField;
+
+/*
+ * Enables a "dirty form check", prompting the user if they are navigating away
+ * from a page with unsaved changes.
+ *
+ * It takes the following parameters:
+ *
+ *  - formSelector - A CSS selector to select the form to apply this check to.
+ *
+ *  - options - An object for passing in options. Possible options are:
+ *  - confirmationMessage - The message to display in the prompt.
+ *  - alwaysDirty - When set to true the form will always be considered dirty,
+ *    prompting the user even when nothing has been changed.
+*/
+
+function enableDirtyFormCheck(formSelector, options) {
+  const $form = $(formSelector);
+  const confirmationMessage = options.confirmationMessage || ' ';
+  const alwaysDirty = options.alwaysDirty || false;
+  let initialData = null;
+  let formSubmitted = false;
+
+  $form.on('submit', () => {
+    formSubmitted = true;
+  });
+
+  // Delay snapshotting the form’s data to avoid race conditions with form widgets that might process the values.
+  // User interaction with the form within that delay also won’t trigger the confirmation message.
+  setTimeout(() => {
+    initialData = $form.serialize();
+  }, 1000 * 10);
+
+  // eslint-disable-next-line consistent-return
+  window.addEventListener('beforeunload', (event) => {
+    const isDirty = initialData && $form.serialize() !== initialData;
+    const displayConfirmation = (
+      !formSubmitted && (alwaysDirty || isDirty)
+    );
+
+    if (displayConfirmation) {
+      // eslint-disable-next-line no-param-reassign
+      event.returnValue = confirmationMessage;
+      return confirmationMessage;
+    }
+  });
+}
+window.enableDirtyFormCheck = enableDirtyFormCheck;
+
+$(() => {
+  // Add class to the body from which transitions may be hung so they don't appear to transition as the page loads
+  $('body').addClass('ready');
+
+  // Enable toggle to open/close nav
+  $(document).on('click', '#nav-toggle', () => {
+    $('body').toggleClass('nav-open');
+    if (!$('body').hasClass('nav-open')) {
+      $('body').addClass('nav-closed');
+    } else {
+      $('body').removeClass('nav-closed');
+    }
+  });
+
+  // Enable toggle to open/close user settings
+  // eslint-disable-next-line func-names
+  $(document).on('click', '#account-settings', function () {
+    $('.nav-main').toggleClass('nav-main--open-footer');
+    $(this).find('em').toggleClass('icon-arrow-down-after icon-arrow-up-after');
+  });
+
+  // Resize nav to fit height of window. This is an unimportant bell/whistle to make it look nice
+  // eslint-disable-next-line func-names
+  const fitNav = function () {
+    $('.nav-wrapper').css('min-height', $(window).height());
+  };
+
+  fitNav();
+
+  $(window).on('resize', () => {
+    fitNav();
+  });
+
+  // Logo interactivity
+  function initLogo() {
+    const sensitivity = 8; // the amount of times the user must stroke the wagtail to trigger the animation
+
+    const $logoContainer = $('[data-animated-logo-container]');
+    let lastMouseX = 0;
+    let lastDir = '';
+    let dirChangeCount = 0;
+
+    function enableWag() {
+      $logoContainer.removeClass('logo-serious').addClass('logo-playful');
+    }
+
+    function disableWag() {
+      $logoContainer.removeClass('logo-playful').addClass('logo-serious');
+    }
+
+    $logoContainer.on('mousemove', (event) => {
+      const mouseX = event.pageX;
+      let dir;
+
+      if (mouseX > lastMouseX) {
+        dir = 'r';
+      } else if (mouseX < lastMouseX) {
+        dir = 'l';
+      }
+
+      if (dir !== lastDir && lastDir !== '') {
+        dirChangeCount += 1;
+      }
+
+      if (dirChangeCount > sensitivity) {
+        enableWag();
+      }
+
+      lastMouseX = mouseX;
+      lastDir = dir;
+    });
+
+    $logoContainer.on('mouseleave', () => {
+      dirChangeCount = 0;
+      disableWag();
+    });
+
+    disableWag();
+  }
+  initLogo();
+
+  // Enable nice focus effects on all fields. This enables help text on hover.
+  // eslint-disable-next-line func-names
+  $(document).on('focus mouseover', 'input,textarea,select', function () {
+    $(this).closest('.field').addClass('focused');
+    $(this).closest('fieldset').addClass('focused');
+    $(this).closest('li').addClass('focused');
+  });
+
+  // eslint-disable-next-line func-names
+  $(document).on('blur mouseout', 'input,textarea,select', function () {
+    $(this).closest('.field').removeClass('focused');
+    $(this).closest('fieldset').removeClass('focused');
+    $(this).closest('li').removeClass('focused');
+  });
+
+  /* tabs */
+  if (window.location.hash) {
+    const cleanedHash = window.location.hash.replace(/[^\w\-#]/g, '');
+    $('a[href="' + cleanedHash + '"]').tab('show');
+  }
+
+  // eslint-disable-next-line func-names
+  $(document).on('click', '.tab-nav a', function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    window.history.replaceState(null, null, $(this).attr('href'));
+  });
+
+  // eslint-disable-next-line func-names
+  $(document).on('click', '.tab-toggle', function (e) {
+    e.preventDefault();
+    $('.tab-nav a[href="' + $(this).attr('href') + '"]').trigger('click');
+  });
+
+  // eslint-disable-next-line func-names
+  $('.dropdown').each(function () {
+    const $dropdown = $(this);
+
+    $('.dropdown-toggle', $dropdown).on('click', (e) => {
+      e.stopPropagation();
+      $dropdown.toggleClass('open');
+
+      if ($dropdown.hasClass('open')) {
+        // If a dropdown is opened, add an event listener for document clicks to close it
+        $(document).on('click.dropdown.cancel', (e2) => {
+          const relTarg = e2.relatedTarget || e2.toElement;
+
+          // Only close dropdown if the click target wasn't a child of this dropdown
+          if (!$(relTarg).parents().is($dropdown)) {
+            $dropdown.removeClass('open');
+            $(document).off('click.dropdown.cancel');
+          }
+        });
+      } else {
+        $(document).off('click.dropdown.cancel');
+      }
+    });
+  });
+
+  /* Dropzones */
+  // eslint-disable-next-line func-names
+  $('.drop-zone').on('dragover', function () {
+    $(this).addClass('hovered');
+  // eslint-disable-next-line func-names
+  }).on('dragleave dragend drop', function () {
+    $(this).removeClass('hovered');
+  });
+
+  /* Header search behaviour */
+  if (window.headerSearch) {
+    let searchCurrentIndex = 0;
+    let searchNextIndex = 0;
+    const $input = $(window.headerSearch.termInput);
+    const $inputContainer = $input.parent();
+
+    $input.on('keyup cut paste change', () => {
+      clearTimeout($input.data('timer'));
+      // eslint-disable-next-line no-use-before-define
+      $input.data('timer', setTimeout(search, 200));
+    });
+
+    // auto focus on search box
+    $input.trigger('focus');
+
+    // eslint-disable-next-line func-names
+    const search = function () {
+      const workingClasses = 'icon-spinner';
+
+      const newQuery = $input.val();
+      // eslint-disable-next-line no-use-before-define
+      const currentQuery = getURLParam('q');
+      // only do the query if it has changed for trimmed queries
+      // eg. " " === "" and "firstword " ==== "firstword"
+      if (currentQuery.trim() !== newQuery.trim()) {
+        $inputContainer.addClass(workingClasses);
+        searchNextIndex++;
+        const index = searchNextIndex;
+        $.ajax({
+          url: window.headerSearch.url,
+          // eslint-disable-next-line id-length
+          data: { q: newQuery },
+          success(data) {
+            if (index > searchCurrentIndex) {
+              searchCurrentIndex = index;
+              $(window.headerSearch.targetOutput).html(data).slideDown(800);
+              window.history.replaceState(null, null, '?q=' + newQuery);
+            }
+          },
+          complete() {
+            window.wagtail.ui.initDropDowns();
+            $inputContainer.removeClass(workingClasses);
+          }
+        });
+      }
+    };
+
+    // eslint-disable-next-line func-names
+    const getURLParam = function (name) {
+      const results = new RegExp('[\\?&]' + name + '=([^]*)').exec(window.location.search);
+      if (results) {
+        return results[1];
+      }
+      return '';
+    };
+  }
+
+  /* Functions that need to run/rerun when active tabs are changed */
+  $(document).on('shown.bs.tab', () => {
+    // Resize autosize textareas
+    // eslint-disable-next-line func-names
+    $('textarea[data-autosize-on]').each(function () {
+      // eslint-disable-next-line no-undef
+      autosize.update($(this).get());
+    });
+  });
+
+  /* Debounce submission of long-running forms and add spinner to give sense of activity */
+  // eslint-disable-next-line func-names
+  $(document).on('click', 'button.button-longrunning', function () {
+    const $self = $(this);
+    const $replacementElem = $('em', $self);
+    const reEnableAfter = 30;
+    const dataName = 'disabledtimeout';
+
+    // eslint-disable-next-line func-names
+    window.cancelSpinner = function () {
+      $self.prop('disabled', '').removeData(dataName).removeClass('button-longrunning-active');
+
+      if ($self.data('clicked-text')) {
+        $replacementElem.text($self.data('original-text'));
+      }
+    };
+
+    // If client-side validation is active on this form, and is going to block submission of the
+    // form, don't activate the spinner
+    const form = $self.closest('form').get(0);
+    if (form && form.checkValidity && !form.noValidate && (!form.checkValidity())) {
+      return;
+    }
+
+    // Disabling a button prevents it submitting the form, so disabling
+    // must occur on a brief timeout only after this function returns.
+
+    const timeout = setTimeout(() => {
+      if (!$self.data(dataName)) {
+        // Button re-enables after a timeout to prevent button becoming
+        // permanently un-usable
+        $self.data(dataName, setTimeout(() => {
+          clearTimeout($self.data(dataName));
+
+          // eslint-disable-next-line no-undef
+          cancelSpinner();
+        }, reEnableAfter * 1000));
+
+        if ($self.data('clicked-text') && $replacementElem.length) {
+          // Save current button text
+          $self.data('original-text', $replacementElem.text());
+
+          $replacementElem.text($self.data('clicked-text'));
+        }
+
+        // Disabling button must be done last: disabled buttons can't be
+        // modified in the normal way, it would seem.
+        $self.addClass('button-longrunning-active').prop('disabled', 'true');
+      }
+
+      clearTimeout(timeout);
+    }, 10);
+  });
+});
+
+// =============================================================================
+// Wagtail global module, mainly useful for debugging.
+// =============================================================================
+
+// =============================================================================
+// Inline dropdown module
+// =============================================================================
+
+const wagtail = window.wagtail || {};
+if (!wagtail.ui) {
+  wagtail.ui = {};
+}
+
+// Constants
+const DROPDOWN_SELECTOR = '[data-dropdown]';
+const LISTING_TITLE_SELECTOR = '[data-listing-page-title]';
+const LISTING_ACTIVE_CLASS = 'listing__item--active';
+const ICON_DOWN = 'icon-arrow-down';
+const ICON_UP = 'icon-arrow-up';
+const IS_OPEN = 'is-open';
+const clickEvent = 'click';
+const TOGGLE_SELECTOR = '[data-dropdown-toggle]';
+const ARIA = 'aria-hidden';
+const keys = {
+  ESC: 27,
+  ENTER: 13,
+  SPACE: 32
+};
+
+
+/**
+ * Singleton controller and registry for DropDown components.
+ *
+ * Mostly used to maintain open/closed state of components and easily
+ * toggle them when the focus changes.
+ */
+const DropDownController = {
+  dropDowns: [],
+
+  closeAllExcept(dropDown) {
+    const index = this.dropDowns.indexOf(dropDown);
+
+    this.dropDowns.forEach((item, i) => {
+      if (i !== index && item.state.isOpen) {
+        item.closeDropDown();
+      }
+    });
+  },
+
+  add(dropDown) {
+    this.dropDowns.push(dropDown);
+  },
+
+  get() {
+    return this.dropDowns;
+  },
+
+  getByIndex(index) {
+    return this.dropDowns[index];
+  },
+
+  getOpenDropDown() {
+    let needle = null;
+
+    this.dropDowns.forEach((item) => {
+      if (item.state.isOpen) {
+        needle = item;
+      }
+    });
+
+    return needle;
+  }
+};
+
+
+/**
+ * DropDown component
+ *
+ * Template: _button_with_dropdown.html
+ *
+ * Can contain a list of links
+ * Controllable via a toggle class or the keyboard.
+ */
+function DropDown(el, registry) {
+  if (!el || !registry) {
+    if ('error' in console) {
+      // eslint-disable-next-line max-len, no-console
+      console.error('A dropdown was created without an element or the DropDownController.\nMake sure to pass both to your component.');
+      return;
+    }
+  }
+
+  this.el = el;
+  this.$parent = $(el).parents(LISTING_TITLE_SELECTOR);
+
+  this.state = {
+    isOpen: false
+  };
+
+  this.registry = registry;
+
+  this.clickOutsideDropDown = this.clickOutsideDropDown.bind(this);
+  this.closeDropDown = this.closeDropDown.bind(this);
+  this.openDropDown = this.openDropDown.bind(this);
+  this.handleClick = this.handleClick.bind(this);
+  this.handleKeyEvent = this.handleKeyEvent.bind(this);
+
+  el.addEventListener(clickEvent, this.handleClick);
+  el.addEventListener('keydown', this.handleKeyEvent);
+  this.$parent.data('close', this.closeDropDown);
+}
+
+DropDown.prototype = {
+  handleKeyEvent(e) {
+    const validTriggers = [keys.SPACE, keys.ENTER];
+
+    if (validTriggers.indexOf(e.which) > -1) {
+      e.preventDefault();
+      this.handleClick(e);
+    }
+  },
+
+  handleClick(e) {
+    if (!this.state.isOpen) {
+      this.openDropDown(e);
+    } else {
+      this.closeDropDown(e);
+    }
+  },
+
+  openDropDown(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const el = this.el;
+    const $parent = this.$parent;
+    const toggle = el.querySelector(TOGGLE_SELECTOR);
+
+    this.state.isOpen = true;
+    this.registry.closeAllExcept(this);
+
+    el.classList.add(IS_OPEN);
+    el.setAttribute(ARIA, false);
+    toggle.classList.remove(ICON_DOWN);
+    toggle.classList.add(ICON_UP);
+    document.addEventListener(clickEvent, this.clickOutsideDropDown, false);
+    $parent.addClass(LISTING_ACTIVE_CLASS);
+  },
+
+  closeDropDown() {
+    this.state.isOpen = false;
+
+    const el = this.el;
+    const $parent = this.$parent;
+    const toggle = el.querySelector(TOGGLE_SELECTOR);
+    document.removeEventListener(clickEvent, this.clickOutsideDropDown, false);
+    el.classList.remove(IS_OPEN);
+    toggle.classList.add(ICON_DOWN);
+    toggle.classList.remove(ICON_UP);
+    el.setAttribute(ARIA, true);
+    $parent.removeClass(LISTING_ACTIVE_CLASS);
+  },
+
+  clickOutsideDropDown(e) {
+    const el = this.el;
+    const relTarget = e.relatedTarget || e.toElement;
+
+    if (!$(relTarget).parents().is(el)) {
+      this.closeDropDown();
+    }
+  }
+};
+
+function initDropDown() {
+  const dropDown = new DropDown(this, DropDownController);
+  DropDownController.add(dropDown);
+}
+
+function handleKeyPress(e) {
+  if (e.which === keys.ESC) {
+    const open = DropDownController.getOpenDropDown();
+    if (open) {
+      open.closeDropDown();
+    }
+  }
+}
+
+function initDropDowns() {
+  $(DROPDOWN_SELECTOR).each(initDropDown);
+  $(document).on('keydown', handleKeyPress);
+}
+
+$(document).ready(initDropDowns);
+wagtail.ui.initDropDowns = initDropDowns;
+wagtail.ui.DropDownController = DropDownController;
+
+// provide a workaround for NodeList#forEach not being available in IE 11
+function qsa(element, selector) {
+  return [].slice.call(element.querySelectorAll(selector));
+}
+
+// Initialise button selectors
+function initButtonSelects() {
+  qsa(document, '.button-select').forEach((element) => {
+    const inputElement = element.querySelector('input[type="hidden"]');
+    qsa(element, '.button-select__option').forEach((buttonElement) => {
+      buttonElement.addEventListener('click', (e) => {
+        e.preventDefault();
+        inputElement.value = buttonElement.value;
+
+        qsa(element, '.button-select__option--selected').forEach((selectedButtonElement) => {
+          selectedButtonElement.classList.remove('button-select__option--selected');
+        });
+
+        buttonElement.classList.add('button-select__option--selected');
+      });
+    });
+  });
+}
+
+$(document).ready(initButtonSelects);
+
+window.wagtail = wagtail;

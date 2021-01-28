@@ -1,0 +1,10 @@
+{
+  "presets": [
+    [
+      '@babel/preset-env', {
+        "targets": "> 0.25%, not dead"
+      }
+    ]
+  ],
+  "plugins": ["transform-class-properties", "transform-es2015-constants"]
+}

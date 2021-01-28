@@ -1,0 +1,39 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <div class="box box-solid">
+            <!-- form start -->
+              <div class="box-body">
+                  <div class="form-group">
+                      {% for para_name,para_value in twargs_d.items %}
+                      <div class="col-sm-12">
+                      <div class="col-xs-6">
+                      <div class="input-group">
+                       <span class="input-group-addon">参数名称</span>
+                        <input type="text" class="form-control" name="para_name" value="{{ para_name }}">
+                        </div>
+                       </div>
+                       <div class="col-xs-6">
+                      <div class="input-group">
+                       <span class="input-group-addon">参数值</span>
+                        <input type="text" class="form-control" name="para_value" value="{{ para_value }}">
+                        </div>
+                       </div>
+                       </div>
+                          {% endfor %}
+                  </div><!-- /form-group -->
+                     <!-- /.box-body -->
+              </div>
+              <!-- /.box-footer -->
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

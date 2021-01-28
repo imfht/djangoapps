@@ -1,0 +1,611 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load formset_tags %}
+{% load captureas %}
+{% load static %}
+{% load eventsignal %}
+{% block title %}{% trans "Date" context "subevent" %}{% endblock %}
+{% block content %}
+    <h1>{% trans "Create multiple dates" context "subevent" %}</h1>
+    <form action="" method="post" class="form-horizontal" id="subevent-bulk-create-form">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        {% for f in itemvar_forms %}
+            {% bootstrap_form_errors f %}
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-8">
+                <fieldset>
+                    <legend>{% trans "Dates" context "subevent" %}</legend>
+
+                    <div class="formset" data-formset data-formset-prefix="{{ rrule_formset.prefix }}"
+                            id="rrule-formset">
+                        {{ rrule_formset.management_form }}
+                        {% bootstrap_formset_errors rrule_formset %}
+                        <div data-formset-body>
+                            {% for f in rrule_formset %}
+                                {% bootstrap_form_errors f %}
+                                <div data-formset-form>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        {% trans "Repetition rule" %}
+                                                    </div>
+                                                    <div class="col-md-2 text-right flip">
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                                data-formset-delete-button>
+                                                            <i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                        <div class="panel-body form-inline rrule-form">
+                                            <div class="sr-only">
+                                                {{ f.id }}
+                                                {% bootstrap_field f.DELETE form_group_class="" layout="inline" %}
+                                            </div>
+                                            {% captureas ffield_freq %}
+                                                {% bootstrap_field f.freq layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_interval %}
+                                                {% bootstrap_field f.interval layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_dtstart %}
+                                                {% bootstrap_field f.dtstart layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_yearly_bysetpos %}
+                                                {% bootstrap_field f.yearly_bysetpos layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_yearly_byweekday %}
+                                                {% bootstrap_field f.yearly_byweekday layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_yearly_bymonth %}
+                                                {% bootstrap_field f.yearly_bymonth layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_monthly_bysetpos %}
+                                                {% bootstrap_field f.monthly_bysetpos layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_monthly_byweekday %}
+                                                {% bootstrap_field f.monthly_byweekday layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_count %}
+                                                {% bootstrap_field f.count layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_until %}
+                                                {% bootstrap_field f.until layout="inline" %}
+                                            {% endcaptureas %}
+
+                                            {% blocktrans trimmed with freq=ffield_freq interval=ffield_interval start=ffield_dtstart %}
+                                                Repeat every {{ interval }} {{ freq }}, starting at {{ start }}.
+                                            {% endblocktrans %}<br>
+
+                                            <div class="repeat-yearly">
+                                                <div class="radio">
+                                                    <label>
+                                                        {{ f.yearly_same.0 }}
+                                                        {% trans "At the same date every year" %}
+                                                    </label><br>
+                                                    <label>
+                                                        {{ f.yearly_same.1 }}
+                                                        {% blocktrans trimmed with setpos=ffield_yearly_bysetpos weekday=ffield_yearly_byweekday month=ffield_yearly_bymonth %}
+                                                            On the {{ setpos }} {{ weekday }} of {{ month }}
+                                                        {% endblocktrans %}<br>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="repeat-monthly">
+                                                <div class="radio">
+                                                    <label>
+                                                        {{ f.monthly_same.0 }}
+                                                        {% trans "At the same date every month" %}
+                                                    </label><br>
+                                                    <label>
+                                                        {{ f.monthly_same.1 }}
+                                                        {% blocktrans trimmed with setpos=ffield_monthly_bysetpos weekday=ffield_monthly_byweekday %}
+                                                            On the {{ setpos }} {{ weekday }}
+                                                        {% endblocktrans %}<br>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="repeat-weekly">
+                                                {% bootstrap_field f.weekly_byweekday layout="inline" %}
+                                            </div>
+                                            <div class="repeat-until">
+                                                <div class="radio">
+                                                    <label>
+                                                        {{ f.end.0 }}
+                                                        {% blocktrans trimmed with count=ffield_count %}
+                                                            Repeat for {{ count }} times
+                                                        {% endblocktrans %}
+                                                    </label><br>
+                                                    <label>
+                                                        {{ f.end.1 }}
+                                                        {% blocktrans trimmed with until=ffield_until %}
+                                                            Repeat until {{ until }}
+                                                        {% endblocktrans %}<br>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {% bootstrap_field f.exclude layout="inline" %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <script type="form-template" data-formset-empty-form>
+                            {% escapescript %}
+                                <div data-formset-form>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <div class="row">
+                                                    <div class="col-md-10">
+                                                        {% trans "Repetition rule" %}
+                                                    </div>
+                                                    <div class="col-md-2 text-right flip">
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                                data-formset-delete-button>
+                                                            <i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                        <div class="panel-body form-inline rrule-form">
+                                            <div class="sr-only">
+                                                {{ rrule_formset.empty_form.id }}
+                                                {% bootstrap_field rrule_formset.empty_form.DELETE form_group_class="" layout="inline" %}
+                                            </div>
+                                            {% captureas ffield_freq %}
+                                                {% bootstrap_field rrule_formset.empty_form.freq layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_interval %}
+                                                {% bootstrap_field rrule_formset.empty_form.interval layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_dtstart %}
+                                                {% bootstrap_field rrule_formset.empty_form.dtstart layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_yearly_bysetpos %}
+                                                {% bootstrap_field rrule_formset.empty_form.yearly_bysetpos layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_yearly_byweekday %}
+                                                {% bootstrap_field rrule_formset.empty_form.yearly_byweekday layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_yearly_bymonth %}
+                                                {% bootstrap_field rrule_formset.empty_form.yearly_bymonth layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_monthly_bysetpos %}
+                                                {% bootstrap_field rrule_formset.empty_form.monthly_bysetpos layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_monthly_byweekday %}
+                                                {% bootstrap_field rrule_formset.empty_form.monthly_byweekday layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_count %}
+                                                {% bootstrap_field rrule_formset.empty_form.count layout="inline" %}
+                                            {% endcaptureas %}
+                                            {% captureas ffield_until %}
+                                                {% bootstrap_field rrule_formset.empty_form.until layout="inline" %}
+                                            {% endcaptureas %}
+
+                                            {% blocktrans trimmed with freq=ffield_freq interval=ffield_interval start=ffield_dtstart %}
+                                                Repeat every {{ interval }} {{ freq }}, starting at {{ start }}.
+                                            {% endblocktrans %}<br>
+
+                                            <div class="repeat-yearly">
+                                                <div class="radio">
+                                                    <label>
+                                                        {{ rrule_formset.empty_form.yearly_same.0 }}
+                                                        {% trans "At the same date every year" %}
+                                                    </label><br>
+                                                    <label>
+                                                        {{ rrule_formset.empty_form.yearly_same.1 }}
+                                                        {% blocktrans trimmed with setpos=ffield_yearly_bysetpos weekday=ffield_yearly_byweekday month=ffield_yearly_bymonth %}
+                                                            On the {{ setpos }} {{ weekday }} of {{ month }}
+                                                        {% endblocktrans %}<br>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="repeat-monthly">
+                                                <div class="radio">
+                                                    <label>
+                                                        {{ rrule_formset.empty_form.monthly_same.0 }}
+                                                        {% trans "At the same date every month" %}
+                                                    </label><br>
+                                                    <label>
+                                                        {{ rrule_formset.empty_form.monthly_same.1 }}
+                                                        {% blocktrans trimmed with setpos=ffield_monthly_bysetpos weekday=ffield_monthly_byweekday %}
+                                                            On the {{ setpos }} {{ weekday }}
+                                                        {% endblocktrans %}<br>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="repeat-weekly">
+                                                {% bootstrap_field rrule_formset.empty_form.weekly_byweekday layout="inline" %}
+                                            </div>
+                                            <div class="repeat-until">
+                                                <div class="radio">
+                                                    <label>
+                                                        {{ rrule_formset.empty_form.end.0 }}
+                                                        {% blocktrans trimmed with count=ffield_count %}
+                                                            Repeat for {{ count }} times
+                                                        {% endblocktrans %}
+                                                    </label><br>
+                                                    <label>
+                                                        {{ rrule_formset.empty_form.end.1 }}
+                                                        {% blocktrans trimmed with until=ffield_until %}
+                                                            Repeat until {{ until }}
+                                                        {% endblocktrans %}<br>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {% bootstrap_field rrule_formset.empty_form.exclude layout="inline" %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endescapescript %}
+                        </script>
+                        <p>
+                            <button type="button" class="btn btn-default" data-formset-add>
+                                <i class="fa fa-plus"></i> {% trans "Add a new rule" %}</button>
+                        </p>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-4">
+                <fieldset>
+                    <legend>{% trans "Preview" context "subevent" %}</legend>
+                    <ul id="rrule-preview">
+                    </ul>
+                </fieldset>
+            </div>
+        </div>
+        <fieldset>
+            <legend>{% trans "Times" context "subevent" %}</legend>
+
+            <div class="row">
+                <div class="col-sm-4"><strong>{% trans "Event start time" %}</strong></div>
+                <div class="col-sm-4">
+                    <strong>{% trans "Event end time" %}</strong><br>
+                    <label><span class="optional">{% trans "Optional" %}</span></label>
+                </div>
+                <div class="col-sm-3">
+                    <strong>{% trans "Admission time" %}</strong><br>
+                    <label><span class="optional">{% trans "Optional" %}</span></label>
+                </div>
+            </div>
+            <div class="formset" data-formset data-formset-prefix="{{ time_formset.prefix }}"
+                    id="time-formset">
+                {{ time_formset.management_form }}
+                {% bootstrap_formset_errors time_formset %}
+                <div data-formset-body>
+                    {% for f in time_formset %}
+                        {% bootstrap_form_errors f %}
+                        <div data-formset-form>
+                            <div class="row form-inline">
+                                <div class="sr-only">
+                                    {{ f.id }}
+                                    {% bootstrap_field f.DELETE form_group_class="" layout="inline" %}
+                                </div>
+                                <div class="col-sm-4">
+                                    {% bootstrap_field f.time_from layout="inline" %}
+                                </div>
+                                <div class="col-sm-4">
+                                    {% bootstrap_field f.time_to layout="inline" %}
+                                </div>
+                                <div class="col-sm-3">
+                                    {% bootstrap_field f.time_admission layout="inline" %}
+                                </div>
+                                <div class="col-sm-1 text-right flip">
+                                    <button type="button" class="btn btn-danger btn-block"
+                                            data-formset-delete-button>
+                                        <i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <script type="form-template" data-formset-empty-form>
+                    {% escapescript %}
+                        <div data-formset-form>
+                            <div class="row form-inline">
+                                <div class="sr-only">
+                                    {{ time_formset.empty_form.id }}
+                                    {% bootstrap_field time_formset.empty_form.DELETE form_group_class="" layout="inline" %}
+                                </div>
+                                <div class="col-sm-4">
+                                    {% bootstrap_field time_formset.empty_form.time_from layout="inline" %}
+                                </div>
+                                <div class="col-sm-4">
+                                    {% bootstrap_field time_formset.empty_form.time_to layout="inline" %}
+                                </div>
+                                <div class="col-sm-3">
+                                    {% bootstrap_field time_formset.empty_form.time_admission layout="inline" %}
+                                </div>
+                                <div class="col-sm-1 text-right flip">
+                                    <button type="button" class="btn btn-danger btn-block"
+                                            data-formset-delete-button>
+                                        <i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endescapescript %}
+                </script>
+                <div class="panel panel-default hidden" id="subevent_add_many_slots">
+                    <div class="panel-body row">
+                        <div class="col-md-2 col-sm-12">
+                            <label for="subevent_add_many_slots_first">
+                                <strong>{% trans "Start of first slot" %}</strong>
+                            </label>
+                            <input class="form-control timepickerfield" id="subevent_add_many_slots_first" value="{{ time_begin_sample }}">
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <label for="subevent_add_many_slots_end">
+                                <strong>{% trans "End of time slots" %}</strong>
+                            </label>
+                            <input class="form-control timepickerfield" id="subevent_add_many_slots_end" value="{{ time_end_sample }}">
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label for="subevent_add_many_slots_length">
+                                <strong>{% trans "Length of slots" %}</strong>
+                            </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="subevent_add_many_slots_length" value="15">
+                                <span class="input-group-addon">{% trans "minutes" %}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label for="subevent_add_many_slots_break">
+                                <strong>{% trans "Break between slots" %}</strong>
+                            </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="subevent_add_many_slots_break" value="0">
+                                <span class="input-group-addon">{% trans "minutes" %}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <label>&nbsp;</label>
+                            <button class="btn-block btn btn-primary" id="subevent_add_many_slots_go" type="button">
+                                <span class="fa fa-check"></span> {% trans "Create" %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    <button type="button" class="btn btn-default" data-formset-add>
+                        <i class="fa fa-plus"></i> {% trans "Add a single time slot" %}</button>
+                    <button type="button" class="btn btn-default" id="subevent_add_many_slots_start">
+                        <i class="fa fa-calendar"></i> {% trans "Add many time slots" %}</button>
+                </p>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "General information" %}</legend>
+            {% bootstrap_field form.name layout="control" %}
+            {% bootstrap_field form.active layout="control" %}
+            <div class="geodata-section">
+                {% bootstrap_field form.location layout="control" %}
+                <div class="form-group geodata-group" data-tiles="{{ global_settings.leaflet_tiles|default_if_none:"" }}" data-attrib="{{ global_settings.leaflet_tiles_attribution }}" data-icon="{% static "leaflet/images/marker-icon.png" %}" data-shadow="{% static "leaflet/images/marker-shadow.png" %}">
+                    <label class="col-md-3 control-label">
+                        {% trans "Geo coordinates" %}<br>
+                        <span class="optional">{% trans "Optional" %}</span>
+                    </label>
+                    <div class="col-md-4">
+                        {% bootstrap_field form.geo_lat layout="inline" %}
+                        {% if global_settings.opencagedata_apikey %}
+                            <p class="attrib">
+                                <a href="https://openstreetmap.org/" target="_blank">
+                                    {% trans "Geocoding data © OpenStreetMap" %}
+                                </a>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form.geo_lon layout="inline" %}
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            </div>
+            {% bootstrap_field form.frontpage_text layout="control" %}
+            {% bootstrap_field form.is_public layout="control" %}
+            {% if meta_forms %}
+                <div class="form-group metadata-group">
+                    <label class="col-md-3 control-label">{% trans "Meta data" %}</label>
+                    <div class="col-md-9">
+                        {% for form in meta_forms %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="{{ form.value.id_for_label }}">
+                                        {{ form.property.name }}
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    {% bootstrap_form form layout="inline" %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Timeline" %}</legend>
+            {% bootstrap_field form.rel_presale_start layout="control" %}
+            {% bootstrap_field form.rel_presale_end layout="control" %}
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Quotas" %}</legend>
+            <div class="formset" data-formset data-formset-prefix="{{ formset.prefix }}">
+                {{ formset.management_form }}
+                {% bootstrap_formset_errors formset %}
+                <div data-formset-body>
+                    {% for form in formset %}
+                        <div class="panel panel-default" data-formset-form>
+                            <div class="sr-only">
+                                {{ form.id }}
+                                {% bootstrap_field form.DELETE form_group_class="" layout="inline" %}
+                            </div>
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            {% bootstrap_field form.name layout='inline' form_group_class="" %}
+                                        </div>
+                                        <div class="col-md-2 text-right flip">
+                                            <button type="button" class="btn btn-danger" data-formset-delete-button>
+                                                <i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="panel-body form-horizontal">
+                                {% bootstrap_form_errors form %}
+                                {% bootstrap_field form.size layout="control" %}
+                                {% bootstrap_field form.itemvars layout="control" %}
+                                {% bootstrap_field form.release_after_exit layout="control" %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <script type="form-template" data-formset-empty-form>
+                    {% escapescript %}
+                        <div class="panel panel-default" data-formset-form>
+                            <div class="sr-only">
+                                {{ formset.empty_form.id }}
+                                {% bootstrap_field formset.empty_form.DELETE form_group_class="" layout="inline" %}
+                            </div>
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            {% bootstrap_field formset.empty_form.name layout='inline' form_group_class="" %}
+                                        </div>
+                                        <div class="col-md-2 text-right flip">
+                                            <button type="button" class="btn btn-danger" data-formset-delete-button>
+                                                <i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="panel-body form-horizontal">
+                                {% bootstrap_field formset.empty_form.size layout="control" %}
+                                {% bootstrap_field formset.empty_form.itemvars layout="control" %}
+                                {% bootstrap_field formset.empty_form.release_after_exit layout="control" %}
+                            </div>
+                        </div>
+                    {% endescapescript %}
+                </script>
+                <p>
+                    <button type="button" class="btn btn-default" data-formset-add>
+                        <i class="fa fa-plus"></i> {% trans "Add a new quota" %}</button>
+                </p>
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Item prices" %}</legend>
+            {% for f in itemvar_forms %}
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="id_{{ f.prefix }}-price">
+                        {% if f.variation %}{{ f.item }} – {{ f.variation }}{% else %}{{ f.item }}{% endif %}
+                        <br>
+                        <span class="optional">{% trans "Optional" %}</span>
+                    </label>
+                    <div class="col-md-6">
+                        {% bootstrap_field f.price addon_after=request.event.currency form_group_class="" layout="inline" %}
+                    </div>
+                    <div class="col-md-3">
+                        {% bootstrap_field f.disabled layout="inline" form_group_class="" %}
+                    </div>
+                </div>
+            {% endfor %}
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Check-in lists" %}</legend>
+            <div class="formset" data-formset data-formset-prefix="{{ cl_formset.prefix }}">
+                {{ cl_formset.management_form }}
+                {% bootstrap_formset_errors cl_formset %}
+                <div data-formset-body>
+                    {% for form in cl_formset %}
+                        <div class="panel panel-default" data-formset-form>
+                            <div class="sr-only">
+                                {{ form.id }}
+                                {% bootstrap_field form.DELETE form_group_class="" layout="inline" %}
+                            </div>
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            {% bootstrap_field form.name layout='inline' form_group_class="" %}
+                                        </div>
+                                        <div class="col-md-2 text-right flip">
+                                            <button type="button" class="btn btn-danger" data-formset-delete-button>
+                                                <i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="panel-body form-horizontal">
+                                {% bootstrap_form_errors form %}
+                                {% bootstrap_field form.include_pending layout="control" %}
+                                {% bootstrap_field form.all_products layout="control" %}
+                                {% bootstrap_field form.limit_products layout="control" %}
+                                {% bootstrap_field form.allow_entry_after_exit layout="control" %}
+                                {% if form.gates %}
+                                    {% bootstrap_field form.gates layout="control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <script type="form-template" data-formset-empty-form>
+                    {% escapescript %}
+                        <div class="panel panel-default" data-formset-form>
+                            <div class="sr-only">
+                                {{ cl_formset.empty_form.id }}
+                                {% bootstrap_field cl_formset.empty_form.DELETE form_group_class="" layout="inline" %}
+                            </div>
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            {% bootstrap_field cl_formset.empty_form.name layout='inline' form_group_class="" %}
+                                        </div>
+                                        <div class="col-md-2 text-right flip">
+                                            <button type="button" class="btn btn-danger" data-formset-delete-button>
+                                                <i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="panel-body form-horizontal">
+                                {% bootstrap_field cl_formset.empty_form.include_pending layout="control" %}
+                                {% bootstrap_field cl_formset.empty_form.all_products layout="control" %}
+                                {% bootstrap_field cl_formset.empty_form.limit_products layout="control" %}
+                                {% bootstrap_field cl_formset.empty_form.allow_entry_after_exit layout="control" %}
+                                {% if cl_formset.empty_form.gates %}
+                                    {% bootstrap_field cl_formset.empty_form.gates layout="control" %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endescapescript %}
+                </script>
+                <p>
+                    <button type="button" class="btn btn-default" data-formset-add>
+                        <i class="fa fa-plus"></i> {% trans "Add a new check-in list" %}
+                    </button>
+                </p>
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Additional settings" %}</legend>
+            {% for f in plugin_forms %}
+                {% bootstrap_form f layout="control" %}
+            {% endfor %}
+        </fieldset>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}

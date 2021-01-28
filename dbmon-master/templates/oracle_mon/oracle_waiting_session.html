@@ -1,0 +1,64 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle等待及阻塞事件
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Oracle</a></li>
+        <li><a href="/oracle_monitor">实时监控</a></li>
+        <li class="active">等待及阻塞事件</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+            <div class="box-body">
+              <table id="table1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>实例编号</th>
+                    <th>会话SID</th>
+                    <th>用户名</th>
+                    <th>等待事件</th>
+                    <th>阻塞会话</th>
+                    <th>等待时间(秒)</th>
+                </tr>
+                </thead>
+                {% for oracle_waiitng_session in oracle_waiting_sessions %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ tags}} </td>
+                 <td>{{ oracle_waiitng_session.INST_ID}} </td>
+                 <td> <li><a href="/oracle_session?tags={{ tags }}&session_id={{ oracle_waiitng_session.SID }}" >{{ oracle_waiitng_session.SID }}</a></li> </td>
+                 <td>{{ oracle_waiitng_session.USERNAME}} </td>
+                 <td>{{ oracle_waiitng_session.EVENT}} </td>
+                 <td> <li><a href="/oracle_session?tags={{ tags }}&session_id={{ oracle_waiitng_session.BLOCKING_SESSION }}" >{{ oracle_waiitng_session.BLOCKING_SESSION }}</a></li> </td>
+                 <td>{{ oracle_waiitng_session.SECONDS_IN_WAIT}} </td>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if oracle_active_sessions.has_previous %}
+            <a href="?page_log={{ oracle_active_sessions.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ oracle_active_sessions.number }} 共计{{ oracle_active_sessions.paginator.num_pages }}
+        </span>
+        {% if oracle_active_sessions.has_next %}
+            <a href="?page_log={{ oracle_active_sessions.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+      </div>
+      </div>
+{% endblock %}

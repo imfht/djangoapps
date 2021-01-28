@@ -1,0 +1,831 @@
+# Kalman Kemenczy <kkemenczy@opensuse.org>, 2011, 2012.
+# Kalman Kemenczy <kkemenczy@gmail.com>, 2011, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-09 23:25+0000\n"
+"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>\n"
+"Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} csillag"
+msgstr[1] "{0} csillag"
+
+msgid "There was a problem contacting the server."
+msgstr "Probléma történt a kiszolgálóhoz történő csatlakozás közben."
+
+msgid "Select a file..."
+msgstr "Fájl kiválasztása…"
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Kiegészítője végződése .zip, .xpi vagy .crx legyen"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0}% kész"
+
+msgid "{0} of {1}"
+msgstr "{0} / {1}"
+
+msgid "Cancel"
+msgstr "Mégse"
+
+msgid "Uploading {0}"
+msgstr "{0} feltöltése"
+
+msgid "Error with {0}"
+msgstr "Hiba ezzel: {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "A kódellenőrzővel kapcsolatos problémákat jelentse a GitHubon"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "A kiegészítő az ellenőrzése {0} hiba miatt sikertelen."
+msgstr[1] "A kiegészítő az ellenőrzése {0} hiba miatt sikertelen."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip; és további {0}"
+msgstr[1] "&hellip; és további {0}"
+
+msgid "See full validation report"
+msgstr "Teljes ellenőrzési jelentés megjelenítése"
+
+msgid "Validating {0}"
+msgstr "{0} ellenőrzése"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "A kiegészítője túllépi a maximális méretet, ami {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Üres válasz érkezett a kiszolgálótól; állapot: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Az ellenőrzés közben váratlan hiba történt."
+
+msgid "Finished validating {0}"
+msgstr "{0} ellenőrzése befejeződött"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Időtúllépés történt a kiegészítő érvényesítése közben, kézi felülvizsgálatra kerül."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "A kiegészítő hiba nélkül és {0} figyelmeztetéssel átment az ellenőrzésen."
+msgstr[1] "A kiegészítő hiba nélkül és {0} figyelmeztetéssel átment az ellenőrzésen."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "A kiegészítő hiba nélkül és {0} üzenettel átment az ellenőrzésen."
+msgstr[1] "A kiegészítő hiba nélkül és {0} üzenettel átment az ellenőrzésen."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "A kiegészítő hiba és figyelmeztetés nélkül átment az ellenőrzésen."
+
+msgid "Your submission will be automatically signed."
+msgstr "A benyújtása aláírására automatikusan sor kerül."
+
+msgid "WebExtension upgrade"
+msgstr "WebExtension frissítés"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr "Engedélyezzük és támogatjuk a frissítést, de a folyamat nem fordítható vissza. Ha a felhasználók telepítik a WebExtensiont, akkor többé nem telepíthetik a hagyományos kiegészítőt."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Egy örökölt Firefox kiegészítő portolása az MDN-en"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Adjon meg részletes verzióinformációt (ezt a következő lépésben is megteheti)."
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr ""
+"Ha a kiegészítőnek egy weboldalhoz tartozó felhasználói fiókra van szüksége a teljes teszteléshez, adjon meg egy teszt felhasználónevet és jelszót a Megjegyzés a vizsgálatot végzőknek résznél (ezt a"
+" következő lépésben is megteheti)."
+
+msgid "Add-on submission checklist"
+msgstr "Ellenőrzőlista kiegészítő beküldéséhez"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Kérjük, ellenőrizze a következő pontokat, mielőtt befejezi a beküldést. Ez csökkenti a vizsgálathoz szükséges időt és a félreértéseket:"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+"A minimalizált, összefűzött és egyéb módon olvashatatlanná tett parancsfájlokat (kivéve az ismert könyvtárakat) külön kell beküldeni a ellenőrzésre. Használja a forráskódfeltöltés mezőt, hogy "
+"elkerülje a beküldés visszautasítását."
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Az ellenőrzési folyamat ezeket a problémákat találta, amik elutasításhoz vezethetnek:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "A feltöltött fájl típusa nem ismerhető fel."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "A fájl mérete túllépi a maximális méretet, ami {0}."
+
+msgid "You cancelled the upload."
+msgstr "A feltöltés megszakítva."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Az ikonnak PNG-nek vagy JPG-nek kell lennie."
+
+msgid "Videos must be in WebM."
+msgstr "A videónak WebM formátumban kell lennie."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "A téma nem kompatibilis ezzel a {0} verzióval"
+
+msgid "Flagged for review"
+msgstr "Vizsgálatra jelölve"
+
+msgid "Your input is required"
+msgstr "Az adatok kitöltése kötelező"
+
+msgid "Marked for deletion"
+msgstr "Törlésre jelölve"
+
+msgid "Updating results&hellip;"
+msgstr "Eredmény frissítése&hellip;"
+
+msgid "Category"
+msgstr "Kategória"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "<b>{0}</b> téma keresése"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "<b>{0}</b> appok keresése"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "<b>{0}</b> kiegészítő keresése"
+
+msgid "Use original"
+msgstr "Eredeti használata"
+
+msgid "Week of {0}"
+msgstr "{0}. hét"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} letöltés"
+msgstr[1] "{0} letöltés"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} felhasználó"
+msgstr[1] "{0} felhasználó"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} kiegészítő"
+msgstr[1] "{0} kiegészítő"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} gyűjtemény"
+msgstr[1] "{0} gyűjtemény"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} értékelés"
+msgstr[1] "{0} értékelés"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} eladás"
+msgstr[1] "{0} eladás"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} visszatérítés"
+msgstr[1] "{0} visszatérítés"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} telepítés"
+msgstr[1] "{0} telepítés"
+
+msgid "Downloads"
+msgstr "Letöltések"
+
+msgid "Daily Users"
+msgstr "Napi felhasználók"
+
+msgid "Amount, in USD"
+msgstr "Mennyiség, USD-ben"
+
+msgid "Number of Contributions"
+msgstr "Támogatások száma"
+
+msgid "More Info..."
+msgstr "Tovább…"
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "{0} részletei"
+
+msgid "Collections Created"
+msgstr "Létrehozott gyűjtemények"
+
+msgid "Add-ons in Use"
+msgstr "Használt kiegészítők"
+
+msgid "Add-ons Created"
+msgstr "Létrehozott kiegészítők"
+
+msgid "Add-ons Downloaded"
+msgstr "Letöltött kiegészítők"
+
+msgid "Add-ons Updated"
+msgstr "Frissített kiegészítők"
+
+msgid "Reviews Written"
+msgstr "Megírt értékelések"
+
+msgid "User Signups"
+msgstr "Regisztrációk"
+
+msgid "Subscribers"
+msgstr "Feliratkozók"
+
+msgid "Ratings"
+msgstr "Értékelések"
+
+msgid "Sales"
+msgstr "Eladások"
+
+msgid "Installs"
+msgstr "Telepítések"
+
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+msgid "Add-ons Manager"
+msgstr "Kiegészítőkezelő"
+
+msgid "Add-ons Manager Promo"
+msgstr "Kiegészítőkezelő – bemutató"
+
+msgid "Add-ons Manager Featured"
+msgstr "Kiegészítőkezelő – kiemelt kiegészítők"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Kiegészítőkezelő – tudjon meg többet"
+
+msgid "Search Suggestions"
+msgstr "Keresési javaslatok"
+
+msgid "Search Results"
+msgstr "Keresési eredmények"
+
+msgid "Homepage Promo"
+msgstr "Kezdőlap – bemutató"
+
+msgid "Homepage Featured"
+msgstr "Kiemelt kezdőlap"
+
+msgid "Homepage Up and Coming"
+msgstr "Ígéretes kezdőlap"
+
+msgid "Homepage Most Popular"
+msgstr "Legnépszerűbb kezdőlap"
+
+msgid "Detail Page"
+msgstr "Részletek oldal"
+
+msgid "Detail Page (bottom)"
+msgstr "Részletek oldal (alul)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Részletek oldal (Fejlesztői csatorna)"
+
+msgid "Often Used With"
+msgstr "Gyakran használt ezzel:"
+
+msgid "Others By Author"
+msgstr "A szerző további munkái"
+
+msgid "Dependencies"
+msgstr "Függőségek"
+
+msgid "Upsell"
+msgstr "Bővítés"
+
+msgid "Meet the Developer"
+msgstr "Ismerje meg a fejlesztőt"
+
+msgid "User Profile"
+msgstr "Felhasználói profil"
+
+msgid "Version History"
+msgstr "Verziótörténet"
+
+msgid "Sharing"
+msgstr "Megosztás"
+
+msgid "Category Pages"
+msgstr "Kategória oldalak"
+
+msgid "Collections"
+msgstr "Gyűjtemények"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Kategória nyitólap kiemelt körhinta"
+
+msgid "Category Landing Top Rated"
+msgstr "Kategória nyitólap legjobb értékelés"
+
+msgid "Category Landing Most Popular"
+msgstr "Kategória nyitólap legnépszerűbb"
+
+msgid "Category Landing Recently Added"
+msgstr "Kategória nyitólap nemrég hozzáadott"
+
+msgid "Browse Listing Featured Sort"
+msgstr "„Kiemelt” böngészési lista rendezése"
+
+msgid "Browse Listing Users Sort"
+msgstr "„Felhasználók” böngészési lista rendezése"
+
+msgid "Browse Listing Rating Sort"
+msgstr "„Értékelés” böngészési lista rendezése"
+
+msgid "Browse Listing Created Sort"
+msgstr "„Létrehozva” böngészési lista rendezése"
+
+msgid "Browse Listing Name Sort"
+msgstr "„Név” böngészési lista rendezése"
+
+msgid "Browse Listing Popular Sort"
+msgstr "„Legnépszerűbb” böngészési lista rendezése"
+
+msgid "Browse Listing Updated Sort"
+msgstr "„Frissítve” böngészési lista rendezése"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "„Ígéretes” böngészési lista rendezése"
+
+msgid "Total Amount Contributed"
+msgstr "Teljes adomány"
+
+msgid "Average Contribution"
+msgstr "Átlagos támogatás"
+
+msgid "Usage"
+msgstr "Használat"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Letöltések és felhasználók az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Letöltések és felhasználók {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Telepítések és felhasználók az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Letöltések és felhasználók {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Letöltések az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Letöltések {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Felhasználók az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Felhasználók {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Alkalmazások az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Alkalmazások {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "Országok az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "Országok {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Platformok az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Platformok {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Nyelvek az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Nyelvek {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Kiegészítő verziói az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Kiegészítő verziói {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Kiegészítő állapota az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "Kiegészítő állapota {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Letöltési források az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Letöltési források {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr "Médiumok letöltése az elmúlt {0} napból"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr "Médiumok letöltése {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr "Tartalmak letöltése az elmúlt {0} napból"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr "Tartalmak letöltése {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr "Kampányok letöltése az elmúlt {0} napból"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Kampányok letöltése {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Támogatások az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Támogatások {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Oldal metrikái az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Oldal metrikái {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Használt kiegészítők száma az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Használt kiegészítők száma {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Letöltött kiegészítők száma az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Letöltött kiegészítők száma {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Létrehozott kiegészítők száma az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Létrehozott kiegészítők száma {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Frissített kiegészítők száma az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Frissített kiegészítők száma {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Megírt értékelések száma az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Megírt értékelések száma {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Regisztrációk száma az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Regisztrációk száma {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Létrehozott gyűjtemények az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Létrehozott gyűjtemények {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Feliratkozók az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Feliratkozók {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Értékelések az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Értékelések {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Eladások az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Eladások {0} és {1} között"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Telepítések az elmúlt {0} napban"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Telepítések száma {0} és {1} között"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "<b>{0}</b> az utolsó {1} napban"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> {1} és {2} között"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "átlagosan <b>{0}</b> az elmúlt {1} napban"
+
+msgid "No data available."
+msgstr "Nincs dátum."
+
+msgid "Date"
+msgstr "Dátum"
+
+msgid "Other"
+msgstr "Egyéb"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Elfogadás és telepítés"
+
+msgid "Add to {0}"
+msgstr "Hozzáadás ehhez: {0}"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Telepítés mindenképpen erre: {0}"
+
+msgid "Download for {0} anyway"
+msgstr "Letöltés mindenképpen erre: {0}"
+
+msgid "Not available for your platform"
+msgstr "Nem érhető el ezen a platformon"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Ez a kiegészítő nem kompatibilis ezzel a {0} verzióval."
+
+msgid "View other versions"
+msgstr "További verziók megtekintése"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Ezzel működik: {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "Ezzel működik: {app}"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Csak a Firefoxszal – szerezze be a Firefoxot most!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "A keresőszolgáltatások telepítéséhez szükség van egy Mozilla-alapú böngészőre (pl. Firefox)."
+
+msgid "Changes Saved"
+msgstr "Változások lementve"
+
+msgid "Enter a new author's email address"
+msgstr "Adja meg az új szerző e-mailcímét"
+
+msgid "There was an error uploading your file."
+msgstr "Hiba történt a fájl feltöltésekor."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} fájl"
+msgstr[1] "{files} fájl"
+
+msgid "Image changes being processed"
+msgstr "A kép módosítása folyamatban van"
+
+msgid "Select an application first"
+msgstr "Először válasszon ki alkalmazást"
+
+msgid "No results found."
+msgstr "Nincs találat."
+
+msgid "Loading..."
+msgstr "Betöltés…"
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> karakter"
+msgstr[1] "<b>{0}</b> karakter"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "<b>{0}</b> karakter maradt"
+msgstr[1] "<b>{0}</b> karakter maradt"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Ez a funkció a weboldal karbantartása alatt, átmenetileg nem érhető el. Kérjük, látogasson vissza kicsit később."
+
+msgid "Remove this localization"
+msgstr "Honosítás eltávolítása"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} nézte meg először az oldalt."
+
+msgid "{name} was viewing this add-on first."
+msgstr "{name} nézte meg először a kiegészítőt."
+
+msgid "Loading&hellip;"
+msgstr "Betöltés&hellip;"
+
+msgid "Version Notes"
+msgstr "Megjegyzések a verzióhoz"
+
+msgid "Notes for Reviewers"
+msgstr "Megjegyzés a vizsgálatot végzőknek"
+
+msgid "No version notes found"
+msgstr "Nincsenek megjegyzések a verzióhoz"
+
+msgid "Review Text"
+msgstr "Értékelés szövege"
+
+msgid "Review notes found"
+msgstr "Talált értékelési jegyzetek"
+
+msgid "Average Reviews"
+msgstr "Átlagos értékelések"
+
+msgid "Number of Reviews"
+msgstr "Értékelések száma"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "A maximális feltöltési méret {0} – válasszon egy kisebb háttérképet."
+
+msgid "Requested Info"
+msgstr "Kért információ"
+
+msgid "Flagged"
+msgstr "Megjelölt"
+
+msgid "Duplicate"
+msgstr "Másolat"
+
+msgid "Rejected"
+msgstr "Elutasított"
+
+msgid "Approved"
+msgstr "Jóváhagyott"
+
+msgid "No results found"
+msgstr "Nincs találat"
+
+msgid "Theme"
+msgstr "Téma"
+
+msgid "Reviewer"
+msgstr "Véleményező"
+
+msgid "Status"
+msgstr "Állapot"
+
+msgid "All tests passed successfully."
+msgstr "Az összes teszten sikeresen átment."
+
+msgid "These tests were not run."
+msgstr "Ezek a tesztek nem futottak le."
+
+msgid "Tests"
+msgstr "Tesztek"
+
+msgid "Error"
+msgstr "Hiba"
+
+msgid "Warning"
+msgstr "Figyelmeztetés"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} {1}. sor {2}. oszlop"
+
+msgid "{0} line {1}"
+msgstr "{0} {1}. sor"
+
+msgid "Add-on failed validation."
+msgstr "A kiegészítő nem ment át a vizsgálaton."
+
+msgid "Add-on passed validation."
+msgstr "A kiegészítő átment a vizsgálaton."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} hiba"
+msgstr[1] "{0} hiba"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} figyelmeztetés"
+msgstr[1] "{0} figyelmeztetés"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} értesítés"
+msgstr[1] "{0} értesítés"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Az ellenőrzés nem fejeződött be vagy hibát okozott"
+
+msgid "Internal server error"
+msgstr "Belső kiszolgálóhiba"

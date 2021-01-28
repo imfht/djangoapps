@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load translations %}
+{% load icons %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.translation.component.project.get_absolute_url }}">{{ object.translation.component.project }}</a></li>
+<li><a href="{{ object.translation.component.get_absolute_url }}">{{ object.translation.component.name }}</a></li>
+<li><a href="{% url 'screenshots' project=object.translation.component.project.slug component=object.translation.component.slug %}">{% trans "Screenshots" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% perm 'screenshot.delete' object.translation.component as user_can_delete_screenshot %}
+{% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
+
+
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
+
+<table class="table table-striped">
+<thead>
+<tr>
+    <th>{% trans "Source string" %}</th>
+    <th>{{ object.translation.component.context_label }}</th>
+    <th>{% trans "Location" %}</th>
+    <th>{% trans "Assigned screenshots" %}</th>
+    <th colspan="2">{% trans "Actions" %}</th>
+</tr>
+</thead>
+<tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
+{% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
+</tbody>
+</table>
+  <div class="panel-footer">
+    {% trans "Screenshot is shown to add visual context for all listed source strings." %}
+  </div>
+
+</div>
+
+{% if user_can_change_screenshot %}
+<form id="screenshot-add-form" action="{% url 'screenshot-js-add' pk=object.pk %}">
+{% csrf_token %}
+<input type="hidden" name="source" id="add-source" />
+</form>
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Assign source strings" %}</h4></div>
+  <div class="search-results">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+    <th>{% trans "Source string" %}</th>
+    <th>{{ object.translation.component.context_label }}</th>
+    <th>{% trans "Location" %}</th>
+    <th>{% trans "Assigned screenshots" %}</th>
+    <th>{% trans "Actions" %}</th>
+    </tr>
+    </thead>
+    <tbody id="loading-screenshots" style="display:none;">
+      <tr><td colspan="5">{% loading_icon hidden=False %} {% trans "Loading results…" %}</td></tr>
+    </tbody>
+    <tbody id="search-results">
+      <tr><td colspan="5">{% trans "Please search below to find matching source strings." %}</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="panel-footer">
+    {% if has_ocr %}
+    <div class="pull-right flip">
+    <form class="form-inline">
+      {% csrf_token %}
+      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-warning" id="screenshots-auto">{% trans "Automatically recognize" %}</button>
+    </form>
+    </div>
+    {% endif %}
+    <form class="form-inline double-submission">
+      {% csrf_token %}
+      <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
+      <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-primary" id="screenshots-search">{% trans "Search" %}</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
+  <div class="panel-body">
+
+{% include "screenshots/screenshot_show.html" with screenshot=object %}
+
+</div>
+</div>
+
+{% if user_can_change_screenshot %}
+<form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Edit screenshot" %}</h4></div>
+  <div class="panel-body">
+  {{ edit_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+  </div>
+</div>
+</form>
+
+{% endif %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Screenshot details" %}</h4></div>
+
+<table class="table table-condensed table-striped">
+<tr><th>{% trans "Created" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
+<tr><th>{% trans "Uploaded by" %}</th><td>{{ object.get_user_display }}</td></tr>
+<tr><th>{% trans "Language" %}</th><td>{{ object.translation.language }}</td></tr>
+</table>
+
+</div>
+
+{% if user_can_delete_screenshot %}
+<div class="panel panel-danger">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Delete screenshot" %}</h4></div>
+  <div class="panel-body">
+
+<p class="help-block">{% trans "Deleting screenshot will remove it from all associated source strings." %}</p>
+
+<form action="{% url 'screenshot-delete' pk=object.pk %}" method="POST">
+{% csrf_token %}
+<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+</form>
+
+</div>
+</div>
+{% endif %}
+
+{% endblock %}

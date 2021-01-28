@@ -1,0 +1,214 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 84px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 84px;
+    color: #AAA;
+    border-top: 1px solid #eee;
+}
+
+.footer ul {
+    list-style: none;
+    margin: 32px 0;
+    padding: 0;
+    font-size: small;
+}
+
+.footer li {
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+
+#logo {
+    max-height: 50px;
+    margin-top: -16px;
+}
+
+#nav-main-sections > li > a {
+    text-transform: uppercase;
+    font-size: small;
+}
+
+#global-links > li > a {
+    font-size: small;
+}
+
+@media (min-width: 768px) {
+    .navbar-default .navbar-nav > li.active > a, .navbar-default .navbar-nav > li > a:hover {
+        border-bottom: 5px solid #eee;
+        padding-bottom: 25px;
+    }
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-brand:hover {
+    color: #333;
+    font-weight: bold;
+}
+
+#nav-sign-up {
+    padding: 21px 0 21px 15px;
+}
+
+#nav-sign-up:hover {
+    border: 0;
+}
+
+#nav-sign-up:focus, #nav-sign-up:active {
+    outline: none;
+}
+
+#nav-sign-up span {
+    display: inline-block;
+    color: #1ea65a;
+    font-weight: bold;
+    border: 1px solid #1ea65a;
+    border-radius: 5px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+#nav-sign-up:hover span {
+    color: #fff;
+    background: #22bc66;
+    border-color: #22bc66;
+}
+
+#broken-channels > a {
+    color: #a94442;
+}
+
+.page-checks .container-fluid, .page-details .container-fluid {
+    /* Fluid below 1320px, but max width capped to 1320px ... */
+    max-width: 1320px;
+}
+
+.status {
+    font-size: 24px;
+    display: inline-block;
+    width: 24px;
+}
+
+.status.icon-up, .status.icon-started { color: #5cb85c; }
+.status.icon-new, .status.icon-paused { color: #CCC; }
+.status.icon-grace { color: #f0ad4e; }
+.status.icon-down { color: #d9534f; }
+
+.label.label-start {
+    background-color: #FFF;
+    color: #117a3f;;
+    border: 1px solid #117a3f;
+}
+
+.label.label-ign {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.hc-dialog {
+    background: #FFF;
+    padding: 2em;
+    margin-top: 100px;
+}
+
+.hc-dialog h1 {
+    margin: 0;
+}
+
+.dialog-body {
+    margin: 24px 0;
+}
+
+pre {
+  border: 0;
+}
+
+.nav-pills > li > a {
+    color: #888;
+}
+
+.jumbotron p {
+    font-weight: 300;
+}
+
+#debug-warning {
+    background: #eeeeee;
+    text-align: center;
+    font-size: small;
+    padding: 2px 0;
+}
+
+.badge-down {
+    background-color: #d9534f;
+}
+
+.dropdown-menu > li.project-item a {
+    min-width: 200px;
+    padding: 6px 20px 3px 20px;
+}
+
+.project-item .name {
+    display: inline-block;
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.spinner {
+    display: none;
+    width: 24px;
+    height: 8px;
+    margin: 4px  auto 0 auto;
+
+}
+
+.spinner.started {
+    display: block;
+}
+
+
+.spinner > div {
+    float: left;
+    width: 4px;
+    height: 4px;
+    margin: 0 2px;
+
+    background: #AAA;
+    border-radius: 2px;
+    animation-duration: 1s;
+    animation-name: spinner-pulse;
+    animation-iteration-count: infinite;
+}
+
+.spinner .d2 {
+    animation-delay: 0.15s;
+}
+
+.spinner .d3 {
+    animation-delay: 0.3s;
+}
+
+@keyframes spinner-pulse {
+    from {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

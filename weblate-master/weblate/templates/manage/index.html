@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load static %}
+
+{% block extra_script %}
+{% if support.name != 'community' %}
+<script id="zammad_form_script" defer data-cfasync="false" src="https://care.weblate.org/assets/form/form.js"></script>
+<script defer data-cfasync="false" src="{% static 'zammad.js' %}{{ cache_param }}"></script>
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-default">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'admin/support' right=True %}
+    {% trans "Weblate support status" %}
+  </h4>
+</div>
+  <table class="table table-condensed table-striped">
+  <tr>
+  <th>{% trans "Support status" %}</th>
+  <td>
+    {{ support.get_verbose }}
+    {% if not support.in_limits %}
+    <div class="alert alert-danger" role="alert">
+    {% trans "Exceeding service limits" %}
+    </div>
+    {% endif %}
+  </td>
+  </tr>
+  {% if support.expiry %}
+  <tr>
+  <th>{% trans "Support expiry" %}</th>
+  <td>{{ support.expiry|naturaltime }}</td>
+  </tr>
+  {% endif %}
+  </table>
+  <div class="panel-footer">
+  {% if support.name == 'community' %}
+  <a href="https://weblate.org/support/" class="btn btn-primary">{% trans "Purchase support package" %}</a>
+  <a href="https://weblate.org/donate/" class="btn btn-primary">{% trans "Donate to Weblate" %}</a>
+  {% else %}
+  <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
+  <a href="mailto:support@weblate.org" id="support-form" data-fullname="{{ user.full_name }}" data-email="{{ user.email }}" class="btn btn-primary">{% trans "Get help" %}</a>
+  {% endif %}
+  </div>
+</div>
+
+{% include "manage/snippets/activation-form.html" %}
+
+{% endblock %}

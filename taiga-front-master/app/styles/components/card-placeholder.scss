@@ -1,0 +1,107 @@
+.card-placeholder:not(.not-found) {
+    cursor: default;
+    padding: 1.625rem 1rem;
+
+    .title {
+        @include font-type(bold);
+        color: $color-link-tertiary;
+    }
+    p {
+        @include font-type(regular);
+        @include font-size(small);
+
+        color: $color-link-tertiary;
+        margin: 0;
+    }
+
+    .placeholder-board-card {
+        background: $color-white;
+        border-radius: 4px;
+        box-shadow: 4px 4px 8px rgba($color-gray400, .5);
+        margin-bottom: 1rem;
+        margin-top: .5rem;
+        padding: 1rem;
+
+        &.clean {
+            border-radius: 0;
+            box-shadow: none;
+            margin-top: 0;
+            padding: 0;
+        }
+    }
+
+    .placeholder-board-row {
+        border-radius: 4px;
+        display: flex;
+        margin-bottom: .5rem;
+
+        &.avatar {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0;
+        }
+    }
+
+    .placeholder-board-text {
+        background: $color-gray300;
+        border-radius: 4px;
+        flex-basis: 60%;
+        height: 16px;
+
+        &.small {
+            background: $color-gray400;
+            flex-basis: 24px;
+            margin-right: 1rem;
+        }
+
+        &.big {
+            background: $color-gray400;
+            flex: 1 1 auto;
+        }
+    }
+
+    .placeholder-board-avatar {
+        background: $color-gray200;
+        border-radius: 28px;
+        height: 28px;
+        margin-top: .5rem;
+        width: 28px;
+    }
+
+    .placeholder-board-user {
+        background: $color-gray100;
+        border-radius: 4px;
+        flex-basis: 115px;
+        height: 16px;
+    }
+
+    .placeholder-board-last-text {
+        background: $color-gray200;
+        border-radius: 4px;
+        flex-basis: 65px;
+        height: 16px;
+        margin-top: .5rem;
+    }
+}
+
+.card-placeholder.not-found {
+    color: $color-link-tertiary;
+    padding: 2rem;
+
+    .title {
+        @include font-size(large);
+        @include font-type(medium);
+
+        color: $color-black900;
+    }
+    p {
+        @include font-size(small);
+        @include font-type(regular);
+        margin-bottom: 1.5rem;
+    }
+    strong {
+        @include font-type(medium);
+        font-weight: normal;
+    }
+}

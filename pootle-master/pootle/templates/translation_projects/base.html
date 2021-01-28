@@ -1,0 +1,9 @@
+{% extends "browser/base.html" %}
+
+{% block html_id %}tp{% endblock %}
+
+{% block title %}{{ translation_project.project }} | {{ language.name }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+{% include 'core/_breadcrumbs.html' with nav='translation_projects/_nav.html' %}
+{% endblock %}

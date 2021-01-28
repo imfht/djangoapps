@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load promgen %}
+{% block content %}
+<div class="page-header">
+  <h1>Log</h1>
+</div>
+
+{% if request.GET %}
+<ul class="list-inline">
+  <li>Filters</li>
+{% for k in request.GET %}
+<li>
+  <a
+    class="btn btn-danger btn-xs"
+    href="{% url 'audit-list' %}?{% qsfilter request k None %}"
+    >{{k}} &times;</a>
+{% endfor %}
+</ul>
+{% endif %}
+
+<div class="panel panel-default">
+    <table class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>User</th>
+          <th>Body</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+{% for entry in audit_list %}
+      <tr class="{{ entry.hilight }}">
+        <td>{{ entry.created }}</td>
+        <td>
+          <a href="{% url 'audit-list' %}?{% qsfilter request 'user' entry.user.id %}">{{ entry.user }}</a>
+        </td>
+        <td>
+          {{ entry.body }}
+
+          {% if entry.data %}
+          <br />
+          <a data-toggle="collapse" href="#collapse-log-{{entry.id}}" aria-expanded="false" aria-controls="collapseExample">
+            Show
+          </a>
+          <div class="collapse" id="collapse-log-{{entry.id}}">
+            {% if entry.old %}
+            <pre>{% diff_json entry.old entry.data %}</pre>
+            {% else %}
+            <pre>{{ entry.data|pretty_json}}</pre>
+            {% endif %}
+          </div>
+          {% endif %}
+        </td>
+        <td>
+          {% if entry.content_object %}
+          <a href="{{ entry.content_object.get_absolute_url }}">
+            {{ entry.content_object }}
+          </a>
+          {% endif %}
+        </td>
+      </tr>
+{% endfor %}
+    </table>
+</div>
+
+{% include 'promgen/pagination_short.html' %}
+
+{% endblock %}

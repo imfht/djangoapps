@@ -1,0 +1,133 @@
+.profile-bar {
+    .profile-image-wrapper {
+        height: 200px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        position: relative;
+        &.is-current-user:hover {
+            img {
+                filter: brightness(40%) saturate(150%) hue-rotate(60deg);
+                transition: all .2s cubic-bezier(.01, .7, 1, 1);
+            }
+            .profile-edition {
+                opacity: 1;
+                transform: translateY(0);
+                transition: all .2s cubic-bezier(.01, .7, 1, 1);
+                transition-delay: .3s;
+            }
+        }
+    }
+    .profile-img {
+        max-width: 100%;
+        width: 100%;
+    }
+    .profile-edition {
+        @include font-size(large);
+        @include font-type(regular);
+        background: rgba($black, .4);
+        bottom: 0;
+        color: $white;
+        left: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding: 1rem;
+        position: absolute;
+        transform: translateY(100%);
+        width: 100%;
+        &:hover {
+            background: rgba($black, .8);
+            transition: all .3s cubic-bezier(.01, .7, 1, 1);
+        }
+
+    }
+    .button-green {
+        display: block;
+        margin-bottom: 1rem;
+    }
+    .profile-data {
+        position: relative;
+    }
+    .flag {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 12px;
+        path {
+            fill: $gray-light;
+            transition: all .2s linear;
+        }
+        &:hover {
+            path {
+                fill: $red;
+                transition: all .2s linear;
+            }
+        }
+    }
+    h1 {
+        @include font-type(medium);
+        @include font-size(xlarge);
+        line-height: 1.2;
+        margin-bottom: .25rem;
+        text-transform: none;
+        word-wrap: break-word;
+    }
+    .not-full-name {
+        word-wrap: break-word;
+    }
+    h2 {
+        @include font-type(regular);
+        @include font-size(larger);
+        color: $gray;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+    .username {
+        @include font-type(regular);
+        @include font-size(large);
+        color: $gray-light;
+        margin-bottom: 1rem;
+    }
+    .location {
+        color: $gray-light;
+        margin-bottom: 1rem;
+        svg {
+            position: relative;
+            top: 2px;
+            width: .75rem;
+        }
+        path {
+            fill: $gray-light;
+        }
+    }
+    .profile-stats {
+        border-bottom: 1px solid $whitish;
+        border-top: 1px solid $whitish;
+        color: $gray;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+        padding: 1rem .5rem;
+        .stat {
+            padding: 0 .2rem;
+            text-align: center;
+        }
+        .stat-number {
+            @include font-size(xlarge);
+            @include font-type(medium);
+            display: block;
+            line-height: 1;
+        }
+        .stat-name {
+            @include font-type(regular);
+            @include font-size(small);
+            display: block;
+        }
+    }
+    .profile-quote {
+        @include font-type(regular);
+        @include font-size(large);
+        background: url('../images/quote.png') no-repeat top left;
+        line-height: 1.4;
+        padding: .5rem;
+    }
+}

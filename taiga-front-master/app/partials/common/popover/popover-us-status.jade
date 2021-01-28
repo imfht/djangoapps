@@ -1,0 +1,11 @@
+ul.popover.pop-status
+    <% _.each(statuses, function(status) { %>
+    li.popover-status
+        a.status#js-status-btn(
+            href=""
+            class!="<% if(currentStatus == status.id) { %> active-popover <% } %>"
+            title!="<%- status.name %>"
+            data-status-id!="<%- status.id %>"
+        )
+            | <%- status.name %>
+    <% }); %>

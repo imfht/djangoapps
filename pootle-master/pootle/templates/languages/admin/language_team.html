@@ -1,0 +1,170 @@
+{% extends "languages/base.html" %}
+
+{% load assets i18n %}
+
+{% block title %}{% trans "Language team" %} | {{ block.super }}{% endblock %}
+
+{% block js %}
+{{ block.super }}
+
+{% assets 'js_admin_app' %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
+<script>
+  $(function () {
+    PTL.userAdmin.init()
+  });
+</script>
+
+{% endblock js %}
+
+{% block content %}
+{% block section_body %}
+<div id="content">
+  <form method="POST" action="">
+    {% csrf_token %}
+    <div id="pootle-fs-project-admin" class="settings-container">
+      <div class="config-content">
+        <div class="config-content-panel">
+          {# Translators: This refers to the management of language team members #}
+          <h3>{% trans "Member admin" %}</h3>
+          <div class="padded centered">
+            <div class="padded aligned-left">
+              <h4>{{form.new_member.label }}</h4>
+              {{ form.new_member }}
+              {{ form.new_member.errors }}
+            </div>
+            <div class="padded aligned-left">
+              <h4>{{form.role.label }}</h4>
+              {{ form.role }}
+              {{ form.role.errors }}
+            </div>
+            <div class="padded">
+              <input type="submit" class="btn"
+                value="{% trans 'Add team member' %}">
+            </div>
+          </div>
+        </div>
+        <div class="config-content-panel">
+          <h4>{{ form.rm_admins.label }}</h4>
+          <div class="padded">
+            <table>
+              {{ form.rm_admins }}
+              {{ form.rm_admins.errors }}
+            </table>
+            <div class="padded centered">
+              <input type="submit" class="btn" name="action"
+                value="{% trans 'Remove selected' %}" />
+            </div>
+          </div>
+        </div>
+        <div class="config-content-panel">
+          <h4>{{ form.rm_reviewers.label }}</h4>
+          <div class="padded">
+            <table>
+              {{ form.rm_reviewers }}
+              {{ form.rm_reviewers.errors }}
+            </table>
+            <div class="padded centered">
+              <input type="submit" class="btn" name="action"
+                value="{% trans 'Remove selected' %}" />
+            </div>
+          </div>
+        </div>
+        <div class="config-content-panel">
+          <h4>{{ form.rm_submitters.label }}</h4>
+          <div class="padded">
+            <table>
+              {{ form.rm_submitters }}
+              {{ form.rm_submitters.errors }}
+            </table>
+            <div class="padded centered">
+              <input type="submit" class="btn" name="action"
+                value="{% trans 'Remove selected' %}" />
+            </div>
+          </div>
+        </div>
+        <div class="config-content-panel">
+          <h4>{{ form.rm_members.label }}</h4>
+          <div class="padded">
+            <table>
+              {{ form.rm_members }}
+              {{ form.rm_members.errors }}
+            </table>
+            <div class="padded centered">
+              <input type="submit" class="btn" name="action"
+                value="{% trans 'Remove selected' %}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="config-content">
+        <div class="config-content-panel">
+          <h3>{% trans "Projects" %}</h3>
+          <div class="padded">
+            <ul>
+            {% for tp in tps %}
+              <li class="padded-half">
+                <a href="{% url 'pootle-tp-browse' language_code=tp.language.code project_code=tp.project.code dir_path='' %}">
+                 {{ tp.project.fullname }}
+                </a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="config-content-panel">
+          <h3>{% trans "Unit and suggestions admin" %}</h3>
+          <div class="padded">
+            {% url 'pootle-language-translate' language_code=language.code as translate_url %}
+            <ul>
+              <li class="padded-half">
+                {% trans "Critical errors:" %}
+                {% if stats.critical %}
+                <a href="{{ translate_url }}#filter=checks&category=critical">
+                  {{ stats.critical_display }}
+                </a>
+                {% else %}
+                {{ stats.critical_display }}
+                {% endif %}
+              </li>
+              <li class="padded-half">
+                {% trans "Pending suggestions:" %}
+                {% if suggestions %}
+                <a href="{% url 'pootle-language-admin-suggestions' language_code=language.code %}">
+                  {{ suggestions_display }}
+                </a>
+                {% else %}
+                {{ suggestions_display }}
+                {% endif %}
+              </li>
+              <li class="padded-half">
+                {% trans "Total words:" %}
+                <a href="{{ translate_url }}">{{ stats.total_display }}</a>
+              </li>
+              <li class="padded-half">
+                {% trans "Translated:" %}
+                {% if stats.translated %}
+                <a href="{{ translate_url }}#filter=translated">{{ stats.translated_display }}</a>
+                {% else %}
+                {{ stats.translated_display }}
+                {% endif %}
+              </li>
+              <li class="padded-half">
+                {% trans "Needs work:" %}
+                {% if stats.fuzzy %}
+                <a href="{{ translate_url }}#filter=fuzzy">{{ stats.fuzzy_display }}</a>
+                {% else %}
+                {{ stats.fuzzy_display }}
+                {% endif %}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+{% endblock %}

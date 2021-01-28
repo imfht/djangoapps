@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load promgen %}
+
+{% block title %}
+Promgen / Service / {{ service.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Service: {{ service.name }}</h1>
+  {% if service.owner %}
+  <p>{% trans 'Contact' %}: {{service.owner.username}}</p>
+  {% endif %}
+</div>
+
+{% breadcrumb service %}
+
+{% include "promgen/service_block.html" %}
+
+{% endblock %}

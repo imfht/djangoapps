@@ -1,0 +1,269 @@
+{% extends 'pc/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+{{ seo_list.title }}
+{% endblock %}
+{% block authors %}
+冯金琪
+{% endblock %}
+{% block keywords %}
+{{ seo_list.keywords }}
+{% endblock %}
+{% block desc %}
+{{ seo_list.desc }}
+{% endblock %}
+{% block css %}
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">#}
+{% comment %}<link rel="stylesheet" href="{% static 'css/swiper.min.css' %}">{% endcomment %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="main clearfix">
+    <article class="fl">
+     {% comment %}   <div class="blogs">
+            <div class="blogs_head" style="background: url({% static 'img/recommend.png' %})no-repeat 0 50%;">今日推荐</div>
+            <div class="blogs_cont">
+<h3><span class="blogs_type">{{ recommend.first.recommends.category.name }}</span><a  href="{% url 'article:detail' recommend.first.recommends.id %}">{{ recommend.first.recommends.title }}</a></h3>
+                <div class="blogs_foot">
+                    <ul class="clearfix">
+                        <li class="fl">
+                             <a href="{% url 'user:author_detaile' recommend.first.recommends.authors.id  %}" class="clearfix">
+                                 <span class="fl img_cover blogs_avatar" style="background: url({{MEDIA_URL }}{{ recommend.first.recommends.authors.user_imag }})no-repeat; background-position: 50%!important"></span>
+                                 <span class="fl blogs_name">{{ recommend.first.recommends.authors.username }}</span>
+                             </a>
+                         </li>
+                        <li class="fl blogs_time">发布于:{{ recommend.first.recommends.add_time }}</li>
+                      <li class="fl blogs_view" style="background: url({% static 'img/eye.png' %})no-repeat 0 50%;">{{ recommend.first.recommends.click_nums }}</li>
+                            <li class="fl blogs_comment" style="background: url({% static 'img/comment.png' %})no-repeat 0 50%;">{{ recommend.first.recommends.get_number }}</li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>{% endcomment %}
+{% comment %}        <div class="banner" style="background: url({% if banners.image %}
+            {{ MEDIA_URL }}{{ banners.image }}
+            {% else %}
+            {% static  'img/banner.png'%}
+        {% endif %})no-repeat 0 50%;"></div>{% endcomment %}
+<!-- 网站banner -->
+         <div class="blogs">
+             <div class="blogs_head" style="background: url({% static 'img/recommend.png' %})no-repeat 0 50%;">
+                 <ul class="follow">
+                     <li>最新文章</li>
+                 </ul>
+             </div>
+             <div id="article_main">
+                 {% for articles in article.object_list %}
+                    <div class="blogs_item">
+                     <div class="blogs_cont blogs_cont1">
+                         <h3><span class="blogs_type">{{ articles.category.name }}</span><a href="{% url 'article:detail' articles.id %}">{{ articles.title }}</a></h3>
+                             <div class="blogs_info clearfix">
+                             {% if articles.list_pic %}
+                                <div class="img_animate fl ">
+                                      <a href="{% url 'article:detail' articles.id %}"><div class="blogs_pic img_cover" style="{% if articles.list_pic %}
+                                      background: url({{ MEDIA_URL }}{{ articles.list_pic }})no-repeat;;
+                                      {% endif %}background-color: #ccc;background-size: 200px 120px !important;"></div></a>
+                                  </div>
+                             {% endif %}
+
+                                  <div class="{% if articles.list_pic %}
+                                  fl blogs_describe
+                                  {% else %}
+                                  blogs_listPic
+                                  {% endif %}">
+                                      <p class="blogtext">{{ articles.desc|truncatechars:135 }}</p>
+                                  </div>
+                                  <div class="blogs_foot {% if articles.list_pic %}
+                                  blogs_foot1
+                                  {% endif %}">
+                                    <ul class="clearfix">
+                                <li class="fl">
+                                     <a href="{% url 'user:author_detaile' articles.authors.id %}" class="clearfix">
+                                         <span class="fl img_cover blogs_avatar"
+                                               style="background: url({% if articles.authors.user_imag%}
+                                {{ MEDIA_URL }}{{ articles.authors.user_imag }}
+                            {% elif articles.authors.user_image%}
+                                {{ articles.authors.user_image }}
+                            {% else %}
+                                {% static 'img/pc-icon.png' %}
+                        {% endif %})no-repeat;"></span>
+                                         <span class="fl blogs_name" style="white-space: nowrap;
+    text-overflow: ellipsis;max-width: 120px;overflow: hidden;">{{ articles.authors.username }}</span>
+                                     </a>
+                                 </li>
+                                <li class="fl blogs_time">发布于：{{ articles.add_time }}</li>
+                                <li class="fl blogs_view" style="background: url({% static 'img/eye.png' %})no-repeat 0 50%;"> {{ articles.click_nums }}</li>
+                                <li class="fl blogs_comment" style="background: url({% static 'img/comment.png' %})no-repeat 0 50%;">
+                                  {{ articles.get_number }}
+                                </li>
+                            </ul>
+                                  </div>
+                             </div>
+                     </div>
+                 </div>
+                     {% empty %}
+                     <p class="empty">暂无文章...</p>
+                 {% endfor %}
+
+             </div>
+             {% if article.object_list.count >= 1 %}
+                    <div class="pageturn">
+               <ul class="pagination">
+                   <li><a href="/">首页</a></li>
+                   {% if article.has_previous %}
+                       <li class="long"><a href="?{{ article.previous_page_number.querystring }}" class="prev">上一页</a></li>
+                   {% else %}
+                       <li class="long"><span class="disabled prev btn"disabled="">上一页</span></li>
+                   {% endif %}
+                   {% for page in article.pages %}
+                       {% if page %}
+                           {% ifequal page article.number %}
+                               <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                           {% else %}
+                               <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                           {% endifequal %}
+                       {% else %}
+                           <li><span class="disabled  btn" disabled="">...</span></li>
+                       {% endif %}
+                   {% endfor %}
+                   {% if article.has_next %}
+                       <li class="long"><a href="?{{ article.next_page_number.querystring }}" class="next"> 下一页</a></li>
+                   {% else %}
+                       <li class="long"><span class="disabled next btn"disabled=""> 下一页</span></li>
+                   {% endif %}
+                   <li><a href="?page={{ article.paginator.num_pages }}">尾页</a></li>
+                   <li class="hrefto">跳转到<input type="text"class="form-control" name="page"></li>
+               </ul>
+                当前{{ article.number }}/总共{{ article.paginator.num_pages }}页
+           </div>
+             {% endif %}
+         </div>
+    </article>
+
+    <aside class="fr">
+        {% include 'pc/base_aside.html' %}
+       {% comment %} <div class="sidebar">
+      <div class="tuijian">
+        <h2 class="hometitle">站长推荐</h2>
+        <ul class="sidenews zhan">
+             {% for foo in recommend %}
+                    <li><a href="{% url 'article:detail' foo.recommends.id %}">{{ foo.recommends.title }}</a></li>
+                {% endfor %}
+        </ul>
+    </div>
+
+    </div>{% endcomment %}
+        {% if links.count > 0 %}
+             <div class="sidebar">
+                  <div class="tuijian sidebars">
+                    <h2 class="hometitle">友情链接</h2>
+                    <ul class="sidenews zhan">
+                         {% for foo in links %}
+                                <li><a href="{{ foo.url }}">{{ foo.title }}</a></li>
+                            {% endfor %}
+                    </ul>
+                </div>
+
+             </div>
+        {% endif %}
+        <div class="sidebar">
+            <div class="tuijian sidebars">
+                <h2 class="hometitle">交流群</h2>
+                <ul class="sidenews zhan">
+           {% for foo in qq %}
+                     <p >{{ foo.title }}:{{ foo.qq }}{% if foo.is_active == True %}
+                            (已满)
+                        {% endif %}</p><br>
+                    {% endfor %}
+        </ul>
+            </div>
+        </div>
+        <div class="sidebar">
+        <div class="tuijian sidebars">
+            <h2 class="hometitle">商务合作</h2>
+            <ul class="sidenews zhan">
+            <p>邮箱:<a target="_blank" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=iuzv5O3g4_T748rs7_Tt4OPk__Ok6eXn" style="text-decoration:none;">fengjinqi@fengjinqi.com</a></p>
+            <br>
+            <p>QQ:1218525402</p>
+        </ul>
+        </div>
+        </div>
+    </aside>
+</section>
+{% endblock %}
+{% block js %}
+    <script>
+    {% comment %}$('.info-title').each(function(index, element) {
+    $clamp(element, { clamp: 3});
+});{% endcomment %}
+
+    $("input[name='page']").blur(function () {
+        if($(this).val()==""){
+            return false
+        }else{
+        window.location.href='{% url 'home' %}?page='+$(this).val()}
+    })
+    $("input[name='page']").keydown(function (evt) {
+        if (evt.keyCode==13){
+             if($(this).val()==""){
+            return false
+        }else{
+        window.location.href='/?page='+$(this).val()}
+        }
+
+    })/*
+ var page = 1;
+     $(window).scroll(function(){
+      totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
+      console.log(totalheight)
+      console.log($(document).height())
+       if($(document).height() <= totalheight+60){
+           page++;
+           $.ajax({
+            url:'/?page='+page,
+            type:'get',
+            dataType:'json',
+           beforeSend:function(){
+             $("#article_main").append('<p class=\'loading\'><img src="{% static 'img/5-121204193R5-50.gif' %}" ></p>')
+           },
+            success:function(result){
+                $(".loading").remove()
+              console.log(result)
+                if(page>result.num_pages){
+                    alert('没有用更多数据了')
+                }
+            }
+           });
+      //     alert("到底部了");
+       }
+  });*/
+
+    function flollw (obj){
+        var _self= $(obj)
+        follow = $(obj).attr('data-actions-icnt')
+          $.ajax({
+                url:'/login/author/',
+                type:'post',
+                data:{follow:follow},
+                  headers:{'X-CSRFToken':$.cookie('csrftoken')},
+                success:function (data) {
+                    if(data.status==201 && data.message=='不能自己关注自己'){
+                        alert('不能自己关注自己')
+                    }else if(data.status==200 && data.message=='成功关注'){
+                        _self.html('已关注')
+                    }else if(data.status==200 && data.message=='已取消关注'){
+                        _self.html('关注')
+                    }else if(data.status==302&&data.message=='未登录'){
+                        //window.location.href='/login'
+                    }
+                },
+                error:function (xhr) {
+                    console.log(xhr)
+                }
+            })
+    }
+
+    </script>
+{% endblock %}

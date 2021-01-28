@@ -1,0 +1,6 @@
+button.btn-icon.client-requirement(
+    type="button"
+    class!="<% if(canEdit){ %>is-editable<% }; %> <% if(isRequired){ %>active<% }; %>"
+    title="{{ 'COMMON.CLIENT_REQUIREMENT' | translate }}"
+)
+    tg-svg(svg-icon="icon-client-requirement")

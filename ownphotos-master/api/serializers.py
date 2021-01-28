@@ -1,0 +1,666 @@
+from api.models import Photo, AlbumAuto, AlbumUser, AlbumPlace, Face, Person, AlbumDate, AlbumThing, LongRunningJob
+from rest_framework import serializers
+import ipdb
+import json
+import time
+from api.util import logger
+from datetime import datetime
+
+
+
+
+class PhotoEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = (
+            'image_hash',
+            'hidden',
+            'favorited'
+        )
+
+    def update(self, instance, validated_data):
+        ipdb.set_trace()
+
+
+class PhotoHashListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = (
+            'image_hash',)
+
+
+class PhotoSuperSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = (
+            'image_hash',
+            'favorited',
+            'hidden',
+            'exif_timestamp')
+
+
+class PhotoSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = (
+           'thumbnail',
+           'square_thumbnail', 
+           'image',
+           'image_hash',
+           'exif_timestamp',
+           'exif_gps_lat',
+           'exif_gps_lon',
+           'favorited',
+           'geolocation_json',
+        )
+
+
+class PhotoSerializer(serializers.ModelSerializer):
+    thumbnail_url = serializers.SerializerMethodField()
+    thumbnail_height = serializers.SerializerMethodField()
+    thumbnail_width = serializers.SerializerMethodField()
+    square_thumbnail_url = serializers.SerializerMethodField()
+    small_thumbnail_url = serializers.SerializerMethodField()
+    big_thumbnail_url = serializers.SerializerMethodField()
+    big_square_thumbnail_url = serializers.SerializerMethodField()
+    small_square_thumbnail_url = serializers.SerializerMethodField()
+    tiny_square_thumbnail_url = serializers.SerializerMethodField()
+
+
+    image_url = serializers.SerializerMethodField()
+    people = serializers.SerializerMethodField()
+    # geolocation = serializers.SerializerMethodField()
+    # persons = PersonSerializer(many=True, read_only=True)
+    class Meta:
+        model = Photo
+        fields = ('exif_gps_lat',
+                  'exif_gps_lon',
+                  'exif_timestamp',
+                  'search_captions',
+                  'search_location',
+                  'captions_json',
+                  'thumbnail_url',
+                  'thumbnail_height',
+                  'thumbnail_width',
+                  'small_thumbnail_url',
+                  'big_thumbnail_url',
+
+                  'square_thumbnail_url',
+                  'big_square_thumbnail_url',
+                  'small_square_thumbnail_url',
+                  'tiny_square_thumbnail_url',
+
+                  'geolocation_json',
+                  'exif_json',
+                  'people',
+                  'image_url',
+                  'image_hash',
+                  'image_path',
+                  'favorited',
+                  'hidden')
+        
+    def get_thumbnail_url(self, obj):
+        try:
+            return obj.thumbnail.url
+        except:
+            return None
+    def get_thumbnail_height(self, obj):
+        try:
+            return obj.thumbnail.height
+        except:
+            return None
+    def get_thumbnail_width(self, obj):
+        try:
+            return obj.thumbnail.width
+        except:
+            return None
+    def get_square_thumbnail_url(self, obj):
+        try:
+            return obj.square_thumbnail.url
+        except:
+            return None
+    def get_small_thumbnail_url(self, obj):
+        try:
+            return obj.thumbnail_small.url
+        except:
+            return None
+
+    def get_big_square_thumbnail_url(self, obj):
+        try:
+            return obj.square_thumbnail_big.url
+        except:
+            return None
+
+
+    def get_small_square_thumbnail_url(self, obj):
+        try:
+            return obj.square_thumbnail_small.url
+        except:
+            return None
+
+
+    def get_tiny_square_thumbnail_url(self, obj):
+        try:
+            return obj.square_thumbnail_tiny.url
+        except:
+            return None
+
+
+
+    def get_big_thumbnail_url(self, obj):
+        try:
+            return obj.thumbnail_big.url
+        except:
+            return None
+    def get_image_url(self, obj):
+        try:
+            return obj.image.url
+        except:
+            return None
+    def get_geolocation(self, obj):
+        if obj.geolocation_json:
+          return json.loads(obj.geolocation_json)
+        else:
+          return None
+
+    def get_people(self,obj):
+        return [f.person.name for f in obj.faces.all()]
+
+
+class PersonSerializer(serializers.ModelSerializer):
+#     faces = FaceSerializer(many=True, read_only=False)
+#     faces = serializers.StringRelatedField(many=True)
+#     photos = serializers.SerializerMethodField()
+    face_url = serializers.SerializerMethodField()  
+    face_count = serializers.SerializerMethodField()  
+    face_photo_url = serializers.SerializerMethodField()  
+    class Meta:
+        model = Person
+        fields = ('name',
+                  'face_url',
+                  'face_count',
+                  'face_photo_url',
+                  'id',)
+
+    def get_face_count(self,obj):
+        return obj.faces.all().count()
+
+    def get_face_url(self,obj):
+        try:
+            face = obj.faces.first()
+            return face.image.url
+        except:
+            return None
+
+    def get_face_photo_url(self,obj):
+        try:
+            face = obj.faces.first()
+            return face.photo.square_thumbnail.url
+        except:
+            return None
+
+
+    def create(self,validated_data):
+        name = validated_data.pop('name')
+        qs = Person.objects.filter(name=name)
+        if qs.count() > 0:
+            return qs[0]
+        else:
+            new_person = Person()
+            new_person.name = name
+            new_person.save()
+            print('created person with name %s'%name)
+            return new_person
+
+
+#     def get_photos(self,obj):
+#         faces = obj.faces.all()
+#         res = []
+#         for face in faces:
+#             res.append(PhotoSerializer(face.photo).data)
+#         return res
+
+
+
+class FaceListSerializer(serializers.ModelSerializer):
+    person_name = serializers.SerializerMethodField()
+    class Meta:
+        model = Face
+        fields = ('id',
+                  'image',
+                  'photo',
+                  'person',
+                  'person_label_probability',
+                  'person_name')
+
+    def get_person_name(self,obj):
+        return obj.person.name
+
+
+
+
+
+
+class FaceSerializer(serializers.ModelSerializer):
+    face_url = serializers.SerializerMethodField()
+#     photo = PhotoSerializer(many=False, read_only=True)
+    # faces = serializers.StringRelatedField(many=True)
+    person = PersonSerializer(many=False)
+#     person = serializers.HyperlinkedRelatedField(view_name='person-detail',read_only=True)
+    class Meta:
+        model = Face
+        fields = ('id',
+                  'face_url',
+                  'photo_id',
+                  'person',
+                  'person_id',
+                  'person_label_is_inferred')
+    def get_face_url(self, obj):
+        return obj.image.url
+
+    def update(self, instance, validated_data):
+        name = validated_data.pop('person')['name']
+        p = Person.objects.filter(name=name)
+        if p.count() > 0:
+            instance.person = p[0]
+        else:
+            p = Person()
+            p.name = name
+            p.save()
+            instance.person = p
+            print('created person with name %s'%name)
+        if instance.person.name == 'unknown':
+            instance.person_label_is_inferred = None
+            instance.person_label_probability = 0.
+        else:
+            instance.person_label_is_inferred = False
+            instance.person_label_probability = 1.
+        print('updated label for face %d to %s'%(instance.id, instance.person.name))
+        instance.save()
+        return instance
+#         pass
+#         ipdb.set_trace()
+#         person_data = validated_data.pop('id')
+
+
+
+
+
+
+
+
+
+
+
+class AlbumPlaceSerializer(serializers.ModelSerializer):
+    photos = PhotoSuperSimpleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = AlbumPlace
+        fields = (
+            "id",   
+            "title",
+            "photos")
+
+class AlbumPlaceListSerializer(serializers.ModelSerializer):
+#     photos = PhotoSerializer(many=True, read_only=True)
+    # people = serializers.SerializerMethodField()
+    cover_photos = PhotoHashListSerializer(many=True, read_only=True)
+    photo_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AlbumPlace
+        fields = (
+            "id",   
+            "geolocation_level",
+            # "people",
+            "cover_photos",
+            "title",
+            "photo_count")
+
+    def get_photo_count(self,obj):
+        return obj.photo_count
+
+    # def get_cover_photo_urls(self,obj):
+    #     first_photos = obj.photos.all()[:4]
+    #     return [first_photo.square_thumbnail_small.url for first_photo in first_photos]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AlbumThingSerializer(serializers.ModelSerializer):
+    photos = PhotoSuperSimpleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = AlbumThing
+        fields = (
+            "id",   
+            "title",
+            "photos")
+
+class AlbumThingListSerializer(serializers.ModelSerializer):
+    cover_photos = PhotoHashListSerializer(many=True, read_only=True)
+    # people = serializers.SerializerMethodField()
+    # cover_photo_urls = serializers.SerializerMethodField()
+    photo_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AlbumThing
+        fields = (
+            "id",   
+            # "people",
+            "cover_photos",
+            # "cover_photo_urls",
+            "title",
+            "photo_count")
+
+    def get_photo_count(self,obj):
+        return obj.photo_count
+    #     return obj.photos.count()
+
+    # def get_cover_photo_urls(self,obj):
+    #     first_photos = obj.photos.only('square_thumbnail__url')[:4]
+    #     return [first_photo.square_thumbnail_small.url for first_photo in first_photos]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AlbumDateSerializer(serializers.ModelSerializer):
+    photos = PhotoSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = AlbumDate
+        fields = (
+            "id",   
+            "title",
+            "date",
+            "favorited",
+            "photos")
+
+class AlbumDateListSerializer(serializers.ModelSerializer):
+#     photos = PhotoSerializer(many=True, read_only=True)
+    people = serializers.SerializerMethodField()
+    cover_photo_url = serializers.SerializerMethodField()
+    photo_count = serializers.SerializerMethodField()
+#     photos = PhotoHashListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = AlbumDate
+        fields = (
+            "id",   
+            "people",
+            "cover_photo_url",
+            "title",
+            "favorited",
+            "photo_count",
+#             "photos",
+            "date")
+
+    def get_photo_count(self,obj):
+        return obj.photos.count()
+
+    def get_cover_photo_url(self,obj):
+        first_photo = obj.photos.first()
+        return first_photo.square_thumbnail.url
+
+    def get_people(self,obj):
+        # ipdb.set_trace()
+        photos = obj.photos.all()
+        res = []
+        for photo in photos:
+            faces = photo.faces.all()
+            for face in faces:
+                serialized_person = PersonSerializer(face.person).data
+                if serialized_person not in res:
+                    res.append(serialized_person)
+        return res
+
+class AlbumDateListWithPhotoHashSerializer(serializers.ModelSerializer):
+    photos = PhotoSuperSimpleSerializer(many=True, read_only=True)
+    # photos = PhotoHashListSerializer(many=True, read_only=True)
+    class Meta:
+        model = AlbumDate
+        fields = (
+            "location",
+            "id",   
+            "photos",
+            "date")
+
+
+
+
+
+class AlbumPersonSerializer(serializers.ModelSerializer):
+#     faces = FaceSerializer(many=True, read_only=False)
+#     faces = serializers.StringRelatedField(many=True)
+    photos = serializers.SerializerMethodField()
+    # people = serializers.SerializerMethodField()
+    class Meta:
+        model = Person
+        fields = ('name',
+                  'photos',
+                  # 'people',
+                  'id',)
+#                   'faces')
+    def get_photos(self,obj):
+        start = datetime.now()
+
+        res = PhotoSuperSimpleSerializer(obj.get_photos(),many=True).data
+
+        elapsed = (datetime.now() - start).total_seconds()
+        print('serializing photos of faces took %.2f seconds'%elapsed)
+        return res
+
+    # todo: remove this unecessary thing
+    # def get_people(self,obj):
+    #     faces = obj.faces.all()
+    #     res = []
+    #     for face in faces:
+    #         serialized_person = PersonSerializer(face.person).data
+    #         if serialized_person not in res:
+    #             res.append(serialized_person)
+    #     return res
+
+
+class AlbumPersonListSerializer(serializers.ModelSerializer):
+#     faces = FaceSerializer(many=True, read_only=False)
+#     faces = serializers.StringRelatedField(many=True)
+#     people = serializers.SerializerMethodField()
+    photo_count = serializers.SerializerMethodField()
+    cover_photo_url = serializers.SerializerMethodField()
+    class Meta:
+        model = Person
+        fields = ('name',
+                  "photo_count",
+                  "cover_photo_url",
+#                   'people',
+                  'id',)
+#                   'faces')
+
+    def get_photo_count(self,obj):
+        return obj.faces.count()
+
+    def get_cover_photo_url(self,obj):
+        first_face = obj.faces.first()
+        if first_face:
+            return first_face.photo.square_thumbnail.url
+        else:
+            return None
+
+    def get_face_photo_url(self,obj):
+        first_face = obj.faces.first()
+        if first_face:
+            return first_face.image.url
+        else:
+            return None
+
+
+class AlbumUserEditSerializer(serializers.ModelSerializer):
+#     photos = PhotoHashListSerializer(many=True, read_only=False)
+    photos = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=Photo.objects.all())
+
+    class Meta:
+        model = AlbumUser
+        fields = (
+            "id",
+            "title",
+            "photos",
+            "created_on",
+            "favorited"
+        )
+
+    def validate_photos(self,value):
+        return [v.image_hash for v in value]
+
+    def create(self,validated_data):
+        title = validated_data['title']
+        image_hashes = validated_data['photos']
+
+        # check if an album exists with the given title and call the update method if it does
+        instance, created = AlbumUser.objects.get_or_create(title=title)
+        if not created:
+            return self.update(instance, validated_data)
+
+        photos = Photo.objects.in_bulk(image_hashes)
+        for pk,obj in photos.items():
+            instance.photos.add(obj)
+            if instance.cover_photos.count() < 4:
+                instance.cover_photos.add(obj)
+        instance.save()
+        return instance
+        
+    def update(self, instance, validated_data):
+#         title = validated_data['title']
+        image_hashes = validated_data['photos']
+        print(validated_data)
+
+        photos = Photo.objects.in_bulk(image_hashes)
+        photos_already_in_album = instance.photos.all()
+        for pk,obj in photos.items():
+            if obj not in photos_already_in_album:
+                instance.photos.add(obj)
+                if instance.cover_photos.count() < 4:
+                    instance.cover_photos.add(obj)
+        instance.save()
+        return instance
+
+class AlbumUserSerializer(serializers.ModelSerializer):
+    photos = PhotoSuperSimpleSerializer(many=True, read_only=True)
+    class Meta:
+        model = AlbumUser
+        fields = (
+            "id",
+            "title",
+            "photos",
+            "created_on",
+            "favorited"
+        )
+
+class AlbumUserListSerializer(serializers.ModelSerializer):
+    cover_photos = PhotoHashListSerializer(many=True, read_only=True)
+    # people = serializers.SerializerMethodField()
+    # cover_photo_urls = serializers.SerializerMethodField()
+    photo_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AlbumUser
+        fields = (
+            "id",   
+            # "people",
+            "cover_photos",
+            "created_on",
+            "favorited",
+            # "cover_photo_urls",
+            "title",
+            # "photos",
+            "photo_count")
+
+    def get_photo_count(self,obj):
+        return obj.photo_count
+
+
+
+class AlbumAutoSerializer(serializers.ModelSerializer):
+    photos = PhotoSerializer(many=True, read_only=False)
+    people = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AlbumAuto
+        fields = (
+            "id",   
+            "title",
+            "favorited",
+            "timestamp",
+            "created_on",
+            "gps_lat",
+            'people',
+            "gps_lon",
+            "photos")
+
+    def get_people(self,obj):
+        # ipdb.set_trace()
+        photos = obj.photos.all().prefetch_related('faces__person')
+        res = []
+        for photo in photos:
+            faces = photo.faces.all()
+            for face in faces:
+                serialized_person = PersonSerializer(face.person).data
+                if serialized_person not in res:
+                    res.append(serialized_person)
+        return res
+
+
+class AlbumAutoListSerializer(serializers.ModelSerializer):
+    photos = PhotoSuperSimpleSerializer
+    
+    class Meta:
+        model = AlbumAuto
+        fields = (
+            "id",   
+            "title",
+            "timestamp",
+            "photos",
+            "favorited")
+
+
+
+class LongRunningJobSerializer(serializers.ModelSerializer):
+    job_type_str = serializers.SerializerMethodField()
+
+    class Meta:
+        model = LongRunningJob
+        fields = (
+            'job_id',
+            'finished',
+            'finished_at',
+            'started_at',
+            'failed',
+            'job_type_str',
+            'job_type'
+        )
+
+    def get_job_type_str(self,obj):
+        return dict(LongRunningJob.JOB_TYPES)[obj.job_type]

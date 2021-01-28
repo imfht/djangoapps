@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <title>第六章 追踪用户行为</title>
+
+</head>
+<body>
+<h1 id="top"><b>第六章 追踪用户行为</b></h1>
+<p>在之前的章节里完成了小书签将外站图片保存至本站的功能，并且实现了通过jQuery发送AJAX请求，让用户可以对图片进行喜欢/不喜欢操作。</p>
+<p>这一章将学习如何创建一个用户关注系统和创建用户行为流数据，还将学习Django的信号框架使用和集成Redis数据库到Django中。主要的内容有：</p>
+<ul>
+    <li>通过中间模型建立多对多关系</li>
+    <li>创建关注系统</li>
+    <li>创建行为流应用（显示用户最近的行为列表）</li>
+    <li>为模型添加通用关系</li>
+    <li>优化QuerySet查找外键关联模型</li>
+    <li>使用signal模块对数据库进行非规范化改造</li>
+    <li>在Redis中存取内容</li>
+</ul>
+
+<h2 id="c6-1"><span class="title">1</span>创建关注系统</h2>
+<p>所谓关注系统，就是指用户可以关注其他用户，并且可以看到所关注用户的行为。关注关系在用户之间是多对多的关系，一个用户可以关注很多用户，也可以被很多用户关注。</p>
+
+<h3 id="c6-1-1"><span class="title">1.1</span>通过中间模型创建多对多关系</h3>
+<p>在之前的章节中，通过<code>ManyToManyField</code>创建了多对多关系，然后让Django创建了数据表。对于大多数情况，直接使用多对多字段已经足够。在需要为多对多关系存储额外的信息时（比如创建多对多关系的时间字段，描述多对多关系性质的字段），可能需要自定义一个模型作为多对多关系的中间模型。</p>
+<p>我们将创建一个中间模型用来建立用户之间的多对多关系，原因是：</p>
+<ul>
+    <li>我们将使用内置的<code>User</code>模型，但不想修改它</li>
+    <li>想存储一个用户关注另外一个用户的时间</li>
+</ul>
+<p>在<code>account</code>应用的<code>models.py</code>中建立新<code>Contact</code>类：</p>
+<pre>
+class Contact(models.Model):
+    user_from = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='rel_from_set', on_delete=models.CASCADE)
+    user_to = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='rel_to_set', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return '{} follows {}'.format(self.user_from, self.user_to)
+</pre>
+<p>这个Contact类将用来记录用户关注关系，包含如下字段:</p>
+<ul>
+    <li><code>user_from</code>：发起关注的用户外键</li>
+    <li><code>user_to</code>：被关注的用户外键</li>
+    <li><code>created</code>：该关注关系创建的时间，使用<code>auto_now_add=True</code>自动记录时间</li>
+</ul>
+<p>数据库对于外键会自动创建索引，这里还使用了<code>db_index=True</code>为<code>created</code>字段创建了索引。</p>
+<p>使用ORM的时候，如果<code>user1</code>关注了<code>user2</code>，实际操作的语句可以写成这样：</p>
+<pre>
+user1 = User.objects.get(id=n)
+user2 = User.objects.get(id=m)
+Contact.objects.create(user_from=user1, user_to=user2)
+</pre>
+<p>基于<code>Contact</code>模型，可以通过为两个外键字段设置的名称<code>rel_from_set</code>和<code>rel_to_set</code>作为管理器名称进行查询。为了从<code>User</code>模型中也可以进行查询，User模型应该有一个多对多关系关联到其自己，类似这样：</p>
+<pre>
+following = models.ManyToManyField('self',
+    through=Contact,
+    related_name='followers',
+    symmetrical=False)
+</pre>
+<p>在上边这行代码里，我们<code>through=Contact</code>告诉Django以<code>Contact</code>类作为中间表格建立多对多关系，这是一个<code>User</code>模型与自己的多对多关系，其中的<code>'self'</code>参数表示模型自己。</p>
+<p class="hint">当需要在多对多关系中记录额外数据时，创建一个关联到两个模型的中间表格，然后手动指定<code>ManyToManyField</code>的<code>through</code>参数，将中间表格作为多对多关系的中间表。</p>
+<p>如果<code>User</code>模型是我们自定义的模型，可以很方便的为其添加<code>following</code>字段，但我们不想修改<code>User</code>类，这里可以采用一个动态的方法为其添加字段。在<code>account</code>应用里的<code>models.py</code>里增加如下内容：</p>
+<pre>
+from django.contrib.auth.models import User
+User.add_to_class('following',
+                  models.ManyToManyField('self', through=Contact, related_name='followers', symmetrical=False))
+</pre>
+<p>这里用了一个<code>add_to_class()</code>方法给<code>User</code>打了一个<a href="https://en.wikipedia.org/wiki/Monkey_patch" target="_blank">猴子补丁</a>，不推荐使用该方法。但是在这里使用主要考虑如下原因：</p>
+<ul>
+    <li>通过这个方法简化了查询，通过使用<code>user.followers.all()</code>和<code>user.following.all()</code>可以迅速查询。如果通过一对一关系定义在<code>Profile</code>模型上，查询就要复杂很多。</li>
+    <li>通过这种方法添加的多对多字段实际是通过<code>Contact</code>模型生效，不会实际修改数据库中的<code>User</code>数据表</li>
+    <li>也无需建立自定义的<code>User</code>模型替换原<code>User</code>模型</li>
+</ul>
+<p>这里需要在此强调的是，在大部分情况下需要为内置数据模型增加额外数据时，优先通过一对一的方式如<code>Profile</code>模型进行扩展，将额外信息和关系字段都添加在扩展的数据上；其次是自定义新的数据模型取代原数据模型，而不是直接通过猴子补丁。否则给后续开发和测试带来很大困难。关于自定义用户模型可以参考
+    <a href="https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#specifying-a-custom-user-model" target="_blank">https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#specifying-a-custom-user-model</a>。</p>
+<p>这里还有一个参数是<code>symmetrical=False</code>对称参数，当创建一个<em>关联到自身的多对多字段</em>的时候，Django默认关系是对称的，即A关注了B，会自动添加B也关注A的记录，这与实际情况不符，所以必须设置为<code>False</code>。</p>
+<p class="hint">使用中间表格作为多对多关系的中间表时，一些管理器的内置方法如<code>add()</code>，<code>create()</code>，<code>remove()</code>等无法使用，必须编写直接操作中间表的代码。</p>
+<p>定义好中间表后，执行数据迁移过程。现在模型已经建好，我们需要建立展示用户关注关系的列表和详情视图。</p>
+
+
+<h3 id="c6-1-2"><span class="title">1.2</span>创建用户关注关系的列表和详情视图</h3>
+<p>在account应用的views.py里添加如下内容：</p>
+<pre>
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+
+@login_required
+def user_list(request):
+    users = User.objects.filter(is_active=True)
+    return render(request, 'account/user/list.html', {'section': 'people', 'users': users})
+
+
+@login_required
+def user_detail(request, username):
+    user = get_object_or_404(User, username=username, is_active=True)
+    return render(request, 'account/user/detail.html', {'section': 'people', 'user': user})
+</pre>
+<p>这是两个简单的展示所有用列表户和某个具体用户信息的视图，如果用户较多，还可以为<code>user_list</code>添加分页功能。</p>
+<p><code>user_detail</code>使用了<code>get_object_or_404</code>方法，如果找不到用户就会返回一个404错误。</p>
+<p>编辑<code>account</code>应用的<code>urls.py</code>文件，为这两个视图配置URL：</p>
+<pre>
+    path('users/', views.user_list, name='user_list'),
+    path('users/&lt;username>/', views.user_detail, name='user_detail'),
+</pre>
+<p>这里我们看到，需要通过URL传参数给视图，需要建立规范化URL，为模型添加<code>get_absolute_url()</code>，除了通过自定义的方法之外，对于User这种内置的模型，还有一种方法是设置<code>ABSOLUTE_URL_OVERRIDES</code>。</p>
+<p>修改项目的<code>settings.py</code>文件：</p>
+<pre>
+from django.urls import reverse_lazy
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail',
+                                        args=[u.username])
+</pre>
+<p>Django动态的为所有<code>ABSOLUTE_URL_OVERRIDES</code>中列出的模型添加<code>get_absolute_url()</code>方法，这个方法按照设置中的结果返回规范化URL。这里通过一个匿名函数返回规范化URL，这个匿名函数被绑定在对象上，作为调用<code>get_absolute_url()</code>时候实际调用的函数。</p>
+<p>配置好了以后我们先来实验一下，打开命令行模式：</p>
+<pre>
+>>> from django.contrib.auth.models import User
+>>> user = User.objects.latest('id')
+>>> str(user.get_absolute_url())
+>>>'/account/users/caidaye/'
+</pre>
+<p>可以看到解析出了地址，之后需要建立模板，在<code>account</code>应用的<code>templates/account/</code>目录下建立如下目录和文件结构：</p>
+<pre>
+/user/
+    detail.html
+    list.html
+</pre>
+<p>之后编写其中的<code>list.html</code>：</p>
+<pre>
+{#list.html#}
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}People{% endblock %}
+{% block content %}
+    &lt;h1>People&lt;/h1>
+    &lt;div id="people-list">
+        {% for user in users %}
+            &lt;div class="user">
+                &lt;a href="{{ user.get_absolute_url }}">
+                    {% thumbnail user.profile.photo "180x180" crop="100%" as im %}
+                        &lt;img src="{{ im.url }}">
+                    {% endthumbnail %}
+                &lt;/a>
+                &lt;div class="info">
+                    &lt;a href="{{ user.get_absolute_url }}" class="title">
+                        {{ user.get_full_name }}
+                    &lt;/a>
+                &lt;/div>
+            &lt;/div>
+        {% endfor %}
+    &lt;/div>
+{% endblock %}
+</pre>
+<p>这个模板中用一个循环列出了视图返回的所有活跃用户，分别显示每个用户的名称和头像，使用<code>{% thumbnail %}</code>显示缩略图。</p>
+<p>在<code>base.html</code>中添加这个模板的路径，作为用户关注系统的链接首页：</p>
+<pre>
+&lt;li {% if section == 'people' %}class="selected"{% endif %}>&lt;a href="{% url 'user_list' %}">People&lt;/a>&lt;/li>
+</pre>
+<p>之后启动网站，到<a href="http://127.0.0.1:8000/account/users/" target="_blank">http://127.0.0.1:8000/account/users/</a>可以看到显示出了用户列表页面，示例如下：</p>
+<p><img src="http://img.conyli.cc/django2/C06-01.png" alt=""></p>
+<p>如果无法显示缩略图，记得在<code>settings.py</code>中设置<code>THUMBNAIL_DEBUG = True</code>，在命令行窗口中查看错误信息。</p>
+<p>编写<code>account/user/detail.html</code>来展示具体用户：</p>
+<pre>
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}{{ user.get_full_name }}{% endblock %}
+{% block content %}
+    &lt;h1>{{ user.get_full_name }}&lt;/h1>
+    &lt;div class="profile-info">
+        {% thumbnail user.profile.photo "180x180" crop="100%" as im %}
+            &lt;img src="{{ im.url }}" class="user-detail">
+        {% endthumbnail %}
+    &lt;/div>
+    {% with total_followers=user.followers.count %}
+        &lt;span class="count">
+&lt;span class="total">{{ total_followers }}&lt;/span>
+follower{{ total_followers|pluralize }}
+&lt;/span>
+        &lt;a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
+            {% if request.user not in user.followers.all %}
+                Follow
+            {% else %}
+                Unfollow
+            {% endif %}
+        &lt;/a>
+        &lt;div id="image-list" class="image-container">
+            {% include "images/image/list_ajax.html" with images=user.images_created.all %}
+        &lt;/div>
+    {% endwith %}
+{% endblock %}
+</pre>
+<p>在这个详情页面，同样展示用户名称和使用<code>{% thumbnail %}</code>展示用户头像缩略图。此外还展示了关注该用户的人数，以及提供了一个按钮供当前用户关注/取消关注该用户。和上一章类似，我们将使用AJAX技术来完成关注/取消关注行为，为此在<code>&lt;a&gt;</code>标签中增加了<code>data-id</code>和<code>data-action</code>属性用于保存用户ID和初始动作。还通过引入<code>images/image/list_ajax.html</code>展示了该用户上传的所有图片。</p>
+<p>启动站点，点击某个具体的用户，可以看到用户详情页面的示例如下：</p>
+<p><img src="http://img.conyli.cc/django2/C06-02.png" alt=""></p>
+
+<h3 id="c6-1-3"><span class="title">1.3</span>创建用户关注行为的AJAX视图</h3>
+<p>编辑<code>account</code>应用的<code>views.py</code>文件：</p>
+<pre>
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
+from .models import Contact
+
+@ajax_required
+@require_POST
+@login_required
+def user_follow(request):
+    user_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if user_id and action:
+        try:
+            user = User.objects.get(id=user_id)
+            if action == "follow":
+                Contact.objects.get_or_create(user_from=request.user, user_to=user)
+            else:
+                Contact.objects.filter(user_from=request.user, user_to=user).delete()
+            return JsonResponse({'status': 'ok'})
+        except User.DoesNotExist:
+            return JsonResponse({'status': 'ko'})
+
+    return JsonResponse({'status': 'ko'})
+</pre>
+<p>这个视图与之前喜欢/不喜欢图片的功能如出一辙。由于我们使用了自定义的中间表作为多对多字段中间表，无法通过<code>User</code>模型直接使用管理器的<code>add()</code>和<code>remove()</code>方法，因此这里直接操作<code>Contact</code>模型。</p>
+<p>编辑<code>account</code>应用的<code>urls.py</code>文件，添加一行</p>
+<pre>
+    path('users/follow/', views.user_follow, name="user_follow"),
+</pre>
+<p>注意这一行一定要在<code>user_detail</code>的URL配置之前，否则所有访问<code>/users/follow/</code>路径的请求都会被路由至<code>user_detail</code>视图。记住Django匹配URL的顺序是从上到下停在第一个匹配成功的地方。</p>
+<p>修改<code>account</code>应用的<code>user/detail.html</code>，添加发送AJAX请求的JavaSCript代码：</p>
+<pre>
+{% block domready %}
+$('a.follow').click(function (e) {
+    e.preventDefault();
+    $.post('{% url 'user_follow' %}', {
+            id: $(this).data('id'),
+            action: $(this).data('action')
+        },
+        function (data) {
+            if (data['status'] === 'ok') {
+                let previous_action = $('a.follow').data('action');
+                // 切换 data-action 属性
+                $('a.follow').data('action', previous_action === 'follow' ? 'unfollow' : 'follow');
+                // 切换按钮文字
+                $('a.follow').text(previous_action === 'follow' ? 'unfollow' : 'follow');
+                // 更新关注人数
+                let previous_followers = parseInt($('span.count .total').text());
+                $('span.count .total').text(previous_action === 'follow' ? previous_followers + 1 : previous_followers - 1);
+            }
+        }
+    );
+});
+{% endblock %}
+</pre>
+<p>这个函数的逻辑也和上一章的喜欢/不喜欢功能很相似。用户点击按钮时，首先将用户ID和行为发送至视图，根据返回的结果，相应切换行为属性和显示的文字，同时更新关注人数。尝试打开一个用户详情页面并且点击喜欢，之后可以看到显示如下：</p>
+<p><img src="http://img.conyli.cc/django2/C06-03.png" alt=""></p>
+<p class="emp">译者注：这个函数和之前的AJAX函数一样，更新关注人数的逻辑比较简单粗暴，关注人数最好从数据库中取followers的总数。原书明显是为了让读者看到立竿见影的效果。</p>
+
+
+<h2 id="c6-2"><span class="title">2</span>创建通用行为流应用</h2>
+<p>许多社交网站向其用户展示其他用户的行为流，供用户追踪其他用户最近在网站中做了什么。一个行为流是一个用户或者一组用户最近进行的所有活动的列表。例如Facebook界面的News Feed就是一个行为流。对于我们的网站来说，X用户上传了Y图片或者X用户关注了Y用户，都是行为流中的一个数据。我们也准备创建一个行为流应用，让用户可以看到他们所关注的用户最近的所有活动。为了实现这个功能，我们需要建立一个模型，用于保存一个用户最近在网站上做过的所有事情，及向模型中添加行为记录的方法。</p>
+<p>新建一个叫<code>actions</code>应用然后添加到<code>settings.py</code>里，如下所示：</p>
+<pre>
+INSTALLED_APPS = [
+    # ...
+    <b>'actions.apps.ActionsConfig',</b>
+]
+</pre>
+<p>在<code>action</code>应用中编辑<code>models.py</code>：</p>
+<pre>
+from django.db import models
+
+class Action(models.Model):
+    user = models.ForeignKey('auth.user', related_name='actions', db_index=True, on_delete=models.CASCADE)
+    verb = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ('-created',)
+</pre>
+<p>上边的代码建立了一个<code>Action</code>模型，用于存放用户的所有行为记录，模型的字段有这些：</p>
+<ul>
+    <li><code>user</code>：进行行为的主体，即用户，采用了<code>ForeignKey</code>关联至内置的<code>User</code>模型</li>
+    <li><code>verb</code>：行为的动词，描述用户进行了什么行为</li>
+    <li><code>created</code>：记录用户执行行为的时间，采用<code>auto_now_add=True</code>自动记录创建该条数据的时间</li>
+</ul>
+<p>使用这个模型，我们目前只能记录行为的主体和行为动词，即<em>用户X关注了...</em>或者<em>用户X上传了...</em>，还缺少行为的目标对象。显然我们还需要一个外键关联到用户操作的具体对象上，这样才能够展示出类似<em>用户X关注了用户Y</em>这样的行为流。在之前我们已经知道，一个<code>ForeignKey</code>字段只能关联到一个模型，很显然无法满足我们的需求。目标对象必须可以是任意一个已经存在的模型的对象，这个时候Django的content types框架就该登场了。</p>
+
+
+
+<h3 id="c6-2-1"><span class="title">2.1</span>使用contenttypes框架</h3>
+<p><code>django.contrib.conttenttypes</code>模块中提供了一个contenttypes框架，这个框架可以追踪当前项目内所有已激活的应用中的所有模型，并且提供一个通用的接口可以操作模型。</p>
+<p><code>django.contrib.conttenttypes</code>同时也是一个应用，在默认设置中已经包含在<code>INSTALLED_APPS</code>中，其他<code>contrib</code>包中的程序也使用这个框架，比如内置认证模块和管理后台。</p>
+<p><code>conttenttypes</code>应用中包含一个<code>ContentType</code>模型。这个模型的实例代表项目中一个实际的数据模型。当项目中每新建一个模型时，<code>ContentType</code>的新实例会自动增加一个，对应该新增模型。<code>ContentType</code>模型包含如下字段：</p>
+<ul>
+    <li><code>app_label</code>：数据模型所属的应用名称，这个来自模型内的<code>Meta</code>类里的<code>app_label</code>属性。我们的<code>Image</code>模型就属于<code>images</code>应用</li>
+    <li><code>model</code>：模型的名称</li>
+    <li><code>name</code>：给人类阅读的名称，这个来自模型内的<code>Meta</code>类的<code>verbose_name</code>属性。</li>
+</ul>
+<p>来看一下如何使用<code>ContentType</code>对象，打开系统命令行窗口，可以通过指定<code>app_label</code>和<code>model</code>属性，在<code>ContentType</code>模型中查询得到一个具体对象：</p>
+<pre>
+>>> from django.contrib.contenttypes.models import ContentType
+>>> image_type = ContentType.objects.get(app_label='images', model='image')
+>>> image_type
+&lt;ContentType: image>
+</pre>
+<p>还可以对刚获得的<code>ContentType</code>对象调用<code>model_class()</code>方法查看类型：</p>
+<pre>
+>>> image_type.model_class()
+&lt;class 'images.models.Image'>
+</pre>
+<p>还可以直接通过具体的类名获取对应的<code>ContentType</code>对象：</p>
+<pre>
+>>> from images.models import Image
+>>> ContentType.objects.get_for_model(Image)
+&lt;ContentType: image>
+</pre>
+<p>这是几个简单的例子，还有更多的方法可以操作，详情可以阅读官方文档：<a href="https://docs.djangoproject.com/en/2.0/ref/contrib/contenttypes/" target="_blank">https://docs.djangoproject.com/en/2.0/ref/contrib/contenttypes/</a>。</p>
+
+<h3 id="c6-2-2"><span class="title">2.2</span>为模型添加通用关系</h3>
+<p>通常来说，通过获取ContentType模型的实例，就可以与整个项目中任何一个模型建立关系。为了建立通用关系，需要如下三个字段：</p>
+<ul>
+    <li>一个关联到<code>ContentType</code>模型的<code>ForeignKey</code>，这会用来反映与外键所在模型关联的具体模型。</li>
+    <li>一个存储具体的模型的主键的字段，通常采用<code>PositiveIntegerField</code>字段，以匹配主键自增字段，这个字段用于从相关的具体模型中确定一个对象。</li>
+    <li>一个使用前两个字段，用于管理通用关系的字段，content types框架提供了一个<code>GenericForeignKey</code>专门用于管理通用关系。</li>
+</ul>
+<p>编辑<code>actions</code>应用的<code>models.py</code>文件：</p>
+<pre>
+from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+
+
+class Action(models.Model):
+    user = models.ForeignKey('auth.user', related_name='actions', db_index=True, on_delete=models.CASCADE)
+    verb = models.CharField(max_length=255)
+    <b>target_ct = models.ForeignKey(ContentType, blank=True, null=True, related_name='target_obj',
+                                      on_delete=models.CASCADE)</b>
+    <b>target_id = models.PositiveIntegerField(null=True, blank=True, db_index=True)</b>
+    <b>target = GenericForeignKey('target_ct', 'target_id')</b>
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ('-created',)
+</pre>
+<p>我们将下列字段增加到了<code>Action</code>模型中：</p>
+<ul>
+    <li><code>target_ct</code>：一个外键字段，关联到<code>ContentType</code>模型</li>
+    <li><code>target_id</code>：一个<code>PositiveIntegerField</code>字段，用于存储相关模型的主键</li>
+    <li><code>target</code>：一个<code>GenericForeignKey</code>字段，通过组合前两个字段得到</li>
+</ul>
+<p>Django并不会为<code>GenericForeignKey</code>创建数据表中的字段，只有<code>target_ct</code>和<code>target_id</code>会被写入数据表。这两个字段都设置了<code>blank=True</code>和<code>null=True</code>，这样新增<code>Action</code>对象的时候不会强制要有关联的目标对象。</p>
+<p class="hint">如果确实需要的话，建立通用关系比使用外键可以创建更灵活的关系。</p>
+<p>创建完模型之后，执行数据迁移程序，然后将Action模型添加到管理后台中，编辑<code>actions</code>应用的<code>admin.py</code>文件：</p>
+<pre>
+from django.contrib import admin
+from .models import Action
+
+
+@admin.register(Action)
+class ActionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'verb', 'target', 'created')
+    list_filter = ('created',)
+    search_fields = ('verb',)
+</pre>
+<p>加入管理后台之后，打开<a href="http://127.0.0.1:8000/admin/actions/action/add/" target="_blank">http://127.0.0.1:8000/admin/actions/action/add/</a>，可以看到如下界面：</p>
+<p><img src="http://img.conyli.cc/django2/C06-05.jpg" alt=""></p>
+<p>这里可以看到，只有<code>target_id</code>和<code>target_ct</code>出现，<code>GenericForeignKey</code>并没有出现在表单中。<code>target_ct</code>字段允许选择项目中的所有模型，可以使用<code>limit_choices_to</code>属性来限制可以选择的模型。</p>
+
+<p>在<code>actions</code>应用中新建<code>utils.py</code>文件，在其中将编写一个函数用来快捷的建立新<code>Action</code>对象：</p>
+<pre>
+from django.contrib.contenttypes.models import ContentType
+from .models import Action
+
+def create_action(user, verb, target=None):
+    action = Action(user=user, verb=verb, target=target)
+    action.save()
+</pre>
+<p>这个<code>create_action()</code>函数的参数有一个<code>target</code>，就是行为所关联的目标对象，可以在任意地方导入该文件然后使用这个函数来快速为行为流添加新行为对象。</p>
+
+<h3 id="c6-2-3"><span class="title">2.3</span>避免添加重复的行为</h3>
+<p>有些时候，用户可能在短期内连续点击同一类型的事件，比如取消又关注，关注再取消，如果即使保存所有的行为，会造成大量重复的数据。为了避免这种情况，需要修改一下刚刚建立的<code>utils.py</code>文件中的<code>create_action()</code>函数：</p>
+<pre>
+<b>import datetime</b>
+<b>from django.utils import timezone</b>
+from django.contrib.contenttypes.models import ContentType
+from .models import Action
+
+
+
+def create_action(user, verb, target=None):
+    # 检查最后一分钟内的相同动作
+    <b>now = timezone.now()</b>
+    <b>last_minute = now - datetime.timedelta(seconds=60)</b>
+    <b>similar_actions = Action.objects.filter(user_id=user.id, verb=verb, created__gte=last_minute)</b>
+
+    <b>if target:</b>
+        <b>target_ct = ContentType.objects.get_for_model(target)</b>
+        <b>similar_actions = similar_actions.filter(target_ct=target_ct, target_id=target.id)</b>
+
+    <b>if not similar_actions:</b>
+        <b># 最后一分钟内找不到相似的记录</b>
+        action = Action(user=user, verb=verb, target=target)
+        action.save()
+        <b>return True</b>
+    <b>return False</b>
+</pre>
+<p>我们修改了<code>create_action()</code>函数避免在一分钟内重复保存相同的动作，并且返回一个布尔值以表示是否成功保存。这个函数的逻辑解释如下：</p>
+<ul>
+    <li>首先，通过<code>timezone.now()</code>获取当前的时间，这个方法与<code>datetime.datetime.now()</code>相同，但是返回一个<code>timezone-aware</code>对象。Django使用<code>USE_TZ</code>设置控制是否支持时区，使用<code>startapp</code>命令建立的项目默认<code>USE_TZ=True</code></li>
+    <li>使用<code>last_minute</code>变量保存之前一分钟，然后获取之前一分钟到现在，当前用户进行的所有动词相同的行为。</li>
+    <li>如果没有找到任何相同的行为，就直接创建<code>Action</code>对象，并返回<code>True</code>，否则返回<code>False</code>。</li>
+</ul>
+
+<h3 id="c6-2-4"><span class="title">2.4</span>向行为流中添加行为</h3>
+<p>现在需要编辑视图，添加一些功能来创建行为流。我们将对下边的行为创建行为流：</p>
+<ul>
+    <li>任意用户上传了图片</li>
+    <li>任意用户喜欢了一张图片</li>
+    <li>任意用户创建账户</li>
+    <li>任意用户关注其他用户</li>
+</ul>
+<p>编辑<code>images</code>应用的<code>views.py</code>文件：</p>
+<pre>
+from actions.utils import create_action
+</pre>
+<p>在<code>image_create</code>视图中，在保存图片之后添加<code>create_action()</code>语句：</p>
+<pre>
+new_item.save()
+<b>create_action(request.user, 'bookmarked image', new_item)</b>
+</pre>
+<p>在<code>image_like</code>视图中，在将用户添加到<code>users_like</code>关系之后添加<code>create_action()</code>语句：</p>
+<pre>
+image.users_like.add(request.user)
+<b>create_action(request.user, 'likes', image)</b>
+</pre>
+<p>编辑<code>account</code>应用的<code>views.py</code>文件，添加如下导入语句：</p>
+<pre>from actions.utils import create_action</pre>
+<p>在<code>register</code>视图里，在创建<code>Profile</code>对象之后添加<code>create_action()</code>语句：</p>
+<pre>
+Profile.objects.create(user=new_user)
+<b>create_action(new_user, 'has created an account')</b>
+</pre>
+<p>在<code>user_follow</code>视图里也添加<code>create_action()</code>：</p>
+<pre>
+Contact.objects.get_or_create(user_from=request.user, user_to=user)
+<b>create_action(request.user, 'is following', user)</b>
+</pre>
+<p>从上边的代码中可以看到，由于建立好了<code>Aciton</code>模型，可以方便的添加各种行为。</p>
+
+<h3 id="c6-2-5"><span class="title">2.5</span>展示用户行为流</h3>
+<p>最后，需要展示每个用户的行为流，我们将在用户的登录后页面中展示行为流。编辑<code>account</code>应用的<code>views.py</code>文件，修改<code>dashboard</code>视图，如下：</p>
+<pre>
+<b>from actions.models import Action</b>
+
+@login_required
+def dashboard(request):
+    <b># 默认展示所有行为，不包含当前用户</b>
+    <b>actions = Action.objects.exclude(user=request.user)</b>
+    <b>following_ids = request.user.following.values_list('id', flat=True)</b>
+
+    <b>if following_ids:</b>
+        # 如果当前用户有关注的用户，仅展示被关注用户的行为
+        <b>actions = actions.filter(user_id__in=following_ids)</b>
+    <b>actions = actions[:10]</b>
+    return render(request, 'account/dashboard.html', {'section': 'dashboard', 'actions': actions})
+</pre>
+<p>在上边代码中，首先从数据库中获取除了当前用户之外的全部行为流数据。如果当前用户有关注其他用户，则在所有的行为流中筛选出属于关注用户的行为流。最后限制展示的数量为10条。在QuerySet中我们并没有使用<code>order_by()</code>方法，因为默认已经按照<code>ordering=('-created')</code>进行了排序。</p>
+
+<h3 id="c6-2-6"><span class="title">2.6</span>优化QuerySet查询关联对象</h3>
+<p>现在我们每次获取一个<code>Action</code>对象时，都会去查询关联的<code>User</code>对象，然后还会去查询User对象关联的<code>Profile</code>对象，要查询两次。Django ORM提供了一种简便的方法获取相关联的对象，而无需反复查询数据库。</p>
+
+<h4 id="c6-2-6-1"><span class="title">2.6.1</span>使用<code>select_related()</code></h4>
+<p>Django提供了<code>select_related()</code>方法用于一对多字段查询关联对象。这个方法实际上会得到一个更加复杂的QuerySet，然而却避免了反复查询关联对象。<code>select_related()</code>方法仅能用于<code>ForeignKey</code>和<code>OneToOneField</code>，其实际生成的SQL语句是<code>JOIN</code>连表查询，方法的参数则是<code>SELECT</code>语句之后的字段名。</p>
+<p>为了使用<code>select_related()</code>，修改下边这行代码：</p>
+<pre>
+actions = actions[:10]
+</pre>
+<p>将其修改成：</p>
+<pre>actions = actions<b>.select_related('user', 'user__profile')</b>[:10]</pre>
+<p>我们使用<code>user__profile</code>在查询中将Profile数据表进行了连表查询。如果不给<code>select_related()</code>传任何参数，会将所有该表外键关联的表格都进行连表操作。最好每次都指定具体要关联的表。</p>
+<p class="hint">进行连表操作的时候注意避免不需要的额外连表，以减少查询时间。</p>
+
+
+<h4 id="c6-2-6-2"><span class="title">2.6.2</span>使用<code>prefetch_related()</code></h4>
+<p><code>select_related()</code>仅能用于一对一和一对多关系，不能用于多对多（<code>ManyToMany</code>）和多对一关系（反向的<code>ForeignKey</code>关系）。Django提供了QuerySet的<code>prefetch_related()</code>方法用于多对多和多对一关系查询，这个方法会对每个对象的关系进行一次单独查询，然后再把结果连接起来。这个方法还支持查询<code>GenericRelation</code>和<code>GenericForeignKey</code>字段。</p>
+<p>编辑<code>account</code>应用的<code>views.py</code>文件，为<code>GenericForeignKey</code>增加<code>prefetch_related()</code>方法：</p>
+<pre>
+    actions = actions.select_related('user', 'user__profile')<b>.prefetch_related('target')</b>[:10]
+</pre>
+<p>现在我们就完成了优化查询的工作。</p>
+
+
+<h3 id="c6-2-7"><span class="title">2.7</span>创建行为流模板</h3>
+<p>现在来创建展示用户行为的页面，在<code>actions</code>应用下创建<code>templates</code>目录，添加如下文件结构：</p>
+<pre>
+actions/
+    action/
+        detail.html
+</pre>
+<p>编辑<code>actions/action/detail.html</code>模板，添加如下内容：</p>
+<pre>
+{% load thumbnail %}
+{% with user=action.user profile=action.user.profile %}
+    &lt;div class="action">
+        &lt;div class="images">
+            {% if profile.photo %}
+                {% thumbnail user.profile.photo "80x80" crop="100%" as im %}
+                    &lt;a href="{{ user.get_absolute_url }}">
+                        &lt;img src="{{ im.url }}" alt="{{ user.get_full_name }}"
+                             class="item-img">
+                    &lt;/a>
+                {% endthumbnail %}
+            {% endif %}
+            {% if action.target %}
+                {% with target=action.target %}
+                    {% if target.image %}
+                        {% thumbnail target.image "80x80" crop="100%" as im %}
+                            &lt;a href="{{ target.get_absolute_url }}">
+                                &lt;img src="{{ im.url }}" class="item-img">
+                            &lt;/a>
+                        {% endthumbnail %}
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        &lt;/div>
+        &lt;div class="info">
+            &lt;p>
+                &lt;span class="date">{{ action.created|timesince }} ago&lt;/span>
+                &lt;br/>
+                &lt;a href="{{ user.get_absolute_url }}">
+                    {{ user.first_name }}
+                &lt;/a>
+                {{ action.verb }}
+                {% if action.target %}
+                    {% with target=action.target %}
+                        &lt;a href="{{ target.get_absolute_url }}">{{ target }}&lt;/a>
+                    {% endwith %}
+                {% endif %}
+            &lt;/p>
+        &lt;/div>
+    &lt;/div>
+{% endwith %}
+</pre>
+<p>这是展示<code>Action</code>对象的模板。首先我们使用<code>{% with %}</code>标签存储当前用户和当前用户的<code>Profile</code>对象；然后如果<code>Action</code>对象存在关联的目标对象而且有图片，就展示这个目标对象的图片；最后，展示执行这个行为的用户的链接，动词，和目标对象。</p>
+<p>然后编辑<code>account</code>应用里的<code>dashboard.html</code>，把这个页面包含到<code>content</code>块的底部：</p>
+<pre>
+&lt;h2>What's happening&lt;/h2>
+&lt;div id="action-list">
+    {% for action in actions %}
+        {% include 'actions/action/detail.html' %}
+    {% endfor %}
+&lt;/div>
+</pre>
+<p>启动站点，打开<a href="http://127.0.0.1:8000/account/" target="_blank">http://127.0.0.1:8000/account/</a>，使用已经存在的用户登录，然后进行一些行为。再更换另外一个用户登录，关注之前的用户，然后到登录后页面看一下行为流，如下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C06-06.jpg" alt=""></p>
+<p>我们就建立了一个完整的行为流应用，可以方便的添加用户行为。还可以为这个页面添加之前的AJAX动态加载页面的效果。</p>
+
+
+<h2 id="c6-3"><span class="title">3</span>使用signals非规范化数据</h2>
+<p>有些时候你可能需要非规范化数据库。<a href="https://en.wikipedia.org/wiki/Denormalization" target="_blank">非规范化（Denormalization）</a>是一种数据库方面的名词，指通过向数据库中添加冗余数据以提高效率。非规范化只有在确实必要的情况下再考虑使用。使用非规范化数据的最大问题是如何保持非规范化数据始终更新。</p>
+<p>我们将通过一个例子展示如何通过非规范化数据提高查询效率，缺点就是必须额外编写代码以保持数据更新。我们将非规范化<code>Image</code>模型并通过Django的信号功能保持数据更新。</p>
+<p class="emp">译者注：规范化简单理解就是不会存储对象非必要的额外信息，就像我们现在为止的所有设计，来自于对象基础信息以外的额外信息（如求和，分组）都通过设计良好的表间关系和查询手段获得，而且这些基础信息都在对应的视图内得到操作和更新。非规范化是与规范化相反的手段，添加冗余数据用于提高数据库的效率。这是结构化程序设计思想中的运行时间与占用空间关系在数据库结构方面的反映。</p>
+
+<h3 id="c6-3-1"><span class="title">3.1</span>使用signal功能</h3>
+<p>Django提供一个信号模块，可以让receiver函数在某种动作发生的时候得到通知。信号功能在实现每当发生什么动作就执行一些代码的时候很有用，也可以创建自定义的信号用于通知其他程序</p>
+<p>Django在<code>django.db.models.signals</code>中提供了一些信号功能，其中有如下的信号：</p>
+<ul>
+    <li><code>pre_save</code>和<code>post_save</code>，在调用<code>save()</code>方法之前和之后发送信号</li>
+    <li><code>pre_delete</code>和<code>post_delete</code>，在调用<code>delete()</code>方法之前和之后发送信号</li>
+    <li><code>m2m_changed</code>在多对多字段发生变动的时候发送信号</li>
+</ul>
+<p>这只是部分信号功能，完整的内置信号功能见官方文档<a href="https://docs.djangoproject.com/en/2.0/ref/signals/" target="_blank">https://docs.djangoproject.com/en/2.0/ref/signals/</a>。</p>
+<p>举个例子来看如何使用信号功能。如果在图片列表页，想给图片按照受欢迎的程度排序，可以使用聚合函数，对喜欢该图片的用户合计总数，代码是这样：</p>
+<pre>
+from django.db.models import Count
+from images.models import Image
+images_by_popularity = Image.objects.annotate(total_likes=Count('users_like')).order_by('-total_likes')
+</pre>
+<p>在性能上来说，通过合计<code>users_like</code>字段，生成临时表再进行排序的操作，远没有直接通过一个字段排序的效率高。我们可以直接在<code>Image</code>模型上增加一个字段，用于保存图片的被喜欢数合计，这样虽然使数据库非规范化，但显著的提高了查询效率。现在的问题是，如何保持这个字段始终为最新值？</p>
+<p>先到<code>images</code>应用的<code>models.py</code>中，为<code>Image</code>模型增加一个字段<code>total_likes</code>：</p>
+<pre>
+class Image(models.Model):
+    # ...
+    <b>total_likes = models.PositiveIntegerField(db_index=True, default=0)</b>
+</pre>
+<p><code>total_likes</code>用来存储喜欢该图片的用户总数，这个非规范化的字段在查询和排序的时候非常简便。</p>
+<p class="hint">在使用非规范化手段之前，还有几种方法可以提高效率，比如使用索引，优化查询和使用缓存。</p>
+<p>添加完字段之后执行数据迁移程序。</p>
+<p>之后需要给<code>m2m_changed</code>信号设置一个<code>receiver</code>函数，在<code>images</code>应用目录内新建一个<code>signals.py</code>文件，添加如下代码：</p>
+<pre>
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
+from .models import Image
+
+@receiver(m2m_changed, sender=Image.users_like.through)
+def users_like_changed(sender, instance, **kwargs):
+    instance.total_likes = instance.users_like.count()
+    instance.save()
+</pre>
+<p>首先，使用<code>@receiver</code>装饰器，将<code>users_like_changed</code>函数注册为一个事件的接收<code>receiver</code>函数，然后将其设置为监听<code>m2m_changed</code>类型的信号，并且设置信号来源为<code>Image.users_like.through</code>，这表示来自于<code>Image.users_like</code>字段的变动会触发该接收函数。除了如此设置之外，还可以采用<code>Signal</code>对象的<code>connect()</code>方法进行设置。</p>
+<p class="hint">DJango的信号是同步阻塞的，不要将信号和异步任务的概念搞混。可以将二者有效结合，让程序在收到某个信号的时候启动异步任务。</p>
+<p>配置好<code>receiver</code>接收函数之后，还必须将函数导入到应用中，这样就可以在每次发送信号的时候调用函数。推荐的做法是在应用配置类的<code>ready()</code>方法中，导入接收函数。这就需要再了解一下应用配置类。</p>
+
+<h3 id="c6-3-2"><span class="title">3.2</span>应用配置类</h3>
+<p>Django允许为每个应用设置一个单独的应用配置类。当使用<code>startapp</code>命令创建一个应用时，Django会在应用目录下创建一个<code>apps.py</code>文件，并在其中自动设置一个名称为“首字母大写的应用名+Config”并继承<code>AppConfig</code>类的应用配置类。</p>
+<p>使用应用配置类可以存储这个应用的元数据，应用配置和提供自省功能。应用配置类的官方文档<a href="https://docs.djangoproject.com/en/2.0/ref/applications/" target="_blank">https://docs.djangoproject.com/en/2.0/ref/applications/</a>。</p>
+<p>我们已经使用<code>@receiver</code>装饰器注册好了信号接收函数，这个函数应该在应用一启动的时候就可以进行调用，所以要注册在应用配置类中，其他类似的需要在应用初始化阶段就调用的功能也要注册在应用配置类中。编辑<code>images</code>应用的<code>apps.py</code>文件：</p>
+<pre>
+from django.apps import AppConfig
+
+class ImagesConfig(AppConfig):
+    name = 'images'
+
+    def ready(self):
+        <b># 导入信号接收函数</b>
+        <b>import images.signals</b>
+</pre>
+<p>通过<code>ready()</code>方法导入之后，在<code>images</code>应用加载的时候该函数就会被导入。</p>
+<p>启动程序，选中一张图片并点击LIKE按钮，然后到管理站点查看该图片，例如<a href="http://127.0.0.1:8000/admin/images/image/1/change/" target="_blank">http://127.0.0.1:8000/admin/images/image/1/change/</a>，可以看到新增的<code>total_likes</code>字段。还可以看到<code>total_likes</code>字段已经得到了更新，如图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C06-07.jpg" alt=""></p>
+<p>现在可以用<code>total_likes</code>字段排序图片并且显示总数量，避免复杂的查询。看一下本章开头的查询语句：</p>
+<pre>
+from django.db.models import Count
+
+images_by_popularity = Image.objects.annotate(likes=Count('users_like')).order_by('-likes')
+</pre>
+<p>现在上边的查询可以改成下边这样：</p>
+<pre>images_by_popularity = Image.objects.order_by('-total_likes')</pre>
+<p>现在这个查询的开销要比原来小很多，这是一个使用信号的例子。</p>
+<p class="hint">使用信号功能会让控制流变得更加难以追踪，在很多情况下，如果明确知道需要进行什么操作，无需使用信号功能。</p>
+<p>对于已经存在表内的对象，<code>total_likes</code>字段中还没有任何数据，需要为所有对象设置当前的值，通过<code>python manage.py shell</code>进入带有当前Django环境的Python命令行，并输入下列命令：</p>
+<pre>
+>>>from images.models import Image
+>>>for image in Image.objects.all():
+>>>    image.total_likes = image.users_like.count()
+>>>    image.save()
+</pre>
+<p>现在每个图片的<code>total_likes</code>字段已被更新。</p>
+
+
+<h2 id="c6-4"><span class="title">4</span>使用Redis数据库</h2>
+<p>Redis是一个先进的键值对数据库，可以存储多种类型的数据并提供高速存取服务。Redis运行时的数据保存在内存中，也可以定时将数据持久化到磁盘中或者通过日志输出。Redis相比普通的键值对存储，具有一系列强力的命令支持不同的数据格式，比如字符串、哈希值、列表、集合和有序集合，甚至是位图或HyperLogLogs数据。</p>
+<p>尽管SQL数据库依然是保存结构化数据的最佳选择，对于迅速变化的数据、反复使用的数据和缓存需求，采用Redis有着独特的优势。本节来看一看如何通过Redis为我们的项目增加一个新功能。</p>
+
+<h3 id="c6-4-1"><span class="title">4.1</span>安装Redis</h3>
+<p>在<a href="https://redis.io/download" target="_blank">https://redis.io/download</a>下载最新的Redis数据库，解压<code>tar.gz</code>文件，进入<code>redis</code>目录，然后使用<code>make</code>命令编译安装Redis：</p>
+<pre>
+cd redis-4.0.9
+make
+</pre>
+<p>在安装完成后，在命令行中输入如下命令来初始化Redis服务：</p>
+<pre>
+src/redis-server
+</pre>
+<p>可以看到如下输出：</p>
+<pre>
+# Server initialized
+* Ready to accept connections
+</pre>
+<p>说明Redis服务已经启动。Redis默认监听<a href="http://oldblog.antirez.com/post/redis-as-LRU-cache.html" target="_blank">6379</a>端口。可以使用<code>--port</code>参数指定端口，例如<code>redis-server --port 6655</code>。</p>
+<p>保持Redis服务运行，新开一个系统终端窗口，启动Redis客户端：</p>
+<pre>
+src/redis-cli
+</pre>
+<p>可以看到如下提示：</p>
+<pre>
+127.0.0.1:6379>
+</pre>
+<p>说明已经进入Redis命令行模式，可以直接执行Redis命令，我们来试验一些命令：</p>
+<p class="emp">译者注：Redis官方未提供Windows版本，可以在<a href="https://github.com/MicrosoftArchive/redis/releases" target="_blank">https://github.com/MicrosoftArchive/redis/releases</a>找到Windows版，安装好之后默认已经添加Redis服务，默认端口号和Linux系统一样是6379。进入cmd，输入<code>redis-cli</code>进入Redis命令行模式。</p>
+<p>使用<code>SET</code>命令保存一个键值对：</p>
+<pre>
+127.0.0.1:6379> SET name "Peter"
+OK
+</pre>
+<p>上边的命令创建了一个<code>name</code>键，值是字符串<code>"Peter"</code>。<code>OK</code>表示这个键值对已被成功存储。可以使用<code>GET</code>命令取出该键值对：</p>
+<pre>
+127.0.0.1:6379> GET name
+"Peter"</pre>
+<p>使用<code>EXIST</code>命令检测某个键是否存在，返回整数1表示True，0表示False：</p>
+<pre>127.0.0.1:6379> EXISTS name
+(integer) 1</pre>
+<p>使用<code>EXPIRE</code>设置一个键值对的过期秒数。还可以使用<code>EXPIREAT</code>以UNIX时间戳的形式设置过期时间。过期时间对于将Redis作为缓存时很有用：</p>
+<pre>
+127.0.0.1:6379> GET name
+"Peter"
+127.0.0.1:6379> EXPIRE name 2
+(integer) 1
+</pre>
+<p>等待超过2秒钟，然后尝试获取该键：</p>
+<pre>
+127.0.0.1:6379> GET name
+(nil)
+</pre>
+<p><code>(nil)</code>说明是一个null响应，即没有找到该键。使用<code>DEL</code>命令可以删除键和值，如下：</p>
+<pre>
+127.0.0.1:6379> SET total 1
+OK
+127.0.0.1:6379> DEL total
+(integer) 1
+127.0.0.1:6379> GET total
+(nil)
+</pre>
+<p>这是Redis的基础操作，Redis对于各种数据类型有很多命令，可以在<a href="https://redis.io/commands" target="_blank">https://redis.io/commands</a>查看命令列表，Redis所有支持的数据格式在<a href="https://redis.io/topics/data-types" target="_blank">https://redis.io/topics/data-types</a>。</p>
+<p class="emp">译者注：特别要看一下Redis中有序集合这个数据类型，以下会使用到。</p>
+
+
+<h3 id="c6-4-2"><span class="title">4.2</span>通过Python操作Redis</h3>
+<p>同使用PostgreSQL一样，在Python安装支持该数据库的模块<code>redis-py</code>：</p>
+<pre>
+pip install redis==2.10.6
+</pre>
+<p>该模块的文档可以在<a href="https://redis-py.readthedocs.io/en/latest/" target="_blank">https://redis-py.readthedocs.io/en/latest/</a>找到。</p>
+<p><code>redis-py</code>提供了两大功能模块，<code>StrictRedis</code>和<code>Redis</code>，功能完全一样。区别是前者只支持标准的Redis命令和语法，后者进行了一些扩展。我们使用严格遵循标准Redis命令的<code>StrictRedis</code>模块，打开Python命令行界面，输入以下命令：</p>
+<pre>
+>>> import redis
+>>> r = redis.StrictRedis(host='localhost', port=6379, db=0)
+</pre>
+<p>上述命令使用本机地址和端口和数据库编号实例化数据库连接对象，在Redis内部，数据库的编号是一个整数，共有0-16号数据库，默认客户端连接到的数据库是<code>0</code>号数据库，可以通过修改<code>redis.conf</code>更改默认数据库。</p>
+<p>通过Python存入一个键值对：</p>
+<pre>
+>>> r.set('foo', 'bar')
+True
+</pre>
+<p>返回<code>True</code>表示成功存入键值对，通过<code>get()</code>方法取键值对：</p>
+<pre>
+>>> r.get('foo')
+b'bar'
+</pre>
+<p>可以看到，这些方法源自同名的标准Redis命令。</p>
+<p>了解Python中使用Redis之后，需要把Redis集成到Django中来。编辑<code>bookmarks</code>应用的<code>settings.py</code>文件，添加如下设置：</p>
+<pre>
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+</pre>
+<p>这是Redis服务的相关设置。</p>
+
+<h3 id="c6-4-3"><span class="title">4.3</span>在Redis中存储图片浏览次数</h3>
+<p>我们需要存储一个图片被浏览过的总数。如果我们使用Django ORM来实现，每次展示一个图片时，需要通过视图执行SQL的<code>UPDATE</code>语句并写入磁盘。如果我们使用Redis，只需要每次对保存在内存中的一个数字增加1，相比之下Redis的速度要快很多。</p>
+<p>编辑<code>images</code>应用的<code>views.py</code>文件，在最上边的导入语句后边添加如下内容：</p>
+<pre>
+import redis
+from django.conf import settings
+
+r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
+</pre>
+<p>通过上述语句，在视图文件中实例化了一个Redis数据库连接对象，等待其他视图的调用。编辑image_detail视图，让其看起来如下：</p>
+<pre>
+@login_required
+def image_detail(request, id, slug):
+    image = get_object_or_404(Image, id=id, slug=slug)
+    <b># 浏览数+1</b>
+    <b>total_views = r.incr('image:{}:views'.format(image.id))</b>
+    return render(request, 'images/image/detail.html',
+                  {'section': 'images', 'image': image, <b>'total_views': total_views</b>})
+
+</pre>
+<p>这个视图使用了<code>incr</code>命令，将该键对应的值增加1。如果键不存在，会自动创建该键（初始值为0）然后将值加1。incr()方法返回增加1这个操作之后的结果，也就是最新的浏览总数。然后用<code>total_views</code>存储浏览总数并传入模板。我们采用Redis的常用格式创建键名，如<code>object-type:id:field</code>（例如<code>image:33:id</code>)。</p>
+<p class="hint">Redis数据库的键常用冒号分割的字符串来创建类似于带有命名空间一样的键值，这样的键名易于阅读，而且在其名字中有共同的部分，便于对应至具体对象和查找。</p>
+<p>编辑<code>images/image/detail.html</code>，在<code>&lt;span class="count"></code>之后追加：</p>
+<pre>
+&lt;span class="count">
+    {{ total_views }} view{{ total_views|pluralize }}
+&lt;/span>
+</pre>
+<p>打开一个图片的详情页面，然后按F5刷新几次，能够看到访问数“ * views”不断上升，如下图所示：</p>
+<p><img src="http://img.conyli.cc/django2/C06-08.jpg" alt=""></p>
+<p>现在我们就将Redis集成到Django中并用其显示数量了。</p>
+
+<h3 id="c6-4-4"><span class="title">4.4</span>在Redis中存储排名</h3>
+<p>现在用Redis来实现一个更复杂一些的功能：创建一个排名，按照图片的访问量将图片进行排名。为了实现这个功能，将使用Redis的有序集合数据类型。有序集合是一个不重复的字符串集合，其中的每一个字符串都对应一个分数，按照分数的大小进行排序。</p>
+<p>编辑<code>images</code>应用里的<code>views.py</code>文件，继续修改<code>image_detail</code>视图：</p>
+<pre>
+@login_required
+def image_detail(request, id, slug):
+    image = get_object_or_404(Image, id=id, slug=slug)
+    total_views = r.incr('image:{}:views'.format(image.id))
+    <code># 在有序集合image_ranking里，把image.id的分数增加1</code>
+    <b>r.zincrby('image_ranking', image.id, 1)</b>
+    return render(request, 'images/image/detail.html',
+                  {'section': 'images', 'image': image, 'total_views': total_views})
+</pre>
+<p>使用<code>zincrby</code>方法创建一个<code>image_ranking</code>有序集合对象，在其中存储图片的id，然后将对应的分数加1。这样就可以在每次图片被浏览之后，更新该图片被浏览的次数以及所有图片被浏览的次数的排名。</p>
+<p>在当前的<code>views.py</code>文件里创建一个新的视图用于展示图片排名：</p>
+<pre>
+@login_required
+def image_ranking(request):
+    <b># 获得排名前十的图片ID列表</b>
+    image_ranking = r.zrange('image_ranking', 0, -1, desc=True)[:10]
+    image_ranking_ids = [int(id) for id in image_ranking]
+    # 取排名最高的图片然后排序
+    most_viewed = list(Image.objects.filter(id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+    return render(request, 'images/image/ranking.html', {'section': 'images', 'most_viewed': most_viewed})
+
+</pre>
+<p>这个<code>image_ranking</code>视图工作逻辑如下：</p>
+<ol>
+    <li>使用<code>zrange()</code>命令从有序集合中取元素，后边的两个参数表示开始和结束索引，给出<code>0</code>到<code>-1</code>的范围表示取全部元素，<code>desc=True</code>表示将这些元素降序排列。最后使用<code>[:10]</code>切片列表前10个元素。</li>
+    <li>使用列表推导式，取得了键名对应的整数构成的列表，存入<code>image_ranking_ids</code>中。然后查询id属于该列表中的所有<code>Image</code>对象。由于要按照<code>image_ranking_ids</code>中的顺序对查询结果进行排序，所以使用<code>list()</code>将查询结果列表化。</li>
+    <li>按照每个<code>Image</code>对象的id在<code>image_ranking_ids</code>中的顺序，对查询结果组成的列表进行排序。</li>
+</ol>
+<p>在<code>images/image/</code>模板目录内创建<code>ranking.html</code>，添加下列代码：</p>
+<pre>
+{% extends 'base.html' %}
+{% block title %}
+    Images Ranking
+{% endblock %}
+
+{% block content %}
+    &lt;h1>Images Ranking&lt;/h1>
+    &lt;ol>
+        {% for image in most_viewed %}
+            &lt;li>
+                &lt;a href="{{ image.get_absolute_url }}">{{ image.title }}&lt;/a>
+            &lt;/li>
+        {% endfor %}
+    &lt;/ol>
+{% endblock %}
+</pre>
+<p>这个页面很简单，迭代<code>most_viewed</code>中的每个<code>Image</code>对象，展示图片内容、名称和对应的详情链接。</p>
+<p>最后为新的视图配置URL，编辑<code>images</code>应用的<code>urls.py</code>文件，增加一行：</p>
+<pre>
+path('ranking/', views.image_ranking, name='ranking'),
+</pre>
+<p class="emp">译者注：原书此处有误，<code>name</code>参数的值设置成了<code>create</code>，按作者的一贯写法，应该为<code>'ranking'</code>。</p>
+<p>之后启动站点，访问不同图片的详情页，反复刷新拖杆次，然后打开<a href="http://127.0.0.1:8000/images/ranking/" target="_blank">http://127.0.0.1:8000/images/ranking/</a>，即可看到排名页面：</p>
+<p><img src="http://img.conyli.cc/django2/C06-09.jpg" alt=""></p>
+
+<h3 id="c6-4-5"><span class="title">4.5</span>进一步使用Redis</h3>
+<p>Redis无法替代SQL数据库，但其使用内存存储的特性可以用来完成模型具体任务，把Redis加入到你的工具库里，在必要的时候就可以使用它。下边是一些适合使用Redis的场景：</p>
+<ul>
+    <li>计数：从我们的例子可以看出，使用Redis管理计数非常便捷，<code>incr()</code>和<code>incrby()</code>方法可以方便的实现计数功能。</li>
+    <li>存储最新的项目：使用<code>lpush()</code>和<code>rpush()</code>可以向一个队列的开头和末尾追加数据，<code>lpop()</code>和<code>rpop()</code>则是从队列开始和末尾弹出元素。如果操作造成队列长度改变，还可以用<code>ltrim()</code>保持队列长度。</li>
+    <li>队列：除了上边的<code>pop</code>和<code>push</code>系列方法，Redis还提供了阻塞队列的方法</li>
+    <li>缓存：<code>expire()</code>和<code>expireat()</code>方法让用户可以把Redis当做缓存来使用，还可以找到一些第三方开发的将Redis配置为Django缓存后端的模块。</li>
+    <li>订阅/发布：Redis提供订阅/发布消息模式，可以向一些频道发送消息，订阅该频道的Redis客户端可以接受到该消息。</li>
+    <li>排名和排行榜：Redis的有序集合可以方便的创建排名相关的数据。</li>
+    <li>实时跟踪：Redis的高速I/O可以用在实时追踪并更新数据方面。</li>
+</ul>
+
+<h1><b>总结</b></h1>
+<p>这一章里完成了两大任务，一个是用户之间的互相关注系统，一个是用户行为流系统。还学习了使用Django的信号功能，和将Redis集成至Django。</p>
+<p>在下一章，我们将开始一个新的项目，创建一个电商网站。将学习创建商品品类，通过session创建购物车，以及使用Celery启动异步任务。</p>
+</body>
+</html>

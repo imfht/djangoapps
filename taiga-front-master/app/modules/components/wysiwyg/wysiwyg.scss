@@ -1,0 +1,230 @@
+
+tg-wysiwyg {
+    display: flex;
+    margin-bottom: 1rem;
+    .editor {
+        width: 100%;
+    }
+    .tools {
+        display: none;
+        padding-left: 1rem;
+
+        &.visible {
+            display: block;
+        }
+    }
+    .mode-editor {
+        margin-top: .25rem;
+        span {
+            color: $gray-light;
+            cursor: pointer;
+            margin-right: .5rem;
+        }
+    }
+    .markdown {
+        outline: none;
+        padding: 1rem;
+
+        &:not(.empty) {
+            p {
+                margin-bottom: 0;
+                white-space: pre-wrap;
+            }
+        }
+    }
+    .read-mode {
+        cursor: pointer;
+        .wysiwyg {
+            padding: .5rem 0;
+        }
+        // toolbar
+        // image mouseover toolbox
+        .ck-editor__top,
+        .ck-widget__type-around {
+            display: none;
+
+        }
+
+        // image mouseover toolbox
+        .image.ck-widget {
+            outline-color: transparent;
+        }
+        .ck.ck-editor__main > .ck-editor__editable {
+            border-color: transparent;
+        }
+    }
+    .help-markdown {
+        display: flex;
+        margin-top: 1rem;
+    }
+    tg-text-editor {
+        button {
+            display: none;
+        }
+    }
+    .edit-mode {
+        .markdown,
+        .ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+            min-height: 8rem;
+            &.ck-focused {
+                border: 1px solid $color-black600;
+            }
+        }
+        tg-text-editor {
+            button {
+                display: block;
+            }
+        }
+        .ck-content .image {
+            margin: 1rem 0;
+        }
+    }
+    .wysiwyg {
+        display: none;
+    }
+    .html-read-mode.edit-mode {
+        .editor-wrapper {
+            display: block;
+        }
+        .wysiwyg {
+            display: none;
+        }
+    }
+    .html-read-mode.read-mode {
+        .editor-wrapper {
+            display: none;
+        }
+        .wysiwyg {
+            display: block;
+        }
+    }
+}
+
+tg-html-editor .ck-content,
+.wysiwyg {
+    i {
+        font-style: revert;
+    }
+    h1 {
+        @include font-size(xxlarge);
+    }
+    h2 {
+        @include font-size(xlarge);
+    }
+    h3 {
+        @include font-size(larger);
+    }
+    h4 {
+        @include font-size(large);
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: $color-black900;
+        font-weight: 600;
+        margin-bottom: var(--ck-spacing-large);
+    }
+    li {
+        color: $color-black900;
+        margin-bottom: .5rem;
+        @include font-size(small);
+
+        ul,
+        ol {
+            padding-top: .5rem;
+        }
+    }
+    ul {
+        list-style-type: disc;
+        ul {
+            list-style-type: circle;
+        }
+    }
+    ul,
+    ol {
+        margin-bottom: 1rem;
+        padding: 0 0 0 1rem;
+    }
+    p {
+        @include font-size(small);
+        color: $color-black600;
+    }
+    strong {
+        color: $color-black900;
+    }
+    a {
+        color: $color-link-primary;
+        font-weight: 600;
+    }
+    blockquote {
+        border-left: 5px solid $color-solid-primary;
+        color: $color-link-tertiary;
+        margin: 40px 0;
+        padding: 0 1.25rem;
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+    pre {
+        margin: 0 0 20px;
+    }
+    img {
+        max-width: 100%;
+    }
+    .mention {
+        background: none;
+        color: $color-link-primary;
+        cursor: pointer;
+    }
+    .ck-horizontal-line hr,
+    hr {
+        background-color: $color-solid-primary;
+        border: 0;
+        height: 2px;
+        margin: 40px 0;
+    }
+    .table table,
+    table {
+        border: 1px solid $color-gray400;
+        td {
+            @include font-size(small);
+            color: $color-link-tertiary;
+        }
+        th {
+            background-color: $color-gray300;
+            color: $color-black900;
+            font-weight: normal;
+            text-align: left;
+        }
+        td,
+        th {
+            border: 1px solid $color-gray400;
+            min-width: 2em;
+            padding: .4em;
+        }
+    }
+}
+
+tg-html-editor .ck-content {
+    .table,
+    .image {
+        margin: 20px 0;
+    }
+}
+
+.wysiwyg {
+    table {
+        margin: 20px 0;
+    }
+}
+
+
+.ck-body-wrapper {
+    .ck.ck-link-actions .ck-button.ck-link-actions__preview .ck-button__label {
+        color: $color-link-primary;
+        font-weight: 600;
+    }
+}

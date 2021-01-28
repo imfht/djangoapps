@@ -1,0 +1,50 @@
+{% extends "pretixpresale/event/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block title %}{% trans "Checkout" %}{% endblock %}
+{% block content %}
+    <details class="panel panel-default cart" {% if "open_cart" in request.GET %}open{% endif %}>
+        <summary class="panel-heading">
+            <h3 class="panel-title">
+                <span>
+                    <i class="fa fa-shopping-cart"></i>
+                    <strong>{% trans "Your cart" %}</strong>
+                </span>
+                <span>
+                    <strong id="cart-deadline-short" data-expires="{{ cart.first_expiry|date:"Y-m-d H:i:sO" }}">
+                        {% if cart.minutes_left > 0 or cart.seconds_left > 0 %}
+                            {{ cart.minutes_left|stringformat:"02d" }}:{{ cart.seconds_left|stringformat:"02d" }}
+                        {% else %}
+                            {% trans "Cart expired" %}
+                        {% endif %}
+                    </strong>
+                    <i class="fa fa-angle-down collapse-indicator"></i>
+                </span>
+            </h3>
+        </summary>
+        <div>
+            <div class="panel-body">
+                {% include "pretixpresale/event/fragment_cart.html" with cart=cart event=request.event %}
+                <em id="cart-deadline" data-expires="{{ cart.first_expiry|date:"Y-m-d H:i:sO" }}">
+                    {% if cart.minutes_left > 0 or cart.seconds_left > 0 %}
+                        {% blocktrans trimmed with minutes=cart.minutes_left %}
+                            The items in your cart are reserved for you for {{ minutes }} minutes.
+                        {% endblocktrans %}
+                    {% else %}
+                        {% trans "The items in your cart are no longer reserved for you." %}
+                    {% endif %}
+                </em>
+            </div>
+        </div>
+    </details>
+    {% if not has_prev and request.event.has_subevents and request.session.iframe_session %}
+        <a class="btn btn-primary btn-block btn-lg" href="{{ prev_url }}">
+            <span class="fa fa-reply"></span>
+            {% trans "Add tickets for a different date" %}
+        </a>
+    {% endif %}
+    <h2>{% trans "Checkout" %}</h2>
+    {% include "pretixpresale/event/fragment_checkoutflow.html" %}
+    {% block inner %}
+    {% endblock %}
+{% endblock %}

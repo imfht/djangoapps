@@ -1,0 +1,40 @@
+[
+    {
+        "pk": 4043307,
+        "model": "users.userprofile",
+        "fields": {
+            "display_collections": 1,
+            "occupation": "",
+            "location": "",
+            "picture_type": "",
+            "averagerating": null,
+            "homepage": "http://jeffbalogh.org",
+            "email": "jbalogh@mozilla.com",
+            "biography": null,
+            "deleted": 0,
+            "username": "jbalogh",
+            "created": "2009-02-02 11:50:31",
+            "notes": "",
+            "modified": "2010-01-12 17:01:41",
+            "last_login": "2010-01-12 17:01:41"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "access.group",
+        "fields": {
+            "rules": "*:*",
+            "modified": "2007-03-05 16:06:55",
+            "name": "Admins",
+            "created": "2007-03-05 16:06:55"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "access.groupuser",
+        "fields": {
+            "group": 1,
+            "user": 4043307
+        }
+    }
+]

@@ -1,0 +1,30 @@
+{% extends "spirit/_base.html" %}
+
+{% load spirit_tags i18n %}
+
+{% block title %}{% trans "Created private topics" %}{% endblock %}
+
+{% block content %}
+  <div class="layout__article">
+    {% include "spirit/topic/private/_top_bar.html" with active="left" %}
+
+    <div class="layout__list">
+      {% for t in topics %}
+        <div class="layout__list__item">
+          <div class="layout__list__item__title_action">
+            <a href="{% url "spirit:topic:private:join" topic_id=t.pk %}"
+            >{{ t.title }}</a>
+          </div>
+          <div class="layout__list__item__action">
+            <a class="js-post" href="{% url "spirit:topic:private:join" topic_id=t.pk %}"
+            ><i class="fa fa-users"></i> {% trans "join" %}</a>
+          </div>
+        </div>
+        {% empty %}
+        <p>{% trans "There are no topics here, yet" %}</p>
+      {% endfor %}
+    </div>
+
+    {% render_paginator topics %}
+  </div>
+{% endblock %}

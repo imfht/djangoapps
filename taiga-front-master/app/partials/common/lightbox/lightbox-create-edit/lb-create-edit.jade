@@ -1,0 +1,125 @@
+tg-lightbox-close
+
+form(ng-if="lightboxOpen")
+    h2.title(ng-switch="mode")
+        span(ng-switch-when="new") {{ 'LIGHTBOX.CREATE_EDIT.NEW_' + translationID | translate }}
+        span(ng-switch-when="edit") {{ 'LIGHTBOX.CREATE_EDIT.EDIT_' + translationID | translate }}
+        span(ng-switch-when="add-existing") {{ 'LIGHTBOX.CREATE_EDIT.ADD_EXISTING_' + translationID | translate: { targetName: targetName } }}
+
+    .button-group(ng-show="getOrCreate == true")
+        .button-group-single(ng-click="setMode('add-existing')")
+            input(
+                type="radio"
+                name="related-with-selector"
+                id="add-existing"
+                value="add-existing"
+                ng-model="mode"
+            )
+            label.e2e-existing-item-label(for="add-existing")
+                span.name {{ 'LIGHTBOX.CREATE_EDIT.EXISTING_' + translationID | translate }}
+
+        .button-group-single(ng-click="setMode('new')")
+            input(
+                type="radio"
+                name="related-with-selector"
+                id="new"
+                value="new"
+                ng-model="mode"
+            )
+            label.e2e-new-item-label(for="new")
+                span.name {{ 'LIGHTBOX.CREATE_EDIT.NEW_' + translationID | translate }}
+
+    div(ng-if="mode == 'add-existing'")
+        .existing-item-wrapper
+            tg-search-list(
+                label="{{ 'LIGHTBOX.CREATE_EDIT.CHOOSE_EXISTING_' + translationID | translate }}"
+                placeholder="{{ 'LIGHTBOX.CREATE_EDIT.FILTER_' + translationIDPlural | translate }}"
+                items="existingItems"
+                ng-model="selectedItem"
+                filter-by="['ref', 'subject']"
+                project="project"
+                item-type="{{ objType }}"
+                item-disabled="isDisabledExisting"
+            )
+
+        button.btn-big.add-existing-button(
+            ng-click="addExistingToSprint(selectedItem)"
+            ng-disabled="!selectedItem || isDisabledExisting(selectedItem)"
+        ) {{ 'LIGHTBOX.CREATE_EDIT.ADD_' + translationID | translate }}
+
+    div(ng-if="mode != 'add-existing'")
+        .form-wrapper
+            .main
+                fieldset
+                    input(
+                        type="text"
+                        name="subject"
+                        ng-model-options="{ debounce: 200 }"
+                        ng-model="obj.subject"
+                        tg-auto-select
+                        placeholder="{{ 'COMMON.FIELDS.SUBJECT' | translate }}"
+                        data-required="true"
+                        data-maxlength="500"
+                    )
+
+                fieldset
+                    tg-tag-line-common.tags-block(
+                        ng-if="project"
+                        project="project"
+                        tags="obj.tags"
+                        permissions="add_{{objType}}"
+                        on-add-tag="addTag(name, color)"
+                        on-delete-tag="deleteTag(tag)"
+                    )
+
+                fieldset
+                    textarea.description(
+                        rows=7
+                        name="description"
+                        ng-model="obj.description"
+                        ng-model-options="{ debounce: 200 }"
+                        ng-attr-placeholder="{{ 'LIGHTBOX.CREATE_EDIT.' + translationID + '_PLACEHOLDER_DESCRIPTION' | translate }}"
+                    )
+                fieldset
+                    section
+                    tg-attachments-simple(
+                        attachments="attachments",
+                        on-add="addAttachment(attachment)"
+                        on-delete="deleteAttachment(attachment)"
+                    )
+
+            sidebar.sidebar.ticket-data
+                fieldset.status-button
+                    div.status-dropdown.editable(style="background-color:{{ selectedStatus.color }}")
+                        span.status-text {{ selectedStatus.name }}
+                        tg-svg(svg-icon="icon-arrow-down")
+
+                    ul.pop-status.popover
+                        li(ng-repeat="s in statusList")
+                            a.status(
+                                href=""
+                                title="{{ s.name }}"
+                                data-status-id="{{ s.id }}"
+                            ) {{ s.name }}
+
+                div(ng-switch="objType")
+                    div(ng-switch-when="issue")
+                        include lb-create-edit-issue
+                    div(ng-switch-when="task")
+                        include lb-create-edit-task
+                    div(ng-switch-when="us")
+                        include lb-create-edit-us
+
+                tg-blocking-message-input(
+                    watch="obj.is_blocked"
+                    ng-model="obj.blocked_note"
+                )
+        .btn-container
+            button#submitButton.btn-big.add-item(
+                variant="primary"
+                type="submit"
+                tg-loading="vm.loading"
+                ng-switch="mode"
+            )
+                span(ng-switch-when="new") {{ 'COMMON.CREATE' | translate }}
+                span(ng-switch-when="edit") {{ 'COMMON.SAVE' | translate }}

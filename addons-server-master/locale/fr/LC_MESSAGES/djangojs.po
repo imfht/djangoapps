@@ -1,0 +1,836 @@
+# Wil Clouser <clouserw@mozilla.com>, 2006.
+# Pascal Chevrel <pascal.chevrel@free.fr>, 2006-2009.
+# Jean-Bernard Marcon <goofy@babelzilla.org>, 2009-2010.
+# Alexandre Lissy <lissyx@mozfr.org>, 2009, 2010, 2011, 2012, 2013.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: REMORA 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-07 11:02+0000\n"
+"Last-Translator: Théo Chevalier <theo.chevalier11@gmail.com>\n"
+"Language-Team: français <>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} étoile"
+msgstr[1] "{0} étoiles"
+
+msgid "There was a problem contacting the server."
+msgstr "Un problème est survenu en essayant de joindre le serveur."
+
+msgid "Select a file..."
+msgstr "Sélectionner un fichier…"
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Le nom de fichier de votre module doit se terminer par .zip, .xpi ou .crx"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0} % terminé"
+
+msgid "{0} of {1}"
+msgstr "{0} sur {1}"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Uploading {0}"
+msgstr "Envoi de {0}"
+
+msgid "Error with {0}"
+msgstr "Erreur avec {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Assurez-vous de signaler tous les problèmes de linting sur GitHub"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Votre module n’a pas passé la validation et a généré {0} erreur."
+msgstr[1] "Votre module n’a pas passé la validation et a généré {0} erreurs."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "…et {0} plus"
+msgstr[1] "…et {0} plus"
+
+msgid "See full validation report"
+msgstr "Voir le rapport de validation complet"
+
+msgid "Validating {0}"
+msgstr "En cours de validation : {0}"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Votre module dépasse la taille maximale de {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Réception d’une réponse vide depuis le serveur ; état : {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Erreur serveur inattendue lors de la validation."
+
+msgid "Finished validating {0}"
+msgstr "Validation de {0} terminée"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "La validation de votre module n’a pu être effectuée à temps, il sera revu manuellement."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Votre module a été validé sans erreur et avec {0} avertissement."
+msgstr[1] "Votre module a été validé sans erreur et avec {0} avertissements."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Votre module a été validé sans erreur et avec {0} message."
+msgstr[1] "Votre module a été validé sans erreur et avec {0} messages."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "La validation de votre extension s’est déroulée sans erreur ni avertissement."
+
+msgid "Your submission will be automatically signed."
+msgstr "Votre envoi sera signé automatiquement."
+
+msgid "WebExtension upgrade"
+msgstr "Mise à niveau vers WebExtension"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr ""
+"Nous permettons et encourageons cette mise à niveau, mais le processus est irréversible. Une fois que vos utilisateurs auront installé la WebExtension, ils ne pourront plus installer les anciens "
+"modules."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Effectuer le portage d’anciens modules Firefox sur MDN"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Ajouter des notes de version détaillées (cela peut être fait à l’étape suivante)."
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr ""
+"S’il est nécessaire d’avoir un compte sur un site web pour que votre module soit testé, ajoutez un nom d’utilisateur et un mot de passe d’un compte de test dans les notes pour le réviseur (cela peut"
+" être effectué à la prochaine étape)."
+
+msgid "Add-on submission checklist"
+msgstr "Liste de points à vérifier pour l’envoi d’un module"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Veuillez vérifier les points suivants avant de finaliser votre envoi. Cela réduira au minimum les retards ou les incompréhensions au cours du processus de revue :"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+"Les sources des scripts minifiés, concaténés ou générés de façon plus générale (exceptées les bibliothèques connues) doivent être soumises séparément pour vérification. Assurez-vous d’utiliser le "
+"champ d’envoi de code source pour éviter le rejet de votre soumission."
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Le processus de validation a permis de déceler les problèmes suivants, qui peuvent entraîner des rejets :"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Le type de fichier que vous avez envoyé n’est pas reconnu."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Votre fichier dépasse la taille maximale de {0}."
+
+msgid "You cancelled the upload."
+msgstr "Vous avez annulé l’envoi."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Les images doivent être au format PNG ou JPG."
+
+msgid "Videos must be in WebM."
+msgstr "Les vidéos doivent être au format WebM."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Ce thème est incompatible avec votre version de {0}"
+
+msgid "Flagged for review"
+msgstr "Étiqueter pour révision"
+
+msgid "Your input is required"
+msgstr "Votre avis est demandé"
+
+msgid "Marked for deletion"
+msgstr "Marqué pour suppression"
+
+msgid "Updating results&hellip;"
+msgstr "Mise à jour des résultats…"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "Rechercher des thèmes pour <b>{0}</b>"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "Recherche d’applications pour <b>{0}</b>"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "Recherche de modules pour <b>{0}</b>"
+
+msgid "Use original"
+msgstr "Utiliser l’original"
+
+msgid "Week of {0}"
+msgstr "Semaine de {0}"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} téléchargement"
+msgstr[1] "{0} téléchargements"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} utilisateur ou utilisatrice"
+msgstr[1] "{0} utilisateurs ou utilisatrices"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} module complémentaire"
+msgstr[1] "{0} modules complémentaires"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} collection"
+msgstr[1] "{0} collections"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} critique"
+msgstr[1] "{0} critiques"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} vente"
+msgstr[1] "{0} ventes"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} remboursement"
+msgstr[1] "{0} remboursements"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} installation"
+msgstr[1] "{0} installations"
+
+msgid "Downloads"
+msgstr "Téléchargements"
+
+msgid "Daily Users"
+msgstr "Utilisateurs et utilisatrices quotidien·ne·s"
+
+msgid "Amount, in USD"
+msgstr "Montant, $US"
+
+msgid "Number of Contributions"
+msgstr "Nombre de contributions"
+
+msgid "More Info..."
+msgstr "Plus d’informations…"
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "Détails pour {0}"
+
+msgid "Collections Created"
+msgstr "Collections créées"
+
+msgid "Add-ons in Use"
+msgstr "Modules utilisés"
+
+msgid "Add-ons Created"
+msgstr "Modules créés"
+
+msgid "Add-ons Downloaded"
+msgstr "Modules téléchargés"
+
+msgid "Add-ons Updated"
+msgstr "Modules mis à jour"
+
+msgid "Reviews Written"
+msgstr "Critiques écrites"
+
+msgid "User Signups"
+msgstr "Connexions de l’utilisateur"
+
+msgid "Subscribers"
+msgstr "Abonnés"
+
+msgid "Ratings"
+msgstr "Notes"
+
+msgid "Sales"
+msgstr "Ventes"
+
+msgid "Installs"
+msgstr "Installations"
+
+msgid "Unknown"
+msgstr "Inconnu"
+
+msgid "Add-ons Manager"
+msgstr "Gestionnaire des modules"
+
+msgid "Add-ons Manager Promo"
+msgstr "Promu avec le gestionnaire de modules"
+
+msgid "Add-ons Manager Featured"
+msgstr "Mis en avant avec le gestionnaire de modules"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Affiché dans la section « En savoir plus » du gestionnaire de modules"
+
+msgid "Search Suggestions"
+msgstr "Suggestions de recherche"
+
+msgid "Search Results"
+msgstr "Résultats de la recherche"
+
+msgid "Homepage Promo"
+msgstr "Promotion en page d’accueil"
+
+msgid "Homepage Featured"
+msgstr "Vedette en page d’accueil"
+
+msgid "Homepage Up and Coming"
+msgstr "Nouveautés en page d’accueil"
+
+msgid "Homepage Most Popular"
+msgstr "Les plus populaires en page d’accueil"
+
+msgid "Detail Page"
+msgstr "Page de détails"
+
+msgid "Detail Page (bottom)"
+msgstr "Page de détails (bas)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Page de détails (canal développement)"
+
+msgid "Often Used With"
+msgstr "Fréquemment utilisé avec"
+
+msgid "Others By Author"
+msgstr "D’autres de cet auteur"
+
+msgid "Dependencies"
+msgstr "Dépendances"
+
+msgid "Upsell"
+msgstr "Montée en gamme"
+
+msgid "Meet the Developer"
+msgstr "Rencontrer le développeur"
+
+msgid "User Profile"
+msgstr "Profil utilisateur"
+
+msgid "Version History"
+msgstr "Historique de versions"
+
+msgid "Sharing"
+msgstr "Partage"
+
+msgid "Category Pages"
+msgstr "Pages de catégorie"
+
+msgid "Collections"
+msgstr "Collections"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Catégorie d’accueil du carrousel des vedettes"
+
+msgid "Category Landing Top Rated"
+msgstr "Catégorie d’accueil des mieux notées"
+
+msgid "Category Landing Most Popular"
+msgstr "Catégorie d’accueil des plus populaires"
+
+msgid "Category Landing Recently Added"
+msgstr "Catégorie d’accueil des derniers ajouts"
+
+msgid "Browse Listing Featured Sort"
+msgstr "Parcourir la liste de tri des vedettes"
+
+msgid "Browse Listing Users Sort"
+msgstr "Parcourir la liste de tri des utilisateurs"
+
+msgid "Browse Listing Rating Sort"
+msgstr "Parcourir la liste de tri des notes"
+
+msgid "Browse Listing Created Sort"
+msgstr "Parcourir la liste de tri des créations"
+
+msgid "Browse Listing Name Sort"
+msgstr "Parcourir la liste de tri des noms"
+
+msgid "Browse Listing Popular Sort"
+msgstr "Parcourir la liste de tri des populaires"
+
+msgid "Browse Listing Updated Sort"
+msgstr "Parcourir la liste de tri des mis à jour"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "Parcourir la liste de tri des nouveautés à venir"
+
+msgid "Total Amount Contributed"
+msgstr "Montant total contribué"
+
+msgid "Average Contribution"
+msgstr "Contribution moyenne"
+
+msgid "Usage"
+msgstr "Utilisation"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Téléchargements et utilisateurs quotidiens, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Téléchargements et utilisateurs journaliers du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Installations et utilisateurs quotidiens, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Installations et utilisateurs quotidiens du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Téléchargements, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Téléchargements du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Utilisateurs quotidiens, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Utilisateurs journaliers du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Applications, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Applications du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "Pays, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "Pays du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Plateformes, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Plateformes du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Langages, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Langages du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Versions du module, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Versions du module du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "État du module, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "État du module du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Sources de téléchargement, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Sources de téléchargement du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr "Supports de téléchargement, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr "Supports de téléchargement du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr "Contenus de téléchargement, derniers {0} jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr "Contenus de téléchargement du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr "Campagnes de téléchargement, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Campagnes de téléchargement du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Contributions, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Contributions du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Statistiques du site, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Statistiques du site du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Modules utilisés, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Modules utilisés du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Modules téléchargés, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Modules téléchargés du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Modules créés, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Modules créés du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Modules mis à jour, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Modules mis à jour du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Critiques écrites, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Critiques écrites du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Inscriptions d’utilisateurs, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Inscriptions d’utilisateurs du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Collections créées, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Collections créées du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Abonnés, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Abonnés du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Notes, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Notes du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Ventes, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Ventes du {0} au {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Installations, {0} derniers jours"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Installations du {0} au {1}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "<b>{0}</b> dans les {1} derniers jours"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> du {1} au {2}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "<b>{0}</b> en moyenne les derniers {1} jours"
+
+msgid "No data available."
+msgstr "Pas de données disponibles."
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Other"
+msgstr "Autre"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Accepter et installer"
+
+msgid "Add to {0}"
+msgstr "Ajouter à {0}"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Installer tout de même pour {0}"
+
+msgid "Download for {0} anyway"
+msgstr "Télécharger tout de même pour {0}"
+
+msgid "Not available for your platform"
+msgstr "Non disponible pour votre plateforme"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Ce module est incompatible avec votre version de {0}."
+
+msgid "View other versions"
+msgstr "Voir d’autres versions"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Fonctionne avec {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "Fonctionne avec {app}"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Uniquement disponible sur Firefox — Obtenez Firefox dès maintenant !"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Désolé, vous devez utiliser un navigateur Mozilla (tel que Firefox) pour installer un moteur de recherche."
+
+msgid "Changes Saved"
+msgstr "Changements enregistrés"
+
+msgid "Enter a new author's email address"
+msgstr "Saisir l’adresse courriel d’un nouvel auteur"
+
+msgid "There was an error uploading your file."
+msgstr "Une erreur est survenue pendant l’envoi de votre fichier."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} fichier"
+msgstr[1] "{files} fichiers"
+
+msgid "Image changes being processed"
+msgstr "Changements d’images en cours"
+
+msgid "Select an application first"
+msgstr "Sélectionnez d’abord une application"
+
+msgid "No results found."
+msgstr "Aucun résultat trouvé."
+
+msgid "Loading..."
+msgstr "Chargement…"
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> caractère"
+msgstr[1] "<b>{0}</b> caractères"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "<b>{0}</b> caractère restant"
+msgstr[1] "<b>{0}</b> caractères restants"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Cette fonctionnalité est désactivée temporairement pendant la maintenance. Merci de revenir un peu plus tard."
+
+msgid "Remove this localization"
+msgstr "Retirer cette localisation"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} visitait cette page en premier."
+
+msgid "{name} was viewing this add-on first."
+msgstr "{name} regardait ce module en premier."
+
+msgid "Loading&hellip;"
+msgstr "Chargement…"
+
+msgid "Version Notes"
+msgstr "Notes de version"
+
+msgid "Notes for Reviewers"
+msgstr "Notes à l’intention des évaluateurs"
+
+msgid "No version notes found"
+msgstr "Pas de notes de version"
+
+msgid "Review Text"
+msgstr "Réviser le texte"
+
+msgid "Review notes found"
+msgstr "Notes de révision trouvées"
+
+msgid "Average Reviews"
+msgstr "Moyenne des évaluations"
+
+msgid "Number of Reviews"
+msgstr "Nombre de critiques"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "La taille d’envoi maximum est de {0}. Choisissez une image de fond plus petite."
+
+msgid "Requested Info"
+msgstr "Infos demandées"
+
+msgid "Flagged"
+msgstr "Marqué"
+
+msgid "Duplicate"
+msgstr "Doublon"
+
+msgid "Rejected"
+msgstr "Rejeté"
+
+msgid "Approved"
+msgstr "Approuvé"
+
+msgid "No results found"
+msgstr "Aucun résultat trouvé"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Reviewer"
+msgstr "Réviseur"
+
+msgid "Status"
+msgstr "État"
+
+msgid "All tests passed successfully."
+msgstr "Tous les tests ont été réussis."
+
+msgid "These tests were not run."
+msgstr "Ces tests n’ont pas été exécutés."
+
+msgid "Tests"
+msgstr "Tests"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Warning"
+msgstr "Avertissement"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} ligne {1} colonne {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} ligne {1}"
+
+msgid "Add-on failed validation."
+msgstr "Échec de la validation du module."
+
+msgid "Add-on passed validation."
+msgstr "Validation du module réussie."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} erreur"
+msgstr[1] "{0} erreurs"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} avertissement"
+msgstr[1] "{0} avertissements"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} avis"
+msgstr[1] "{0} avis"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "La validation n’a pas pu s’achever ou s’est achevée avec des erreurs"
+
+msgid "Internal server error"
+msgstr "Erreur interne du serveur"

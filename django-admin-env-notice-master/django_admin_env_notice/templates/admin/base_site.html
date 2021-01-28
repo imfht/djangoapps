@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% block extrastyle %}{{ block.super }}
+{% if ENVIRONMENT_NAME and ENVIRONMENT_COLOR %}
+<!-- Environment notice -->
+<style type="text/css">
+    {{ ENVIRONMENT_ADMIN_SELECTOR }}:before {
+        display: block;
+        line-height: 35px;
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: white;
+        content: "{{ ENVIRONMENT_NAME }}";
+        background-color: {{ ENVIRONMENT_COLOR }};
+        {% if ENVIRONMENT_FLOAT %}
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        {% endif %}
+    }
+</style>
+{% endif %}
+{% endblock %}

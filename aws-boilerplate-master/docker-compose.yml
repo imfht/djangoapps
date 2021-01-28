@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:10.6
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=backend
+      - POSTGRES_PASSWORD=backend
+      - POSTGRES_DB=backend
+
+  backend:
+    build:
+      context: ./services/backend
+      target: backend
+    command: ["./scripts/run_local.sh"]
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    restart: unless-stopped
+    links:
+      - db
+    environment:
+      - AWS_ACCESS_KEY_ID=foo
+      - AWS_SECRET_ACCESS_KEY=bar
+      - AWS_DEFAULT_REGION=eu-west-1
+      - PROJECT_NAME=${PROJECT_NAME}
+    stdin_open: true
+    tty: true
+
+  workers:
+    build:
+      context: ./services/workers
+    depends_on:
+      - db
+    links:
+      - db

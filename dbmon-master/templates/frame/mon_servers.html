@@ -1,0 +1,735 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        监控设备
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">配置管理</a></li>
+        <li class="active">监控设备</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+         <div class="box-body">
+              <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+              <li class="active"><a href="#linux" data-toggle="tab" aria-expanded="false">linux主机</a></li>
+              <li class=""><a href="#oracle" data-toggle="tab" aria-expanded="false">Oracle数据库</a></li>
+              <li class=""><a href="#mysql" data-toggle="tab" aria-expanded="true">MySQL数据库</a></li>
+               <li class=""><a href="#redis" data-toggle="tab" aria-expanded="true">Redis</a></li>
+                </ul>
+
+   <div class="tab-content">
+      <div class="active tab-pane" id="linux">
+            <div class="box-body" style="overflow: auto">
+              <table id="linux_servers" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>IP地址</th>
+                  <th>主机名</th>
+                  <th>监控用户名</th>
+                  <th>SSH端口</th>
+                  <th>主机通断告警</th>
+                    <th>CPU使用率告警</th>
+                    <th>内存使用率告警</th>
+                    <th>swap使用率告警</th>
+                    <th>磁盘使用率告警</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                {% for linux_server in linux_servers_list %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ linux_server.tags}} </td>
+                 <td>{{ linux_server.host}} </td>
+                 <td>{{ linux_server.host_name}} </td>
+                 <td>{{ linux_server.user}} </td>
+                 <td>{{ linux_server.ssh_port}} </td>
+                 <td><div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if linux_server.connect == '1' %} checked {% endif %} disabled>
+                 </label> </div></td>
+                 <td><div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if linux_server.cpu == '1' %} checked {% endif %} disabled>
+                 </label> </div></td>
+                 <td><div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if linux_server.mem == '1' %} checked {% endif %} disabled>
+                 </label> </div></td>
+                 <td><div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if linux_server.swap == '1' %} checked {% endif %} disabled>
+                 </label> </div></td>
+                 <td><div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if linux_server.disk == '1' %} checked {% endif %} disabled>
+                 </label> </div></td>
+                 <td>
+              <div class="box-tools pull-right">
+                <a href="#">
+            <button type="button" class="btn btn-xs btn-primary" onclick="return pop_linux(this.value)" value="{{ linux_server.id }}">编辑</button></a>
+              </div>
+                 </td>
+                 <td>
+              <div class="box-tools pull-right">
+                <a href="/linux_servers_del?id={{ linux_server.id }}">
+            <button type="button" class="btn btn-xs btn-danger" onclick="javascript:return del();">删除</button></a>
+              </div>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <div class="pull-right">
+                 <a href="#">
+            <button type="button" class="btn btn-primary btn-block btn-flat" onclick="return pop_linux_add()">新增</button>
+                 </a>
+              </div>
+         </div>
+   </div>
+     <div class="tab-pane" id="oracle">
+            <div class="box-body" style="overflow: auto">
+              <table id="oracle_servers" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>IP地址</th>
+                  <th>端口号</th>
+                  <th>服务名</th>
+                  <th>服务名(CDB)</th>
+                    <th>监控用户</th>
+                    <th>监控用户(CDB)</th>
+                    <th>os用户</th>
+                    <th>SSH端口</th>
+                    <th>版本</th>
+                    <th>通断告警</th>
+                    <th>tbs告警</th>
+                    <th>adg告警</th>
+                    <th>temp告警</th>
+                    <th>undo告警</th>
+                    <th>连接数告警</th>
+                    <th>后台日志告警</th>
+                    <th>失效索引告警</th>
+                    <th>锁异常告警</th>
+                    <th>密码过期告警</th>
+                    <th>综合性能告警</th>
+                    <th>pga使用率告警</th>
+                    <th>归档使用率告警</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                {% for oracle_server in oracle_servers_list %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                     <td>{{ oracle_server.tags}} </td>
+                 <td>{{ oracle_server.host}} </td>
+                 <td>{{ oracle_server.port}} </td>
+                 <td>{{ oracle_server.service_name}} </td>
+                 <td>{{ oracle_server.service_name_cdb}} </td>
+                 <td>{{ oracle_server.user}} </td>
+                 <td>{{ oracle_server.user_cdb}} </td>
+                 <td>{{ oracle_server.user_os}} </td>
+                 <td>{{ oracle_server.ssh_port_os}} </td>
+                 <td>{{ oracle_server.version}} </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.connect == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                  <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.tbs == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.adg == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.temp_tbs == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.undo_tbs == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.conn == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.err_info == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.invalid_index == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.oracle_lock == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.oracle_pwd == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                     <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.oracle_event == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.pga == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if oracle_server.archive == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                <a href="#">
+            <button type="button" class="btn btn-xs btn-primary" onclick="return pop_oracle(this.value)" value="{{ oracle_server.id }}">编辑</button></a>
+                 </td>
+                 <td>
+                <a href="/oracle_servers_del?id={{ oracle_server.id }}">
+            <button type="button" class="btn btn-xs btn-danger" onclick="javascript:return del();">删除</button></a>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+              <div class="box-footer clearfix">
+            <div class="pull-right">
+                 <a href="#">
+            <button type="button" class="btn btn-primary btn-block btn-flat" onclick="return pop_oracle_add()">新增</button>
+                 </a>
+              </div>
+         </div>
+       </div>
+
+   <div class="tab-pane" id="mysql">
+            <div class="box-body" style="overflow: auto">
+              <table id="mysql_servers" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>标签</th>
+                    <th>IP地址</th>
+                  <th>端口号</th>
+                    <th>监控用户</th>
+                    <th>os用户</th>
+                    <th>SSH端口</th>
+                    <th>通断告警</th>
+                    <th>复制延迟告警</th>
+                    <th>连接数告警</th>
+                    <th>后台日志告警</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                {% for mysql_server in mysql_servers_list %}
+                 <tr>
+                 <td>{{ forloop.counter }}</td>
+                 <td>{{ mysql_server.tags}}</td>
+                 <td>{{ mysql_server.host}}</td>
+                 <td>{{ mysql_server.port}}</td>
+                 <td>{{ mysql_server.user}}</td>
+                 <td>{{ mysql_server.user_os}} </td>
+                 <td>{{ mysql_server.ssh_port_os}} </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if mysql_server.connect == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if mysql_server.repl == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if mysql_server.conn == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if mysql_server.err_info == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+             <td>
+              <div class="box-tools pull-right">
+                <a href="#">
+            <button type="button" class="btn btn-xs btn-primary" onclick="return pop_mysql(this.value)" value="{{ mysql_server.id }}">编辑</button></a>
+              </div>
+                 </td>
+                 <td>
+              <div class="box-tools pull-right">
+                <a href="/mysql_servers_del?id={{ mysql_server.id }}">
+            <button type="button" class="btn btn-xs btn-danger" onclick="javascript:return del();">删除</button></a>
+              </div>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+           <div class="box-footer clearfix">
+            <div class="pull-right">
+                 <a href="#">
+            <button type="button" class="btn btn-primary btn-block btn-flat" onclick="return pop_mysql_add()">新增</button>
+                 </a>
+              </div>
+         </div>
+          </div>
+          <!-- /.box -->
+   <div class="tab-pane" id="redis">
+            <div class="box-body" style="overflow: auto">
+              <table id="redis_servers" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>标签</th>
+                    <th>IP地址</th>
+                  <th>端口号</th>
+                    <th>通断告警</th>
+                    <th>内存使用率告警</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                {% for redis_mon in redis_mon_list %}
+                 <tr>
+                 <td>{{ forloop.counter }}</td>
+                 <td>{{ redis_mon.tags}}</td>
+                 <td>{{ redis_mon.host}}</td>
+                 <td>{{ redis_mon.port}}</td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if redis_mon.connect == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+                 <td>
+                     <div class="checkbox"><label>
+                 <input type="checkbox"  value="1" name="check_box" {% if redis_mon.mem == '1' %} checked {% endif %} disabled>
+                    </label>
+                     </div>
+                 </td>
+             <td>
+              <div class="box-tools pull-right">
+                <a href="#">
+            <button type="button" class="btn btn-xs btn-primary" onclick="return pop_redis(this.value)" value="{{ redis_mon.id }}">编辑</button></a>
+              </div>
+                 </td>
+                 <td>
+              <div class="box-tools pull-right">
+                <a href="/redis_mon_conf_del?id={{ redis_mon.id }}">
+            <button type="button" class="btn btn-xs btn-danger" onclick="javascript:return del();">删除</button></a>
+              </div>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+           <div class="box-footer clearfix">
+            <div class="pull-right">
+                 <a href="#">
+            <button type="button" class="btn btn-primary btn-block btn-flat" onclick="return pop_redis_add()">新增</button>
+                 </a>
+              </div>
+         </div>
+          </div>
+          <!-- /.box -->
+         </div>
+       </div>
+      </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+function pop_linux(n){
+    layer.open({
+    type: 2,
+    title: '编辑主机配置',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/linux_servers_edit?id='+n,],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('保存成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('修改失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_linux_add(){
+    layer.open({
+    type: 2,
+    title: '新增主机监控',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/linux_servers_add',],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('添加成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_oracle(n){
+    layer.open({
+    type: 2,
+    title: '编辑Oracle数据库配置',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/oracle_servers_edit?id='+n,],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('保存成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('修改失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_oracle_add(){
+    layer.open({
+    type: 2,
+    title: '添加Oracle数据库监控',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/oracle_servers_add',],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('添加成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('修改失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_mysql(n){
+    layer.open({
+    type: 2,
+    title: '编辑mysql数据库配置',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/mysql_servers_edit?id='+n,],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('保存成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_mysql_add(){
+    layer.open({
+    type: 2,
+    title: '添加Mysql数据库监控',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/mysql_servers_add',],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('添加成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_redis(n){
+    layer.open({
+    type: 2,
+    title: '编辑redis配置',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/redis_mon_conf_edit?id='+n,],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('保存成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_redis_add(){
+    layer.open({
+    type: 2,
+    title: '添加redis监控',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/redis_mon_conf_add',],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('添加成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+$('#linux_servers').DataTable({
+		 autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
+         'lengthChange': true,
+          'paging'      : true,
+          'info'        : true,
+		  "lengthMenu": [10, 20, 50],//表格行数选择框内数目 显示2条,4条,20条,50条
+		  "displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
+	      "language": {//自定义语言提示
+	    	"processing": "处理中...",
+	        "lengthMenu": "显示 _MENU_ 项结果",
+	        "zeroRecords": "没有找到相应的结果",
+	        "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
+	        "infoEmpty": "第 0 至 0 项结果，共 0 项",
+	        "infoFiltered": "(由 _MAX_ 项结果过滤)",
+	        "infoPostFix": "",
+	        "url": "",
+	        "thousands": "'",
+	        "emptyTable": "表中数据为空",
+	        "loadingRecords": "载入中...",
+	        "infoThousands": ",",
+	        "paginate": {
+	            "first": "首页",
+	            "previous": "上页",
+	            "next": "下页",
+	            "last": "末页"
+	        }
+	    }
+
+	})
+   $('#oracle_servers').DataTable({
+		autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
+       'lengthChange': true,
+        'info'        : true,
+		"lengthMenu": [10, 20, 50],//表格行数选择框内数目 显示2条,4条,20条,50条
+		"displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
+	    "language": {//自定义语言提示
+	    	"processing": "处理中...",
+	        "lengthMenu": "显示 _MENU_ 项结果",
+	        "zeroRecords": "没有找到相应的结果",
+	        "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
+	        "infoEmpty": "第 0 至 0 项结果，共 0 项",
+	        "infoFiltered": "(由 _MAX_ 项结果过滤)",
+	        "infoPostFix": "",
+	        "url": "",
+	        "thousands": "'",
+	        "emptyTable": "表中数据为空",
+	        "loadingRecords": "载入中...",
+	        "infoThousands": ",",
+	        "paginate": {
+	            "first": "首页",
+	            "previous": "上页",
+	            "next": "下页",
+	            "last": "末页"
+	        }
+	    }
+
+	})
+    $('#mysql_servers').DataTable({
+		autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
+        'lengthChange': true,
+        'info'        : true,
+		"lengthMenu": [10, 20, 50],//表格行数选择框内数目 显示2条,4条,20条,50条
+		"displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
+	    "language": {//自定义语言提示
+	    	"processing": "处理中...",
+	        "lengthMenu": "显示 _MENU_ 项结果",
+	        "zeroRecords": "没有找到相应的结果",
+	        "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
+	        "infoEmpty": "第 0 至 0 项结果，共 0 项",
+	        "infoFiltered": "(由 _MAX_ 项结果过滤)",
+	        "infoPostFix": "",
+	        "url": "",
+	        "thousands": "'",
+	        "emptyTable": "表中数据为空",
+	        "loadingRecords": "载入中...",
+	        "infoThousands": ",",
+	        "paginate": {
+	            "first": "首页",
+	            "previous": "上页",
+	            "next": "下页",
+	            "last": "末页"
+	        }
+	    }
+
+
+	});
+    $('#redis_servers').DataTable({
+		autoWidth:false,////不开启自动宽度，用bootstrap的自适应去调整
+        'lengthChange': true,
+        'info'        : true,
+		"lengthMenu": [10, 20, 50],//表格行数选择框内数目 显示2条,4条,20条,50条
+		"displayLength": 10,//默认的显示行数 (也就是每页显示几条数据)
+	    "language": {//自定义语言提示
+	    	"processing": "处理中...",
+	        "lengthMenu": "显示 _MENU_ 项结果",
+	        "zeroRecords": "没有找到相应的结果",
+	        "info": "第 _START_ 至 _END_ 行，共 _TOTAL_ 行",
+	        "infoEmpty": "第 0 至 0 项结果，共 0 项",
+	        "infoFiltered": "(由 _MAX_ 项结果过滤)",
+	        "infoPostFix": "",
+	        "url": "",
+	        "thousands": "'",
+	        "emptyTable": "表中数据为空",
+	        "loadingRecords": "载入中...",
+	        "infoThousands": ",",
+	        "paginate": {
+	            "first": "首页",
+	            "previous": "上页",
+	            "next": "下页",
+	            "last": "末页"
+	        }
+	    }
+
+
+	});
+
+</script>
+
+{% endblock %}

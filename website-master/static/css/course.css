@@ -1,0 +1,108 @@
+.container{
+    width: 1200px;
+    margin: 20px auto 0;
+}
+body{
+    background: #f7f7f7;
+}
+h1{
+    text-align: center;
+}
+#main{
+    width: 100%;
+    padding: 15px;
+}
+#main>div{
+     -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    overflow: hidden;
+    float: left;
+    width: 23%;
+    margin: 15px 1%;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1);
+}
+#main>.course>a>img{
+    width: 100%;
+
+    vertical-align: middle;
+}
+.desc>span{
+    display: inline-block;
+    height: 40px;
+}
+.desc{
+    padding: 15px;
+    background: #fff;
+}
+.desc p{
+    font-weight: bold;
+    padding-bottom: 10px ;
+    font-size: 16px;
+}
+.desc span{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    color: #666;
+}
+a:hover{
+    color: #757575;
+}
+.article__footer>span{
+    color: #999;
+    font-size: 12px;
+}
+.article__footer{
+    margin-top: 10px;
+}
+.type{
+    padding:1px 2px;
+    border: 1px solid #356dd0;
+     -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #356dd0!important;
+}
+/*详情*/
+.Catalog{
+    width: 198px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #fff;
+}
+.Catalog>ul>li{
+    height: 48px;
+    line-height: 48px;
+    cursor: pointer;
+}
+.Catalog>ul>li:hover{
+    color:#356dd0;
+}
+.content{
+    width: 978px;
+    background: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1);
+}
+.content .pageNav{
+    height:48px;
+    line-height: 48px;
+    /*background: #f7f7f7;*/
+    border-bottom: 1px solid #eee;
+    padding:0 15px;
+    background: #fff;
+}
+.titlename{
+    margin-top: 24px;
+    color: #0d1a26;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 38px;
+    padding-left: 20px;
+}

@@ -1,0 +1,21 @@
+{% for id, script_template in script_templates %}
+    <form id="form-{{ id }}" method="POST" action="{{ url('shuup_admin:notify.script-template') }}">
+        <input type="hidden" value="{{ id }}" name="id" />
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-between">
+                <div class="item-option">
+                    <h5>{{ script_template.name }}</h5>
+                    {% if script_template.description %}
+                    <p class="mb-0">{{ script_template.description }}</p>
+                    {% endif %}
+                </div>
+                <button class="btn btn-success" type="submit">{{ _("Create") }}</button>
+            </div>
+        </div>
+    </form>
+
+    {% if not loop.last %}
+    <hr>
+    {% endif %}
+{% endfor %}

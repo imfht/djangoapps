@@ -1,0 +1,20 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<table>
+<thead>
+<tr><th>{% trans "Translation" %}</th><th colspan="2">{% trans "Strings with suggestions" %}</th></tr>
+</thead>
+{% for summary in changes %}
+<tr>
+<td>{{ summary.translation }}</td>
+<td>{{ summary.translation.stats.suggestions }}</td>
+<td>
+    <a class="button" href="{{ summary.translation.get_absolute_url }}?type=suggestions">{% trans "View" %}</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

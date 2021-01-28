@@ -1,0 +1,34 @@
+doctype html
+
+div.wrapper(
+    ng-controller="UserProjectSettingsController as ctrl",
+    ng-init="section='project-settings'"
+)
+
+    sidebar.menu-secondary.sidebar.settings-nav(tg-user-settings-navigation="project-settings")
+        include ../includes/modules/user-settings-menu
+
+    section.main.admin-common
+        header
+            h1 {{ 'USER_SETTINGS.PROJECT_SETTINGS.SET_START_PAGES' | translate }}
+
+        p.total(translate="USER_SETTINGS.PROJECT_SETTINGS.START_PAGES_PER_PROJECT")
+
+        section.project-settings-table
+            div.project-settings-table-header
+                div.project-settings-table-row
+                    div.project-settings-table-project
+                        span(translate="USER_SETTINGS.PROJECT_SETTINGS.COLUMN_PROJECT")
+                    div.project-settings-table-homepage
+                        span(translate="USER_SETTINGS.PROJECT_SETTINGS.COLUMN_STARTPAGE")
+            div.project-settings-table-body
+                .project-settings-table-row(ng-repeat="projectSettings in userProjectSettings")
+                    .project-settings-table-project
+                        span {{ projectSettings.project_name }}
+                    .project-settings-table-homepage
+                        select(
+                            id="projects-settings-{{projectSettings.id}}-homepage-dropdown"
+                            ng-model="projectSettings.homepage"
+                            ng-options="section.id as section.title for section in ctrl.filteredSections(projectSettings)"
+                            ng-change="ctrl.updateCustomHomePage(projectSettings)"
+                        )

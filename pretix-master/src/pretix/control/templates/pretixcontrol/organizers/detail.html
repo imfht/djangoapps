@@ -1,0 +1,126 @@
+{% extends "pretixcontrol/organizers/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block inner %}
+    <h1>
+        {% blocktrans with name=request.organizer.name %}Organizer: {{ name }}{% endblocktrans %}
+    </h1>
+    {% if "can_create_events" in request.orgapermset %}
+        <p>
+            <a href="{% url "control:events.add" %}?organizer={{ request.organizer.slug }}" class="btn btn-primary">
+                <span class="fa fa-plus"></span>
+                {% trans "Create a new event" %}
+            </a>
+        </p>
+    {% endif %}
+    {% if events|length == 0 and not filter_form.filtered %}
+        <p>
+            <em>{% trans "You currently do not have access to any events." %}</em>
+        </p>
+    {% else %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{% trans "Filter" %}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="" action="" method="get">
+                    <div class="row filter-form">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            {% bootstrap_field filter_form.query layout='inline' %}
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            {% bootstrap_field filter_form.status layout='inline' %}
+                        </div>
+                        {% for mf in meta_fields %}
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                {% bootstrap_field mf layout='inline' %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="fa fa-filter"></span>
+                            <span class="hidden-md">{% trans "Filter" %}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th>{% trans "Event name" %}</th>
+                <th>
+                    {% trans "Start date" %}
+                    /
+                    {% trans "End date" %}
+                </th>
+                <th>{% trans "Status" %}</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for e in events %}
+                <tr>
+                    <td>
+                        <strong><a
+                                href="{% url "control:event.index" organizer=e.organizer.slug event=e.slug %}">{{ e.name }}</a></strong>
+                        <br><small>{{ e.slug }}</small>
+                        {% for k, v in e.meta_data.items %}
+                            {% if v %}
+                                <small class="text-muted">&middot; {{ k }}: {{ v }}</small>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if e.has_subevents %}
+                            {{ e.min_from|default_if_none:""|date:"SHORT_DATETIME_FORMAT" }}
+                        {% else %}
+                            {{ e.get_short_date_from_display }}
+                        {% endif %}
+                        {% if e.has_subevents %}
+                            <span class="label label-default">{% trans "Series" %}</span>
+                        {% endif %}
+                        {% if e.settings.show_date_to and e.date_to %}
+                            –<br>
+                            {% if e.has_subevents %}
+                                {{ e.max_fromto|default_if_none:e.max_from|default_if_none:e.max_to|default_if_none:""|date:"SHORT_DATETIME_FORMAT" }}
+                            {% else %}
+                                {{ e.get_short_date_to_display }}
+                            {% endif %}
+                        {% endif %}
+                        {% if e.settings.timezone != request.timezone %}
+                            <span class="fa fa-globe text-muted" data-toggle="tooltip" title="{{ e.timezone }}"></span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not e.live %}
+                            <span class="label label-danger">{% trans "Shop disabled" %}</span>
+                        {% elif e.presale_has_ended %}
+                            <span class="label label-warning">{% trans "Presale over" %}</span>
+                        {% elif not e.presale_is_running %}
+                            <span class="label label-warning">{% trans "Presale not started" %}</span>
+                        {% else %}
+                            <span class="label label-success">{% trans "On sale" %}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-right flip">
+                        <a href="{% url "control:event.index" organizer=e.organizer.slug event=e.slug %}"
+                                class="btn btn-sm btn-default" title="{% trans "Open event dashboard" %}"
+                                data-toggle="tooltip">
+                            <span class="fa fa-eye"></span>
+                        </a>
+                        {% if "can_create_events" in request.orgapermset %}
+                            <a href="{% url "control:events.add" %}?clone={{ e.pk }}" class="btn btn-sm btn-default"
+                                    title="{% trans "Clone event" %}" data-toggle="tooltip">
+                                <span class="fa fa-copy"></span>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include "pretixcontrol/pagination.html" %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,539 @@
+HISTORY
+=======
+
+0.9.0 (2015-04-14)
+==================
+
+* Replaced deprecated mimetype with content_type (Pigletto)
+* Added lfs_regenerate_thumbs command (Sasha Vincic)
+* Added links from property group property tab to properties
+
+
+0.9.0 alpha 1 (2014-06-19)
+==========================
+
+* Removes double colons from management forms
+* Removes django-tagging from dependencies
+* Add pluggable criteria
+* Added pluggable addresses
+* Add criteria for customer taxes
+* Factored out PayPal to lfs-paypal.
+* Added support for Celery (for mailing)
+* Using South standard features for migration
+* Currency templatetag always returns HTML now, eg. <span class=”money”>Fr. 999</span>, previously HTML was only returned for negative values
+* Currency templatetag in text email templates (lfs_theme/templates/lfs/mail/order_details.txt) was removed in favour of currency_text templatetag. The latter one doesn’t return HTML (ever).
+* lfs/base.html has slightly different structure to the footer and colophon sections due to incorrect width of these elements in previous layout. div.colophon-inner and div.footer-inner html elements were added, both with padding: 10px set in main.css. padding: 10px was removed from ‘#footer .container’ and ‘#colophon .container’ in main.css
+* update_editor method in lfs_tinymce.js has been modified and requires tinymce 3.5.8 which is now being used. References to tinymce were changed in manage_base.html and lfs_tinymce.js
+* Filter portlet has been updated to allow for manufacturer filtering and because of that its template: lfs_theme/templates/lfs/portlets/filter.html was modified - manufacturer filtering section has been added
+* Small change at lfs/templates/manage/product/product.html - removed onkeypress from filter input element in favour of css class ‘disable-enter-key’. Changed lfs.manage.js to add event handler for ‘disable-enter-key’.
+* Added new ORDER state: PREPARED that can be used to mark orders as prepared to be sent.
+* Added new signal and setting that allows defining extra ORDER_STATES. Signal is order_state_changed and option is LFS_EXTRA_ORDER_STATES. New states should start with id 20 or higher to avoid conflicts with built in states.
+* Use ‘SHOP’ instead of ‘shop’ in lfs/shop/shop.html
+* Added position column to PropertyGroups and ability to order these with drag & drop in management panel - modified lfs.manage.js and management template for property groups.
+* Added LFS_CHECKOUT_NOT_REQUIRED_ADDRESS setting. This allows to change address that is not required at checkout page. Changed one_page_checkout.html template, lfs.js and OnePageCheckout Form.
+* Refactored lfs.manage.js - do not use live anymore. Updated manage/export/export.html, manage/export/export_inline.html, manage/manufactuers/manufacturer.html and manage/manufacturers/manufacturer_inline.html to use data-url instead of just ‘data’ and use elem.data(‘something’) in JavaScript
+* Added <div id=”portlets-dialog” title=”{% trans “Portlets dialog” %}”></div> to manage_base.html to handle properly inerting images to TinyMCE within portlets dialog (changes to lfs.manage.js with portlets dialog)
+* Added some SEO related attributes to templates and canonical tags for variants
+* Modified catalog/views.py -> category_products and catalog/views.py -> category_categories return value, so that it now contains pagination data for use in main template (SEO optimization with rel=”next/prev” (template: lfs/catalog/category_base.html)
+* Modified mimetype returned by ajax calls to: application/json. This requireS changes in javascript ajax calls: lfs.js, lfs.manage.js, lfs_tinymce.js, manage/product/attachments.html(!)
+* Moved javascript code from manage/product/images.html to lfs.manage.product.js and updated to use proper mimetypes in responses
+
+
+0.8.0 alpha 3 (2013-06-19)
+--------------------------
+* Reverts all changes from 0.8.0a2 (these has been move to 0.9.0 alpha 1)
+* Adds checkboxes to filters
+* Adds ``For Variants`` checkbox to Property (see help for more)
+
+0.8.0 alpha 2 (2014-06-12)
+==========================
+
+* Removes double colons from management forms
+* Removes django-tagging from dependencies
+
+0.8.0 alpha 1 (2014-06-11)
+==========================
+
+* Add pluggable criteria
+* Added pluggable addresses
+* Add criteria for customer taxes
+* Factored out PayPal to lfs-paypal.
+* Added support for Celery (for mailing)
+* Using South standard features for migration
+* Currency templatetag always returns HTML now, eg. <span class=”money”>Fr. 999</span>, previously HTML was only returned for negative values
+* Currency templatetag in text email templates (lfs_theme/templates/lfs/mail/order_details.txt) was removed in favour of currency_text templatetag. The latter one doesn’t return HTML (ever).
+* lfs/base.html has slightly different structure to the footer and colophon sections due to incorrect width of these elements in previous layout. div.colophon-inner and div.footer-inner html elements were added, both with padding: 10px set in main.css. padding: 10px was removed from ‘#footer .container’ and ‘#colophon .container’ in main.css
+* update_editor method in lfs_tinymce.js has been modified and requires tinymce 3.5.8 which is now being used. References to tinymce were changed in manage_base.html and lfs_tinymce.js
+* Filter portlet has been updated to allow for manufacturer filtering and because of that its template: lfs_theme/templates/lfs/portlets/filter.html was modified - manufacturer filtering section has been added
+* Small change at lfs/templates/manage/product/product.html - removed onkeypress from filter input element in favour of css class ‘disable-enter-key’. Changed lfs.manage.js to add event handler for ‘disable-enter-key’.
+* Added new ORDER state: PREPARED that can be used to mark orders as prepared to be sent.
+* Added new signal and setting that allows defining extra ORDER_STATES. Signal is order_state_changed and option is LFS_EXTRA_ORDER_STATES. New states should start with id 20 or higher to avoid conflicts with built in states.
+* Use ‘SHOP’ instead of ‘shop’ in lfs/shop/shop.html
+* Added position column to PropertyGroups and ability to order these with drag & drop in management panel - modified lfs.manage.js and management template for property groups.
+* Added LFS_CHECKOUT_NOT_REQUIRED_ADDRESS setting. This allows to change address that is not required at checkout page. Changed one_page_checkout.html template, lfs.js and OnePageCheckout Form.
+* Refactored lfs.manage.js - do not use live anymore. Updated manage/export/export.html, manage/export/export_inline.html, manage/manufactuers/manufacturer.html and manage/manufacturers/manufacturer_inline.html to use data-url instead of just ‘data’ and use elem.data(‘something’) in JavaScript
+* Added <div id=”portlets-dialog” title=”{% trans “Portlets dialog” %}”></div> to manage_base.html to handle properly inerting images to TinyMCE within portlets dialog (changes to lfs.manage.js with portlets dialog)
+* Added some SEO related attributes to templates and canonical tags for variants
+* Modified catalog/views.py -> category_products and catalog/views.py -> category_categories return value, so that it now contains pagination data for use in main template (SEO optimization with rel=”next/prev” (template: lfs/catalog/category_base.html)
+* Modified mimetype returned by ajax calls to: application/json. This requireS changes in javascript ajax calls: lfs.js, lfs.manage.js, lfs_tinymce.js, manage/product/attachments.html(!)
+* Moved javascript code from manage/product/images.html to lfs.manage.product.js and updated to use proper mimetypes in responses
+
+0.7.8 (2013-05-20)
+------------------
+
+* Bugfix: excludes variants of inactive parents
+* Bugfix: fixes issue #13 in lfs_theme
+* Bugfix: fixes removing of products on manufacturer delete
+* Bugfix: adds field 'link' to action add form; updates docs; issue #51.
+
+0.7.7 (2013-01-20)
+------------------
+
+* Update: updated Czech translation (Radim Novotny).
+* Update: updated Mexican translations (tzicatl).
+* Improvement: Don't use more than one h1 tag on the product page but use h1 and h2 (Radim Novotny).
+* Improvement: Show search query in the input box if there is any query. Also added pagination to the bottom of search results page (Radim Novotny).
+* Bugfix: fixed calculation of discount net price within order; issue #36
+* Bugfix: fixed display of amount for discounts within management.
+* Bugfix: fixed sorting handling for SOLR (Radim Novotny)
+* Bugfix: fixed display of properties for locale.
+* Bugfix: fixed calculation of 'calculated price' for different locales.
+* Bugfix: fixed calculation and display of packings.
+* Bugfix: fixed display of variant property values within products management.
+
+0.7.6 (2012-06-24)
+------------------
+
+* Bugfix: fixed saving of property values for products with variants (introduced with 0.7.5.).
+
+0.7.5 (2012-06-23)
+------------------
+
+* Bugfix: Don't convert images with mode RGBA to RGB. That results in loss of alpha channel. (Michael Jenny)
+* Bugfix: fixed saving of property values for products with variants. (Michael Jenny)
+* Bugfix: fixed calculation of discount price.
+* Bugfix: fixed display of for sale price for variants within product detail view.
+* Bugfix: fixed datepicker handling for stock etc. (Maciej Wiśniowski)
+
+0.7.4 (2012-05-20)
+-------------------
+
+* Improved shipping and payment method management: display form errors; using ajax; issue #151.
+* Bugfix: send order_paid signal after successful callback arrived from PayPal; issue #198.
+* Bugfix: make PayPal callbacks work with csrf protection; issue #197.
+* Bugfix: catch wrong floats in calculate_packing.
+* Bugfix: fixed update cart after login for configurable products; #issue gh #8
+* Bugfix: cleaned up parameters and arguments of PriceCalculator.
+* Bugfix: don't pass request to PriceCalculator base_packing_price methods.
+* Bugfix: fixed calculation of package prices for configurable products.
+* Bugfix: Fixed wrong arguments in calls to voucher API. (Pavel Zagrebelin)
+
+0.7.3 (2012-05-13)
+-------------------
+
+* Bugfix: update product view after images has beend changed; issue #200.
+* Bugfix: fixed wrong label for e-mail field; issue #202.
+* Bugfix: fixed pagination link. (Maciej Wiśniowski)
+* Bugfix: fixed Product.get_product_tax method: added request to parameters; issue #199.
+* Bugfix: fixed display of standard price within category products view.
+* Bugfix: don't allow pages with same slug.
+* Added: added CategoryProductPricesNetNode to lfs_tags.
+* Added: added CategoryProductPricesNode to lfs_tags.
+* Updated: cleaned up PriceCalculators.
+
+0.7.2 (2012-04-29)
+-------------------
+
+* Added: CSS and JS files for custamization by integrators (naro)
+* Bugfix: fixed calculation of packages for order items (within packages filter tag)
+* Bugfix: fixed management of criteria
+* Bugfix: fixed problem with locale.atof (naro)
+* Bugfix: fixed display of image for category sub-categories view
+* Bugfix: fixed order_detail mail template field names (naro)
+* Changed: added order-state-X css class to the orders_inline (naro)
+* Changed: allow passing custom paginator object to the search results template (naro)
+* Changed: added 100x100px box to search results to prevent content jumping from left to right when the page is loaded (naro)
+* Changed: show product image on order detail page (naro)
+* Changed: clean up display of package result
+* Updated Czech translation (naro)
+
+0.7.1 (2012-04-21)
+------------------
+
+* Bugfix: fixed display prices for properties (Maciej Wiśniowski)
+* Bugfix: fixed TinyMCE for several browsers (Maciej Wiśniowski)
+* Bugfix: display credit card fields if the type of the selected payment method is credit card; issue: #191
+* Bugfix: fixed sorting of actions; issue #192 (Maciej Wiśniowski)
+* Bugfix: fixed typos in docs; issue #193
+* Added: added documentation for Price Calculation field; issue #188
+* Updated: Polish translations (Maciej Wiśniowski)
+
+0.7.0 (2012-04-14)
+------------------
+
+* Bugfix: TinyMCE: exchanged "cleanup" with "verify_html" (Radim Novotny)
+* Improved: accessibility for some input-label fields (Radim Novotny)
+* Improved: text portlet can be title less now (Radim Novotny)
+* Updated: Czech Translations (Radim Novotny)
+
+0.7.0 beta 7 (2012-04-08)
+-------------------------
+
+* Bugfix: display ``displayed properties`` in the correct order py positions; issue #184
+* Bugfix: display property options in the correct order by positions within filter portlet
+* Bugfix: fixed image presentation directly after upload within shop management interface (Maciej Wiśniowski)
+* Bugfix: fixed display of discounts
+* New: added variants tab to documentation
+* Updated Polish translations (Maciej Wiśniowski)
+* Updated German translations
+
+0.7.0 beta 6 (2012-03-31)
+-------------------------
+
+* Bugfix: added safe filter to static block; issue #174 (Frank Feng)
+* Bugfix: Fixed display of short description for variants
+* Bugfix: fixed decimal_l10n tag: return origin value if it's no float
+* Bugfix: fixed error messages within checkout; issue #176 (Maciej Wiśniowski)
+* Bugfix: fixed __unicode__ methods of several models; issue #172
+* Bugfix: fixed positions of newly added variants (Maciej Wiśniowski)
+* Bugfix: fixed layout, when there are no portlets at right; issue #173 (Frank Feng)
+* Bugfix: fixed local variable 'message' referenced before assignment (Maciej Wiśniowski)
+* Updated: Polish translations (Maciej Wiśniowski)
+* Updated: Chinese translations (Frank Feng)
+* Updated: German translations
+
+0.7.0 beta 5 (2012-03-24)
+-------------------------
+
+* Bugfix: added csrf token to password reset forms; issue #170
+* Bugfix: prevent setting of unsupported locale; #issue 165.
+* Bugfix: removed double slash from logo URLs; issue #166
+* Updated German translations
+
+0.7.0 beta 4 (2012-03-21)
+-------------------------
+
+* Bugfix: fixed edit/view product urls; issue #164 (Frank Feng)
+* Bugfix: removed typo; issue #163 (Frank Feng)
+* Bugfix: fixed accessories tab in manage; #issue #162 (Frank Feng)
+* Bugfix: get_base_price_net; #issue #161
+* Bugfix: display only parent's active base price value for variants
+* Bugfix: take the parent's price calculator for variants
+* Added: Chinese translations (Frank Feng)
+* Added: default footer for email messages (Maciej Wiśniowski)
+* Improved: page pagination for category products view (Maciej Wiśniowski)
+* Improved: email templates (Maciej Wiśniowski)
+* Updated: German translations
+* Updated: Polish translations (Maciej Wiśniowski)
+
+0.7.0 beta 3 (2012-03-18)
+-------------------------
+
+* Bugfix: fixed number of columns within cart template (Maciej Wiśniowski)
+* Bugfix: fixed display of localized amount of items within cart portlet; issue #159
+* Bugfix: don't display non-active products within cart nor add them to order with checkout; adapt tests; fixed issue #154
+* Bugfix: don't delete OrderItems when a product is deleted
+* Bugfix: added default values for LFS_SHIPPING_* settings
+* Bugfix: removed redundant javascript code; issue #153
+* Changed: using django-postal 0.9
+* Changed: removed djangorestframework from dependencies
+* Improved: added label to PropertyGroup's name field; issue #158
+* Improved: added link to product within order detail view in LM; issue #149
+* Improved: cleaned up displaying of addresses of orders within LM
+* Updated: Czech translation (naro)
+* Updated: German translation
+* Updated: Polish translations (Maciej Wiśniowski)
+
+0.7.0 beta 2 (2012-03-08)
+-------------------------
+
+* Security fix
+* Added manufacturer field to product management (Maciej Wiśniowski)
+* Bugfix: fixed pagination for product page; issue #152 (Maciej Wiśniowski)
+* Bugfix: fixed deleting of image for payment and shipping methods; issue #150
+* Bugfix: fixed markup; #issue #148
+* Bugfix: fixed updating of attachments; issue #147
+* Improved javascript: prevent FOUC for category-tabs and manage-tabs;
+
+0.7.0 beta 1 (2012-03-03)
+-------------------------
+
+* Added customer related taxes
+* Added global image management
+* Added django_compressor
+* Added pluggable shipping price calculators
+* Added pluggable order number generation
+* Added calculation of base price
+* Added product attachments
+* Added more portlets: featured products, for sale products
+* Aded SEO information for shop and pages
+* Added portlets for pages
+* Added type of quantity field
+* Added context aware help for the management interface
+* Improved pluggable product price calculators
+* Improved pluggable payment processors
+* Improved mails templates
+
+0.6.12 (2012-03-31)
+-------------------
+
+* Bugfix: fixed local variable 'message' referenced before assignment (Maciej Wiśniowski)
+* Bugfix: fixed CreditCard's __unicode__ method; issue #172
+* Bugfix: added safe filter to static block; issue #174
+
+0.6.11 (2012-03-24)
+-------------------
+
+* Bugfix: added csrf token to password reset forms; issue #170
+* Bugfix: removed double slash from logo URLs; issue #166
+* Updated German translations
+
+0.6.10 (2012-03-17)
+-------------------
+
+* Using django-postal 0.9
+* Bugfix: don't display non-active products within cart nor add them to order with checkout; adapt tests; fixed issue #154.
+* Bugfix: don't delete OrderItems when a product is deleted.
+
+0.6.9 (2012-03-08)
+------------------
+
+* Security fix
+* Added manufacturer field to product management (Maciej Wiśniowski)
+* Bugfix: fixed pagination for product page; issue #152 (Maciej Wiśniowski)
+* Bugfix: fixed deleting of image for payment and shipping methods; issue #150
+* Bugfix: fixed markup; #issue #148
+
+0.6.8 (2012-03-03)
+------------------
+
+* Bugfix: fixed duplicate labels and invalid tags (Maciej Wiśniowski)
+* Bugfix: fixed calculation of topsellers when order items has no product (Maciej Wiśniowski)
+* Updated polish translations (Maciej Wiśniowski)
+* Updated german translations
+
+0.6.7 (2012-02-26)
+------------------
+
+* Bugfix: fixed displaying of manual topsellers (Maciej Wiśniowski)
+* Bugfix: topsellers - avoid empty product_id for discounts (Maciej Wiśniowski)
+* Bugfix: take care of variants for deliverability (Maciej Wiśniowski)
+* Bugfix: fixed bug causing strange behaviour while creating variants (Maciej Wiśniowski)
+* Bugfix: fixed product filtering for product management views; #issue 142
+* Bugfix: added csrf token to active-images-update-form
+* Bugfix: fixed lfs_init for Postgres; issue #129
+* Added translations for filter buttons and fix for topseller positions (Maciej Wiśniowski)
+* Updated polish translations (Maciej Wiśniowski)
+* Updated german translations
+
+0.6.6 (2012-02-09)
+------------------
+
+* Bugfix: fixed url for Pages at breadcrums (Maciej Wiśniowski)
+* Bugfix: display sale price at category products page (Maciej Wiśniowski)
+* Bugfix: fix product pagination (Maciej Wiśniowski)
+* Bugfix: added short_description to Category management UI
+* Bugfix: display category descriptions
+* Bugfix: fixed template selection; issue #134
+* Improvement: allow easy modification of category/product templates (Maciej Wiśniowski)
+* Updated polish translations (Maciej Wiśniowski)
+
+0.6.5 (2012-02-03)
+------------------
+
+* Bugfix: added csrftoken for rating mails (Maciej Wiśniowski)
+* Bugfix: fixed ImageWithThumbsField (Maciej Wiśniowski)
+* Updated romanian translations (olimpiu)
+* Updated polish translations (Maciej Wiśniowski)
+
+0.6.4 (2012-01-08)
+------------------
+
+* Bugfix: fixed price calculation of configurable products.
+
+0.6.3 (2011-12-31)
+------------------
+
+* Bugfix: fixed update of prices if a configurable product is for sale.
+* Bugfix: fixed calculation of property prices for configurable products.
+* Bugfix: fixed saving of property data (added missing csrf token).
+* Bugfix: fixed removing products / properties from a group.
+* Bugfix: fixed filtering for float field steps.
+
+0.6.2 (2011-12-24)
+------------------
+
+* Bugfix: fixed issue with utf-8 support for MySQL; issue #126
+* Bugfix: fixed product filtering; issue #124
+
+0.6.1 (2011-12-16)
+------------------
+
+* Bugfix: fixed category management; issue #123
+* Bugfix: fixed adding of payment method: added csrf_token
+* Bugfix: fixed german address form: removed "Area" field, made fields required
+* Bugfix: fixed set/reset of product filters within management UI
+* Bugfix: fixed amount of products per price filter step
+* Bugfix: added translatable label for country field
+* Updated italian translations (pippo64)
+* Updated dutch translations (bastichelaar)
+
+0.6.0 (2011-12-10)
+-------------------
+
+* Final release
+
+0.6.0 beta 7 (2011-12-06)
+-------------------------
+
+* Bugfix: fixed filtered products for variants; #issue #122
+* Bugfix: fixed display of error indicator for packing_unit
+
+0.6.0 beta 6 (2011-12-02)
+-------------------------
+
+* Bugfix: added default country to shipping countries within lfs_init.
+* Bugfix: fixed validation of shipping and invoice addresses. (mickt)
+* Bugfix: fixed page selection within product management interface.
+* Bugfix: fixed display of selectable products within category's products tab.
+* Bugfix: fixed displaying of property values within product management interface.
+* Bugfix: fixed filter portlet.
+* Bugfix: fixed management of country criterion.
+* Changed: removed growl message from checkout view.
+* Changed: removed displaying of error fields checkout view.
+* Added migration of shop_countries.
+* Added migration of orders.
+* Updated russian translations (Belanchuk)
+
+0.6.0 beta 5 (2011-11-28)
+-------------------------
+
+* Bugfix: fixed delete links for properties and options within product's variants tab
+* Bugfix: fixed saving of variant list type.
+* Bugfix: fixed my account (added missing csrf_tokens; issue #114).
+* Bugfix: fixed discounts
+* Added dutch translations (BasTichelaar)
+* Updated romanian translations (bsdwave)
+
+0.6.0 beta 4 (2011-11-26)
+-------------------------
+* Bugfix: fixed display of vouchers options tab
+* Bugfix: don't translate label of supplier_id field within lfs_migrate
+* Bugfix: fixed the management of a customer if he has no cart yet
+* Bugfix: fixed cart management interface; issue #113
+
+0.6.0 beta 3 (2011-11-26)
+-------------------------
+
+* Added: add log message when uploading of an image failed
+* Bugfix: fixed display of average score in rating portlet
+* Bugfix: fixed links to images within image gallery
+* Bugfix: fixed changing state and deleting of orders; issue #110
+* Bugfix: fixed display price if it's 0.0; issue #108
+
+0.6.0 beta 2 (2011-11-21)
+-------------------------
+* Fixed display of portlets (using django-portlets 1.1)
+
+0.6.0 beta 1 (2011-11-19)
+-------------------------
+
+* Using Django 1.3
+* Added country dependent addresses
+* Added pluggable price calculation
+* Added supplier management
+* Massively improved management interface
+* Improved static file handling (Django's staticfiles)
+* Improved properties management
+* Removed SWFUpload (Flash) in favour of jquery.fileupload (Javascript)
+* Using Python's locale to display currencies
+* New contact form
+
+0.5.1 (2012-03-30)
+------------------
+
+* Bugfix: fixed upload of images and files.
+
+0.5.0 (2012-03-08)
+------------------
+
+* Security fix
+
+0.5.0 beta 8 (2011-06-25)
+-------------------------
+
+* Bugfix: pinned version of djangorecipe to 0.23.1
+* Enhancement: added active_name and active_price to variants management view; issue #51
+* Enhancement: cleaned up password reset templates
+
+0.5.0 beta 7 (2011-04-13)
+-------------------------
+
+* Improved error message for checkout form (Andres Vargas / zodman); issue #87
+* Fixed invalid HTML; issue #81
+* Bugfix: correct display of cart within shop view after cart has been updated; issue #82
+* Bugfix: save and display correct text of TextPortlets; issue #39
+* Fixed requried permission from "manage_shop" to "core.manage_shop"; issue #84
+* Fixed Integration Error when adding Product with existing slug; issue #42
+* Bugfix: made option price optional (as stated within form)
+* Updated documentation; issue #60
+* Added transifex config file
+* Added translations for mexican spanish (Andres Vargas)
+* Updated spain translations
+* Updated german translations
+
+0.5.0 beta 6 (2010-10-16)
+-------------------------
+
+* Bugfix added_to_cart: Display correct taxes within added_to_cart view. Issue #65.
+* Bugfix variants: display variant's properties on cart, added_to_cart, checkout, received_mail, sent_mail. Issue #40.
+* Bugfix lfs.cart: fixed total of added_to_cart view. Issue: #38.
+* Bugfix lfs.cart: subtract voucher price from cart price.
+* Changed: provide own redirect middleware in order to redirect urls with query string.
+
+0.5.0 beta 5 (2010-07-31)
+-------------------------
+
+* Bugfix add_to_cart: display correct stock amount if not enough products are within stock.
+* Added more tests
+
+0.5.0 beta 4 (2010-07-30)
+-------------------------
+
+* Bugfix pages: caching page_view
+* Bugfix cart: display correct stock amount within growl message
+* Bugfix product_inline: display property title within error message
+* Bugfix order_received_mail.html: display the correct selected values of a configurable product
+* Bugfix cart: calculation of maximum delivery date
+* Bugfix redirect: save redirect url for variants
+* Bugfix lfs.page.views: added missing import of Http404
+* Bugfix: restrict adding to cart if the product is not deliverable. Issue #37
+* Added french translations (Jacques Seite)
+* Added get_properties method to OrderItem
+* Added optional cached parameter to cart/utils/get_cart_price and cart/utils/get_cart_costs
+* Removed javascript which dynamically sets the height of the slots.
+* Changed properties management: display name instead of title within left portlet
+* Improved lfs.portlet: caching
+
+0.5.0 beta 3 (2010-06-30)
+-------------------------
+
+* Bugfix manage property form: display validators for float field
+* Bugfix: Using property title instead of name
+* Bugfix Product.get_variant_properties: display only variant properties
+* Bugfix order_inline.html: display product.unit instead of price_unit;
+  display title of property
+* Bugfix cart: inject correct html after refresh the cart
+* Check also for existing username within RegisterForm
+* Take subject for new_user_mail from template
+* Display default value for configurable properties
+
+0.5.0 beta 2 (2010-06-27)
+-------------------------
+
+* Cleaned up contact form
+
+0.5.0 beta 1 (2009-12-27)
+-------------------------
+
+* First public beta release

@@ -1,0 +1,203 @@
+@import '../dependencies/mixins/profile-form';
+.project-details {
+    @include profile-form;
+    .looking-for-people,
+    .get-feedback {
+        @include font-type(regular);
+        border-bottom: 1px solid $whitish;
+        padding: 1rem 0;
+    }
+    .looking-for-people {
+        border-top: 1px solid $whitish;
+        margin-bottom: 0;
+    }
+    .looking-for-people-selector,
+    .get-feedback-inner {
+        align-items: center;
+        display: flex;
+        svg {
+            @include svg-size();
+            fill: $gray-light;
+            margin-left: .5rem;
+        }
+        .check {
+            margin-left: auto;
+        }
+    }
+    .looking-for-people-reason {
+        display: block;
+        margin-top: 1rem;
+        &.ng-hide-remove-active {
+            animation: dropdownFade .3s;
+        }
+        &.ng-hide-add-active {
+            animation: dropdownFade .2s reverse;
+            animation-delay: .1s;
+        }
+    }
+    .delete-project {
+        @include font-size(x-small);
+        display: block;
+        margin-top: 1rem;
+        text-align: right;
+        &:hover {
+            color: $red;
+        }
+    }
+    .private-or-public {
+        @include font-size(x-small);
+        color: $gray-light;
+        display: flex;
+        svg {
+            @include svg-size(1.1rem);
+            fill: $gray-light;
+            margin-right: .5rem;
+            vertical-align: middle;
+        }
+    }
+    .tags-container {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-right: .25rem;
+        width: 100%;
+        .tag {
+            @include font-size(small);
+            align-items: center;
+            display: inline-flex;
+            min-height: 2rem;
+        }
+    }
+    .button-full {
+        width: 100%;
+    }
+}
+.project-privacy-settings {
+    display: flex;
+    margin-bottom: .5rem;
+    .privacy-option {
+        flex: 1;
+        transition: .2 linear;
+        &:first-child {
+            margin-right: .5rem;
+        }
+    }
+    input[type='radio'] {
+        display: none;
+    }
+    input[type='text'] {
+        display: none;
+    }
+    label {
+        background: $mass-white;
+        color: $grayer;
+        text-align: center;
+        transition: all .2s linear;
+        &:hover {
+            background: rgba($color-link-primary, .4);
+            color: $grayer;
+            svg {
+                fill: $grayer;
+            }
+        }
+        svg {
+            @include svg-size(1.1rem);
+            fill: $grayer;
+            margin-left: .5rem;
+            vertical-align: middle;
+        }
+    }
+    .privacy-project + label {
+        @include font-type(regular);
+        display: inline-flex;
+        width: 100%;
+    }
+    .privacy-project:checked {
+        + label {
+            @include font-type(regular);
+            background: $color-link-primary;
+            color: $color-white;
+            svg {
+                @include svg-size(1.1rem);
+                fill: $color-white;
+            }
+        }
+        ~input[type='text'] {
+            display: block;
+        }
+    }
+    .privacy-project[disabled] {
+        + label {
+            @include font-type(regular);
+            background: $mass-white;
+            box-shadow: none;
+            color: $gray-light;
+            cursor: not-allowed;
+            opacity: .65;
+            &:hover {
+                background: $mass-white;
+                color: $gray-light;
+            }
+        }
+    }
+}
+tg-admin-project-restrictions {
+    p {
+        @include font-size(x-small);
+        text-align: center;
+    }
+    a {
+        color: $color-link-primary;
+    }
+    span {
+        display: block;
+    }
+    span:first-child {
+        &::before {
+            border: 1px solid $red-light;
+            border-radius: 6px;
+            color: $red-light;
+            content: '!';
+            display: inline-block;
+            height: 12px;
+            line-height: 12px;
+            margin-right: .5rem;
+            text-align: center;
+            width: 12px;
+        }
+    }
+}
+.admin-project-profile-owner-actions {
+    align-items: center;
+    border-top: 1px solid $whitish;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    a {
+        color: $color-link-primary;
+        &:hover {
+            color: $color-link-primary;
+            transition: color .2s;
+        }
+    }
+    img {
+        width: 100%;
+    }
+    .owner-info {
+        flex: 1;
+        padding-left: .5rem;
+    }
+    .owner-info-title {
+        color: $gray-light;
+    }
+    .owner-name {
+        @include font-type(medium);
+    }
+    .owner-avatar {
+        width: 2.5rem;
+    }
+    .request {
+        flex-shrink: 0;
+    }
+}

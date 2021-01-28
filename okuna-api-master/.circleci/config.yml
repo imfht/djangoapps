@@ -1,0 +1,149 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+    # specify the version you desire here
+    # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+    - image: circleci/python:3.7.0
+
+    # Specify service dependencies here if necessary
+    # CircleCI maintains a library of pre-built images
+    # documented at https://circleci.com/docs/2.0/circleci-images/
+    # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+    - checkout
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+        - $CACHE_VERSION-dependencies-{{ checksum "requirements.txt" }}
+        # fallback to using the latest cache if no exact match is found
+        - $CACHE_VERSION-dependencies-
+
+    - run:
+        name: install dependencies
+        command: |
+          sudo apt-get -y -qq update
+          sudo apt-get install ffmpeg redis-server libmagic-dev
+          sudo /etc/init.d/redis-server start
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt --exists-action s
+
+    - save_cache:
+        paths:
+        - ./venv
+        key: $CACHE_VERSION-pip-dependencies-{{ checksum "requirements.txt" }}
+
+    - run:
+        name: Setup Code Climate test-reporter
+        command: |
+          # download test reporter as a static binary
+                   curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+                   chmod +x ./cc-test-reporter
+    - run:
+        name: run tests
+        command: |
+          . venv/bin/activate
+          # notify Code Climate of a pending test report using `before-build`
+          ./cc-test-reporter before-build
+          python manage.py test
+          # upload test report to Code Climate using `after-build`
+                      ./cc-test-reporter after-build --exit-code $?
+    # static code analysis for basic secure coding practices
+    - run:
+        name: run bandit
+        command: |
+          . venv/bin/activate
+          bandit -r .
+
+    # check for known vulns in python packages
+    - run:
+        name: run safety
+        command: |
+          . venv/bin/activate
+          safety check
+
+  deploy:
+    working_directory: ~/repo
+    docker:
+    - image: circleci/python:3.7.0
+    steps:
+    - checkout
+    - run:
+        name: Install utils dependencies
+        command: |
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install jinja2
+    - run:
+        name: Installing deployment dependencies
+        working_directory: /
+        command: |
+          sudo apt-get -y -qq update
+          sudo apt-get install python-pip python-dev build-essential
+          sudo pip install awsebcli --upgrade
+    - run:
+        name: Prepare environment variables for creating admin config
+        command: |
+          if [ $CIRCLE_BRANCH == 'master' ]; then
+              echo "export LB_NAME=$LB_NAME_MASTER" >> $BASH_ENV
+              echo "export SAUTH_SERVER_NAME=$SAUTH_SERVER_NAME_MASTER" >> $BASH_ENV
+          elif [ $CIRCLE_BRANCH == 'develop' ]; then
+              echo "export LB_NAME=$LB_NAME_DEVELOP" >> $BASH_ENV
+              echo "export SAUTH_SERVER_NAME=$SAUTH_SERVER_NAME_DEVELOP" >> $BASH_ENV
+          else
+              echo "export LB_NAME=lb-not-existing.localhost" >> $BASH_ENV
+              echo "export SAUTH_SERVER_NAME=sauth-not-existing.localhost" >> $BASH_ENV
+          fi
+    - run:
+        name: Make EB Config
+        command: |
+          . venv/bin/activate
+          python utils/make_eb_config.py --name=$APPLICATION_NAME --region=$AWS_DEFAULT_REGION
+    - run:
+        name: Create magic header authentication for protected environments
+        command: |
+          if [ $CIRCLE_BRANCH == 'develop' ]; then
+              . venv/bin/activate
+              python utils/make_magic_header.py --name=$DEVELOP_MAGIC_HEADER_NAME --value=$DEVELOP_MAGIC_HEADER_VALUE
+          fi
+          if [ $CIRCLE_BRANCH == 'master' ]; then
+              . venv/bin/activate
+              python utils/make_magic_header_admin.py --name=$MASTER_MAGIC_HEADER_ADMIN_NAME --value=$MASTER_MAGIC_HEADER_ADMIN_VALUE
+          fi
+    - run:
+        name: Commit Dynamic EB Extensions
+        command: |
+          git config --global user.email "circle@ci.com"
+          git config --global user.name "CIRCLECI"
+          git add .ebextensions/
+          git commit -m "EB Uploads only committed files, therefore this"
+    - run:
+        name: Deploy to EB
+        command: |
+          if [ $CIRCLE_BRANCH == 'master' ]; then
+              eb deploy master-$MASTER_APPLICATION_NAME
+          elif [ $CIRCLE_BRANCH == 'develop' ]; then
+              eb deploy develop-$DEVELOP_APPLICATION_NAME
+          else
+              echo "Not deploying as its not master nor develop branches"
+          fi
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build
+    - deploy:
+        filters:
+          branches:
+            only:
+            - master
+            - develop

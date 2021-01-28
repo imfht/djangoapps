@@ -1,0 +1,79 @@
+{% extends "manage/manage_base.html" %}
+{% load i18n %}
+
+{% block help_link %}user/management/utils/export.html{% endblock %}
+
+{% block section %}export{% endblock %}
+
+{% block left_slot %}
+    <h2 class="navigation-title">{% trans "Exports" %}</h2>
+	<div id="selectable-exports-inline"
+	     class="navigation-body">
+		{{ selectable_exports_inline|safe }}
+	</div>
+{% endblock %}
+
+{% block content %}
+
+	<div class="site-actions">
+	    <a class="add"
+	       href="{% url 'lfs_export_add_export' %}">
+	       {% trans 'Add Export' %}</a>
+
+        <a class="delete delete-link"
+           data="{% trans 'Do you really want to delete this export?' %}"
+	       href="{% url 'lfs_export_delete_export' export_id %}">
+	       {% trans 'Delete Export' %}</a>
+
+	    <a class="export"
+	       href="{% url 'lfs_export_export' slug %}">
+	       {% trans 'Download Export' %}</a>
+	</div>
+
+    <div id="manage-tabs">
+        <ul>
+            <li class="ui-tabs-nav-item"><a href="#data">{% trans 'Data' %}</a></li>
+            <li class="ui-tabs-nav-item"><a href="#products">{% trans 'Products' %}</a></li>
+        </ul>
+
+		<div id="data">
+			{{ export_data_inline|safe }}
+		</div>
+
+		<div id="products">
+		    <h2>{% trans "Products" %}</h2>
+			<ul id="export-tree-root"
+				style="list-style-type: none">
+
+				{% for category in categories %}
+					<li class="category {{ category.klass }}"
+					    data="{% url 'lfs_export_category_state' export_id category.id %}">
+						<input id="export-category-input-{{ category.id }}"
+							   class="export-category-input"
+						       type="checkbox"
+						       data-url="{% url 'lfs_export_edit_category' export_id category.id %}"
+						 	   {% if category.checked %}checked="checked"{% endif %} />
+
+						<a class="category-ajax-link collapsed"
+						   id="{{ category.id }}"
+						   href="{% url 'lfs_export_inline' export_id category.id %}">
+		  					{{ category.name }}
+						</a>
+						<span class="category-state" id="category-state-{{ category.id }}">
+							{% ifequal category.klass "half" %}(1/2){% endifequal %}
+						</span>
+						<select class="category-variants-options"
+							    data-url="{% url 'lfs_export_update_category_variants_option' export_id category.id %}">
+							{% for option in category.options %}
+								<option value="{{ option.value }}"
+							            {% if option.selected %}selected="selected"{% endif %}>
+									{{ option.name }}
+								</option>
+							{% endfor %}
+						</select>
+						<div id="sub-categories-{{ category.id }}"></div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+{% endblock %}

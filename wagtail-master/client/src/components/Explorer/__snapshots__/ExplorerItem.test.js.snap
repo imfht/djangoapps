@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExplorerItem children 1`] = `
+<div
+  className="c-explorer__item"
+>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__link"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--menuitem"
+      name="folder-inverse"
+      title={null}
+    />
+    <h3
+      className="c-explorer__item__title"
+    >
+      test
+    </h3>
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action c-explorer__item__action--small"
+    dialogTrigger={false}
+    href="/admin/pages/5/edit/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="edit"
+      title="Edit 'test'"
+    />
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={[Function]}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="arrow-right"
+      title="View child pages of 'test'"
+    />
+  </Button>
+</div>
+`;
+
+exports[`ExplorerItem renders 1`] = `
+<div
+  className="c-explorer__item"
+>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__link"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <h3
+      className="c-explorer__item__title"
+    >
+      test
+    </h3>
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action c-explorer__item__action--small"
+    dialogTrigger={false}
+    href="/admin/pages/5/edit/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="edit"
+      title="Edit 'test'"
+    />
+  </Button>
+</div>
+`;
+
+exports[`ExplorerItem should show a publication status if not live 1`] = `
+<div
+  className="c-explorer__item"
+>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__link"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--menuitem"
+      name="folder-inverse"
+      title={null}
+    />
+    <h3
+      className="c-explorer__item__title"
+    >
+      test
+    </h3>
+    <span
+      className="c-explorer__meta"
+    >
+      <PublicationStatus
+        status={
+          Object {
+            "has_unpublished_changes": true,
+            "live": false,
+            "status": "test",
+          }
+        }
+      />
+    </span>
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action c-explorer__item__action--small"
+    dialogTrigger={false}
+    href="/admin/pages/5/edit/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="edit"
+      title="Edit 'test'"
+    />
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={[Function]}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="arrow-right"
+      title="View child pages of 'test'"
+    />
+  </Button>
+</div>
+`;
+
+exports[`ExplorerItem should show a publication status with unpublished changes 1`] = `
+<div
+  className="c-explorer__item"
+>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__link"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--menuitem"
+      name="folder-inverse"
+      title={null}
+    />
+    <h3
+      className="c-explorer__item__title"
+    >
+      test
+    </h3>
+    <span
+      className="c-explorer__meta"
+    >
+      <PublicationStatus
+        status={
+          Object {
+            "has_unpublished_changes": true,
+            "live": true,
+            "status": "test",
+          }
+        }
+      />
+    </span>
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action c-explorer__item__action--small"
+    dialogTrigger={false}
+    href="/admin/pages/5/edit/"
+    isLoading={false}
+    onClick={null}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="edit"
+      title="Edit 'test'"
+    />
+  </Button>
+  <Button
+    accessibleLabel={null}
+    className="c-explorer__item__action"
+    dialogTrigger={false}
+    href="/admin/pages/5/"
+    isLoading={false}
+    onClick={[Function]}
+    preventDefault={true}
+    target={null}
+  >
+    <Icon
+      className="icon--item-action"
+      name="arrow-right"
+      title="View child pages of 'test'"
+    />
+  </Button>
+</div>
+`;

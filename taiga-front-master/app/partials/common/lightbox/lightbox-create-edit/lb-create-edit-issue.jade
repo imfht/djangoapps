@@ -1,0 +1,32 @@
+section.ticket-assigned-to(
+    tg-assigned-to-inline
+    ng-model="obj"
+    required-perm="modify_{{ objType }}"
+)
+div.ticket-data-container
+    tg-issue-type-button.ticket-status(
+        not-auto-save="true"
+        ng-model="obj"
+    )
+    tg-issue-severity-button.ticket-status(
+        not-auto-save="true"
+        ng-model="obj"
+    )
+    tg-issue-priority-button.ticket-status(
+        not-auto-save="true"
+        ng-model="obj"
+    )
+
+div.ticket-detail-settings
+    tg-due-date-popover(
+        due-date="obj.due_date"
+        is-closed="obj.is_closed"
+        item="obj"
+        obj-type="issue"
+        not-auto-save="true"
+    )
+    button.btn-icon.is-blocked(
+        type="button"
+        ng-class="{ 'item-unblock': obj.is_blocked, 'item-block': !obj.is_blocked }"
+    )
+        tg-svg(svg-icon="icon-lock")

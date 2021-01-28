@@ -1,0 +1,36 @@
+<div><strong>{{ _('Files in this version:') }}</strong></div>
+<ul>
+{% for file in distinct_files %}
+<li class="file-info">
+  <span class="light">
+    <strong><a href="{{ file[0].get_absolute_url(attachment=True) }}" class="reviewers-install"
+        data-type="{{ amo.ADDON_SLUGS[addon.type] }}">{{ file[1] }}</a></strong>
+    <div>
+      {{ file_review_status(addon, file[0]) }}
+    </div>
+    <a href="{{ url('devhub.file_validation', addon.slug, file[0].id) }}">{{ _('Validation') }}</a>
+    &middot;
+    <a 
+      href="{{ code_manager_url('browse', addon.pk, version.pk) }}"
+      title="{{ _('Browse all files in this version') }}"
+      >
+        {{ _('Contents') }}
+    </a>
+    {% if base_version and version == latest_not_disabled_version %}
+    &middot;
+    <a
+      class="compare"
+      href="{{ code_manager_url('compare', addon.pk, version.pk, base_version.pk) }}"
+      title="{{ _('Compare this version to the last reviewed version') }}"
+    >
+      {{ _('Compare') }}
+    </a>
+    {% endif %}
+    {% if file[0].is_webextension %}
+    <div class="file-permissions"><strong>{{ _('Permissions:') }}</strong> {{ ', '.join(file[0].permissions) or _('None') }}</div>
+    <div class="file-permissions"><strong>{{ _('Optional permissions:') }}</strong> {{ ', '.join(file[0].optional_permissions) or _('None') }}</div>
+    {% endif %}
+  </span>
+</li>
+{% endfor %}
+</ul>

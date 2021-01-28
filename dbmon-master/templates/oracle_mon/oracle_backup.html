@@ -1,0 +1,196 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle备份
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">自动化运维</a></li>
+        <li><a href="/my_tools">工具包</a></li>
+        <li class="active">Oracle备份</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+     <div class="box box-success">
+       <div class="box-body">
+
+      <div class="row">
+          <div class="col-md-6">
+            <form action="" method="post" id="myform">
+                <div class="box-tools pull-left">
+              <div class="form-group">
+                <label>选择Oracle数据库：</label>
+                <select onchange="submitForm();" class="form-control select2" style="width: 100%;" name="select_tags">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tagsdefault }}</option>
+                  {% for tags in tagsinfo %}
+                  <option>{{ tags.tags }}</option>
+                   {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+      </div>
+          <!-- /.row -->
+        <div class="col-md-12">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#backup_list" data-toggle="tab" aria-expanded="false">备份列表</a></li>
+              <li class=""><a href="#backup_set" data-toggle="tab" aria-expanded="false">备份集</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="active tab-pane" id="backup_list">
+                    <div class="box box-solid">
+        <!-- /.box-header -->
+       <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">
+                  备份集
+              </h3>
+            </div>
+
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>标签</th>
+                    <th>BS_KEY</th>
+                    <th>STAMP</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                    <th>耗时(秒)</th>
+                    <th>大小(byte)</th>
+                    <th>备份集类型</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                {% for oracle_backup in oracle_backups %}
+                 <tr>
+                 <td>{{ oracle_backup.tags }} </td>
+                  <td>{{ oracle_backup.BS_KEY }} </td>
+                  <td>{{ oracle_backup.STAMP }} </td>
+                 <td>{{ oracle_backup.START_TIME }} </td>
+                 <td>{{ oracle_backup.COMPLETE_TIME }} </td>
+                 <td>{{ oracle_backup.ESPLASED_SECONDS }} </td>
+                 <td>{{ oracle_backup.OUTPUT_BYTES }} </td>
+                 <td>{{ oracle_backup.BACKUP_TYPE }} </td>
+                 <td>{{ oracle_backup.STATUS }} </td>
+                 {% endfor %}
+              </table>
+            </div>
+      </div>
+     </div>
+   </div>
+                <div class="tab-pane" id="backup_set">
+                    <div class="box box-solid">
+        <!-- /.box-header -->
+       <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">
+                  备份集
+              </h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>标签</th>
+                    <th>BS_KEY</th>
+                    <th>SET_STAMP</th>
+                    <th>备份集类型</th>
+                    <th>包含控制文件</th>
+                    <th>状态</th>
+                    <th>文件类型</th>
+                  <th>开始时间</th>
+                  <th>结束时间</th>
+                    <th>大小(Gb)</th>
+                    <th>是否压缩</th>
+                    <th>TAG</th>
+                    <th>路径</th>
+                </tr>
+                </thead>
+                {% for oracle_backup_piece in oracle_backup_pieces %}
+                 <tr>
+                 <td>{{ oracle_backup_piece.tags }} </td>
+                  <td>{{ oracle_backup_piece.BACKUP_SET }} </td>
+                 <td>{{ oracle_backup_piece.SET_STAMP }} </td>
+                  <td>{{ oracle_backup_piece.BACKUP_TYPE }} </td>
+                 <td>{{ oracle_backup_piece.HAS_CTL }} </td>
+                 <td>{{ oracle_backup_piece.STATUS }} </td>
+                 <td>{{ oracle_backup_piece.DEVICE_TYPE }} </td>
+                 <td>{{ oracle_backup_piece.START_TIME }} </td>
+                 <td>{{ oracle_backup_piece.COMPLETION_TIME }} </td>
+                    <td>{{ oracle_backup_piece.SIZE }} </td>
+                    <td>{{ oracle_backup_piece.COMPRESSED }} </td>
+                    <td>{{ oracle_backup_piece.TAG }} </td>
+                    <td>{{ oracle_backup_piece.PATH }} </td>
+                 {% endfor %}
+              </table>
+            </div>
+      </div>
+     </div>
+              </div>
+
+              <div class="tab-pane" id="backup_crontab">
+                 <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">任务列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>任务编号</th>
+                    <th>任务名称</th>
+                    <th>tags</th>
+                    <th>备份类型</th>
+                    <th>是否启用</th>
+                    <th>下次备份时间</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                {% for oracle_bak_job in oracle_bak_jobs %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ oracle_bak_job.job_no}} </td>
+                 <td>{{ oracle_bak_job.job_name}} </td>
+                     <td>{{ oracle_bak_job.tags}} </td>
+                     <td>{{ oracle_bak_job.bak_type}} </td>
+                     <td><span class="badge bg-{{ oracle_bak_job.is_on1 }}">{{ oracle_bak_job.enabled }}</span></td>
+                     <td>{{ oracle_bak_job.next_bak_time}} </td>
+
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+      </div>
+      </div>
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+       </div>
+{% endblock %}

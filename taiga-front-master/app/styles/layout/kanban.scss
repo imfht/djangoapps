@@ -1,0 +1,87 @@
+.kanban {
+    display: flex;
+    flex-direction: column;
+    height: $main-height;
+    max-height: 100%;
+    max-width: 100%;
+    padding: 1rem 0 0 1rem;
+    position: relative;
+
+    &.swimlane {
+        .kanban-manager {
+            height: 100%;
+            width: 100%;
+        }
+
+        .kanban-header {
+            background: $color-white;
+            position: sticky;
+            top: 0;
+            z-index: $first-layer;
+        }
+    }
+
+    .kanban-settings {
+        float: right;
+    }
+    .burndown-container {
+        display: none;
+    }
+    .zoom-loading img {
+        display: block;
+        margin-right: 1rem;
+    }
+}
+
+.kanban-manager {
+    align-items: flex-start;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(180px, 2fr) 10fr;
+    height: 100%;
+    margin-top: 1px;
+    overflow: hidden;
+    &.expanded {
+        grid-template-columns: 10fr;
+    }
+}
+
+.kanban-filter tg-filter {
+    background: none;
+    border: 1px solid $color-gray200;
+    opacity: 1;
+    padding: .5rem;
+    position: relative;
+    transform: translate(0);
+}
+
+.taskboard-actions {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.kanban-header {
+    background: $color-white;
+    padding: 0 1rem 1rem 0;
+
+    .button-filter {
+        color: $color-link-primary;
+        margin-left: 0;
+
+        svg {
+            fill: $color-link-primary;
+        }
+    }
+}
+
+.kanban-table-options-start {
+    align-items: center;
+    display: flex;
+
+    tg-input-search {
+        margin-left: .5rem;
+        width: 185px;
+    }
+}

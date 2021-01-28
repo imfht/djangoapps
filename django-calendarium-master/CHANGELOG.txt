@@ -1,0 +1,103 @@
+=== ongoing ===
+
+ - Corrected instructions for contributions
+ - Added some instruction for template tags
+ - Added some test cases for extra coverage
+ - Fixed occurrence generation for events with multiple days
+
+=== 1.3.4 ===
+
+- Prepared app for Django1.9 and Python3.5
+- Replaced factory_boy with mixer
+
+=== 1.3.3 ===
+
+- fixed AttributeError for EventCategory
+
+=== 1.3.2 ===
+
+- Python3.X related improvements
+
+=== 1.3.1 ===
+
+- Fixed generator issues
+
+=== 1.3 ===
+
+- Prepared app for Django>=1.8
+
+=== 1.2 ===
+
+- Prepared app for Django>=1.7
+- Added runtests.sh script
+- Updated requirements
+
+=== 1.0 ===
+
+- Added basic bootstrap styles
+
+=== 0.6 ===
+
+- Made use of Django's new user model setting: AUTH_USER_MODEL
+- Upgraded to Django>=1.6
+
+=== 0.5 ===
+
+- Updated urls.py to be compatible with Django 1.6
+- Documentation improvements
+
+=== 0.4.6 ===
+
+- Added auto-correction of event end date if end date is before start date
+
+=== 0.4.5 ===
+
+- re-enabled deprecated class name for backwards compatibility
+
+=== 0.4.4 ===
+
+- Fixed factory name and tests
+- Added related name to image field.
+
+=== 0.4.3 ===
+
+- Added get_parent_category method to Event model.
+
+=== 0.4.2 ===
+
+- Added CategorySlugMixin for views that should filter by category.
+- Fixed a bug with the category filtering.
+
+=== 0.4.1 ===
+
+- Taking parent category into consideration when filtering for occurrences
+
+=== 0.4 ===
+
+- Added UpcomingEventsAjaxView
+- Added slug and parent fields to EventCategory model
+- Added assignment tag `get_upcoming_events`
+- Added FilerImageField
+
+=== 0.3 ===
+
+- Made category field on Event model optional (backwards incompatible
+  migration)
+- Improved Event admin
+
+=== 0.2.1 ===
+
+- Added sphinx docs, hosted on readthedocs (https://django-calendarium.readthedocs.org)
+
+=== 0.2 ===
+
+- Added render_upcoming_events template tag.
+- Made created_by optional
+
+=== 0.1.1 ===
+
+- Added view to redirect to the current month
+
+=== 0.1 ===
+
+Initial commit

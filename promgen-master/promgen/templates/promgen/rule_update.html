@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% load promgen %}
+{% load i18n %}
+
+{% block title %}
+Promgen / Rule / {{ rule.name }}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Rule: {{ rule.name }}</h1>
+</div>
+
+{% breadcrumb rule 'Edit Rule' %}
+
+<div data-service="{{rule.name}}" class="panel panel-danger" v-cloak v-show="alertLabelsRule.has('{{rule.name}}')">
+  <div class="panel-heading">
+    <a @click.prevent="toggleTarget('alerts-service-{{rule.name|slugify}}')" class="btn btn-danger btn-sm" role="button">Alerts</a>
+  </div>
+  <table id="alerts-service-{{rule.name|slugify}}" class="table table-bordered table-condensed collapse">
+    <tr v-for="(alert, index) in globalAlerts" v-if="alert.labels.alertname == '{{rule.name}}'">
+      {% include 'promgen/alert_row.html' %}
+    </tr>
+  </table>
+</div>
+
+<form action="{% url 'rule-edit' rule.pk %}" class="input-group" method="post">{% csrf_token %}
+  <div class="row">
+
+    {% if form.non_field_errors  %}
+    <div class="panel panel-danger">
+      <div class="panel-heading">Errors</div>
+      {% for error in form.non_field_errors %}
+      <div class="panel-body" v-pre>
+        <pre>{{ error }}</pre>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="col-md-6">
+      {% include 'promgen/rule_form_block.html' %}
+    </div>
+
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Labels - Control routing through AlertManager and Promgen</div>
+        {% include 'promgen/rule_formset_table.html' with formset=formset_labels only %}
+        <ul class="list-group">
+          <li class="list-group-item">Examples</li>
+          <li class="list-group-item">
+            <code>{"severity":"major"}</code>
+          </li>
+        </ul>
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">Annotations - Provide extra details for notifications</div>
+        {% include 'promgen/rule_formset_table.html' with formset=formset_annotations only %}
+        <ul class="list-group">
+          <li class="list-group-item">Examples</li>
+          <li class="list-group-item">
+            <code v-pre>summary: High load on {% templatetag openvariable %} $labels.instance {% templatetag closevariable %}</pre></code>
+          </li>
+        </ul>
+      </div>
+
+    </div><!-- end col -->
+  </div><!-- end row -->
+
+  {% if rule.overrides.count %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Child Rules
+    </div>
+    <table class="table">
+      {% for r in rule.overrides.all %}
+      <tr>
+        <td class="col-xs-2"><a href="{{ r.content_object.get_absolute_url }}">{{ r.content_object }}</a></td>
+        <td class="col-xs-2"><a href="{% url 'rule-detail' r.pk %}">{{ r.name }}</a></td>
+        <td class="col-xs-8">
+          <code data-href="{% url 'rule-test' r.id %}" data-source="self" data-target="#ajax-clause-check">
+            {{ r|rulemacro }}
+          </code>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="panel panel-primary">
+    <div class="panel-body">
+      <button class="btn btn-primary">Save Rule</button>
+      <a href="{% url 'audit-list'  %}?rule={{rule.id}}" class="btn btn-info">{% trans "Edit History" %}</a>
+    </div>
+  </div>
+</form>
+
+<div class="panel panel-danger">
+  <div class="panel-body">
+    <form method="post" action="{% url 'rule-delete' rule.id %}" onsubmit="return confirm('{% trans "Delete this Rule?" %}')" style="display: inline">
+      {% csrf_token %}
+      <button class="btn btn-danger">{% trans "Delete Rule" %}</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

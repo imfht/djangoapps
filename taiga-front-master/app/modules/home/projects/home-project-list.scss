@@ -1,0 +1,48 @@
+@import '../../../styles/dependencies/mixins/project-card';
+
+.home-project {
+    @include project-card;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: all .2s;
+    &:hover {
+        border: 1px solid rgba($primary-light, .2);
+        box-shadow: 0 0 5px $whitish;
+    }
+    &.blocked-project {
+        border: $whitish;
+        &:hover {
+            border: $whitish;
+            box-shadow: none;
+        }
+        .tags-container,
+        .project-card-logo,
+        .project-card-name a,
+        .project-card-description,
+        .project-card-statistics {
+            opacity: .3;
+        }
+    }
+}
+
+.projects-empty {
+    text-align: center;
+    svg {
+        fill: $whitish;
+        height: 100px;
+        margin: 1rem auto;
+        text-align: center;
+        width: 100%;
+    }
+    p {
+        @include font-size(small);
+        @include font-type(regular);
+    }
+    .create-project-button {
+        display: block;
+        margin-bottom: .25rem;
+    }
+    .import-project-button {
+        display: block;
+    }
+}

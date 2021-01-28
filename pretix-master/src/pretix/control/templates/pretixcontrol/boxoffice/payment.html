@@ -1,0 +1,72 @@
+{% load i18n %}
+
+<dl class="dl-horizontal">
+    <dt>{% trans "Device ID" %}</dt>
+    <dd>{{ payment_info.pos_id }}</dd>
+    <dt>{% trans "Receipt ID" %}</dt>
+    <dd>{{ payment_info.receipt_id }}</dd>
+    {% if payment_info.payment_type == "stripe_terminal" %}
+        <dt>{% trans "Payment provider" %}</dt>
+        <dd>Stripe Terminal</dd>
+        <dt>{% trans "ID" %}</dt>
+        <dd>{{ payment_info.payment_data.payment_intent }}</dd>
+    {% elif payment_info.payment_type == "terminal_zvt" %}
+        <dt>{% trans "Payment provider" %}</dt>
+        <dd>{% trans "ZVT Terminal" %}</dd>
+        <dt>{% trans "Trace number" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.traceNumber }}</dd>
+        <dt>{% trans "Payment type" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.paymentType }}</dd>
+        <dt>{% trans "Additional text" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.additionalText }}</dd>
+        <dt>{% trans "Turnover number" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.turnoverNumber }}</dd>
+        <dt>{% trans "Receipt number" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.receiptNumber }}</dd>
+        <dt>{% trans "Card type" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.cardName }}</dd>
+        <dt>{% trans "Card expiration" context "terminal_zvt" %}</dt>
+        <dd>{{ payment_info.payment_data.expiry }}</dd>
+    {% elif payment_info.payment_type == "sumup" %}
+        <dt>{% trans "Payment provider" %}</dt>
+        <dd>SumUp</dd>
+        <dt>{% trans "Transaction Code" %}</dt>
+        <dd>{{ payment_info.payment_data.tx_code }}</dd>
+        <dt>{% trans "Merchant Code" %}</dt>
+        <dd>{{ payment_info.payment_data.merchant_code }}</dd>
+        <dt>{% trans "Currency" %}</dt>
+        <dd>{{ payment_info.payment_data.currency }}</dd>
+        <dt>{% trans "Status" %}</dt>
+        <dd>{{ payment_info.payment_data.status }}</dd>
+        <dt>{% trans "Type" %}</dt>
+        <dd>{{ payment_info.payment_data.type }}</dd>
+        <dt>{% trans "Card Entry Mode" %}</dt>
+        <dd>{{ payment_info.payment_data.entry_mode }}</dd>
+        <dt>{% trans "Card number" %}</dt>
+        <dd>
+            <i class="fa fa-cc-{{ payment_info.payment_data.card_type|lower }}"></i> **** **** **** {{ payment_info.payment_data.last4 }}
+        </dd>
+    {% elif payment_info.payment_type == "square_pos" %}
+        <dt>{% trans "Payment provider" %}</dt>
+        <dd>Square POS</dd>
+        <dt>{% trans "Client Transaction Code" %}</dt>
+        <dd>{{ payment_info.payment_data.client_transactionId }}</dd>
+        {% if payment_info.payment_data.server_transactionId %}
+            <dt>{% trans "Server Transaction Code" %}</dt>
+            <dd>{{ payment_info.payment_data.server_transactionId }}</dd>
+        {% endif %}
+    {% elif payment_info.payment_type == "izettle" %}
+        <dt>{% trans "Payment provider" %}</dt>
+        <dd>iZettle</dd>
+        <dt>{% trans "Payment Application" %}</dt>
+        <dd>{{ payment_info.payment_data.applicationName }}</dd>
+        <dt>{% trans "Card Entry Mode" %}</dt>
+        <dd>{{ payment_info.payment_data.cardPaymentEntryMode }}</dd>
+        <dt>{% trans "Card number" %}</dt>
+        <dd>
+            <i class="fa fa-cc-{{ payment_info.payment_data.applicationName|lower }}"></i> {{ payment_info.payment_data.maskedPan }}
+        </dd>
+        <dt>{% trans "Authorization Code" %}</dt>
+        <dd>{{ payment_info.payment_data.authorizationCode }}</dd>
+    {% endif %}
+</dl>

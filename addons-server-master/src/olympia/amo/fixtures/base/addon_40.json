@@ -1,0 +1,134 @@
+[{
+        "pk": 4283,
+        "model": "translations.translation",
+        "fields": {
+            "localized_string": "MozEX",
+            "created": "2007-03-05 13:10:18",
+            "locale": "en-US",
+            "modified": "2007-03-05 13:10:18",
+            "id": 1295,
+            "localized_string_clean": null
+        }
+    },
+    {
+        "pk": 40,
+        "model": "addons.addon",
+        "fields": {
+            "slug": "40",
+            "eula": null,
+            "_current_version": 42,
+            "last_updated": "2007-03-05 13:11:03",
+            "developer_comments": null,
+            "disabled_by_user": false,
+            "guid": "{7c07e56e-b2f0-4932-bbe2-857a91b69f45}",
+            "weekly_downloads": 12,
+            "support_url": null,
+            "average_rating": "4.00",
+            "average_daily_users": 68,
+            "bayesian_rating": 4.0337899999999998,
+            "support_email": null,
+            "status": 3,
+            "privacy_policy": null,
+            "default_locale": "en-US",
+            "target_locale": null,
+            "name": 1295,
+            "description": 1295,
+            "created": "2004-06-12 02:52:33",
+            "type": 1,
+            "icon_type": "",
+            "modified": "2010-05-28 09:01:58",
+            "total_ratings": 1
+        }
+    },
+    {
+        "pk": 42,
+        "model": "versions.version",
+        "fields": {
+            "license": null,
+            "created": "2004-06-12 02:52:33",
+            "release_notes": null,
+            "modified": "2004-06-13 20:25:13",
+            "approval_notes": "",
+            "version": "1.0.7",
+            "addon": 40
+        }
+    },
+    {
+        "pk": 197,
+        "model": "files.file",
+        "fields": {
+            "status": 4,
+            "hash": "sha256:f6e0881af426279e7f56fe451057d708cac5f21b44afde980bad81f8a2e0c2cb",
+            "created": "2007-03-05 13:11:03",
+            "modified": "2007-03-05 13:11:03",
+            "filename": "mozex-1.0.7-fx.xpi",
+            "platform": 1,
+            "version": 42,
+            "size": 18432,
+            "datestatuschanged": "2007-03-05 13:11:03"
+        }
+    },
+    {
+        "pk": 41,
+        "model": "users.userprofile",
+        "fields": {
+            "display_collections": false,
+            "averagerating": 4.00,
+            "picture_type": "",
+            "occupation": "",
+            "homepage": "",
+            "email": "dd+b565d0324@davedash.com",
+            "location": "",
+            "biography": null,
+            "deleted": false,
+            "username": "41",
+            "display_name": "41 \u0627\u0644\u062a\u0637\u0628",
+            "created": "2007-03-05 13:09:33",
+            "notes": null,
+            "modified": "2007-03-05 13:09:33"
+        }
+    },
+    {
+        "pk": 123,
+        "model": "applications.appversion",
+        "fields": {
+            "application": 1,
+            "version": "0.9",
+            "created": "2007-03-05 13:10:58",
+            "version_int": 90000200100,
+            "modified": "2007-03-05 13:10:58"
+        }
+    },
+    {
+        "pk": 42,
+        "model": "applications.appversion",
+        "fields": {
+            "application": 1,
+            "version": "0.7",
+            "created": "2007-03-05 13:09:26",
+            "version_int": 70000200100,
+            "modified": "2007-03-05 13:10:58"
+        }
+    },
+    {
+        "pk": 39,
+        "model": "addons.addonuser",
+        "fields": {
+            "position": 0,
+            "addon": 40,
+            "role": 5,
+            "listed": true,
+            "user": 41
+        }
+    },
+    {
+        "pk": 19,
+        "model": "versions.applicationsversions",
+        "fields": {
+            "application": 1,
+            "version": 42,
+            "min": 42,
+            "max": 123
+        }
+    }
+]

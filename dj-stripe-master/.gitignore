@@ -1,0 +1,21 @@
+*.py[cod]
+__pycache__
+.tox
+dj_stripe.egg-info
+*.mo
+
+# mkdocs
+site/
+
+# SQLite
+*.sqlite3
+
+# Coverage
+/cover
+.coverage
+
+# Editor files
+.vscode
+
+# Do not commit Poetry lockfiles for libraries
+poetry.lock

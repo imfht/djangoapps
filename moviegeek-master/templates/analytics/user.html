@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MovieGEEKs</title>
+
+    <!-- Bootstrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/collector.js' %}"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+              <script>
+            function get_url(movieid) {
+              return 'https://api.themoviedb.org/3/find/tt' + movieid + '?external_source=imdb_id&api_key={{ api_key }}'
+            }
+
+            function get_sim_users(this_user, type) {
+            min_overlap = 4
+            url = '/rec/sim/user/' + this_user + '/' + type + '/?min=' + min_overlap
+                $.getJSON(url,
+                          function(result) {
+
+                            ul =  document.getElementById('sim_users_' + type)
+                            if (result.similarity != null &&
+                                Object.keys(result.similarity).length > 0) {
+                                for (var key in result.similarity)
+                                {
+                                  if (result.similarity.hasOwnProperty(key)) {
+                                    li = document.createElement('li')
+                                    a = document.createElement('a')
+                                    a.setAttribute('href', '/analytics/user/' + result.similarity[key][0])
+
+                                    sim = parseFloat(result.similarity[key][1])
+                                    a.innerHTML = result.similarity[key][0] + ':' + sim
+                                    li.appendChild(a)
+                                    ul.appendChild(li)
+                                  }
+                                }
+                             } else {
+                                    li = document.createElement('li')
+                                    li.innerHTML = 'No similar users found, with min = ' + min_overlap
+                                    ul.appendChild(li)
+                             }
+                          });
+          }
+
+          function get_association_rule_recs(userid) {
+            url = '/rec/ar/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element.id), function(result) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + result.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element.id)
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+
+                                recs = document.getElementById('association_rule_recs')
+
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+        }
+        function get_recs(algo, userid) {
+            url = '/rec/'+ algo + '/user/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element[0]), function(mov) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + mov.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element[0])
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+                                recs = document.getElementById(algo +'_recs')
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+        }
+        function get_cb_recs(userid) {
+            url = '/rec/cb/user/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+                        recs = document.getElementById('cb_recs')
+
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element[0]), function(mov) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + mov.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element[0])
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+                                recs = document.getElementById('cb_recs')
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+        }
+
+       function get_funk_recs(userid) {
+            url = '/rec/funk/user/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+                        recs = document.getElementById('funk_recs')
+
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element[0]), function(mov) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + mov.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element[0])
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+                                recs = document.getElementById('funk_recs')
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+        }
+        function get_bpr_recs(userid) {
+            url = '/rec/bpr/user/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+                        recs = document.getElementById('funk_recs')
+
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element[0]), function(mov) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + mov.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element[0])
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+                                recs = document.getElementById('bpr_recs')
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+        }
+        function get_fwls_recs(userid) {
+            url = '/rec/fwls/user/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element[0]), function(mov) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + mov.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element[0])
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+                                img.setAttribute('title', element[1].sim_items)
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+
+                                recs = document.getElementById('fwls_recs')
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+
+        }
+        function get_cf_recs(userid) {
+            url = '/rec/cf/user/' + userid + '/'
+
+            $.getJSON(url,
+                function(result) {
+                    if ((result.data != null) && (result.data.length > 0)) {
+
+
+                        result.data.forEach(function(element, index, array) {
+
+                            $.getJSON(get_url(element[0]), function(mov) {
+                                image_url = 'http://image.tmdb.org/t/p/w500/'
+                                + mov.movie_results[0].poster_path
+
+                                rec_div = document.createElement('div')
+                                rec_div.setAttribute('class', "col-sm-2 img-responsive")
+
+                                a = document.createElement('a')
+                                a.setAttribute('href', '/analytics/content/' + element[0])
+
+                                img = document.createElement('img')
+                                img.setAttribute('src', image_url)
+                                img.setAttribute('class',"img-responsive")
+                                img.setAttribute('title', element[1].sim_items)
+                                a.appendChild(img)
+
+                                rec_div.appendChild(a)
+
+                                recs = document.getElementById('cf_recs')
+                                recs.appendChild(rec_div)
+
+                            })
+
+                        });
+                    }
+
+                });
+        }
+
+
+    </script>
+    <title>User</title>
+</head>
+<body>
+<div class='container'>
+  <div class='row'>
+    <h1>User Profile id: {{ user_id }} (in cluster: <a href="/analytics/cluster/{{cluster}}">{{ cluster }}</a>)</h1>
+
+    <div>
+      Average rating: {{ avg_rating|floatformat:2 }} / 10 - Rated {{ film_count }} movies
+    </div>
+
+  </div>
+  <div class='row'>
+    <div class="col-sm-3 well" style="height:525px;">
+    <h2>Movie rated</h2>
+    <ul>
+    {% for movie in movies %}
+        <li><a href="/analytics/content/{{ movie.movie_id }}">{{ movie.title }}</a> {{ movie.rating }}/10 </li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="col-sm-9 well" style="height:525px;">
+    <h2>Taste</h2>
+  <div id="chartContainer">
+
+    <script type="text/javascript">
+      var svg = dimple.newSvg("#chartContainer", 700, 400);
+      var data = [
+        {% for i in genres %}
+          { "name": '{{i.0}}', "type": '{{i.1}}', "value": {{i.2}} },
+        {% endfor %}
+      ];
+      var chart = new dimple.chart(svg, data);
+      chart.setBounds(50, 10, 600, 300);
+
+      x = chart.addCategoryAxis("x", ["name","type"] );
+      y = chart.addMeasureAxis("y", "value");
+       y.overrideMax = 1;
+       y.overrideMin = -1;
+      chart.addLegend(550, 30, 110, 20, "right");
+      chart.addSeries("type", dimple.plot.bar);
+      x.addOrderRule("name")
+      x.title = "Genre"
+
+      chart.draw();
+    </script>
+  </div>
+  </div>
+  </div>
+  <h2>Personalised recommendations</h2>
+    <div class="row well">
+        <div class="col-sm-1">
+          Association rules:
+        </div>
+        <div class="col-sm-11">
+          <div id="association_rule_recs"></div>
+        </div>
+    </div>
+    <div class="row well" style="height: 150px">
+        <div class="col-sm-1">
+          Content-based recs:
+        </div>
+        <div class="col-sm-11">
+          <div id="cb_recs"></div>
+        </div>
+    </div>
+    <div class="row well">
+          <div class="col-sm-1">
+           Collaborative-based recs:
+          </div>
+          <div class="col-sm-11">
+            <div id="cf_recs"></div>
+          </div>
+    </div>
+    <div class="row well">
+          <div class="col-sm-1">
+           Matrix factorization Collaborative-based recs:
+          </div>
+          <div class="col-sm-11">
+            <div id="funk_recs"></div>
+          </div>
+    </div>
+    <div class="row well">
+          <div class="col-sm-1">
+           Hybrid based recs:
+          </div>
+          <div class="col-sm-11">
+            <div id="fwls_recs"></div>
+          </div>
+    </div>
+    <div class="row well">
+          <div class="col-sm-1">
+           Ranking based recs:
+          </div>
+          <div class="col-sm-11">
+            <div id="bpr_recs"></div>
+          </div>
+    </div>
+
+  <div class="row">
+      <div class="col-sm-12">
+        <h2>Users similar to user {{ user_id }} </h2>
+        <div class="row">
+            <div class="col-sm-6">
+                <strong>Jaccard sim</strong>
+                <ul id="sim_users_jaccard" >
+
+                </ul>
+                  <script>
+                  get_sim_users({{user_id}}, 'jaccard')
+                </script>
+            </div>
+            <div class="col-sm-6">
+                <strong>Pearson sim</strong>
+                <ul id="sim_users_pearson"></ul>
+              <script>
+                  get_sim_users({{user_id}}, 'pearson')
+              </script>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <h2>Recent Log</h2>
+
+    {% for row in logs %}
+      <a href="/analytics/content/{{ row.content_id }}">{{row.content_id}}</a> | {{ row.event }} | {{ row.created }} <br />
+    {% endfor %}
+  </div>
+</div>
+<script type="text/javascript">
+        get_association_rule_recs({{user_id}})
+        get_recs('cb', {{ user_id}})
+        get_recs('cf', {{user_id}})
+        get_recs('fwls', {{user_id}})
+        get_recs('bpr', {{user_id}})
+        get_recs('funk', {{user_id}})
+    </script>
+</body>
+</html>

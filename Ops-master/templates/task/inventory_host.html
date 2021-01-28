@@ -1,0 +1,111 @@
+<div class="col-md-6">
+    <div class="box-body">
+        <form role="form">
+            <!-- text input -->
+            <div class="form-group">
+                <label for="host">选择主机</label>
+                <select class="form-control select2" id="host" name="host" style="width: 100%;">
+                    <option>请选择主机</option>
+                    {% for host in hosts %}
+                        <option value="{{ host.id }}">{{ host.assets.asset_management_ip }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- textarea -->
+            <div class="form-group">
+                <label>主机变量</label>
+                <textarea class="form-control" rows="5" placeholder="字典格式" id="host_vars" name="host_vars"></textarea>
+            </div>
+
+            <div class="box-footer">
+                <button type="reset" class="btn btn-default">重置</button>
+                <button type="button" class="btn btn-info pull-right" id="add-host-vars">添加</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="col-xs-12">
+        <!-- /.box -->
+        <div class="box">
+            <div class="box-body">
+                <table id="ans_host" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>主机</th>
+                        <th>主机变量</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for host in hosts %}
+                        {% if host.host_vars %}
+                            <tr>
+                                <td>{{ host.assets.asset_management_ip }}</td>
+                                <td>{{ host.host_vars }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                            data-id="{{ host.id }}"
+                                            data-target="#HostVarsModal">修改
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ host.id }}">
+                                        删除
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HostVarsModal  -->
+        <div class="modal fade" id="HostVarsModal" tabindex="-1" role="dialog"
+             aria-labelledby="HostVarsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="HostVarsModalLabel">
+                            主机变量信息
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="main form-horizontal" id="update-host">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="ans_host_ip">主机IP</label>
+                                    <select class="form-control select2" id="ans_host_ip"
+                                            name="ans_host_ip" disabled="disabled" style="width: 100%;">
+                                        {% for host in hosts %}
+                                            <option value="{{ host.id }}">{{ host.assets.asset_management_ip }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ans_host_vars">主机变量</label>
+                                    <textarea id="ans_host_vars" name="ans_host_vars" class="form-control"
+                                              rows="5"></textarea>
+                                </div>
+
+                                <div class="space-24"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-host-vars">确认修改
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+</div>

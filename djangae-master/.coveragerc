@@ -1,0 +1,10 @@
+# .coveragerc to control coverage.py
+[run]
+source =
+    djangae/
+
+[report]
+ignore_errors = True
+omit =
+    testapp/*
+    setup*

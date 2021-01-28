@@ -1,0 +1,36 @@
+﻿{% extends 'css3two_blog/blog_base.html' %}
+{% load static %}
+{% load mytags %}
+
+{% block content %}
+<div class="blog-index">
+{% for blogpost in blogposts|slice:sl %}
+    {% autoescape off %}
+      <article>
+        <header>
+          <a style="display: none" href="https://plus.google.com/+Yaolaike9mZuo?rel=author">Google</a>
+          <p class="meta">
+            <time pubdate="{{ blogpost.pub_date }}" data-updated="{{ blogpost.last_edit_date }}">
+              {{ blogpost.pub_date|date:'M'|upper }}
+              {{ blogpost.pub_date|date:"dS"|upper|stripleadingzero }}, {{ blogpost.pub_date.year }}
+            </time>
+          </p>
+          <h1 class="title-link">
+            <a href="{{ blogpost.get_absolute_url }}"><b>{{ blogpost.title }}</b></a>
+          </h1>
+        </header>
+        {{ blogpost.display_html }}
+      </article>
+    {% endautoescape %}
+{% endfor %}
+  <div class="pagination">
+    {% if newer_page %}
+      <a class="next" href="/{{ newer_page }}/">← Newer</a>
+    {% endif %}
+    <a href="/blog/archive">Blog Archives</a>
+    {% if prev_page %}
+      <a class="prev" href="/{{ prev_page }}/">Older →</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,282 @@
+.issues-table {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+
+    &.empty {
+        display: none;
+    }
+
+    // Only affects table header
+    .title {
+        @include font-size(xsmall);
+        border-bottom: none;
+        margin-bottom: .75rem;
+        padding: 0 .6rem;
+        text-transform: uppercase;
+        [data-fieldname]:not(.skip-order) {
+            cursor: pointer;
+        }
+        [data-fieldname] {
+            align-items: center;
+            color: $color-link-tertiary;
+            display: flex;
+            justify-content: center;
+            &:hover {
+                color: $color-link-primary;
+            }
+        }
+        .issue-field {
+            justify-content: flex-end;
+        }
+        .subject {
+            justify-content: flex-start;
+        }
+        .icon-arrow-up {
+            .arrow-up {
+                fill: $color-link-primary;
+            }
+        }
+        .icon-arrow-down {
+            .arrow-down {
+                fill: $color-link-primary;
+            }
+        }
+        .arrow-up,
+        .arrow-down {
+            fill: $color-gray400;
+        }
+    }
+
+    // Only affects table rows, not header
+    .row:not(.title) {
+        @include font-size(small);
+        background: $color-gray100;
+        border-bottom: none;
+        border-radius: 3px;
+        color: $color-link-tertiary;
+        margin-bottom: .75rem;
+        padding: .6rem;
+        &:hover {
+            background: $color-gray200;
+            transition: background .2s ease-in;
+        }
+        &.is-blocked {
+            background: $color-solid-red;
+            .blocked-text {
+                color: $color-black900;
+            }
+        }
+        .attachments-field {
+            display: flex;
+            justify-content: center;
+            .icon {
+                @include svg-size(.75rem);
+                fill: currentColor;
+                margin-left: .25rem;
+            }
+        }
+        .issue-status {
+            align-items: center;
+            display: flex;
+            .icon {
+                margin-left: .4rem;
+            }
+
+            tg-svg {
+                fill: $color-black900;
+            }
+        }
+        .issue-assignedto {
+            &:hover {
+                cursor: pointer;
+                .avatar img {
+                    border: 2px solid $color-solid-primary;
+                }
+                .icon {
+                    fill: $color-link-tertiary;
+                }
+            }
+        }
+    }
+
+    // Affects both table header and body
+    .level-field {
+        flex-basis: 70px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin: 0 .5rem;
+    }
+    .issue-text {
+        display: flex;
+    }
+    .subject {
+        flex: 1;
+        margin: 0 .5rem;
+        a {
+            align-items: center;
+            all: unset;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .25rem;
+        }
+        &:hover {
+            .issue-ref {
+                color: $color-black900;
+            }
+            .issue-subject {
+                color: $color-link-primary;
+            }
+        }
+        .issue-ref {
+            align-items: center;
+            color: $color-link-primary;
+            display: flex;
+            margin-inline-end: 1ch;
+        }
+        .issue-subject {
+            align-items: center;
+            color: $color-black900;
+            display: flex;
+            margin-inline-end: .75rem;
+        }
+        .due-date,
+        .blocked {
+            align-items: center;
+            display: inline-flex;
+            justify-content: center;
+            margin-inline-end: .75rem;
+            vertical-align: middle;
+            .icon {
+                fill: $color-link-red;
+            }
+            tg-svg {
+                display: inline;
+            }
+        }
+        .tg-due-date {
+            display: inline-block;
+        }
+        .tag {
+            display: block;
+            max-width: 17ch;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &.last {
+                margin-inline-end: .75rem;
+            }
+        }
+    }
+    .modified-field,
+    .assigned-field,
+    .attachments-field,
+    .options-field,
+    .issue-field {
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin: 0 .5rem;
+        position: relative;
+    }
+    .issue-field {
+        display: flex;
+        flex-basis: 140px;
+        justify-content: flex-end;
+    }
+    .modified-field {
+        flex-basis: 100px;
+    }
+    .attachments-field {
+        flex-basis: 100px;
+    }
+    .assigned-field {
+        flex-basis: 100px;
+        .issue-assignedto {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+        .avatar {
+            align-items: center;
+            display: flex;
+            img {
+                border-radius: 50%;
+                height: 32px;
+                width: 32px;
+            }
+        }
+        .icon {
+            fill: $color-link-primary;
+            margin-left: .25rem;
+        }
+    }
+    .options-field {
+        flex-basis: 16px;
+        .icon {
+            fill: $color-link-primary;
+        }
+        .options-button {
+            background: none;
+            height: 24px;
+            margin: 0;
+            padding: 0;
+            width: 16px;
+            &.active {
+                background: $color-gray200;
+                .icon {
+                    fill: $color-black600;
+                }
+            }
+        }
+    }
+    .pop-status {
+        @include popover(
+            $width: 200px,
+            $top: 20px,
+            $left: auto,
+            $arrow-width: 0
+        );
+        &.fix {
+            bottom: 0;
+            top: auto;
+        }
+    }
+    .level-field,
+    .modified-field {
+        @include until($widescreen) {
+            display: none;
+        }
+    }
+
+    .options {
+        background-color: $color-white;
+        border: 1px solid $color-gray400;
+        border-radius: 4px;
+        box-shadow: 4px 4px 8px rgba($color-gray400, .5);
+        padding: .5rem;
+        position: absolute;
+        right: 0;
+        top: calc(1rem + 4px);
+        width: 175px;
+        z-index: $first-layer;
+    }
+
+    .option {
+        @include font-size(small);
+        background: transparent;
+        color: $color-link-primary;
+        cursor: pointer;
+        display: flex;
+        padding: .25rem;
+        text-align: left;
+        width: 100%;
+
+        .icon {
+            margin-right: .25rem;
+        }
+
+        &:hover {
+            background: $color-gray200;
+        }
+    }
+}

@@ -1,0 +1,163 @@
+{% extends "shuup/admin/base.jinja" %}
+
+{%- from "notify/admin/macros.jinja" import render_attributes -%}
+
+{% block top %}{% endblock %}
+
+{% block support_content %}
+    <div class="container-fluid support-nav-wrap notify{% if iframe_mode %} iframe-mode{% endif %}">
+        {% if shuup_admin.is_multishop_enabled() %}
+        <div class="flex-wrapper">
+            <h3>Active shop: <strong>{{ shuup_admin.get_admin_shop().name }}</strong></h3>
+        </div>
+        {% endif %}
+        <div class="support-nav">
+            <div class="flex-wrapper">
+                <h1 class="main-header">{% block header %}{{ self.title() }}{% endblock %}</h1>
+                <div class="page-actions">
+                    {%- block action_buttons -%}
+                        {%- if toolbar -%}{{ toolbar.render_to_string(request)|safe }}{%- endif -%}
+                    {%- endblock -%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% macro binding_view(form) %}
+    <ul class="list-group">
+        {% for binding_identifier, info in form.binding_field_info.items() %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>{{ info.binding.name }}</strong>
+                        {% if info.binding.help_text %}
+                            <p class="help-block"><small>{{ info.binding.help_text }}</small></p>
+                        {% endif %}
+                    </div>
+                    {% if info.constant and not info.variable %}
+                        <div class="col-md-4">{{ bs3.field(form[info.constant], render_label=False) }}</div>
+                    {% elif info.variable and not info.constant %}
+                        <div class="col-md-4">{{ bs3.field(form[info.variable], render_label=False) }}</div>
+                    {% else %}
+                        <div class="col-md-4">{% if info.constant %}{{ bs3.field(form[info.constant]) }}{% endif %}</div>
+                        <div class="col-md-4">{% if info.variable %}{{ bs3.field(form[info.variable]) }}{% endif %}</div>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro template_field_view(form, language_code) %}
+    {% for t_field_name, form_field_name in form.template_field_info[language_code].items() %}
+        {{ bs3.field(form[form_field_name]) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro template_variable_list() %}
+    <ul class="list-group">
+        {% for variable_identifier, variable_info in form.variables|dictsort %}
+        <li class="list-group-item">
+            <a href="#"
+               onclick="insertTemplateVariableExpression(this.dataset.var);return false"
+               data-var="{{ variable_identifier }}"
+            >
+                {{ variable_info.name }}
+            </a>
+            <br><code>{{ '{{ ' ~ variable_identifier ~ ' }}' }}</code>
+            <br>{{ variable_info.help_text|default("") }}
+            {{ render_attributes(variable_identifier, variable_info, onclick="insertTemplateVariableExpression(this.dataset.var);return false") }}
+        </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% block content_wrap %}
+    <div class="iframe-content-block">
+        <h2 class="iframe-title">{{ script_item.name }}</h2>
+        {% if script_item.description %}<p>{{ script_item.description }}</p>{% endif %}
+        <form enctype="multipart/form-data" action="" method="post" novalidate>
+            <div clas="pull-right">
+                <button class="btn btn-success" type="submit">{% trans %}Save changes{% endtrans %}</button>
+            </div>
+            {% if form.errors %}
+                <div class="alert alert-dismissible alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <i class="fa fa-exclamation-circle"></i> {% trans %}Please correct the errors below.{% endtrans %}
+                </div>
+            {% endif %}
+            <input name="init_data" type="hidden" value="{{ init_data }}">
+            <div class="language-dependent-content">
+                <div class="row language-tabs">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs" id="main-tabs">
+                            <li role="presentation" class="nav-item">
+                                <a href="#variables" class="nav-link active" data-toggle="tab" aria-selected="true">
+                                    {% trans %}Variables{% endtrans %}
+                                </a>
+                            </li>
+                        {% for language_code, language_name in form.template_languages %}
+                            <li role="presentation" class="nav-item">
+                                <a href="#template-{{ language_code }}" class="nav-link" data-toggle="tab" aria-selected="false" data-lang="{{ language_code }}">
+                                    {{ language_name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="variables" class="tab-pane active">{{ binding_view(form) }}</div>
+                {% for language_code, language_name in form.template_languages %}
+                    <div id="template-{{ language_code }}" class="tab-pane" data-lang="{{ language_code }}">
+                        <div class="row">
+                            <div class="col-md-8">{{ template_field_view(form, language_code) }}</div>
+                            <div class="col-md-4">
+                                {{ template_variable_list() }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <input class="btn btn-success" type="submit" value="{% trans %}Save changes{% endtrans %}">
+        </form>
+    </div>
+{% endblock %}
+{% block extra_css %}
+<style>
+    body {
+        background: #fff;
+        padding-top: 0;
+    }
+    .iframe-content-block {
+        background: #fff;
+        padding-top: 0px !important;
+        padding: 30px;
+    }
+    .iframe-title {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    .title { margin-bottom: 15px; }
+    .nav-tabs { margin-bottom: 10px; }
+    .summernote-wrap {
+        width: 100%;
+    }
+    .btn-success {
+        margin-top: 10px;
+    }
+    .nav-tabs:after {
+        background: transparent;
+    }
+</style>
+{% endblock %}
+{% block extra_js %}
+    {% if post_message %}
+        <script>
+            window.parent.postMessage({{ post_message|json }}, "*");
+        </script>
+    {% endif %}
+    <script src="{{ shuup_static("notify/admin/script-item-editor.js") }}"></script>
+{% endblock %}

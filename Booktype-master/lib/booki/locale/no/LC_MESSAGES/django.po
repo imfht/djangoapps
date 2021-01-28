@@ -1,0 +1,777 @@
+# English (en) translation strings for Booki.
+# Copyright (C) 2014 Booktype contributors
+# This file is distributed under the same license as the Booktype package.
+#
+# Translators:
+# Kjetil Nordengen <kjetilnordengen@gmail.com>, 2016
+# Paul Graabein <pmepost@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Booktype\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-14 14:12+0100\n"
+"PO-Revision-Date: 2016-04-13 07:41+0000\n"
+"Last-Translator: Kjetil Nordengen <kjetilnordengen@gmail.com>\n"
+"Language-Team: Norwegian (http://www.transifex.com/sourcefabric/booktype/"
+"language/no/)\n"
+"Language: no\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-Language: English\n"
+
+#: lib/booki/editor/models.py:33 lib/booki/editor/models.py:47
+#: lib/booki/editor/models.py:70 lib/booki/editor/models.py:98
+#: lib/booki/editor/models.py:350 lib/booki/editor/models.py:416
+#: lib/booki/editor/models.py:726
+msgid "name"
+msgstr "navn"
+
+#: lib/booki/editor/models.py:34 lib/booki/editor/models.py:48
+msgid "abbreviation"
+msgstr "forkortelse"
+
+#: lib/booki/editor/models.py:35
+msgid "url"
+msgstr "url"
+
+#: lib/booki/editor/models.py:41
+msgid "License"
+msgstr "Lisens"
+
+#: lib/booki/editor/models.py:42
+msgid "Licenses"
+msgstr "Lisenser"
+
+#: lib/booki/editor/models.py:55
+msgid "Language"
+msgstr "Språk"
+
+#: lib/booki/editor/models.py:56
+msgid "Languages"
+msgstr "Språk"
+
+#: lib/booki/editor/models.py:61 lib/booki/editor/models.py:201
+msgid "published"
+msgstr "publisert"
+
+#: lib/booki/editor/models.py:62
+msgid "not published"
+msgstr "ikke publisert"
+
+#: lib/booki/editor/models.py:63
+msgid "not translated"
+msgstr "ikke oversatt"
+
+#: lib/booki/editor/models.py:69 lib/booki/editor/models.py:85
+#: lib/booki/editor/models.py:325 lib/booki/editor/models.py:385
+#: lib/booki/editor/models.py:402 lib/booki/editor/models.py:413
+#: lib/booki/editor/models.py:458 lib/booki/editor/models.py:650
+#: lib/booki/editor/models.py:724 lib/booki/editor/models.py:770
+#: lib/booki/editor/models.py:779 lib/booki/editor/models.py:791
+#: lib/booki/editor/models.py:811
+msgid "book"
+msgstr "bok"
+
+#: lib/booki/editor/models.py:71 lib/booki/editor/models.py:728
+msgid "weight"
+msgstr "vekt"
+
+#: lib/booki/editor/models.py:72
+msgid "color"
+msgstr ""
+
+#: lib/booki/editor/models.py:78 lib/booki/editor/models.py:79
+msgid "Book status"
+msgstr "Bokstatus"
+
+#: lib/booki/editor/models.py:86 lib/booki/editor/models.py:834
+msgid "notes"
+msgstr "notater"
+
+#: lib/booki/editor/models.py:92
+msgid "Book note"
+msgstr "Boknotat"
+
+#: lib/booki/editor/models.py:93
+msgid "Book notes"
+msgstr "Boknotater"
+
+#: lib/booki/editor/models.py:99
+msgid "url name"
+msgstr "url navn"
+
+#: lib/booki/editor/models.py:100 lib/booki/editor/models.py:206
+#: lib/booki/editor/models.py:418
+msgid "description"
+msgstr "beskrivelse"
+
+#: lib/booki/editor/models.py:102 lib/booki/editor/models.py:194
+msgid "owner"
+msgstr "eier"
+
+#: lib/booki/editor/models.py:104
+msgid "members"
+msgstr "medlemmer"
+
+#: lib/booki/editor/models.py:106 lib/booki/editor/models.py:200
+#: lib/booki/editor/models.py:421 lib/booki/editor/models.py:462
+#: lib/booki/editor/models.py:615 lib/booki/editor/models.py:653
+#: lib/booki/editor/models.py:838
+msgid "created"
+msgstr "opprettet"
+
+#: lib/booki/editor/models.py:148
+msgid "Booktype group"
+msgstr "Booktype gruppe"
+
+#: lib/booki/editor/models.py:149
+msgid "Booktype groups"
+msgstr "Booktype grupper"
+
+#: lib/booki/editor/models.py:160
+msgid "Author(s)"
+msgstr "Forfatter(e)"
+
+#: lib/booki/editor/models.py:162
+msgid "Title"
+msgstr "Tittel"
+
+#: lib/booki/editor/models.py:163
+msgid "Short title"
+msgstr "Kort tittel"
+
+#: lib/booki/editor/models.py:164
+msgid "Subtitle"
+msgstr "Undertittel"
+
+#: lib/booki/editor/models.py:166
+msgid "Publisher"
+msgstr "Utgiver"
+
+#: lib/booki/editor/models.py:167
+msgid "Publication date"
+msgstr "Utgivelsesdato"
+
+#: lib/booki/editor/models.py:168
+msgid "Copyright date"
+msgstr "Opphavsrett dato"
+
+#: lib/booki/editor/models.py:169
+msgid "Copyright holder"
+msgstr "Opphavsperson(er)"
+
+#: lib/booki/editor/models.py:172
+msgid "City of publication"
+msgstr ""
+
+#: lib/booki/editor/models.py:173
+msgid "Country of publication"
+msgstr ""
+
+#: lib/booki/editor/models.py:174
+msgid "Short description"
+msgstr "Kort beskrivelse"
+
+#: lib/booki/editor/models.py:175
+msgid "Long description"
+msgstr "Lang beskrivelse"
+
+#: lib/booki/editor/models.py:177
+msgid "Ebook ISBN"
+msgstr "ISBN for ebok"
+
+#: lib/booki/editor/models.py:178
+msgid "Print ISBN"
+msgstr "ISBN for papirbok"
+
+#: lib/booki/editor/models.py:184 lib/booki/editor/models.py:459
+msgid "url title"
+msgstr "url tittel"
+
+#: lib/booki/editor/models.py:185 lib/booki/editor/models.py:460
+msgid "title"
+msgstr "tittel"
+
+#: lib/booki/editor/models.py:186 lib/booki/editor/models.py:461
+#: lib/booki/editor/models.py:652
+msgid "status"
+msgstr "status"
+
+#: lib/booki/editor/models.py:187
+msgid "language"
+msgstr "språk"
+
+#: lib/booki/editor/models.py:190 lib/booki/editor/models.py:327
+#: lib/booki/editor/models.py:457 lib/booki/editor/models.py:649
+#: lib/booki/editor/models.py:722
+msgid "version"
+msgstr "versjon"
+
+#: lib/booki/editor/models.py:192 lib/booki/editor/models.py:771
+msgid "group"
+msgstr "gruppe"
+
+#: lib/booki/editor/models.py:198 lib/booki/editor/models.py:832
+msgid "license"
+msgstr "lisens"
+
+#: lib/booki/editor/models.py:203
+msgid "hidden"
+msgstr "skjult"
+
+#: lib/booki/editor/models.py:204 lib/booki/editor/models.py:772
+msgid "permission"
+msgstr "tillatelse"
+
+#: lib/booki/editor/models.py:207
+msgid "cover"
+msgstr "omslag"
+
+#: lib/booki/editor/models.py:210
+msgid "Book"
+msgstr "Bok"
+
+#: lib/booki/editor/models.py:211
+msgid "Books"
+msgstr "Bøker"
+
+#: lib/booki/editor/models.py:328 lib/booki/editor/models.py:570
+#: lib/booki/editor/models.py:727
+msgid "chapter"
+msgstr "kapittel"
+
+#: lib/booki/editor/models.py:329
+msgid "chapter history"
+msgstr "kapitlets historie"
+
+#: lib/booki/editor/models.py:330 lib/booki/editor/models.py:463
+#: lib/booki/editor/models.py:572
+msgid "modified"
+msgstr "endret"
+
+#: lib/booki/editor/models.py:331
+msgid "args"
+msgstr "argumenter"
+
+#: lib/booki/editor/models.py:332 lib/booki/editor/models.py:573
+#: lib/booki/editor/models.py:613 lib/booki/editor/models.py:769
+#: lib/booki/editor/models.py:780 lib/booki/editor/models.py:792
+#: lib/booki/editor/models.py:812
+msgid "user"
+msgstr "bruker"
+
+#: lib/booki/editor/models.py:333 lib/booki/editor/models.py:351
+msgid "kind"
+msgstr "type"
+
+#: lib/booki/editor/models.py:353
+msgid "value string"
+msgstr "verdi streng"
+
+#: lib/booki/editor/models.py:354
+msgid "value integer"
+msgstr "verdi heltall"
+
+#: lib/booki/editor/models.py:355
+msgid "value text"
+msgstr "verdi tekst"
+
+#: lib/booki/editor/models.py:356
+msgid "value date"
+msgstr "verdi dato"
+
+#: lib/booki/editor/models.py:389 lib/booki/editor/models.py:390
+msgid "Metadata"
+msgstr "Metadata"
+
+#: lib/booki/editor/models.py:407
+msgid "Book setting"
+msgstr "Innstilling for boken"
+
+#: lib/booki/editor/models.py:408
+msgid "Book settings"
+msgstr "Innstillinger for boken"
+
+#: lib/booki/editor/models.py:414
+msgid "major"
+msgstr "hoved"
+
+#: lib/booki/editor/models.py:415
+msgid "minor"
+msgstr "mindre"
+
+#: lib/booki/editor/models.py:464 lib/booki/editor/models.py:574
+msgid "revision"
+msgstr "revisjon"
+
+#: lib/booki/editor/models.py:465 lib/booki/messaging/models.py:34
+msgid "content"
+msgstr "innhold"
+
+#: lib/booki/editor/models.py:468
+msgid "Chapter"
+msgstr "Kapittel"
+
+#: lib/booki/editor/models.py:469
+msgid "Chapters"
+msgstr "Kapitler"
+
+#: lib/booki/editor/models.py:575
+msgid "comment"
+msgstr "kommentar"
+
+#: lib/booki/editor/models.py:582
+msgid "Chapter history"
+msgstr "Kapitlets historie"
+
+#: lib/booki/editor/models.py:618
+msgid "Chapter Lock"
+msgstr "Kapittel låst"
+
+#: lib/booki/editor/models.py:619
+msgid "Chapters Locks"
+msgstr "Kapitler låst"
+
+#: lib/booki/editor/models.py:651 lib/booki/editor/models.py:816
+msgid "filename"
+msgstr "filnavn"
+
+#: lib/booki/editor/models.py:665
+msgid "Attachment"
+msgstr "Vedlegg"
+
+#: lib/booki/editor/models.py:666
+msgid "Attachments"
+msgstr "Vedlegg"
+
+#: lib/booki/editor/models.py:717
+msgid "section name"
+msgstr "seksjonsnavn"
+
+#: lib/booki/editor/models.py:718
+msgid "chapter name"
+msgstr "kapittelnavn"
+
+#: lib/booki/editor/models.py:719
+msgid "line"
+msgstr "linje"
+
+#: lib/booki/editor/models.py:725
+msgid "parent"
+msgstr "parent"
+
+#: lib/booki/editor/models.py:729
+msgid "typeof"
+msgstr "typeof"
+
+#: lib/booki/editor/models.py:731
+#, fuzzy
+#| msgid "Book settings"
+msgid "settings"
+msgstr "Innstillinger for boken"
+
+#: lib/booki/editor/models.py:754
+msgid "Book TOC"
+msgstr "Bokens innholdsfortegnelse"
+
+#: lib/booki/editor/models.py:755
+msgid "Book TOCs"
+msgstr "Bokens innholdsfortegnelse"
+
+#: lib/booki/editor/models.py:786 lib/booki/editor/models.py:787
+msgid "Attribution Exclude"
+msgstr "Attribution Exclude"
+
+#: lib/booki/editor/models.py:793
+msgid "wizard type"
+msgstr "wizard type"
+
+#: lib/booki/editor/models.py:794
+msgid "wizard options"
+msgstr "wizard options"
+
+#: lib/booki/editor/models.py:800 lib/booki/editor/models.py:801
+msgid "Publish Wizard"
+msgstr "Publisering Hurtighjelp"
+
+#: lib/booki/editor/models.py:818
+msgid "Cover title"
+msgstr "Omslagstittel"
+
+#: lib/booki/editor/models.py:820
+msgid "Width"
+msgstr "Bredde"
+
+#: lib/booki/editor/models.py:821
+msgid "Height"
+msgstr "Høyde"
+
+#: lib/booki/editor/models.py:822
+msgid "Unit"
+msgstr "Enhet"
+
+#: lib/booki/editor/models.py:823
+msgid "Booksize"
+msgstr "Størrelse på boken"
+
+#: lib/booki/editor/models.py:825
+msgid "Book cover"
+msgstr "Bokens omslag"
+
+#: lib/booki/editor/models.py:826
+msgid "E-book cover"
+msgstr "Ebokomslag"
+
+#: lib/booki/editor/models.py:827
+msgid "PDF cover"
+msgstr "PDF-omslag"
+
+#: lib/booki/editor/models.py:829
+msgid "Cover type"
+msgstr "Omslagstype"
+
+#: lib/booki/editor/models.py:831
+msgid "Cover"
+msgstr "Omslag"
+
+#: lib/booki/editor/models.py:836
+msgid "Approved"
+msgstr "Godkjent"
+
+#: lib/booki/editor/templates/authors.html:13
+msgid "Modifications:"
+msgstr "Endringer:"
+
+#: lib/booki/editor/templates/errors/editing_forbidden.html:8
+msgid "Access error"
+msgstr "Tilgangsfeil"
+
+#: lib/booki/editor/templates/errors/editing_forbidden.html:9
+msgid "You have no permission to edit this book."
+msgstr "Du har ikke tillatelse til å redigere denne boken."
+
+#: lib/booki/messaging/models.py:32
+msgid "sender"
+msgstr "sender"
+
+#: lib/booki/messaging/models.py:33 lib/booki/messaging/models.py:67
+msgid "timestamp"
+msgstr "tidspunkt"
+
+#: lib/booki/messaging/models.py:35
+msgid "attachment"
+msgstr "vedlegg"
+
+#: lib/booki/messaging/models.py:36
+msgid "snippet"
+msgstr "tekstutdrag"
+
+#: lib/booki/messaging/models.py:37
+msgid "context"
+msgstr "sammenheng"
+
+#: lib/booki/messaging/models.py:61
+msgid "Post"
+msgstr "Innlegg"
+
+#: lib/booki/messaging/models.py:62
+msgid "Posts"
+msgstr "Innnlegg"
+
+#: lib/booki/messaging/models.py:66
+msgid "post"
+msgstr "innlegg"
+
+#: lib/booki/messaging/models.py:68
+msgid "endpoint"
+msgstr "endepunkt"
+
+#: lib/booki/messaging/models.py:74
+msgid "Post appearance"
+msgstr "Innleggets utseende"
+
+#: lib/booki/messaging/models.py:75
+msgid "Post appearances"
+msgstr "Innleggenes utseende"
+
+#: lib/booki/messaging/models.py:85
+msgid "syntax"
+msgstr "syntaks"
+
+#: lib/booki/messaging/models.py:146
+msgid "Endpoint"
+msgstr "Endepunkt"
+
+#: lib/booki/messaging/models.py:147
+msgid "Endpoints"
+msgstr "Endepunkt"
+
+#: lib/booki/messaging/models.py:150
+msgid "notification filter"
+msgstr "varslingsfilter"
+
+#: lib/booki/messaging/models.py:156
+msgid "Endpoint config"
+msgstr "Endepunkt-konfigurering"
+
+#: lib/booki/messaging/models.py:157
+msgid "Endpoint configs"
+msgstr "Endpunkt-konfigureringer"
+
+#: lib/booki/messaging/models.py:160
+msgid "follower"
+msgstr "følger"
+
+#: lib/booki/messaging/models.py:161
+msgid "target"
+msgstr "mål"
+
+#: lib/booki/messaging/models.py:167
+msgid "Following"
+msgstr "Følger"
+
+#: lib/booki/messaging/models.py:168
+msgid "Followings"
+msgstr "Følgere"
+
+#: lib/booki/messaging/templates/messaging/book_followbutton.html:5
+msgid "Follow this book"
+msgstr "Følg denne boken"
+
+#: lib/booki/messaging/templates/messaging/book_followbutton.html:10
+msgid "Stop following this book"
+msgstr "Slutt å følge denne boken"
+
+#: lib/booki/messaging/templates/messaging/messagefield.html:6
+msgid "Attach file"
+msgstr "Legg ved fil"
+
+#: lib/booki/messaging/templates/messaging/messagefield.html:9
+msgid "Add Snippet"
+msgstr "Legg til tekstutdrag"
+
+#: lib/booki/messaging/templates/messaging/messagefield.html:10
+msgid "Optional snippet context URL:"
+msgstr "Valgfri URL for tekstutdrag"
+
+#: lib/booki/messaging/templates/messaging/messagefield.html:13
+msgid "Share"
+msgstr "Del"
+
+#: lib/booki/messaging/templates/messaging/messagefield_button.html:3
+msgid "Post a message"
+msgstr "Post en melding"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:2
+#, python-format
+msgid "Hi %(first_name)s!"
+msgstr "Hei %(first_name)s!"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:4
+msgid ""
+"This is a notification of a new message for you at your Booktype profile:"
+msgstr "Dette er et varsel om at du har en ny melding i din Booktype profil:"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:7
+msgid "Sender:"
+msgstr "Avsender:"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:8
+msgid "Date:"
+msgstr "Dato:"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:9
+msgid "Content:"
+msgstr "Innhold:"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:12
+msgid "Attachment:"
+msgstr "Vedlegg:"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:14
+#: lib/booki/messaging/templates/messaging/post.html:22
+msgid "Snippet:"
+msgstr "Tekstutdrag"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:14
+msgid "not shown"
+msgstr "ikke vist"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:16
+msgid "Snippet context:"
+msgstr "Tekstutrag kontekst"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:19
+msgid ""
+"This email address receives these notifications because of your settings:"
+msgstr "Denne epostadressen mottar disse varsler basert på dine innstillinger:"
+
+#: lib/booki/messaging/templates/messaging/new_message_email.txt:22
+msgid "Need a new password?"
+msgstr "Trenger du nytt passord?"
+
+#: lib/booki/messaging/templates/messaging/post.html:8
+msgid "send a reply"
+msgstr "send et svar"
+
+#: lib/booki/messaging/templates/messaging/post.html:11
+msgid "ago"
+msgstr "siden"
+
+#: lib/booki/messaging/templates/messaging/post.html:24
+msgid "Context"
+msgstr "Sammenheng"
+
+#: lib/booki/messaging/templates/messaging/tag_followbutton.html:5
+msgid "Follow this tag"
+msgstr "Følg denne taggen"
+
+#: lib/booki/messaging/templates/messaging/tag_followbutton.html:10
+msgid "Stop following this tag"
+msgstr "Slutt å følge denne taggen"
+
+#: lib/booki/messaging/templates/messaging/timeline.html:4
+#, python-format
+msgid "Timeline of %(syntax)s:"
+msgstr "Tidslinje for %(syntax)s:"
+
+#: lib/booki/messaging/templates/messaging/timeline.html:10
+msgid "No messages."
+msgstr "Ingen meldinger."
+
+#: lib/booki/messaging/templates/messaging/user_followbutton.html:5
+msgid "Follow me"
+msgstr "Følg meg"
+
+#: lib/booki/messaging/templates/messaging/user_followbutton.html:10
+msgid "Stop following me"
+msgstr "Slutt å følge meg"
+
+#: lib/booki/messaging/templates/messaging/view_tag.html:5
+msgid "Tag timeline"
+msgstr "Tidslinje for tagger"
+
+#: lib/booki/messaging/views.py:113
+#, python-format
+msgid "Message from %s"
+msgstr "Melding fra %s"
+
+#: lib/booki/messaging/views.py:172
+msgid "Error"
+msgstr "Feil"
+
+#: lib/booki/messaging/views.py:218
+msgid "Sent."
+msgstr "Sendt."
+
+#~ msgid "Publisher city"
+#~ msgstr "Publikasjonssted"
+
+#~ msgid "Report for %(booki_name)s (%(date)s)"
+#~ msgstr "Rapport for %(booki_name)s (%(date)s)"
+
+#~ msgid "Activity"
+#~ msgstr "Aktivitet"
+
+#~ msgid "Info"
+#~ msgstr "Informasjon"
+
+#~ msgid "Total number of books:"
+#~ msgstr "Totalt antall bøker:"
+
+#~ msgid "Total number of users:"
+#~ msgstr "Totalt antall brukere:"
+
+#~ msgid "Total number of groups:"
+#~ msgstr "Totalt antall grupper:"
+
+#~ msgid "Attachments size:"
+#~ msgstr "Størrelse på vedlegg:"
+
+#~ msgid "Database size:"
+#~ msgstr "Størrelse på database:"
+
+#~ msgid "New Users"
+#~ msgstr "Nye brukere"
+
+#~ msgid "No new users"
+#~ msgstr "Ingen nye brukere"
+
+#~ msgid "New Books"
+#~ msgstr "Nye bøker"
+
+#~ msgid "No new books"
+#~ msgstr "Ingen nye bøker"
+
+#~ msgid "New Groups"
+#~ msgstr "Nye grupper"
+
+#~ msgid "No new groups"
+#~ msgstr "Ingen nye grupper"
+
+#~ msgid "Modified chapters"
+#~ msgstr "Endrede kapitler"
+
+#~ msgid "No Activity"
+#~ msgstr "Ingen aktivitet"
+
+#~ msgid "Updates"
+#~ msgstr "Oppdateringer"
+
+#~ msgid "New users"
+#~ msgstr "Nye brukere"
+
+#~ msgid "New books"
+#~ msgstr "Nye bøker"
+
+#~ msgid "New groups"
+#~ msgstr "Nye grupper"
+
+#~ msgid "Most active books"
+#~ msgstr "Bøker med mest aktivitet"
+
+#~ msgid "No active books"
+#~ msgstr "Ingen aktive bøker"
+
+#~ msgid "Most active users"
+#~ msgstr "Mest aktive brukere"
+
+#~ msgid "No active users"
+#~ msgstr "Ingen aktive brukere"
+
+#~ msgid ""
+#~ "\n"
+#~ "    <p>Thank you. We have created your account and signed you in. Do you "
+#~ "want to learn more how to use Booktype? Read the <a href=\"http://en."
+#~ "flossmanuals.net/booktype\">user guide</a>!</p>\n"
+#~ "    \n"
+#~ "    <p><form method=\"GET\" action=\"%(frontpage_url)s\"><button>Great! "
+#~ "Let's use Booktype now!</button><span class=\"redirectmessage\" style="
+#~ "\"padding-left: 20px\">Automatic redirection in <span class=\"sec\">sec</"
+#~ "span> seconds.</span></form></p>\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    <p>Thank you. We have created your account and signed you in. Do you "
+#~ "want to learn more about Booktype? Read the <a href=\"http://sourcefabric."
+#~ "booktype.pro/booktype-16-for-authors-and-publishers/\">user guide</a>!</"
+#~ "p>\n"
+#~ "    \n"
+#~ "    <p><form method=\"GET\" action=\"%(frontpage_url)s\"><button>Great! "
+#~ "Let's use Booktype now!</button><span class=\"redirectmessage\" style="
+#~ "\"padding-left: 20px\">Automatic redirection in <span class=\"sec\">sec</"
+#~ "span> seconds.</span></form></p>\n"
+#~ "    "
+
+#~ msgid ""
+#~ "Do you want to learn more how to use Booktype? Read the  <a target=\"_new"
+#~ "\" title=\"Booktype user guide\" href=\"http://en.flossmanuals.net/"
+#~ "booktype\"><i>user guide</i></a>!"
+#~ msgstr ""
+#~ "Do you want to learn more about Booktype? Read the <a target=\"_new\" "
+#~ "title=\"Booktype user guide\" href=\"http://sourcefabric.booktype.pro/"
+#~ "booktype-16-for-authors-and-publishers/\"><i>user guide</i></a>!"

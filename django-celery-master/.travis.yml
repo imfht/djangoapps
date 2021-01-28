@@ -1,0 +1,30 @@
+language: python
+
+python:
+    - "3.5"
+
+sudo: false
+
+env:
+    - TOXENV="py35-django1.9"
+    - TOXENV="py27-django1.9"
+    - TOXENV="py35-django1.8"
+    - TOXENV="py27-django1.8"
+    - TOXENV="py27-django1.10"
+    - TOXENV="py35-django1.10"
+    - TOXENV="flake8"
+
+matrix:
+    fast_finish: true
+
+install:
+    - travis_retry pip install tox
+
+script:
+    - tox
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+    email: false

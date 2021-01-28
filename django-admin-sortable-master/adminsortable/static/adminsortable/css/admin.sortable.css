@@ -1,0 +1,62 @@
+#sortable ul
+{
+	-webkit-padding-start: 0;
+	padding-left: 0;
+	margin-top: 0.75em;
+}
+
+#sortable ul ul
+{
+	margin-left: 1em;
+}
+
+#sortable ul.sortable li,
+#sortable ul.sortable li a
+{
+    cursor: move;
+}
+
+#sortable ul li
+{
+	overflow: auto;
+	margin-bottom: 8px;
+	margin-left: 0;
+	display: block;
+}
+
+#sortable ul li:last-child {
+	margin-bottom: 0;
+}
+
+#sortable .sortable
+{
+	list-style: none;
+	font-weight: 800;
+	margin-bottom: 0.75em;
+}
+
+#sortable .sortable.single,
+#sortable ul ul a
+{
+	font-weight: 400;
+}
+
+#sortable ul ul a
+{
+	color: #5B80B2;
+	margin-bottom: 0;
+}
+
+.sortable-help-text {
+	color: #999;
+	font-size: 13px;
+}
+
+.sortable a:hover
+{
+	color: #003366;
+}
+
+.sortable .fa {
+	margin-right: 7px;
+}

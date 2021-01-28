@@ -1,0 +1,52 @@
+{% extends 'silverstrike/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load tags %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+{% block content_header %}
+<h1>Uncategorized expenses
+</h1>
+<ol class="breadcrumb">
+  <li><a href="/">{% trans 'Home' %}</a></li>
+  <li class="active">{% trans 'Transactions' %}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">{% trans 'Expenses' %}</h3>
+  </div>
+  {% if formset|length %}
+  <form method="POST" action="">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="box-body">
+      <table class="table table-striped">
+        <tr>
+          <th>{% trans 'Title' %}</th>
+          <th>{% trans 'Date' %}</th>
+          <th>{% trans 'Amount' %}</th>
+          <th>{% trans 'Category' %}</th>
+        </tr>
+      {% for object, form in results %}
+        <tr>
+        <td>{{ object.title }}</td>
+        <td>{{ object.date }}</td>
+        <td>{{ object.amount|intcomma }}</td>
+        <td>{{ form.id }}{{ form.category|add_class:"form-control" }}</td>
+        </tr>
+      {% endfor %}
+      </table>
+    </div>
+    <div class="box-footer">
+      <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+    </div>
+  </form>
+  {% else %}
+  <div class="box-body">{% trans 'No uncategorized expenses available' %}</div>
+  {% endif %}
+</div>
+{% endblock %}

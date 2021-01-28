@@ -1,0 +1,10 @@
+{% load i18n %}
+<p>{% trans "This component is set up incorrectly." %}</p>
+
+<p>{% trans "The repository browser URL points to non-existing locations:" %}</p>
+
+<ul>
+<li><a href="{{ link }}">{{ link }}</a>{% if error %} ({{ error }}){% endif %}</li>
+</ul>
+
+<p>{% trans "This can happen if the path within the translation files contains references to a parent directory, or is absolute." %}</p>

@@ -1,0 +1,124 @@
+<div class="col-sm-7 pull-left" style="margin-bottom: 3px; margin-top: 3px">
+    <button class="btn btn-sm btn-success pull-left" data-toggle="modal" id="add-idc"
+            data-target="#IDCModal">
+        <i class="fa fa-plus-square"></i>
+        <span class="bigger-110">新增机房</span>
+    </button>
+</div>
+<div class="col-xs-12">
+    <!-- /.box -->
+    <div class="box">
+        <!-- dataTable -->
+        <div class="box-body">
+            <table id="asset_idc" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>机房名称</th>
+                    <th>机房地址</th>
+                    <th>机房联系人</th>
+                    <th>支持电话</th>
+                    <th>拥有机柜</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for asset_idc in asset_idcs %}
+                    <tr>
+                        <td>{{ asset_idc.id }}</td>
+                        <td>{{ asset_idc.idc_name }}</td>
+                        <td>{{ asset_idc.idc_address }}</td>
+                        <td>{{ asset_idc.idc_contact }}</td>
+                        <td>{{ asset_idc.idc_telephone }}</td>
+                        <td>
+                            {% for cabinet in asset_idc.cabinet.all %}
+                                {{ cabinet.cabinet_name }}<br>
+                            {% endfor %}
+
+                        </td>
+                        <td>{{ asset_idc.idc_memo }}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                    data-id="{{ asset_idc.id }}" data-target="#IDCModal">修改
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ asset_idc.id }}">删除
+                            </button>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <!-- IDCModal  -->
+    <div class="modal fade" id="IDCModal" tabindex="-1" role="dialog"
+         aria-labelledby="IDCModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="IDCModalLabel">
+
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="idc_info" class="main form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="idc_name" class="col-sm-2 control-label">机房名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="idc_name" id="idc_name" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idc_address" class="col-sm-2 control-label">机房地址</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="idc_address" id="idc_address"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idc_contact"
+                                       class="col-sm-2 control-label">机房联系人</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="idc_contact" id="idc_contact"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idc_telephone"
+                                       class="col-sm-2 control-label">支持电话</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="idc_telephone" id="idc_telephone"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idc_memo" class="col-sm-2 control-label">备注</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="idc_memo" id="idc_memo"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="space-24"></div>
+
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="idc_ops"></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

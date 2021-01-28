@@ -1,0 +1,48 @@
+{% extends "spirit/_base.html" %}
+
+{% load spirit_tags i18n %}
+
+{% block title %}{% trans "Comment history" %}{% endblock %}
+
+{% block content %}
+<div class="layout__article">
+  {# todo: add nav bar #}
+
+  <h1 class="headline">{% trans "Comment history" %}</h1>
+
+  <div class="comments_list">
+    {% for c in comments %}
+    <div class="comments_list__comment no-footer">
+      <div class="comment__img">
+        {% include "spirit/comment/_avatar.html" with u=c.comment_fk.user only %}
+      </div>
+      <div class="comment__info">
+        <div class="comment__info__username">
+          <a
+            class="comment__info__username__link"
+            href="{{ c.comment_fk.user.st.get_absolute_url }}"
+          >{{ c.comment_fk.user.st.nickname }}</a>
+        </div>
+        <ul class="comment__info__date">
+          <li title="{{ c.date }}">{{ c.date|shortnaturaltime }}</li>
+        </ul>
+      </div>
+      <div class="comment__text js-comment-text">
+        {{ c.comment_html|safe }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% render_paginator comments %}
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      hljs.initHighlightingOnLoad();
+      stModules.commentDiff(document.querySelectorAll('.js-comment-text'));
+    });
+
+  </script>
+</div>
+{% endblock %}

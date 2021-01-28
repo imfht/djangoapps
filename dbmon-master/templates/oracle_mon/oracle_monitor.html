@@ -1,0 +1,932 @@
+{% extends 'base/base_site.html' %}
+
+{% block style %}
+ <style>
+     .table tr th {
+    font-size: 12px;
+    }
+    .table tr td {
+    font-size: 12px;
+    }
+    [aria-controls="example1"] {
+    }
+
+    li{list-style: none;}/*这里设置*/
+
+  </style>
+{% endblock  %}
+
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        实时监控
+        <small>Oracle</small>
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Oracle</a></li>
+        <li class="active">实时监控</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+         <div class="box box-solid">
+            <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
+          <p>
+              <span class="label label-{{ check_status }}">{{ oracle_status }}</span>
+              <span class="label label-default">更新时间：{{ oracleinfo.chk_time }}</span>
+              <span class="label label-default">{{ oracleinfo.host }}:{{ oracleinfo.port }}</span>
+          </p>
+              </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+            <form action="" method="post" id="myform">
+                <div class="box-tools pull-left">
+              <div class="form-group">
+                <label>选择oracle数据库：</label>
+                <select onchange="submitForm();" class="form-control select2" style="width: 100%;" name="select_tags">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tagsdefault }}</option>
+                  {% for tags in tagsinfo %}
+                  <option>{{ tags.tags }}</option>
+                   {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+             <div class="box-tools pull-right">
+              <div class="form-group">
+                <h5><a href="/oracle_active_session?tags={{ tagsdefault }}">实例关键活动会话</a></h5>
+                <h5><a href="/oracle_waiting_session?tags={{ tagsdefault }}">等待及阻塞事件</a></h5>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+            <div class="col-md-2">
+             <div class="box-tools pull-right">
+              <div class="form-group">
+                <h5><a href="/oracle_pga?tags={{ tagsdefault }}">PGA使用情况</a></h5>
+                <h5><a href="/oracle_para?tags={{ tagsdefault }}">核心参数概览</a></h5>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->          <!-- /.row -->
+           <!-- /.row -->
+          <div class="col-md-4">
+              <div class="panel panel-default pull-right" >
+                  <a href="#"><button type="button" class="btn btn-default" onclick="return pop('{{ oracleinfo.tags }}','{{ oracleinfo.host }}')" >获取实例日志</button>
+                  </a>
+			</h2>
+          </div>
+           	<div class="panel panel-default pull-right" >
+               <a data-toggle="collapse" href="#oracleconf" target="_blank" class="btn btn-default">配置信息</a>
+			</h2>
+          </div>
+        </div>
+        <div class="row">
+            <div id="oracleconf" class="panel-collapse collapse">
+			 <div class="col-sm-12 invoice-col">
+            <div class="box-body" style="overflow: auto">
+              <table id="example1" class="table table-bordered table-hover" style="table-layout: auto">
+                 <tr>
+                 <td>DBID: {{ oracleinfo.dbid }} </td>
+                 <td>DB名: {{ oracleinfo.dbname }} </td>
+                 </tr>
+                 <tr>
+                 <td>实例名: {{ oracleinfo.instance_name }} </td>
+                 <td>实例编号: {{ oracleinfo.inst_id }} </td>
+                 </tr>
+                  <tr>
+                 <td>oracle版本: {{ oracleinfo.version}} </td>
+                 <td>是否为RAC: {{ oracleinfo.is_rac }} </td>
+                 </tr>
+                  <tr>
+                 <td>归档模式: {{ oracleinfo.log_mode }} </td>
+                 <td>连接数: {{ oracleinfo.max_process }} </td>
+                 </tr>
+                  <tr>
+                 <td>SGA: {{ oracleinfo.sga_size }} MB</td>
+                 <td>PGA: {{ oracleinfo.pga_size }} MB</td>
+                 </tr>
+                  <tr>
+                 <td>闪回: {{ oracleinfo.flashback_on }}</td>
+                 <td>审计: {{ oracleinfo.audit_trail }}</td>
+                 </tr>
+              </table>
+            </div>
+
+        </div>
+		</div>
+
+        </div>
+        <!-- /.box-body -->
+
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+            <div class="row">
+        <div class="col-md-4">
+          <!-- AREA CHART -->
+            <div class="box-header">
+              <h3 class="box-title">
+                  <a href="#" ><li onclick="return pop_conn('{{ tagsdefault }}')">连接数使用率</li></a>
+              </h3>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="conn-chart" style="height: 300px; "></div>
+            </div>
+            <!-- /.box-body -->
+          <!-- /.box -->
+        </div>
+        <div class="col-md-4">
+          <!-- AREA CHART -->
+            <div class="box-header">
+              <h3 class="box-title">
+                  <a href="#" ><li onclick="return pop_undo('{{ tagsdefault }}')">undo使用率</li></a>
+              </h3>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="undo-chart" style="height: 300px; "></div>
+            </div>
+            <!-- /.box-body -->
+          <!-- /.box -->
+        </div>
+               <div class="col-md-4">
+          <!-- AREA CHART -->
+            <div class="box-header">
+                <h3 class="box-title">
+                  <a href="#" ><li onclick="return pop_tmp('{{ tagsdefault }}')">tmp使用率</li></a>
+                   </h3>
+            </div>
+            <div class="box-body chart-responsive">
+              <div class="chart" id="tmp-chart" style="height: 300px; "></div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+      </div>
+             <div class="row">
+        <div class="col-md-6">
+          <!-- AREA CHART -->
+            <div class="box-header">
+              <h3 class="box-title">即时等待事件</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-condensed">
+                <tbody><tr>
+                  <th style="width: 10px">#</th>
+                  <th>事件名</th>
+                  <th style="width: 40px">计数</th>
+                </tr>
+                {% for event in eventinfo %}
+                <tr>
+                  <td>{{ event.event_no }}</td>
+                  <td>{{ event.event_name }}</td>
+                  <td>{{ event.event_cnt }}</td>
+                </tr>
+                {% endfor %}
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+
+             <div class="col-md-6">
+          <!-- AREA CHART -->
+      <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">锁等待</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-condensed">
+                <tbody><tr>
+                  <th style="width: 100px">会话ID</th>
+                  <th>锁模式</th>
+                  <th>持有时间</th>
+                    <th>实例编号</th>
+                  <th style="width: 100px">锁类型</th>
+                </tr>
+                {% for lock in lockinfo %}
+                <tr>
+                  <td>{{ lock.session }}</td>
+                  <td>{{ lock.lmode1 }}|{{ lock.lmode }}</td>
+                  <td>{{ lock.ctime }}</td>
+                <td>{{ lock.inst_id }}</td>
+                <td>{{ lock.type }}</td>
+                </tr>
+                {% endfor %}
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+        </div>
+
+         <div class="col-md-6">
+             <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">异常日志</h3>
+                </div>
+                <!-- /.box-header -->
+                  <!-- Conversations are loaded here -->
+             <div class="direct-chat-messages" style="height: 275px">
+                 <table class="table table-striped">
+                     <div class="box-body">
+              <!-- post text -->
+              <pre>{{ oracleinfo.err_info }}</pre>
+                <span class="pull-right text-muted">{{ oracleinfo.chk_time }}</span>
+                </div>
+            <!-- /.box-body -->
+                </table>
+                  </div>
+                  <!--/.direct-chat-messages-->
+              </div>
+
+        </div>
+          <!-- interactive chart -->
+            <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="conn_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_conn();" class="form-control select2" style="width: 100%;" name="select_conn">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ conn_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="conn-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+      <!-- /.row -->
+         <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="undo_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_undo();" class="form-control select2" style="width: 100%;" name="select_undo">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ undo_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="undo-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+
+      <!-- /.row -->
+
+      <div class="box-body">
+          <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="tmp_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_tmp();" class="form-control select2" style="width: 100%;" name="select_tmp">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tmp_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="conn" id="tmp-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          <!-- interactive chart -->
+            <div class="box-body">
+              <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="ps_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_ps();" class="form-control select2" style="width: 100%;" name="select_ps">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ ps_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="ps" id="ps-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+      </div>
+      </div>
+      </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+  //表单提交
+function submitForm(){
+    var form = document.getElementById("myform");
+    form.submit();
+}
+
+  //表单提交
+function submitForm_conn(){
+    var form_conn = document.getElementById("conn_range");
+    form_conn.submit();
+}
+
+  //表单提交
+function submitForm_undo(){
+    var form_undo = document.getElementById("undo_range");
+    form_undo.submit();
+}
+
+  //表单提交
+function submitForm_tmp(){
+    var form_tmp = document.getElementById("tmp_range");
+    form_tmp.submit();
+}
+  //表单提交
+function submitForm_ps(){
+    var form_ps = document.getElementById("ps_range");
+    form_ps.submit();
+}
+
+     // ####################  【连接数使用率】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_conn_used = echarts.init(document.getElementById('conn-chart'));
+        // 指定图表的配置项和数据
+        var option_conn_used = {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}%"
+                  },
+        series: [
+           {
+            name: 'CONN',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: '连接数使用率'}],
+            axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+
+       setInterval(function () {
+          option_conn_used.series[0].data[0].value = ({{ oracleinfo.percent_process }}).toFixed(2) - 0;
+          myChart_conn_used.setOption(option_conn_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_conn_used.setOption(option_conn_used);
+
+             // ####################  【undo使用率】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_undo_used = echarts.init(document.getElementById('undo-chart'));
+        // 指定图表的配置项和数据
+        var option_undo_used = {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}%"
+                  },
+        series: [
+           {
+            name: 'UNDO',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: 'undo使用率'}],
+            axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+
+       setInterval(function () {
+          option_undo_used.series[0].data[0].value = ({{ undoinfo.pct_used }}).toFixed(2) - 0;
+          myChart_undo_used.setOption(option_undo_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_undo_used.setOption(option_undo_used);
+
+  // ####################  【tmp使用率】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_tmp_used = echarts.init(document.getElementById('tmp-chart'));
+        // 指定图表的配置项和数据
+        var option_tmp_used = {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}%"
+                  },
+        series: [
+           {
+            name: 'TMP',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: 'tmp使用率'}],
+             axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+
+       setInterval(function () {
+          option_tmp_used.series[0].data[0].value = ({{ tmpinfo.pct_used }}).toFixed(2) - 0;
+          myChart_tmp_used.setOption(option_tmp_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_tmp_used.setOption(option_tmp_used);
+
+    // ####################  【连接数使用率趋势】图形  ####################
+ var myChart_conn_grow = echarts.init(document.getElementById('conn-grow-chart'));
+ option_conn_grow = {
+     title: {
+         text: '连接数使用率',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in conngrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'连接数使用率',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in conngrow_list %}{{ i.percent_process }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_conn_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_conn_grow.hideLoading();  //显示完成后不显示loading
+     myChart_conn_grow.setOption(option_conn_grow, true);
+ },500);
+
+  // ####################  【undo使用率趋势】图形  ####################
+ var myChart_undo_grow = echarts.init(document.getElementById('undo-grow-chart'));
+ option_undo_grow = {
+     title: {
+         text: 'undo使用率',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in undogrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'undo使用率',
+             type:'line',
+             smooth: true,
+                 itemStyle: {
+              normal: {
+                color: "#828dd4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#828dd4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#828dd4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in undogrow_list %}{{ i.pct_used }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_undo_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_undo_grow.hideLoading();  //显示完成后不显示loading
+     myChart_undo_grow.setOption(option_undo_grow, true);
+ },500);
+
+  // ####################  【tmp使用率趋势】图形  ####################
+ var myChart_tmp_grow = echarts.init(document.getElementById('tmp-grow-chart'));
+ option_tmp_grow = {
+     title: {
+         text: 'tmp使用率',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in tmpgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'tmp使用率',
+             type:'line',
+             smooth: true,
+              itemStyle: {
+              normal: {
+                color: "#40918d"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#40918d"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#40918d",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tmpgrow_list %}{{ i.pct_used }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_tmp_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_tmp_grow.hideLoading();  //显示完成后不显示loading
+     myChart_tmp_grow.setOption(option_tmp_grow, true);
+ },500);
+    // ####################  【QPS&TPS趋势】图形  ####################
+ var myChart_ps_grow = echarts.init(document.getElementById('ps-grow-chart'));
+ option_ps_grow = {
+     title: {
+         text: 'QPS&TPS',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['QPS','TPS']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in psgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale: true
+     },
+     series: [
+         {
+             name:'QPS',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#a57fd4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#a57fd4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#a57fd4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in psgrow_list %}{{ i.qps }},{% endfor %}]
+         },
+               {
+             name:'TPS',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d44e5a"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d44e5a"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d44e5a",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in psgrow_list %}{{ i.tps }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_ps_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_ps_grow.hideLoading();  //显示完成后不显示loading
+     myChart_ps_grow.setOption(option_ps_grow, true);
+ },500);
+</script>
+
+<script>
+function pop_conn(m){
+    layer.open({
+    type: 2,
+    title: '连接数分析',
+    closeBtn: 1,
+    area: ['700px', '350px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/oracle_process?tags='+ m,]
+  });
+}
+
+function pop_undo(m){
+    layer.open({
+    type: 2,
+    title: 'undo使用情况分析',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/oracle_undo?tags='+ m]
+  });
+}
+
+function pop_tmp(m){
+    layer.open({
+    type: 2,
+    title: 'tmp使用情况分析',
+    closeBtn: 1,
+    area: ['700px', '350px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/oracle_temp?tags='+ m]
+  });
+}
+
+</script>
+
+<script>
+function pop(m){
+    layer.open({
+    type: 2,
+    title: m,
+    closeBtn: 1,
+    area: ['900px', '600px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/get_oracle_log/?tags='+ m]
+  });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+/* Breadcrumbs */
+
+.breadcrumb
+{
+    font-size: 1.5em;
+    font-weight: normal;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    visibility: hidden;
+    padding: 5px 0;
+    height: 2em;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.browser .breadcrumb
+{
+    padding: 5px 0 0;
+}
+
+/* By default (on small screens), place resource dropdown on the second line */
+#js-breadcrumb-resource
+{
+    display: inline-block;
+}
+
+/* When browser window is wide enough, force breadcrumbs to be on the single line */
+@media screen and (min-width: 1350px)
+{
+    .breadcrumb
+    {
+        white-space: nowrap;
+        overflow: visible;
+    }
+
+    #js-breadcrumb-resource
+    {
+        display: inline-block;
+    }
+}
+
+.breadcrumb li
+{
+    display: inline-block;
+    float: left;
+    margin-left: 0.3em;
+}
+
+html[dir="rtl"] .breadcrumb li
+{
+    float: right;
+    margin-left: 0;
+    margin-right: 0.3em;
+}
+
+.breadcrumb li.hide
+{
+    display: none;
+}
+
+.breadcrumb li::before
+{
+    content: " / ";
+}
+
+.breadcrumb li:first-child::before,
+.translate .breadcrumb li::before,
+.browser .breadcrumb li::before
+{
+    margin-left: 0;
+    content: normal;
+}
+
+.select2-container .select2-results li .result-path::before
+{
+    content: " ";
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.2em;
+    background-image: url('../images/sprite.png');
+    position: relative;
+    top: -2px;
+}
+
+.select2-container .select2-results li .directory::before
+{
+    background-position: -101px 0;
+}
+
+.select2-container .select2-results li .store::before
+{
+    background-position: -101px -32px;
+}

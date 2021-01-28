@@ -1,0 +1,342 @@
+{% extends "pretixpresale/event/base.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load eventurl %}
+{% load money %}
+{% load thumb %}
+{% load eventsignal %}
+{% load rich_text %}
+
+{% block custom_header %}
+    {{ block.super }}
+    <meta property="og:title" content="{{ ev.name }}" />
+    <meta property="og:description" content="{{ ev.get_date_range_display }}" />
+    {% if subevent %}
+        <meta property="og:url" content="{% abseventurl request.event "presale:event.index" subevent=subevent.pk %}" />
+    {% else %}
+        <meta property="og:url" content="{% abseventurl request.event "presale:event.index" %}" />
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% autoescape off %}
+        <script type="application/ld+json">
+            {{ ev.event_microdata }}
+        </script>
+    {% endautoescape %}
+
+    {% if show_cart %}
+        <details class="panel panel-primary cart" open>
+            <summary class="panel-heading">
+                <h3 class="panel-title">
+                    <span>
+                        <i class="fa fa-shopping-cart"></i>
+                        <strong>{% trans "Your cart" %}</strong>
+                    </span>
+                    <span>
+                        <strong id="cart-deadline-short" data-expires="{{ cart.first_expiry|date:"Y-m-d H:i:sO" }}">
+                            {% if cart.minutes_left > 0 or cart.seconds_left > 0 %}
+                                {{ cart.minutes_left|stringformat:"02d" }}:{{ cart.seconds_left|stringformat:"02d" }}
+                            {% else %}
+                                {% trans "Cart expired" %}
+                            {% endif %}
+                        </strong>
+                        <i class="fa fa-angle-down collapse-indicator"></i>
+                    </span>
+                </h3>
+            </summary>
+            <div>
+                <div class="panel-body">
+                    {% include "pretixpresale/event/fragment_cart.html" with cart=cart event=request.event editable=True %}
+                    <em id="cart-deadline" data-expires="{{ cart.first_expiry|date:"Y-m-d H:i:sO" }}">
+                        {% if cart.minutes_left > 0 or cart.seconds_left > 0 %}
+                            {% blocktrans trimmed with minutes=cart.minutes_left %}
+                                The items in your cart are reserved for you for {{ minutes }} minutes.
+                            {% endblocktrans %}
+                        {% else %}
+                            {% trans "The items in your cart are no longer reserved for you." %}
+                        {% endif %}
+                    </em>
+                    <div class="row checkout-button-row">
+                        <div class="col-md-4 col-sm-6 col-xs-12 hidden-xs">
+                            <form method="post" data-asynctask action="{% eventurl request.event "presale:event.cart.clear" cart_namespace=cart_namespace %}">
+                                {% csrf_token %}
+                                <button class="btn btn-block btn-default btn-lg" type="submit">
+                                    <i class="fa fa-close"></i> {% trans "Empty cart" %}</button>
+                            </form>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-md-offset-4 col-xs-12">
+                            <a class="btn btn-block btn-primary btn-lg"
+                                    href="{% eventurl request.event "presale:event.checkout.start" cart_namespace=cart_namespace  %}">
+                                {% if has_addon_choices or cart.total == 0 %}
+                                    <i class="fa fa-shopping-cart"></i> {% trans "Continue" %}
+                                {% else %}
+                                    <i class="fa fa-shopping-cart"></i> {% trans "Proceed with checkout" %}
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="visible-xs-block col-xs-12">
+                            <form method="post" data-asynctask action="{% eventurl request.event "presale:event.cart.clear" cart_namespace=cart_namespace %}">
+                                {% csrf_token %}
+                                <button class="btn btn-block btn-default btn-lg" type="submit">
+                                    <i class="fa fa-close"></i> {% trans "Empty cart" %}</button>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </details>
+    {% endif %}
+
+    {% if request.event.has_subevents %}
+        {% if not subevent %}
+            {% if event_logo and request.event.settings.logo_show_title %}
+                <h2 class="content-header">
+                    {{ event.name }}
+                </h2>
+            {% endif %}
+            {% if frontpage_text and not cart_namespace %}
+                <div>
+                    {{ frontpage_text|rich_text }}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if subevent and "year" not in request.GET %}
+            {% if show_cart %}
+                <a class="subevent-toggle btn btn-primary btn-block btn-lg">
+                    <span class="fa fa-reply"></span>
+                    {% trans "Add tickets for a different date" %}
+                </a>
+            {% else %}
+                <a class="subevent-toggle btn btn-default btn-block">
+                    {% trans "View other date" %}
+                </a>
+            {% endif %}
+        {% else %}
+            <h3>{% trans "Choose date to book a ticket" %}</h3>
+        {% endif %}
+        <div class="panel panel-default subevent-list">
+            <div class="panel-heading">
+                {% if subevent %}
+                    {% trans "Other dates" context "subevent" %}
+                {% else %}
+                    {% trans "Dates" context "subevent" %}
+                {% endif %}
+            </div>
+            <div class="panel-body">
+                <div>
+                    {% if list_type == "calendar" %}
+                        {% include "pretixpresale/event/fragment_subevent_calendar.html" %}
+                    {% elif list_type == "week" %}
+                        {% include "pretixpresale/event/fragment_subevent_calendar_week.html" %}
+                    {% else %}
+                        {% include "pretixpresale/event/fragment_subevent_list.html" %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if subevent %}
+            <h2 class="subevent-head">{{ subevent.name }}</h2>
+            {% if frontpage_text and not cart_namespace %}
+                <div>
+                    {{ frontpage_text|rich_text }}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {% if event_logo and request.event.settings.logo_show_title %}
+            <h2 class="content-header">
+                {{ event.name }}
+                {% if request.event.settings.show_dates_on_frontpage %}
+                    <small>{{ event.get_date_range_display }}</small>
+                {% endif %}
+            </h2>
+        {% endif %}
+        {% if frontpage_text and not cart_namespace %}
+            <div>
+                {{ frontpage_text|rich_text }}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if subevent or not event.has_subevents %}
+        {% if not ev.presale_is_running %}
+            <div class="alert alert-info">
+                {% if ev.presale_has_ended %}
+                    {% if event.settings.presale_has_ended_text %}
+                        {{ event.settings.presale_has_ended_text|rich_text }}
+                    {% else %}
+                        {% blocktrans trimmed %}
+                            The presale period for this event is over.
+                        {% endblocktrans %}
+                    {% endif %}
+                {% elif event.settings.presale_start_show_date %}
+                    {% blocktrans trimmed with date=ev.effective_presale_start|date:"SHORT_DATE_FORMAT" time=ev.effective_presale_start|time:"TIME_FORMAT" %}
+                        The presale for this event will start on {{ date }} at {{ time }}.
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans trimmed %}
+                        The presale for this event has not yet started.
+                    {% endblocktrans %}
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if not cart_namespace or subevent %}
+            <div>
+                {% if ev.location %}
+                    <div class="info-row">
+                        <span class="fa fa-map-marker fa-fw"></span>
+                        <p>
+                            {{ ev.location|linebreaksbr }}
+                        </p>
+                    </div>
+                {% endif %}
+                {% if ev.settings.show_dates_on_frontpage %}
+                    <div class="info-row">
+                        <span class="fa fa-clock-o fa-fw"></span>
+                        <p>
+                            {{ ev.get_date_range_display }}
+                            {% if event.settings.show_times %}
+                                <br>
+                                <span data-time="{{ ev.date_from.isoformat }}" data-timezone="{{ request.event.timezone }}">
+                                    {% blocktrans trimmed with time=ev.date_from|date:"TIME_FORMAT" %}
+                                        Begin: {{ time }}
+                                    {% endblocktrans %}
+                                </span>
+                                {% if event.settings.show_date_to and ev.date_to %}
+                                    <br>
+                                    <span data-time="{{ ev.date_to.isoformat }}" data-timezone="{{ request.event.timezone }}">
+                                        {% blocktrans trimmed with time=ev.date_to|date:"TIME_FORMAT" %}
+                                            End: {{ time }}
+                                        {% endblocktrans %}
+                                   </span>
+                                {% endif %}
+                            {% endif %}
+                            {% if ev.date_admission %}
+                                <br>
+                                {% if ev.date_admission|date:"SHORT_DATE_FORMAT" == ev.date_from|date:"SHORT_DATE_FORMAT" %}
+                                    <span data-time="{{ ev.date_admission.isoformat }}" data-timezone="{{ request.event.timezone }}">
+                                        {% blocktrans trimmed with time=ev.date_admission|date:"TIME_FORMAT" %}
+                                            Admission: {{ time }}
+                                        {% endblocktrans %}
+                                    </span>
+                                {% else %}
+                                    <span data-time="{{ ev.date_admission.isoformat }}" data-timezone="{{ request.event.timezone }}">
+                                        {% blocktrans trimmed with datetime=ev.date_admission|date:"SHORT_DATETIME_FORMAT" %}
+                                            Admission: {{ datetime }}
+                                        {% endblocktrans %}
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                            <br>
+                            {% if subevent %}
+                                <a href="{% eventurl event "presale:event.ical.download" subevent=subevent.pk %}">
+                            {% else %}
+                                <a href="{% eventurl event "presale:event.ical.download" %}">
+                            {% endif %}
+                                {% trans "Add to Calendar" %}
+                            </a>
+                        </p>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            {% eventsignal event "pretix.presale.signals.front_page_top" request=request subevent=subevent %}
+        {% endif %}
+
+        {% if ev.presale_is_running or event.settings.show_items_outside_presale_period %}
+            <form method="post" data-asynctask
+                    data-asynctask-headline="{% trans "We're now trying to reserve this for you!" %}"
+                    data-asynctask-text="{% blocktrans with time=event.settings.reservation_time %}Once the items are in your cart, you will have {{ time }} minutes to complete your purchase.{% endblocktrans %}"
+                    class="{% if event.seating_plan_id %}has-seating{% endif %}"
+                    action="{% eventurl request.event "presale:event.cart.add" cart_namespace=cart_namespace %}?next={{ cart_redirect|urlencode }}&next_error={{ request.path|urlencode }}">
+                {% csrf_token %}
+                <input type="hidden" name="subevent" value="{{ subevent.id|default_if_none:"" }}" />
+                {% if ev.seating_plan_id and event.settings.seating_choice %}
+                    {% if event.has_subevents %}
+                        {% eventsignal event "pretix.presale.signals.render_seating_plan" request=request subevent=subevent %}
+                    {% else %}
+                        {% eventsignal event "pretix.presale.signals.render_seating_plan" request=request %}
+                    {% endif %}
+                {% endif %}
+                {% include "pretixpresale/event/fragment_product_list.html" %}
+                {% if ev.presale_is_running and display_add_to_cart %}
+                    <section class="front-page">
+                        <div class="row-fluid">
+                            <div class="col-md-4 col-md-offset-8 col-xs-12">
+                                <button class="btn btn-block btn-primary btn-lg" type="submit" id="btn-add-to-cart">
+                                    {% if request.event.settings.redirect_to_checkout_directly %}
+                                        {% if allfree %}
+                                            <i class="fa fa-check"></i> {% trans "Register" context "free_tickets" %}
+                                        {% else %}
+                                           <i class="fa fa-shopping-cart"></i> {% trans "Proceed with checkout" %}
+                                        {% endif %}
+                                    {% else %}
+                                        <i class="fa fa-shopping-cart"></i> {% trans "Add to cart" %}
+                                    {% endif %}
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </section>
+                {% endif %}
+            </form>
+        {% endif %}
+    {% endif %}
+    {% if show_vouchers %}
+        <section class="front-page">
+            <h3>{% trans "Redeem a voucher" %}</h3>
+            {% if event.settings.voucher_explanation_text %}
+                <div>
+                    {{ event.settings.voucher_explanation_text|rich_text }}
+                </div>
+            {% endif %}
+            <form method="get" action="{% eventurl event "presale:event.redeem" cart_namespace=cart_namespace %}">
+                <div class="row-voucher">
+                    <div class="col-md-8 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-ticket fa-fw"></i></span>
+                            <input type="text" class="form-control" name="voucher" id="voucher"
+                                    placeholder="{% trans "Voucher code" %}">
+                        </div>
+                    </div>
+                    <input type="hidden" name="subevent" value="{{ subevent.id|default_if_none:"" }}" />
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <button class="btn btn-block btn-primary" type="submit">
+                            {% trans "Redeem voucher" %}
+                        </button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </section>
+    {% endif %}
+    {% if not cart_namespace %}
+        {% eventsignal event "pretix.presale.signals.front_page_bottom" subevent=subevent request=request %}
+        <section class="front-page">
+            <h3>{% trans "If you already ordered a ticket" %}</h3>
+            <div>
+                <div class="col-md-8 col-xs-12">
+                    <p>
+                        {% blocktrans trimmed %}
+                            If you want to see or change the status and details of your order, click on the link in one of the
+                            emails we sent you during the order process. If you cannot find the link, click on the
+                            following button to request the link to your order to be sent to you again.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <a class="btn btn-block btn-default" href="{% eventurl event "presale:event.resend_link" %}">
+                        {% trans "Resend order links" %}
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </section>
+    {% else %}
+        {% eventsignal event "pretix.presale.signals.front_page_bottom_widget" subevent=subevent request=request %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "shuup/admin/base.jinja" %}
+{% from "shuup/admin/macros/block.jinja" import link_block with context %}
+
+{% block body_class %}home{% endblock %}
+{% block title -%}
+    {% trans %}Welcome!{% endtrans %}
+{%- endblock %}
+
+{% block support_content %}
+    {% if shuup_admin.is_multishop_enabled() %}
+    <div class="container-fluid support-nav-wrap{% if iframe_mode %} iframe-mode{% endif %}">
+        <div class="flex-wrapper">
+            <h3>Active shop: <strong>{{ shuup_admin.get_admin_shop().name }}</strong></h3>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container home">
+        <div class="home-header header text-center">
+            <img class="mb-3" src="{{ static("shuup_admin/img/logo_icon.svg") }}">
+            <h1>{% trans %}Welcome to Shuup!{% endtrans %}</h1>
+            <p>{% trans %}You're almost done! Complete the following steps to sell your products online{% endtrans %}</p>
+        </div>
+        {% for b in blocks %}
+            {{ link_block(b, redirect=url("shuup_admin:home")) }}
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        (function(){
+            window.tourConfig = {
+                tourComplete: ("{{ tour_complete }}" == "True" ? true : false),
+                tourKey: "{{ tour_key }}",
+                url: ShuupAdminConfig.browserUrls.tour,
+                showMenuSteps: true,
+                initialSteps: [{
+                    banner: "{{ static('shuup_admin/img/welcome_banner.png') }}",
+                    classes: "has-banner",
+                    text: [
+                        "{% trans %}Hi, new shop owner!{% endtrans %}",
+                        "{% trans %}Welcome to your store admin!{% endtrans %}",
+                        "{% trans %}Let’s go through some of the things you can do here. Click next to begin.{% endtrans %}"
+                    ]
+                }]
+            };
+        })();
+    </script>
+{% endblock %}

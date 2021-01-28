@@ -1,0 +1,44 @@
+div.horizontal-grid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+}
+
+form ul.guid_list {
+    margin: 0;
+    border: solid 1px black;
+    max-height: 8em;
+    min-height: 8em;
+    overflow:hidden; overflow-y:scroll;
+    padding: 5px 20px;
+}
+
+form ul.guid_list li {
+    list-style-type: disc;
+}
+
+form ul.guid_list .addon-name {
+    font-weight: 800;
+}
+
+.form-row.field-block_history div.readonly {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.field-block_history div.readonly li {
+    list-style-type: disc;
+}
+
+.field-block_history div.readonly li ul li {
+    list-style-type: none;
+    font-style: italic;
+}
+
+.field-blocks label {
+    display: none;
+}
+.field-blocks div.readonly {
+    margin-left: 0 !important;
+    margin-right: 0;
+}

@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ assets_count }}</h3>
+
+                    <p>总资产</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-server"></i>
+                </div>
+                <a href="{% url 'assets_list' %}" class="small-box-footer">查看所有 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ online_assets_count }}<sup style="font-size: 20px"></sup></h3>
+
+                    <p>已上线</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check"></i>
+                </div>
+                <a href="" class="small-box-footer">查看所有 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ break_assets_count }}</h3>
+
+                    <p>故障中</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-wrench"></i>
+                </div>
+                <a href="" class="small-box-footer">查看所有 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ unused_assets_count }}</h3>
+
+                    <p>未使用</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-close"></i>
+                </div>
+                <a href="" class="small-box-footer">查看所有<i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+
+        <!-- 资产明细饼图 -->
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">资产明细</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="pie" style="width: 460px;height:400px;"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+
+        <!-- 最近操作内容 -->
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">最近资产登录记录</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        {% for admin_record in admin_records %}
+                            <li class="item">
+                                <div class="product-img">
+                                    <img src="{{ MEDIA_URL }}{{ admin_record.admin_login_user.image }}"
+                                         alt="User Image">
+                                </div>
+                                <div class="product-info">
+                                    <a href="javascript:void(0)"
+                                       class="product-title">{{ admin_record.admin_login_user.username }}登录主机：{{ admin_record.admin_server }}</a>
+                                    <span class="product-description">远端地址：{{ admin_record.admin_remote_ip }}&nbsp;&nbsp;&nbsp;&nbsp; 登录时间： {{ admin_record.admin_start_time }}&nbsp;&nbsp;&nbsp;&nbsp; 登录时长：{{ admin_record.admin_login_status_time }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        <!-- /.item -->
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                    <a href="{% url 'login_record' %}" class="uppercase">查看所有</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- ChartJS -->
+    <script src="{% static 'js/echarts.common.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            $.each($('.col-lg-3').slice(1), function () {
+                let asset_status = $(this).find('p').text();
+                $(this).find('a').attr('href', '/assets/assets_list/?asset_status=' + asset_status)
+            })
+        });
+
+        // 资产明细饼图
+        function genData() {
+            let legendData = [];
+            let seriesData_total = [];
+            let seriesData_detail = [];
+
+            {% for asset_datum in asset_data %}
+                legendData.push('{{ asset_datum.asset_type }}');
+                seriesData_total.push({
+                    name: '{{ asset_datum.asset_type }}',
+                    value: {{ asset_datum.dcount }}
+                });
+            {% endfor %}
+
+            {% for foo in data_detail %}
+                seriesData_detail.push({
+                    name: '{{ foo.asset_type }}',
+                    value: {{ foo.dcount }}
+                });
+            {% endfor %}
+
+
+            return {
+                legendData: legendData,
+                seriesData_total: seriesData_total,
+                seriesData_detail: seriesData_detail,
+            };
+        }
+
+        function color() {
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += (Math.random() * 16 | 0).toString(16);
+            }
+            return color;
+        }
+
+        function genColor() {
+            let colors = [];
+            let num = genData().seriesData_detail.length;
+            for (let i = 0; i < num; i++) {
+                colors.push(color())
+            }
+            return colors;
+        }
+
+        let myChart1 = echarts.init(document.getElementById('pie'));
+        let data = genData();
+        option_pie = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)",
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+                data: data.legendData,
+            },
+            series: [
+                {
+                    name: '资产类型',//tooltip提示框中显示内容
+                    type: 'pie',//图形类型，如饼状图，柱状图等
+                    radius: [0, '35%'],//饼图的半径，数组的第一项是内半径，第二项是外半径。支持百分比，本例设置成环形图。具体可以看文档或改变其值试一试
+                    //roseType:'area',是否显示成南丁格尔图，默认false
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    data: data.seriesData_total,//数据，数据中其他属性，查阅文档
+                    color: genColor().slice(0, genData().legendData.length),//各个区域颜色
+                },//数组中一个{}元素，一个图，以此可以做出环形图
+
+                {
+                    name: '资产详细',//tooltip提示框中显示内容
+                    type: 'pie',//图形类型，如饼状图，柱状图等
+                    radius: ['35%', '70%'],//饼图的半径，数组的第一项是内半径，第二项是外半径。支持百分比，本例设置成环形图。具体可以看文档或改变其值试一试
+                    //roseType:'area',是否显示成南丁格尔图，默认false
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                textStyle: {color: '#3c4858', fontSize: "18"},
+                                formatter: function (val) {   //让series 中的文字进行换行
+                                    return val.name.split("-").join("\n");
+                                }
+                            },//饼图图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。可以与itemStyle属性同级，具体看文档
+                            labelLine: {
+                                show: true,
+                                lineStyle: {color: '#3c4858'}
+                            }//线条颜色
+                        },//基本样式
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',//鼠标放在区域边框颜色
+                            textColor: '#000'
+                        }//鼠标放在各个区域的样式
+                    },
+                    data: data.seriesData_detail,//数据，数据中其他属性，查阅文档
+                    color: genColor(),//各个区域颜色
+                },//数组中一个{}元素，一个图，以此可以做出环形图
+            ],
+        };
+        myChart1.setOption(option_pie);
+    </script>
+{% endblock %}

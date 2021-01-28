@@ -1,0 +1,28 @@
+{% block subject %}My subject for {{ username }}{% endblock %}
+{% block html %}
+  {% block hello %}
+    <p>Hi {{full_name}},</p>
+  {% endblock %}
+
+  <p>You just signed up for my website, using:
+      <dl>
+        {% block username %}
+          <dt>username</dt><dd>{% block actual_username %}{{username}}{% endblock %}</dd>
+        {% endblock %}
+        <dt>join date</dt><dd>{{joindate}}</dd>
+      </dl>
+  </p>
+
+  {% block thankyou %}
+    <p>Thanks, you rock!</p>
+  {% endblock %}
+{% endblock %}
+{% block plain %}
+  Hi,
+
+  You just signed up for my website, using:
+      username: {{ username }}
+      join date: {{ joindate }}
+
+  Thanks, you rock!
+{% endblock %}

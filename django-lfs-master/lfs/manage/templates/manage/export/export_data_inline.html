@@ -1,0 +1,13 @@
+{% load i18n %}
+<h2>{% trans "Data" %}</h2>
+<form action="{% url 'lfs_export_update_export_data' export_id %}"
+      method="post">
+    <table>
+        {{ form }}
+    </table>
+    <div class="buttons">
+        <input type="submit"
+               value="{% trans 'Save Export' %}"
+               class="ajax-save-button button" />
+    </div>
+</form>

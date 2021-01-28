@@ -1,0 +1,305 @@
+@import "../../pretixbase/scss/_variables.scss";
+@import "../../bootstrap/scss/_bootstrap_reduced.scss";
+@import "../../pretixbase/scss/_theme.scss";
+@import "../../lightbox/css/lightbox.scss";
+@import "../../datetimepicker/_bootstrap-datetimepicker.scss";
+@import "../../slider/_bootstrap-slider.scss";
+@import "../../fontawesome/scss/font-awesome.scss";
+
+@import "_theme.scss";
+@import "_event.scss";
+@import "_cart.scss";
+@import "_forms.scss";
+@import "_calendar.scss";
+@import "_checkout.scss";
+@import "../../pretixbase/scss/webfont.scss";
+
+/* See https://github.com/pretix/pretix/pull/761 */
+.bootstrap-datetimepicker-widget table td span {
+    line-height: 1.8em;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 11px;
+}
+.js-only {
+    display: none;
+}
+.locales {
+    display: inline;
+    a {
+        text-decoration: none;
+    }
+    a:hover {
+        border-bottom: 2px solid $gray-light;
+    }
+    a.active {
+        border-bottom: 2px solid $brand-primary;
+    }
+    img {
+        vertical-align: baseline;
+    }
+}
+.huge {
+    font-size: 40px;
+}
+a:hover .panel-primary > .panel-heading {
+    background-color: darken($btn-primary-bg, 10%);
+    border-color: darken($btn-primary-border, 12%);
+}
+
+.thank-you {
+    margin-bottom: 25px;
+
+    .fa {
+        font-size: 150px;
+        line-height: 170px;
+        display: block;
+        color: $brand-success;
+    }
+
+    h2 {
+        color: $brand-success;
+    }
+}
+
+body.loading .container {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -ms-filter: blur(2px);
+    -o-filter: blur(2px);
+    filter: blur(2px);
+}
+
+.big-rotating-icon {
+    -webkit-animation: fa-spin 8s infinite linear;
+    animation: fa-spin 8s infinite linear;
+    font-size: 120px;
+    color: $brand-primary;
+}
+#loadingmodal, #ajaxerr {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, .7);
+    opacity: 0;
+    z-index: 900000;
+    visibility: hidden;
+    padding: 10px;
+
+    .big-icon {
+        margin-top: 50px;
+        font-size: 200px;
+        color: $brand-primary;
+    }
+
+    .modal-card {
+        margin: 50px auto 0;
+        top: 50px;
+        width: 90%;
+        max-width: 600px;
+        background: white;
+        border-radius: $border-radius-large;
+        box-shadow: 0 7px 14px 0 rgba(78, 50, 92, 0.1),0 3px 6px 0 rgba(0,0,0,.07);
+        padding: 20px;
+        min-height: 160px;
+
+        .modal-card-icon {
+            float: left;
+            width: 150px;
+            text-align: center;
+        }
+        .modal-card-content {
+            margin-left: 160px;
+            text-align: left;
+            h3 {
+                margin-top: 0;
+            }
+        }
+    }
+}
+@media (max-width: 700px) {
+    #loadingmodal, #ajaxerr {
+        .modal-card {
+            .modal-card-icon {
+                float: none;
+                width: 100%;
+            }
+            .modal-card-content {
+                text-align: center;
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+#ajaxerr {
+    background: rgba(236, 236, 236, .9);
+}
+
+.loading #loadingmodal, .ajaxerr #ajaxerr {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+}
+
+.typo-alert span[data-typosuggest] {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.info-row {
+    & > .fa {
+        font-size: 26px;
+        color: $brand-primary;
+        float: left;
+        margin-top: 3px;
+    }
+    p {
+        min-height: 30px;
+        margin-left: 40px;
+    }
+    p:first-child {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: $screen-md-min) {
+    .thank-you {
+        min-height: 170px;
+        width: 70%;
+        margin: auto;
+
+        .fa {
+            float: left;
+            margin-right: 30px;
+        }
+
+        h2 {
+            padding-top: 35px;
+        }
+
+        p {
+            margin-left: 158px;
+        }
+    }
+}
+@media (max-width: $screen-sm-max) {
+    .thank-you {
+        text-align: center;
+    }
+    h2 {
+        margin-top: 0;
+    }
+    .checkout-button-row > div {
+        margin-bottom: 15px;
+    }
+    .checkout-button-row > div.clearfix {
+        margin: 0;
+    }
+}
+
+.dl-horizontal dt  {
+    white-space: normal;
+}
+
+.collapse-indicator {
+    -moz-transition: all 150ms ease-in 0s;
+    -webkit-transition: all 150ms ease-in 0s;
+    -o-transition: all 150ms ease-in 0s;
+    transition: all 150ms ease-in 0s;
+}
+
+.panel-title a:not(.collapsed) .collapse-indicator {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.panel-title a[data-toggle="collapse"], details h3.panel-title, details h4.panel-title {
+    display: flex;
+    padding: 10px 15px;
+    margin: -10px -15px;
+    align-items: center;
+    justify-content: space-between;
+    outline: 0;
+    text-decoration: none;
+}
+
+.panel-default .panel-title a[data-toggle="collapse"]:hover {
+    background-color: #eeeeee;
+}
+
+.panel-primary .panel-title a[data-toggle="collapse"]:hover {
+    background-color: darken($btn-primary-bg, 10%);
+}
+
+
+details {
+    list-style: none;
+}
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.nojs details[open] .collapse-indicator, details.details-open .collapse-indicator {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+form.download-btn-form {
+    display: inline;
+}
+.alert-testmode {
+    margin-top: 20px;
+}
+h2 .label {
+    display: inline-block;
+}
+
+.nojs .requirejs {
+    display: none !important;
+}
+
+.event-list {
+    margin-top: 15px;
+    border-top: 1px solid $table-border-color;
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid $table-border-color;
+        border-left: 1px solid $table-border-color;
+        border-right: 1px solid $table-border-color;
+    }
+    .row > div {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+@import "_iframe.scss";
+@import "_a11y.scss";
+@import "_print.scss";
+@import "../../pretixbase/scss/_rtl.scss";
+@import "../../bootstrap/scss/_rtl.scss";
+@import "_rtl.scss";

@@ -1,0 +1,429 @@
+{% extends "pretixpresale/event/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load eventsignal %}
+{% load money %}
+{% load expiresformat %}
+{% load eventurl %}
+{% load phone_format %}
+{% block title %}{% trans "Order details" %}{% endblock %}
+{% block content %}
+    {% if "thanks" in request.GET or "paid" in request.GET %}
+        <div class="thank-you">
+            <span class="fa fa-check-circle"></span>
+
+            <h2>{% trans "Thank you!" %}</h2>
+            {% if order.status != 'p' %}
+                <p>
+                    {% trans "Your order has been placed successfully. See below for details." %}<br>
+                    {% if order.require_approval %}
+                        <strong>
+                            {% trans "Please note that we still await approval by the event organizer before you can pay and complete this order." %}
+                        </strong>
+                    {% else %}
+                        <strong>
+                            {% trans "Please note that we still await your payment to complete the process." %}
+                        </strong>
+                    {% endif %}
+                </p>
+            {% elif order.total == 0 %}
+                <p>{% trans "Your order has been processed successfully! See below for details." %}</p>
+            {% else %}
+                <p>{% trans "We successfully received your payment. See below for details." %}</p>
+            {% endif %}
+            <p class="iframe-hidden">{% blocktrans trimmed %}
+                Please bookmark or save the link to this exact page if you want to access your order later. We also sent you an email containing the link to the address you specified.
+            {% endblocktrans %}</p>
+            <p class="iframe-only">{% blocktrans trimmed %}
+                Please save the following link if you want to access your order later. We
+                also sent you an email containing the link to the address you specified.
+            {% endblocktrans %}<br>
+                <code>{{ url }}</code></p>
+            <div class="clearfix"></div>
+        </div>
+    {% endif %}
+    <h2>
+        {% blocktrans trimmed with code=order.code %}
+            Your order: {{ code }}
+        {% endblocktrans %}
+        {% if order.testmode %}
+            <span class="label label-warning">{% trans "TEST MODE" %}</span>
+        {% endif %}
+        {% if backend_user %}
+            <a href="{% url "control:event.order" event=request.event.slug organizer=request.organizer.slug code=order.code %}" class="btn btn-default">
+                {% trans "View in backend" %}
+            </a>
+        {% endif %}
+        {% include "pretixpresale/event/fragment_order_status.html" with order=order event=request.event class="pull-right flip" %}
+        <div class="clearfix"></div>
+    </h2>
+    {% if order.status == "n" and not order.require_approval %}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% trans "Payment" %}
+                </h3>
+            </div>
+            <div class="panel-body">
+                <strong>{% blocktrans trimmed with total=pending_sum|money:request.event.currency %}
+                    A payment of {{ total }} is still pending for this order.
+                {% endblocktrans %}</strong>
+                <strong>{% blocktrans trimmed with date=order|format_expires %}
+                    Please complete your payment before {{ date }}
+                {% endblocktrans %}</strong>
+                {% if last_payment %}
+                    {{ last_payment_info }}
+                    {% if can_pay %}
+                        <div class="text-right flip">
+                            <a href="{% eventurl event "presale:event.order.pay.change" secret=order.secret order=order.code %}"
+                                    class="btn btn-default">
+                                {% trans "Re-try payment or choose another payment method" %}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% if can_pay %}
+                        <div class="text-right flip">
+                            <a href="{% eventurl event "presale:event.order.pay.change" secret=order.secret order=order.code %}"
+                                    class="btn btn-primary btn-lg">{% trans "Pay now" %}</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    {% endif %}
+    {% eventsignal event "pretix.presale.signals.order_info_top" order=order request=request %}
+    {% if order.status == "p" or order.status == "c" %}
+        {% if order.cancellation_requests.exists %}
+            <div class="alert alert-info">
+                {% blocktrans trimmed %}
+                    We've received your request to cancel this order. Please stay patient while the event organizer
+                    decides on the cancellation.
+                {% endblocktrans %}
+            </div>
+        {% endif %}
+        {% if refunds %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {% trans "Refunds" %}
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    {% for r in refunds %}
+                        <li class="list-group-item">
+                            {% if r.state == "created" or r.state == "transit" %}
+                                {% blocktrans trimmed with amount=r.amount|money:request.event.currency %}
+                                    A refund of {{ amount }} will be sent out to you soon, please be patient.
+                                {% endblocktrans %}
+                            {% elif r.state == "done" %}
+                                {% if r.provider == "giftcard" %}
+                                    <a href="#" class="print-this-page btn btn-default btn-sm pull-right hidden-print">
+                                        <span class="fa fa-print"></span>
+                                        {% trans "Print" %}
+                                    </a>
+                                    {% blocktrans trimmed with amount=r.amount|money:request.event.currency %}
+                                        We've issued your refund of {{ amount }} as a gift card. On your next purchase with
+                                        us, you can use the following gift card code during payment:
+                                    {% endblocktrans %}
+                                    <div class="text-center refund-gift-card-code">
+                                        <span class="fa fa-credit-card"></span>
+                                        {{ r.giftcard.secret }}
+                                    </div>
+                                    {% if r.giftcard.value != r.amount %}
+                                        <small>
+                                            {% blocktrans trimmed with value=r.giftcard.value|money:request.event.currency %}
+                                                The current value of your gift card is {{ value }}.
+                                            {% endblocktrans %}
+                                        </small>
+                                    {% endif %}
+                                    {% if r.giftcard.expires %}
+                                        <small>
+                                            {% blocktrans trimmed with expiry=r.giftcard.expires|date:"SHORT_DATE_FORMAT" %}
+                                                This gift card is valid until {{ expiry }}.
+                                            {% endblocktrans %}
+                                        </small>
+                                    {% endif %}
+                                    {% if r.giftcard.conditions %}
+                                        <small>
+                                            {{ r.giftcard.conditions }}
+                                        </small>
+                                    {% endif %}
+                                {% else %}
+                                    {% blocktrans trimmed with amount=r.amount|money:request.event.currency %}
+                                        A refund of {{ amount }} has been sent to you. Depending on the payment method, please allow for up to 14 days until it shows up
+                                        on your statement.
+                                    {% endblocktrans %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% include "pretixpresale/event/fragment_downloads.html" with position_page=False %}
+    <div class="panel panel-primary cart">
+        <div class="panel-heading">
+            {% if order.can_modify_answers %}
+                <div class="pull-right flip">
+                    <a href="{% eventurl event "presale:event.order.modify" secret=order.secret order=order.code %}">
+                        <span class="fa fa-edit"></span>
+                        {% trans "Change details" %}
+                    </a>
+                </div>
+            {% endif %}
+            <h3 class="panel-title">
+                {% trans "Ordered items" %}
+            </h3>
+        </div>
+        <div class="panel-body">
+            {% include "pretixpresale/event/fragment_cart.html" with cart=cart event=request.event download=can_download editable=False %}
+            {% if order.status == "n" and order.total > pending_sum %}
+                <div class="row cart-row">
+                    <div class="col-md-4 col-xs-6">
+                        <strong>{% trans "Successful payments" %}</strong>
+                    </div>
+                    <div class="col-md-3 col-xs-6 col-md-offset-5 price">
+                        <strong>{{ payment_sum_neg|money:event.currency }}</strong>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="row cart-row total">
+                    <div class="col-md-4 col-xs-6">
+                        <strong>{% trans "Pending total" %}</strong>
+                    </div>
+                    <div class="col-md-3 col-xs-6 col-md-offset-5 price">
+                        <strong>{{ pending_sum|money:event.currency }}</strong>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% eventsignal event "pretix.presale.signals.order_info" order=order request=request %}
+    <div class="row">
+        {% if invoices %}
+            <div class="col-xs-12 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% trans "Invoices" %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for i in invoices %}
+                                <li>
+                                    <a href="{% eventurl event "presale:event.invoice.download" invoice=i.pk secret=order.secret order=order.code %}">
+                                        {% if i.is_cancellation %}{% trans "Cancellation" context "invoice" %}{% else %}{% trans "Invoice" %}{% endif %}
+                                        {{ i.number }}</a> ({{ i.date|date:"SHORT_DATE_FORMAT" }})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% elif can_generate_invoice %}
+            <div class="col-xs-12 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% trans "Invoices" %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if generate_invoice_requires == "payment" %}
+                            <div class="alert alert-info">
+                                {% trans "You need to select a payment method above before you can request an invoice." %}
+                            </div>
+                        {% elif invoice_address_asked and order.invoice_address.is_empty %}
+                            <a href="{% eventurl event "presale:event.order.modify" secret=order.secret order=order.code %}?generate_invoice=true"
+                                class="btn btn-default">
+                                {% trans "Request invoice" %}
+                            </a>
+                        {% else %}
+                            <form class="form-inline helper-display-inline" method="post"
+                                    action="{% eventurl event "presale:event.order.geninvoice" order=order.code secret=order.secret %}">
+                                {% csrf_token %}
+                                <button class="btn btn-default">
+                                    {% trans "Request invoice" %}
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-xs-12 {% if invoices or can_generate_invoice %}col-md-6{% endif %}">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {% if invoice_address_asked or request.event.settings.invoice_name_required %}
+                        {% if order.can_modify_answers %}
+                            <div class="pull-right flip">
+                                <a href="{% eventurl event "presale:event.order.modify" secret=order.secret order=order.code %}">
+                                    <span class="fa fa-edit"></span>
+                                    {% trans "Change details" %}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    <h3 class="panel-title">
+                        {% trans "Your information" %}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        {% if order.email %}
+                            <dt>{% trans "E-mail" %}</dt>
+                            <dd>{{ order.email }}</dd>
+                        {% endif %}
+                        {% if order.phone %}
+                            <dt>{% trans "Phone number" %}</dt>
+                            <dd>{{ order.phone|phone_format }}</dd>
+                        {% endif %}
+                        {% if invoice_address_asked %}
+                            <dt>{% trans "Company" %}</dt>
+                            <dd>{{ order.invoice_address.company }}</dd>
+                        {% endif %}
+                        {% if invoice_address_asked or request.event.settings.invoice_name_required %}
+                            <dt>{% trans "Name" %}</dt>
+                            <dd>{{ order.invoice_address.name }}</dd>
+                        {% endif %}
+                        {% if invoice_address_asked %}
+                            <dt>{% trans "Address" %}</dt>
+                            <dd>{{ order.invoice_address.street|linebreaksbr }}</dd>
+                            <dt>{% trans "ZIP code and city" %}</dt>
+                            <dd>{{ order.invoice_address.zipcode }} {{ order.invoice_address.city }}</dd>
+                            <dt>{% trans "Country" %}</dt>
+                            <dd>{{ order.invoice_address.country.name|default:order.invoice_address.country_old }}</dd>
+                            {% if order.invoice_address.state %}
+                                <dt>{% trans "State" context "address" %}</dt>
+                                <dd>{{ order.invoice_address.state_name }}</dd>
+                            {% endif %}
+                            {% if request.event.settings.invoice_address_vatid %}
+                                <dt>{% trans "VAT ID" %}</dt>
+                                <dd>{{ order.invoice_address.vat_id }}</dd>
+                            {% endif %}
+                            {% if request.event.settings.invoice_address_custom_field and order.invoice_address.custom_field %}
+                                <dt>{{ request.event.settings.invoice_address_custom_field }}</dt>
+                                <dd>{{ order.invoice_address.custom_field }}</dd>
+                            {% endif %}
+                            <dt>{% trans "Internal Reference" %}</dt>
+                            <dd>{{ order.invoice_address.internal_reference }}</dd>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {% if user_change_allowed or user_cancel_allowed %}
+        <div class="panel panel-primary panel-cancellation">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% trans "Change or cancel your order" context "action" %}
+                </h3>
+            </div>
+            <ul class="list-group">
+                {% if user_change_allowed %}
+                    <li class="list-group-item">
+                        <p>
+                            {% blocktrans trimmed %}
+                                If you want to make changes to the products you bought, you can click on the button to change your order.
+                            {% endblocktrans %}
+                        </p>
+                        <a href="{% eventurl event 'presale:event.order.change' secret=order.secret order=order.code %}"
+                                class="btn btn-default">
+                            <span class="fa fa-edit"></span>
+                            {% trans "Change order" %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if user_cancel_allowed %}
+                    <li class="list-group-item">
+                        {% if order.status == "p" and order.total != 0 %}
+                            {% if order.user_cancel_fee >= order.total %}
+                                <p>
+                                    {% if request.event.settings.cancel_allow_user_paid_require_approval %}
+                                        {% blocktrans trimmed %}
+                                            You can request to cancel this order, but you will not receive a refund.
+                                        {% endblocktrans %}
+                                    {% else %}
+                                        {% blocktrans trimmed %}
+                                            You can cancel this order, but you will not receive a refund.
+                                        {% endblocktrans %}
+                                    {% endif %}
+                                    {% trans "This will invalidate all tickets in this order." %}
+                                </p>
+                            {% elif order.user_cancel_fee %}
+                                <p>
+                                    {% if request.event.settings.cancel_allow_user_paid_require_approval %}
+                                        {% blocktrans trimmed with fee=order.user_cancel_fee|money:request.event.currency %}
+                                            You can request to cancel this order. If your request is approved, a cancellation
+                                            fee of <strong>{{ fee }}</strong> will be kept and you will receive a refund of
+                                            the remainder.
+                                        {% endblocktrans %}
+                                    {% else %}
+                                        {% blocktrans trimmed with fee=order.user_cancel_fee|money:request.event.currency %}
+                                            You can cancel this order. In this case, a cancellation fee of <strong>{{ fee }}</strong>
+                                            will be kept and you will receive a refund of the remainder.
+                                        {% endblocktrans %}
+                                    {% endif %}
+                                    {% if request.event.settings.cancel_allow_user_paid_refund_as_giftcard == "force" %}
+                                        {% trans "The refund will be issued in form of a gift card that you can use for further purchases." %}
+                                    {% elif request.event.settings.cancel_allow_user_paid_refund_as_giftcard == "option" %}
+                                        {% trans "The refund can be issued to your original payment method or as a gift card." %}
+                                    {% else %}
+                                        {% trans "The refund will be issued to your original payment method." %}
+                                    {% endif %}
+                                    {% trans "This will invalidate all tickets in this order." %}
+                                </p>
+                            {% else %}
+                                <p>
+                                    {% if request.event.settings.cancel_allow_user_paid_require_approval %}
+                                        {% blocktrans trimmed %}
+                                            You can request to cancel this order. If your request is approved, you get a full
+                                            refund.
+                                        {% endblocktrans %}
+                                    {% else %}
+                                        {% blocktrans trimmed %}
+                                            You can cancel this order and receive a full refund.
+                                        {% endblocktrans %}
+                                    {% endif %}
+                                    {% if request.event.settings.cancel_allow_user_paid_refund_as_giftcard == "force" %}
+                                        {% trans "The refund will be issued in form of a gift card that you can use for further purchases." %}
+                                    {% elif request.event.settings.cancel_allow_user_paid_refund_as_giftcard == "option" %}
+                                        {% trans "The refund can be issued to your original payment method or as a gift card." %}
+                                    {% else %}
+                                        {% trans "The refund will be issued to your original payment method." %}
+                                    {% endif %}
+                                    {% trans "This will invalidate all tickets in this order." %}
+                                </p>
+                            {% endif %}
+                            <a href="{% eventurl event 'presale:event.order.cancel' secret=order.secret order=order.code %}"
+                                    class="btn btn-danger">
+                                <span class="fa fa-remove"></span>
+                                {% trans "Cancel order" %}
+                            </a>
+                        {% else %}
+                            <p>
+                                {% blocktrans trimmed %}
+                                    You can cancel this order using the following button.
+                                {% endblocktrans %}
+                                {% trans "This will invalidate all tickets in this order." %}
+                            </p>
+                            <a href="{% eventurl event 'presale:event.order.cancel' secret=order.secret order=order.code %}"
+                                    class="btn btn-danger">
+                                <span class="fa fa-remove"></span>
+                                {% trans "Cancel order" %}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

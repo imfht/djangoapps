@@ -1,0 +1,26 @@
+{% load i18n profile %}
+
+<div>
+{% blocktrans %}Timeline of {{ syntax }}:{% endblocktrans %}
+<div>
+<div class="timeline_notifications">
+</div>
+
+{% if not posts %}
+<b>{% trans "No messages." %}</b>
+{% endif %}
+
+{% for post in posts %}
+{% include "messaging/post.html" %}
+{% endfor %}
+</div>
+</div>
+
+<script>
+$(function() {
+    window.booktype.subscribeToChannel("/messaging/{{syntax}}/", function(message) {
+        $('.timeline_notifications').prepend(message.message).hide().slideDown(2000);
+    });
+    window.booktype.connect();
+});
+</script>

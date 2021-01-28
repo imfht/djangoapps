@@ -1,0 +1,96 @@
+.. Merchant Documentation documentation master file, created by
+   sphinx-quickstart on Mon Oct 18 21:09:11 2010.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. _index:
+
+Welcome to Merchant's documentation!
+======================================
+
+Contents:
+
+
+.. toctree::
+   :hidden:
+
+   index
+   overview
+   install
+   credit_card
+   gateways
+
+   onsite_processing
+
+   gateways/authorize_net
+   gateways/beanstream_gateway
+   gateways/bitcoin_gateway
+   gateways/braintree_payments
+   gateways/chargebee_gateway
+   gateways/eway_gateway
+   gateways/paylane_gateway
+   gateways/paypal_gateway
+   gateways/stripe_payment
+   gateways/we_pay_gateway
+
+   offsite_processing
+
+   offsite/paypal
+   offsite/google_checkout
+   offsite/rbs_worldpay
+   offsite/amazon_fps
+   offsite/braintree_payments
+   offsite/stripe_integration
+   offsite/eway_au
+   offsite/authorize_net_dpm
+
+   signals
+   custom_gateway
+   customize
+   contributing
+   changelist
+
+
+* :doc:`Overview <overview>`
+* :doc:`Install Merchant <install>`
+* :doc:`Credit Card <credit_card>`
+* :doc:`Gateways <gateways>`
+
+  * :doc:`On-site Processing <onsite_processing>`
+
+    * :doc:`Authorize.Net <gateways/authorize_net>`
+    * :doc:`Braintree Payments Server to Server <gateways/braintree_payments>`
+    * :doc:`eWay <gateways/eway_gateway>`
+    * :doc:`PayPal <gateways/paypal_gateway>`
+    * :doc:`Stripe Payments  <gateways/stripe_payment>`
+    * :doc:`Paylane  <gateways/paylane_gateway>`
+    * :doc:`WePay  <gateways/we_pay_gateway>`
+    * :doc:`Beanstream  <gateways/beanstream_gateway>`
+    * :doc:`Chargebee  <gateways/chargebee_gateway>`
+    * :doc:`Bitcoin <gateways/bitcoin_gateway>`
+    * :doc:`Global Iris <gateways/global_iris_gateway>`
+
+  * :doc:`Off-site Processing <offsite_processing>`
+
+    * :doc:`PayPal <offsite/paypal>`
+    * :doc:`Google Checkout <offsite/google_checkout>`
+    * :doc:`RBS WorldPay <offsite/rbs_worldpay>`
+    * :doc:`Amazon FPS <offsite/amazon_fps>`
+    * :doc:`Braintree Payments Transparent Redirect <offsite/braintree_payments>`
+    * :doc:`Stripe  <offsite/stripe_integration>`
+    * :doc:`eWAY <offsite/eway_au>`
+    * :doc:`Authorize.Net Direct Post Method <offsite/authorize_net_dpm>`
+    * :doc:`Global Iris RealMPI <offsite/global_iris_real_mpi_integration>`
+
+* :doc:`Signals <signals>`
+* :doc:`Writing your own gateway <custom_gateway>`
+* :doc:`Customizing the inbuilt Gateway/Integrations <customize>`
+* :doc:`Contributing to Merchant <contributing>`
+* :doc:`Changelist <changelist>`
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

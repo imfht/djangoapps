@@ -1,0 +1,188 @@
+{% extends "impala/base_shared.html" %}
+
+{% set range = view.range %}
+
+{% set c = collection if collection %}
+
+{% block bodyclass %}statistics{% endblock %}
+
+{% block extrahead %}
+  {{ css('zamboni/stats') }}
+  <link rel="stylesheet"
+        href="{{ static('css/zamboni/jquery-ui/custom-1.7.2.css') }}">
+{% endblock %}
+
+{% block title %}
+      {# L10n: {0} is an add-on name, {1} is an app name (like Firefox) #}
+      {% if addon %}
+        {{ _('{0} :: Statistics Dashboard :: Add-ons for {1}')|format_html(addon.name, amo.FIREFOX.pretty) }}
+      {% elif c %}
+        {{ _('{0} :: Statistics Dashboard')|format_html(c.name) }}
+      {% else %}
+        {{ _('Statistics Dashboard :: Add-ons for {0}')|format_html(amo.FIREFOX.pretty) }}
+      {% endif %}
+{% endblock %}
+
+{% block navbar %}
+<header>
+  <hgroup>
+    {% if addon %}
+      <h1 class="addon"{{ addon.name|locale_html }}>
+        {# L10n: {0} is an add-on name #}
+        {{ _('Statistics for {0}')|format_html(addon.name) }}
+      </h1>
+    {% elif c %}
+      <h1>{{ _('Statistics for {0}')|format_html(c.name) }}</h1>
+    {% else %}
+      <h1>
+        {{ _('Statistics Dashboard') }}
+      </h1>
+    {% endif %}
+  </hgroup>
+  <div class="stat-criteria">
+    <div class="criteria island">
+      <ul>
+        <li>{{ _('Controls:') }}</li>
+        <li>
+          <a id="chart-zoomout" class="inactive" href="#">
+               {{ _('reset zoom') }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="criteria group island">
+      <ul>
+        <li>{{ _('Group by:') }}</li>
+        <li data-group="day">
+            <a class="group-day" href="#">{{ _('day') }}</a>
+        </li>
+        <li data-group="week">
+            <a class="group-week" href="#">{{ _('week') }}</a>
+        </li>
+        <li data-group="month">
+            <a class="group-month" href="#">{{ _('month') }}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="criteria range island">
+      <ul>
+        <li>{{ _('For last:') }}</li>
+        <li data-range="7 days"
+            {% if range=='7' %}class="selected"{% endif %}>
+            <a class="days-7" href="#">{{ _('7 days') }}</a></li>
+        <li data-range="30 days"
+            {% if range=='30' %}class="selected"{% endif %}>
+            <a class="days-30" href="#">{{ _('30 days') }}</a></li>
+        <li data-range="90 days"
+            {% if range=='90' %}class="selected"{% endif %}>
+            <a href="#">{{ _('90 days') }}</a></li>
+        <li data-range="365 days"
+            {% if range=='365' %}class="selected"{% endif %}>
+            <a href="#">{{ _('365 days') }}</a></li>
+        <li data-range="custom"
+            {% if range=='custom' %}class="selected"{% endif %}>
+            <a id="custom-date-range" href="#">{{ _('Custom...') }}</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+  {% if waffle.switch('disable-bigquery') %}
+    <div class="notification-box info">
+      {% trans %}
+        Sorry, the statistics are temporarily unavailable.
+      {% endtrans %}
+    </div>
+  {% endif %}
+
+  <div id="lm" class="loadmessage"><span>{{ _('Loading the latest data&hellip;') }}</span></div>
+  <div class="secondary">
+    {% if addon %}
+      {{ report_menu(request, report, obj=addon) }}
+    {% elif c %}
+      {{ report_menu(request, report, obj=c) }}
+    {% else %}
+      {{ report_menu(request, report) }}
+    {% endif %}
+    {% block stats_note_link %}
+    {% endblock %}
+    <pre id="dbgout"></pre>
+  </div>
+  <div class="primary statistics"
+    {% if addon %}
+      data-min-date="{{ addon.created|isotime }}"
+      data-addon_id="{{ addon.id }}"
+    {% endif %}
+    data-report="{{ report }}"
+    {% if view.last %}
+    data-range="{{ view.last }}"
+    {% endif %}
+    {% if view.start and view.end %}
+    data-range="custom"
+    data-start_date="{{ view.start }}"
+    data-end_date="{{ view.end }}"
+    {% endif %}
+    data-base_url="{{ stats_base_url }}">
+    <div class="island chart">
+      <div id="head-chart">
+      </div>
+      <div class="no-data-overlay">
+        <p>{{ _('No data available.') }}</p>
+      </div>
+    </div>
+    {% block stats %}
+    {% endblock %}
+    {% block csvtable %}
+      <div class="island">
+        {% block csvtitle %}{% endblock %}
+        <div class="tabular csv-table">
+          <div class="table-box">
+            <table>
+              <thead>
+              </thead>
+            </table>
+          </div>
+          <footer>
+            <nav class="paginator c">
+              <p class="range">
+              </p>
+              <p class="rel">
+                <a href="#"
+                   class="button prev disabled">
+                  &#x25C2; {{ _('Previous') }}</a>
+                <a href="#"
+                   class="button next">
+                  {{ _('Next') }} &#x25B8;</a>
+              </p>
+            </nav>
+          </footer>
+        </div>
+      </div>
+    {% endblock %}
+    <div id="stats-permissions">
+      <p>{{ _('This dashboard is <b>private</b>.') }}</p>
+    </div>
+    <div class="hidden">
+      <div id="fieldMenuPopup" class="popup">
+        <form id="fieldMenu" data-no-csrf>
+          <ul id="fieldList">
+          </ul>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block popups %}
+  <div class="modal" id="stats-note">
+    <a class="close">{{ _('close') }}</a>
+    {% block stats_note %}{% endblock %}
+  </div>
+  {% include 'stats/popup.html' %}
+{% endblock %}
+
+{% block js %}
+{{ js('zamboni/stats') }}
+{% endblock %}

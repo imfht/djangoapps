@@ -1,0 +1,96 @@
+{% extends 'silverstrike/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+{% block content_header %}
+<h1>{% trans 'Budgets' %}</h1>
+<ol class="breadcrumb">
+  <li><a href="/">{% trans 'Home' %}</a></li>
+  <li class="active">{% trans 'Budgets' %}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+  <div class="box-body">
+    <div class="text-center">
+      <a href="{% url 'budget_month' previous_month.year previous_month.month %}" class="btn btn-xs btn-default">{% trans 'Previous' %}</a>
+      <span>{{ month|date:'F Y'}}</span>
+      <a href="{% url 'budget_month' next_month.year next_month.month %}" class="btn btn-xs btn-default">{% trans 'Next' %}</a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        <h4>{% trans 'Allocated' %}</h4>
+        <h3>{{ allocated }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="small-box bg-red">
+      <div class="inner">
+        <h4>{% trans 'Spent' %}</h4>
+        <h3>{{ spent }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="small-box bg-green">
+      <div class="inner">
+        <h4>{% trans 'Left to spend' %}</h4>
+        <h3>{{ left }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="box">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.management_form }}
+  <div class="box-header with-border">
+    <h3 class="box-title">{% blocktrans with month_str=month|date:'F Y' %}Budget for {{ month_str }}{% endblocktrans %}</h3>
+  </div>
+  <div class="box-body no-padding">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th class="col-md-6">{% trans 'Name' %}</th>
+          <th class="col-md-2">{% trans 'Allocated' %}</th>
+          <th class="col-md-2">{% trans 'Money spent' %}</th>
+          <th class="col-md-2">{% trans 'Left' %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in form %}
+        {{ form.category_id.as_hidden }}
+        {{ form.month.as_hidden }}
+        {{ form.budget_id.as_hidden }}
+        {{ form.category_name.as_hidden }}
+        {{ form.spent.as_hidden }}
+        {{ form.left.as_hidden }}
+        <tr>
+          <td>
+            {{ form.category_name.value }}
+            {{ form.errors }}
+          </td>
+          <td>
+              {{ form.amount|add_class:"form-control" }}
+          </td>
+          <td>{{ form.spent.value|intcomma }}</td>
+          <td>{{ form.left.value|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="box-footer">
+    <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+  </div>
+  </form>
+</div>
+{% endblock %}

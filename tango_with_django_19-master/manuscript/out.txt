@@ -1,0 +1,45 @@
+    $ python manage.py migrate
+
+    Operations to perform:
+      Apply all migrations: admin, contenttypes, auth, sessions
+    Running migrations:
+      Applying contenttypes.0001_initial... OK
+      Applying auth.0001_initial... OK
+      Applying admin.0001_initial... OK
+      Applying sessions.0001_initial... OK
+
+
+The migrate command looks at INSTALLED\_APPS in `settings.py` and for each app creates any necessary database tables. The database is configured according to the database settings
+in `settings.py` file and the database migrations for each app. You’ll see a message for each
+migration that is applied.
+
+If you’re interested, run the command-line client (#TODO(leifos):which client?)
+for your database and type dt (PostgreSQL), SHOW TABLES; (MySQL), or
+.schema (SQLite) to display the tables Django created.
+
+
+
+
+
+
+
+There are many Django
+applications you can
+[download](https://code.djangoproject.com/wiki/DjangoResources#Djangoapplicationcomponents)
+and use in your projects. 
+
+
+ For Django to pick your
+mappings up, this tuple *must* be called `urlpatterns`. The
+`urlpatterns` tuple contains a series of calls to the
+`django.conf.urls.url()` function, with each call handling a unique
+mapping.
+
+
+
+**Footnotes**
+
+[1]: There are many applications available out there that you can use in your project. Take a look at
+    [PyPI](https://pypi.python.org/pypi?%3Aaction=search&term=django&submit=search)
+    and [Django Packages](https://www.djangopackages.com/) to search for
+    reusable apps which you can drop into your projects.

@@ -1,0 +1,19 @@
+{% load hc_extras %}
+{% block content %}Hello,
+{% if inviting_project %}
+{{ inviting_project.owner.email }} invites you to their {% site_name %} account.
+
+You will be able to manage their existing monitoring checks and set up new
+ones. If you already have your own account on {% site_name %}, you will
+be able to switch between the two accounts.{% endif %}
+To log into {% site_name %}, please open the link below:
+
+{{ button_url }}
+
+Thanks,
+The {% site_name %} Team
+
+P.S. Need help getting started? Check out our help documentation
+at {% site_root %}/docs/
+Or, just reply to this email with any questions or issues you have.
+{% endblock %}

@@ -1,0 +1,238 @@
+div.kanban-table(
+    ng-if="ctrl.initialLoad"
+    tg-kanban-swimlane,
+    tg-kanban-sortable,
+    tg-kanban-squish-column,
+    tg-kanban,
+    ng-class="{'zoom-0': ctrl.zoomLevel == 0, 'zoom-1': ctrl.zoomLevel == 1, 'zoom-2': ctrl.zoomLevel == 2, 'zoom-3': ctrl.zoomLevel == 3, 'kanban-table-swimlane': swimlanesList.size}"
+)
+    div.kanban-table-header
+        div.kanban-table-inner
+            h2.task-colum-name(ng-repeat="s in usStatusList track by s.id",
+                    tg-bind-title="s.name",
+                    ng-class='{vfold:folds[s.id]}',
+                    tg-class-permission="{'readonly': '!modify_task'}"
+                )
+                div.deco-square(
+                    ng-style="{'background-color':s.color}",
+                    ng-class='{ hidden:folds[s.id] }'
+                )
+                div.title
+                    div.name {{ s.name }}
+                div.options
+                    button.btn-board.option(
+                        href=""
+                        title="{{'KANBAN.TITLE_ACTION_ADD_US' | translate}}"
+                        ng-click="ctrl.addNewUs('standard', s.id)"
+                        tg-check-permission="add_us"
+                        ng-hide="s.is_archived"
+                    )
+                        tg-svg.add-action(svg-icon="icon-add")
+
+                    button.btn-board.option(
+                        href=""
+                        title="{{'KANBAN.TITLE_ACTION_ADD_BULK' | translate}}"
+                        ng-click="ctrl.addNewUs('bulk', s.id)"
+                        tg-check-permission="add_us"
+                        ng-hide="s.is_archived"
+                    )
+                        tg-svg.bulk-action(svg-icon="icon-bulk")
+                    button.btn-board.option(
+                        href=""
+                        ng-click='foldStatus(s)'
+                        title="{{'KANBAN.TITLE_ACTION_FOLD' | translate}}"
+                        ng-class='{hidden:folds[s.id]}'
+                    )
+                        tg-svg(svg-icon="icon-fold-column")
+
+                    button.btn-board.option.hunfold(
+                        href=""
+                        ng-click='foldStatus(s)'
+                        title="{{'KANBAN.TITLE_ACTION_UNFOLD' | translate}}"
+                        ng-class='{hidden:!folds[s.id]}'
+                        ng-if="s.is_archived"
+                        tg-kanban-archived-show-status-header="s"
+                    )
+                        tg-svg(svg-icon="icon-unfold-column")
+
+                    button.btn-board.option.hunfold(
+                        href=""
+                        ng-click='foldStatus(s)'
+                        title="{{'KANBAN.TITLE_ACTION_UNFOLD' | translate}}"
+                        ng-hide="s.is_archived"
+                        ng-class='{hidden:!folds[s.id]}'
+                    )
+                        tg-svg(svg-icon="icon-unfold-column")
+    div(
+        ng-if="swimlanesList.size"
+        tg-repeat="swimlane in swimlanesList track by $index"
+        data-swimlane="{{swimlane.id}}"
+        class="kanban-swimlane"
+    )
+        button.kanban-swimlane-title(
+                ng-mouseover="mouseoverSwimlane($event, swimlane.id)"
+                ng-mouseleave="mouseleaveSwimlane($event)"
+                ng-class="{folded: ctrl.foldedSwimlane.get(swimlane.id.toString())}"
+                ng-click="ctrl.toggleSwimlane(swimlane.id)"
+            )
+            tg-svg.unfold-action(
+                ng-if="!ctrl.foldedSwimlane.get(swimlane.id.toString())"
+                svg-icon="icon-unfolded-swimlane"
+            )
+            tg-svg.fold-action(
+                ng-if="ctrl.foldedSwimlane.get(swimlane.id.toString())"
+                svg-icon="icon-folded-swimlane"
+            )
+            h2.title-name(
+                ng-class="{'unclassified-us-title': swimlane.id == -1}"
+            )  {{ swimlane.name }}
+            .unclassified-us-info(ng-if="swimlane.id == -1")
+                tg-svg(
+                    svg-icon="icon-help-circle"
+                )
+                .popover.pop-help The user stories that are not part of any swimlane are here.
+
+            .default-swimlane(ng-if="swimlane.id == project.default_swimlane && project.swimlanes.length > 1")
+                tg-svg.default-swimlane-icon(
+                    svg-icon="icon-star"
+                )
+                span.default-text {{'ADMIN.PROJECT_KANBAN_OPTIONS.DEFAULT' | translate }}
+        div.kanban-table-body(
+            ng-if="!ctrl.foldedSwimlane.get(swimlane.id.toString())"
+            tg-loaded="kanbanTableLoaded($event, swimlane.id)"
+        )
+            div.kanban-table-inner
+                div.kanban-uses-box.taskboard-column(
+                    ng-class='{vfold:folds[s.id], vunfold: unfold == s.id}',
+                    ng-repeat="s in ::swimlanesStatuses[swimlane.id] track by s.id",
+                    id="column-{{s.id}}"
+                    tg-loaded="taskColumnLoaded($event, s.id, swimlane.id)"
+                    tg-kanban-taskboard-column
+                    tg-kanban-wip-limit="s"
+                    data-status="{{s.id}}"
+                    data-swimlane="{{swimlane.id}}"
+                )
+                    .kanban-task-counter(
+                        ng-if='!folds[s.id]'
+                        ng-attr-title="{{'KANBAN.NUMBER_US' | translate}}"
+                    )
+                        tg-animated-counter(
+                            data="{count: usByStatusSwimlanes.getIn([swimlane.id, s.id]).size, wip: s.wip_limit}"
+                        )
+                    .placeholder-collapsed(ng-if='folds[s.id]')
+                        .placeholder-collapsed-wrapper
+                            div.ammount(ng-if="!s.is_archived")
+                                tg-animated-counter(
+                                    class="vertical"
+                                    data="{count: usByStatusSwimlanes.getIn([swimlane.id, s.id]).size, wip: s.wip_limit}"
+                                )
+                            div.text-holder
+                                div.archived(ng-if="s.is_archived") {{'KANBAN.ARCHIVED' | translate}}
+                                div.name(tg-bo-bind="s.name")
+                            .square-color(
+                                ng-style="{'background-color':s.color}",
+                            )
+
+                    .card-placeholder(
+                        ng-if="ctrl.showPlaceHolder(s.id, swimlane.id)"
+                        ng-class='{"not-found": ctrl.notFoundUserstories}'
+                        ng-include="'common/components/kanban-placeholder.html'"
+                    )
+
+                    tg-card.card.ng-animate-disabled(
+                        data-id="{{ usId }}"
+                        tg-loaded="cardLoaded($event, s.id, swimlane.id)"
+                        tg-repeat="usId in usByStatusSwimlanes.getIn([swimlane.id, s.id])",
+                        ng-class="{'kanban-task-maximized': ctrl.isMaximized(s.id), 'kanban-task-minimized': ctrl.isMinimized(s.id), 'kanban-task-selected': ctrl.selectedUss[usId], 'ui-multisortable-multiple': ctrl.selectedUss[usId]}"
+                        tg-class-permission="{'readonly': '!modify_task'}"
+                        on-toggle-fold="ctrl.toggleFold(id)"
+                        on-click-edit="ctrl.editUs(id)"
+                        on-click-delete="ctrl.deleteUs(id)"
+                        on-click-assigned-to="ctrl.changeUsAssignedUsers(id)"
+                        project="project"
+                        item="usMap.get(usId)"
+                        type="us"
+                        zoom="ctrl.zoom"
+                        zoom-level="ctrl.zoomLevel"
+                        archived="ctrl.isUsInArchivedHiddenStatus(usId)"
+                        in-view-port="usCardVisibility[usId]"
+                        ng-click="($event.ctrlKey || $event.metaKey) && ctrl.toggleSelectedUs(usId)"
+                    )
+
+                    div.kanban-column-intro(
+                        ng-if="s.is_archived",
+                        tg-kanban-archived-status-intro="s"
+                    )
+    a(
+        ng-if="swimlanesList.size && project.i_am_admin && swimlanesList.size <= 1"
+        class="kanban-swimlane-add"
+        tg-nav="project-admin-project-values-kanban-power-ups:project=project.slug"
+    )
+        tg-svg.add-action(svg-icon="icon-add")
+        span {{'KANBAN.CREATE_SWIMLANE' | translate}}
+
+    div.kanban-table-body(
+        ng-if="!swimlanesList.size"
+        tg-loaded="kanbanTableLoaded($event)"
+    )
+        div.kanban-table-inner
+            div.kanban-uses-box.taskboard-column(
+                ng-class='{vfold:folds[s.id], vunfold: unfold == s.id}',
+                ng-repeat="s in ::usStatusList track by s.id",
+                id="column-{{s.id}}"
+                tg-loaded="taskColumnLoaded($event, s.id)"
+                tg-kanban-wip-limit="s"
+                tg-kanban-taskboard-column
+                data-status="{{s.id}}"
+            )
+                .kanban-task-counter(
+                    ng-if='!folds[s.id]'
+                    ng-attr-title="{{'KANBAN.NUMBER_US' | translate}}"
+                )
+                    tg-animated-counter(
+                        data="{count: usByStatus.get(s.id.toString()).size, wip: s.wip_limit}"
+                    )
+                .placeholder-collapsed(ng-if='folds[s.id]')
+                    .placeholder-collapsed-wrapper
+                        div.ammount(ng-if="!s.is_archived")
+                            tg-animated-counter(
+                                class="vertical"
+                                data="{count: usByStatus.get(s.id.toString()).size, wip: s.wip_limit}"
+                            )
+                        div.text-holder
+                            div.archived(ng-if="s.is_archived") {{'KANBAN.ARCHIVED' | translate}}
+                            div.name(tg-bo-bind="s.name")
+                        .square-color(
+                            ng-style="{'background-color':s.color}",
+                        )
+
+                .card-placeholder(
+                    ng-if="ctrl.showPlaceHolder(s.id)"
+                    ng-class='{"not-found": ctrl.notFoundUserstories}'
+                    ng-include="'common/components/kanban-placeholder.html'"
+                )
+
+                tg-card.card.ng-animate-disabled(
+                    data-id="{{ usId }}"
+                    tg-loaded="cardLoaded($event, s.id)"
+                    tg-repeat="usId in usByStatus.get(s.id.toString())",
+                    ng-class="{'kanban-task-maximized': ctrl.isMaximized(s.id), 'kanban-task-minimized': ctrl.isMinimized(s.id), 'kanban-task-selected': ctrl.selectedUss[usId], 'ui-multisortable-multiple': ctrl.selectedUss[usId]}"
+                    tg-class-permission="{'readonly': '!modify_task'}"
+                    on-toggle-fold="ctrl.toggleFold(id)"
+                    on-click-edit="ctrl.editUs(id)"
+                    on-click-delete="ctrl.deleteUs(id)"
+                    on-click-assigned-to="ctrl.changeUsAssignedUsers(id)"
+                    project="project"
+                    item="usMap.get(usId)"
+                    type="us"
+                    zoom="ctrl.zoom"
+                    zoom-level="ctrl.zoomLevel"
+                    archived="ctrl.isUsInArchivedHiddenStatus(usId)"
+                    in-view-port="usCardVisibility[usId]"
+                    ng-click="($event.ctrlKey || $event.metaKey) && ctrl.toggleSelectedUs(usId)"
+                )
+
+                div.kanban-column-intro(
+                    ng-if="s.is_archived",
+                    tg-kanban-archived-status-intro="s"
+                )

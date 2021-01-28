@@ -1,0 +1,218 @@
+# Django Payments
+# Copyright (C) 2017 Mirumee Software
+# This file is distributed under the same license as the django-payments package.
+# Mirumee Software <hello@mirumee.com>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-13 13:13+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Jihan Chung <jihanchung20@gmail.com>, 2017\n"
+"Language-Team: Korean (https://www.transifex.com/mirumee/teams/34782/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: payments/__init__.py:25
+msgctxt "payment status"
+msgid "Waiting for confirmation"
+msgstr "확인 대기 중입니다"
+
+#: payments/__init__.py:26
+msgctxt "payment status"
+msgid "Pre-authorized"
+msgstr "기 승인된"
+
+#: payments/__init__.py:27
+msgctxt "payment status"
+msgid "Confirmed"
+msgstr "확인됨"
+
+#: payments/__init__.py:28
+msgctxt "payment status"
+msgid "Rejected"
+msgstr "거절됨"
+
+#: payments/__init__.py:29
+msgctxt "payment status"
+msgid "Refunded"
+msgstr "환불됨"
+
+#: payments/__init__.py:30
+msgctxt "payment status"
+msgid "Error"
+msgstr "에러"
+
+#: payments/__init__.py:31
+msgctxt "payment status"
+msgid "Input"
+msgstr "입력"
+
+#: payments/__init__.py:41
+msgctxt "fraud status"
+msgid "Unknown"
+msgstr "알 수 없음"
+
+#: payments/__init__.py:42
+msgctxt "fraud status"
+msgid "Passed"
+msgstr "통과됨"
+
+#: payments/__init__.py:43
+msgctxt "fraud status"
+msgid "Rejected"
+msgstr "거절됨"
+
+#: payments/__init__.py:44
+msgctxt "fraud status"
+msgid "Review"
+msgstr "립"
+
+#: payments/cybersource/__init__.py:100
+msgid "The order is marked for review by Decision Manager"
+msgstr "이 주문은 매니저가 리뷰하도록 선택되었습니다."
+
+#: payments/cybersource/__init__.py:105
+msgid "The order has been rejected by Decision Manager"
+msgstr "이 주문은 매니저에 의해 거절 되었습니다."
+
+#: payments/cybersource/__init__.py:110
+msgid "Fraud score exceeds threshold."
+msgstr "사기 점수가 한계치를 초과 하였습니다."
+
+#: payments/cybersource/__init__.py:114
+msgid "CyberSource Smart Authorization failed."
+msgstr "CyberSource 스마트 인증이 실패하였습니다."
+
+#: payments/cybersource/__init__.py:119
+msgid "Card verification number (CVN) did not match."
+msgstr "카드 인증 번호(CVN)이 맞지 않습니다."
+
+#: payments/cybersource/__init__.py:125
+msgid "CyberSource Address Verification Service failed."
+msgstr "CyberSource 주소 인증 서비스가 실패하였습니다."
+
+#: payments/cybersource/__init__.py:146
+msgid "3-D Secure verification in progress"
+msgstr "3-D 보안 인증이 진행 중입니다."
+
+#: payments/cybersource/__init__.py:203
+msgid ""
+"Our bank has flagged your transaction as unusually suspicious. Please "
+"contact us to resolve this issue."
+msgstr ""
+"우리 은행은 당신의 결제 프로세스가 의심되는 점이 있음을 확인하였습니다. 이 문제를 해결하기 위해 담당자에게 연락하여 주시기 바랍니다."
+
+#: payments/cybersource/__init__.py:206
+msgid ""
+"Your bank has declined the transaction. No additional information was "
+"provided."
+msgstr ""
+
+#: payments/cybersource/__init__.py:209
+msgid ""
+"The card has either expired or you have entered an incorrect expiration "
+"date."
+msgstr ""
+
+#: payments/cybersource/__init__.py:212
+msgid ""
+"There are insufficient funds on your card or it has reached its credit "
+"limit."
+msgstr ""
+
+#: payments/cybersource/__init__.py:215
+msgid "The card you are trying to use was reported as lost or stolen."
+msgstr ""
+
+#: payments/cybersource/__init__.py:218
+msgid ""
+"Your card is either inactive or it does not permit online payments. Please "
+"contact your bank to resolve this issue."
+msgstr ""
+
+#: payments/cybersource/__init__.py:221
+msgid ""
+"Your bank has declined the transaction. Please check the verification number"
+" of your card and retry."
+msgstr ""
+
+#: payments/cybersource/__init__.py:224
+msgid ""
+"Your bank has declined the transaction. Please make sure the card number you"
+" have entered is correct and retry."
+msgstr ""
+
+#: payments/cybersource/__init__.py:227
+msgid "We are sorry but our bank cannot handle the card type you are using."
+msgstr ""
+
+#: payments/cybersource/__init__.py:231
+msgid ""
+"We were unable to verify your address. Please make sure the address you "
+"entered is correct and retry."
+msgstr ""
+
+#: payments/cybersource/__init__.py:234
+msgid "We were unable to complete the transaction. Please try again later."
+msgstr ""
+
+#: payments/cybersource/forms.py:51
+msgid "fingerprint"
+msgstr ""
+
+#: payments/cybersource/forms.py:68 payments/stripe/forms.py:52
+msgid "This payment has already been processed."
+msgstr ""
+
+#: payments/fields.py:20
+msgid "Please enter a valid card number"
+msgstr ""
+
+#: payments/fields.py:21
+#, python-format
+msgid "We accept only %(valid_types)s"
+msgstr ""
+
+#: payments/fields.py:123
+msgid "Enter a valid security number."
+msgstr ""
+
+#: payments/forms.py:39
+msgid "Card Number"
+msgstr ""
+
+#: payments/forms.py:43
+msgid "CVV2 Security Number"
+msgstr ""
+
+#: payments/forms.py:44
+msgid ""
+"Last three digits located on the back of your card. For American Express the"
+" four digits found on the front side."
+msgstr ""
+
+#: payments/forms.py:56
+msgid "Name on Credit Card"
+msgstr ""
+
+#: payments/models.py:45
+msgid "fraud check"
+msgstr ""
+
+#: payments/stripe/widgets.py:23
+msgid "Total payment"
+msgstr ""
+
+#: payments/utils.py:8
+msgid "Month"
+msgstr ""
+
+#: payments/utils.py:14
+msgid "Year"
+msgstr ""

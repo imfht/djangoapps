@@ -1,0 +1,182 @@
+{% extends "analytics/base.html" %}
+
+
+{% block head %}
+<title>MovieGEEK Analytics</title>
+<style>
+    .kpi-box {
+        height: 100px;
+
+    }
+</style>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+<script>
+var margin = {top: 20, right: 0, bottom: 30, left: 50},
+    width = 500 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom,
+    maxHeight = height - 30,
+    padding = 5;
+
+function getTopContent() {
+  $.getJSON('api/top_content', function(result) {
+    var ul = document.getElementById("top_content");
+
+    result.forEach(function(element, index, array) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.setAttribute('href', "/analytics/content/" + element.content_id + "/");
+      a.innerHTML= element.title + "("  + element.sold + ")"
+
+      li.appendChild(a);
+      li.setAttribute("id",element.content_id);
+      ul.appendChild(li);
+    });
+  })
+
+}
+function getClusterInfo() {
+    $.getJSON('api/clusters', function(result) {
+        var ul = document.getElementById("clusters");
+
+        result.cluster.forEach(function(element, index, array) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.setAttribute('href', "/analytics/cluster/" + element.cluster_id + "/");
+          a.innerHTML= element.cluster_id+ "("  + element.member_count + ")"
+
+          li.appendChild(a);
+          li.setAttribute("id",element.cluster_id);
+          ul.appendChild(li);
+        });
+      })
+}
+function drawRatingChart(id, endpoint) {
+
+  d3.json("api/"+ endpoint, function(error, eventData) {
+   var canvas = d3.select(id)
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append('g')
+            .attr("class", 'chart');
+
+    var myChart = new dimple.chart(canvas, eventData);
+    var x = myChart.addCategoryAxis("x", ["rating"] );
+    myChart.addMeasureAxis("y", "count_items" );
+    myChart.addSeries(null, dimple.plot.bar);
+    myChart.setBounds(30, 30, width - 75, height -75);
+    x.addOrderRule("rating");
+    myChart.draw();
+
+    canvas.append("text")
+          .attr("x", myChart._xPixels() + myChart._widthPixels()/2 - 55)
+          .attr("y", myChart._yPixels() - 20)
+          .text("Rating distribution");
+  });
+
+}
+function drawChart(id, endpoint) {
+
+  d3.json("api/"+ endpoint, function(error, eventData) {
+   var canvas = d3.select(id)
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append('g')
+            .attr("class", 'chart');
+
+    var myChart = new dimple.chart(canvas, eventData);
+    var x = myChart.addCategoryAxis("x", ["event","conversion"] );
+    myChart.addMeasureAxis("y", "count_items" );
+    myChart.addSeries("conversion", dimple.plot.bar);
+    myChart.addLegend(310, 30, 110, 20, "right");
+    myChart.setBounds(30, 30, width - 75, height -75);
+    myChart.draw();
+    x.titleShape.text("Event/Conversion")
+
+    canvas.append("text")
+          .attr("x", myChart._xPixels() + myChart._widthPixels()/2 -110)
+          .attr("y", myChart._yPixels() - 20)
+          .text("Sessions with a buy and without");
+  });
+}
+
+function update_statistics() {
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  start_data = tomorrow.toJSON().slice(0,10);
+  $.getJSON('api/get_statistics?date=' + start_data, function(result) {
+    document.getElementById("items_sold").textContent = result.items_sold;
+    document.getElementById("conversions").textContent = result.conversions + "%";
+    document.getElementById("visitors_month").textContent = result.visitors;
+    document.getElementById("sessions").textContent = result.sessions;
+  })
+
+}
+</script>
+
+
+{% endblock head %}
+
+{% block content %}
+<div class="row" id="statistics">
+    <div class="col-sm-3">
+        <div class="well kpi-box">
+            Visitors this month: <br />
+            <result id="visitors_month">0</result>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="well kpi-box">
+             Conversion percentage: <br/>
+            <result id="conversions">0</result>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="well kpi-box">
+            Items sold this month: <br/>
+            <result id="items_sold">0</result>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="well kpi-box">
+            Sessions this month: <br/>
+            <result id="sessions">0</result>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div id="p1" class="well"></div>
+    </div>
+    <div class="col-sm-6">
+        <div id="p2" class="well"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <list>
+            <p>Top 10 content<p>
+            <ul id="top_content"></ul>
+        </list>
+    </div>
+    <div class="col-sm-4">
+        <list>
+            <p>Clusters</p>
+            <ul id="clusters"></ul>
+        </list>
+
+    </div>
+</div>
+<script type="text/javascript">
+update_statistics();
+drawChart("#p1", "events_on_conversions");
+drawRatingChart("#p2", "ratings_distribution", 'rating');
+getTopContent();
+getClusterInfo();
+//attachHistogram("#p2", "events_on_conversions");
+</script>
+{% endblock content %}

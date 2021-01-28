@@ -1,0 +1,807 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2020-12-30 01:55+0000\n"
+"Last-Translator: marsf <chimantaea_mirabilis@yahoo.co.jp>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "評価 {0}"
+
+msgid "There was a problem contacting the server."
+msgstr "サーバーへの接続中に問題が発生しました。"
+
+msgid "Select a file..."
+msgstr "ファイルを選択..."
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "アドオンは .zip .xpi .crx のいずれかの拡張子を持つファイルにしてください"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0}% 完了"
+
+msgid "{0} of {1}"
+msgstr "{0} / {1}"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Uploading {0}"
+msgstr "{0} をアップロードしています"
+
+msgid "Error with {0}"
+msgstr "{0} にエラーがありました"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "lint 関連の問題は必ず GitHub で報告してください"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "アドオンの検証に失敗しました。{0} 個のエラーがあります。"
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "... その他 {0} 個"
+
+msgid "See full validation report"
+msgstr "検証レポートの詳細を見る"
+
+msgid "Validating {0}"
+msgstr "{0} を検証しています"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "このアドオンは最大サイズ {0} を超えています。"
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "サーバーから空の応答が返りました。ステータス: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "検証中に予期せぬサーバーエラーが発生しました。"
+
+msgid "Finished validating {0}"
+msgstr "{0} の検証が完了しました"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "このアドオンの検証は時間切れとなったため、手作業で審査されます。"
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "このアドオンの検証が完了しました。エラーなし、{0} 件の警告があります。"
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "このアドオンの検証が完了しました。エラーなし、{0} 件のメッセージがあります。"
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "このアドオンの検証が完了しました。エラーも警告もありません。"
+
+msgid "Your submission will be automatically signed."
+msgstr "あなたのアドオンは自動的に署名されます。"
+
+msgid "WebExtension upgrade"
+msgstr "WebExtension へのアップグレード"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr "Mozilla ではアップグレードを可能にし、推奨していますが、この手順は取り消せません。ユーザーは、一度 WebExtension をインストールしたら、旧式のアドオンをインストールすることはできなくなります。"
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "旧式 Firefox アドオンの移植に関する MDN の記事"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "詳しいバージョンノートを含める (これは次のステップで行えます)。"
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr "このアドオンを完全にテストするにあたってウェブサイトのアカウントが必要となる場合、テスト用のユーザー名とパスワードを審査担当者へのメモに含めてください (これは次のステップで行えます)。"
+
+msgid "Add-on submission checklist"
+msgstr "アドオン登録チェックリスト"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "登録を完了する前に以下の点について確認してください。これは審査手続き中の遅延や誤解を最小限にするために役立ちます。"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr "最小化、結合、難読化されたスクリプト (既知のライブラリを除く) がアドオンに含まれる場合、審査用に別途元のソースを提出する必要があります。その場合は必ずソースコードアップロード用のフォームを用い、審査が即座に却下されないようにしてください。"
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "アドオンの検証中にこれらの問題が見つかり、審査が却下されました:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "アップロードされたファイルの種類を認識できません。"
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "このファイルは最大サイズ {0} を超えています。"
+
+msgid "You cancelled the upload."
+msgstr "アップロードがキャンセルされました。"
+
+msgid "Images must be either PNG or JPG."
+msgstr "画像は PNG か JPEG 形式でなければなりません。"
+
+msgid "Videos must be in WebM."
+msgstr "動画は WebM 形式でなければなりません。"
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "このテーマはお使いの {0} のバージョンと互換性がありません"
+
+msgid "Flagged for review"
+msgstr "レビューフラグ付き"
+
+msgid "Your input is required"
+msgstr "入力が必要です"
+
+msgid "Marked for deletion"
+msgstr "削除マーク付き"
+
+msgid "Updating results&hellip;"
+msgstr "結果を更新しています..."
+
+msgid "Category"
+msgstr "カテゴリー"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "<b>{0}</b> 用のテーマを検索"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "<b>{0}</b> 用のアプリを検索"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "<b>{0}</b> のアドオンを検索"
+
+msgid "Use original"
+msgstr "オリジナルを使用"
+
+msgid "Week of {0}"
+msgstr "{0} の週"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} 件のダウンロード"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} 人のユーザー"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} 個のアドオン"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} 個のコレクション"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} 件のレビュー"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} 件の販売"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} 件の返品"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} 回インストール"
+
+msgid "Downloads"
+msgstr "ダウンロード数"
+
+msgid "Daily Users"
+msgstr "日別ユーザー数"
+
+msgid "Amount, in USD"
+msgstr "金額 (米ドル)"
+
+msgid "Number of Contributions"
+msgstr "寄付回数"
+
+msgid "More Info..."
+msgstr "詳細..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "{0} の詳細"
+
+msgid "Collections Created"
+msgstr "コレクション作成回数"
+
+msgid "Add-ons in Use"
+msgstr "アドオン使用回数"
+
+msgid "Add-ons Created"
+msgstr "アドオン作成回数"
+
+msgid "Add-ons Downloaded"
+msgstr "アドオンダウンロード回数"
+
+msgid "Add-ons Updated"
+msgstr "アドオン更新回数"
+
+msgid "Reviews Written"
+msgstr "レビュー投稿数"
+
+msgid "User Signups"
+msgstr "ユーザーログイン回数"
+
+msgid "Subscribers"
+msgstr "購読者数"
+
+msgid "Ratings"
+msgstr "評価数"
+
+msgid "Sales"
+msgstr "販売数"
+
+msgid "Installs"
+msgstr "インストール回数"
+
+msgid "Unknown"
+msgstr "不明"
+
+msgid "Add-ons Manager"
+msgstr "アドオンマネージャー"
+
+msgid "Add-ons Manager Promo"
+msgstr "アドオンマネージャー内のプロモーション"
+
+msgid "Add-ons Manager Featured"
+msgstr "アドオンマネージャー内のおすすめ"
+
+msgid "Add-ons Manager Learn More"
+msgstr "アドオンマネージャー内の詳細リンク"
+
+msgid "Search Suggestions"
+msgstr "検索サジェスト"
+
+msgid "Search Results"
+msgstr "検索結果"
+
+msgid "Homepage Promo"
+msgstr "ホームページの宣伝枠"
+
+msgid "Homepage Featured"
+msgstr "ホームページのおすすめ枠"
+
+msgid "Homepage Up and Coming"
+msgstr "ホームページの注目枠"
+
+msgid "Homepage Most Popular"
+msgstr "ホームページの人気枠"
+
+msgid "Detail Page"
+msgstr "詳細ページ"
+
+msgid "Detail Page (bottom)"
+msgstr "詳細ページ (下部)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "詳細ページ (開発チャンネル)"
+
+msgid "Often Used With"
+msgstr "同時使用アドオン"
+
+msgid "Others By Author"
+msgstr "作者の他のアドオン"
+
+msgid "Dependencies"
+msgstr "依存関係"
+
+msgid "Upsell"
+msgstr "有料版"
+
+msgid "Meet the Developer"
+msgstr "開発者の紹介"
+
+msgid "User Profile"
+msgstr "ユーザープロファイル"
+
+msgid "Version History"
+msgstr "バージョン履歴"
+
+msgid "Sharing"
+msgstr "共有"
+
+msgid "Category Pages"
+msgstr "カテゴリーページ"
+
+msgid "Collections"
+msgstr "コレクション"
+
+msgid "Category Landing Featured Carousel"
+msgstr "カテゴリートップページのおすすめローテーション"
+
+msgid "Category Landing Top Rated"
+msgstr "カテゴリートップページの高評価枠"
+
+msgid "Category Landing Most Popular"
+msgstr "カテゴリートップページの人気枠"
+
+msgid "Category Landing Recently Added"
+msgstr "カテゴリートップページの新着枠"
+
+msgid "Browse Listing Featured Sort"
+msgstr "一覧ページのおすすめ順"
+
+msgid "Browse Listing Users Sort"
+msgstr "一覧ページのユーザー数順"
+
+msgid "Browse Listing Rating Sort"
+msgstr "一覧ページの評価順"
+
+msgid "Browse Listing Created Sort"
+msgstr "一覧ページの登録日順"
+
+msgid "Browse Listing Name Sort"
+msgstr "一覧ページの名前順"
+
+msgid "Browse Listing Popular Sort"
+msgstr "一覧ページの人気順"
+
+msgid "Browse Listing Updated Sort"
+msgstr "一覧ページの更新日順"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "一覧ページの注目度順"
+
+msgid "Total Amount Contributed"
+msgstr "合計寄付金額"
+
+msgid "Average Contribution"
+msgstr "平均寄付金額"
+
+msgid "Usage"
+msgstr "使用回数"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "最近 {0} 日間のダウンロード回数とユーザー数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "{0} から {1} までのダウンロード回数とユーザー数"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "最近 {0} 日間のインストール回数とユーザー数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "{0} から {1} までのインストール回数とユーザー数"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "最近 {0} 日間のダウンロード回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "{0} から {1} までのダウンロード回数"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "最近 {0} 日間のユーザー数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "{0} から {1} までのユーザー数"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "最近 {0} 日間のアプリケーション"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "{0} から {1} までのアプリケーション"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "最近 {0} 日間の国"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "{0} から {1} までの国"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "最近 {0} 日間の OS"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "{0} から {1} までの OS"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "最近 {0} 日間の言語"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "{0} から {1} までの言語"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "最近 {0} 日間のアドオンのバージョン"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "{0} から {1} までのアドオンのバージョン"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "最近 {0} 日間のアドオンの状態"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "{0} から {1} までのアドオンの状態"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "最近 {0} 日間のダウンロード参照元"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "{0} から {1} までのダウンロード参照元"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr "最近 {0} 日間のダウンロード媒体"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr "{0} から {1} までのダウンロード媒体"
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr "最近 {0} 日間のダウンロードコンテンツ"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr "{0} から {1} までのダウンロードコンテンツ"
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr "最近 {0} 日間のダウンロードキャンペーン"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr "{0} から {1} までのダウンロードキャンペーン"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "最近 {0} 日間の寄付"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "{0} から {1} までの寄付"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "最近 {0} 日間のサイト解析"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "{0} から {1} までのサイト解析"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "最近 {0} 日間のアドオン使用回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "{0} から {1} までのアドオン使用回数"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "最近 {0} 日間のアドオンダウンロード回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "{0} から {1} までのアドオンダウンロード回数"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "最近 {0} 日間のアドオン作成回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "{0} から {1} までのアドオン作成回数"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "最近 {0} 日間のアドオン更新回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "{0} から {1} までのアドオン更新回数"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "最近 {0} 日間のレビュー投稿数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "{0} から {1} までのレビュー投稿数"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "最近 {0} 日間のユーザーログイン回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "{0} から {1} までのユーザーログイン回数"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "最近 {0} 日間のコレクション作成回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "{0} から {1} までのコレクション作成回数"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "最近 {0} 日間の購読者数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "{0} から {1} までの購読者数"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "最近 {0} 日間の評価数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "{0} から {1} までの評価数"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "最近 {0} 日間の販売数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "{0} から {1} までの販売数"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "最近 {0} 日間のインストール回数"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "{0} から {1} までのインストール回数"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "最近 {1} 日間の <b>{0}</b>"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "{1} から {2} までの <b>{0}</b>"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "最近 {1} 日間の平均 <b>{0}</b>"
+
+msgid "No data available."
+msgstr "表示できるデータがありません。"
+
+msgid "Date"
+msgstr "日付"
+
+msgid "Other"
+msgstr "その他"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "同意してインストール"
+
+msgid "Add to {0}"
+msgstr "{0} へ追加"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "{0} へ強制インストール"
+
+msgid "Download for {0} anyway"
+msgstr "{0} へ強制ダウンロード"
+
+msgid "Not available for your platform"
+msgstr "お使いの OS には対応していません"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "このアドオンはお使いのバージョンの {0} と互換性がありません。"
+
+msgid "View other versions"
+msgstr "他のバージョンを見る"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "動作環境: {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "{app} で動作します"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Firefox 限定 — 今すぐ Firefox をダウンロード！"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "申し訳ありませんが、検索プラグインをインストールするには (Firefox など) Mozilla ベースのブラウザーが必要です。"
+
+msgid "Changes Saved"
+msgstr "変更が保存されました"
+
+msgid "Enter a new author's email address"
+msgstr "新しい作者のメールアドレスを入力してください"
+
+msgid "There was an error uploading your file."
+msgstr "ファイルのアップロード中にエラーが発生しました。"
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} 個のファイル"
+
+msgid "Image changes being processed"
+msgstr "画像の変換処理を行っています"
+
+msgid "Select an application first"
+msgstr "まずアプリケーションを選択してください"
+
+msgid "No results found."
+msgstr "結果が見つかりませんでした。"
+
+msgid "Loading..."
+msgstr "読み込み中..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> 文字"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "残り <b>{0}</b> 文字"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "この機能はサイトメンテナンスのため一時的に無効になっています。また後で試してください。"
+
+msgid "Remove this localization"
+msgstr "このローカライズを削除"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} が初めてこのページを見ました。"
+
+msgid "{name} was viewing this add-on first."
+msgstr "{name} が初めてこのアドオンを見ました。"
+
+msgid "Loading&hellip;"
+msgstr "読み込み中..."
+
+msgid "Version Notes"
+msgstr "バージョンノート"
+
+msgid "Notes for Reviewers"
+msgstr "審査担当者へのメモ"
+
+msgid "No version notes found"
+msgstr "バージョンノートはありません"
+
+msgid "Review Text"
+msgstr "レビューテキスト"
+
+msgid "Review notes found"
+msgstr "レビューノートが見つかりました"
+
+msgid "Average Reviews"
+msgstr "レビュー平均"
+
+msgid "Number of Reviews"
+msgstr "レビュー数"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "最大アップロードサイズは {0} です。小さいサイズの背景画像を選んでください。"
+
+msgid "Requested Info"
+msgstr "求められている情報"
+
+msgid "Flagged"
+msgstr "フラグ付き"
+
+msgid "Duplicate"
+msgstr "重複"
+
+msgid "Rejected"
+msgstr "却下済み"
+
+msgid "Approved"
+msgstr "承認済み"
+
+msgid "No results found"
+msgstr "結果なし"
+
+msgid "Theme"
+msgstr "テーマ"
+
+msgid "Reviewer"
+msgstr "レビュー担当者"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "All tests passed successfully."
+msgstr "すべてのテストに合格しました。"
+
+msgid "These tests were not run."
+msgstr "これらのテストは実行されませんでした。"
+
+msgid "Tests"
+msgstr "テスト"
+
+msgid "Error"
+msgstr "エラー"
+
+msgid "Warning"
+msgstr "警告"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} 行: {1} 列: {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} 行: {1}"
+
+msgid "Add-on failed validation."
+msgstr "アドオンは検証に失敗しました。"
+
+msgid "Add-on passed validation."
+msgstr "アドオンは検証に合格しました。"
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} 個のエラー"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} 個の警告"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} 個の通知"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "検証作業を完了できなかったか、エラーを出力して完了しました"
+
+msgid "Internal server error"
+msgstr "内部サーバーエラー"

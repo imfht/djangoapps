@@ -1,0 +1,176 @@
+remote_theme: "mmistakes/minimal-mistakes"
+
+#theme: minimal-mistakes-jekyll
+
+minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+# Site Settings
+locale                   : "en-US"
+title_separator          : "-"
+name                     : "Doableware AB"
+title                    : "Djongo"
+subtitle                 : "Object Database Mapper"
+description              : "Djongo is a smarter approach to pymongo programming. It maps python objects to MongoDB documents.
+                            It is popularly referred to as an Object Document Mapper or ODM. It is an extension to the traditional
+                            Django object relational modeling framework. Use Django Admin to directly add and modify
+                            documents stored in MongoDB. Use other contrib modules such as Auth and Sessions without any changes."
+url                      : "https://www.djongomapper.com"
+baseurl                  : ""
+repository               : "nesdis/djongo"
+teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+# breadcrumbs            : false # true, false (default)
+logo                     : "/assets/images/djongo-logo-small.png"
+words_per_minute         : 200
+comments:
+  provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "staticman_v2" "custom"
+  disqus:
+    shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
+  discourse:
+    server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
+  facebook:
+    # https://developers.facebook.com/docs/plugins/comments
+    appid                :
+    num_posts            : # 5 (default)
+    colorscheme          : # "light" (default), "dark"
+
+#footer:
+#  links:
+#    - label: By continuing to use this site, you consent to our use of cookies for tracking site usage.
+#      url: "/privacy-policy"
+
+# SEO Related
+google_site_verification : "tFNu7Nc9hzKF9v7f6kYaoMbBCNyGREchcKMVdxJuyJo"
+bing_site_verification   :
+yandex_site_verification :
+naver_site_verification  :
+
+# Analytics
+analytics:
+  provider               : "google-universal" # false (default), "google", "google-universal", "custom"
+  google:
+    tracking_id          : "UA-75159067-1"
+
+#footer_scripts:
+#  - /assets/js/jquery.easing.min.js
+#  - /assets/js/jquery.touchSwipe.min.js
+#  - /assets/js/jquery.liquid-slider.min.js   - "https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"
+
+head_scripts:
+  - "https://js.stripe.com/v3/"
+  - "https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  - "https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"
+  - "/assets/js/cookie-consent.js"
+
+# Reading Files
+include: [_static, _sources]
+
+exclude:
+  - "*.sublime-project"
+  - "*.sublime-workspace"
+  - vendor
+  - .asset-cache
+  - .bundle
+  - .jekyll-assets-cache
+  - .sass-cache
+  - assets/js/plugins
+  - assets/js/_main.js
+  - assets/js/vendor
+  - Capfile
+  - CHANGELOG
+  - config
+  - Gemfile
+  - Gruntfile.js
+  - gulpfile.js
+  - LICENSE
+  - log
+  - node_modules
+  - package.json
+  - Rakefile
+  - README
+  - tmp
+
+keep_files:
+  - .git
+  - .svn
+
+
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+
+
+# Conversion
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
+
+
+# Markdown Processing
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
+
+
+# Sass/SCSS
+sass:
+  sass_dir: _sass
+  style: compressed # http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+
+
+# Outputting
+#permalink: /:categories/:title/
+#paginate_path: /blog/page:num/
+#paginate: 5 # amount of posts to show
+timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+
+# Plugins (previously gems:)
+plugins:
+#  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jemoji
+  - jekyll-include-cache
+  - jekyll-redirect-from
+
+# mimic GitHub Pages with --safe
+whitelist:
+#  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jemoji
+
+
+# HTML Compression
+# - http://jch.penibelst.de/
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
+
+# Defaults
+defaults:
+  - scope:
+      path: "docs"
+      type: pages
+    values:
+      notice:
+        not_ready: "Parts of this feature are still under development.\n{: .notice--warning}"
+        support: "**Note:** If you are an enterprise that uses Djongo in your products, contact us for long term support and [licensing options](/support/).\n{: .notice--danger}"
+        not_standard: "**Note:** Features under development in this section are not part of the standard djongo package. Visit the [support page](/support/) for more information.\n{: .notice--danger}"
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      toc: true
+      sidebar:
+        nav: "docs"
+

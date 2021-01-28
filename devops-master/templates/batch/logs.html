@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% load static %}
+
+  {% block css %}
+  <link rel="stylesheet" href="{% static 'asciinema-player/asciinema-player.css' %}">
+  <link rel="stylesheet" href="{% static 'guacamole/css/playback.css' %}">
+  {% endblock css %}
+  
+  {% block title %}
+  <title>批量日志</title>
+  {% endblock title %}
+
+	{% block navheader %}
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-1">
+          <div class="col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">日志审计</li>
+              <li class="breadcrumb-item active">批量日志</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+	{% endblock navheader %}
+	
+		  {% block content %}
+          <div class="card content-list">
+            <div class="card-header">
+              <h3 class="card-title">批量日志</h3>
+				<div class="card-tools">
+				  <!--button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button-->
+				</div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive">
+              <table id="datatables-lists" class="table table-bordered table-hover table-sm">
+                <thead>
+                <tr>
+				  <th>操作人</th>
+				  <th>主机信息</th>
+				  <th>类型</th>
+				  <th>命令/脚本</th>
+				  <th>客户端IP</th>
+				  <th>客户端</th>
+				  <th>开始时间</th>
+				  <th>结束时间</th>
+				  <th>操作</th>
+                </tr>
+                </thead>
+				
+                <!--tbody>
+				dataTables 服务器端处理模式
+                </tbody-->
+				
+                <tfoot>
+                <tr>
+				  <th>操作人</th>
+				  <th>主机信息</th>
+				  <th>类型</th>
+				  <th>命令/脚本</th>
+				  <th>客户端IP</th>
+				  <th>客户端</th>
+				  <th>开始时间</th>
+				  <th>结束时间</th>
+				  <th>操作</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card --> 
+		  
+		  	<!--查看命令详情框-->
+			<style>
+			#view_cmd_container {
+				overflow:hidden;
+			}
+			</style>
+			<div id="modal-view-cmd" class="iziModal">
+				<div class="card-body">
+				  <div class="row">
+					  <div class="col-10"><h5 class="mb-3" id="view_cmd_info">命令</h5></div>
+					  <div class="col-2"><a href="javascript:void(0)" class="iziModal-button-close float-right" data-izimodal-close="" style="color:black;vertical-align:middle"><i class="fas fa-times fa-lg"></i></a></div>
+					  <div class="col-12" id="view_cmd_container">demo</div>
+				  </div>
+				</div>
+			</div>
+			
+		  	<!--查看录像框-->
+			<div id="modal-view" class="iziModal">
+				<div class="card-body">
+				  <div class="row">
+					  <div class="col-10"><h5 class="mb-3" id="view_info">回放</h5></div>
+					  <div class="col-2"><a href="javascript:void(0)" class="iziModal-button-close float-right" data-izimodal-close="" style="color:black;vertical-align:middle"><i class="fas fa-times fa-lg"></i></a></div>
+					  <div class="col-12" id="view_container"><asciinema-player src="/media/demo.txt" theme="monokai" title="demo" rows="250"></asciinema-player></div>
+					  <div class="col-12">
+						<div class="alert alert-info alert-dismissible mt-2 mb-0"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>提示：如无法看清某些操作，请尝试全屏查看。</div>
+					  </div>
+				  </div>
+				</div>
+			</div>
+		  
+		  {% endblock content %}
+
+{% block js %}
+<!-- DataTables -->
+<script src="{% static 'adminlte/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'adminlte/plugins/datatables/dataTables.bootstrap4.js' %}"></script>
+<script>
+	// $.fn.dataTable.ext.errMode = 'throw';
+	$.fn.dataTable.ext.errMode = function( settings, tn, msg){
+		//打印msg，和tn来判断，进了这个方法都是ajax走了error才会到这里来
+		console.log(settings);
+		console.log(tn);
+		console.log(msg);
+	};
+	$("#datatables-lists").DataTable({
+		language: {
+			"sProcessing": "加载中...",
+			"sLengthMenu": "显示 _MENU_ 项结果",
+			"sZeroRecords": "没有匹配结果",
+			"sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+			"sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+			"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix": "",
+			"sSearch": "搜索:",
+			"sUrl": "",
+			"sEmptyTable": "无数据",
+			"sLoadingRecords": "载入中...",
+			"sInfoThousands": ",",
+			"oPaginate": {
+				"sFirst": "首页",
+				"sPrevious": "上页",
+				"sNext": "下页",
+				"sLast": "末页"
+			},
+			"oAria": {
+				"sSortAscending": ": 以升序排列此列",
+				"sSortDescending": ": 以降序排列此列"
+			}
+		},
+		destroy: true,	// 允许重建
+		bProcessing:true,  // 表格数据过多处理时显示: sProcessing
+		// lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "全部"]],
+		lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+		columnDefs : [ { targets : 8, "orderable" : false } ],
+		order: [],
+		 //scrollY: 480,	// 滚动条
+		 //scrollCollapse: true,
+		 //jQueryUI: true,
+		 stateSave: true,	// 保存最后一次分页信息、排序信息，当页面刷新，或者重新进入这个页面，恢复上次的状态。
+		 stateDuration: 86400,	// 本地储存(0~更大)还是session储存(-1)
+		 
+		 processing: true,
+		 serverSide: true,	// 开启服务器端处理模式
+		 ajax: {
+			url: '{% url "batch_api:logs" %}',
+			type: 'POST',
+			data: {
+				csrfmiddlewaretoken: '{{ request.COOKIES.csrftoken }}',
+			}
+		 },
+	});
+</script>
+
+<script src="{% static 'asciinema-player/asciinema-player.js' %}"></script>
+
+<!-- ace 编辑器 -->
+<script src="{% static 'ace-new/src-min-noconflict/ace.js' %}"></script>
+<script src="{% static 'ace-new/src-min-noconflict/ext-language_tools.js' %}"></script>
+
+<!-- Guacamole JavaScript API -->
+<script src="{% static 'guacamole/js/all.min.js' %}"></script>
+<script src="{% static 'guacamole/js/playback.js' %}"></script>
+
+<script>
+
+	viewcmd = function(event) {
+		var thisObj = $(event);	//js对象转jquery对象
+		var info = thisObj.attr('info');
+		var type = thisObj.attr('type');
+		var cmd = thisObj.find('cmd').text();
+		if (type == "命令") {
+			$("#view_cmd_info").text("命令详情：" + info);
+		} else if (type == "脚本") {
+			$("#view_cmd_info").text("脚本详情：" + info);
+			var htmlobj= $.ajax({url:cmd,async:false});
+			if (htmlobj.status > 399) {
+				cmd = "获取脚本错误！"
+			} else {
+				cmd = htmlobj.responseText;
+			};
+		} else if (type == "上传文件") {
+			$("#view_cmd_info").text("上传详情：" + info);
+		} else if (type == "playbook") {
+			$("#view_cmd_info").text("playbook详情：" + info);
+			var htmlobj= $.ajax({url:cmd,async:false});
+			if (htmlobj.status > 399) {
+				cmd = "获取playbook错误！"
+			} else {
+				cmd = htmlobj.responseText;
+			};
+		} else if (type == "module") {
+			$("#view_cmd_info").text("module详情：" + info);
+		};
+
+		//$("#view_cmd_container").text(cmd);
+		$("#modal-view-cmd").iziModal({
+			iconClass: 'icon-announcement',
+			width: 1080,
+			overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+			closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+		});
+		$('#modal-view-cmd').iziModal('open');
+		
+		ace.require("ace/ext/language_tools");
+		let editor = ace.edit("view_cmd_container", {
+			theme: "ace/theme/tomorrow_night_eighties",
+			mode: "ace/mode/sh",
+			autoScrollEditorIntoView: true,
+			maxLines: 30,
+			minLines: 20,
+		});
+		editor.setShowPrintMargin(false);
+		editor.setReadOnly(true);
+		editor.setValue(cmd, -1);
+	};
+	
+	$(document).on('closed', '#modal-view-cmd', function (e) {
+		let editor = ace.edit("view_cmd_container");
+		editor.destroy();
+		$('#modal-view-cmd').iziModal('destroy');	//销毁模态窗口。
+	});
+	
+	
+	viewsshvideo = function(event) {
+		var thisObj = $(event);	//js对象转jquery对象
+		// var info = thisObj.attr('id').split("-")[0];
+		var info = thisObj.attr('info');
+		var file = thisObj.attr("id");
+		$("#view_info").text("回放：" + info);
+		//var res = '<asciinema-player src="/media/' + file + '" theme="monokai" title="' + info + '" rows="30" idle-time-limit="1"></asciinema-player>';
+		var res = '<asciinema-player src="/media/' + file + '" theme="monokai" title="' + info + '" rows="45" cols="250"></asciinema-player>';
+		$("#view_container").html(res);
+		$("#modal-view").iziModal({
+			iconClass: 'icon-announcement',
+			width: 1080,
+			overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+			closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+		});
+		$('#modal-view').iziModal('open');
+	};
+	
+	$(document).on('closed', '#modal-view', function (e) {
+		$('#modal-view').iziModal('destroy');	//销毁模态窗口。
+	});
+
+</script>
+{% endblock js %}

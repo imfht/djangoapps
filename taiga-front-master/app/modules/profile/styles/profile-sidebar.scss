@@ -1,0 +1,24 @@
+.profile-sidebar {
+    h4 {
+        @include font-type(medium);
+        align-items: center;
+        background: $mass-white;
+        color: $gray;
+        display: flex;
+        margin-bottom: .5rem;
+        padding: .5rem;
+        .icon {
+            margin-right: .3rem;
+        }
+    }
+    p {
+        @include font-size(small);
+        color: $gray-light;
+    }
+    .edit-profile {
+        width: 100%;
+    }
+    .profile-hints {
+        margin-top: 2rem;
+    }
+}

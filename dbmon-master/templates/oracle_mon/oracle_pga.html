@@ -1,0 +1,63 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle PGA使用情况
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Oracle</a></li>
+        <li><a href="/oracle_monitor">实时监控</a></li>
+        <li class="active">PGA使用情况</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+            <div class="box-body">
+              <table id="table1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>程序名称</th>
+                    <th>状态</th>
+                    <th>用户名</th>
+                    <th>主机名</th>
+                    <th>操作系统用户</th>
+                    <th>登陆时间</th>
+                    <th>SID</th>
+                    <th>进程号</th>
+                    <th>使用内存大小(MB)</th>
+                    <th>允许消耗内存大小(MB)</th>
+                    <th>可释放内存大小(MB)</th>
+                    <th>最大PGA内存分配(MB)</th>
+                </tr>
+                </thead>
+                {% for oracle_pga in oracle_pgas %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ tags}} </td>
+                 <td>{{ oracle_pga.PROGRAM}} </td>
+                 <td>{{ oracle_pga.STATUS}} </td>
+                 <td>{{ oracle_pga.USERNAME}} </td>
+                 <td>{{ oracle_pga.MACHINE}} </td>
+                 <td>{{ oracle_pga.OSUSER}} </td>
+                 <td>{{ oracle_pga.LOGON_TIME}} </td>
+                 <td> <li><a href="/oracle_session?tags={{ tags }}&session_id={{ oracle_pga.SID }}" >{{ oracle_pga.SID }}</a></li> </td>
+                 <td>{{ oracle_pga.SPID}} </td>
+                 <td>{{ oracle_pga.PGA_USED_MEM}} </td>
+                 <td>{{ oracle_pga.PGA_ALLOC_MEM}} </td>
+                 <td>{{ oracle_pga.PGA_FREEABLE_MEM}} </td>
+                 <td>{{ oracle_pga.PGA_MAX_MEM}} </td>
+                 {% endfor %}
+              </table>
+            </div>
+      </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "devhub/base.html" %}
+
+{% from "devhub/includes/macros.html" import tip, some_html_tip, empty_unless, compat %}
+
+{% set title = _('Manage Version {0}')|format_html(version.version) %}
+
+{% block title %}{{ dev_page_title(title, addon) }}{% endblock %}
+
+{% block content %}
+<header>
+  {# L10n: {0} is an add-on name. #}
+  {{ l10n_menu(addon.default_locale) }}
+  <h2>{{ _('Manage {0}')|format_html(addon.name) }}</h2>
+</header>
+<section class="primary devhub-form edit-version" role="main">
+  <h3>{{ title }}</h3>
+  <form method="post" enctype="multipart/form-data">
+    <div class="item">
+      <div class="item_wrapper">
+        {% csrf_token %}
+        <table>
+          <tr>
+            <th>{{ _("Files") }}</th>
+            <td>
+              <table id="file-list">
+                <tbody>
+                  {% for file in files %}
+                    {% include "devhub/includes/version_file.html" %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          {% if compat_form %}
+          <tr>
+            <th>{{ tip(_("Compatibility"),
+                       _("Adjusting application information here will allow users to install your "
+                         "add-on even if the install manifest in the package indicates that the "
+                         "add-on is incompatible.")) }}</th>
+            <td class="compat-versions">
+                {{ compat_form.non_form_errors() }}
+                {{ compat_form.management_form }}
+                <table>
+                  <tbody>
+                    {% for form in compat_form.initial_forms %}
+                      {{ compat(form) }}
+                    {% endfor %}
+                    {% for form in compat_form.extra_forms %}
+                      {{ compat(form, is_extra_form=True) }}
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% if check_addon_ownership(request, addon, dev=True) %}
+                  <p class="add-app{% if not compat_form.extra_forms %} hide{% endif %}">
+                    <a href="#">{{ _('Add Another Application&hellip;') }}</a>
+                  </p>
+                  <div class="new-apps"></div>
+                {% endif %}
+            </td>
+          </tr>
+          {% endif %}
+          {% if version_form %}
+          <tr>
+          {% with field = version_form.release_notes %}
+            <th>
+              <label data-for="release_notes">{{ _("Version Notes") }}
+              {{ tip(None, _("Information about changes in this release, new features, "
+                             "known bugs, and other useful information specific to this "
+                             "release/version. This information is also shown in the "
+                             "Add-ons Manager when updating.")) }}
+              </label>
+            </th>
+            <td>
+              {{ field.errors }}
+              {{ field }}
+              {{ some_html_tip() }}
+            </td>
+          {% endwith %}
+          </tr>
+          {% endif %}
+          <tr>
+            <th>
+              {{ _("License") }}
+            </th>
+            <td>
+              {{ version.license }}
+              {% if version.license.url %}
+                <a class="extra" href="{{ version.license.url }}">{{ _('Details') }}</a>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <th>{{ _('Approval Status') }}</th>
+            <td id="approval_status">
+              <ul>
+                {% for file in version.all_files %}
+                <li>
+                  {{ file_status_message(file) }}
+                </li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+          {% if version_form %}
+          <tr>
+          {% with field = version_form.approval_notes %}
+            <th>
+              <label for="{{ field.auto_id }}">{{ _("Notes for Reviewers") }}</label>
+              {{ tip(None, _("Optionally, enter any information that may be useful "
+                             "to the Reviewer of this add-on, such as test "
+                             "account information.")) }}
+            </th>
+            <td>
+              {{ field.errors }}
+              {{ field }}
+            </td>
+          {% endwith %}
+          </tr>
+          <tr>
+          {% with field = version_form.source %}
+            <th>
+              <label for="{{ field.auto_id }}">{{ _("Source code") }}</label>
+              {{ tip(None, _("If your add-on contains minified, concatenated or otherwise machine-generated code, make the source available here for reviewers.")) }}
+            </th>
+            <td>
+              {{ field.errors }}
+              {{ field }}
+            </td>
+          {% endwith %}
+          </tr>
+          {% endif %}
+        </table>
+      </div>
+      <div class="listing-footer">
+        {% if addon.type != amo.ADDON_STATICTHEME %}
+          <button type="submit">{{ _('Save Changes') }}</button> {{ _('or') }}
+        {% endif %}
+        <a href="{{ addon.get_dev_url('versions') }}">{{ _('Cancel') }}</a>
+      </div>
+    </div>
+  </form>
+</section>
+{% include "devhub/includes/addons_edit_nav.html" %}
+{% endblock %}

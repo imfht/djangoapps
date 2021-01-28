@@ -1,0 +1,278 @@
+# -*- coding: utf-8 -*-
+
+# This file is part of wger Workout Manager.
+#
+# wger Workout Manager is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# wger Workout Manager is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
+
+# Third Party
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+# wger
+from wger.manager.api.serializers import (
+    DaySerializer,
+    ScheduleSerializer,
+    ScheduleStepSerializer,
+    SetSerializer,
+    SettingSerializer,
+    WorkoutCanonicalFormSerializer,
+    WorkoutLogSerializer,
+    WorkoutSerializer,
+    WorkoutSessionSerializer
+)
+from wger.manager.models import (
+    Day,
+    Schedule,
+    ScheduleStep,
+    Set,
+    Setting,
+    Workout,
+    WorkoutLog,
+    WorkoutSession
+)
+from wger.utils.viewsets import WgerOwnerObjectModelViewSet
+
+
+class WorkoutViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for workout objects
+    """
+    serializer_class = WorkoutSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('comment',
+                        'creation_date')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return Workout.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """
+        Set the owner
+        """
+        serializer.save(user=self.request.user)
+
+    @action(detail=True)
+    def canonical_representation(self, request, pk):
+        """
+        Output the canonical representation of a workout
+
+        This is basically the same form as used in the application
+        """
+
+        out = WorkoutCanonicalFormSerializer(self.get_object().canonical_representation).data
+        return Response(out)
+
+
+class WorkoutSessionViewSet(WgerOwnerObjectModelViewSet):
+    """
+    API endpoint for workout sessions objects
+    """
+    serializer_class = WorkoutSessionSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('date',
+                        'workout',
+                        'notes',
+                        'impression',
+                        'time_start',
+                        'time_end')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return WorkoutSession.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """
+        Set the owner
+        """
+        serializer.save(user=self.request.user)
+
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+        return [(Workout, 'workout')]
+
+
+class ScheduleStepViewSet(WgerOwnerObjectModelViewSet):
+    """
+    API endpoint for schedule step objects
+    """
+    serializer_class = ScheduleStepSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('schedule',
+                        'workout',
+                        'duration',
+                        'order')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return ScheduleStep.objects.filter(schedule__user=self.request.user)
+
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+        return [(Workout, 'workout'),
+                (Schedule, 'schedule')]
+
+
+class ScheduleViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for schedule objects
+    """
+    serializer_class = ScheduleSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('is_active',
+                        'is_loop',
+                        'start_date',
+                        'name')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return Schedule.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """
+        Set the owner
+        """
+        serializer.save(user=self.request.user)
+
+
+class DayViewSet(WgerOwnerObjectModelViewSet):
+    """
+    API endpoint for training day objects
+    """
+    serializer_class = DaySerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('description',
+                        'training',
+                        'day')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return Day.objects.filter(training__user=self.request.user)
+
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+        return [(Workout, 'training')]
+
+
+class SetViewSet(WgerOwnerObjectModelViewSet):
+    """
+    API endpoint for workout set objects
+    """
+    serializer_class = SetSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('exerciseday',
+                        'order',
+                        'sets',
+                        'exercises')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return Set.objects.filter(exerciseday__training__user=self.request.user)
+
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+        return [(Day, 'exerciseday')]
+
+
+class SettingViewSet(WgerOwnerObjectModelViewSet):
+    """
+    API endpoint for repetition setting objects
+    """
+    serializer_class = SettingSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('exercise',
+                        'order',
+                        'reps',
+                        'weight',
+                        'set',
+                        'order')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+        return Setting.objects.filter(set__exerciseday__training__user=self.request.user)
+
+    def perform_create(self, serializer):
+        """
+        Set the order
+        """
+        serializer.save(order=1)
+
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+        return [(Set, 'set')]
+
+
+class WorkoutLogViewSet(WgerOwnerObjectModelViewSet):
+    """
+    API endpoint for workout log objects
+    """
+    serializer_class = WorkoutLogSerializer
+    is_private = True
+    ordering_fields = '__all__'
+    filterset_fields = ('date',
+                        'exercise',
+                        'reps',
+                        'weight',
+                        'workout')
+
+    def get_queryset(self):
+        """
+        Only allow access to appropriate objects
+        """
+
+        return WorkoutLog.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """
+        Set the owner
+        """
+        serializer.save(user=self.request.user)
+
+    def get_owner_objects(self):
+        """
+        Return objects to check for ownership permission
+        """
+        return [(Workout, 'workout')]

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n static wger_extras %}
+
+{% block title %}{% trans "API key" %}{% endblock %}
+
+
+{% block content %}
+{% with url='/api/v2/' %}
+<p>{% blocktrans %}Generate an API key if you want to interact with wger via
+the <a href="{{url}}" rel="nofollow">REST API</a> it provides (for
+public resources such as the exercises or ingredients, you don't need to provide
+anything). You must pass this information in the header in the format shown below.{% endblocktrans %}
+{% endwith %}
+
+<p>{% blocktrans %}For security reasons, you should only access the API via HTTPS.{% endblocktrans %}</p>
+<div class="card mb-4 {% if token %}text-white bg-success{% else %}bg-light{% endif %}" >
+    <div class="card-header">
+        {% trans "Your API key" %}
+    </div>
+    <div class="card-body">
+        {% if token %}
+            <strong>{{token.key}}</strong>
+        {% else %}
+            <em>{% trans "You have no API key yet" %}</em>
+        {% endif %}
+    </div>
+</div>
+
+<h5>In the request header</h5>
+<pre>
+Authorization: Token {% if token %}{{token.key}}{% else %}1234567890abcde...{% endif %}
+</pre>
+
+<h5>Example with curl</h5>
+<pre>
+curl -X GET https://wger.de/api/v2/workout/ \
+     -H 'Authorization: Token {% if token %}{{token.key}}{% else %}1234567890abcde...{% endif %}'
+</pre>
+
+{% endblock %}
+
+
+{% block sidebar %}
+<h4>{% trans "Options" %}</h4>
+
+<p>
+{% if token %}
+    <a href="{% url 'core:user:api-key' %}?new_key=true" class="btn btn-block btn-light">{% trans 'Delete current API key and generate new one' %}</a>
+{% else %}
+    <a href="{% url 'core:user:api-key' %}?new_key=true" class="btn btn-block btn-light">{% trans 'Generate new API key' %}</a>
+{% endif %}
+</p>
+
+<p>
+    <a href="{% url 'software:api' %}" class="btn btn-block btn-light">{% trans 'Documentation' %}</a>
+</p>
+{% endblock %}

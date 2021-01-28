@@ -1,0 +1,37 @@
+.admin-membership {
+
+    .header-message {
+        background: $primary-background;
+        margin-top: 1rem;
+        padding: 1rem;
+
+        .no-more-membership {
+            align-items: center;
+            color: $grayer;
+            display: flex;
+
+            strong,
+            a {
+                @include font-type(medium);
+            }
+            p {
+                color: $grayer;
+                flex-grow: 1;
+                margin: 0;
+                padding-left: 2rem;
+                padding-right: 1rem;
+            }
+        }
+    }
+    .limit-users-warning {
+        @include font-size(small);
+        color: $primary;
+        margin-right: 1rem;
+    }
+    .check {
+        input { // IE needs smaller size
+            height: 40px;
+            width: 85px;
+        }
+    }
+}

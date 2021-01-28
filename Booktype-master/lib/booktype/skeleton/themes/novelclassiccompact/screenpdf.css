@@ -1,0 +1,49 @@
+/* Created with www.booktype.pro */
+/* Theme 'Novel Classic (Compact)' Version 0.2 update: 2017-07-18T10:35:19+02:00 */
+/* START mpdf specific CSS */
+
+/* Header ********************************************************************/
+.header-text {
+  font-family: "texgyreschola";
+  font-size: 0.8em;
+  border-bottom: 0pt solid black;
+}
+.header-left {
+  text-align: right;
+  display: none;
+}
+.header-right {
+  text-align: left;
+  display: none;
+}
+
+/* Footer ********************************************************************/
+.footer-text {
+  font-family: "texgyreschola";
+  font-size: 1em;
+  border-top: 0pt solid black;
+}
+.footer-left {
+  text-align: center;
+  display: block;
+}
+.footer-right {
+  text-align: center;
+  display: block;
+}
+
+/* TABLE *****************************************************************/
+/* for caption styling see images section */
+table {
+  border-collapse: collapse;
+  max-width: 100%;
+  margin-top: 13pt;
+  margin-bottom: 13pt;
+}
+th, td {
+  border: 0.1mm solid #000000;
+  padding: 0.6em 0.8em;
+}
+
+
+/* END mpdf specific CSS */

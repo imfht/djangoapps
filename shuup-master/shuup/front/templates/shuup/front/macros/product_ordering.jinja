@@ -1,0 +1,292 @@
+{% extends "shuup/front/macros/theme/product.jinja" %}
+
+
+{% macro render_product_order_section(
+        product, variation_variables, variation_children, unorderability_reason,
+        orderable_variation_children, supplier=None) %}
+
+    {%- set shop_product = product.get_shop_instance(request.shop, allow_cache=True) -%}
+    {%- set supplier = supplier or shop_product.get_supplier() %}
+    {% if not quantity %}
+        {%- set quantity = shop_product.rounded_minimum_purchase_quantity -%}
+    {% endif %}
+
+    <div id="product-price-section">
+        {% if request.is_ajax() %}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("form.add-to-basket").on("submit", function(e) {
+                        e.preventDefault();
+                        addToBasket($(this));
+                        $(".product-preview-modal").modal("hide");
+                    });
+                });
+            </script>
+        {% endif %}
+
+        <form role="form" method="post" action="{{ url('shuup:basket') }}" class="add-to-basket">
+            {% set return_path = return_url if return_url else request.path %}
+            <input type="hidden" name="return" value="{{ return_path }}">
+            {{ supplier_input(shop_product, supplier) }}
+            {% if unorderability_reason %}
+                <p class="text-warning not-orderable">{{ unorderability_reason }}</p>
+            {% elif variation_variables %}
+                {{ variable_variation_form(shop_product, quantity, variation_variables, orderable_variation_children, supplier) }}
+            {% elif variation_children %}
+                {{ simple_variation_form(shop_product, quantity, orderable_variation_children, supplier) }}
+            {% else %}
+                {{ simple_product_form(shop_product, quantity, supplier=supplier) }}
+                {% if shop_product.product.variation_parent %}
+                <div id="product-image-sections" class="hidden">
+                    <div class="variation-image-section" id="variation-images-{{ shop_product.product.id }}">
+                        {% set product_images = shop_product.public_images.all() %}
+                        {{ render_product_image_section(shop_product.product, product_images=product_images) }}
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+        </form>
+    </div>
+{% endmacro %}
+
+{% macro supplier_input(shop_product, supplier) %}
+    {% if shop_product.product.variation_parent %}
+        {%- set product_id = shop_product.product.variation_parent.pk -%}
+    {% else %}
+        {%- set product_id = shop_product.product.pk -%}
+    {% endif %}
+    <input type="hidden" id="product-supplier-{{ product_id }}" name="supplier_id" value="{{ supplier.id }}">
+{% endmacro %}
+
+{% macro variable_variation_form(shop_product, quantity, variation_variables, orderable_variation_children, supplier) %}
+    {% set variation_orderable = orderable_variation_children|length %}
+    {% if shop_product.product.variation_parent %}
+        {%- set product_id = shop_product.product.variation_parent.pk -%}
+    {% else %}
+        {%- set product_id = shop_product.product.pk -%}
+    {% endif %}
+    <input type="hidden" name="command" value="add_var">
+    <input type="hidden" name="product_id" id="product_id" value="{{ shop_product.product.id }}">
+    <div class="product-variations">
+        {% set show_variation_buttons = xtheme.get("show_variation_buttons") %}
+        {% if show_variation_buttons %}
+            {% for var in variation_variables %}
+                {% set idx = loop.index %}
+                <h3>{{ var.name }}</h3>
+                {% for pvvv in orderable_variation_children[var] %}
+                     <button
+                             class="btn btn-primary btn-variation {% if (not selected_variation and loop.first) or
+                                (pvvv.pk in selected_variation_values) %}btn-active{% endif %} {{ var }} {{ pvvv }}"
+                             data-target-product="{{ var.id }}"
+                             data-primary-product="{{ product_id }}"
+                             data-level="{{ idx }}"
+                             data-product-id="{{ pvvv.pk }}">
+                        {{ pvvv.value }}
+                    </button>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% for var in variation_variables %}
+            <div class="form-group {% if show_variation_buttons %} hidden {% endif %}">
+                <label for="var_{{ var.pk }}">{% trans %}Select{% endtrans %} {{ var.name }}</label>
+                <select name="var_{{ var.pk }}"
+                        id="var_{{ var.pk }}"
+                        class="form-control selectpicker variable-variation variable-variation-{{ product_id }}"
+                        onchange="updatePrice('{{ product_id }}')">
+                    {% for pvvv in orderable_variation_children[var] %}
+                        <option {% if pvvv.pk in selected_variation_values %}selected{% endif %}
+                                value="{{ pvvv.pk }}">{{ pvvv.value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endfor %}
+        {{ product_order_section(shop_product, quantity, variation_orderable, supplier=supplier) }}
+    </div>
+{% endmacro %}
+
+{% macro simple_variation_form(shop_product, quantity, orderable_variation_children, supplier) %}
+    {% set is_orderable = (orderable_variation_children|length > 0) %}
+    {% if shop_product.product.variation_parent %}
+        {%- set product_id = shop_product.product.variation_parent.pk -%}
+    {% else %}
+        {%- set product_id = shop_product.product.pk -%}
+    {% endif %}
+    <div class="product-variations">
+        <input type="hidden" name="command" value="add">
+        <div class="form-group">
+            <label for="product-variations">{% trans %}Select product{% endtrans %}</label>
+            <select name="product_id"
+                    id="product-variations-{{ product_id }}"
+                    class="form-control selectpicker"
+                    onchange="updatePrice('{{ product_id }}')">
+                {% for p in orderable_variation_children %}
+                    <option value="{{ p.id }}"{% if selected_variation and selected_variation.sku == p.sku %} selected{% endif %}>
+                        {{ p.variation_name or p.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        {{ product_order_section(shop_product, quantity, is_orderable, supplier=supplier) }}
+    </div>
+{% endmacro %}
+
+{% macro simple_product_form(shop_product, quantity, command="add", show_quantity=True, show_price=True, button_text=None, supplier=None) %}
+    <input type="hidden" name="command" value="{{ command }}">
+    <input type="hidden" name="product_id" value="{{ shop_product.product.id }}">
+    {% set is_orderable = shop_product.is_orderable(supplier=supplier, customer=request.customer, quantity=quantity, allow_cache=True) %}
+    <div class="prices">
+        {{ product_order_section(shop_product, quantity, is_orderable, show_quantity=show_quantity, show_price=show_price, button_text=button_text, supplier=supplier) }}
+    </div>
+{% endmacro %}
+
+{% macro product_order_section(shop_product, quantity, is_orderable, show_quantity=True, show_price=True, button_text=None, supplier=None) %}
+    {% if show_prices() and not xtheme.get("hide_prices") %}
+        {% if (show_price or show_quantity) %}
+        <div class="row">
+            <div class="col-sm-6">
+            {% if show_quantity and not xtheme.get("catalog_mode") %}
+                {{ quantity_box(shop_product, quantity) }}
+            {% endif %}
+            </div>
+            {% if show_price %}
+            <div class="col-sm-6">
+                {{ product_price_div(shop_product, quantity, supplier) }}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if not xtheme.get("catalog_mode") %}
+            {% set subscription_options = shuup.product.get_subscription_options_for_product(
+                shop=shop_product.shop,
+                product=shop_product.product,
+                supplier=supplier,
+                user=request.user) %}
+
+            {% if subscription_options|length > 0 %}
+                {{ render_purchase_options(subscription_options) }}
+            {% endif %}
+
+            {{ add_to_cart_btn(shop_product, is_orderable, button_text=button_text) }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro render_purchase_options(subscription_options) %}
+    <ul class="list-group product-purchase-options-list-group">
+        <li class="list-group-item selected">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="purchase-option" value="one-time" checked onchange="onProductPurchaseOptionChange(this);">
+                    {{ _("One-time purchase") }}
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="purchase-option" value="subscription" onchange="onProductPurchaseOptionChange(this);">
+                    {{ _("Subscribe") }}
+                </label>
+            </div>
+
+            <div class="subscription-frequency">
+                <strong>{{ _("Select frequency") }}</strong>
+
+                <div class="subscription-options">
+                    {% for option in subscription_options %}
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="subscription-option" value="{{ option.value }}" onchange="onProductSubscriptionSelectionChange(this);" {% if loop.first %}checked{% endif %}>
+                                <span class="option-label">{{ option.label }}</span> - <span class="option-price">{{ option.price|money }}/{{ product.sales_unit.symbol }}</span>
+                                {% if option.description %}
+                                    <p class="text-muted">
+                                    {% for description_line in option.description.split("\n") %}
+                                        <small>{{ description_line }}</small>
+                                        {% if not loop.last %}<br>{% endif %}
+                                    {% endfor %}
+                                    </p>
+                                {% endif %}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </li>
+    </ul>
+{% endmacro %}
+
+{% macro quantity_box(shop_product, quantity) %}
+    {% if shop_product.product.variation_parent %}
+        {%- set product_id = shop_product.product.variation_parent.pk -%}
+    {% else %}
+        {%- set product_id = shop_product.product.pk -%}
+    {% endif %}
+    {% set unit = shop_product.unit %}
+    <div class="form-group amount">
+        <label for="product-quantity-{{ product_id }}">{% trans %}Quantity{% endtrans %}</label>
+        <div class="input-group">
+            <input
+            type="number"
+            class="form-control"
+            name="quantity"
+            id="product-quantity-{{ product_id }}"
+            step="{{ shop_product.display_quantity_step }}"
+            value="{{ unit.to_display(quantity) }}"
+            min="{{ shop_product.display_quantity_minimum }}"
+            onchange="updatePrice('{{ product_id }}')"
+            >
+            <input
+                type="hidden" id="product-unit-type-{{ product_id }}"
+                name="unit_type" value="display">
+            <span class="input-group-addon sales-unit">
+                {{- unit.symbol -}}
+            </span>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro product_price_div(shop_product, quantity, supplier) %}
+    {% if shop_product.product.variation_parent %}
+        {%- set product_id = shop_product.product.variation_parent.pk -%}
+    {% else %}
+        {%- set product_id = shop_product.product.pk -%}
+    {% endif %}
+    {% set product = shop_product.product %}
+    <div class="price text-right product-price-div" id="product-price-div-{{ product_id }}" data-product-id="{{ shop_product.product.id }}">
+        <h2>
+            <small class="text-muted">{% trans %}Total{% endtrans %}:</small>
+            <span class="product-price"><strong>{{ product|price(quantity, supplier=supplier) }}</strong></span>
+        </h2>
+        <span class="small text-muted">
+            {% if product|is_discounted(quantity, supplier=supplier) %}
+            (<s>{{ product|base_unit_price(quantity, supplier=supplier) }}</s>)
+            {% endif %}
+            {{ product|discounted_unit_price(quantity, supplier=supplier) }}/{{ product.sales_unit.symbol }}
+        </span>
+    </div>
+{% endmacro %}
+
+{% macro add_to_cart_btn(shop_product, is_orderable, button_text=None) %}
+    {%- set orderable = (is_orderable and show_prices() and not xtheme.get("hide_prices")) %}
+    {% if not button_text %}
+        {%- set button_text = _("Add to cart") -%}
+    {% endif %}
+
+    <div class="clearfix btn-add-to-cart">
+        <button type="submit"
+                class="btn btn-primary btn-block btn-lg{% if not orderable %} not-orderable{% endif %}"
+                id="add-to-cart-button-{{ shop_product.product.id }}"{% if not orderable %} disabled{% endif %}>
+            <i class="fa fa-shopping-cart"></i> {{ button_text }}
+        </button>
+        {% if shop_product.status_text %}
+        <p class="text-right">
+            <i class="fa fa-info-circle text-info"></i> {{ shop_product.status_text }}
+        </p>
+        {% endif %}
+        {% if shop_product.available_until %}
+        <p class="text-right">
+            <i class="fa fa-calendar text-info"></i> {{ _("Available until: {date}").format(date=shop_product.available_until|date) }}
+        </p>
+        {% endif %}
+    </div>
+{% endmacro %}

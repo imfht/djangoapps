@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/fullcalendar/dist/fullcalendar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/fullcalendar/dist/fullcalendar.print.min.css' %}"
+          media="print">
+
+    <link rel="stylesheet" href="{% static 'layer/skin/layer.css' %}">
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cropper/dist/cropper.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" id="avatar"
+                         src="{{ MEDIA_URL }}{{ user.image }}"
+                         alt="User profile picture">
+
+                    <h3 class="profile-username text-center">{{ user.username }}</h3>
+                    <p class="text-muted text-center" id="userMobile">手机：{{ user.mobile|default:'' }}</p>
+
+                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#updateMobile">
+                        <b>修改手机号码</b></button>
+                    <label for="updateAvatar" class=" btn btn-primary btn-block"><b>更换头像</b></label>
+                    <input type="file" class="sr-only" id="updateAvatar" name="image" accept="image/*"
+                           style="display:none">
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <!-- updateAvatar  -->
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+                 aria-labelledby="modalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="updateAvatarModalLabel">
+                                修改头像
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="img-container">
+                                <img id="image" src="{{ MEDIA_URL }}{{ user.image }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" id="crop" data-dismiss="modal">
+                                提交
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <!-- updateMobile  -->
+            <div class="modal fade" id="updateMobile" tabindex="-1" role="dialog"
+                 aria-labelledby="updateMobileModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="updateMobileModalLabel">
+                                修改手机号码
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="mobile_detail" class="main form-horizontal">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="mobile">手机号码</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="mobile" id="mobile"
+                                                   maxlength="11" minlength="11" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-24"></div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateMobile()">
+                                提交
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+        </div>
+        <!-- /.col -->
+
+        <!-- Tabs -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#notebook" data-toggle="tab">计划任务</a></li>
+                    <li><a href="#settings" data-toggle="tab">修改密码</a></li>
+                </ul>
+                <div class="tab-content">
+
+                    <div class="active tab-pane" id="notebook">
+                        <div class="box box-primary">
+                            <div class="box-body no-padding">
+                                <!-- THE CALENDAR -->
+                                <div id="calendar"></div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="settings">
+                        <form class="form-horizontal" id="mod_password">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-sm-2 control-label">新密码</label>
+
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputPassword" name="password"
+                                           minlength="6" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCPassword" class="col-sm-2 control-label">重复密码</label>
+
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputCPassword" name="c_password"
+                                           minlength="6" data-parsley-equalto="#inputPassword"
+                                           data-parsley-equalto-message="两次密码输入不一致" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-danger" onclick="mod_password()">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'layer/layer.js' %}"></script>
+    <!-- fullCalendar -->
+    <script src="{% static 'AdminLTE/bower_components/moment/moment.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+    <!-- 输入验证 -->
+    <script src="{% static 'parsley/dist/parsley.min.js' %}"></script>
+    <!-- 修改头像 -->
+    <script src="{% static 'cropper/dist/cropper.min.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            //初始化FullCalendar
+            $('#calendar').fullCalendar({
+                buttonText: {
+                    today: '今天',
+                    month: '月',
+                    week: '周',
+                    day: '日',
+                },
+                allDayText: "全天",
+                timeFormat: 'HH:mm',
+                views: {
+                    month: {titleFormat: 'YYYY年MMMM月'},
+                    week: {titleFormat: 'YYYY年MMMM月'},
+                    day: {titleFormat: 'YYYY年MMMM月D日'},
+                },
+                monthNames: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                monthNamesShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                dayNames: ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+                dayNamesShort: ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+                //defaultView: 'agendaWeek',
+                contentHeight: 650,
+                eventLimit: true, // allow "more" link when too many events
+                // 新增内容：自定义按钮
+                customButtons: {
+                    reportAddButton: {
+                        text: '添加',
+                        click: doCreate,
+                    },
+
+                },
+                header: {
+                    //日历头部左边：初始化切换按钮
+                    left: 'prev,next today reportAddButton',
+                    //日历头部中间：显示当前日期信息
+                    center: 'title',
+                    //日历头部右边：初始化视图
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                //设置是否显示周六和周日，设为false则不显示
+                weekends: true,
+                eventClick: function (calEvent, jsEvent, view) {
+                    layer.open({
+                        type: 2,
+                        title: '任务详情',
+                        shadeClose: false,
+                        maxmin: true,
+                        area: ['800px', '480px'],
+                        content: "/users/plan_info/" + calEvent.id + '/',
+
+                    });
+                },
+                events: [
+                    {% for my_plan in my_plans %}
+                        {
+                            id: '{{ my_plan.id }}',
+                            title: '{{ my_plan.title }}',
+                            start: '{{ my_plan.start_time|date:"Y-m-d H:i" }}',
+                            end: '{{ my_plan.end_time|date:"Y-m-d H:i" }}',
+                        },
+                    {% endfor %}
+                ],
+            });
+        });
+
+        function doCreate() {
+            layer.open({
+                type: 2,
+                title: '计划任务',
+                shadeClose: false,
+                maxmin: true,
+                area: ['800px', '480px'],
+                content: "{% url 'create_plan' %}",
+                end: function () {
+                    window.location.reload();
+                }
+            });
+        }
+
+        // 修改密码
+        function mod_password() {
+            let obj = $('#mod_password');
+            let status = obj.parsley().validate();
+            if (status) {
+                $.ajax({
+                    url: '{% url 'user_center' %}',
+                    type: 'POST',
+                    data: obj.serialize(),
+                    success: function (response) {
+                        if (response['code'] === 200) {
+                            $.confirm({
+                                title: 'Tips！',
+                                content: response['msg'],
+                                type: 'green',
+                                autoClose: 'OK|5000',
+                                buttons: {
+                                    OK: function () {
+                                        window.location.href = '/login/';
+                                    }
+                                }
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: response['msg'],
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        });
+                    }
+                })
+            }
+        }
+
+        // 修改手机号码
+        function updateMobile() {
+            let obj = $('#mobile_detail');
+            let status = obj.parsley().validate();
+            if (status) {
+                $.ajax({
+                    url: '{% url 'user_center' %}',
+                    type: 'POST',
+                    data: obj.serialize(),
+                    success: function (response) {
+                        if (response.code === 200) {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'green',
+                                content: response.msg,
+                            });
+                            $('#userMobile').html('手机：' + response['data'])
+                        } else {
+                            $.alert({
+                                title: 'Tips',
+                                type: 'red',
+                                content: response.msg,
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        });
+                    }
+                })
+            }
+        }
+
+        // 修改头像
+        window.addEventListener('DOMContentLoaded', function () {
+            let image = document.getElementById('image');
+            let input = document.getElementById('updateAvatar');
+            let $modal = $('#modal');
+            let cropper;
+            input.addEventListener('change', function (e) {
+                let files = e.target.files;
+                let done = function (url) {
+                    input.value = '';
+                    image.src = url;
+                    $modal.modal('show');
+                };
+                let reader;
+                let file;
+                if (files && files.length > 0) {
+                    file = files[0];
+                    if (URL) {
+                        done(URL.createObjectURL(file));
+                    } else if (FileReader) {
+                        reader = new FileReader();
+                        reader.onload = function () {
+                            done(reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+            $modal.on('shown.bs.modal', function () {
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper.destroy();
+                cropper = null;
+            });
+            document.getElementById('crop').addEventListener('click', function () {
+                let canvas;
+                $modal.modal('hide');
+                if (cropper) {
+                    canvas = cropper.getCroppedCanvas({
+                        width: 160,
+                        height: 160,
+                    });
+                    canvas.toBlob(function (blob) {
+                        let formData = new FormData();
+                        let img_name = new Date().getTime() + '.png';
+                        formData.append('avatar', blob, img_name);
+                        $.ajax('{% url 'user_center' %}', {
+                            type: 'POST',
+                            data: formData,
+                            dataType: 'JSON',
+                            processData: false,
+                            contentType: false,
+                            xhr: function () {
+                                return new XMLHttpRequest();
+                            },
+                            success: function (res) {
+                                $.confirm({
+                                    title: 'Tips！',
+                                    type: 'green',
+                                    content: res['msg'],
+                                    buttons: {
+                                        OK: function () {
+                                            window.location.reload();
+                                        }
+                                    }
+                                });
+                            },
+                            error: function (res) {
+                                $.alert({
+                                    title: 'Tips',
+                                    type: 'red',
+                                    content: res['msg'],
+                                });
+                            },
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock %}

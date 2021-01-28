@@ -1,0 +1,26 @@
+# Travis specific pylint configuration #
+# ######################################
+#
+# For Travis we only care to fail if a test fails, so no fancy reporting
+#
+# Adding new enabled checks:
+# 1. They must pass
+# 2. They must pass reliably, no false positives
+# 3. Prefer a checker over and individual check
+# 4. We don't include anything that the devs can't agree on in terms of linting
+
+[MASTER]
+ignore=migrations,.eggs,.git,.tox
+
+[MESSAGES CONTROL]
+disable=all
+# For checkers and individual checks see
+# https://pylint.readthedocs.io/en/latest/features.html
+enable=reimported, logging, stdlib, string, unneeded-not, undefined-loop-variable, old-octal-literal, print-statement
+
+dummy-variables-rgx=__|^.*[^_]_$
+
+[REPORTS]
+msg-template="{path}:{line}: {msg_id} {msg} ({symbol})"
+output-format=colorized
+reports=no

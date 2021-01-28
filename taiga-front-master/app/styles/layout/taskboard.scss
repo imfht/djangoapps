@@ -1,0 +1,97 @@
+.taskboard {
+    display: flex;
+    flex-direction: column;
+    height: $main-height;
+    overflow: hidden;
+    position: relative;
+
+    h1,
+    .graphics-container,
+    .summary {
+        flex-shrink: 0;
+        margin-bottom: 0;
+    }
+    .graphics-container {
+        @include slide(300px, hidden);
+    }
+    .zoom-loading img {
+        display: block;
+        margin-right: 1rem;
+    }
+    .summary {
+        margin-bottom: 0;
+    }
+    .taskboard-actions {
+        margin: 1rem 0;
+    }
+    .burndown {
+        margin: 1rem 0 0 0;
+    }
+    h1 {
+        .date {
+            color: $color-black900;
+            display: inline;
+            margin-left: .5rem;
+
+            span {
+                color: $color-black600;
+            }
+        }
+    }
+    tg-issues-table {
+        display: block;
+        width: 100%;
+    }
+}
+
+.taskboard-header {
+    background: $color-white;
+    padding: 0 1rem 1rem 0;
+
+    .button-filter {
+        color: $color-link-primary;
+        margin-left: 0;
+
+        svg {
+            fill: $color-link-primary;
+        }
+    }
+}
+
+.taskboard-inner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.taskboard-manager {
+    align-items: flex-start;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(180px, 2fr) 10fr;
+    height: 100%;
+    margin-top: 1px;
+    overflow: hidden;
+    &.expanded {
+        grid-template-columns: 10fr;
+    }
+}
+
+.taskboard-filter tg-filter {
+    background: none;
+    border: 1px solid $color-gray200;
+    opacity: 1;
+    padding: .5rem;
+    position: relative;
+    transform: translate(0);
+}
+
+.taskboard-table-options-start {
+    align-items: center;
+    display: flex;
+
+    tg-input-search {
+        margin-left: .5rem;
+        width: 185px;
+    }
+}

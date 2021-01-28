@@ -1,0 +1,235 @@
+{% extends 'pc/base.html' %}
+{% load static %}
+{% block title %}
+    {% if request.GET.name %}
+        {{ request.GET.name }}-{{ seo_list.title }}
+    {% else %}
+        {{ seo_list.title }}
+    {% endif %}
+
+{% endblock %}
+{% block keywords %}
+{{ seo_list.keywords }}
+{% endblock %}
+{% block desc %}
+{{ seo_list.desc }}
+{% endblock %}
+{% block css %}
+{% comment %}<link rel="stylesheet" href="{% static 'css/swiper.min.css' %}">{% endcomment %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="main clearfix">
+    <article class="fl">
+        <div class="fiter clearfix">
+            <ul class="nav">
+
+            <li class="all" style="padding: 10px 15px;display: inline-block"><a class="active" href="{% url 'article:index' %}">全部</a></li>
+                {% for foo in category %}
+
+                    <li class="nav_item" data-key="{{ foo.id }}"  style="padding: 10px 15px;display: inline-block"><a href="?type={{ foo.id }}&name={{ foo.name }}">{{ foo.name }}</a></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+       {% comment %} <div class="banner" style="background: url({% if banners.image %}
+            {{ MEDIA_URL }}{{ banners.image }}
+            {% else %}
+            {% static  'img/banner.png'%}
+        {% endif %})no-repeat 0 50%;"></div>{% endcomment %}
+    <!-- 网站banner -->
+         <div class="blogs">
+             <div class="blogs_head" style="background: url({% static 'img/recommend.png' %})no-repeat 0 50%;">
+                 <a href="{% url 'article:index' %}" class="{% if request.path|slice:'9' == '/article/' and request.path|slice:'12' != '/article/me/' %}
+                 active
+                 {% endif %}">全部文章</a><a href="{% url 'article:me' %}"class="{% if request.path|slice:'12' == '/article/me/' %}
+                 active
+                 {% endif %}">我关注的</a></div>
+                {% block me %}
+                    <div>
+                 {% for articles in article.object_list %}
+                    <div class="blogs_item">
+                     <div class="blogs_cont blogs_cont1">
+                         <h3><span class="blogs_type">{{ articles.category.name }}</span><a href="{% url 'article:detail' articles.id %}">{{ articles.title }}</a></h3>
+                             <div class="blogs_info clearfix">
+                             {% if articles.list_pic %}
+                                <div class="img_animate fl ">
+                                      <a href="{% url 'article:detail' articles.id %}"><div class="blogs_pic img_cover" style="{% if articles.list_pic %}
+                                      background: url( {{ MEDIA_URL }}{{ articles.list_pic }})no-repeat;
+                                      {% endif %}background-color: #ccc;background-size: 200px 120px !important;"></div></a>
+                                  </div>
+                             {% endif %}
+
+                                  <div class="{% if articles.list_pic %}
+                                    fl blogs_describe
+                                  {% endif %}">
+                                      <p class="blogtext">{{ articles.desc|truncatechars:135 }}</p>
+                                  </div>
+                                  <div class="blogs_foot{% if articles.list_pic %}
+                                    blogs_foot1
+                                  {% endif %}">
+                                    <ul class="clearfix">
+                                <li class="fl">
+                                     <a href="{% url 'user:author_detaile' articles.authors.id %}" class="clearfix">
+                                         <span class="fl img_cover blogs_avatar" style="
+                                                 background: url({% if articles.authors.user_imag%}
+                                {{ MEDIA_URL }}{{ articles.authors.user_imag }}
+                            {% elif articles.authors.user_image%}
+                                {{ articles.authors.user_image }}
+                             {% else %}
+                                {% static 'img/pc-icon.png' %}
+                        {% endif %})no-repeat;"></span>
+                                         <span class="fl blogs_name" style="white-space: nowrap;
+    text-overflow: ellipsis;max-width: 120px;overflow: hidden;">{{ articles.authors.username }}</span>
+                                     </a>
+                                 </li>
+                                    {% load getDate %}
+                                <li class="fl blogs_time">发布于：{{ articles.add_time|getTimer}}</li>
+                                <li class="fl blogs_view" style="background: url({% static 'img/eye.png' %})no-repeat 0 50%;"> {{ articles.click_nums }}</li>
+                                <li class="fl blogs_comment" style="background: url({% static 'img/comment.png' %})no-repeat 0 50%;"> {{ articles.get_number }}</li>
+                            </ul>
+                                  </div>
+                             </div>
+                     </div>
+                 </div>
+                        {% empty %}
+                     <p class="empty">暂无文章...</p>
+                 {% endfor %}
+                    {% if article.object_list.count >= 1 %}
+             <div class="pageturn" >
+
+                <ul class="pagination">
+
+               <li class="first"><a href="?page=1">首页</a></li>
+               {% if article.has_previous %}
+                   <li class="long"><a href="?{{ article.previous_page_number.querystring }}" class="prev">上一页</a></li>
+               {% else %}
+                   <li class="long"><span class="disabled prev btn"disabled="">上一页</span></li>
+               {% endif %}
+               {% for page in article.pages %}
+                   {% if page %}
+                       {% ifequal page article.number %}
+                           <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                       {% else %}
+                           <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                       {% endifequal %}
+                   {% else %}
+                       <li><span class="disabled  btn" disabled="">...</span></li>
+                   {% endif %}
+               {% endfor %}
+               {% if article.has_next %}
+                   <li class="long"><a href="?{{ article.next_page_number.querystring }}" class="next"> 下一页</a></li>
+               {% else %}
+                   <li class="long"><span class="disabled next btn"disabled=""> 下一页</span></li>
+               {% endif %}
+               <li class="last"><a href="?page={{ article.paginator.num_pages }}">尾页</a></li>
+{#               <li class="hrefto">跳转到<input type="text"class="form-control" name="page"></li>#}
+           </ul>
+                <div class="num_pages" style="display: none;">{{ article.paginator.num_pages }}</div>
+{#            当前{{ article.number }}/总共{{ article.paginator.num_pages }}页#}
+             </div>
+             </div>
+                {% endif %}
+
+                {% endblock %}
+
+
+         </div>
+
+    </article>
+
+    <aside class="fr">
+{#        <div class="aside_public">#}
+{#            <div class="blogs_head" style="background: url(img/public.png)no-repeat 0 50%;">我要写文章</div>#}
+{#            <div class="blogs_number">#}
+{#                <ul class="clearfix">#}
+{#                    <li class="fl">#}
+{#                        <p class="number">{{ count}}</p>#}
+{#                        <p>发布</p>#}
+{#                    </li>#}
+{#                    <li class="fl">#}
+{#                        <p class="number">643</p>#}
+{#                        <p>浏览</p>#}
+{#                    </li>#}
+{#                    <li class="fl">#}
+{#                        <p class="number">643</p>#}
+{#                        <p>评价</p>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+            {% include 'pc/base_aside.html' %}
+            <div class="sidebar">
+              <div class="tuijian sidebars">
+                <h2 class="hometitle">今日头条</h2>
+                <ul class="sidenews zhan">
+                     {% for foo in Headlines %}
+                            <li><a href="{{ foo.url }}" target="_blank" title="{{ foo.title }}"><p style="width: 270px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;">{{ foo.title}}</p></a></li>
+                        {% endfor %}
+                </ul>
+              </div>
+            </div>
+    </aside>
+</section>
+{% endblock %}
+
+{% block js %}
+{% comment %}    <script src="{% static 'js/swiper.min.js' %}"></script>{% endcomment %}
+{% comment %}    <script src="{% static 'js/index.js' %}"></script>{% endcomment %}
+<script>
+    $(function () {
+        $('.fiter_nav>ul>li').mouseover(function(){
+           $(this).siblings().removeClass('fiter_active');
+           $(this).addClass('fiter_active');
+           $(this).find('.er_meau').addClass('er_meau_active');
+           $(this).siblings().find('.er_meau').removeClass('er_meau_active');
+       })
+       /* $("input[name='page']").blur(function () {
+            if($(this).val()==""){
+                return false
+            }else{
+                window.location.href='{{ request.get_full_path }}?page='+$(this).val()
+            }
+        })
+        $("input[name='page']").keydown(function (evt) {
+            if (evt.keyCode==13){
+                 if($(this).val()==""){
+                return false
+            }else{
+            window.location.href='{{ request.get_full_path }}?page='+$(this).val()}
+            }
+        })*/
+        //获取地址栏参数
+        function getParam(paramName) {
+            paramValue = "", isFound = !1;
+            if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) {
+                arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0;
+                while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++
+            }
+            return paramValue == "" && (paramValue = null), paramValue
+        }
+        var type=getParam("type");
+        //$('[data-key='+type+']').find("a").addClass('active');
+        $('.nav_item').each(function(){
+            if($(this).attr('data-key')){
+                if($(this).attr('data-key')==type){
+                    $(this).find("a").addClass('active');
+                    $('.all').find("a").removeClass('active');
+                }
+            }
+
+          });
+        //首尾页
+        if(type){
+            var num_pages = $('.num_pages').html();
+            $('.first>a').attr('href','?type='+type+'&page=1');
+            $('.last>a').attr('href','?type='+type+'&page='+num_pages+'');
+        }
+
+    });
+</script>
+{% endblock %}

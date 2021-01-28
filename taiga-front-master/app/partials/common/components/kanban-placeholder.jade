@@ -1,0 +1,24 @@
+ng-container(ng-if="!ctrl.notFoundUserstories")
+    .placeholder-board-card
+        .placeholder-board-row
+            .placeholder-board-text.small
+            .placeholder-board-text.big
+        .placeholder-board-row
+            .placeholder-board-text
+        .placeholder-board-row.avatar
+            .placeholder-board-avatar
+            .placeholder-board-user
+    .placeholder-titles
+        .text-small
+        .text-large
+    .placeholder-avatar
+        .image
+        .text
+
+    p.title {{'KANBAN.PLACEHOLDER_CARD_TITLE' | translate}}
+    p {{'KANBAN.PLACEHOLDER_CARD_TEXT' | translate}}
+
+ng-container(ng-if="ctrl.notFoundUserstories")
+    p.title(translate="KANBAN.US_NOT_FOUND_TITLE")
+    p(translate="KANBAN.US_NOT_FOUND_TEXT_P1")
+    p(translate="KANBAN.US_NOT_FOUND_TEXT_P2")

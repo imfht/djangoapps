@@ -1,0 +1,16 @@
+language: python
+python:
+      - "3.6"
+sudo: false
+install:
+      - yes | make setup
+      - make update
+      - nvm install 12.13
+      - nvm use 12.13
+before_script:
+      - make lint-python
+      - make lint-js
+script:
+      - make test
+notifications:
+      email: false

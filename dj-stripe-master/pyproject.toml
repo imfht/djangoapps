@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "dj-stripe"
+version = "2.4.2"
+description = "Django + Stripe made easy"
+license = "MIT"
+authors = [
+    "Alexander Kavanaugh <alex@kavdev.io>",
+    "Jerome Leclanche <jerome@leclan.ch>",
+    "John Carter <john@therefromhere.org>",
+]
+readme = "README.md"
+repository = "https://github.com/dj-stripe/dj-stripe"
+documentation = "https://dj-stripe.readthedocs.io/"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Framework :: Django",
+    "Framework :: Django :: 2.2",
+    "Framework :: Django :: 3.0",
+    "Framework :: Django :: 3.1",
+]
+
+packages = [
+    { include = "djstripe" }
+]
+include = [
+    "AUTHORS.md",
+    "CONTRIBUTING.md",
+    "HISTORY.md",
+    "LICENSE",
+]
+exclude = [
+    "manage.py"
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+Django = ">=2.2"
+jsonfield = ">=3.0"
+stripe = ">=2.48.0"
+mkdocs = {version = "^1.1.2", optional = true}
+mkautodoc = {version = "^0.1.0", optional = true}
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+djangorestframework = "^3.11.0"
+psycopg2 = "^2.8.5"
+flake8 = "^3.8.2"
+isort = "^5.5.1"
+pytest = "^5.4.3"
+pytest-django = "^3.9.0"
+
+[tool.poetry.extras]
+docs = ["mkdocs", "mkautodoc"]
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry>=1.0.4"]
+build-backend = "poetry.masonry.api"

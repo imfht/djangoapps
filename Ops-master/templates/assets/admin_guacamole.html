@@ -1,0 +1,99 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ guacamole_server_ip }}</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+    <style>
+        #dpi {
+            height: 1in;
+            width: 1in;
+            position: absolute;
+            left: -100%;
+            top: -100%;
+
+        }
+    </style>
+</head>
+<body>
+<!-- 用于获取屏幕dpi-->
+<div id='dpi'></div>
+
+<!-- Display -->
+<div id="display"></div>
+
+<script src="{% static 'AdminLTE/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static "guacamole/js/all.min.js" %}"></script>
+<!-- Init -->
+<script type="text/javascript">
+
+    // Get display div from document
+    let display = document.getElementById("display");
+
+    // Instantiate client, using an HTTP tunnel for communications.
+    //http://guacamole.apache.org/doc/guacamole-common-js/Guacamole.WebSocketTunnel.html
+    let ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    let ws_path = ws_scheme + '://' + window.location.host + '/ws/admin_guacamole/{{ pk }}/{{ group_name }}/';
+    let guac = new Guacamole.Client(
+        // new Guacamole.HTTPTunnel("tunnel")
+        new Guacamole.WebSocketTunnel(ws_path)
+    );
+
+
+    // Add client to display div
+    display.appendChild(guac.getDisplay().getElement());
+
+    // Error handler
+    guac.onerror = function (error) {
+        <!--alert(error);-->
+        console.log(error);
+    };
+
+    let remote_ip = '{{ remote_ip }}';
+    let width = document.body.scrollWidth;
+    let height = document.body.scrollHeight;
+    let dpi = getDPI();
+
+    // Connect
+    guac.connect(`${remote_ip},${width},${height},${dpi}`);
+
+    // Disconnect on close
+    window.onunload = function () {
+        guac.disconnect();
+    };
+
+    // Mouse
+    let mouse = new Guacamole.Mouse(guac.getDisplay().getElement());
+
+    mouse.onmousedown =
+        mouse.onmouseup =
+            mouse.onmousemove = function (mouseState) {
+                guac.sendMouseState(mouseState);
+            };
+
+    // Keyboard
+    let keyboard = new Guacamole.Keyboard(document);
+
+    keyboard.onkeydown = function (keysym) {
+        guac.sendKeyEvent(1, keysym);
+    };
+
+    keyboard.onkeyup = function (keysym) {
+        guac.sendKeyEvent(0, keysym);
+    };
+
+    function getDPI() {
+        return jQuery('#dpi').height();
+    }
+
+    window.onbeforeunload = function (e) {
+        return '确定离开此页吗？';
+    }
+
+</script>
+</body>
+</html>

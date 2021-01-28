@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/select2/dist/css/select2.min.css' %}">
+
+    <style>
+        /* dataTables列内容居中 */
+        #group > tbody > tr > td {
+            text-align: center;
+        }
+
+        /* dataTables表头居中 */
+        #group > thead:first-child > tr:first-child > th {
+            text-align: center;
+        }
+
+        .form-horizontal .form-group {
+            margin-right: -200px;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'jquery-confirm/dist/jquery-confirm.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-7 pull-left" style="margin-bottom: 3px">
+            <button class="btn btn-sm btn-success pull-left" data-toggle="modal" data-target="#GroupModal"
+                    id="add-group">
+                <i class="fa fa-user-plus"></i>
+                <span class="bigger-110">新增用户组</span>
+            </button>
+        </div>
+
+        <!-- GroupModal  -->
+        <div class="modal fade" id="GroupModal" tabindex="-1" role="dialog" aria-labelledby="GroupModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="GroupModalLabel">
+
+                        </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="main form-horizontal" id="group_detail">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label">用户组名称</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="name" name="name" required/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="user_set" class="col-sm-2 control-label">组内用户</label>
+                                    <div class="col-sm-6">
+
+                                        <select class="form-control select2" multiple="multiple" id="user_set"
+                                                name="user_set"
+                                                style="width: 100%;">
+                                            {% for user in users %}
+                                                <option value="{{ user.id }}">{{ user.username }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="group_role" class="col-sm-2 control-label">用户组角色</label>
+                                    <div class="col-sm-6">
+
+                                        <select class="form-control select2" multiple="multiple"
+                                                id="group_role" name="group_role"
+                                                style="width: 100%;">
+                                            {% for group_role in group_roles %}
+                                                <option value="{{ group_role.id }}">{{ group_role.user_role_name }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="space-24"></div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                id="group_ops"></button>
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!--dataTable-->
+        <div class="col-xs-12">
+            <!-- /.box -->
+            <div class="box">
+                <div class="box-body">
+                    <table id="group" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>用户组名称</th>
+                            <th>组内用户</th>
+                            <th>拥有角色</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- Select2 -->
+    <script src="{% static 'AdminLTE/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <!-- DataTables -->
+    <script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'jquery-confirm/dist/jquery-confirm.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            group_table = $('#group').DataTable({
+                "ordering": false,
+                retrieve: true,
+                ajax: {
+                    url: "{% url 'get_group' %}",
+                    method: "GET",
+                    "dataSrc": function (d) {
+                        return d.data
+                    }
+                },
+                "deferRender": true,
+                "columns": [
+                    {data: 'group_name'},
+                    {
+                        data: 'users',
+                        render: function (data, type, full, meta) {
+                            return data.join('<br>')
+                        }
+                    },
+                    {
+                        data: 'group_role',
+                        render: function (data, type, full, meta) {
+                            return data.join('<br>')
+                        }
+                    },
+                ],
+                columnDefs: [{
+                    targets: 3,
+                    render: function (data, type, row, meta) {
+                        return `<button type="button" class="btn btn-success btn-xs modify" data-toggle="modal"
+                                            data-target="#GroupModal" data-id="${row.id}">更新
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs delete" data-id="${row.id}">
+                                        删除
+                                    </button>
+                    `;
+                    }
+                }]
+            });
+        });
+
+        // Initialize Select2 Elements
+        $(function () {
+            $('.select2').select2({
+                allowClear: true
+            })
+        });
+
+        let group_tbody = $('#group tbody');
+        let group_ops = $('#group_ops');
+        // 新增用户组
+        $('#add-group').on('click', function () {
+            $(".select2").val('').trigger('change');
+            $('.modal-title').text('新增用户组');
+            group_ops.text('添加');
+
+            group_ops.unbind('click').on('click', function () {
+                let data = {
+                    group_name: $('#name').val(),
+                    users: $('#user_set').val(),
+                    group_role: $('#group_role').val()
+                };
+                $.ajax({
+                    url: "{% url 'group_list' %}",
+                    type: 'POST',
+                    data: data,
+                    traditional: true,
+                    dataType: 'json',
+                    success: function (res) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'green',
+                            content: res.msg
+                        });
+                        group_table.ajax.reload()
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        })
+                    }
+                })
+            })
+        });
+
+        // 更新组信息
+        group_tbody.on('click', '.modify', function () {
+
+            let group_id = $(this).attr('data-id');
+            $('.modal-title').text('修改用户组');
+            group_ops.text('确认修改');
+
+            $.get(`/users/edit_group/${group_id}/`, function (res) {
+                let data = res.data;
+                $('#name').val(data.group_name);
+                $('#user_set').val(data.users).trigger('change');
+                $('#group_role').val(data.group_role).trigger('change');
+            });
+
+            group_ops.unbind('click').on('click', function () {
+                let data = {
+                    group_name: $('#name').val(),
+                    users: $('#user_set').val(),
+                    group_role: $('#group_role').val()
+                };
+                $.ajax({
+                    url: `/users/edit_group/${group_id}/`,
+                    type: 'POST',
+                    data: data,
+                    traditional: true,
+                    dataType: 'json',
+                    success: function (res) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'green',
+                            content: res.msg
+                        });
+                        group_table.ajax.reload()
+                    },
+                    error: function (response) {
+                        $.alert({
+                            title: 'Tips',
+                            type: 'red',
+                            content: response.responseText,
+                        })
+                    }
+                })
+            });
+        });
+
+        // 删除用户组
+        group_tbody.on('click', '.delete', function () {
+
+            let pk = $(this).attr('data-id');
+            let tr_obj = $(this).parents('tr');
+            $.confirm({
+                title: 'Tips',
+                content: '确定要删除这条记录么？',
+                type: 'red',
+                buttons: {
+                    Ok: function () {
+                        $.ajax({
+                            url: `/users/delete_group/${pk}/`,
+                            method: 'DELETE',
+                            success: function () {
+                                group_table.row(tr_obj).remove().draw();
+                            },
+                            error: function (data) {
+                                $.alert({
+                                    title: 'Tips',
+                                    type: 'red',
+                                    content: '删除失败！' + data.responseText,
+                                })
+                            }
+                        })
+                    },
+                    Cancel: function () {
+                        //
+                    }
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+

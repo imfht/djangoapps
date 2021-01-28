@@ -1,0 +1,16 @@
+{% for message in messages %}
+<div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+</div>
+{% endfor %}
+
+<div :class="m.class" role="alert" v-cloak v-for="m in globalMessages">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <strong v-if="m.label" v-text="m.label"></strong>
+    [[ m.message ]]
+</div>

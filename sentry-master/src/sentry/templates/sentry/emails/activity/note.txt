@@ -1,0 +1,19 @@
+{% spaceless %}
+{% autoescape off %}
+# New Comment
+
+{{ author.get_display_name }} left a new comment:
+
+{{ data.text }}
+
+
+## Details
+
+{{ group.title }}
+
+{{ activity_link }}
+
+Unsubscribe: {{ unsubscribe_link }}
+
+{% endautoescape %}
+{% endspaceless %}

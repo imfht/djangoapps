@@ -1,0 +1,541 @@
+{% load static %}
+{% load user_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  {% block title %}
+  <title>运维管理系统</title>
+  {% endblock title %}
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Font Awesome -->
+  <link href="{% static 'font-awesome/5.10.0-11/all.min.css' %}" rel="stylesheet">
+  
+  <!-- animate -->
+  <link href="{% static 'animate/3.5.2/animate.min.css' %}" rel="stylesheet">
+  
+  <!-- Ionicons -->
+  <link href="{% static 'ionicons/2.0.1/ionicons.min.css' %}" rel="stylesheet">
+  
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/datatables/dataTables.bootstrap4.css' %}">
+
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/select2/css/select2.min.css' %}">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  
+  <!-- 弹出窗口插件 -->
+  <link rel="stylesheet" href="{% static 'css/iziModal.min.css' %}">
+  
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/toastr/toastr.min.css' %}">
+
+  <!-- custom -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  
+  {% block css %}
+
+  {% endblock css %}
+  
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+	
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'server:index' %}"><i class="fas fa-home"></i> 首页</a>
+      </li>
+    </ul>
+
+    <!-- SEARCH FORM -->
+    <!--form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="搜索" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form-->
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+	 <li class="nav-item dropdown">
+		<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+		  <img src="{% static 'adminlte/dist/img/timg.jpg' %}" class="img-circle elevation-1" style="max-width:100%;height:100%;"> <small title="{{ request.session.username }}">{{ request.session.nickname }}</small>
+		</a>
+		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+		  <a class="dropdown-item personinfo" tabindex="-1" href="{% url 'user:profile' %}?next={% if request.META.QUERY_STRING %}{{ request.META.PATH_INFO }}?{{ request.META.QUERY_STRING }}{% else %}{{ request.META.PATH_INFO }}{% endif %}" ><small>个人信息</small></a>
+		  <a class="dropdown-item changepasswd" tabindex="-1" href="javascript:void(0);"><small>修改密码</small></a>
+		  <!--div class="dropdown-divider"></div>
+		  <a class="dropdown-item" tabindex="-1" href="{% url 'user:lockscreen' %}"><small>锁定屏幕</small></a-->
+		</div>
+	  </li>
+
+	  <li class="nav-item">
+        <a class="nav-link x" href="{% url 'user:lockscreen' %}">
+           <small>锁定屏幕</small>
+        </a>
+      </li>
+	  
+	  <li class="nav-item">
+        <a class="nav-link logout" href="{% url 'user:logout' %}">
+           <small>退出</small>
+        </a>
+      </li>
+	  
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+	
+	<!--退出窗口-->
+	<div id="modal-login" class="iziModal">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12 p-3">
+					<h4 class="text-center mt-3">确定要退出吗？</h4>
+				</div>
+				<div class="col-6 p-3">
+					<button type="button" class="btn btn-block btn-secondary" data-iziModal-close>取消</button>
+				</div>
+				<div class="col-6 p-3">
+					<a href="{% url 'user:logout' %}"><button type="button" class="btn btn-block btn-success">确定</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--修改密码窗口-->
+	<div id="modal-changepasswd" class="iziModal">
+		<form role="form" method="POST" onsubmit="changepasswd(this);return false;">
+			{% csrf_token %}
+			<div class="card-body">
+			  <div class="row">
+				  <div class="col-8"><h4 class="mb-3"><strong>修改密码</strong></h4></div>
+				  <div class="col-4"><a href="javascript:void(0)" class="iziModal-button-close float-right" data-izimodal-close="" style="color:black;vertical-align:middle"><i class="fas fa-times fa-lg"></i></a></div>
+			  </div>
+			  <div class="form-group">
+				<label><small>当前密码</small></label>
+				<input type="password" class="form-control" name="oldpasswd"  placeholder="Password" maxlength="256" id="change_oldpasswd" onkeyup="check_change_oldpasswd();" onblur="check_change_oldpasswd();">
+				<span id="change_oldpasswd_error" style="color:red;"></span>
+			  </div>
+			  
+			  <div class="form-group">
+				<label><small>新密码</small></label>
+				<input type="password" class="form-control" name="newpasswd"  placeholder="Password" maxlength="256"id="change_newpasswd" onkeyup="check_change_newpasswd();" onblur="check_change_newpasswd();">
+				<span id="change_newpasswd_error" style="color:red;"></span>
+			  </div>
+			  
+			  <div class="form-group">
+				<label><small>确认新密码</small></label>
+				<input type="password" class="form-control" name="newpasswdagain"  placeholder="Password" maxlength="256" id="change_newpasswdagain" onkeyup="check_change_newpasswdagain();" onblur="check_change_newpasswdagain();">
+				<span id="change_newpasswdagain_error" style="color:red;"></span>
+			  </div>
+			</div>
+
+			<div class="card-footer row">
+			  <div class="col-6 pl-3 pr-3">
+				<button type="button" class="btn btn-block btn-secondary" data-iziModal-close>取消</button>
+			  </div>
+			  <div class="col-6 pl-3 pr-3">
+				<button type="submit" class="btn btn-block btn-success" onclick="javascript:void(0);">修改</button>
+			  </div>
+			</div>
+	  </form>
+	</div>
+	
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'server:index' %}" class="brand-link">
+      <img src="{% static 'adminlte/dist/img/AdminLTELogo.png' %}"
+           alt="AdminLTE Logo"
+           class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">运维管理系统</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+		  <!--li class="nav-header">导航栏</li-->
+		  {% block leftnav %}
+		  {% gen_menu request %}
+		  {% endblock leftnav %}
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+	{% block navheader %}
+	{% endblock navheader %}
+
+    <!-- Main content -->
+    <section class="content">
+	
+	{% block content %}
+	
+	{% endblock content %}
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      运维管理系统 <a href="https://github.com/leffss/devops" target="_blank">Github</a>
+    </div>
+    <strong>Copyright &copy; 2019-2020 <a href="//www.cnblogs.com/leffss" target="_blank">leffss</a>.</strong> All rights
+    reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'adminlte/plugins/fastclick/fastclick.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'adminlte/plugins/toastr/toastr.min.js' %}"></script>
+
+<!-- 弹出框插件 -->
+<script src="{% static 'js/iziModal.min.js' %}"></script>
+<script>
+	function GetDate(format) {
+		 /**
+		 * format=1表示获取年月日
+		 * format=0表示获取年月日时分秒
+		 * **/
+		 var now = new Date();
+		 var year = now.getFullYear();
+		 var month = now.getMonth()+1;
+		 if (month < 10) {
+			month = "0" + month
+		 }
+		 var date = now.getDate();
+		 if (date < 10) {
+			date = "0" + date
+		 }
+		 
+		 var day = now.getDay();//得到周几
+		 var hour = now.getHours();//得到小时
+		 if (hour < 10) {
+			hour = "0" + hour
+		 }
+		 var minu = now.getMinutes();//得到分钟
+		 if (minu < 10) {
+			minu = "0" + minu
+		 }
+		 var sec = now.getSeconds();//得到秒
+		 if (sec < 10) {
+			sec = "0" + sec
+		 }
+		 
+		 if (format==1){
+			 _time = year+"/"+month+"/"+date
+		}
+		else if (format==2){
+			_time = year+"/"+month+"/"+date+" "+hour+":"+minu+":"+sec
+		}
+		return _time
+	}
+
+
+	$("#modal-login").iziModal({
+		//title: "退出",
+		//subtitle: "确认退出",
+		iconClass: 'icon-announcement',
+		width: 450,
+		//padding: 10,
+	});
+	$(document).on('click', '.logout', function (event) {
+		event.preventDefault();
+		$('#modal-login').iziModal('open');
+	});
+	
+	
+	$("#modal-changepasswd").iziModal({
+		iconClass: 'icon-announcement',
+		width: 650,
+		//padding: 5,
+		overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+		closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+	});
+	$(document).on('click', '.changepasswd', function (event) {
+		event.preventDefault();
+		$('#modal-changepasswd').iziModal('open');
+	});
+	
+	// 校验表单数据
+	check_change_oldpasswd = function() {
+		var oldpasswd = $('#change_oldpasswd').val();
+		if (oldpasswd == '') {
+			$('#change_oldpasswd').removeClass("is-valid");
+			$('#change_oldpasswd').addClass("is-invalid");
+			$('#change_oldpasswd_error').text('密码不能为空');
+			return false;
+		} else if(oldpasswd.length < 6) {
+			$('#change_oldpasswd').removeClass("is-valid");
+			$('#change_oldpasswd').addClass("is-invalid");
+			$('#change_oldpasswd_error').text('密码长度必须大于等于6个字符');
+			return false;
+		} else {
+			$('#change_oldpasswd').removeClass("is-invalid");
+			$('#change_oldpasswd').addClass("is-valid");
+			$('#change_oldpasswd_error').text('');
+			return true;
+		};
+	}
+	
+	check_change_newpasswd = function() {
+		var newpasswd = $('#change_newpasswd').val();
+		if (newpasswd == '') {
+			$('#change_newpasswd').removeClass("is-valid");
+			$('#change_newpasswd').addClass("is-invalid");
+			$('#change_newpasswd_error').text('密码不能为空');
+			return false;
+		} else if(newpasswd.length < 6) {
+			$('#change_newpasswd').removeClass("is-valid");
+			$('#change_newpasswd').addClass("is-invalid");
+			$('#change_newpasswd_error').text('密码长度必须大于等于6个字符');
+			return false;
+		} else {
+			$('#change_newpasswd').removeClass("is-invalid");
+			$('#change_newpasswd').addClass("is-valid");
+			$('#change_newpasswd_error').text('');
+			return true;
+		};
+	}
+	
+	check_change_newpasswdagain = function() {
+		var newpasswd = $('#change_newpasswd').val();
+		var newpasswdagain = $('#change_newpasswdagain').val();
+		if (newpasswdagain == '') {
+			$('#change_newpasswdagain').removeClass("is-valid");
+			$('#change_newpasswdagain').addClass("is-invalid");
+			$('#change_newpasswdagain_error').text('确认密码不能为空');
+			return false;
+		} else if (newpasswd != newpasswdagain) {
+			$('#change_newpasswdagain').removeClass("is-valid");
+			$('#change_newpasswdagain').addClass("is-invalid");
+			$('#change_newpasswdagain_error').text('两次密码不一致');
+			return false;
+		} else {
+			$('#change_newpasswdagain').removeClass("is-invalid");
+			$('#change_newpasswdagain').addClass("is-valid");
+			$('#change_newpasswdagain_error').text('');
+			return true;
+		};
+	}
+	// 校验表单数据
+	
+	// 修改密码
+	changepasswd = function(event) {
+		toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 3000;	
+		toastr.options.extendedTimeOut = 0;	
+		
+		var thisObj = $(event);	//js对象转jquery对象
+		//var oldpasswd = $(thisObj.find("input[name='oldpasswd']")[0]).val();
+		//var newpasswd = $(thisObj.find("input[name='newpasswd']")[0]).val();
+		//var newpasswdagain = $(thisObj.find("input[name='newpasswdagain']")[0]).val();
+		
+		var check_right = new Array();
+		
+		var oldpasswd = $('#change_oldpasswd').val();
+		check_right[0] = check_change_oldpasswd();
+		
+		var newpasswd = $('#change_newpasswd').val();
+		check_right[1] = check_change_newpasswd();
+		
+		var newpasswdagain = $('#change_newpasswdagain').val();
+		check_right[2] = check_change_newpasswdagain();
+
+		csrfmiddlewaretoken = '{{ request.COOKIES.csrftoken }}';
+		
+		if (!/false/.test(check_right)) {
+			$.ajax({
+				url: "{% url 'user_api:password_update' %}",
+				async: true,
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					'csrfmiddlewaretoken': csrfmiddlewaretoken,
+					'oldpasswd': oldpasswd,
+					'newpasswd': newpasswd,
+					'newpasswdagain': newpasswdagain,
+				},
+				timeout: 5000,
+				cache: true,
+				beforeSend: LoadFunction, //加载执行方法
+				error: errFunction,  //错误执行方法
+				success: succFunction, //成功执行方法
+			});
+		} else {
+			return false;
+		};
+		
+		function LoadFunction() {
+			//$("#aboutcontent").html('删除中...');
+			//alert('删除中');
+		};
+		
+		function errFunction() {
+			// 消息框
+			$("#modal-changepasswd").iziModal('close');
+			toastr.error('修改密码错误');
+			return false;
+		};
+		
+		function succFunction(res) {
+			if (res.code != 200) {
+				// 消息框
+				toastr.error('修改密码错误: ' + res.err);
+			} else {
+				// 消息框
+				toastr.success('修改密码成功, 下次登录生效');
+			}
+		};
+		
+		// 关闭弹出框
+		$("#modal-changepasswd").iziModal('close');
+		$('#change_oldpasswd').val('');
+		$('#change_newpasswd').val('');
+		$('#change_newpasswdagain').val('');
+		return false;
+	}
+</script>
+
+
+<!-- animated.css 动画特效 -->
+<script>
+	// tags鼠标移入移出事件
+	$('.items').hover(function() {
+		// 鼠标移入时添加hover类
+		$(this).addClass('animated tada')
+		}, function() {
+		// 鼠标移出时移出hover类
+		$(this).removeClass('animated tada')
+	});
+</script>
+
+
+<!-- 动画特效 -->
+<script src="{% static 'velocity/1.5.2/velocity.min.js' %}"></script>
+<script src="{% static 'velocity/1.5.2/velocity.ui.min.js' %}"></script>
+<script>
+	//$(".content-list").velocity("transition.slideUpBigIn", { stagger: 130, drag: true });
+	$(".content-list").velocity("transition.slideDownIn", { stagger: 150, drag: true });
+</script>
+
+<!-- 页面加载完后再显示，更好的显示特效 -->
+<script>
+	document.addEventListener("DOMContentLoaded", function(){
+		$(".content-list").css("display", "block");
+	});
+</script>
+
+
+<!-- 点击鼠标出现文字特效 -->
+<script>
+	var f_idx = 0;
+	var c_idx = 0;
+	jQuery(document).ready(function($) {
+		$("section").click(function(e) {
+			var font = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");
+			var color = new Array('#ff0000','#eb4310','#f6941d','#fbb417','#ffff00','#cdd541','#99cc33','#3f9337','#219167','#239676','#24998d','#1f9baa','#0080ff','#3366cc','#333399','#003366','#800080','#a1488e','#c71585','#bd2158');
+			var $i = $("<span />").text(font[f_idx]);
+			f_idx = (f_idx + 1) % font.length;
+			c_idx = (c_idx + 1) % color.length;
+			var x = e.pageX,
+				y = e.pageY;
+			$i.css({
+				"z-index": 9999,
+				"top": y - 20,
+				"left": x,
+				"position": "absolute",
+				"font-weight": "bold",
+				"color": color[c_idx]
+			});
+			$("body").append($i);
+			$i.animate({
+					"top": y - 250,
+					"opacity": 0
+				},
+				1500,
+				function() {
+					$i.remove();
+				});
+		});
+	});
+</script>
+
+{% block js %}
+
+{% endblock js %}
+
+<!-- Select2 -->
+<script src="{% static 'adminlte/plugins/select2/js/select2.full.min.js' %}"></script>
+<script>
+	$(function () {
+		//Initialize Select2 Elements
+		$('.select2').select2();
+	});
+	$(function () {
+		//Initialize Select2 Elements
+		$('.select2_multiple').select2({
+			allowClear: true,
+		});
+	});
+</script>
+
+</body>
+</html>

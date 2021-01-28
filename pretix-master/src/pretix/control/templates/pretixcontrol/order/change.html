@@ -1,0 +1,370 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load formset_tags %}
+{% load money %}
+{% block title %}
+    {% blocktrans trimmed with code=order.code %}
+        Change order: {{ code }}
+    {% endblocktrans %}
+{% endblock %}
+{% block content %}
+    <h1>
+        {% blocktrans trimmed with code=order.code %}
+            Change order: {{ code }}
+        {% endblocktrans %}
+        <a class="btn btn-link btn-lg"
+                href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+            {% blocktrans trimmed with order=order.code %}
+                Back to order {{ order }}
+            {% endblocktrans %}
+        </a>
+    </h1>
+    <p>
+        {% blocktrans trimmed %}
+            You can use this tool to change the ordered products or to partially cancel the order. Please keep
+            in mind that changing an order can have several implications, e.g. the payment method fee might change or
+            additional questions can be added to the order that need to be answered by the user.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+            The user will receive a notification about the change but in the case of new required questions, the user
+            will not be forced to answer them.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+            If an invoice is attached to the order, a cancellation will be created together with a new invoice.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+            If you chose "split into new order" for multiple positions, they will be all split in one second order
+            together, not multiple orders.
+        {% endblocktrans %}
+    </p>
+    <div class="alert alert-warning"><strong>
+        {% blocktrans trimmed %}
+            Please use this tool carefully. Changes you make here are not reversible. Also, if you change an order
+            manually, not all constraints (e.g. on required add-ons) will be checked. Therefore, you might construct
+            an order that would not be able to exist otherwise.
+            In most cases it is easier to cancel the order completely and create a new one.
+        {% endblocktrans %}
+    </strong></div>
+    <form method="post" href="">
+        {% csrf_token %}
+        {% for position in positions %}
+            <div class="panel panel-default items">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        #{{ position.positionid }} –
+                        <strong>{{ position.item }}</strong>
+                        {% if position.variation %}
+                            – {{ position.variation }}
+                        {% endif %}
+                        {% if position.addon_to %}
+                            – <em>
+                            {% blocktrans trimmed with posid=position.addon_to.positionid %}
+                                Add-On to position #{{ posid }}
+                            {% endblocktrans %}
+                        </em>
+                        {% endif %}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-order-change" data-pricecalc-endpoint="{% url "api-v1:orderposition-price_calc" organizer=order.event.organizer.slug event=order.event.slug pk=position.pk %}" {% if position.subevent %}data-subevent="{{ position.subevent.id }}"{% endif %} data-position="{{ position.pk }}">
+                        {% bootstrap_form_errors position.form %}
+                        {% if position.custom_error %}
+                            <div class="alert alert-danger">
+                                {{ position.custom_error }}
+                            </div>
+                        {% endif %}
+                        {% if position.voucher and position.voucher.budget %}
+                            <div class="alert alert-warning">
+                                {% blocktrans trimmed %}
+                                    This position has been created with a voucher with a limited budget. If you
+                                    change the price or item, the discount will still be calculated from the original
+                                    price at the time of purchase.
+                                {% endblocktrans %}
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-sm-5 col-sm-offset-3">
+                                <strong>{% trans "Current value" %}</strong>
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>{% trans "Change to" %}</strong>
+                            </div>
+                        </div>
+
+                        {% if request.event.has_subevents %}
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <strong>{% trans "Date" context "subevent" %}</strong>
+                                </div>
+                                <div class="col-sm-5">
+                                    {{ position.subevent }}
+                                </div>
+                                <div class="col-sm-4">
+                                    {% bootstrap_field position.form.subevent layout='inline' %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if position.form.seat %}
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <strong>{% trans "Seat" %}</strong>
+                                </div>
+                                <div class="col-sm-5">
+                                    {{ position.seat }}
+                                </div>
+                                <div class="col-sm-4">
+                                    {% bootstrap_field position.form.seat layout='inline' %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <strong>{% trans "Product" %}</strong>
+                            </div>
+                            <div class="col-sm-5">
+                                {{ position.item }}
+                                {% if position.variation %}
+                                    – {{ position.variation }}
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-4">
+                                {% bootstrap_field position.form.itemvar layout='inline' %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <strong>{% trans "Tax rule" %}</strong>
+                            </div>
+                            <div class="col-sm-5">
+                                {{ position.tax_rule.name }} ({{ position.tax_rule.rate }} %)
+                            </div>
+                            <div class="col-sm-4 field-container">
+                                {% bootstrap_field position.form.tax_rule layout='inline' %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <strong>{% trans "Price" %}</strong>
+                            </div>
+                            <div class="col-sm-5">
+                                {{ position.price|money:request.event.currency }}
+                                {% if position.tax_rate %}
+                                    <br>
+                                    <small>
+                                        ({{ position.net_price|money:request.event.currency }}
+                                        + {{ position.tax_rate }}%)
+                                    </small>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-4 field-container">
+                                {% bootstrap_field position.form.price addon_after=request.event.currency layout='inline' %}
+                                <small><strong>{% trans "including all taxes" %}</strong></small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <strong>{% trans "Ticket secret" %}</strong>
+                            </div>
+                            <div class="col-sm-5">
+                                {{ position.secret|slice:":12" }}…
+                            </div>
+                            <div class="col-sm-4">
+                                {% bootstrap_field position.form.operation_secret layout='inline' %}
+                            </div>
+                        </div>
+
+                        {% bootstrap_field position.form.operation_cancel layout='inline' %}
+                        {% bootstrap_field position.form.operation_split layout='inline' %}
+                        {% if position.addons.exists %}
+                            <em class="text-danger">
+                                {% trans "Removing this position will also remove all add-ons to this position." %}
+                            </em>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+        <div class="formset" data-formset data-formset-prefix="{{ add_formset.prefix }}">
+            {{ add_formset.management_form }}
+            {% bootstrap_formset_errors add_formset %}
+            <div data-formset-body>
+                {% for add_form in add_formset %}
+                    <div class="panel panel-default items" data-formset-form data-subevent="0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <button type="button" class="btn btn-danger btn-xs pull-right flip"
+                                        data-formset-delete-button>
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                {% trans "Add product" %}
+                                <div class="sr-only">
+                                    {{ add_form.id }}
+                                    {% bootstrap_field add_form.DELETE form_group_class="" layout="inline" %}
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                {% bootstrap_form_errors add_form %}
+                                {% if add_form.custom_error %}
+                                    <div class="alert alert-danger">
+                                        {{ add_form.custom_error }}
+                                    </div>
+                                {% endif %}
+                                {% bootstrap_field add_form.itemvar layout="control" %}
+                                {% bootstrap_field add_form.price addon_after=request.event.currency layout="control" %}
+                                {% if add_form.addon_to %}
+                                    {% bootstrap_field add_form.addon_to layout="control" %}
+                                {% endif %}
+                                {% if add_form.subevent %}
+                                    {% bootstrap_field add_form.subevent layout="control" %}
+                                {% endif %}
+                                {% bootstrap_field add_form.seat layout="control" %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <script type="form-template" data-formset-empty-form>
+                {% escapescript %}
+                    <div class="panel panel-default items" data-formset-form data-subevent="0">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <button type="button" class="btn btn-danger btn-xs pull-right flip"
+                                        data-formset-delete-button>
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                {% trans "Add product" %}
+                                <div class="sr-only">
+                                    {{ add_formset.empty_form.id }}
+                                    {% bootstrap_field add_formset.empty_form.DELETE form_group_class="" layout="inline" %}
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                {% bootstrap_field add_formset.empty_form.itemvar layout="control" %}
+                                {% bootstrap_field add_formset.empty_form.price addon_after=request.event.currency layout="control" %}
+                                {% if add_formset.empty_form.addon_to %}
+                                    {% bootstrap_field add_formset.empty_form.addon_to layout="control" %}
+                                {% endif %}
+                                {% if add_formset.empty_form.subevent %}
+                                    {% bootstrap_field add_formset.empty_form.subevent layout="control" %}
+                                {% endif %}
+                                {% bootstrap_field add_formset.empty_form.seat layout="control" %}
+                            </div>
+                        </div>
+                    </div>
+                {% endescapescript %}
+            </script>
+            <p>
+                <button type="button" class="btn btn-primary" data-formset-add>
+                    <i class="fa fa-plus"></i> {% trans "Add product" %}</button>
+            </p>
+        </div>
+
+        {% for fee in fees %}
+            <div class="panel panel-default items">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <strong>{{ fee.get_fee_type_display }}</strong>
+                        {% if fee.description %}
+                            – {{ fee.description }}
+                        {% endif %}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-order-change">
+                        {% bootstrap_form_errors fee.form %}
+                        {% if fee.custom_error %}
+                            <div class="alert alert-danger">
+                                {{ fee.custom_error }}
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-sm-5 col-sm-offset-3">
+                                <strong>{% trans "Current value" %}</strong>
+                            </div>
+                            <div class="col-sm-4">
+                                <strong>{% trans "Change to" %}</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <strong>{% trans "Price" %}</strong>
+                            </div>
+                            <div class="col-sm-5">
+                                {{ fee.value|money:request.event.currency }}
+                                {% if fee.tax_rate %}
+                                    <br>
+                                    <small>
+                                        ({{ fee.net_value|money:request.event.currency }}
+                                        + {{ fee.tax_rate }}%)
+                                    </small>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-4 field-container">
+                                {% bootstrap_field fee.form.value addon_after=request.event.currency layout='inline' %}
+                                <small><strong>{% trans "including all taxes" %}</strong></small>
+                                {% bootstrap_field fee.form.tax_rule layout='inline' %}
+                            </div>
+                        </div>
+
+                        {% bootstrap_field fee.form.operation_cancel layout='inline' %}
+                        {% if fee.fee_type == "payment" %}
+                            <em class="text-danger">
+                                {% trans "Manually modifying payment fees is discouraged since they might automatically be on subsequent order changes or when choosing a different payment method." %}
+                            </em>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="panel panel-default items">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% trans "Other operations" %}
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    {% bootstrap_form_errors other_form %}
+                    {% if other_form.custom_error %}
+                        <div class="alert alert-danger">
+                            {{ other_form.custom_error }}
+                        </div>
+                    {% endif %}
+                    {% bootstrap_field other_form.recalculate_taxes layout="control" %}
+                    {% bootstrap_field other_form.reissue_invoice layout="control" %}
+                    {% bootstrap_field other_form.notify layout="control" %}
+                </div>
+            </div>
+        </div>
+        <div class="">
+            {% bootstrap_field other_form.ignore_quotas layout="" %}
+        </div>
+        <div class="form-group submit-group">
+            <a class="btn btn-default btn-lg"
+                    href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+                {% trans "Cancel" %}
+            </a>
+            <button class="btn btn-primary btn-save btn-lg" type="submit">
+                {% trans "Perform changes" %}
+            </button>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+{% endblock %}

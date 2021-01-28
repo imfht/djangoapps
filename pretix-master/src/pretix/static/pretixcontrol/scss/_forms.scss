@@ -1,0 +1,615 @@
+td > .form-group {
+  margin-bottom: 0;
+}
+
+td > .errorlist {
+  color: #a94442;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+td > .form-group > .checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.static-form-row {
+  padding-top: 7px;
+}
+
+.has-success .form-control {
+  border-color: #cccccc;
+}
+
+.panel-body div.alert:last-child {
+  margin-bottom: 0;
+}
+
+.form-group.disabled {
+  opacity: 0.5;
+}
+
+.form-horizontal [data-formset] .form-group {
+  width: 100%;
+}
+
+[data-formset] .form-group:not([data-formset-form-deleted]):last-of-type [data-formset-move-down-button],
+[data-formset] .form-group:not([data-formset-form-deleted]):first-of-type [data-formset-move-up-button] {
+  cursor: not-allowed;
+  pointer-events: none; // Future-proof disabling of clicks
+  @include opacity(.65);
+  @include box-shadow(none);
+}
+
+div[data-formset-body], div[data-formset-form], div[data-nested-formset-form], div[data-nested-formset-body] {
+  width: 100%;
+}
+
+.form-plugins .panel-title {
+  line-height: 34px;
+}
+
+.restriction-formset .variations label {
+  margin: 0;
+}
+
+.formset-row {
+  margin-bottom: 10px;
+}
+
+.submit-group {
+  margin: 15px 0 0 0 !important;
+  padding: 15px;
+  background: #eeeeee;
+  text-align: right;
+  .btn-save {
+    // btn-lg
+    @include button-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $btn-border-radius-large);
+  }
+  .btn-cancel {
+    float: left !important;
+    // btn-lg
+    @include button-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $btn-border-radius-large);
+  }
+}
+
+.panel .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.tabbed-form > .tab-pane {
+  padding: 10px;
+
+  & > h4 {
+    // like bs3 legend
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: $line-height-computed;
+    font-size: ($font-size-base * 1.5);
+    line-height: inherit;
+    color: $legend-color;
+    border: 0;
+    border-bottom: 1px solid $legend-border-color;
+  }
+}
+
+.nav-tabs {
+  border-bottom: 0px solid #ddd;
+}
+
+.tab-content {
+    border: 1px solid #ddd;
+    border-radius: 0px 5px 5px 5px;
+    padding: 5px 5px 0px 5px;
+}
+
+.mail-preview-group {
+  margin-bottom: -15px;
+}
+
+.variation-matrix {
+  td .form-group, .checkbox {
+    margin: 0;
+  }
+}
+
+.table-quotas td ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.question-option-row {
+  padding: 5px 0;
+}
+
+.i18n-form-group input,
+.i18n-form-group textarea {
+  @include border-top-radius(0px);
+  @include border-bottom-radius(0px);
+  border-top-width: 0;
+
+  &:first-child {
+    @include border-top-radius($input-border-radius);
+    border-top-width: 1px;
+  }
+  &:last-child {
+    @include border-bottom-radius($input-border-radius);
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .variation-matrix > tbody > tr > td {
+    line-height: 34px;
+
+    input[type=checkbox] {
+      margin-top: 10px;
+    }
+  }
+}
+.ticketoutput-panel .panel-title {
+  line-height: 30px;
+}
+
+div.mail-preview {
+  border: 1px solid #ccc;
+  border-top-width: 1px;
+  border-radius: 3px;
+
+  .placeholder {
+    background: transparentize($brand-warning, 0.6);
+  }
+}
+
+.mail-preview-group div[lang] {
+  @include border-top-radius(0px);
+  @include border-bottom-radius(0px);
+  border-top-width: 0;
+  margin-bottom: 0;
+  padding-right: 15px;
+  padding-bottom: 15px;
+
+  &:first-child {
+    @include border-top-radius($input-border-radius);
+    border-top-width: 1px;
+  }
+  &:last-child {
+    @include border-bottom-radius($input-border-radius);
+    margin-bottom: 20px;
+  }
+  h2, h3 {
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+  p {
+    margin: 0 0 10px;
+
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.search-line {
+  width: 100%;
+  margin-bottom: 20px;
+
+  .input-group-btn {
+    width: 1% !important;
+  }
+}
+.input-group-smaller-height {
+  .form-control {
+    height: 32px;
+  }
+  .btn {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+.input-group-btn .btn {
+  padding-bottom: 7px;
+}
+.reldatetime {
+  input[type=text], select {
+    display: inline-block;
+    max-width: 200px;
+  }
+  input[type=number] {
+    display: inline-block;
+    width: 80px;
+  }
+}
+input[type=number].short {
+  width: 80px !important;
+}
+.geodata-group {
+  .form-group {
+    margin: 0 0 10px 0;
+  }
+  .attrib {
+    padding: 0;
+    margin: 0;
+    font-size: $font-size-small;
+    a {
+      color: $text-muted;
+    }
+  }
+  .leaflet-container {
+    height: 200px;
+    margin: 0;
+  }
+}
+.metadata-group {
+  .form-group {
+    margin: 0 0 10px 0;
+  }
+  .row label {
+    padding-top: 7px;
+  }
+}
+.inline-multiple-choice {
+  .checkbox {
+    display: inline-block;
+    margin-top: 0;
+    margin-right: 10px;
+  }
+}
+.splitdatetimerow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .help-block {
+    width: 100%;
+  }
+}
+.splitdatetimepart {
+  width: 50%;
+  display: inline-block;
+
+  &.datepickerfield {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+  &.timepickerfield {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-left: 0;
+  }
+}
+
+.propagated-settings-box {
+  position: relative;
+
+  .propagated-settings-overlay {
+    background: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+  .propagated-settings-form.blurred {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -ms-filter: blur(2px);
+    -o-filter: blur(2px);
+    filter: blur(2px);
+  }
+}
+@media (max-width: $screen-sm-max) {
+  .propagated-settings-box {
+    min-height: 250px;
+  }
+}
+
+label.label-empty {
+  pointer-events: none;
+}
+label.no-bold {
+  font-weight: normal;
+}
+label .optional {
+  color: $text-muted;
+  font-weight: normal;
+}
+@media (max-width: $screen-sm-max) {
+  .form-horizontal .control-label {
+    text-align: left;
+  }
+}
+.select2-hidden-accessible {
+    top: 50px;
+}
+
+.large-select2-field-container .select2-container--bootstrap .select2-selection--multiple {
+  height: 150px;
+  overflow-y: auto;
+}
+div.scrolling-multiple-choice, div.scrolling-choice {
+  height: 150px;
+  border: 1px solid $input-border;
+  border-radius: $input-border-radius;
+  padding-left: 15px;
+  overflow-y: auto;
+  padding-top: 5px;
+
+  .radio:first-of-type, .checkbox:first-of-type {
+    margin-top: 0;
+  }
+  &.scrolling-multiple-choice-large {
+    height: 350px;
+  }
+}
+table td > .checkbox {
+  margin: 0;
+  position: static;
+}
+table td > .checkbox input[type="checkbox"] {
+  margin: 0;
+  position: static;
+}
+.panel-title .radio {
+  margin-left: 20px;
+}
+
+.form-quicksetup-total-capacity {
+  height: 34px;
+  strong {
+    line-height: 34px;
+  }
+}
+.form-horizontal [data-formset] .form-quicksetup-total-capacity .form-group {
+  margin: 0;
+  width: auto;
+}
+.form-quicksetup-total-capacity .form-control {
+  width: 100px;
+  display: inline;
+}
+.form-horizontal [data-formset] .rrule-form .form-group {
+  margin: 0;
+  width: auto;
+}
+.rrule-form {
+  .form-control {
+    display: inline;
+  }
+  input[type=number] {
+    width: 100px;
+  }
+  .repeat-yearly, .repeat-monthly, .repeat-weekly {
+    line-height: 35px;
+    padding: 0 0 15px 0;
+    margin: 10px 0;
+    border-top: 1px solid $panel-default-border;
+    border-bottom: 1px solid $panel-default-border;
+
+    input[type="radio"], input[type="checkbox"] {
+      top: 2px;
+    }
+  }
+  .repeat-weekly > div.form-group {
+    display: block;
+    line-height: 1;
+    padding-top: 5px;
+
+    & > div {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: space-between;
+      div.checkbox {
+        flex-grow: 1;
+      }
+    }
+  }
+  .repeat-until {
+    line-height: 40px;
+  }
+}
+#time-formset {
+  input {
+    display: block;
+    width: 100%;
+  }
+  .form-group {
+    margin: 0;
+  }
+  .row {
+    margin-bottom: 15px;
+  }
+}
+.ticketoutput-panel .panel-heading {
+  .checkbox {
+    padding: 0;
+    display: inline-block;
+    input[type=checkbox] {
+      margin-top: 0;
+      margin-right: 5px;
+      margin-left: 0px;
+      position: relative;
+      top: 1px;
+    }
+  }
+}
+.form-horizontal .big-radio {
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  padding: 0;
+  label {
+    padding: 15px 15px 15px 30px;
+  }
+
+  .help-block {
+    margin-bottom: 0;
+  }
+  &:first-child {
+    border-top-left-radius: $border-radius-base;
+    border-top-right-radius: $border-radius-base;
+  }
+  &:last-child {
+    border-bottom-left-radius: $border-radius-base;
+    border-bottom-right-radius: $border-radius-base;
+    border-bottom: 1px solid #ccc;
+  }
+}
+.accordion-radio {
+  display: block;
+  margin: 0;
+}
+.panel-default>.accordion-radio>.panel-heading {
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 12px 15px;
+
+  input[type=checkbox] {
+    margin-top: 0;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+  }
+}
+.maildesignpreview {
+  label {
+    display: block;
+  }
+  img {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    height: auto;
+    box-shadow: 0 1px 3px 0 #aaa;
+  }
+}
+
+.form-order-change, .form-refund-choose {
+  .row {
+    padding: 5px 0;
+  }
+}
+.form-refund-choose {
+  .payment-details {
+    max-width: 200px;
+  }
+  .refund-amount {
+    width: 250px;
+    input.form-control {
+      width: 100px;
+    }
+  }
+}
+
+@media(max-width: $screen-xs-max) {
+  .nameparts-form-group {
+    display: block;
+    input:not(:first-child), select:not(:first-child) {
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+    }
+    input:not(:last-child), select:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+@media(min-width: $screen-sm-min) {
+  .nameparts-form-group {
+    display: flex;
+    flex-direction: row;
+    input, select {
+      min-width: 5em;
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+    input:not(:first-child), select:not(:first-child) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+    input:not(:last-child), select:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+    [data-size="1"] {
+      flex-grow: 1;
+      flex-shrink: 4;
+    }
+    [data-size="2"] {
+      flex-grow: 2;
+      flex-shrink: 3;
+    }
+    [data-size="3"] {
+      flex-grow: 3;
+      flex-shrink: 2;
+    }
+    [data-size="4"] {
+      flex-grow: 4;
+      flex-shrink: 1;
+    }
+  }
+}
+
+.help-inline {
+  color: lighten($text-color, 25%); // lighten the text some for contrast
+}
+
+.panel .filter-form {
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+
+#rules-editor {
+  .checkin-rule {
+    border-left: 4px solid $brand-primary;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 5px 15px 5px 15px;
+    margin: 5px 0;
+    position: relative;
+  }
+
+  .checkin-rule-and {
+    border-left: 4px solid $brand-danger;
+  }
+  .checkin-rule-or {
+    border-left: 4px solid $brand-success;
+  }
+}
+
+.tax-rules-formset {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.tax-rule-line {
+  padding-top: 5px;
+  margin: 0;
+  & > div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+.tax-rule-lines .tax-rule-line {
+  border-bottom: 1px solid $input-border;
+  padding-bottom: 5px;
+}

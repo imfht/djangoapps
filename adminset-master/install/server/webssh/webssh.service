@@ -1,0 +1,14 @@
+[Unit]
+Description=Webssh Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/var/opt/adminset/main/vendor/webssh/webssh
+ExecStart=/usr/bin/wssh --xsrf=False --maxconn=100 --log-file-prefix=/var/opt/adminset/logs/webssh.log
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

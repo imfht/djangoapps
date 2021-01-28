@@ -1,0 +1,12 @@
+{% load i18n %}
+<p>
+    <select name="subevent" class="form-control simple-subevent-choice" data-model-select2="event"
+            data-select2-url="{% url "control:event.subevents.select2" organizer=request.event.organizer.slug event=request.event.slug %}"
+            data-placeholder="{% trans "All dates" context "subevent" %}">
+        {% for se in selected_subevents %}
+            <option value="{{ se.pk }}" selected>
+                {{ se.name }} – {{ se.get_date_range_display }}
+            </option>
+        {% endfor %}
+    </select>
+</p>

@@ -1,0 +1,121 @@
+{
+  "name": "wagtail",
+  "version": "1.0.0",
+  "repository": "https://github.com/wagtail/wagtail",
+  "private": true,
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "browserslist": [
+    "Firefox ESR",
+    "ie 11",
+    "last 2 Chrome versions",
+    "last 2 ChromeAndroid versions",
+    "last 2 Edge versions",
+    "last 1 Firefox version",
+    "last 2 iOS versions",
+    "last 2 Safari versions"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      "jquery": "<rootDir>/wagtail/admin/static_src/wagtailadmin/js/vendor/jquery-3.5.1.min.js"
+    },
+    "transform": {
+      "^.+\\.(js|ts|tsx)$": "ts-jest"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/"
+    ],
+    "setupFiles": [
+      "./client/tests/adapter.js",
+      "./client/tests/stubs.js",
+      "./client/tests/mock-fetch.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.53",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "@wagtail/stylelint-config-wagtail": "^0.1.1",
+    "autoprefixer": "^9.8.0",
+    "cssnano": "^4.1.10",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "enzyme-to-json": "^3.3.0",
+    "eslint": "^7.11.0",
+    "eslint-config-wagtail": "^0.1.1",
+    "eslint-import-resolver-webpack": "^0.8.1",
+    "eslint-plugin-import": "^1.8.1",
+    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-react": "^5.2.2",
+    "expose-loader": "^1.0.3",
+    "gulp": "^4.0.2",
+    "gulp-dart-sass": "^1.0.2",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-size": "^3.0.0",
+    "gulp-sourcemaps": "~2.6.1",
+    "gulp-util": "~3.0.8",
+    "jest": "^26.6.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-custom-properties": "^10.0.0",
+    "react-axe": "^3.1.0",
+    "react-test-renderer": "^16.13.1",
+    "redux-mock-store": "^1.3.0",
+    "stylelint": "^13.5.0",
+    "ts-jest": "^26.4.1",
+    "ts-loader": "^8.0.6",
+    "typescript": "^4.0.3",
+    "webpack": "^5.11.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "core-js": "^2.5.3",
+    "draft-js": "0.10.5",
+    "draftail": "^1.2.1",
+    "element-closest": "^2.0.2",
+    "focus-trap-react": "^3.1.0",
+    "postcss-calc": "^7.0.5",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-redux": "^5.0.6",
+    "react-streamfield": "^0.9.6",
+    "react-transition-group": "^1.1.3",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "scripts": {
+    "build": "npm run gulp:prod:build && npm run webpack:prod:build",
+    "dist": "NODE_ENV=production npm run build",
+    "watch": "npm-run-all --parallel gulp:dev:watch webpack:dev:watch",
+    "start": "npm run watch",
+    "gulp:dev:watch": "gulp watch",
+    "gulp:prod:build": "gulp build",
+    "webpack:dev:watch": "webpack --config ./client/webpack.config.js --mode development --progress --watch",
+    "webpack:prod:build": "webpack --config ./client/webpack.config.js --mode production",
+    "lint:js": "eslint --max-warnings 16 ./client",
+    "lint:css": "stylelint **/*.scss",
+    "lint": "npm run lint:js && npm run lint:css",
+    "test": "npm run test:unit",
+    "test:unit": "jest",
+    "test:unit:watch": "jest --watch",
+    "test:unit:coverage": "jest --coverage"
+  }
+}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load django_th_extras %}
+{% block title %}{% trans "My Services" %} - {{ user.username }}{% endblock %}
+{% block content %}
+    <div class="col-md-12" id="trigger-content">
+        <h3><span class="glyphicon glyphicon-trash"></span> {% trans 'Deletion of your service' %} {{ userservice.name|service_readable }}</h3>
+        <div class="alert alert-danger">
+            {% blocktrans %}
+                Are you sure you want to remove this service ?<br/><br/>
+                <span class="glyphicon glyphicon-warning-sign icon-white"></span> Be careful, If you reply <span class="label label-danger">Yes</span>, all the related triggers will be deleted too
+            {% endblocktrans %}
+        </div>
+        <form method="post" role="form" class="form-horizontal" action="">
+        {% csrf_token %}
+        <div class="form-actions">
+            <input class="btn btn-danger" name="ok" type="submit" value="{% trans 'Yes' %}" />
+            <a href="{% url 'user_services' %}" class="btn btn-primary">{% trans "No" %}</a>
+        </div>
+        </form>
+    </div>
+{% endblock %}

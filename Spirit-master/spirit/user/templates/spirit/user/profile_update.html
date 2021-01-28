@@ -1,0 +1,32 @@
+{% extends "spirit/_base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Preferences" %}{% endblock %}
+
+{% block content %}
+  <div class="layout__article">
+    <h1 class="headline">{% trans "Preferences" %}</h1>
+
+    {% spaceless %}
+      <dl class="profile__settings">
+        <dt class="profile__settings__label">{% trans "Email" %}:</dt>
+        <dd class="profile__settings__desc"><a
+          href="{% url "spirit:user:email-change" %}"
+        ><i class="fa fa-pencil"></i> {{ user.email }}</a></dd>
+        <dt class="profile__settings__label">{% trans "Password" %}:</dt>
+        <dd class="profile__settings__desc"><a
+          href="{% url "spirit:user:password-change" %}"
+        ><i class="fa fa-pencil"></i> {% trans "Change password" %}</a></dd>
+      </dl>
+    {% endspaceless %}
+
+    <form action="." method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% include "spirit/_form.html" with form=uform %}
+      {% include "spirit/_form.html" %}
+
+      <input class="button" type="submit" name="post" value="{% trans "Save" %}" />
+    </form>
+  </div>
+{% endblock %}

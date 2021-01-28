@@ -1,0 +1,144 @@
+# -*- coding: utf-8 -*-
+from scrapy.linkextractors import LinkExtractor
+from gerapy.spiders import CrawlSpider
+from gerapy.spiders import Rule
+from scrapy.loader import ItemLoader
+from ..items import *
+from scrapy.loader.processors import *
+
+{% if spider.code.out_class %}
+{{ spider.code.out_class }}
+{% endif %}
+
+class {{ spider.name|capitalize }}Spider(CrawlSpider):
+
+    {%- if spider.code.in_class -%}
+    {%- set codes = spider.code.in_class.split('\n') -%}
+    {%- for code in codes %}
+    {{ code }}
+    {%- endfor -%}
+    {%- endif %}
+
+    name = '{{ spider.name }}'
+    {% if spider.allowed_domains -%}
+    allowed_domains = [
+        {%- for allowed_domain in spider.allowed_domains -%} '{{ allowed_domain }}',{%- endfor -%} 
+    ]
+    {% endif -%}
+    custom_settings = {
+        {% if spider.storage.mysql.host -%}
+        "MYSQL_HOST": "{{ spider.storage.mysql.host }}",
+        {% endif -%}
+        {%- if spider.storage.mysql.port -%}
+        "MYSQL_PORT": {{ spider.storage.mysql.port }},
+        {% endif -%}
+        {%- if spider.storage.mysql.user -%}
+        "MYSQL_USER": "{{ spider.storage.mysql.user }}",
+        {% endif -%}
+        {%- if spider.storage.mysql.password -%}
+        "MYSQL_PASSWORD": "{{ spider.storage.mysql.password }}",
+        {% endif -%}
+        {%- if spider.storage.mysql.database -%}
+        "MYSQL_DATABASE": "{{ spider.storage.mysql.database }}",
+        {% endif -%}
+        {%- if spider.storage.mongodb.uri -%}
+        "MONGODB_URI": "{{ spider.storage.mongodb.uri }}",
+        {% endif -%}
+        {%- if spider.storage.mongodb.database -%}
+        "MONGODB_DATABASE": "{{ spider.storage.mongodb.database }}",
+        {% endif %}
+        {% if spider.custom_settings -%}
+        {% for setting in spider.custom_settings -%}
+        {% if setting.value.strip().startswith('{') or setting.value.strip().startswith('[') or setting.value|int != 0 -%}
+        "{{ setting.key }}": {{ setting.value.strip() }},
+        {% else -%}
+        "{{ setting.key }}": "{{ setting.value.strip() }}",
+        {% endif -%}
+        {% endfor -%}
+        {% endif -%}
+    }
+    {% if spider.start_urls -%}
+    {%- if spider.start_urls.mode == "list" -%}
+    start_urls = [
+        {%- for start_url in spider.start_urls.list -%} '{{ start_url }}',{%- endfor -%}
+    ]
+    {%- endif -%}
+    {% endif -%}
+    {%- if spider.attrs %}
+    {% for attr in spider.attrs -%}
+    {{ attr.key }} = '{{ attr.value }}'
+    {% endfor -%}
+    {% endif -%}
+    {%- if spider.rules %}
+    rules = (
+        {% for rule in spider.rules %} Rule(
+            LinkExtractor(
+                {%- if rule.allow -%}allow={{rule.allow}}, {% endif -%}
+                {%- if rule.deny -%}deny={{rule.deny}}, {% endif -%}
+                {%- if rule.allow_domains -%}allow_domains={{rule.allow_domains}}, {% endif -%}
+                {%- if rule.deny_domains -%}deny_domains={{rule.deny_domains}}, {% endif -%}
+                {%- if rule.deny_extensions -%}deny_extensions={{rule.deny_extensions}}, {% endif -%}
+                {%- if rule.restrict_xpaths -%}restrict_xpaths={{rule.restrict_xpaths}}, {% endif -%}
+                {%- if rule.restrict_css -%}restrict_css={{rule.restrict_css}}, {% endif -%}
+                {%- if rule.tags -%}tags={{rule.tags}}, {% endif -%}
+                {%- if rule.canonicalize -%}canonicalize={{rule.canonicalize}}, {% endif -%}
+                {%- if rule.attrs -%}attrs={{rule.attrs}}, {% endif -%}
+                {%- if rule.unique -%}unique={{rule.unique}}, {% endif -%}
+                {%- if rule.process_value -%}process_value={{rule.process_value}}, {% endif -%}
+                {%- if rule.strip -%}strip={{rule.strip}}, {% endif -%}
+            ),
+            {% if rule.callback -%}callback='{{rule.callback}}', {% endif -%}
+            {%- if rule.method -%}method='{{rule.method}}', {% endif -%}
+            {%- if rule.data -%}data='{{rule.data}}', {% endif -%}
+            {%- if rule.params -%}params={{rule.params}}, {% endif -%}
+            {%- if rule.priority -%}priority={{rule.priority}}, {% endif -%}
+            {%- if rule.dont_filter -%}dont_filter={{rule.dont_filter}}, {% endif -%}
+            {%- if rule.meta -%}meta={{rule.meta}}, {% endif -%}
+            {%- if rule.cb_kwargs -%}cb_kwargs={{rule.cb_kwargs}}, {% endif -%}
+            {%- if rule.proxy -%}proxy='{{rule.proxy}}', {% endif -%}
+            {%- if rule.render -%}render={{rule.render}}, {% endif -%}
+            {%- if rule.dont_redirect -%}dont_redirect={{rule.dont_redirect}}, {% endif -%}
+            {%- if rule.dont_retry -%}dont_retry={{rule.dont_retry}}, {% endif -%}
+            {%- if rule.handle_httpstatus_list -%}handle_httpstatus_list={{rule.handle_httpstatus_list}}, {% endif -%}
+            {%- if rule.handle_httpstatus_all -%}handle_httpstatus_all={{rule.handle_httpstatus_all}}, {% endif -%}
+            {%- if rule.dont_cache -%}dont_cache={{rule.dont_cache}}, {% endif -%}
+            {%- if rule.dont_obey_robotstxt -%}dont_obey_robotstxt={{rule.dont_obey_robotstxt}}, {% endif -%}
+            {%- if rule.download_timeout -%}download_timeout={{rule.download_timeout}}, {% endif -%}
+            {%- if rule.max_retry_times -%}max_retry_times={{rule.max_retry_times}}, {% endif -%}
+            {%- if rule.follow -%}follow={{rule.follow}}, {% endif -%}
+            {%- if rule.process_links -%}process_links={{rule.process_links}}, {% endif -%}
+            {%- if rule.process_body -%}process_body={{rule.process_body}}, {% endif -%}
+            {%- if rule.process_request -%}process_request={{rule.process_request}}, {% endif -%}
+        ),
+        {% endfor -%}
+    )
+    {% endif %}
+    {%- if spider.start_urls -%}
+    {%-if spider.start_urls.mode == "code" %}
+    def make_start_urls(self):
+        {%- set lines = spider.start_urls.code.split('\n') -%}
+        {% for line in lines %}
+        {{ line -}}
+        {% endfor %}
+    {% endif %}
+    {%- endif -%}
+    {%- if spider.extractors %}
+    {% for extractor in spider.extractors %}
+    def {{ extractor.callback }}(self, response):
+        loader = ItemLoader(item={{ extractor.item }}(), response=response)
+        {% for attr, items in extractor.attrs.items() -%}
+        {%- for item in items -%}
+        {%- if item.method == 'xpath' or item.method == 'css' -%}
+        loader.add_{{ item.method }}('{{ attr }}', '{{ item.arg }}'{% if item.processor %}, {{ item.processor }}{% endif %}{% if item.re %}, re='{{ item.re }}'{% endif%})
+        {% endif -%}
+        {%- if item.method == 'attr' -%}
+        loader.add_value('{{ attr }}', response.{{ item.arg }}, {% if item.processor %}, {{ item.processor }}{% endif %}{% if item.re %}, re='{{ item.re }}'{% endif%})
+        {% endif -%}
+        {%- if item.method == 'value' -%}
+        loader.add_value('{{ attr }}', "{{ item.arg }}", {% if item.processor %}, {{ item.processor }}{% endif %}{% if item.re %}, re='{{ item.re }}'{% endif%})
+        {% endif -%}
+        {%- endfor -%}
+        {%- endfor -%}
+        yield loader.load_item()
+    {% endfor %}
+    {% endif %}

@@ -1,0 +1,67 @@
+<% if (vm.visible('extra_info')) { %>
+.card-data(
+    class!="<%= emptyTask() ? 'empty-tasks': '' %>"
+)
+    .card-statistics-init
+        <% if (vm.type == 'us') { %>
+        span
+            <% if (vm.item.getIn(['model', 'total_points'])) { %>
+            span.card-estimation(
+                title!="<%= translate('COMMON.CARD.ESTIMATION') %>"
+                data-id!="<%= vm.item.getIn(['model', 'id']) %>"
+                translate="COMMON.CARD.PTS",
+            ) <%= translate('COMMON.CARD.PTS', {pts: vm.item.getIn(['model', 'total_points']) }) %>
+            <% } %>
+
+            <% if (!vm.item.getIn(['model', 'total_points'])) { %>
+            span.card-estimation
+                <%= translate('COMMON.CARD.NO_PTS') %>
+            <% } %>
+        <% } %>
+
+        <% if (vm.item.getIn(['model', 'due_date'])) { %>
+        .card-due-date(title!="<%- dueDateTitle() %>")
+            <%= svg({svgIcon: "icon-clock", svgTitle: translate('COMMON.CARD.DUE_DATE', { date: dueDateTitle() }), svgFill: dueDateColor() }) %>
+        <% } %>
+
+        <% if (vm.item.getIn(['model', 'is_iocaine'])) { %>
+        .card-iocaine(
+            title!="<%= translate('TASK.FIELDS.IS_IOCAINE') %>"
+        )
+            <%= svg({svgIcon: "icon-iocaine", svgTitle: translate('TASK.FIELDS.IS_IOCAINE')}) %>
+        <% } %>
+
+        <% if (vm.item.getIn(['model', 'is_blocked'])) { %>
+        span.card-lock(ng-if="vm.item.getIn(['model', 'is_blocked'])")
+            <%= svg({svgIcon: "icon-lock" }) %>
+        <% } %>
+
+    .card-statistics
+        <% if (totalAttachments()) { %>
+        .statistic.card-attachments(
+            title!="<%= translate('ATTACHMENT.SECTION_NAME') %>"
+        )
+            <%= svg({svgIcon: "icon-paperclip" }) %>
+            span <%= totalAttachments() %>
+        <% } %>
+        <% if (vm.item.getIn(['model', 'watchers']).size) { %>
+        .statistic.card-watchers(
+            title!="<%= translate('COMMON.WATCHERS.WATCHERS') %>"
+        )
+            <%= svg({svgIcon: "icon-eye" }) %>
+            span <%= vm.item.getIn(['model', 'watchers']).size %>
+        <% } %>
+        <% if (vm.item.getIn(['model', 'total_comments'])) { %>
+        .statistic.card-comments(
+            title!="<%= translate('COMMENTS.TITLE') %>"
+        )
+            <%= svg({svgIcon: "icon-message-square" }) %>
+            span <%= vm.item.getIn(['model', 'total_comments']) %>
+        <% } %>
+        <% if (vm.item.getIn(['model', 'tasks']) && vm.item.getIn(['model', 'tasks']).size) { %>
+        .statistic.card-completed-tasks(
+            title!="<%= translate('COMMON.CARD.TASKS', {completed: vm.getClosedTasks().size, total: vm.item.getIn(['model', 'tasks']).size }) %>"
+            class!="<%= vm.getClosedTasks().size == vm.item.getIn(['model', 'tasks']).size ? 'completed' : '' %>"
+        ) <%= vm.getClosedTasks().size %> / <%= vm.item.getIn(['model', 'tasks']).size %>
+        <% } %>
+<% } %>

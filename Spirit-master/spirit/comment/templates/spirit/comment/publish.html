@@ -1,0 +1,26 @@
+{% extends "spirit/_base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Publish comment" %}{% endblock %}
+
+{% block content %}
+<div class="layout__article">
+  <h1 class="headline">{% trans "Publishing comment on" %} "{{ topic.title }}"</h1>
+
+  <form action="." method="post" class="js-reply">
+    {% csrf_token %}
+    <div class="topic_publish_comment">
+      {% include "spirit/_form.html" %}
+      {% include "spirit/comment/_editor_preview.html" %}
+    </div>
+    <div class="comment__reply__actions">
+      {% include "spirit/comment/_editor.html" %}
+      <input
+        class="button comment__reply__actions__publish"
+        type="submit"
+        value="{% trans "Publish" %}" />
+    </div>
+  </form>
+</div>
+{% endblock %}

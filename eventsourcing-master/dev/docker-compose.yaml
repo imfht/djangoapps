@@ -1,0 +1,75 @@
+version: '2'
+
+services:
+  eventsourcing_requirements:
+    build:
+      context: ..
+      dockerfile: ./dev/Dockerfile_eventsourcing_requirements
+    image: "eventsourcing_requirements:latest"
+    volumes:
+      - .:/app
+    links:
+      - cassandra
+      - mysql
+      - postgres
+      - redis
+      - axon
+    environment:
+      CASSANDRA_HOSTS: cassandra
+      MYSQL_HOST: mysql
+      MYSQL_USER: eventsourcing
+      MYSQL_PASSWORD: eventsourcing
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: eventsourcing
+      POSTGRES_PASSWORD: eventsourcing
+      REDIS_HOST: redis
+      AXON_HOST: axon
+
+  cassandra:
+    image: "cassandra:latest"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    ports:
+      - "9042:9042"
+
+  mysql:
+    image: "mysql:latest"
+    env_file:
+      - .env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  postgres:
+    image: "postgres:latest"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: "redis:latest"
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+  axon:
+    image: "axoniq/axonserver:latest"
+    volumes:
+      - axon_data:/data
+      - axon_eventdata:/eventdata
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+
+volumes:
+  cassandra_data:
+  mysql_data:
+  postgres_data:
+  redis_data:
+  axon_data:
+  axon_eventdata:

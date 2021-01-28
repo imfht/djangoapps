@@ -1,0 +1,83 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        告警策略
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">配置管理</a></li>
+        <li class="active">告警策略</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box">
+            <div class="box-body">
+              <table id="table1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>设备类型</th>
+                  <th>告警类型</th>
+                  <th>运算符</th>
+                  <th>告警阈值</th>
+                   <th>阈值说明</th>
+                   <th>操作</th>
+                </tr>
+                </thead>
+                {% for alarm_setting in alarm_list %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ alarm_setting.server_type}} </td>
+                 <td>{{ alarm_setting.alarm_name}} </td>
+                 <td>{{ alarm_setting.judge}} </td>
+                 <td>{{ alarm_setting.jdg_value }} </td>
+                 <td>{{ alarm_setting.jdg_des }} </td>
+                 <td ><a href="#">
+                      <button type="button" class="btn btn-xs btn-primary" onclick="return pop('{{ alarm_setting.id }}')" >编辑</button>
+                 </a>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+          <!-- /.box -->
+        </div>
+      <!-- /.row -->
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+function pop(n){
+    layer.open({
+    type: 2,
+    title: '编辑告警策略',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/alarm_settings_edit?id='+n,],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('保存成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('修改失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+</script>
+{% endblock %}

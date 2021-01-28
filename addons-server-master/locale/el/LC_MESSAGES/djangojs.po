@@ -1,0 +1,832 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: AMO-JS 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2021-01-10 09:30+0000\n"
+"Last-Translator: Jim Spentzos <jimspentzos2000@gmail.com>\n"
+"Language-Team: el <fiotakis@otenet.gr>, <alexandros@mioglou.me>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} αστέρι"
+msgstr[1] "{0} αστέρια"
+
+msgid "There was a problem contacting the server."
+msgstr "Προέκυψε πρόβλημα επικοινωνίας με το διακομιστή."
+
+msgid "Select a file..."
+msgstr "Επιλογή αρχείου..."
+
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Το πρόσθετό σας πρέπει να έχει κατάληξη .zip, .xpi ή .crx"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "{0}% ολοκληρωμένο"
+
+msgid "{0} of {1}"
+msgstr "{0} από {1}"
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Uploading {0}"
+msgstr "Μεταφόρτωση του {0}"
+
+msgid "Error with {0}"
+msgstr "Σφάλμα με το {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Παρακαλούμε βεβαιωθείτε ότι έχετε αναφέρει τυχόν ζητήματα σχετικά με το linting στο GitHub"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Αποτυχία επαλήθευσης προσθέτου με {0} σφάλμα."
+msgstr[1] "Αποτυχία επαλήθευσης προσθέτου με {0} σφάλματα."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip;και {0} ακόμα"
+msgstr[1] "&hellip;και {0} ακόμα"
+
+msgid "See full validation report"
+msgstr "Προβολή αναλυτικής αναφοράς επικύρωσης"
+
+msgid "Validating {0}"
+msgstr "Επικύρωση του {0}"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Το πρόσθετό σας ξεπερνά το μέγιστο μέγεθος των {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Η απάντηση του εξυπηρετητή ήταν κενή; κατάσταση: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Απρόσμενο σφάλμα διακομιστή κατά την επικύρωση."
+
+msgid "Finished validating {0}"
+msgstr "Ολοκληρώθηκε η επικύρωση του {0}"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Το χρονικό όριο επαλήθευσης του προσθέτου σας έληξε, θα γίνει χειροκίνητος έλεγχος."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Το πρόσθετό σας επαληθεύτηκε χωρίς σφάλματα και με {0} προειδοποίηση."
+msgstr[1] "Το πρόσθετό σας επαληθεύτηκε χωρίς σφάλματα και με {0} προειδοποιήσεις."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Το πρόσθετό σας επαληθεύτηκε χωρίς σφάλματα και με {0} μήνυμα."
+msgstr[1] "Το πρόσθετό σας επαληθεύτηκε χωρίς σφάλματα και με {0} μηνύματα."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "Το πρόσθετό σας επαληθεύτηκε χωρίς σφάλματα ή προειδοποιήσεις."
+
+msgid "Your submission will be automatically signed."
+msgstr "Η υποβολή σας θα υπογραφεί αυτόματα."
+
+msgid "WebExtension upgrade"
+msgstr "Αναβάθμιση επέκτασης ιστού"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr ""
+"Επιτρέπουμε και ενθαρρύνουμε να κάνετε μια αναβάθμιση, αλλά δεν μπορείτε να αναστρέψετε τη διαδικασία. Μόλις οι χρήστες σας αποκτήσουν το WebExtension, δεν θα μπορούν να εγκαταστήσουν ένα παλιό "
+"πρόσθετο."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Διαδικασία port ενός παλιού προσθέτου Firefox στο MDN"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Συμπεριλάβετε λεπτομερή σημειώματα της έκδοσης (αυτό μπορεί να γίνει στο επόμενο βήμα)."
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr ""
+"Αν το πρόσθετό σας απαιτεί λογαριασμό σε ιστοσελίδα με σκοπό να δοκιμαστεί πλήρως, παραθέστε ένα όνομα χρήστη και κωδικό πρόσβασης για δοκιμή, στις σημειώσεις ελεγκτή (αυτό μπορεί να γίνει στο "
+"επόμενο βήμα)."
+
+msgid "Add-on submission checklist"
+msgstr "Λίστα καταχωρήσεων προσθέτων"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Παρακαλούμε επιβεβαιώστε τα παρακάτω σημεία πριν την ολοκλήρωση της υποβολής σας. Αυτό θα μειώσει τυχόν καθυστερήσεις ή ασάφειες κατά τη διαδικασία της αξιολόγησης:"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+"Για τα ελαχιστοποιημένα, συνενωμένα ή με άλλο τρόπο μηχανικά δημιουργημένα σενάρια (εξαιρούνται γνωστές βιβλιοθήκες), πρέπει να υποβάλλετε τις πηγές ξεχωριστά για έλεγχο. Βεβαιωθείτε ότι "
+"χρησιμοποιείτε το πεδίο μεταφόρτωσης πηγαίου κώδικα για να αποφύγετε την απόρριψη της υποβολής σας."
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Η διαδικασία επικύρωσης βρήκε προβλήματα που μπορούν να οδηγήσουν σε απόρριψη."
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Δεν αναγνωρίζεται η μορφή αρχείου που αποστείλατε."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Το αρχείο σας ξεπερνά το μέγιστο μέγεθος των {0}."
+
+msgid "You cancelled the upload."
+msgstr "Ακυρώσατε την μεταφόρτωση."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Οι εικόνες πρέπει να είναι είτε PNG είτε JPG"
+
+msgid "Videos must be in WebM."
+msgstr "Τα βίντεο πρέπει να είναι τύπου WebM."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Δεν είναι συμβατό αυτό το θέμα με την έκδοση του {0} που έχετε"
+
+msgid "Flagged for review"
+msgstr "Επισημάνθηκε για αξιολόγηση"
+
+msgid "Your input is required"
+msgstr "Απαιτείται η εισαγωγή"
+
+msgid "Marked for deletion"
+msgstr "Επισημάνθηκε για διαγραφή"
+
+msgid "Updating results&hellip;"
+msgstr "Ενημέρωση αποτελεσμάτων&hellip;"
+
+msgid "Category"
+msgstr "Κατηγορία"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "Αναζήτηση θεμάτων για <b>{0}</b>"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "Αναζήτηση εφαρμογών για <b>{0}</b>"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "Αναζήτηση προσθέτων για <b>{0}</b>"
+
+msgid "Use original"
+msgstr "Χρήση αρχικού"
+
+msgid "Week of {0}"
+msgstr "Εβδομάδα {0}"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} λήψη"
+msgstr[1] "{0} λήψεις"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} χρήστης"
+msgstr[1] "{0} χρήστες"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} πρόσθετο"
+msgstr[1] "{0} πρόσθετα"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} συλλογή"
+msgstr[1] "{0} συλλογές"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} κριτική"
+msgstr[1] "{0} κριτικές"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} πώληση"
+msgstr[1] "{0} πωλήσεις"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} επιστροφή"
+msgstr[1] "{0} επιστροφές"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} εγκατάσταση"
+msgstr[1] "{0} εγκαταστάσεις"
+
+msgid "Downloads"
+msgstr "Λήψεις"
+
+msgid "Daily Users"
+msgstr "Ημερήσιοι χρήστες"
+
+msgid "Amount, in USD"
+msgstr "Ποσό, σε USD"
+
+msgid "Number of Contributions"
+msgstr "Αριθμός συνεισφορών"
+
+msgid "More Info..."
+msgstr "Περισσότερες πληροφορίες..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "Λεπτομέρειες για {0}"
+
+msgid "Collections Created"
+msgstr "Δημιουργίες συλλογών"
+
+msgid "Add-ons in Use"
+msgstr "Πρόσθετα σε χρήση"
+
+msgid "Add-ons Created"
+msgstr "Δημιουργίες προσθέτων"
+
+msgid "Add-ons Downloaded"
+msgstr "Ληφθέντα πρόσθετα"
+
+msgid "Add-ons Updated"
+msgstr "Ενημερωμένα πρόσθετα"
+
+msgid "Reviews Written"
+msgstr "Γραπτές κριτικές"
+
+msgid "User Signups"
+msgstr "Εγγραφές χρηστών"
+
+msgid "Subscribers"
+msgstr "Συνδρομητές"
+
+msgid "Ratings"
+msgstr "Αξιολογήσεις"
+
+msgid "Sales"
+msgstr "Πωλήσεις"
+
+msgid "Installs"
+msgstr "Εγκαταστάσεις"
+
+msgid "Unknown"
+msgstr "Άγνωστο"
+
+msgid "Add-ons Manager"
+msgstr "Διαχείριση προσθέτων"
+
+msgid "Add-ons Manager Promo"
+msgstr "Προωθητική ενέργεια διαχείρισης προσθέτων"
+
+msgid "Add-ons Manager Featured"
+msgstr "Προτεινόμενα διαχείρισης προσθέτων"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Διαχείριση προσθέτων - Μάθετε περισσότερα"
+
+msgid "Search Suggestions"
+msgstr "Προτάσεις αναζήτησης"
+
+msgid "Search Results"
+msgstr "Αποτελέσματα αναζήτησης"
+
+msgid "Homepage Promo"
+msgstr "Promo Αρχικής Σελίδας"
+
+msgid "Homepage Featured"
+msgstr "Προβεβλημένη Αρχική Σελίδα"
+
+msgid "Homepage Up and Coming"
+msgstr "Προσεχής Αρχική Σελίδα"
+
+msgid "Homepage Most Popular"
+msgstr "Δημοφιλέστερη Αρχική Σελίδα"
+
+msgid "Detail Page"
+msgstr "Σελίδα λεπτομερειών"
+
+msgid "Detail Page (bottom)"
+msgstr "Σελίδα λεπτομερειών (κάτω μέρος)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Σελίδα λεπτομερειών (Κανάλι Ανάπτυξης)"
+
+msgid "Often Used With"
+msgstr "Χρησιμοποιείται συχνά μαζί με"
+
+msgid "Others By Author"
+msgstr "Άλλα από τον ίδιο"
+
+msgid "Dependencies"
+msgstr "Εξαρτήσεις"
+
+msgid "Upsell"
+msgstr "Upsell"
+
+msgid "Meet the Developer"
+msgstr "Γνωρίστε τον προγραμματιστή"
+
+msgid "User Profile"
+msgstr "Προφίλ χρήστη"
+
+msgid "Version History"
+msgstr "Ιστορικό εκδόσεων"
+
+msgid "Sharing"
+msgstr "Διαμοιρασμός"
+
+msgid "Category Pages"
+msgstr "Σελίδες κατηγορίας"
+
+msgid "Collections"
+msgstr "Συλλογές"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Κατηγορία Προβεβλημένο Καρουζέλ"
+
+msgid "Category Landing Top Rated"
+msgstr "Κατηγορία Υψηλότερη Βαθμολογία"
+
+msgid "Category Landing Most Popular"
+msgstr "Κατηγορία Δημοφιλέστερα"
+
+msgid "Category Landing Recently Added"
+msgstr "Κατηγορία Προστέθηκαν πρόσφατα"
+
+msgid "Browse Listing Featured Sort"
+msgstr "Αναζήτηση Λίστας Προβεβλημένων Ταξινόμηση"
+
+msgid "Browse Listing Users Sort"
+msgstr "Αναζήτηση Λίστας Χρηστών Ταξινόμηση"
+
+msgid "Browse Listing Rating Sort"
+msgstr "Αναζήτηση Λίστας Αξιολογήσεων Ταξινόμηση"
+
+msgid "Browse Listing Created Sort"
+msgstr "Αναζήτηση Λίστας Δημιουργηθέντων Ταξινόμηση"
+
+msgid "Browse Listing Name Sort"
+msgstr "Αναζήτηση Λίστας Ονομάτων Ταξινόμηση"
+
+msgid "Browse Listing Popular Sort"
+msgstr "Αναζήτηση Λίστας Δημοφιλών Ταξινόμηση"
+
+msgid "Browse Listing Updated Sort"
+msgstr "Αναζήτηση Λίστας Ανανεωμένων"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "Αναζήτηση Λίστας Προσεχών"
+
+msgid "Total Amount Contributed"
+msgstr "Σύνολο συνεισφορών"
+
+msgid "Average Contribution"
+msgstr "Μέσος όρος συνεισφορών"
+
+msgid "Usage"
+msgstr "Χρήση"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Λήψεις και ημερήσιοι χρήστες, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Λήψεις και ημερήσιοι χρήστες από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Εγκαταστάσεις και ημερήσιοι χρήστες, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Εγκαταστάσεις και ημερήσιοι χρήστες από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Λήψεις, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Λήψεις από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Ημερήσιοι χρήστες, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Ημερήσιοι χρήστες από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Εφαρμογές, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Εφαρμογές από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Countries, last {0} days"
+msgstr "Χώρες, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Countries from {0} to {1}"
+msgstr "Χώρες από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Πλατφόρμες, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Πλατφόρμες από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Γλώσσες, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Γλώσσες από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Εκδόσεις προσθέτου, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Εκδόσεις προσθέτου από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Κατάσταση προσθέτου, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "Κατάσταση προσθέτου από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Πηγές λήψεων, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Πηγές λήψεων από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Mediums, last {0} days"
+msgstr "Μέσα λήψεων, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Mediums from {0} to {1}"
+msgstr "Μέσα λήψεων από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Contents, last {0} days"
+msgstr "Περιεχόμενα λήψης, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Contents from {0} to {1}"
+msgstr "Περιεχόμενα λήψης από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Campaigns, last {0} days"
+msgstr "Καμπάνιες λήψεων, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Καμπάνιες λήψεων από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Συνεισφορές, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Συνεισφορές από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Μετρήσεις ιστοσελίδας, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Μετρήσεις ιστοσελίδας από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Πρόσθετα σε χρήση, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Πρόσθετα σε χρήση από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Ληφθέντα πρόσθετα, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Ληφθέντα πρόσθετα από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Δημιουργίες προσθέτων, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Δημιουργίες προσθέτων από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Ενημερώσεις προσθέτων, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Ενημερώσεις προσθέτων από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Γραπτές κριτικές, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Γραπτές κριτικές από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Εγγραφές χρηστών, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Εγγραφές χρηστών από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Δημιουργίες συλλογών, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Δημιουργίες συλλογών από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Συνδρομητές, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Συνδρομητές από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Αξιολογήσεις, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Αξιολογήσεις από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Πωλήσεις, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Πωλήσεις από {0} έως {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Εγκαταστάσεις, τελευταίες {0} ημέρες"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Εγκαταστάσεις από {0} έως {1}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "<b>{0}</b> τις τελευταίες {1} ημέρες"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> από {1} ως {2}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "<b>{0}</b> κατά μέσο όρο τις τελευταίες {1} ημέρες"
+
+msgid "No data available."
+msgstr "Δεν υπάρχουν δεδομένα."
+
+msgid "Date"
+msgstr "Ημερομηνία"
+
+msgid "Other"
+msgstr "Άλλο"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Αποδοχή και εγκατάσταση"
+
+msgid "Add to {0}"
+msgstr "Προσθήκη στο {0}"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Εγκατάσταση για {0} ούτως ή άλλως"
+
+msgid "Download for {0} anyway"
+msgstr "Λήψη για {0} ούτως ή άλλως"
+
+msgid "Not available for your platform"
+msgstr "Δεν διατίθεται για την πλατφόρμα σας"
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Αυτό το πρόσθετο δεν είναι συμβατό με την έκδοση του {0} σας."
+
+msgid "View other versions"
+msgstr "Προβολή άλλων εκδόσεων"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Συμβατό με {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "Λειτουργεί με {app}"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Μόνο με το Firefox — Λήψη του Firefox τώρα!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Λυπούμαστε, θα χρειαστείτε ένα πρόγραμμα περιήγησης με βάση τα προϊόντα Mozilla (όπως το Firefox) για να εγκαταστήσετε αρθρώματα αναζήτησης."
+
+msgid "Changes Saved"
+msgstr "Οι αλλαγές αποθηκεύτηκαν"
+
+msgid "Enter a new author's email address"
+msgstr "Εισάγετε τη διεύθυνση email νέου συντάκτη"
+
+msgid "There was an error uploading your file."
+msgstr "Παρουσιάστηκε σφάλμα κατά τη μεταφόρτωση του αρχείου σας."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} αρχείο"
+msgstr[1] "{files} αρχεία"
+
+msgid "Image changes being processed"
+msgstr "Επεξεργάζονται οι αλλαγές εικόνων"
+
+msgid "Select an application first"
+msgstr "Επιλέξτε πρώτα εφαρμογή"
+
+msgid "No results found."
+msgstr "Δεν βρέθηκαν αποτελέσματα."
+
+msgid "Loading..."
+msgstr "Φόρτωση..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> χαρακτήρας"
+msgstr[1] "<b>{0}</b> χαρακτήρες"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "Απομένει <b>{0}</b> χαρακτήρας"
+msgstr[1] "Απομένουν <b>{0}</b> χαρακτήρες"
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Αυτό το χαρακτηριστικό έχει απενεργοποιηθεί προς το παρόν λόγω εκτέλεσης εργασιών συντήρησης. Παρακαλούμε προσπαθήστε ξανά αργότερα."
+
+msgid "Remove this localization"
+msgstr "Αφαίρεση αυτής της μετάφρασης"
+
+msgid "{name} was viewing this page first."
+msgstr "Ο/Η {name} είχε φορτώσει τη σελίδα πριν από εσάς."
+
+msgid "{name} was viewing this add-on first."
+msgstr "Ο χρήστης {name} είδε αυτό το πρόσθετο πρώτος."
+
+msgid "Loading&hellip;"
+msgstr "Γίνεται φόρτωση&hellip;"
+
+msgid "Version Notes"
+msgstr "Σημειώσεις έκδοσης"
+
+msgid "Notes for Reviewers"
+msgstr "Σημειώσεις για ελεγκτές"
+
+msgid "No version notes found"
+msgstr "Δεν βρέθηκαν σημειώσεις έκδοσης"
+
+msgid "Review Text"
+msgstr "Κείμενο αξιολόγησης"
+
+msgid "Review notes found"
+msgstr "Βρέθηκαν σημειώσεις αξιολόγησης"
+
+msgid "Average Reviews"
+msgstr "Μέσες αξιολογήσεις"
+
+msgid "Number of Reviews"
+msgstr "Αριθμός αξιολογήσεων"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "Το μέγιστο μέγεθος μεταφόρτωσης είναι {0} - επιλέξτε μια μικρότερη εικόνα φόντου."
+
+msgid "Requested Info"
+msgstr "Ζητούμενες πληροφορίες"
+
+msgid "Flagged"
+msgstr "Σημειωμένο"
+
+msgid "Duplicate"
+msgstr "Αντίγραφο"
+
+msgid "Rejected"
+msgstr "Απορριφθέν"
+
+msgid "Approved"
+msgstr "Εγκεκριμένο"
+
+msgid "No results found"
+msgstr "Δεν βρέθηκαν αποτελέσματα"
+
+msgid "Theme"
+msgstr "Θέμα"
+
+msgid "Reviewer"
+msgstr "Ελεγκτής"
+
+msgid "Status"
+msgstr "Κατάσταση"
+
+msgid "All tests passed successfully."
+msgstr "Όλοι οι έλεγχοι ολοκληρώθηκαν επιτυχώς."
+
+msgid "These tests were not run."
+msgstr "Δεν εκτελέστηκαν αυτοί οι έλεγχοι."
+
+msgid "Tests"
+msgstr "Έλεγχοι"
+
+msgid "Error"
+msgstr "Σφάλμα"
+
+msgid "Warning"
+msgstr "Προειδοποίηση"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} γραμμή {1} στήλη {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} γραμμή {1}"
+
+msgid "Add-on failed validation."
+msgstr "Το πρόσθετο απέτυχε να επικυρωθεί."
+
+msgid "Add-on passed validation."
+msgstr "Το πρόσθετο επικυρώθηκε."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} σφάλμα"
+msgstr[1] "{0} σφάλματα"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} προειδοποίηση"
+msgstr[1] "{0} προειδοποιήσεις"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} σημείωμα"
+msgstr[1] "{0} σημειώματα"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Δεν ολοκληρώθηκε η επικύρωση ή ολοκληρώθηκε με σφάλματα"
+
+msgid "Internal server error"
+msgstr "Εσωτερικό σφάλμα διακομιστή"

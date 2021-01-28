@@ -1,0 +1,107 @@
+{% extends "core/base.html" %}
+
+{% load i18n staticfiles compress booktype_tags %}
+{% block extra_header %}
+    {% compress js %}
+    <script type="text/javascript" src="{% static "portal/js/group.js" %}"></script>
+    <script type="text/javascript" src="{% static "account/js/register.js" %}"></script>
+    {% endcompress %}
+{% endblock %}
+{% block content %}
+
+<div class="container all-groups">
+    <div class="row two-col">
+        <div class="col-md-8">
+            <div class="box white">
+                <h2 class="box-title">
+                    {% trans "All groups" %}
+                </h2>
+
+                <ul class="list border-top">
+                    {% for group in all_groups %}
+                    <li>
+                        <figure><img src="{{ group.small_group_image }}?{% random_url %}" /></figure>
+                            <div class="list-info group-list">
+                                {% if request.user.is_authenticated and request.user != group.owner %}
+                                    {% if request.user in group.members.all %}
+                                        <button group-name-url="{% url "portal:group" group.url_name %}" role="button" class="btn btn-success float-right btn-xs leave-group-button" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to leave this group. You can rejoin the group at any time" %}">{% trans "LEAVE THIS GROUP" %}</button>
+                                    {% else %}
+                                        <button group-name-url="{% url "portal:group" group.url_name %}" role="button" class="btn btn-default float-right btn-xs join-group-button" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to join this group of writers and editors. You can leave the group at any time" %}">{% trans "JOIN THIS GROUP" %}</button>
+                                    {% endif %}
+                                {% endif %}
+                                <h4><a href="{% url "portal:group" group.url_name %}">{{ group.name }}</a> - {{ group.description }}</h4>
+                                <span>{% trans "Members:" %} {{ group.members.all.count }}  {% trans "Books:" %} {{ group.num_books }}</span>
+                            </div>
+                    </li>
+                    {% empty %}
+                    <li>{% trans "There are no groups yet" %}.</li>
+                    {% endfor %}
+                </ul>
+
+            {% booktype_pagination all_groups_page %}
+
+            </div>
+        </div> <!-- End of col-md-4 -->
+
+
+        <div class="col-md-4">
+            {% if not request.user.is_authenticated %}
+            <div class="login-widget box gray">
+                <script>
+                    $(function() {
+                        $("#formsignin").booktypeSignin({'url': '{% url "accounts:signin" %}'});
+                    });
+                </script>
+                    <div class="signin-block">
+                        {% include "account/form_signin.html" %}
+                    </div>
+                    <div class="box-bottom-white">
+                        <p>{% trans "Not a member? Please fill the " %}<a href="{% url "accounts:signin" %}">{% trans "Registration form" %}</a></p>
+                    </div>
+            </div>
+            {% endif %}
+
+            <div class="box white">
+                <h2 class="box-title">{% trans "Active groups" %}</h2>
+                <ul class="list border-top">
+                    {% for active_group in active_groups %}
+                    <li>
+                        <figure><img src="{{ active_group.small_group_image }}" /></figure>
+                        <div class="list-info">
+                            <h4><a href="{% url "portal:group" active_group.url_name %}">{{ active_group.name }}</a> - {{ active_group.description }}</h4>
+                            <span>{% trans "Members:" %} {{ active_group.members.all.count }}  {% trans "Books:" %} {{ active_group.num_books }}</span>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li>{% trans "There are no active groups at the moment" %}.</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="box white">
+                    <h2 class="box-title">{% trans "New groups" %}</h2>
+                    <ul class="list border-top">
+                        {% for group in new_groups %}
+                        <li>
+                            <figure><img src="{{ group.small_group_image }}" /></figure>
+                            <div class="list-info">
+                                {% if request.user.is_authenticated and request.user != group.owner %}
+                                    {% if request.user in group.members.all %}
+                                        <button group-name-url="{% url "portal:group" group.url_name %}" role="button" class="btn btn-success float-right btn-xs leave-group-button" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to leave this group. You can rejoin the group at any time" %}">{% trans "LEAVE THIS GROUP" %}</button>
+                                    {% else %}
+                                        <button group-name-url="{% url "portal:group" group.url_name %}" role="button" class="btn btn-default float-right btn-xs join-group-button" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to join this group of writers and editors. You can leave the group at any time" %}">{% trans "JOIN THIS GROUP" %}</button>
+                                    {% endif %}
+                                {% endif %}
+                                <h4><a href="{% url "portal:group" group.url_name %}">{{ group.name }}</a> - {{ group.description }}</h4>
+                                <span>{% trans "Members:" %} {{ group.num_members }}  {% trans "Books:" %} {{ group.num_books }}</span>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>{% trans "There are no new groups at the moment" %}.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div> <!-- End of col-md-4 -->
+        </div>
+    </div> <!-- End of container -->
+{% endblock %}

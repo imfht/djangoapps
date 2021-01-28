@@ -1,0 +1,234 @@
+{% extends 'base/base_site.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box box-solid">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="/static/dist/img/user3-128x128.jpg" alt="User profile picture">
+
+              <h3 class="profile-username text-center">Admin</h3>
+
+              <p class="text-muted text-center">数据库管理员</p>
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>邮件</b> <a class="pull-right">gumengkai@hotmail.com</a>
+                </li>
+                <li class="list-group-item">
+                  <b>创建日期</b> <a class="pull-right">2018 03</a>
+                </li>
+                <li class="list-group-item">
+                  <b>最后登录</b> <a class="pull-right">{{ now }}</a>
+                </li>
+              </ul>
+
+              <a href="https://github.com/gumengkai/dbmon" class="btn btn-primary btn-block"><b>Github</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- About Me Box -->
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">关于</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <strong><i class="fa fa-book margin-r-5"></i>整体构建</strong>
+
+              <p class="text-muted">
+                后端多进程数据采集+告警轮询+web前端展示，目标监控设备无需安装agent，支持批量接入
+              </p>
+
+              <hr>
+
+              <strong><i class="fa fa-map-marker margin-r-5"></i>特色</strong>
+
+              <p class="text-muted">支持主机、Oracle、MySQL基础数据监控，以评分形式展示各项服务健康度，关键指标形成dashboard趋势分析，自定义告警阈值，支持邮件预警</p>
+
+              <hr>
+
+              <strong><i class="fa fa-pencil margin-r-5"></i> 开发技术</strong>
+
+              <p>
+                <span class="label label-danger">python</span>
+                <span class="label label-success">django</span>
+                <span class="label label-info">bootstrap</span>
+                <span class="label label-warning">html</span>
+                <span class="label label-primary">sql</span>
+              </p>
+
+              <hr>
+
+              <strong><i class="fa fa-file-text-o margin-r-5"></i> 备注</strong>
+
+              <p>暂无</p>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#email_setting" data-toggle="tab" aria-expanded="false">告警邮件</a></li>
+              <li class=""><a href="#check_setting" data-toggle="tab" aria-expanded="false">采集周期</a></li>
+              <li class=""><a href="#db_setting" data-toggle="tab" aria-expanded="true">监控数据存放</a></li>
+            </ul>
+            <div class="tab-content">
+
+                <div class="active tab-pane" id="email_setting">
+                <form class="form-horizontal" action="" method="POST">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">邮件发送端</label>
+
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" name="sender" value={{ sender }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">SMTP服务器</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="smtpserver" value={{ smtpserver }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">账号</label>
+
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" name="username" value={{ username }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">密码</label>
+
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" name="password_email" value={{ password_email }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">接收邮件列表</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="receiver"  value={{ receiver }}>
+                    </div>
+                  </div>
+                    <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">邮件标识符</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="msg_from"  value={{ msg_from }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"  value="1" name="check_box" {% if is_send == '1' %} checked {% endif %}> 是否发送告警邮件
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger" name="commit_email">更新</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+                <div class="tab-pane" id="check_setting">
+                    <form class="form-horizontal" action="" method="POST">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">数据采集周期(秒)</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="check_sleep_time" value={{ check_sleep_time }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">告警轮询周期(秒)</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="alarm_sleep_time" value={{ alarm_sleep_time }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">邮件发送间隔(分钟)</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="next_send_email_time" value={{ next_send_email_time }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger" name="commit_check">更新</button>
+                    </div>
+                  </div>
+                </form>
+                    </form>
+              </div>
+
+              <div class="tab-pane" id="db_setting">
+                  <form class="form-horizontal" action="" method="POST">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">主机IP</label>
+
+                    <div class="col-sm-10">
+                      <input type="inputName" class="form-control" name="host" value={{ host }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">端口号</label>
+
+                    <div class="col-sm-10">
+                      <input type="inputName" class="form-control" name="port" value={{ port }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">用户名</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="user"  value={{ user }}>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">密码</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="password_mysql" value={{ password_mysql }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">数据库名</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" name="dbname"  value={{ dbname }}>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger" name="commit_db">更新</button>
+                    </div>
+                  </div>
+                </form>
+                  </form>
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+{% endblock %}

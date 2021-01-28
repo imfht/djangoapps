@@ -1,0 +1,60 @@
+{% extends 'base/base_site.html' %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/shThemeDefault.css">
+<link rel="stylesheet" href="/static/css/prism.css">
+{% endblock %}
+
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+    <div class="box box-solid">
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h4>sql_undo</h4>
+              </div>
+              <div class="mailbox-read-message">
+              <text>
+                {% for sql_text in sqltext %}
+                <pre><code class="language-sql">{{ sql_text.SQL_UNDO }}</code></pre>
+                  {% endfor %}
+              </text>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+           <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h4>sql_redo</h4>
+              </div>
+              <div class="mailbox-read-message">
+                  <text>
+                {% for sql_text in sqltext %}
+                 <pre><code class="language-sql">{{ sql_text.SQL_REDO }}</code></pre>
+                  {% endfor %}
+                  </text>
+              </div>
+              <!-- /.mailbox-read-message -->
+            </div>
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascripts %}
+
+<script src="/static/js/shCore.js"></script>
+<script src="/static/js/shBrushSql.js"></script>
+<script src="/static/js/prism.js"></script>
+
+<script>
+     SyntaxHighlighter.config.clipboardSwf = '/static/js/clipboard.swf'
+     SyntaxHighlighter.all();
+</script>
+{% endblock %}

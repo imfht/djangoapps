@@ -1,0 +1,163 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        日志采集
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">自动化运维</a></li>
+        <li><a href="/my_tools">工具包</a></li>
+        <li class="active">日志采集</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+    <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+        <form action="" method="post" id="myform">
+            <div class="col-md-3">
+                  <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="本地路径，如D:/applog" name="local_dir">
+              </div>
+            <!-- /.col -->
+          </div>
+              <div class="col-md-4">
+                 <button type="submmit" class="btn btn-info btn-flat" name="go_collect">开始采集Go!</button>
+            <!-- /.col -->
+          </div>
+        </form>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">采集列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="table1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>应用归属</th>
+                  <th>IP地址</th>
+                  <th>采集用户名</th>
+                  <th>日志名称</th>
+                    <th>日志源路径</th>
+                    <th>编辑</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                {% for log in log_collects %}
+                 <tr>
+                 <td>{{ log.id }} </td>
+                     <td>{{ log.app_name}} </td>
+                 <td>{{ log.host}} </td>
+                 <td>{{ log.user}} </td>
+                 <td>{{ log.log_name}} </td>
+                 <td>{{ log.log_path}} </td>
+                 <td>
+              <div class="box-tools pull-left">
+                <a href="#">
+            <button type="button" class="btn btn-default btn-sm" onclick="return pop_edit(this.value)" value="{{ log.id }}"><i class="fa fa-edit"></i></button></a>
+              </div>
+                 </td>
+                 <td>
+              <div class="box-tools pull-left">
+                <a href="/log_collects_del?id={{ log.id }}">
+            <button type="button" class="btn btn-default btn-sm" onclick="javascript:return del();"><i class="fa fa-trash-o"></i></button></a>
+              </div>
+                 </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if log_collects.has_previous %}
+            <a href="?page_log={{ log_collects.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ log_collects.number }} 共计{{ log_collects.paginator.num_pages }}
+        </span>
+        {% if log_collects.has_next %}
+            <a href="?page_log={{ log_collects.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+            <div class="pull-right">
+                <a href="#">
+            <button type="button" class="btn btn-primary btn-block btn-flat" onclick="return pop_add()">新增</button>
+                </a>
+              </div>
+         </div>
+      </div>
+            <input id="handle_status" value="" hidden="hidden">
+      </div>
+{% endblock %}
+
+{% block javascripts %}
+ <script>
+
+ function pop_edit(n){
+    layer.open({
+    type: 2,
+    title: '编辑日志采集配置',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/log_collects_edit?id='+n,],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('保存成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+
+function pop_add(){
+    layer.open({
+    type: 2,
+    title: '新增日志采集配置',
+    closeBtn: 1,
+    area: ['700px', '550px'],
+    shadeClose: true, //点击遮罩关闭
+    content: ['/log_collects_add',],
+    end:function(){
+            var handle_status = $("#handle_status").val();
+            if ( handle_status == '1' ) {
+                layer.msg('添加成功！',{
+                    icon: 1,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            } else if ( handle_status == '2' ) {
+                layer.msg('添加失败！',{
+                    icon: 2,
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                },function(){
+                    history.go(0);
+                });
+            }
+        }
+  });
+}
+    </script>
+{% endblock %}

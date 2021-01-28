@@ -1,0 +1,37 @@
+{% extends "devhub/base.html" %}
+
+{% if filename %}
+  {# L10n: first parameter is a filename like lorem-ipsum-1.0.2.xpi #}
+  {% set title = _('Validation Results for {0}')|format_html(filename) %}
+{% else %}
+  {% set title = _('Validation Results') %}
+{% endif %}
+{% block title %}{{ dev_page_title(title, addon) }}{% endblock %}
+
+{% block content %}
+<header>
+  <h2>{{ title }}</h2>
+</header>
+
+<table>
+    {% if timestamp %}
+    <tr>
+        <th>{{ _('Validated at:') }}</th>
+        <td><time datetime="{{ timestamp|isotime}}">{{ timestamp|date}}</time></td>
+    </tr>
+    {% endif %}
+</table>
+
+<div class="addon-validator-suite"
+     id="addon-validator-suite"
+     {% if file %}
+        data-file-url="{{ file_url }}"
+        data-file-id="{{ file.id }}"
+     {% endif %}
+     {% if validation_data %}
+        data-validation="{{ validation_data|json }}"
+     {% endif %}
+     data-validateurl="{{ validate_url }}">
+  {% include "devhub/addons/includes/validation_test_results.html" %}
+</div>
+{% endblock %}

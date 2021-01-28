@@ -1,0 +1,174 @@
+[{
+        "pk": 90914,
+        "model": "translations.translation",
+        "fields": {
+            "localized_string": "Enhances Google Calendar with Greasemonkey user scripts.",
+            "created": "2007-07-08 13:49:43",
+            "locale": "en-US",
+            "modified": "2009-03-09 19:16:20",
+            "id": 58812,
+            "localized_string_clean": "Enhances Google Calendar with Greasemonkey user scripts."
+        }
+    },
+    {
+        "pk": 90916,
+        "model": "translations.translation",
+        "fields": {
+            "localized_string": "Better GCal",
+            "created": "2007-07-08 13:49:43",
+            "locale": "en-US",
+            "modified": "2009-03-09 19:16:20",
+            "id": 58814
+        }
+    },
+    {
+        "pk": 5299,
+        "model": "addons.addon",
+        "fields": {
+            "slug": "better-gcal-5299",
+            "last_updated": "2008-07-07 12:08:01",
+            "_current_version": 49515,
+            "disabled_by_user": false,
+            "guid": "bettergcal@ginatrapani.org",
+            "description": 58812,
+            "weekly_downloads": 580,
+            "average_rating": "3.43",
+            "average_daily_users": 19616,
+            "bayesian_rating": 3.6313200000000001,
+            "status": 4,
+            "default_locale": "en-US",
+            "name": 58814,
+            "created": "2007-07-08 13:48:03",
+            "type": 1,
+            "icon_type": "image/png",
+            "modified": "2010-06-25 15:27:34",
+            "total_ratings": 42
+        }
+    },
+    {
+        "pk": 13,
+        "model": "versions.license",
+        "fields": {
+            "modified": "2009-05-01 05:00:44",
+            "created": "2009-05-01 05:00:44"
+        }
+    },
+    {
+        "pk": 49515,
+        "model": "versions.version",
+        "fields": {
+            "license": 13,
+            "created": "2008-07-06 13:53:30",
+            "modified": "2010-03-12 07:45:56",
+            "approval_notes": "",
+            "version": "0.3",
+            "addon": 5299
+        }
+    },
+    {
+        "pk": 50000,
+        "model": "versions.version",
+        "fields": {
+            "license": 13,
+            "created": "2009-07-06 13:53:30",
+            "release_notes": null,
+            "modified": "2010-03-12 07:45:56",
+            "approval_notes": "",
+            "version": "0.4b",
+            "addon": 5299
+        }
+    },
+    {
+        "pk": 33046,
+        "model": "files.file",
+        "fields": {
+            "status": 4,
+            "hash": "sha256:114091778b4a4e3991e010ff07921eddd65139ff2f29e83b5a14140f2ca37d22",
+            "created": "2008-07-06 13:53:30",
+            "modified": "2010-03-12 07:45:52",
+            "filename": "better_gcal-0.3-fx.xpi",
+            "platform": 1,
+            "version": 49515,
+            "size": 75776,
+            "datestatuschanged": "2008-07-07 12:08:01"
+        }
+    },
+    {
+        "fields": {
+            "status": 7,
+            "hash": "sha256:4395f9cf4934ecc8f22d367c2a301fd79613b68937c59e676e92e4f0a89a5b92",
+            "created": "2009-09-18 12:33:25",
+            "modified": "2010-02-09 19:50:16",
+            "filename": "better_gcal-0.4-fx.xpi",
+            "platform": 1,
+            "version": 50000,
+            "size": 24576,
+            "datestatuschanged": "2009-09-18 12:32:59"
+        },
+        "model": "files.file",
+        "pk": 64874
+    },
+    {
+        "pk": 60582,
+        "model": "users.userprofile",
+        "fields": {
+            "display_collections": true,
+            "averagerating": 3.86,
+            "picture_type": "image/jpeg",
+            "occupation": "",
+            "homepage": "http://ginatrapani.org",
+            "email": "g@gmail.com",
+            "location": "",
+            "deleted": false,
+            "username": "60582",
+            "display_name": "60582 \u0627\u0644\u062a\u0637\u0628",
+            "notes": null,
+            "created": "2007-03-05 13:09:58",
+            "modified": "2010-05-17 13:53:12",
+            "last_login": "2010-05-21 10:36:25"
+        }
+    },
+    {
+        "pk": 307,
+        "model": "applications.appversion",
+        "fields": {
+            "application": 1,
+            "version": "3.7a3pre",
+            "created": "2007-03-05 13:09:58",
+            "version_int": 3070000003000,
+            "modified": "2007-03-05 13:09:58"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "applications.appversion",
+        "fields": {
+            "application": 1,
+            "version": "0.8",
+            "created": "2007-03-05 13:09:26",
+            "version_int": 80000200100,
+            "modified": "2007-03-05 13:09:26"
+        }
+    },
+    {
+        "pk": 4365,
+        "model": "addons.addonuser",
+        "fields": {
+            "position": 0,
+            "addon": 5299,
+            "role": 5,
+            "listed": true,
+            "user": 60582
+        }
+    },
+    {
+        "pk": 26402,
+        "model": "versions.applicationsversions",
+        "fields": {
+            "application": 1,
+            "version": 49515,
+            "min": 1,
+            "max": 307
+        }
+    }
+]

@@ -1,0 +1,367 @@
+body{
+    /*background: #fff;*/
+}
+.person{
+    width: 1030px;
+}
+.person_banner{
+    width: 100%;
+    height: 240px;
+    background: #fff;
+     -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: relative;
+}
+.person_bannerbgd{
+    width: 100%;
+    height: 196px;
+    background:url(http://uploads.5068.com/allimg/1801/78-1P1050R300-50.jpg);
+    position: relative;
+}
+.person_bannerbgd>div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.3);
+}
+.person_nav{
+    padding:0 16px;
+    line-height: 44px;
+    height: 44px;
+}
+.person_nav>ul>li{
+    margin-right: 40px;
+    color: #666;
+}
+.person_nav>ul>li:hover a{
+    color: #356dd0;
+}
+aside{
+    width: 150px;
+}
+.left_nav{
+    width: 130px;
+    margin-top: 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.left_nav>ul>li{
+
+    cursor: pointer;
+    height: 32px;
+    line-height: 32px;
+    background: #fff;
+    padding:0 16px;
+}
+.left_nav>ul>li>a{
+    width: 100%;
+
+
+}
+.left_nav>ul>li:hover{
+    background: #356dd0;
+}
+.left_nav>ul>li.active {
+    background: #356dd0;
+    color: #fff;
+}
+.left_nav>ul>li.active a{
+    background: #356dd0;
+    color: #fff;
+}
+.left_nav>ul>li:hover a{
+    color: #fff;
+}
+.aside_pubnum,.aside_visit{
+    background: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.aside_my{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left:292px;
+    color: #fff;
+}
+
+.aside_my_info{
+    height: 196px;
+}
+.aside_my_info>div{
+    padding:16px;
+}
+.my_head{
+    width: 103px;
+    height: 103px;
+    background: #000;
+    margin:0 auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border:2px solid #fff
+}
+.aside_my_num{
+    height: 44px;
+    width: 100%;
+    border-top: 1px solid #ddd;
+}
+.aside_my_div{
+    text-align: center;
+     width: 50%;
+    font-size: 12px;
+    margin-top: 4px;
+    color: #666;
+}
+.aside_pubnum{
+    height: 60px;
+    margin-top: 20px;
+}
+.aside_pubnum .aside_my_div{
+    font-size: 14px;
+    margin-top: 14px;
+}
+.aside_visit{
+    padding:0 16px;
+    margin-top: 20px;
+}
+.visit_item{
+    position: relative;
+    margin-top: 10px;
+}
+.visit_head{
+    width: 52px;
+    height: 52px;
+    position: absolute;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background: #000;
+}
+.visit_info_text{
+    padding-left: 60px;
+    font-size: 12px;
+    height: 52px;
+    padding-top: 10px;
+}
+.vi_co{
+    color: #999;
+}
+#mains{
+    position: relative;
+}
+.img_cover{
+    background-position: initial !important;
+}
+.loading{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -64px;
+}
+/*.M-box a{*/
+
+    /*background: #fff;*/
+    /*border:1px solid #ccc;*/
+    /*margin: 0 10px;*/
+/*}*/
+/*.M-box span.active{*/
+    /*border:1px solid #ccc;*/
+    /*margin: 0 10px;*/
+    /*background: #1da1f2;*/
+/*}*/
+
+
+
+
+/*人脉*/
+.follow_main{
+    padding:40px;
+    background: #fff;
+    text-align: center;
+}
+.follow_main .follow_item_img{
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.follow_item{
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.follow_item dt{
+    margin-right: 15px;
+}
+.follow_item_name{
+    /*min-width: 460px;*/
+}
+.follow_item_name>a{
+   font-weight: 700;
+}
+.follow_item_info>span{
+    color: #999;
+}
+.follow_num{
+    margin-right: 20px;
+}
+.fix{
+    position: fixed;
+    top: 0;
+    margin-top: 14px;
+    z-index: 9;
+}
+/*资料*/
+.info_item{
+    margin-bottom: 15px;
+}
+.info_item label{
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+}
+.info_item input{
+    text-align: left;
+    float: none;
+    width: 30%;
+    padding:0 12px;
+}
+.info_img{
+    width:60px;
+    height:60px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid #ddd;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: 50%;
+}
+#me{
+    width:30%;
+    height: 100px;
+    padding: 0 12px;
+    border: 1px solid #dcdcdc;
+    vertical-align: top;
+}
+#editbtn{
+    float: right;
+    line-height: 45px;
+    color: #356dd0;
+    cursor: pointer;
+}
+.origin{
+    border: none!important;
+    background: none;
+}
+.editshow{
+    display: none;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    background: #356dd0;
+    margin-left: 12px;
+    padding: 0px 25px;
+}
+input ,textarea{
+    outline: none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.filepath{
+    display: none;
+    width: 60px!important;
+    height: 60px;
+}
+.imgbox{
+    width: 30%;
+    padding: 0 12px;    margin-left: 8px;
+    text-align: left;
+    vertical-align: middle;
+    position: relative;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.person_nav.active{
+    color: #356dd0
+}
+
+/**
+message
+ */
+#menu{
+    display: -webkit-flex;
+    display: flex;
+    height: calc(100% - 80px);
+    background: #fff;
+    -webkit-box-flex: 1;
+    -ms-flex: auto;
+    flex: auto;
+    margin-top: 20px;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+}
+.meun{
+    width: 200px;
+    height: 100%;
+     border-right:1px solid #e6e6e6;
+}
+.meun ul li{
+    padding: 14px 24px;
+    cursor: pointer;
+
+}
+.meun ul li.active{
+    color: #2d8cf0;
+    background: #f0faff;
+    border-right: 2px solid #2d8cf0;
+}
+.meun-main{
+    width: 84%;
+}
+.meun-main ul li{
+    padding: 14px 24px;
+
+}
+.meun-main ul li div{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    cursor: pointer;
+}
+.meun-main-text{
+    overflow: hidden;
+    width: 800px;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+.meun-main ul li div p span{
+    margin: 0 10px;
+}
+.meun-main_info{
+    width: 700px;
+    height: 40px;
+    overflow: hidden;
+}

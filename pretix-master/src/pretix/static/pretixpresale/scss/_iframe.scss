@@ -1,0 +1,21 @@
+.in-iframe .page-header, .in-iframe .page-header-links {
+  display: none;
+}
+.in-iframe body {
+  background: white !important;
+}
+.in-iframe .main-box {
+  margin: auto;
+  border-radius: 0 !important;
+}
+.in-iframe .container {
+  padding-top: 10px;
+  width: 100%;
+}
+.iframe-only,
+.in-iframe .iframe-hidden {
+  display: none;
+}
+.in-iframe .iframe-only {
+  display: block;
+}

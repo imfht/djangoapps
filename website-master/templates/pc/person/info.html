@@ -1,0 +1,290 @@
+{% extends 'pc/person/index.html' %}
+{% load static %}
+{% block end %}
+    <div class="person fl">
+
+        <div class="clearfix">
+            <div class="fl left_nav">
+                <ul id="info">
+                    <li data-type="" class="active"><a href="javascript:;">个人资料</a></li>
+                    <li data-type="" ><a href="javascript:;">修改密码</a></li>
+                    <li data-type=""><a href="javascript:;">邮箱更换</a></li>
+                </ul>
+            </div>
+            <article class="fr">
+                 <div class="blogs">
+                     <div class="blogs_head" style="background: url({% static 'img/recommend.png' %})no-repeat 0 50%;">
+                         <span>个人资料</span>
+                         <span id="editbtn" onclick="editInfo()">编辑</span>
+                     </div>
+                     <div class="follow_main">
+                         <div class="info_item clearfix"style="position: relative">
+                             <label for="name">头像</label>
+{#                             <img class="info_img" src="{{ MEDIA_URL }}{{ request.user.user_imag }}" alt="">#}
+{#                             <input type="file" id="file">#}
+                              <!--规定上传的文件只能是图片-->
+                             <a class="imgbox">
+                                 <span id="img3" class="info_img" style="background-image:url({% if request.user.user_imag  %}
+                                 {{ MEDIA_URL }}{{ request.user.user_imag }}
+                                     {% elif request.user.user_image %}{{ request.user.user_image }}
+                                     {% else %}
+                                     {% static 'img/pc-icon.png' %}
+                                 {% endif %});" onclick="fileCliick()"></span>
+                                  <input type="file" id="file" class="filepath"   onchange="changepic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">
+                             </a>
+                         </div>
+                         <div class="info_item clearfix">
+                             <label for="name">用户名</label>
+                             <input type="text" name="username"class="val origin" value="{{ user.username }}" disabled>
+                         </div>
+{#                         <div class="info_item clearfix">#}
+{#                             <label for="name">手机号</label>#}
+{#                             <input type="text" name="mobile"class="val origin" value="{{ user.mobile }}" disabled>#}
+{#                         </div>#}
+                      <div class="info_item clearfix">
+                             <label for="name">QQ</label>
+                                {% if user.get_qq %}
+                                <span style="text-align: left;
+    float: none;
+    width: 30%;
+    padding: 0 12px;margin: 5px;">已绑定</span>
+                                    {% else %}
+                                    <a href="{% url 'getClbackQQ' %}?next={{ request.path }}" style="text-align: left;
+    float: none;
+    width: 30%;
+    padding: 0 12px;margin: 5px;color: #356dd0;">未绑定(绑定后可QQ便捷登录)</a>
+                                {% endif %}
+                             </div>
+                         <div class="info_item clearfix">
+                             <label for="name">职位</label>
+                                 <input type="text" name="position"class="val origin" value="{{ user.position }}"disabled>
+                             </div>
+                         <div class="info_item clearfix">
+                             <label for="name" style="left:-7px;position: relative;">个人介绍 </label>
+{#                                 <input type="text" name="info" class="val" value="{{ user.info }}"disabled>100字#}
+                             <textarea name="info" id="me" class="val origin"  disabled>{{ user.info }}</textarea>
+                             </div>
+                         <a class="editshow btn btn-primary" id="btn">提交</a>
+                         <a class="editshow btn btn-primary"  id="cancel">取消</a>
+                     </div>
+                      <div class="follow_main" style="display: none">
+                         <div class="info_item clearfix">
+                             <label for="name">请输入密码:</label>
+                             <input type="text" name="password" placeholder="请输入密码">
+
+                         </div>
+                        <div class="info_item clearfix">
+                             <label for="name">确认密码:</label>
+
+                             <input type="text" name="password1" placeholder="确认密码">
+                         </div>
+                         <button type="button" class="btn btn-primary" style="margin: 0 auto" onclick="modify(this)">提交</button>
+                     </div>
+                      <div class="follow_main" style="display: none">
+
+                         <div class="info_item clearfix">
+                             <label for="name">邮箱:</label>
+                             <input type="email" name="email"placeholder="新邮箱地址">
+                         </div>
+                        <div class="info_item clearfix">
+                             <label for="name">验证码:</label>
+
+                             <input type="text" name="code" placeholder="请输入验证码" style="width: 130px;">
+                             <p class="btn btn-primary" onclick="Verification()">获取验证码</p>
+                         </div>
+                         <button type="button" class=" btn btn-primary" style="margin: 0 auto" onclick="emailSubmit()">提交</button>
+                     </div>
+                 </div>
+            </article>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/promise.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+    <script>
+
+
+    $("#info li").on('click',function () {
+        var index = $(this).index()
+        $(this).addClass('active').siblings().removeClass('active')
+        $('.follow_main').eq(index).show().siblings('.follow_main').hide()
+    })
+
+
+     /**
+     * 修改密码
+     * @param obj
+     */
+    function modify(obj) {
+        var data={}
+        data.email = '{{ request.user.email }}'
+        data.password = $("input[name='password']").val()
+        data.password1 = $("input[name='password1']").val()
+         $.ajax({
+                url:'/person/modify/',
+                type:'post',
+                data:data,
+                headers:{'X-CSRFToken':$.cookie('csrftoken')},
+                success:function (data) {
+                    console.log(data)
+                     if(data.status==200){
+                     swal({
+                          text: data.message,
+                          icon: "success",
+                        }).then(function () {
+                           window.location.href='/login'
+                       })
+                }else {
+                     swal({
+                      text: data.message,
+                      icon: "error",
+                    })
+                }
+                }
+
+            })
+    }
+//修改信息
+    var is_imag;
+    function editInfo() {
+        $('.info_item textarea').removeClass('origin');
+        $('.info_item textarea').attr('disabled',false);
+        $('.info_item input').removeClass('origin');
+        $('.info_item input').attr('disabled',false);
+        $('.editshow').fadeIn();
+        is_imag = true
+    }
+    //上传预览图片
+    function fileCliick() {
+        if(is_imag)$('#file').click();
+    }
+   function changepic() {
+         var reads = new FileReader();
+         f = document.getElementById('file').files[0];
+         reads.readAsDataURL(f);
+         reads.onload = function(e) {
+             $('#img3').css({
+                 "background-image":'url('+this.result+')'
+             });
+         };
+    }
+//更换邮箱获取验证码
+    function Verification() {
+        var email = $("input[name='email']").val();
+        $.ajax({
+            url:'/person/sing_email/',
+            type:'post',
+              headers:{'X-CSRFToken':$.cookie('csrftoken')},
+            data:{email:email,username:'{{ request.user.id }}'},
+            success:function (data) {
+                 if(data.status==200){
+                     swal({
+                          text: data.message,
+                          icon: "success",
+                        })
+                }else {
+                     swal({
+                      text: data.message,
+                      icon: "error",
+                    })
+                }
+            }
+        })
+    }
+
+
+//跟换邮箱
+    function  emailSubmit() {
+       var email = $("input[name='email']").val()
+        var code =$("input[name='code']").val()
+        $.ajax({
+            url:'/person/email_update/',
+            type:'post',
+            headers:{'X-CSRFToken':$.cookie('csrftoken')},
+            data:{email:email,username:'{{ request.user.id }}',code:code},
+            success:function (data) {
+                if(data.status==200){
+                     swal({
+                          text: data.message,
+                          icon: "success",
+                        }).then(function () {
+                           window.location.href='/login'
+                       })
+                }else {
+                     swal({
+                      text: data.message,
+                      icon: "error",
+                    })
+                }
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*================资料*/
+        var forms
+     obj ={}
+            forms= new FormData()
+        $('#file').on('change',function () {
+            forms.append('file',$(this)[0].files[0])
+            obj.file=$(this)[0].files[0]
+        })
+
+        $('#btn').on('click',function () {
+            $(".val").each(function (i,item) {
+                forms.append($(item).attr('name'),$(item).val())
+                obj[$(item).attr('name')] = $(item).val()
+
+            })
+            $.ajax({
+                url:'/person/info/',
+                type:'post',
+                headers:{'X-CSRFToken':$.cookie('csrftoken')},
+                data:forms,
+                processData:false,
+                contentType : false,
+                success:function (data) {
+                    console.log(data)
+                       if(data.status==200){
+                     swal({
+                          text: data.message,
+                          icon: "success",
+                        }).then(function () {
+                           window.location.reload()
+                       })
+                }else {
+                     swal({
+                      text: data.message,
+                      icon: "error",
+                    })
+                }
+                }
+            })
+
+        })
+        $('#cancel').on('click',function () {
+            is_imag = false;
+            $('.info_item textarea').addClass('origin');
+        $('.info_item textarea').attr('disabled',true);
+        $('.info_item input').addClass('origin');
+        $('.info_item input').attr('disabled',true);
+        $('.editshow').fadeOut();
+        })
+
+    </script>
+{% endblock %}

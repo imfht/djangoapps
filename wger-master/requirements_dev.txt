@@ -1,0 +1,16 @@
+#
+# Requirements for wger during development only
+#
+
+# Regular packages
+-r requirements.txt
+
+# Building/installing
+wheel
+
+# Development packages
+coverage
+django-debug-toolbar
+tblib
+transifex-client
+isort

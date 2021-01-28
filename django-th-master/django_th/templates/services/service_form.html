@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load django_th_extras %}
+{% block title %}{% trans "My Services" %} - {{ user.username }}{% endblock %}
+{% block content %}
+    <div class="col-md-12" id="trigger-content">
+        {% if action == 'edit' %}
+        <h3>{% trans 'Edition of the service' %} {{ service_name_alone }}</h3>
+        {% else %}
+        <h3>{% trans 'Adding of the service' %} {{ service_name_alone }}</h3>
+        {% endif %}
+          {% if messages %}
+          <div class="alert alert-warning" role="alert">
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+          {% endif %}
+        {%  if services == 0 %}
+        <div class="alert alert-warning">
+            You already have activated all the existing services.
+            <a href="{% url 'user_services' %}">Go back to your activated services</a>
+        </div>
+        {%  else  %}
+        <form method="post" role="form" class="form-horizontal" action="">
+        {% csrf_token %}
+        <fieldset>
+        {{ form.non_field_errors }}
+            <div class="form-group">
+                <div class="col-sm-12"><h4>Digest retention</h4></div>
+                <label class="col-sm-2 control-label" for="id_duration">{% trans 'Duration' %}</label>
+                <div class="col-sm-6">{{ form.duration }}</div>
+                <div class="col-sm-offset-2 col-sm-8">{{ form.duration.errors }}</div>
+                <div class="col-sm-12">{% trans 'Choose the duration of the retention for the digester of that service. After that duration, you will receive the complet bucket of the grabbed data to your email account. If you do not mind, leave None to disable that feature' %}</div>
+            </div>
+            {% if service_name in SERVICES_WITH_TOKEN %}
+            <div class="form-group">
+                <div class="col-sm-12"><h4>Authentication</h4></div>
+                <label class="col-sm-2 control-label" for="id_token">{% trans 'User Token' %}</label>
+                <div class="col-sm-6">{{ form.token }}</div>
+                <div class="col-sm-offset-2 col-sm-8">{{ form.token.errors }}</div>
+            </div>
+            {% elif service_name in SERVICES_HOSTED_WITH_AUTH %}
+            <div class="form-group">
+                {% if service_name == 'ServiceMastodon' %}
+                <label class="col-sm-2 control-label" for="id_username">{% trans 'Mastodon Username' %}</label>
+                {% else %}
+                <label class="col-sm-2 control-label" for="id_username">{% trans 'Username' %}</label>
+                {% endif %}
+                <div class="col-sm-6">{{ form.username }}</div>
+                {% if service_name == 'ServiceMastodon' %}
+                <div class="col-sm-offset-2 col-sm-6">{% trans "Put your email you connect with" %}</div>
+                {% endif %}
+                <div class="col-sm-offset-2 col-sm-8">{{ form.username.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="id_password">{% trans 'Password' %}</label>
+                <div class="col-sm-6">{{ form.password }}</div>
+                <div class="col-sm-offset-2 col-sm-8">{{ form.password.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="id_client_id">{% trans 'Client ID' %}</label>
+                <div class="col-sm-6">{{ form.client_id }}</div>
+                <div class="col-sm-offset-2 col-sm-8">{{ form.client_id.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="id_client_secret">{% trans 'Client Secret' %}</label>
+                <div class="col-sm-6">{{ form.client_secret }}</div>
+                <div class="col-sm-offset-2 col-sm-8">{{ form.client_secret.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="id_host">{% trans 'Host' %}</label>
+                <div class="col-sm-6">{{ form.host }}</div>
+                <div class="col-sm-offset-2 col-sm-8">{{ form.host.errors }}</div>
+            </div>
+            {% elif service_name in SERVICES_AUTH and action != 'edit' %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{% trans 'A word' %}</label>
+                <div class="col-sm-6 text-info">When you will press <em>Activate it</em>, you will be redirected to your {{ service_name_alone }} account. Authorize the access of Trigger Happy, then you will go back here. <br/>That way, TriggerHappy will be connected to your account, and you will be able to send data to it. This connection can be removed when you want.</div>
+            </div>
+            {% endif %}
+            <div class="form-actions">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary">{% if action == 'edit' %}{% trans "Save it" %}{% else %}{% trans "Activate it" %}{% endif %}</button>
+                </div>
+            </div>
+        </fieldset>
+        </form>
+        {%  endif  %}
+    </div>
+{% endblock %}

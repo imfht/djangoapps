@@ -1,0 +1,120 @@
+{% extends "pretixcontrol/item/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block inside %}
+{% load static %}
+<script type="text/javascript" src="{% static "pretixcontrol/js/ui/hidequota.js" %}"></script>
+
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>{% trans "General information" %}</legend>
+            {% bootstrap_field form.name layout="control" %}
+            <div class="internal-name-wrapper">
+                {% bootstrap_field form.internal_name layout="control" %}
+            </div>
+            {% bootstrap_field form.copy_from layout="control" %}
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">{% trans "Product type" %}</label>
+                <div class="col-md-9">
+                    <div class="big-radio radio">
+                        <label>
+                            <input type="radio" value="on" name="{{ form.admission.html_name }}" {% if form.admission.value %}checked{% endif %}>
+                            <span class="fa fa-user"></span>
+                            <strong>{% trans "Admission product" %}</strong><br>
+                            <div class="help-block">
+                                {% blocktrans trimmed %}
+                                    Every purchase of this product represents one person who is allowed to enter your event.
+                                    By default, pretix will only ask for attendee information and offer ticket downloads for these products.
+                                {% endblocktrans %}
+                            </div>
+                            <div class="help-block">
+                                {% blocktrans trimmed %}
+                                    This option should be set for most things that you would call a "ticket". For product add-ons or bundles, this should
+                                    be set on the main ticket, except if the add-on products or bundled products represent additional people (e.g. group bundles).
+                                {% endblocktrans %}
+                            </div>
+                        </label>
+                    </div>
+                    <div class="big-radio radio">
+                        <label>
+                            <input type="radio" value="" name="{{ form.admission.html_name }}" {% if not form.admission.value %}checked{% endif %}>
+                            <span class="fa fa-cube"></span>
+                            <strong>{% trans "Non-admission product" %}</strong>
+                            <div class="help-block">
+                                {% blocktrans trimmed %}
+                                    A product that does not represent a person. By default, pretix will not ask for attendee information or offer
+                                    ticket downloads.
+                                {% endblocktrans %}
+                            </div>
+                            <div class="help-block">
+                                {% blocktrans trimmed %}
+                                    Examples: Merchandise, donations, gift cards, add-ons to a main ticket.
+                                {% endblocktrans %}
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            {% bootstrap_field form.category layout="control" %}
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">{% trans "Product variations" %}</label>
+                <div class="col-md-9">
+                    <div class="big-radio radio">
+                        <label>
+                            <input type="radio" value="" name="{{ form.has_variations.html_name }}" {% if not form.has_variations.value %}checked{% endif %}>
+                            <span class="fa fa-fw fa-square"></span>
+                            <strong>{% trans "Product without variations" %}</strong><br>
+                        </label>
+                    </div>
+                    <div class="big-radio radio">
+                        <label>
+                            <input type="radio" value="on" name="{{ form.has_variations.html_name }}" {% if form.has_variations.value %}checked{% endif %}>
+                            <span class="fa fa-fw fa-th-large"></span>
+                            <strong>{% trans "Product with multiple variations" %}</strong>
+                            <div class="help-block">
+                                {% blocktrans trimmed %}
+                                    This product exists in multiple variations which are different in either their name, price, quota, or description.
+                                    All other settings need to be the same.
+                                {% endblocktrans %}
+                            </div>
+                            <div class="help-block">
+                                {% blocktrans trimmed %}
+                                    Examples: Ticket category with variations for "full price" and "reduced", merchandise with variations for different sizes,
+                                    workshop add-on with variations for simultaneous workshops.
+                                {% endblocktrans %}
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+        {% if form.quota_option %}
+            <fieldset>
+                <legend>{% trans "Quota settings" %}</legend>
+                {% bootstrap_field form.quota_option layout="control" %}
+                <div id="existing-quota-group">
+                    {% bootstrap_field form.quota_add_existing layout="control" %}
+                </div>
+                <div id="new-quota-group">
+                    {% bootstrap_field form.quota_add_new_name layout="control" %}
+                    {% bootstrap_field form.quota_add_new_size layout="control" %}
+                </div>
+            </fieldset>
+        {% endif %}
+        <fieldset>
+            <legend>{% trans "Price settings" %}</legend>
+            {% bootstrap_field form.default_price layout="control" %}
+            {% bootstrap_field form.tax_rule layout="control" %}
+        </fieldset>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save and continue with more settings" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}

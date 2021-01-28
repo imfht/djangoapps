@@ -1,0 +1,20 @@
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello there,
+
+This is an confirmation email, sent by {{ site_name }} to every new user of the service in order to verify their email address.
+
+You're receiving it, because you (or someone else) provided it during registration.
+
+To confirm this is correct, please visit the following address: {{ activate_url }}
+
+Otherwise you can either ignore this message or contact us through the support channels (at {{ site_domain }}{% endblocktrans %}{% url 'pages_help' %}){% blocktrans %}, so this account can be removed.
+{% endblocktrans %}
+{% endautoescape %}
+
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Best regards,
+{{ site_name }}
+{{ site_domain }}
+{% endblocktrans %}

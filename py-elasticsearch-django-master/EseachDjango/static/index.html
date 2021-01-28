@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>search</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/input.css">
+</head>
+<body>
+	<div class="app">
+		<img class="img" src="img/book.jpg" alt="book">
+		<div class="input-container">
+			<a id="select" href="javascript:;">
+				<span class="sel-active" href="javascript:;">中文</span>
+				<span href="javascript:;">English</span>
+				<i class="down-png"></i>
+			</a>
+			<input id="input" class="input" type="text" placeholder="What you want...">
+			<a href="javascript:;" id="search">搜索</a>
+			<ul id="ul" onselectstart="return false;"></ul>
+		</div>
+	</div>
+
+	<script src="js/lib/jquery.min.js"></script>
+	<script src="js/input.js"></script>
+</body>
+</html>

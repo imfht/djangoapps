@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load gravatar %}
+
+{% block content %}
+    <div class="container home">
+        {% include "home.html" %}
+        {% include "tabs.html" %}
+        {% if user.is_anonymous %}
+        <h3 class="newsfeed-title">{% trans "What is going on here:" %}</h3>
+        {% else %}
+            <div class="newsfeed-actions">
+            {% if newsfeed_is_public %}
+                <a href="{% url "newsfeed" %}" class="switch-newsfeed">{% trans "Show only followed users activity." %}</a>
+            {% else %}
+                <a href="{% url "public_newsfeed" %}" class="switch-newsfeed">{% trans "Show all users activity." %}</a>
+            {% endif %}
+            </div>
+        {% endif %}
+        <div class="newsfeed-container">
+            {% for entry in news_entries %}
+              <div class="news-item {{ entry.entry_class }}">
+                <div class="sender">
+                    {% gravatar entry.sender.email %}
+                    <a href="{% url "auth_profile" entry.sender.username %}">{{ entry.sender.username|lower }}</a>
+                </div>
+                <div class="news-item-content">
+                    {{ entry.render }}
+                    <time datetime="{{ entry.date_created }}">{{ entry.date_created|naturaltime }}</time>
+                </div>
+             </div>
+            {% empty %}
+                <p class="empty-newsfeed">{% trans "Newsfeed seems empty." %}</p>
+            {% endfor %}
+        {% if has_next_page %}
+            <div class="load-more">
+                <a class="next" href="{{ next_page_url }}">{% trans "Load more" %}</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra-scripts %}
+    {% include "infinity-pagination.html" %}
+{% endblock %}

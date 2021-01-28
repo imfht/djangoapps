@@ -1,0 +1,103 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle容灾切换
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">自动化运维</a></li>
+        <li><a href="/my_tools">工具包</a></li>
+        <li class="active">Oracle容灾切换</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+        <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">oracle dataguard配置列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>归属域</th>
+                    <th>切换模式</th>
+                    <th>主端标签</th>
+                    <th>主端IP</th>
+                    <th>主端主机名</th>
+                    <th>主端当前角色</th>
+                    <th>备端标签</th>
+                    <th>备端IP</th>
+                    <th>备端主机名</th>
+                    <th>备端当前角色</th>
+                    <th>传输延迟</th>
+                    <th>应用延迟</th>
+                    <th>切换</th>
+                </tr>
+                </thead>
+                {% for oracle_switchover in oracle_switchovers %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ oracle_switchover.switch_name }} </td>
+                 <td>{{ oracle_switchover.switch_mode }} </td>
+                 <td>{{ oracle_switchover.primary_tags }} </td>
+                 <td>{{ oracle_switchover.primary_host }} </td>
+                 <td>{{ oracle_switchover.primary_host_name }} </td>
+                 <td>{{ oracle_switchover.primary_curr_role }} </td>
+                 <td>{{ oracle_switchover.standby_tags }} </td>
+                 <td>{{ oracle_switchover.standby_host }} </td>
+                 <td>{{ oracle_switchover.standby_host_name }} </td>
+                 <td>{{ oracle_switchover.standby_curr_role }} </td>
+                 <td>{{ oracle_switchover.adg_trans_lag }} </td>
+                 <td>{{ oracle_switchover.adg_apply_lag }} </td>
+                 <td>  <div class="btn-group" data-toggle="btn-toggle">
+                        <a href="/oracle_switchover?primary_tags={{ oracle_switchover.primary_tags }}&primary_curr_role={{ oracle_switchover.primary_curr_role }}&standby_tags={{ oracle_switchover.standby_tags }}&standby_curr_role={{ oracle_switchover.standby_curr_role }}">
+                  <button type="submit" class="btn btn-default btn-sm" name="restart" onclick="javascript:return control('switchover');"><i class="fa fa-exchange text-red" title="go switchover"></i></button></a>
+                </div>
+                </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if oracle_switchovers.has_previous %}
+            <a href="?page_oracle_switchover={{ oracle_switchovers.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ oracle_switchovers.number }} 共计{{ oracle_switchovers.paginator.num_pages }}
+        </span>
+        {% if sqls.has_next %}
+            <a href="?page_oracle_switchover={{ oracle_switchovers.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+      </div>
+      </div>
+         <div class="form-group">
+             <div class="box-tools pull-right">
+    <li><a href="/log_info?log_type={{ log_type }}" >查看执行日志</a></li>
+         </div>
+         </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function control(n) {
+     var msg = "确定要"+n+"？\n\n请确认！";
+     if (confirm(msg)==true){
+     return true;
+     }else{
+     return false;
+}
+}
+    </script>
+{% endblock %}

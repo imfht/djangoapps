@@ -1,0 +1,650 @@
+//Table basic shared vars
+$title-height: 36px;
+$column-width: 292px;
+$column-folded-width: 36px;
+$column-flex: 0;
+$column-shrink: 0;
+$column-margin: 0 5px 0 0;
+$column-padding: 0 .75rem;
+$fold-animation-duration: .1s;
+
+body {
+    --kanban-width: '100%';
+}
+
+@keyframes card-unfold {
+    from {
+        position: absolute; //  prevent column show scroll while unfolding
+        visibility: hidden;
+    }
+    to {
+        position: static;
+        visibility: visible;
+    }
+}
+
+.kanban-table {
+    // used in /kanban/main.coffee KanbanDirective
+    --kanban-column-margin: #{$column-margin};
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    &.zoom-0 {
+        .taskboard-column,
+        .task-colum-name {
+            max-width: 232px;
+        }
+        .task-colum-name {
+            .title .name {
+                max-width: 95px;
+            }
+        }
+        .card,
+        .card-inner.card-blocked {
+            min-height: 45px;
+        }
+    }
+    &.zoom-1 {
+        .card,
+        .card-inner.card-blocked {
+            min-height: 90px;
+        }
+    }
+    &.zoom-2,
+    &.zoom-3 {
+        .card,
+        .card-inner.card-blocked {
+            min-height: 120px;
+        }
+    }
+    .vfold-remove-active,
+    .vunfold {
+        tg-card,
+        .options,
+        .title,
+        .card-placeholder {
+            // wait until unfold is completed to start the animation
+            animation: card-unfold 0s forwards $fold-animation-duration;
+            position: absolute;
+            visibility: hidden;
+        }
+    }
+    .vfold {
+        tg-card {
+            display: none;
+        }
+        .kanban-wip-limit {
+            display: none;
+        }
+        .card-placeholder {
+            display: none;
+        }
+        &.task-colum-name {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            padding: .625rem 0;
+            .title {
+                display: none;
+            }
+            .option:not(.hunfold),
+            span {
+                display: none;
+            }
+            .hunfold {
+                margin: 0;
+            }
+        }
+        &.task-colum-name,
+        &.taskboard-column {
+            flex-flow: 1;
+            max-width: $column-folded-width;
+            min-width: $column-folded-width;
+        }
+        .kanban-column-intro {
+            display: none;
+        }
+    }
+    .readonly {
+        cursor: auto;
+    }
+
+}
+
+.kanban-table-header {
+    background: $color-white;
+    flex-basis: 2.75rem;
+    min-height: 2.75rem;
+    position: relative;
+    z-index: $second-layer;
+    .kanban-table-inner {
+        display: flex;
+        overflow: visible;
+        position: absolute;
+        width: 100%;
+    }
+    .options {
+        display: flex;
+    }
+    .task-colum-name {
+        @include font-size(medium);
+        align-items: center;
+        background-color: $color-gray400;
+        border-radius: 4px 4px 0 0;
+        color: $gray;
+        display: flex;
+        flex-basis: $column-width;
+        flex-grow: $column-flex;
+        flex-shrink: $column-shrink;
+        height: $title-height;
+        justify-content: space-between;
+        margin: $column-margin;
+        max-height: $title-height;
+        max-width: $column-width;
+        padding: $column-padding;
+        position: relative;
+        text-transform: uppercase;
+        transition: all $fold-animation-duration linear;
+        &:last-child {
+            margin-right: 0;
+        }
+
+        .deco-square {
+            flex-grow: 1;
+            flex-shrink: 0;
+            height: 1rem;
+            max-width: .625rem;
+            width: .625rem;
+        }
+
+        .title {
+            align-items: flex-end;
+            display: flex;
+            margin-left: .5rem;
+            width: 100%;
+            .name {
+                @include ellipsis(160px);
+                @include font-size(small);
+                @include font-type(medium);
+                color: $color-black900;
+                line-height: 1em;
+            }
+        }
+        .option {
+            margin-right: .125rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+@keyframes new-us-status-blink-folded-column {
+    0% {
+        background-color: $color-gray400;
+    }
+    100% {
+        background-color: $color-gray100;
+    }
+}
+
+@keyframes new-us-status-blink {
+    0% {
+        background-color: $color-gray400;
+    }
+    100% {
+        background-color: $color-gray200;
+    }
+}
+
+
+.kanban-table-body {
+    @include font-size(medium);
+    display: flex;
+    height: 100%;
+    margin-top: 1px;
+    overflow: hidden;
+    overflow-x: auto;
+    width: 100%;
+
+    .taskboard-column {
+        border-radius: 4px;
+        contain: content;
+        flex-basis: $column-width;
+        flex-grow: $column-flex;
+        flex-shrink: $column-shrink;
+        margin: $column-margin;
+        max-width: $column-width;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transition: all .1s linear;
+        width: $column-width;
+        &:last-child {
+            margin-right: 0;
+        }
+        &.new {
+            animation: new-us-status-blink .5s ease-in;
+        }
+        &.vfold.new {
+            animation: new-us-status-blink-folded-column .5s ease-in 2;
+        }
+        &.target-drop {
+            background-color: $color-gray400;
+
+            .ammount {
+                background-color: $white;
+            }
+        }
+
+        .kanban-column-intro {
+            @include font-type(medium);
+            @include font-size(small);
+            color: $gray-light;
+            margin: 1rem 2rem;
+            &.active {
+                color: $blackish;
+            }
+        }
+        .kanban-wip-limit {
+            border-radius: 2px;
+            height: 8px;
+            margin: .5rem 1rem;
+            position: relative;
+
+            span {
+                @include font-type(medium);
+                @include font-size(small);
+
+                background: $color-gray200;
+                color: $color-link-red;
+                left: 50%;
+                padding: 0 .25rem;
+                position: absolute;
+                top: -7px;
+                transform: translateX(-50%);
+            }
+
+            &.reached,
+            &.one-left {
+                border-top: solid 2px $color-link-red;
+                span {
+                    top: -10px;
+                }
+            }
+
+            &.one-left {
+                opacity: .5;
+            }
+
+            &.exceeded {
+                border-bottom: solid 2px $color-link-red;
+                border-top: solid 2px $color-link-red;
+            }
+        }
+    }
+    .kanban-uses-box {
+        background-color: $color-gray200;
+    }
+    .kanban-task-selected {
+        &.card:not(.gu-transit-multi) {
+            // border: 1px solid $primary-light;
+            box-shadow: 0 0 0 1px $primary-light, 2px 2px 4px darken($whitish, 10%);
+        }
+    }
+}
+
+.kanban-table-inner {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.card-transit-multi {
+    background: darken($whitish, 2%);
+    border: 1px dashed darken($whitish, 8%);
+    display: none;
+    opacity: 1;
+    padding: 1rem;
+    .fake-img,
+    .fake-text {
+        background: darken($whitish, 8%);
+    }
+    .fake-us {
+        display: flex;
+        margin-bottom: 1rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .column {
+        padding-left: .5rem;
+        width: 100%;
+    }
+    .fake-img {
+        flex-basis: 48px;
+        flex-shrink: 0;
+        height: 48px;
+        width: 48px;
+    }
+    .fake-text {
+        height: 1rem;
+        margin-bottom: 1rem;
+        width: 80%;
+        &:last-child {
+            margin-bottom: 0;
+            width: 40%;
+        }
+    }
+}
+
+.card.gu-transit-multi {
+    .card-transit-multi {
+        display: block;
+    }
+    .card-inner {
+        display: none;
+    }
+}
+
+.placeholder-collapsed {
+    align-items: center;
+    display: flex;
+    position: relative;
+
+    .placeholder-collapsed-wrapper {
+        align-items: center;
+        display: flex;
+        flex-direction: row-reverse;
+        padding: 1rem 0;
+        text-transform: uppercase;
+        transform: rotate(-180deg);
+        width: 100%;
+        writing-mode: tb-rl;
+    }
+
+    .name {
+        @include font-type(medium);
+    }
+
+    .text-holder {
+        @include font-size(small);
+        color: $color-black900;
+        display: flex;
+        flex-direction: row-reverse;
+        padding-top: .5rem;
+    }
+
+    .ammount {
+        @include font-size(xsmall);
+        color: $color-link-tertiary;
+        margin-top: .25rem;
+        padding: .25rem 0;
+    }
+
+    .archived {
+        @include font-type(medium);
+        color: $color-link-tertiary;
+        padding-top: .25rem;
+    }
+
+    .square-color {
+        height: 1rem;
+        width: 10px;
+    }
+}
+
+.kanban-swimlane-title {
+    align-items: center;
+    background: $color-white;
+    border: 1px solid transparent;
+    border-bottom: solid 1px $color-white;
+    display: flex;
+    max-width: var(--kanban-width);
+    padding: .625rem 1rem;
+    position: sticky;
+    top: 36px;
+    transition: all .6 ease;
+    width: 100%;
+    z-index: $first-layer;
+
+    &.folded {
+        border-bottom: solid 1px $color-gray200;
+
+        tg-svg {
+            fill: $color-link-tertiary;
+        }
+
+        .title-name {
+            color: $color-link-tertiary;
+        }
+
+        &.pending-to-open {
+            background-color: $color-gray200;
+            border: 1px solid $color-solid-primary;
+        }
+    }
+
+    &:hover {
+        .unfold-action,
+        .fold-action {
+            fill: $color-black600;
+        }
+
+        .title-name {
+            color: $color-black600;
+        }
+    }
+
+    .unfold-action,
+    .fold-action {
+        fill: $color-link-primary;
+        height: 16px;
+        margin-right: .75rem;
+        transition: all .6 ease;
+        width: 16px;
+    }
+
+    .title-name {
+        @include font-size(small);
+        @include font-type(medium);
+        color: $color-link-primary;
+        margin-bottom: 0;
+        margin-right: .75rem;
+        transition: all .6 ease;
+    }
+
+    .unclassified-us-title {
+        font-style: italic;
+    }
+
+    .unclassified-us-info {
+        position: relative;
+        tg-svg {
+            fill: $color-gray400;
+        }
+        &:hover {
+            tg-svg {
+                fill: $color-black900;
+            }
+            .popover {
+                display: block;
+            }
+        }
+        .popover {
+            @include popover(
+                $width: 250px,
+                $top: 150%,
+                $left: -8px,
+                $arrow-width: 10px,
+                $arrow-top: -5px,
+                $arrow-left: 10px,
+                $arrow-height: 10px,
+                $background-color: $color-black900,
+                $hover-background: $color-black900,
+                $text-color: $color-gray400,
+                $hover-text-color: $color-gray400
+            );
+        }
+    }
+
+    .default-swimlane {
+        align-items: center;
+        background: none;
+        display: flex;
+        margin-left: auto;
+        .default-swimlane-icon {
+            .icon {
+                fill: $color-solid-yellow;
+                height: 13px;
+                margin-inline-end: .25rem;
+                stroke: $color-solid-yellow;
+                width: 13px;
+            }
+        }
+        .default-text {
+            @include font-size(xsmall);
+            color: $color-link-tertiary;
+            font-style: italic;
+        }
+    }
+}
+
+.kanban-table-swimlane {
+    overflow: auto;
+
+    .kanban-table {
+        overflow-x: auto;
+    }
+
+    .kanban-table-header {
+        flex-basis: 2.25rem;
+        min-height: 2.25rem;
+        position: sticky;
+        top: 0;
+    }
+
+    .kanban-table-body {
+        max-height: 56vh;
+        min-height: 180px;
+        overflow: visible;
+
+        &.ng-move,
+        &.ng-enter,
+        &.ng-leave {
+            transition: all linear .5s;
+        }
+
+        &.ng-leave.ng-leave-active,
+        &.ng-move,
+        &.ng-enter {
+            max-height: 0;
+            min-height: 0;
+            opacity: 0;
+        }
+
+        &.ng-leave,
+        &.ng-move.ng-move-active,
+        &.ng-enter.ng-enter-active {
+            max-height: 524px;
+            min-height: 0;
+            opacity: 1;
+            .text-holder {
+                white-space: nowrap;
+            }
+            .taskboard-column {
+                overflow: hidden;
+            }
+        }
+
+    }
+}
+
+.kanban-task-counter {
+    align-items: center;
+    background: $color-gray200;
+    box-shadow: -4px 2px 5px -2px rgba(46, 52, 64, .15);
+    color: $color-link-tertiary;
+    display: inline-flex;
+    font-size: .68rem;
+    justify-content: center;
+    min-width: 32px;
+    padding: 4px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: $first-layer;
+}
+
+.kanban-swimlane {
+    display: flex;
+    flex-direction: column;
+
+    .kanban-table-inner {
+        position: relative;
+
+        &::before {
+            box-shadow: inset 0 4px 8px rgba($color-gray400, .5);
+            content: '';
+            height: 100%;
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: $first-layer;
+        }
+    }
+
+
+    .card:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 1rem;
+    }
+}
+
+.kanban-swimlane-add {
+    align-items: center;
+    background: $color-gray100;
+    border: 1px dashed $color-solid-primary;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    max-width: var(--kanban-width);
+    min-height: 5rem;
+    width: calc(100% - 1rem);
+
+    span {
+        @include font-size(small);
+
+        color: $color-link-tertiary;
+        line-height: 24px;
+    }
+
+    .add-action {
+        fill: $color-link-tertiary;
+        margin-right: 1rem;
+    }
+
+    &:hover {
+        background: $color-gray400;
+
+        span {
+            color: $color-link-primary;
+        }
+
+        .add-action {
+            border-color: $color-link-primary;
+            fill: $color-link-primary;
+        }
+    }
+}
+

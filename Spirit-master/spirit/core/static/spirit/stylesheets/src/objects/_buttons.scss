@@ -1,0 +1,31 @@
+// Button object
+
+%button-base {
+  line-height: 2;
+  height: 2em;
+  color: var(--st-text-button);
+}
+
+input[type="submit"].button,
+.button,
+%button {
+  @extend %button-base;
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: var(--st-bg-button);
+
+  &.is-undo {
+    background-color: var(--st-bg-button-undo);
+  }
+
+  @media #{$medium} {
+    display: inline-block;
+    width: auto;
+    padding: 0 $half-spacing-size;
+  }
+}
+
+%dropdown-button {
+  @extend %button-base;
+}

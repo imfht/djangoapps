@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load i18n static wger_extras %}
+
+
+{#           #}
+{# Opengraph #}
+{#           #}
+{% block opengraph %}
+    {{ block.super }}
+    <meta property="og:title" content="{% trans 'Calendar' %}">
+
+    {% with username=owner_user.username %}
+        <meta property="og:description" content="{% blocktrans %}Calendar for {{username}}{% endblocktrans %}">
+    {% endwith %}
+{% endblock %}
+
+
+{#       #}
+{# Title #}
+{#       #}
+{% block title %}{% trans "Calendar" %}{% endblock %}
+
+
+{#        #}
+{# Header #}
+{#        #}
+{% block header %}
+<script>
+$(document).ready(function() {
+    $('.calendar-log-data').hide();
+    $('table.month td a.btn').click(function(e){
+        e.preventDefault();
+        $('.calendar-log-data').hide();
+        $('#' + $(this).data('log')).toggle();
+    });
+ });
+</script>
+{% endblock %}
+
+
+{#         #}
+{# Content #}
+{#         #}
+{% block content %}
+{{calendar|safe}}
+
+{% for date, value in logs.items %}
+    <div id="log-{{date|date:'Y-m-d'}}" class="calendar-log-data">
+
+        <h3>
+            {{date}}
+            <small>
+                <a href="{% url 'manager:workout:calendar-day' owner_user date.year date.month date.day %}">{% trans 'Detail page' %}</a>
+            </small>
+        </h3>
+
+        {% include 'calendar/partial_overview_table.html' %}
+
+        <div class="row row-cols-1 row-cols-md-3">
+            {% for exercise, logs in value.logs.items %}
+                <div class="col-sm-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <a href="{{ exercise.get_absolute_url }}">
+                            {{ exercise }}
+                        </a>
+                    </div>
+                    <div class="card-body px-0 py-0">
+                        <ul class="list-group list-group-flush">
+                        {% for log in logs %}
+                            <li class="list-group-item">
+                                {{log.reps}}
+                                {% if not log.repetition_unit.is_repetition %}
+                                    {% trans log.repetition_unit.name %}
+                                {% endif %}
+                                ×
+                                {{log.weight}} {% trans log.weight_unit.name %}
+
+                                {% if is_owner %}
+                                    <div class="dropdown float-right">
+                                        <button type="button" class="btn btn-link dropdown-toggle btn-sm" data-toggle="dropdown">
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <a href="{% url 'manager:log:edit' log.pk %}" class="wger-modal-dialog dropdown-item">
+                                                {% trans 'Edit' %}
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="{% url 'manager:log:delete' log.pk %}" class="wger-modal-dialog dropdown-item">
+                                                {% trans 'Delete' %}
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
+
+
+{#          #}
+{# Side bar #}
+{#          #}
+{% block sidebar %}
+<div class="modal fade" id="ecalendar-day-select-popup">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{% trans 'Add log to day' %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                {% if current_workout %}
+                <p>{% blocktrans %}Click to add weight logs to a training
+day in your current workout:{% endblocktrans %} <strong>{{current_workout}}</strong></p>
+
+                {% for day in current_workout.day_set.all %}
+                    <a href="{% url 'manager:day:log' day.pk %}" class="btn btn-block btn-light">{{day.description}}</a>
+                {% endfor %}
+
+                {% else %}
+                <p><em>{% trans "No workouts found." %}</em></p>
+                <p>
+                <a href="{% url 'manager:workout:add' %}" class="btn btn-block btn-light">
+                    <span class="{% fa_class 'plus' %}"></span>
+                    {% trans "Add one now." %}
+                </a>
+                </p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" data-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>{% trans 'Info' %}</h4>
+<p>{% blocktrans %}The coloured days in the calendar have weight logs,
+you can click on them to see the details.{% endblocktrans %}</p>
+
+<p>
+    <span style="background-color: #C9302C; display: inline;">&nbsp;</span> {{ impressions.0.1 }}<br>
+    <span style="background-color: #EC971F; display: inline;">&nbsp;</span> {{ impressions.1.1 }}<br>
+    <span style="background-color: #449D44; display: inline;">&nbsp;</span> {{ impressions.2.1 }}
+</p>
+
+<p>
+    <a href="{% url 'manager:workout:calendar' owner_user %}">
+        <span class="{% fa_class 'calendar' %}"></span>
+        {% trans "Go to current month" %}</a>
+</p>
+
+
+{% regroup month_list by year as year_list %}
+    <div class="panel-group" id="accordion">
+    {% for year in year_list reversed %}
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading{{ year.grouper }}">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ year.grouper }}" aria-expanded="true" aria-controls="collapse{{ year.grouper }}">
+                        {{ year.grouper }}
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse{{ year.grouper }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ year.grouper }}">
+                <div class="list-group">
+                    {% for month in year.list %}
+                        <a href="{% url 'manager:workout:calendar' owner_user year.grouper month.month %}" class="list-group-item">{{month|date:"F"}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block options %}
+{% if is_owner %}
+    <a href="#" id="calendar-day-select-link" data-toggle="modal" data-target="#ecalendar-day-select-popup" class="btn btn-success btn-sm">
+        {% trans "Add new log" %}
+    </a>
+{% endif %}
+{% endblock %}

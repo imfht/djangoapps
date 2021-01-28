@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+
+{% load i18n a17t_tags %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block page_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block card %}
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  <aside class="aside ~info mb-4">
+    <p>Welcome to {{request.site.name|default:"Shynet"}}, a self-hosted analytics tool that's open source and privacy conscious. Powered by Shynet. View the <a href="https://github.com/milesmcc/shynet">source code</a>.</p>
+  </aside>
+  {% csrf_token %}
+  {{ form|a17t }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="button ~urge !high mr-2" type="submit">{% trans "Sign In" %}</button>
+  <a href="{% url 'account_reset_password' %}" class="button ~neutral mr-2">{% trans "Reset Password" %}</a>
+  <a href="{{ signup_url }}" class="button ~neutral">Sign Up</a>
+</form>
+{% endblock %}

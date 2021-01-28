@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Topics</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="../vendors/font-awesome.min.css">
+	<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+	<div class="layout__header">
+		<a class="header__logo" href="#">Spirit</a>
+	</div>
+
+	<div class="layout__article">
+		<h1 class="headline">Preferences</h1>
+		<dl class="profile__settings">
+			<dt class="profile__settings__label">Email:</dt>
+			<dd class="profile__settings__desc"><a href="#"><i class="fa fa-pencil"></i> foo@bar.com</a></dd>
+			<dt class="profile__settings__label">Password:</dt>
+			<dd class="profile__settings__desc"><a href="#"><i class="fa fa-pencil"></i> Change password</a></dd>
+			<dt class="profile__settings__label">Avatar:</dt>
+			<dd class="profile__settings__desc"><a href="#"><i class="fa fa-pencil"></i> Change avatar</a> (Go to gravatar.com and use your current email to change it)</dd>
+		</dl>
+		<form action="." method="post">
+			<div class="field">
+				<label for="id_first_name">First name:</label>
+				<input type="text" name="first_name" value="Foo" maxlength="30" id="id_first_name">
+			</div>
+			<div class="field">
+				<label for="id_last_name">Last name:</label>
+				<input type="text" name="last_name" value="Bar" maxlength="30" id="id_last_name">
+			</div>
+			<div class="field">
+				<label for="id_location">Location:</label>
+				<input type="text" name="location" maxlength="75" id="id_location">
+			</div>
+			<div class="field">
+				<label for="id_timezone">Time zone:</label>
+				<select name="timezone" id="id_timezone">
+					<optgroup label="UTC">
+						<option value="UTC">(UTC+0000) UTC</option>
+					</optgroup>
+				</select>
+				Current time is: Aug. 31, 2020 8:52 a.m.
+			</div>
+			<input class="button" type="submit" name="post" value="Save">
+		</form>
+	</div>
+
+	<div class="layout__footer">
+		<a class="footer__logo" href="http://www.spirit-project.com" >Spirit</a>
+	</div>
+</div>
+
+</body>
+
+</html>

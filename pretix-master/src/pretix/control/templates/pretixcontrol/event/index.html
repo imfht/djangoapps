@@ -1,0 +1,229 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% load eventurl %}
+{% load bootstrap3 %}
+{% load static %}
+{% load eventsignal %}
+{% block title %}{{ request.event.name }}{% endblock %}
+{% block content %}
+    <h1>
+        {{ request.event.name }}
+        <small>
+            {% if request.event.has_subevents %}
+                {% trans "Event series" %}
+            {% else %}
+                {{ request.event.get_date_range_display }}
+            {% endif %}
+        </small>
+    </h1>
+    {% if has_overpaid_orders %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This event contains <strong>overpaid orders</strong>, for example due to duplicate payment attempts.
+                You should review the cases and consider refunding the overpaid amount to the user.
+            {% endblocktrans %}
+            <a href="{% url "control:event.orders" event=request.event.slug organizer=request.event.organizer.slug %}?status=overpaid"
+                    class="btn btn-primary">{% trans "Show overpaid orders" %}</a>
+        </div>
+    {% endif %}
+    {% if has_pending_refunds %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This event contains <strong>pending refunds</strong> that you should take care of.
+            {% endblocktrans %}
+            <a href="{% url "control:event.orders.refunds" event=request.event.slug organizer=request.event.organizer.slug %}"
+                    class="btn btn-primary">{% trans "Show pending refunds" %}</a>
+        </div>
+    {% endif %}
+    {% if has_cancellation_requests %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This event contains <strong>requested cancellations</strong> that you should take care of.
+            {% endblocktrans %}
+            <a href="{% url "control:event.orders" event=request.event.slug organizer=request.event.organizer.slug %}?status=rc"
+                    class="btn btn-primary">{% trans "Show orders requesting cancellation" %}</a>
+        </div>
+    {% endif %}
+    {% if has_pending_approvals %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This event contains <strong>pending approvals</strong> that you should take care of.
+            {% endblocktrans %}
+            <a href="{% url "control:event.orders" event=request.event.slug organizer=request.event.organizer.slug %}?status=pa"
+                    class="btn btn-primary">{% trans "Show orders pending approval" %}</a>
+        </div>
+    {% endif %}
+    {% if has_pending_orders_with_full_payment %}
+        <div class="alert alert-warning">
+            {% blocktrans trimmed %}
+                This event contains <strong>fully paid orders</strong> that are not marked as paid, probably
+                because no quota was left at the time their payment arrived. You should review the cases and consider
+                either refunding the customer or creating more space.
+            {% endblocktrans %}
+            <a href="{% url "control:event.orders" event=request.event.slug organizer=request.event.organizer.slug %}?status=pendingpaid"
+                    class="btn btn-primary">{% trans "Show affected orders" %}</a>
+        </div>
+    {% endif %}
+    {% eventsignal request.event "pretix.control.signals.event_dashboard_top" request=request %}
+    {% if actions|length > 0 %}
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% trans "Your attention is required to resolve the following issues" %}
+                </h3>
+            </div>
+            <ul class="list-group">
+                {% for action in actions %}
+                    <li class="list-group-item logentry">
+                        <p>
+                            <a href="{% url "control:event.requiredaction.discard" event=request.event.slug organizer=request.event.organizer.slug id=action.id %}"
+                               class="btn btn-default btn-xs pull-right flip">
+                                {% trans "Hide message" %}
+                            </a>
+                            <small><span
+                                    class="fa fa-clock-o"></span> {{ action.datetime|date:"SHORT_DATETIME_FORMAT" }}
+                            </small>
+                        </p>
+                        {{ action.display|safe }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="panel-footer">
+                <a href="{% url "control:event.requiredactions" event=request.event.slug organizer=request.event.organizer.slug %}">
+                    {% trans "Show more" %}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if request.event.has_subevents %}
+        <form class="form-inline helper-display-inline" action="" method="get">
+            {% include "pretixcontrol/event/fragment_subevent_choice_simple.html" %}
+        </form>
+    {% endif %}
+    {% if not request.event.has_subevents or subevent %}
+        {% include "pretixcontrol/event/fragment_timeline.html" %}
+    {% endif %}
+    <div class="dashboard">
+        {% for w in widgets %}
+            <div class="widget-container widget-{{ w.display_size|default:"small" }} {% if w.lazy %}widget-lazy-loading{% endif %}" data-lazy-id="{{ w.lazy }}">
+                {% if w.url %}{# backwards compatibility #}
+                    <a href="{{ w.url }}" class="widget">
+                        {% if w.lazy %}
+                            <span class="fa fa-cog fa-4x"></span>
+                        {% else %}
+                            {{ w.content|safe }}
+                        {% endif %}
+                    </a>
+                {% elif w.link %}
+                    <a href="{{ w.link }}" class="widget">
+                        {% if w.lazy %}
+                            <span class="fa fa-cog fa-4x´"></span>
+                        {% else %}
+                            {{ w.content|safe }}
+                        {% endif %}
+                    </a>
+                {% else %}
+                    <div class="widget">
+                        {% if w.lazy %}
+                            <span class="fa fa-cog fa-4x"></span>
+                        {% else %}
+                            {{ w.content|safe }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <p>&nbsp;</p>
+    <div class="panel panel-default items">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% trans "Internal comment" %}
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="form" method="post"
+                  action="{% url "control:event.comment" event=request.event.slug organizer=request.event.organizer.slug %}">
+                {% csrf_token %}
+                <div class="row">
+                    {% bootstrap_field comment_form.comment layout="horizontal" show_help=True show_label=False horizontal_field_class="col-md-12" %}
+                </div>
+                <p class="text-right flip">
+                    <br>
+                    <button class="btn btn-default">
+                        {% trans "Update comment" %}
+                    </button>
+                </p>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% trans "Event logs" %}
+            </h3>
+        </div>
+        <ul class="list-group">
+            {% for log in logs %}
+                <li class="list-group-item logentry">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-6 col-xs-12">
+                            <span class="fa fa-clock-o"></span> {{ log.datetime|date:"SHORT_DATETIME_FORMAT" }}
+                            {% if log.shredded %}
+                                <span class="fa fa-eraser fa-danger fa-fw"
+                                      data-toggle="tooltip"
+                                      title="{% trans "Personal data was cleared from this log entry." %}">
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-2 col-sm-6 col-xs-12">
+                            {% if log.user %}
+                                {% if log.user.is_staff %}
+                                    <span class="fa fa-id-card fa-danger fa-fw"
+                                          data-toggle="tooltip"
+                                          title="{% trans "This change was performed by a pretix administrator." %}">
+                                </span>
+                                {% else %}
+                                    <span class="fa fa-user fa-fw"></span>
+                                {% endif %}
+                                {{ log.user.get_full_name }}
+                                {% if log.oauth_application %}
+                                    <br><span class="fa fa-plug fa-fw"></span>
+                                    {{ log.oauth_application.name }}
+                                {% endif %}
+                            {% elif log.device %}
+                                <span class="fa fa-mobile fa-fw"></span>
+                                {{ log.device.name }}
+                            {% elif log.api_token %}
+                                <span class="fa fa-key fa-fw"></span>
+                                {{ log.api_token.name }}
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-2 col-sm-12 col-xs-12">
+                            {% if log.display_object %}
+                                <span class="fa fa-flag"></span> {{ log.display_object|safe }}
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-6 col-sm-12 col-xs-12">
+                            {{ log.display }}
+                            {% if staff_session %}
+                                <a href="" class="btn btn-default btn-xs" data-expandlogs data-id="{{ log.pk }}">
+                                    <span class="fa-eye fa fa-fw"></span>
+                                    {% trans "Inspect" %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="panel-footer">
+            <a href="{% url "control:event.log" event=request.event.slug organizer=request.event.organizer.slug %}">
+                {% trans "Show more logs" %}
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

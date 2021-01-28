@@ -1,0 +1,3260 @@
+# Copyright (C) Pootle contributors.
+#
+# This file is a part of the Pootle project. It is distributed under the GPL3
+# or later license. See the LICENSE file for a copy of the license and the
+# AUTHORS file for copyright and authorship information.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/translate/pootle/issues/new\n"
+"POT-Creation-Date: 2017-07-12 11:39+0100\n"
+"PO-Revision-Date: 2017-06-30 22:03+0000\n"
+"Last-Translator: milupo <milupo@sorbzilla.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: dsb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"X-POOTLE-MTIME: 1498860204.000000\n"
+
+#: apps/accounts/adapter.py:68
+msgid ""
+"Some problem happened when tried to send the confirmation email. Please try "
+"again later."
+msgstr ""
+"Někaki problem jo nastał, gaž jo wopytało, wobkšuśeńsku mejlku pósłaś. "
+"Pšosym wopytajśo pózdźej hyšći raz."
+
+#: apps/accounts/forms.py:32
+msgid ""
+"An error occurred logging you in. Please contact your system administrator"
+msgstr ""
+"Pśi pśizjawjanju jo zmólka nastała. Pšosym staj se ze swójim administratorom "
+"do zwiska"
+
+#: apps/accounts/forms.py:59
+msgid ""
+"Your user seems to have disappeared. Please report this to the site owners."
+msgstr ""
+"Zda se, až twój wužywaŕ jo se zgubił. Pšosym daj to mějarjam sedła k wěsći."
+
+#: apps/accounts/models.py:55 apps/pootle_app/views/admin/permissions.py:83
+msgid "Username"
+msgstr "Wužywarske mě"
+
+#: apps/accounts/models.py:56
+msgid ""
+"Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters"
+msgstr "Trěbne. 30 znamuškow abo mjenjej. Pismiki, licby a znamuška @/./-/_"
+
+#: apps/accounts/models.py:60
+msgid "Enter a valid username."
+msgstr "Zapódaj płaśiwe wužywarske mě."
+
+#: apps/accounts/models.py:64
+msgid "A user with that username already exists."
+msgstr "Wužywaŕ z toś teju e-mailoweju adresu južo eksistěrujo."
+
+#: apps/accounts/models.py:67
+msgid "Email Address"
+msgstr "E-mailowa adresa"
+
+#: apps/accounts/models.py:68 apps/pootle_language/models.py:39
+#: apps/pootle_project/models.py:206
+msgid "Full Name"
+msgstr "Dopołne mě"
+
+#: apps/accounts/models.py:71 apps/staticpages/models.py:30
+#: templates/admin/staticpages/_table.html:6
+msgid "Active"
+msgstr "Aktiwny"
+
+#: apps/accounts/models.py:74
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+"Póstaja, lěc maju z toś tym wužywarjom ako aktiwnym wobchadaś. Wótwól to "
+"město, aby konta wulašował."
+
+#: apps/accounts/models.py:77
+msgid "Superuser Status"
+msgstr "Administratorowy status"
+
+#: apps/accounts/models.py:80
+msgid ""
+"Designates that this user has all permissions without explicitly assigning "
+"them."
+msgstr ""
+"Póstaja, až toś ten wužywaŕ ma wše pšawa bźez togo, aby jemu je eksplicitnje "
+"pśipokazał."
+
+#: apps/accounts/models.py:83
+msgid "date joined"
+msgstr "pśistupny datum"
+
+#: apps/accounts/models.py:87
+msgid "Number of Rows"
+msgstr "Licba smužkow"
+
+#: apps/accounts/models.py:91
+msgid "Alternative Source Languages"
+msgstr "Alternatiwne žrědłowe rěcy"
+
+#: apps/accounts/models.py:94
+msgid "Score"
+msgstr "Gódnośenje"
+
+#: apps/accounts/models.py:95
+msgid "Is employee?"
+msgstr "Jo pśistajony?"
+
+#: apps/accounts/models.py:96
+msgid "Twitter"
+msgstr "Twitter"
+
+#: apps/accounts/models.py:98
+msgid "Website"
+msgstr "Websedło"
+
+#: apps/accounts/models.py:99
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: apps/accounts/models.py:100
+msgid "Short Bio"
+msgstr "Krotki žywjenjoběg"
+
+#: apps/accounts/models.py:240
+msgid "This email address already exists."
+msgstr "Toś ta e-mailowa adresa južo eksistěrujo."
+
+#: apps/contact/forms.py:26
+msgid "Subject"
+msgstr "Tema"
+
+#: apps/contact/forms.py:28
+msgid "Please enter a message subject"
+msgstr "Pšosym zapódaj swóju powěsćowu temu"
+
+#: apps/contact/forms.py:35 apps/virtualfolder/models.py:27 core/browser.py:16
+msgid "Name"
+msgstr "Mě"
+
+#: apps/contact/forms.py:36
+msgid "Please enter your name"
+msgstr "Pšosym zapódaj swójo mě"
+
+#: apps/contact/forms.py:39
+msgid "Email address"
+msgstr "E-mailowa adresa"
+
+#: apps/contact/forms.py:40
+msgid "Please enter your email address"
+msgstr "Pšosym zapódaj swóju e-mailowu adresu"
+
+#: apps/contact/forms.py:43
+msgid "Message"
+msgstr "Powěsć"
+
+#: apps/contact/forms.py:44
+msgid "Please enter your message"
+msgstr "Pšosym zapódaj swóju powěsć"
+
+#: apps/contact/forms.py:81
+msgid "String context"
+msgstr "Kontekst znamuškowego rjeśazka"
+
+#: apps/contact/forms.py:91
+msgid "Question or comment"
+msgstr "Pšašanje abo komentar"
+
+#: apps/contact/forms.py:92
+msgid "Please enter your question or comment"
+msgstr "Pšosym zapódaj swójo pšašanje abo swój komentar"
+
+#: apps/contact/views.py:35 templates/layout.html:120
+msgid "Contact Us"
+msgstr "Staj se z nami do zwiska"
+
+#: apps/contact/views.py:92
+msgid "Report problem with string"
+msgstr "Problem ze znamuškowym rjeśazkom k wěsći daś"
+
+#: apps/import_export/templates/browser/index.html:11
+msgid "Download translation files for offline translation"
+msgstr "Pśełožowańske dataje za pśełožowanje offline ześěgnuś"
+
+#: apps/import_export/templates/browser/index.html:12
+msgid "Download for offline translation"
+msgstr "Za pśełožowanje offline ześěgnuś"
+
+#: apps/import_export/templates/browser/index.html:16
+msgid "Download translation files for backup"
+msgstr "Pśełožowańske dataje za zawěsćenje ześěgnuś"
+
+#: apps/import_export/templates/browser/index.html:17
+msgid "Download for backup"
+msgstr "Za zawěsćenje ześěgnuś"
+
+#: apps/import_export/templates/browser/index.html:26
+msgid "Upload translation files or archives in .zip format"
+msgstr "Pśełožowańske dataje abo archiwy w formaśe .zip nagraś"
+
+#: apps/import_export/templates/browser/index.html:27
+msgid "Upload translations"
+msgstr "Pśełožki nagraś"
+
+#: apps/import_export/templates/browser/index.html:36
+#, python-format
+msgid "Upload as %(user)s"
+msgstr "Ako %(user)s nagraś"
+
+#: apps/import_export/templates/browser/index.html:54
+msgid "Download offline TM for the translation project"
+msgstr "Pśełožowański składowak za pśełožowański projekt ześěgnuś"
+
+#: apps/import_export/templates/browser/index.html:55
+msgid "Download offline TM"
+msgstr "Pśełožowański składowak offline"
+
+#: apps/import_export/utils.py:38
+#, python-format
+msgid "Unsupported filetype '%s', only PO files are supported at this time\n"
+msgstr ""
+"Njepódpěrany datajowy typ '%s', jano dataje typa PO se tuchylu pódpěra\n"
+
+#: apps/import_export/utils.py:44
+#, python-format
+msgid "File '%s' missing X-Pootle-Path header\n"
+msgstr "Głowa X-Pootle-Path w dataji '%s' felujo\n"
+
+#: apps/import_export/utils.py:49
+#, python-format
+msgid "File '%s' missing or invalid X-Pootle-Revision header\n"
+msgstr "Dataja '%s' felujo abo njepłaśiwa głowa X-Pootle-Revision\n"
+
+#: apps/import_export/utils.py:57
+#, python-format
+msgid "Could not create '%s'. Missing Project/Language? (%s)"
+msgstr "'%s' njedajo se napóraś. Felujo projekt/rěc? (%s)"
+
+#: apps/import_export/utils.py:74
+msgid "There was an error uploading your file"
+msgstr "Pśi nagrawanju twójeje dataje jo zmólka nastała"
+
+#: apps/pootle_app/forms.py:39
+msgid "Language code does not follow the ISO convention"
+msgstr "Rěcny kod ISO-konwenciji njewótpowědujo"
+
+#: apps/pootle_app/forms.py:54 apps/pootle_project/models.py:230
+msgid "Source Language"
+msgstr "Žrědłowa rěc"
+
+#: apps/pootle_app/forms.py:88
+#, python-format
+msgid ""
+"You cannot remove a file type from a Project, if there are files of that "
+"file type ('%s')"
+msgstr ""
+"Njamóžoš datajowy typ z projekta wótwónoźeś, jolic su dataje toś togo "
+"datajowego typa ('%s')"
+
+#: apps/pootle_app/forms.py:108
+msgid "Password"
+msgstr "Gronidło"
+
+#: apps/pootle_app/forms.py:143 apps/pootle_profile/forms.py:28
+msgid "Please enter a valid LinkedIn user profile URL."
+msgstr "Pšosym zapódaj płaśiwy URL wužywarskego profila LinkedIn."
+
+#. Translators: this refers to the status of the background job worker
+#: apps/pootle_app/views/admin/dashboard.py:58
+#, python-format
+msgid "Running (%d worker)"
+msgid_plural "Running (%d workers)"
+msgstr[0] "Běžy (%d nadawk)"
+msgstr[1] "Běžy (%d nadawka)"
+msgstr[2] "Běžy (%d nadawki)"
+msgstr[3] "Běžy (%d nadawkow)"
+
+#. Translators: this refers to the status of the background job worker
+#: apps/pootle_app/views/admin/dashboard.py:62
+msgid "Stopped"
+msgstr "Zastajony"
+
+#: apps/pootle_app/views/admin/permissions.py:65
+msgid "All Users"
+msgstr "Wše wužywarje"
+
+#: apps/pootle_app/views/admin/permissions.py:92
+msgid "Add Permissions"
+msgstr "Pšawa pśidaś"
+
+#: apps/pootle_app/views/admin/permissions.py:97
+#: apps/pootle_app/views/admin/permissions.py:106
+msgid "Select one or more permissions"
+msgstr "Wubjeŕ jadno pšawo abo někotare pšawa"
+
+#: apps/pootle_app/views/admin/permissions.py:101
+msgid "Revoke Permissions"
+msgstr "Pšawa zajmjeś"
+
+#: apps/pootle_app/views/admin/util.py:126
+msgid "No files in this project."
+msgstr "Žedne dataje w toś tom projekśe."
+
+#: apps/pootle_app/views/admin/util.py:160 apps/pootle_project/views.py:207
+msgid "There are errors in the form. Please review the problems below."
+msgstr "Su zmólki w formularje. Pšosym pśespytuj slědujuce problemy."
+
+#: apps/pootle_checks/constants.py:24 core/browser.py:47
+msgid "Critical"
+msgstr "Kritiske"
+
+#: apps/pootle_checks/constants.py:25
+msgid "Cosmetic"
+msgstr "Kosmetiski"
+
+#: apps/pootle_checks/constants.py:26
+msgid "Functional"
+msgstr "Funkcionalny"
+
+#: apps/pootle_checks/constants.py:27
+msgid "Extraction"
+msgstr "Ekstrakcija"
+
+#: apps/pootle_checks/constants.py:28
+msgid "Other"
+msgstr "Druge"
+
+#: apps/pootle_checks/constants.py:31
+msgid "Accelerators"
+msgstr "Tastowe skrotconki"
+
+#: apps/pootle_checks/constants.py:32
+msgid "Acronyms"
+msgstr "Akronymy"
+
+#: apps/pootle_checks/constants.py:33
+msgid "Blank"
+msgstr "Prozny"
+
+#: apps/pootle_checks/constants.py:34
+msgid "Brackets"
+msgstr "Spinki"
+
+#: apps/pootle_checks/constants.py:35
+msgid "Compendium conflict"
+msgstr "Konflikt z PO-kompendiumom"
+
+#: apps/pootle_checks/constants.py:36
+msgid "Translator credits"
+msgstr "Sobustatkujuce pśełožowarje"
+
+#: apps/pootle_checks/constants.py:37
+msgid "Dialog sizes"
+msgstr "Dialogowe wjelikosći"
+
+#: apps/pootle_checks/constants.py:38
+msgid "Double quotes"
+msgstr "Dwójne pazorki"
+
+#: apps/pootle_checks/constants.py:39
+msgid "Double spaces"
+msgstr "Dwójne prozne znamjenja"
+
+#: apps/pootle_checks/constants.py:40
+msgid "Repeated word"
+msgstr "Wóspjetowane słowo"
+
+#: apps/pootle_checks/constants.py:41
+msgid "E-mail"
+msgstr "E-mail"
+
+#: apps/pootle_checks/constants.py:42
+msgid "Ending punctuation"
+msgstr "Interpunkciske znamuško na kóńcu"
+
+#: apps/pootle_checks/constants.py:43
+msgid "Ending whitespace"
+msgstr "Prozne znamjo na kóńcu"
+
+#: apps/pootle_checks/constants.py:44
+msgid "Escapes"
+msgstr "Maskěrowane znamuška"
+
+#: apps/pootle_checks/constants.py:45
+msgid "File paths"
+msgstr "Datajowe sćažki"
+
+#: apps/pootle_checks/constants.py:46
+msgid "Functions"
+msgstr "Funkcije"
+
+#: apps/pootle_checks/constants.py:47
+msgid "GConf values"
+msgstr "GConf-gódnoty"
+
+#: apps/pootle_checks/constants.py:48 core/utils/stats.py:29
+msgid "Fuzzy"
+msgstr "Njejasne"
+
+#: apps/pootle_checks/constants.py:49
+msgid "Old KDE comment"
+msgstr "Stary KDE-komentar"
+
+#: apps/pootle_checks/constants.py:50
+msgid "Long"
+msgstr "Dłujki"
+
+#: apps/pootle_checks/constants.py:51
+msgid "Must translate words"
+msgstr "Słowa, kótarež muse se pśełožiś"
+
+#: apps/pootle_checks/constants.py:52
+msgid "Newlines"
+msgstr "Nowe smužki"
+
+#: apps/pootle_checks/constants.py:53
+msgid "Number of plurals"
+msgstr "Licba pluralowych formow"
+
+#: apps/pootle_checks/constants.py:54
+msgid "Don't translate words"
+msgstr "Słowa, kótarež njamaju se pśełožyś"
+
+#: apps/pootle_checks/constants.py:55
+msgid "Numbers"
+msgstr "Licby"
+
+#: apps/pootle_checks/constants.py:56
+msgid "Options"
+msgstr "Opcije"
+
+#: apps/pootle_checks/constants.py:57
+msgid "printf()"
+msgstr "printf()"
+
+#: apps/pootle_checks/constants.py:58
+msgid "Punctuation spacing"
+msgstr "Wótstawk interpunkciskego znamuška"
+
+#: apps/pootle_checks/constants.py:59
+msgid "Pure punctuation"
+msgstr "Lutna interpunkcija"
+
+#: apps/pootle_checks/constants.py:60
+msgid "Python brace placeholders"
+msgstr "Zastupujuce znamuška za Pythonowe spinki"
+
+#: apps/pootle_checks/constants.py:61
+msgid "Number of sentences"
+msgstr "Licba sadow"
+
+#: apps/pootle_checks/constants.py:62
+msgid "Short"
+msgstr "Krotke"
+
+#: apps/pootle_checks/constants.py:63
+msgid "Simple capitalization"
+msgstr "Jadnore wjeliko-/małopisanje"
+
+#: apps/pootle_checks/constants.py:64
+msgid "Simple plural(s)"
+msgstr "Jadnore pluralowe formy"
+
+#: apps/pootle_checks/constants.py:65
+msgid "Single quotes"
+msgstr "Jadnotliwe pazorki"
+
+#: apps/pootle_checks/constants.py:66
+msgid "Starting capitalization"
+msgstr "Zachopne wjelikopisanje"
+
+#: apps/pootle_checks/constants.py:67
+msgid "Starting punctuation"
+msgstr "Zachopna interpunkcija"
+
+#: apps/pootle_checks/constants.py:68
+msgid "Starting whitespace"
+msgstr "Zachopne prozne znamje"
+
+#. Translators: This refers to tabulation characters
+#: apps/pootle_checks/constants.py:70
+msgid "Tabs"
+msgstr "Tabulatory"
+
+#: apps/pootle_checks/constants.py:71
+msgid "Unchanged"
+msgstr "Njezměnjony"
+
+#: apps/pootle_checks/constants.py:72 apps/pootle_store/constants.py:66
+#: core/utils/stats.py:30 templates/editor/_filters.html:9
+msgid "Untranslated"
+msgstr "Njepśełožony"
+
+#: apps/pootle_checks/constants.py:73
+msgid "URLs"
+msgstr "URL"
+
+#: apps/pootle_checks/constants.py:74
+msgid "Valid characters"
+msgstr "Płaśiwe znamuška"
+
+#: apps/pootle_checks/constants.py:75
+msgid "Placeholders"
+msgstr "Naměstniki"
+
+#: apps/pootle_checks/constants.py:76
+msgid "Valid XML"
+msgstr "Płaśiwy XML"
+
+#: apps/pootle_checks/constants.py:77
+msgid "XML tags"
+msgstr "XML-wobznamjenja"
+
+#: apps/pootle_checks/constants.py:80
+msgid "ftl format"
+msgstr "format ftl"
+
+#: apps/pootle_checks/constants.py:83
+msgid "Romanian: Avoid cedilla diacritics"
+msgstr "Rumunšćina: Diakritiske znamje cedilla wuwóstajiś"
+
+#: apps/pootle_checks/constants.py:84
+msgid "Romanian: Use \"niciun\"/\"nicio\""
+msgstr "Rumunšćina: \"niciun\"/\"nicio\" wužywaś"
+
+#: apps/pootle_format/abstracts.py:36
+msgid "Format name"
+msgstr "Mě formata"
+
+#: apps/pootle_format/abstracts.py:41
+msgid "Format title"
+msgstr "Titel formata"
+
+#: apps/pootle_format/abstracts.py:45
+msgid "Enabled"
+msgstr "Zmóžnjony"
+
+#: apps/pootle_format/abstracts.py:47
+msgid "Monolingual format"
+msgstr "Jadnorěcny format"
+
+#: apps/pootle_fs/forms.py:24
+msgid "GNU-style"
+msgstr "GNU-stil"
+
+#: apps/pootle_fs/forms.py:26
+msgid "non GNU-style"
+msgstr "žeden GNU-stil"
+
+#: apps/pootle_fs/forms.py:29
+msgid "Django-style"
+msgstr "Stil Django"
+
+#: apps/pootle_fs/forms.py:31
+msgid "Custom"
+msgstr "Swójski"
+
+#: apps/pootle_fs/forms.py:37
+msgid "Filesystem backend"
+msgstr "Datajowy system backenda"
+
+#: apps/pootle_fs/forms.py:38
+msgid "Select a filesystem backend"
+msgstr "Wubjeŕ backend datajowego systema"
+
+#: apps/pootle_fs/forms.py:43
+msgid "Backend URL or path"
+msgstr "URL abo sćažka backenda"
+
+#: apps/pootle_fs/forms.py:45
+msgid "The URL or path to your translation files"
+msgstr "URL abo sćažka k twójim pśełožowańskim datajam"
+
+#: apps/pootle_fs/forms.py:47
+msgid "Translation mapping presets"
+msgstr "Pśirědowanje pśełožowańskich pśednastajenjow"
+
+#: apps/pootle_fs/forms.py:55
+msgid "Translation path mapping"
+msgstr "Pśirědowanje pśełožowańskeje sćažki"
+
+#: apps/pootle_fs/forms.py:56
+msgid ""
+"Translation path mapping that maps the localisation files on the filesystem "
+"to files on Pootle."
+msgstr ""
+"Pśirědowanje pśełožowańskeje sćažki, kótarež pśełožowańske dataje na "
+"datajowem systemje datajam na Pootle pśirědujo."
+
+#: apps/pootle_fs/forms.py:182
+msgid "Filesystem language codes must be unique"
+msgstr "Rěcne kody datajowego systema muse jadnorazowe byś"
+
+#: apps/pootle_fs/forms.py:186
+msgid "Pootle language mappings must be unique"
+msgstr "Rěcne pśirědowanja Pootle muse jadnorazowe byś"
+
+#: apps/pootle_language/forms.py:27
+msgid "Member"
+msgstr "Cłonk"
+
+#: apps/pootle_language/forms.py:28
+msgid "Submitter"
+msgstr "Zapódawaŕ"
+
+#: apps/pootle_language/forms.py:29 apps/pootle_profile/utils.py:98
+msgid "Reviewer"
+msgstr "Pśepytowaŕ"
+
+#: apps/pootle_language/forms.py:30
+msgid "Administrator"
+msgstr "Administrator"
+
+#: apps/pootle_language/forms.py:76
+msgid "Administrators"
+msgstr "Administratory"
+
+#: apps/pootle_language/forms.py:82
+msgid "Reviewers"
+msgstr "Pśepytowarje"
+
+#: apps/pootle_language/forms.py:87
+msgid "Submitters"
+msgstr "Zapódawarje"
+
+#: apps/pootle_language/forms.py:92
+msgid "Members"
+msgstr "Cłonki"
+
+#: apps/pootle_language/forms.py:96
+msgid "New member"
+msgstr "Nowy cłonk"
+
+#: apps/pootle_language/forms.py:97
+msgid "Add a user to this team"
+msgstr "Toś tomu teamoju wužywarja pśidaś"
+
+#: apps/pootle_language/forms.py:103
+msgid "Search for users to add"
+msgstr "Pytajśo wužywarje, kótarež cośo pśidaś"
+
+#: apps/pootle_language/forms.py:106
+msgid "Role"
+msgstr "Rola"
+
+#: apps/pootle_language/forms.py:137
+msgid "Role is required when adding a new member"
+msgstr "Rola jo trěbna, gaž se nowy cłonk pśidawa"
+
+#: apps/pootle_language/forms.py:163 core/forms.py:218
+msgid "Reject"
+msgstr "Wótpokazaś"
+
+#: apps/pootle_language/forms.py:164 core/forms.py:219
+msgid "Accept"
+msgstr "Akceptěrowaś"
+
+#: apps/pootle_language/forms.py:166
+msgid "Filter by suggester"
+msgstr "Pó naraźowarju filtrowaś"
+
+#: apps/pootle_language/forms.py:172
+msgid "Filter by state"
+msgstr "Pó statusu filtrowaś"
+
+#: apps/pootle_language/forms.py:182 apps/pootle_language/views.py:218
+#: core/browser.py:26
+msgid "Project"
+msgstr "Projekt"
+
+#: apps/pootle_language/models.py:32 apps/pootle_project/models.py:201
+msgid "Code"
+msgstr "Kod"
+
+#: apps/pootle_language/models.py:33
+msgid ""
+"ISO 639 language code for the language, possibly followed by an underscore "
+"(_) and an ISO 3166 country code. <a href=\"http://www.w3.org/International/"
+"articles/language-tags/\">More information</a>"
+msgstr ""
+"Rěcny kod ISO 639 za rěc, jomu móžo teke pódsmužka (_) a krajny kod ISO 3166 "
+"slědowaś. <a href=\"http://www.w3.org/International/articles/language-tags/"
+"\">Dalšne informacije</a>"
+
+#: apps/pootle_language/models.py:42 templates/languages/_nav.html:35
+#: templates/languages/admin/characters.html:5
+#: templates/languages/admin/characters.html:9
+msgid "Special Characters"
+msgstr "Wósebne znamuška"
+
+#: apps/pootle_language/models.py:43
+msgid "Enter any special characters that users might find difficult to type"
+msgstr ""
+"Zapódaj specialne znamuška, kótarež daju se śěžko pśez wužywarja zapódaś"
+
+#: apps/pootle_language/models.py:47
+msgid ""
+"For more information, visit <a href=\"http://docs.translatehouse.org/"
+"projects/localization-guide/en/latest/l10n/pluralforms.html\">our page</a> "
+"on plural forms."
+msgstr ""
+"Aby wěcej zgónił, woglědaj se <a href=\"http://docs.translatehouse.org/"
+"projects/localization-guide/en/latest/l10n/pluralforms.html\">naš bok</a> wó "
+"pluralowych formach."
+
+#: apps/pootle_language/models.py:53
+msgid "Unknown"
+msgstr "Njeznaty"
+
+#: apps/pootle_language/models.py:57
+msgid "Number of Plurals"
+msgstr "Licba pluralowych formow"
+
+#: apps/pootle_language/models.py:60
+msgid "Plural Equation"
+msgstr "Pluralowa formula"
+
+#: apps/pootle_language/views.py:212
+msgid "Unit"
+msgstr "Jadnotka"
+
+#: apps/pootle_language/views.py:213 apps/pootle_statistics/models.py:58
+msgid "State"
+msgstr "Status"
+
+#: apps/pootle_language/views.py:214 apps/pootle_statistics/models.py:56
+msgid "Source"
+msgstr "Žrědło"
+
+#: apps/pootle_language/views.py:215
+msgid "Suggestion"
+msgstr "Naraźenje"
+
+#: apps/pootle_language/views.py:216
+msgid "Suggested by"
+msgstr "Naraźony wót"
+
+#: apps/pootle_language/views.py:217
+msgid "Suggested at"
+msgstr "Naraźony"
+
+#: apps/pootle_language/views.py:239
+#, python-format
+msgid "Rejected %s suggestion with comment. User will be notified"
+msgid_plural "Rejected %s suggestions with comment. Users will be notified"
+msgstr[0] "%s naraźenje z komentarom wótpokazane. Wužywaŕ dostanjo powěźeńku"
+msgstr[1] "%s naraźeni z komentarom wótpokazanej. Wužywaŕ dostanjo powěźeńku"
+msgstr[2] "%s naraźenja z komentarom wótpokazane. Wužywaŕ dostanjo powěźeńku"
+msgstr[3] "%s naraźenjow z komentarom wótpokazane. Wužywaŕ dostanjo powěźeńku"
+
+#: apps/pootle_language/views.py:244
+#, python-format
+msgid "Accepted %s suggestion with comment. User will be notified"
+msgid_plural "Accepted %s suggestions with comment. Users will be notified"
+msgstr[0] "%s naraźenje z komentarom akceptěrowany. Wužywaŕ dostanjo powěźeńku"
+msgstr[1] ""
+"%s naraźeni z komentarom akceptěrowanej. Wužywarja dostanjotej powěźeńku"
+msgstr[2] ""
+"%s naraźenja z komentarom akceptěrowane. Wužywarje dostanu powěźeńku"
+msgstr[3] ""
+"%s naraźenjow z komentarom akceptěrowane. Wužywarje dostanu powěźeńku"
+
+#: apps/pootle_language/views.py:249
+#, python-format
+msgid "Rejected %s suggestion"
+msgid_plural "Rejected %s suggestions"
+msgstr[0] "%s naraźenje wótpokazane"
+msgstr[1] "%s naraźeni wótpokazanej"
+msgstr[2] "%s naraźenja wótpokazane"
+msgstr[3] "%s naraźenjow wótpokazane"
+
+#: apps/pootle_language/views.py:254
+#, python-format
+msgid "Accepted %s suggestion"
+msgid_plural "Accepted %s suggestions"
+msgstr[0] "%s naraźenje akceptěrowane"
+msgstr[1] "%s naraźeni akceptěrowanej"
+msgstr[2] "%s naraźenja akceptěrowane"
+msgstr[3] "%s naraźenjow akceptěrowane"
+
+#: apps/pootle_misc/forms.py:102
+msgid "Search"
+msgstr "Pytaś"
+
+#: apps/pootle_misc/forms.py:103
+msgid "Search (Ctrl+Shift+S)<br/>Type and press Enter to search"
+msgstr ""
+"Pytaś (Strg+Umsch+S)<br/>Zapódaj wuraz a tłoc zapódawańsku tastu, aby pytał"
+
+#: apps/pootle_misc/forms.py:111 apps/pootle_store/forms.py:369
+msgid "Phrase match"
+msgstr ""
+
+#: apps/pootle_misc/forms.py:112 apps/pootle_store/forms.py:370
+msgid "Case-sensitive match"
+msgstr ""
+
+#: apps/pootle_misc/forms.py:117 apps/pootle_store/forms.py:376
+msgid "Source Text"
+msgstr "Žrědłowy tekst"
+
+#: apps/pootle_misc/forms.py:118 apps/pootle_store/forms.py:377
+msgid "Target Text"
+msgstr "Celowy tekst"
+
+#: apps/pootle_misc/forms.py:119 apps/pootle_store/forms.py:378
+msgid "Comments"
+msgstr "Komentary"
+
+#: apps/pootle_misc/forms.py:120 apps/pootle_store/forms.py:379
+msgid "Locations"
+msgstr "Městna"
+
+#: apps/pootle_misc/templatetags/common_tags.py:53
+#, python-brace-format
+msgid "{percentage} untranslated"
+msgstr "{percentage} njepśełožone"
+
+#: apps/pootle_misc/templatetags/common_tags.py:55
+#, python-brace-format
+msgid "{percentage} needs work"
+msgstr "{percentage} musy se wobźěłaś"
+
+#: apps/pootle_misc/templatetags/common_tags.py:57
+#, python-brace-format
+msgid "{percentage} translated"
+msgstr "{percentage} pśełožone"
+
+#: apps/pootle_misc/templatetags/render_pager.py:23
+msgid "First"
+msgstr "Prědny"
+
+#: apps/pootle_misc/templatetags/render_pager.py:25
+msgid "Previous"
+msgstr "Pjerwjejšny"
+
+#: apps/pootle_misc/templatetags/render_pager.py:42
+msgid "Next"
+msgstr "Pśiducy"
+
+#: apps/pootle_misc/templatetags/render_pager.py:44
+#, python-format
+msgid "Last (%d)"
+msgstr "Slědne (%d)"
+
+#: apps/pootle_misc/templatetags/search.py:28
+msgid "Search unavailable"
+msgstr "Pytanje njejo k dispoziciji"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:35
+#, python-format
+msgid "My current score at %s is %s"
+msgstr "Móje aktualne gódnośenje na %s jo %s"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:38
+#: apps/pootle_profile/templatetags/profile_tags.py:63
+msgid "Tweet this!"
+msgstr "Tweetuj to!"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:52
+#, python-format
+msgid "#%s contributor in %s in the last 30 days"
+msgstr "Sobustatkujucy #%s w %s za zachadne 30 dnjow"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:56
+#, python-format
+msgid "I am #%s contributor in %s in the last 30 days at %s!"
+msgstr "Som sobustatkujucy #%s w %s za zachadne 30 dnjow na %s!"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:65
+msgid "No contributions in the last 30 days"
+msgstr "Žedne pśinoski za zachadne 30 dnjow"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:76
+msgid "My Website"
+msgstr "Mójo websedło"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:86
+msgid "My LinkedIn Profile"
+msgstr "Mój profil LinkedIn"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:95
+msgid "Site administrator"
+msgstr "Sedłowy administrator"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:101
+#, python-format
+msgid "%s's language teams"
+msgstr "Rěcne teamy wužywarja %s"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:104
+#, python-format
+msgid "%s is not a member of any language teams"
+msgstr "%s njejo cłonk žednogo rěcnego"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:121
+msgid ""
+"Some translations are provided by anonymous volunteers. These are registered "
+"under this special meta-account."
+msgstr ""
+"Někotare pśełožki su se wót anonymnych dobrowólnikow zapódali. Toś te su pód "
+"wósebnym metakontom zregistrěrowane."
+
+#: apps/pootle_profile/templatetags/profile_tags.py:125
+msgid ""
+"Some translations are imported from external files. These are registered "
+"under this special meta-account."
+msgstr ""
+"Někotare pśełožki su se z eksternych datajow importěrowali. Toś te su pód "
+"toś tym wósebnym metakontom zregistrěrowane."
+
+#: apps/pootle_profile/templatetags/profile_tags.py:135
+msgid ""
+"Show others who you are, tell about yourself<br/>and make your public "
+"profile look gorgeous!"
+msgstr ""
+"Pokaž drugim, chtož sy, wulicuj jim něco wó sebje<br/>a daj swójomu zjawnemu "
+"profiloju wjelicny naglěd!"
+
+#: apps/pootle_profile/templatetags/profile_tags.py:138
+msgid "You can set or change your avatar image at www.gravatar.com"
+msgstr "Móžoš swój awatarowy wobraz na www.gravatar.com nastajiś abo změniś"
+
+#: apps/pootle_profile/utils.py:50
+msgid "Anonymous User"
+msgstr "Anomymny wužywaŕ"
+
+#: apps/pootle_profile/utils.py:96 templates/layout.html:134
+msgid "Admin"
+msgstr "Administrator"
+
+#: apps/pootle_profile/utils.py:100
+msgid "Translator"
+msgstr "Pśełožowaŕ"
+
+#: apps/pootle_profile/views.py:61
+msgid "Select one or more languages"
+msgstr "Wubjeŕśo jadnu rěc abo někotare rěcy"
+
+#: apps/pootle_project/forms.py:58 core/browser.py:31
+msgid "Language"
+msgstr "Rěc"
+
+#: apps/pootle_project/models.py:179
+#, python-format
+msgid "\"%(code)s\" cannot be used as a project code"
+msgstr "\"%(code)s\" njedajo se ako projektowy kod wužywaś"
+
+#. Translators: this refers to the project quality checker
+#: apps/pootle_project/models.py:188
+#, python-format
+msgid "\"%(code)s\" cannot be used as a project checker"
+msgstr "\"%(code)s\" njedajo se ako kontrolny program za projekty wužywaś"
+
+#: apps/pootle_project/models.py:195
+msgid ""
+"A short code for the project. This should only contain ASCII characters, "
+"numbers, and the underscore (_) character."
+msgstr ""
+"Krotki kod za projekt. Wón měł jano ASCII-znamuška a znamuško za pódsmužku "
+"(_) wopśimowaś."
+
+#: apps/pootle_project/models.py:213
+msgid "Quality Checks"
+msgstr "Kwalitne kontrole"
+
+#: apps/pootle_project/models.py:219
+msgid "Automatic detection of GNU/non-GNU file layouts (slower)"
+msgstr "Awtomatiske pytanje za datajowymi wugótowanjami GNU/nje-GNU (pómałše)"
+
+#: apps/pootle_project/models.py:220
+msgid "GNU style: files named by language code"
+msgstr "GNU-stil: Dataje pomjenjone pó rěcnym koźe"
+
+#: apps/pootle_project/models.py:221
+msgid "Non-GNU: Each language in its own directory"
+msgstr "Nje-GNU: Kužda rěc w swójskim zapisu"
+
+#: apps/pootle_project/models.py:222
+msgid "Allow Pootle FS to manage filesystems (Experimental)"
+msgstr "Pootle FS za zastojanje datajowych systemow dowóliś (eksperimentelne)"
+
+#: apps/pootle_project/models.py:226
+msgid "Project Tree Style"
+msgstr "Projektowy bomowy stil"
+
+#: apps/pootle_project/models.py:234
+msgid "Ignore Files"
+msgstr "Dataje ignorěrowaś"
+
+#: apps/pootle_project/models.py:240
+msgid "Errors Report Email"
+msgstr "E-mail zmólkoweje rozpšawy"
+
+#: apps/pootle_project/models.py:241
+msgid "An email address where issues with the source text can be reported."
+msgstr ""
+"E-mailowa adresa, z kótarejuž jo móžno, problemy ze žrědłowym tekstom k "
+"wěsći daś."
+
+#. Translators: This is the URL prefix to search for context screenshots
+#: apps/pootle_project/models.py:246
+msgid "Screenshot Search Prefix"
+msgstr "Prefiks za pytanje fotow wobrazowki"
+
+#: apps/pootle_project/models.py:251
+msgid "Disabled"
+msgstr "Znjemóžnjony"
+
+#: apps/pootle_project/views.py:297
+#, python-format
+msgid ""
+"Translation project (%s) has been created. We are now updating its files "
+"from file templates."
+msgstr ""
+"Pśełožowański projekt (%s) jo se napórał. Buźomy něnto jogo dataje z "
+"datajowych pśedłogow aktualizěrowaś."
+
+#: apps/pootle_project/views.py:304
+#, python-format
+msgid "Translation project (%s) has been deleted"
+msgstr "Pśełožowański projekt (%s) jo se wulašował"
+
+#: apps/pootle_statistics/models.py:57
+msgid "Target"
+msgstr "Cel"
+
+#: apps/pootle_statistics/models.py:59
+msgid "Comment"
+msgstr "Komentar"
+
+#: apps/pootle_statistics/models.py:60
+msgid "Check"
+msgstr "Kontrola"
+
+#: apps/pootle_store/abstracts.py:221 apps/pootle_store/abstracts.py:228
+msgid "Path"
+msgstr "Sćažka"
+
+#: apps/pootle_store/constants.py:65
+msgid "Obsolete"
+msgstr "Zestarjony"
+
+#: apps/pootle_store/constants.py:67 apps/pootle_store/forms.py:189
+#: apps/pootle_store/forms.py:597 templates/editor/_filters.html:10
+msgid "Needs work"
+msgstr "Trjeba wobźěłanje"
+
+#: apps/pootle_store/constants.py:68 core/utils/stats.py:28
+#: templates/editor/_filters.html:7
+msgid "Translated"
+msgstr "Pśełožony"
+
+#: apps/pootle_store/decorators.py:25
+msgid "Insufficient rights to access this directory."
+msgstr "Felujuce pšawa za pśistup na zapis."
+
+#: apps/pootle_store/decorators.py:28
+msgid "Insufficient rights to access suggestion mode."
+msgstr "Felujuce pšawa za pśistup na naraźowański modus."
+
+#: apps/pootle_store/decorators.py:29
+msgid "Insufficient rights to access translation mode."
+msgstr "Felujuce pšawa za pśistup na pśełožowański modus."
+
+#: apps/pootle_store/decorators.py:30
+msgid "Insufficient rights to access review mode."
+msgstr "Felujuce pšawa za pśistup na pśepytowański modus."
+
+#: apps/pootle_store/forms.py:101
+#: apps/pootle_store/templatetags/store_tags.py:46
+#: apps/pootle_store/templatetags/store_tags.py:63
+#: apps/pootle_store/templatetags/store_tags.py:70
+#, python-format
+msgid "Plural Form %d"
+msgstr "Pluralowa forma %d"
+
+#: apps/pootle_store/forms.py:247
+msgid "Needs work flag must be cleared"
+msgstr "Marka musy se lašowaś"
+
+#: apps/pootle_store/forms.py:302
+msgid "Translator comment"
+msgstr "Komentar pśełožowarja"
+
+#: apps/pootle_store/forms.py:483
+#, python-format
+msgid "Suggestion '%s' has already been accepted or rejected."
+msgstr "Naraźenje '%s' jo južo akceptěrowane abo wótpokazane."
+
+#: apps/pootle_store/forms.py:501 core/decorators.py:146
+#: core/views/decorators.py:70
+msgid "Insufficient rights to access this page."
+msgstr "Njedosegajuce pšawa za pśistup na bok."
+
+#: apps/pootle_store/forms.py:571
+#, python-format
+msgid "Suggestion '%s' already exists."
+msgstr "Naraźenje '%s' južo eksistěrujo."
+
+#: apps/pootle_store/forms.py:577
+#, python-format
+msgid "Suggestion '%s' equals to current unit target value."
+msgstr "Naraźenje '%s' celowej gódnośe aktualneje jadnotki rowna."
+
+#: apps/pootle_store/templatetags/store_tags.py:37
+#: apps/pootle_store/templatetags/store_tags.py:41
+msgid "Singular"
+msgstr "Singular"
+
+#: apps/pootle_store/templatetags/store_tags.py:38
+#: apps/pootle_store/templatetags/store_tags.py:42
+msgid "Plural"
+msgstr "Plural"
+
+#: apps/pootle_store/unit/timeline.py:74
+msgid "Added suggestion"
+msgstr "Naraźenje pśidane"
+
+#: apps/pootle_store/unit/timeline.py:86
+#, python-format
+msgid "Accepted suggestion from %(author)s"
+msgstr "Naraźenje wót %(author)s akceptěrowane"
+
+#: apps/pootle_store/unit/timeline.py:94
+#, python-format
+msgid "Accepted suggestion from %(author)s with comment: %(comment)s"
+msgstr "Naraźenje wót %(author)s z komentarom akceptěrowane: %(comment)s"
+
+#: apps/pootle_store/unit/timeline.py:115
+#, python-format
+msgid "Rejected suggestion from %(author)s"
+msgstr "Naraźenje wót %(author)s wótpokazane"
+
+#: apps/pootle_store/unit/timeline.py:123
+#, python-format
+msgid "Rejected suggestion from %(author)s with comment: %(comment)s"
+msgstr "Naraźenje wót %(author)s z komentarom wótpokazane: %(comment)s"
+
+#: apps/pootle_store/unit/timeline.py:157
+msgid "Unit created"
+msgstr "Zapisk jo se napórał"
+
+#: apps/pootle_store/unit/timeline.py:188
+msgid "Comment:"
+msgstr "Komentar:"
+
+#: apps/pootle_store/unit/timeline.py:191
+msgid "Removed comment"
+msgstr "Wotwónoźony komentar"
+
+#: apps/pootle_store/unit/timeline.py:216
+#, python-format
+msgid "Muted %(check_name)s check"
+msgstr "Kontrola %(check_name)s jo se znjemóžniła"
+
+#: apps/pootle_store/unit/timeline.py:225
+#, python-format
+msgid "Unmuted %(check_name)s check"
+msgstr "Kontrola %(check_name)s jo se zasej zmóžniła"
+
+#: apps/pootle_store/utils.py:137
+msgid "Suggestion accepted with comment"
+msgstr "Naraźenje z komentarom akceptěrowane"
+
+#: apps/pootle_store/utils.py:139
+msgid "Suggestion rejected with comment"
+msgstr "Naraźenje z komentarom wótpokazane"
+
+#: apps/pootle_store/views.py:180 apps/virtualfolder/views.py:105
+msgid "Path too long."
+msgstr "Sćažka jo pśedłujka."
+
+#: apps/pootle_store/views.py:182 apps/virtualfolder/views.py:107
+#: core/decorators.py:47
+msgid "Arguments missing."
+msgstr "Argumenty feluju."
+
+#: apps/pootle_store/views.py:237
+msgid "Failed to remove comment."
+msgstr "Komentar njedajo se wótwónoźeś."
+
+#: apps/pootle_store/views.py:269
+msgid "Comment submission failed."
+msgstr "Wótpósłanje komentara njejo se raźiło."
+
+#: apps/pootle_terminology/forms.py:47
+msgid "This term already exists in this file."
+msgstr "Toś to zapśimjeśe w toś tej dataji južo eksistěrujo."
+
+#: apps/pootle_translationproject/receivers.py:38
+#, python-format
+msgid "Translation project (%s) created"
+msgstr "Pśełožowański projekt (%s) napórany"
+
+#: apps/pootle_translationproject/receivers.py:52
+#, python-format
+msgid "Translation project (%s) creation failed"
+msgstr "Pśełožowański projekt (%s) njedajo se napóraś"
+
+#: apps/staticpages/forms.py:59
+#, python-format
+msgid ""
+"I have read and accept: <a href=\"%(url)s\" class=\"%(classes)s\">%(title)s</"
+"a>"
+msgstr ""
+"Som pśecytał a akceptěrujom: <a href=\"%(url)s\" class=\"%(classes)s\">"
+"%(title)s</a>"
+
+#: apps/staticpages/models.py:32
+msgid "Whether this page is active or not."
+msgstr "Lěc toś ten bok jo aktiwny abo nic."
+
+#: apps/staticpages/models.py:35 templates/admin/staticpages/_table.html:7
+msgid "Virtual Path"
+msgstr "Wirtuelna sćažka"
+
+#: apps/staticpages/models.py:42 apps/virtualfolder/models.py:32
+msgid "Title"
+msgstr "Titel"
+
+#. Translators: Content that will be used to display this static page
+#: apps/staticpages/models.py:45
+msgid "Display Content"
+msgstr "Wopśimjeśe pokazaś"
+
+#: apps/staticpages/models.py:47
+#, python-format
+msgid "Allowed markup: %s"
+msgstr "Dowólone wobznamjenja: %s"
+
+#: apps/staticpages/models.py:50 templates/admin/staticpages/_table.html:9
+msgid "Redirect to URL"
+msgstr "K URL dalej pósrědniś"
+
+#: apps/staticpages/models.py:52
+msgid "If set, this page will redirect to this URL"
+msgstr "Jolic nastajone, buźo se toś ten bok k toś tomu URL dalej pósrědnjaś"
+
+#. Translators: 'URL' and 'content' refer to form fields.
+#: apps/staticpages/models.py:97
+msgid "URL or content must be provided."
+msgstr "URL abo wopśimjeśe musy se k dispoziciji stajiś."
+
+#: apps/staticpages/models.py:103
+msgid "Virtual path already in use."
+msgstr "Wirtuelna sćažka se južo wužywa."
+
+#: apps/staticpages/models.py:113
+msgid "Legal Page"
+msgstr "Bok z pšawniskimi pokazkami"
+
+#: apps/staticpages/models.py:124
+msgid "Regular Page"
+msgstr "Regularny bok"
+
+#: apps/staticpages/views.py:118 templates/admin/staticpages/_table.html:8
+msgid "Page Title"
+msgstr "Titel boka"
+
+#. Translators: 'projects' must not be translated.
+#: apps/staticpages/views.py:135
+msgid ""
+"projects/<project_code> or <language_code> or <language_code>/<project_code>"
+msgstr ""
+"projects/<project_code> abo <language_code> abo <language_code>/"
+"<project_code>"
+
+#: apps/staticpages/views.py:230
+msgid "Text is missing"
+msgstr "Tekst felujo"
+
+#. Translators: This is a noun.
+#: apps/virtualfolder/models.py:39
+msgid "Filter"
+msgstr "Filter"
+
+#: apps/virtualfolder/models.py:41
+msgid "Filtering rules that tell which files this virtual folder comprises."
+msgstr ""
+"Filtrowańske pšawidła, kótarež pokazuju, kótare dataje tós ten wirtuelny "
+"zarědnik wobwliwujo."
+
+#: apps/virtualfolder/models.py:45 core/browser.py:21
+msgid "Priority"
+msgstr "Priorita"
+
+#: apps/virtualfolder/models.py:47
+msgid ""
+"Number specifying importance. Greater priority means it is more important."
+msgstr ""
+"Licba, kótaraž wažnosć pódawa. Wuša priorita wóznamjenijo, něco jo wažnjejše."
+
+#: apps/virtualfolder/models.py:51
+msgid "Is public?"
+msgstr "Jo zjawny?"
+
+#: apps/virtualfolder/models.py:53
+msgid "Whether this virtual folder is public or not."
+msgstr "Lěc toś ten wirtuelny zarědnik jo zjawny abo nic."
+
+#: apps/virtualfolder/models.py:56
+msgid "Description"
+msgstr "Wopisanje"
+
+#: apps/virtualfolder/models.py:58
+#, python-format
+msgid ""
+"Use this to provide more information or instructions. Allowed markup: %s"
+msgstr ""
+"Wužywaj to, aby dalšne informacije abo instrukcije k dispoziciji stajił. "
+"Dowólone wobznamjenja: %s"
+
+#: checks.py:74
+msgid ""
+"There are user accounts with duplicate emails. This will not be allowed in "
+"Pootle 2.8."
+msgstr ""
+"Su wužywarske konta z dwójnymi mejlkami. To njejo dowólone w Pootle 2.8."
+
+#: checks.py:76
+msgid ""
+"Try using 'pootle find_duplicate_emails', and then update user emails with "
+"'pootle update_user_email username email'. You might also want to consider "
+"using pootle merge_user or purge_user commands"
+msgstr ""
+"Wopytaj 'pootle find_duplicate_emails' wužywaś, a aktualizěruj wužywarske "
+"mejlki z 'pootle update_user_email username email'. Snaź coś teke pśikaza "
+"pootle merge_user abo purge_user wužywaś"
+
+#: checks.py:100
+msgid "Your version of Django is too old."
+msgstr "Twója wersija Django jo pśestara."
+
+#: checks.py:101
+#, python-format
+msgid "Try pip install --upgrade 'Django==%s'"
+msgstr "Wopytaj pip install --upgrade 'Django==%s'"
+
+#: checks.py:108
+msgid "Your version of lxml is too old."
+msgstr "Twója wersija lxml jo pśestara."
+
+#: checks.py:109
+msgid "Try pip install --upgrade lxml"
+msgstr "Wopytaj pip install --upgrade lxml"
+
+#: checks.py:115
+msgid "Your version of Translate Toolkit is too old."
+msgstr "Twója wersija Translate Toolkit jo pśestara."
+
+#: checks.py:116
+msgid "Try pip install --upgrade translate-toolkit"
+msgstr "Wopytaj pip install --upgrade translate-tookit"
+
+#: checks.py:136
+#, python-format
+msgid "Could not connect to Redis (%s)"
+msgstr "Njejo móžno z Redis (%s) zwězaś"
+
+#: checks.py:137
+#, python-format
+msgid "Make sure Redis is running on %(host)s:%(port)s"
+msgstr "Zawěsć, až Redis na %(host)s:%(port)s běžy"
+
+#: checks.py:147
+msgid "Your version of Redis is too old."
+msgstr "Twója wersija Redis jo pśestara."
+
+#: checks.py:148
+#, python-format
+msgid "Update your system's Redis server package to at least version %s"
+msgstr ""
+"Aktualizěruj serwerowy paket Redis swójogo systema na minimalnu wersiju %s"
+
+#. Translators: a worker processes background tasks
+#: checks.py:159
+msgid "No worker running."
+msgstr "Žeden nadawk njeběžy."
+
+#. Translators: a worker processes background tasks
+#: checks.py:161
+msgid "Run new workers with 'pootle rqworker'"
+msgstr "Nowe nadawki z 'pootle rqworker' pśewjasć"
+
+#: checks.py:176
+msgid "Cache backend is not set to Redis."
+msgstr "Backend pufrowaka njejo se na Redis stajił."
+
+#: checks.py:177
+#, python-format
+msgid ""
+"Set default cache backend to django_redis.cache.RedisCache\n"
+"Current settings: %r"
+msgstr ""
+"Staj standardny backend pufrowaka na django_redis.cache.RedisCache\n"
+"Aktualne nastajenja: %r"
+
+#: checks.py:187
+msgid "Could not initiate a Redis cache connection"
+msgstr "Zwisk pufrowaka Redis njedajo so iniciěrowaś"
+
+#: checks.py:188 checks.py:202
+msgid "Double-check your CACHES settings"
+msgstr "Pśeglědaj swóje nastajenja CACHES dwójcy"
+
+#: checks.py:200
+msgid ""
+"Distinct django_redis.cache.RedisCache configurations are required for "
+"`default`, `redis` and `lru`."
+msgstr ""
+"Rozdźělne konfiguracije django_redis.cache.RedisCache su trěbne za "
+"'default', 'redis' a 'lru'."
+
+#: checks.py:208
+msgid "DEBUG mode is on. Do not do this in production!"
+msgstr "Modus pytanja za zmólkami je zašaltowany. Njecyń to pśi wuwjedowanju!"
+
+#: checks.py:209
+msgid "Set DEBUG = False in Pootle settings"
+msgstr "DEBUG w nastajenjach Pootle na False stajiś"
+
+#: checks.py:215
+msgid "The sqlite database backend is unsupported"
+msgstr "Backend z datoweju banku sqlite se njepódpěra"
+
+#: checks.py:216
+msgid "Set your default database engine to postgresql or mysql"
+msgstr "Staj swój system datoweje banki na postgresql abo mysql"
+
+#: checks.py:223
+msgid "Not using cached_db as session engine"
+msgstr "cached_db so ako pósejźeński system njewužywa"
+
+#: checks.py:224
+#, python-format
+msgid ""
+"Set SESSION_ENGINE to django.contrib.sessions.backend.cached_db\n"
+"Current settings: %r"
+msgstr ""
+"Nastaj SESSION_ENGINE na django.contrib.sessions.backend.cached_db\n"
+"Aktualne nastajenja: %r"
+
+#: checks.py:232
+msgid "POOTLE_CONTACT_EMAIL is not set."
+msgstr "POOTLE_CONTACT_EMAIL njejo nastajony."
+
+#: checks.py:233
+msgid ""
+"Set POOTLE_CONTACT_EMAIL to allow users to contact administrators through "
+"the Pootle contact form."
+msgstr ""
+"Nastaj POOTLE_CONTACT_EMAIL, aby wužywarjam dowólił, administratory pśez "
+"kontaktny formular Pootle kontaktěrowaś."
+
+#: checks.py:241
+#, python-format
+msgid "POOTLE_CONTACT_EMAIL is using the following default setting %r."
+msgstr "POOTLE_CONTACT_EMAIL slědujuce standardne nastajenje %r wužywa."
+
+#: checks.py:243
+msgid ""
+"POOTLE_CONTACT_EMAIL is the address that will receive messages sent by the "
+"contact form."
+msgstr ""
+"POOTLE_CONTACT_EMAIL jo adresa, kótaraž powěsći dostawa, kótarež su se pśez "
+"kontaktny formular pósłali."
+
+#: checks.py:250
+msgid "DEFAULT_FROM_EMAIL is not set."
+msgstr "DEFAULT_FROM_EMAIL njejo nastajeny."
+
+#: checks.py:251 checks.py:261
+msgid ""
+"DEFAULT_FROM_EMAIL is used in all outgoing Pootle email.\n"
+"Don't forget to review your mail server settings."
+msgstr ""
+"DEFAULT_FROM_EMAIL se we wuchadajucej mejlce Pootle wužywa.\n"
+"Njezabydni nastajenja swójogo e-mailowego serwera pśekontrolěrowaś."
+
+#: checks.py:259
+#, python-format
+msgid "DEFAULT_FROM_EMAIL is using the following default setting %r."
+msgstr "DEFAULT_FROM_EMAIL slědujuce nastajenje %r wužywa."
+
+#: checks.py:272
+#, python-format
+msgid "POOTLE_TM_SERVER['%s'] has no INDEX_NAME."
+msgstr "POOTLE_TM_SERVER['%s'] INDEX_NAME njama."
+
+#: checks.py:273
+#, python-format
+msgid "Set an INDEX_NAME for POOTLE_TM_SERVER['%s']."
+msgstr "Nastaj INDEX_NAME za POOTLE_TM_SERVER['%s']."
+
+#: checks.py:279
+#, python-format
+msgid "Duplicate '%s' INDEX_NAME in POOTLE_TM_SERVER."
+msgstr "'%s' INDEX_NAME w POOTLE_TM_SERVER pódwójś."
+
+#: checks.py:281
+msgid "Set different INDEX_NAME for all servers in POOTLE_TM_SERVER."
+msgstr "Nastaj druge INDEX_NAME za wšykne serwery w POOTLE_TM_SERVER."
+
+#: checks.py:291
+#, python-format
+msgid "POOTLE_TM_SERVER['%s'] has no ENGINE."
+msgstr "POOTLE_TM_SERVER['%s'] ENGINE njama."
+
+#: checks.py:292
+#, python-format
+msgid "Set a ENGINE for POOTLE_TM_SERVER['%s']."
+msgstr "Nastaj ENGINE za POOTLE_TM_SERVER['%s']."
+
+#: checks.py:299
+#, python-format
+msgid "POOTLE_TM_SERVER['%s'] has no HOST."
+msgstr "POOTLE_TM_SERVER['%s'] HOST njama."
+
+#: checks.py:300
+#, python-format
+msgid "Set a HOST for POOTLE_TM_SERVER['%s']."
+msgstr "Nastaj HOST za POOTLE_TM_SERVER['%s']."
+
+#: checks.py:307
+#, python-format
+msgid "POOTLE_TM_SERVER['%s'] has no PORT."
+msgstr "POOTLE_TM_SERVER['%s'] PORT njama."
+
+#: checks.py:308
+#, python-format
+msgid "Set a PORT for POOTLE_TM_SERVER['%s']."
+msgstr "Nastaj PORT za POOTLE_TM_SERVER['%s']."
+
+#: checks.py:317
+#, python-format
+msgid "POOTLE_TM_SERVER['%s'] has a WEIGHT less than 0.0 or greater than 1.0"
+msgstr ""
+"POOTLE_TM_SERVER['%s'] ma WEIGHT, kótaraž jo mjenjej ako 0.0 abo wětša ako "
+"1.0"
+
+#: checks.py:319
+#, python-format
+msgid ""
+"Set a WEIGHT between 0.0 and 1.0 (both included) for POOTLE_TM_SERVER['%s']."
+msgstr ""
+"Nastaj WEIGHT mjazy 0.0 a 1.0 (wobej zapśimjonej) za POOTLE_TM_SERVER['%s']."
+
+#: checks.py:327
+#, python-format
+msgid "POOTLE_SCORES has no %s."
+msgstr "POOTLE_SCORES njama %s."
+
+#: checks.py:328
+#, python-format
+msgid "Set %s in POOTLE_SCORES."
+msgstr "%s w POOTLE_SCORES nastajiś."
+
+#: checks.py:336
+#, python-format
+msgid "Invalid value for %s in POOTLE_SCORES."
+msgstr "Njepłaśiwa gódnota za %s w POOTLE_SCORES."
+
+#: checks.py:339
+#, python-format
+msgid "Set a valid value for %s in POOTLE_SCORES."
+msgstr "Nastaj płaśiwu gódnotu za %s w POOTLE_SCORES."
+
+#: checks.py:355
+msgid "POOTLE_MARKUP_FILTER is missing."
+msgstr "POOTLE_MARKUP_FILTER felujo."
+
+#: checks.py:356
+msgid "Set POOTLE_MARKUP_FILTER."
+msgstr "POOTLE_MARKUP_FILTER nastajiś."
+
+#: checks.py:361
+msgid "Invalid value in POOTLE_MARKUP_FILTER."
+msgstr "Njepłaśiwa gódnota w POOTLE_MARKUP_FILTER."
+
+#: checks.py:362
+msgid "Set a valid value for POOTLE_MARKUP_FILTER."
+msgstr "Nastaj płaśiwu gódnotu za POOTLE_MARKUP_FILTER."
+
+#: checks.py:378
+msgid "Invalid markup in POOTLE_MARKUP_FILTER."
+msgstr "Njepłaśiwe wobznamjenje w POOTLE_MARKUP_FILTER."
+
+#: checks.py:379
+msgid "Set a valid markup for POOTLE_MARKUP_FILTER."
+msgstr "Nastaj płaśiwe wobznamjenje za POOTLE_MARKUP_FILTER."
+
+#: checks.py:384
+#, python-format
+msgid ""
+"POOTLE_MARKUP_FILTER is set to '%s' markup, but the package that provides "
+"can't be found."
+msgstr ""
+"POOTLE_MARKUP_FILTER jo na wobznamjenje '%s' nastajony, ale paket, kótaryž "
+"pódawa, njedajo se namakaś."
+
+#: checks.py:386
+msgid "Install the package or change POOTLE_MARKUP_FILTER."
+msgstr "Paket instalěrowaś abo POOTLE_MARKUP_FILTER změniś."
+
+#: checks.py:392
+msgid "POOTLE_MARKUP_FILTER set to 'None' is deprecated."
+msgstr "Gódnota 'None' za POOTLE_MARKUP_FILTER jo zestarjona."
+
+#: checks.py:393
+msgid "Set your markup to 'html' explicitly."
+msgstr "Stajśo swój wobznamjenjeńsku rěc eksplicitnje na 'html'."
+
+#: checks.py:398
+#, python-format
+msgid ""
+"POOTLE_MARKUP_FILTER is using '%s' markup, which is deprecated and will be "
+"removed in future."
+msgstr ""
+"POOTLE_MARKUP_FILTER wobznamjenjeńsku rěc '%s' wužywa, kótarež jo zestarjona "
+"a buźo se w pśichoźe wótwónoźowaś."
+
+#: checks.py:401
+msgid "Convert your staticpages to Markdown and set your markup to 'markdown'."
+msgstr ""
+"Pśepišćo swóje statiske boki na Markdown a stajśo swóju wobznamjenjeńsku rěc "
+"na 'markdown'."
+
+#: checks.py:422
+msgid "The default 'admin' user still has a password set to 'admin'."
+msgstr "Standardny wužywaŕ 'admin' ma hyšći gronidło 'admin'."
+
+#: checks.py:424
+msgid "Remove the 'admin' user or change its password."
+msgstr "Wótwónoź wužywarja 'admin' abo změń gronidło."
+
+#: checks.py:438
+msgid "Database connection uses transaction_hooks."
+msgstr "Zwisk datoweje banki transaction_hooks wužywa."
+
+#: checks.py:439
+msgid ""
+"Set the DATABASES['default']['ENGINE'] to use a Django backend from django."
+"db.backends."
+msgstr ""
+"Nastaj DATABASES['default']['ENGINE'], aby backend Django z django.db."
+"backends wužywał."
+
+#: checks.py:459
+msgid "Email server is not available."
+msgstr "E-mailowy serwer njejo k dispoziciji."
+
+#: checks.py:460
+msgid "Review your email settings and make sure your email server is working."
+msgstr ""
+"Pśeglěduj swóje e-mailowe nastajenja a zawěsć, zo twój e-mailowy serwer "
+"funkcioněrujo."
+
+#: checks.py:487
+msgid "Revision is missing or has an incorrect value."
+msgstr "Wersija felujo abo ma wopacnu gódnotu."
+
+#: checks.py:488
+msgid "Run `revision --restore` to reset the revision counter."
+msgstr "Wuwjeź 'revision --restore', aby wersijowy licak slědk stajił."
+
+#: checks.py:502
+msgid "No canonical URL provided and default site set to example.com."
+msgstr ""
+"Njejo žeden kanoniski URL pódany a standardne sedło jo na example.com "
+"stajone."
+
+#: checks.py:504
+msgid ""
+"Set the `POOTLE_CANONICAL_URL` in settings or update the default site if you "
+"are using django.contrib.sites."
+msgstr ""
+"Nastaj 'POOTLE_CANONICAL_URL' w nastajenjach abo aktualizěruj standardne "
+"sedło, jolic django.contrib.sites wužywaš."
+
+#: checks.py:508
+msgid "Canonical URL is set to http://localhost."
+msgstr "Kanoniski URL jo na http://localhost stajony."
+
+#: checks.py:510
+msgid ""
+"Set the `POOTLE_CANONICAL_URL` to an appropriate value for your site or "
+"leave it empty if you are using `django.contrib.sites`."
+msgstr ""
+"Nastaj 'POOTLE_CANONICAL_URL' na góźecu se gódnotu za swójo sedło abo wóstaj "
+"jen prozny, jolic 'django.contrib.sites' wužywaš."
+
+#: checks.py:540
+msgid "POOTLE_FS_WORKING_PATH setting is not set."
+msgstr "POOTLE_FS_WORKING_PATH njejo nastajony."
+
+#: checks.py:544
+#, python-format
+msgid "Path ('%s') pointed to by POOTLE_FS_WORKING_PATH doesn't exist."
+msgstr ""
+"Sćažka ('%s'), kótaraž se pśez POOTLE_FS_WORKING_PATH pódawa, njeeksistěrujo."
+
+#: checks.py:546
+msgid ""
+"Create the directory pointed to by `POOTLE_FS_WORKING_PATH`, or change the "
+"setting."
+msgstr ""
+"Załož zapis, na kótaryž 'POOTLE_FS_WORKING_PATH' pokazujo, abo změń "
+"nastajenje."
+
+#: checks.py:551
+#, python-format
+msgid ""
+"Path ('%s') pointed to by POOTLE_FS_WORKING_PATH is not writable by Pootle."
+msgstr ""
+"Sćažka ('%s'), kótaraž se pśez POOTLE_FS_WORKING_PATH pokazujo, njedajo se "
+"pśez Pootle pisaś."
+
+#: checks.py:554
+msgid ""
+"Add the write permission to the `POOTLE_FS_WORKING_PATH` or change the "
+"setting."
+msgstr "Pśidaj `POOTLE_FS_WORKING_PATH` pisańske pšawo abo změń nastajenje."
+
+#: checks.py:573
+msgid "MySQL requires time zone settings."
+msgstr "MySQL se nastajenja casoweje cony pomina."
+
+#: checks.py:593
+msgid "Pootle does not yet support Python 3."
+msgstr "Pootle hyšći Python 3 njepódpěra."
+
+#: checks.py:594 checks.py:600
+msgid "Use a Python 2.7 virtualenv."
+msgstr "Wužywaj Python 2.7 virtualenv."
+
+#: checks.py:599
+msgid "Pootle no longer supports Python versions older than 2.7"
+msgstr "Pootle wěcej wersije Python starše ako 2.7 njepódpěra"
+
+#. Translators: noun. The graphical representation of translation status
+#: core/browser.py:37
+msgid "Progress"
+msgstr "Póstup"
+
+#: core/browser.py:42
+msgid "Last Activity"
+msgstr "Slědna aktiwita"
+
+#. Translators: The number of suggestions pending review
+#: core/browser.py:53 templates/browser/_actions.html:28
+#: templates/editor/_filters.html:11 templates/languages/_nav.html:28
+#: templates/languages/admin/language_team_suggestions.html:5
+#: templates/languages/admin/language_team_suggestions.html:9
+msgid "Suggestions"
+msgstr "Naraźenja"
+
+#: core/browser.py:58 templates/browser/_actions.html:43
+#: templates/editor/_filters.html:8
+msgid "Incomplete"
+msgstr "Njedopołny"
+
+#. Translators: Heading representing the total number of words of a file
+#. or directory
+#: core/browser.py:65 core/utils/stats.py:27
+msgid "Total"
+msgstr "Dogromady"
+
+#: core/browser.py:70
+msgid "Last updated"
+msgstr "Slědna aktualizacija"
+
+#: core/browser.py:119
+msgid "Back to language"
+msgstr "Slědk k rěcy"
+
+#: core/browser.py:121
+msgid "Back to parent folder"
+msgstr "Slědk k nadrědowanemu zarědnikoju"
+
+#: core/decorators.py:159 core/views/mixins.py:26
+msgid "You do not have rights to administer Pootle."
+msgstr "Njamaš pšawa za administrěrowanje Pootle."
+
+#: core/forms.py:151
+msgid "Time to answer has expired"
+msgstr "Cas za wótegrono jo wótběgnuł"
+
+#: core/forms.py:170
+msgid "Enter a number"
+msgstr "Zapódaj licbu"
+
+#: core/forms.py:185
+msgid "Incorrect"
+msgstr "Wopacny"
+
+#: core/forms.py:214
+msgid "With selected"
+msgstr "Z wubranymi"
+
+#: core/forms.py:221
+msgid "Add comment"
+msgstr "Komentar pśidaś"
+
+#: core/forms.py:227
+msgid "Select all items matching filter criteria, including those not shown"
+msgstr ""
+"Wubjeŕ wšykne zapiski, kótarež filtrowanskim kriterijam wótpowěduju, "
+"inkluziwnje te, kótarež se njepokazuju"
+
+#: core/forms.py:247
+msgid "You must specify an action to take"
+msgstr "Musyš akciju pódaś, kótaraž ma se wuwjasć"
+
+#: core/forms.py:248
+msgid "A valid search field must be specified"
+msgstr "Płaśiwe pytańske pólo musy se pódaś"
+
+#: core/initdb.py:135
+msgid "Can access a project"
+msgstr "Ma pśistup na projekt"
+
+#: core/initdb.py:139
+msgid "Cannot access a project"
+msgstr "Njama pśistup na projekt"
+
+#: core/initdb.py:143
+msgid "Can make a suggestion for a translation"
+msgstr "Móžo pśełožk naraźiś"
+
+#: core/initdb.py:147
+msgid "Can submit a translation"
+msgstr "Móžo pśełožk zapódaś"
+
+#: core/initdb.py:151
+msgid "Can review suggestions"
+msgstr "Móžo naraźenja pśeglědowaś"
+
+#: core/initdb.py:155
+msgid "Can perform administrative tasks"
+msgstr "Móžo administratiwne nadawki pśewjasć"
+
+#: core/views/base.py:122
+msgid "Entire Project"
+msgstr "Ceły projekt"
+
+#: core/views/display.py:103 core/views/display.py:125
+#, python-format
+msgid "%(user)s removed translation for %(source)s"
+msgstr "%(user)s jo pśełožk za %(source)s wótwónoźeł"
+
+#: core/views/display.py:105
+#, python-format
+msgid "%(user)s accepted suggestion for %(source)s"
+msgstr "%(user)s jo naraźenja za %(source)s akceptěrował"
+
+#: core/views/display.py:107
+#, python-format
+msgid "%(user)s uploaded file"
+msgstr "%(user)s jo dataju nagrał"
+
+#: core/views/display.py:109
+#, python-format
+msgid "%(user)s muted %(check)s for %(source)s"
+msgstr "%(user)s jo %(check)s za %(source)s znjemóžnił"
+
+#: core/views/display.py:111
+#, python-format
+msgid "%(user)s unmuted %(check)s for %(source)s"
+msgstr "%(user)s jo %(check)s za %(source)s zmóžnił"
+
+#: core/views/display.py:113
+#, python-format
+msgid "%(user)s added suggestion for %(source)s"
+msgstr "%(user)s jo naraźenje za %(source)s pśidał"
+
+#: core/views/display.py:115
+#, python-format
+msgid "%(user)s rejected suggestion for %(source)s"
+msgstr "%(user)s jo naraźenje za %(source)s wótpokazał"
+
+#: core/views/display.py:118
+#, python-format
+msgid "%(user)s translated %(source)s"
+msgstr "%(user)s jo %(source)s pśełožił"
+
+#: core/views/display.py:120
+#, python-format
+msgid "%(user)s edited %(source)s"
+msgstr "%(user)s jo %(source)s wobźěłał"
+
+#. Translators: pre-translate is translating with first 100% TM match
+#: core/views/display.py:123
+#, python-format
+msgid "%(user)s pre-translated %(source)s"
+msgstr "%(user)s jo %(source)s pśedpśełožył"
+
+#: core/views/display.py:127
+#, python-format
+msgid "%(user)s reviewed %(source)s"
+msgstr "%(user)s jo %(source)s pśeglědał"
+
+#: core/views/display.py:129
+#, python-format
+msgid "%(user)s marked as needs work %(source)s"
+msgstr "%(user)s jo %(source)s ako wobźěłanje pominajucy se wóznamjenił"
+
+#: core/views/mixins.py:66
+msgid "You cannot access this page."
+msgstr "Njamaš pśistup na toś ten bok."
+
+#: middleware/errorpages.py:83
+#, python-format
+msgid "Error accessing %(filename)s, Filesystem sent error: %(errormsg)s"
+msgstr ""
+"Zmólka pśi pśistupje na %(filename)s, zmólka datajowego systema: %(errormsg)s"
+
+#: middleware/errorpages.py:119
+#, python-format
+msgid ""
+"You need to <a class=\"js-login\" href=\"%(login_link)s\">login</a> to "
+"access this page."
+msgstr ""
+"Musyš se <a class=\"js-login\" href=\"%(login_link)s\">pśizjawiś</a>, aby "
+"pśistup na toś ten bok měł."
+
+#. Translators: Label that refers to the site's privacy policy
+#: strings.py:39
+msgid "Privacy Policy"
+msgstr "Pšawidła priwatnosći"
+
+#. Translators: Label that refers to the site's legal requirements
+#: strings.py:41
+msgid "Legal"
+msgstr "Pšawniske"
+
+#. Translators: Label that refers to a legally mandated statement of the
+#. ownership and authorship of a document, which must be included in ...
+#. websites published in Germany and certain other German-speaking countries,
+#. such as Austria and Switzerland. See https://en.wikipedia.org/wiki/Impressum
+#: strings.py:46
+msgid "Imprint"
+msgstr "Impresum"
+
+#. Translators: Label that refers to the site's license requirements
+#: strings.py:48
+msgid "License"
+msgstr "Licenca"
+
+#. Translators: Label that refers to the site's license requirements
+#: strings.py:50
+msgid "License Statement"
+msgstr "Licencna deklaracija"
+
+#. Translators: Label that refers to the site's license requirements
+#: strings.py:52
+msgid "Contributor License"
+msgstr "Licenca za sobustatkujuce"
+
+#. Translators: Label that refers to the site's terms of use
+#: strings.py:54
+msgid "Terms of Use"
+msgstr "Wužywańske wuměnjenja"
+
+#. Translators: Label that refers to the site's terms of service
+#: strings.py:56
+msgid "Terms of Service"
+msgstr "Słužbne wuměnjenja"
+
+#. Translators: Label that refers to the site's getting started guide
+#: strings.py:58
+msgid "Getting Started"
+msgstr "Prědne kšace"
+
+#: templates/about.html:7 templates/layout.html:188
+msgid "About"
+msgstr "Wó"
+
+#: templates/about.html:13
+msgid "About This Pootle Server"
+msgstr "Wó toś tom serwerje Pootle"
+
+#: templates/about.html:16
+msgid ""
+"This site is running Pootle — powerful web software to empower teams to do "
+"translation and translation management. This community tool is Free "
+"Software, and any team can use it and contribute to the Pootle community. "
+"Read more on the <a href=\"http://pootle.translatehouse.org/\">project "
+"website</a>."
+msgstr ""
+"Toś to sedło wužywa Pootle — mócna websoftware, kótaraž teamam zmóžnja, "
+"pśełožki napóraś a pśełožowanje zastojaś. Toś ten zgromaźeństwowy rěd jo "
+"licha software, a kuždy team móžo ju wužywaś a k zgromaźeństwoju Pootle "
+"pśinosowaś. Cytaj wěcej wó <a href=\"http://pootle.translatehouse.org/"
+"\">projektowem websedle</a>."
+
+#: templates/about.html:25
+#, python-format
+msgid ""
+"Pootle %(pootle_version)s is powered by Translate Toolkit "
+"%(toolkit_version)s."
+msgstr ""
+"Pootle %(pootle_version)s Translate Toolkit %(toolkit_version)s wužywa."
+
+#: templates/account/email/email_confirmation_message.txt:2
+msgid "A Pootle account has been created for you using this email address."
+msgstr "Konto Pootle jo se z pomocu tuteje e-mailoweje adrese załožyło."
+
+#: templates/account/email/email_confirmation_message.txt:3
+msgid "To activate your account, follow this link:"
+msgstr "Aby swójo konto aktiwěrował, slěduj toś tomu wótkazoju:"
+
+#: templates/account/email/email_confirmation_message.txt:6
+msgid ""
+"This message is sent to verify that the email address is in fact correct. If "
+"you did not want to register an account, you may simply ignore the message."
+msgstr ""
+"Toś ta powěsć jo se pósłała, aby pśespytowała, lěc e-mailowa adresa jo "
+"napšawdu pšawa. Jolic njejsćo kśěł konto registrěrowaś, móžoš powěsć "
+"jadnorje ignorěrowaś."
+
+#: templates/account/email/email_confirmation_subject.txt:2
+msgid "Pootle e-mail confirmation"
+msgstr "E-mailowe wobkšuśenje Pootle"
+
+#: templates/account/email/password_reset_key_message.txt:2
+msgid "We have received a request to reset your password."
+msgstr "Smy požedanje dostali, aby wašo gronidło slědk stajili."
+
+#: templates/account/email/password_reset_key_message.txt:3
+msgid "To reset your password, follow this link:"
+msgstr "Aby swójo gronidło slědk stajił, slěduj toś tomu wótkazoju:"
+
+#: templates/account/email/password_reset_key_message.txt:6
+msgid ""
+"If you do not want to reset your password, you may simply ignore the message."
+msgstr ""
+"Jolic njocoš swójo hesło slědk stajiś, móžoš powěsć jadnorje ignorěrowaś."
+
+#: templates/account/email/password_reset_key_subject.txt:2
+msgid "Pootle password reset e-mail"
+msgstr "Mejlka za slědkstajenje gronidła Pootle"
+
+#: templates/account/signup_closed.html:5
+#: templates/account/signup_closed.html:8
+#: templates/account/signup_closed.html:13
+msgid "Registration Disabled"
+msgstr "Registracija jo znjemóžnjona"
+
+#: templates/account/signup_closed.html:14
+msgid "Registration is currently disabled. Please try again later."
+msgstr ""
+"Registracija jo tuchylu znjemóžnjona. Pšosym wopytaj pózdźej hyšći raz."
+
+#: templates/admin/_generic_formset.html:22
+#: templates/translation_projects/terminology/manage.html:54
+msgid "Save Changes"
+msgstr "Změny składowaś"
+
+#: templates/admin/_tabs.html:6
+msgid "Info"
+msgstr "Informacija"
+
+#: templates/admin/_tabs.html:11 templates/admin/dashboard.html:21
+#: templates/admin/users.html:4 templates/admin/users.html:7
+#: templates/user/base.html:4
+msgid "Users"
+msgstr "Wužywarje"
+
+#: templates/admin/_tabs.html:16 templates/admin/languages.html:4
+#: templates/admin/languages.html:7 templates/projects/_nav.html:23
+#: templates/projects/admin/languages.html:7
+#: templates/projects/all/_nav.html:19
+msgid "Languages"
+msgstr "Rěcy"
+
+#: templates/admin/_tabs.html:21 templates/admin/project_fs.html:5
+#: templates/admin/project_fs.html:19 templates/admin/projects.html:4
+#: templates/admin/projects.html:7
+#: templates/languages/admin/language_team.html:104
+#: templates/projects/base.html:5
+msgid "Projects"
+msgstr "Projekty"
+
+#: templates/admin/_tabs.html:26 templates/admin/permissions.html:4
+#: templates/admin/permissions.html:7 templates/projects/_nav.html:30
+#: templates/projects/admin/permissions.html:7
+#: templates/projects/all/_nav.html:24
+#: templates/translation_projects/_nav.html:29
+#: templates/translation_projects/admin/permissions.html:5
+msgid "Permissions"
+msgstr "Pšawa"
+
+#: templates/admin/_tabs.html:31 templates/admin/staticpages/base.html:4
+#: templates/admin/staticpages/base.html:8
+msgid "Static Pages"
+msgstr "Statiske boki"
+
+#: templates/admin/base.html:4 templates/admin/base.html:7
+msgid "Administration"
+msgstr "Administracija"
+
+#: templates/admin/dashboard.html:7
+msgid "Server Statistics"
+msgstr "Serwerowe statistiki"
+
+#: templates/admin/dashboard.html:13
+msgid "Submissions"
+msgstr "Zapódaśa"
+
+#: templates/admin/dashboard.html:17
+msgid "Pending suggestions"
+msgstr "Njedocynjone naraźenja"
+
+#: templates/admin/dashboard.html:29
+msgid "Background Jobs"
+msgstr "Slězynowe nadawki"
+
+#: templates/admin/dashboard.html:35
+msgid "Status"
+msgstr "Status"
+
+#: templates/admin/dashboard.html:42
+msgid "Pending jobs"
+msgstr "Njedocynjone nadawki"
+
+#: templates/admin/dashboard.html:46
+msgid "Failed jobs"
+msgstr "Njewuspěšne nadawki"
+
+#: templates/admin/dashboard.html:56
+msgid "System Checks"
+msgstr "Systemowe kontrole"
+
+#: templates/admin/dashboard.html:66
+msgid "No issues have been detected. All is good!"
+msgstr "Problemy njejsu se namakali. Wšykno jo dobre!"
+
+#: templates/admin/permissions.html:10
+msgid ""
+"Here you can add, edit, and delete the default permissions in this Pootle "
+"server."
+msgstr ""
+"How móžoš standardne pšawa za toś ten serwer Pootle pśidaś, wobźěłaś a "
+"wulašowaś."
+
+#: templates/admin/permissions.html:14
+#: templates/projects/admin/permissions.html:13
+#: templates/translation_projects/admin/permissions.html:11
+msgid ""
+"The user “nobody” refers to any user that is not logged in (an anonymous, "
+"unidentified user). The user “default” refers to the rights that all logged "
+"in users will have by default, unless other specific rights were assigned to "
+"them."
+msgstr ""
+"Wužywaŕ “nobody” póśěgujo se na wužywarja, kenž njejo pśizjawjony (anonymny "
+"njeidentificěrowany wužywaŕ). Wužywaŕ “default” póśěgujo se na pšawa, "
+"kótarež wšykne pśizjawjone wužywarjo pó standarźe maju, snaźkuli su se jim "
+"druge wósebne pšawa pśipokazali."
+
+#: templates/admin/project_fs.html:26
+#, python-format
+msgid "Filesystem configuration: %(project_code)s"
+msgstr "Konfiguracija datajowego systema: %(project_code)s"
+
+#: templates/admin/project_fs.html:28
+msgid ""
+"Pootle FS is still experimental, we’d love you to use it, but it does "
+"require a level of expertise in localisation, Python and Pootle in case "
+"anything goes wrong."
+msgstr ""
+"Pootle FS jo hyšći eksperimentelny, my by se wjaselili, gaž ty jen wužywaš, "
+"ale pomina se wěste wěcywuznaśe w lokalizaciji, Python a Pootle, jolic se "
+"něco njeraźi."
+
+#: templates/admin/project_fs.html:37
+msgid "Backend configuration"
+msgstr "Konfiguracija backenda"
+
+#: templates/admin/project_fs.html:48
+msgid "Update filesystem configuration"
+msgstr "Konfiguraciju datajowego systema aktualizěrowaś"
+
+#: templates/admin/project_fs.html:51
+msgid "Translation path mapping should be of the format:"
+msgstr "Pśirědowanje scažki pśełožka měło slědujucy format wužywaś:"
+
+#: templates/admin/project_fs.html:59
+msgid ""
+"Only `&lt;language_code&gt;` is required, although it must end with `.&lt;"
+"ext&gt;`"
+msgstr ""
+"Jano `&lt;language_code&gt;` jo trěbny, lěcrownož dejał se na `.&lt;ext&gt;` "
+"kóńcyś"
+
+#: templates/admin/project_fs.html:65
+msgid ""
+"If you are using the localfs backend the translation path mapping will be "
+"combined with the path specified in backend URL"
+msgstr ""
+"Jolic backend localfs wužywaš, buźo se pśirědowanje sćažki pśełožka ze "
+"sćažku w URL backenda kombiněrowaś"
+
+#: templates/admin/project_fs.html:71
+msgid ""
+"For other backends the translation path mapping will be relative to the root "
+"of the repository."
+msgstr ""
+"Za druge backendy buźo pśirědowanje sćažki pśełožka relatiwne ku kórjenjeju "
+"chowarnje."
+
+#: templates/admin/project_fs.html:81
+msgid "Language mapping configuration"
+msgstr "Konfiguracija pśirědowanja rěcy"
+
+#: templates/admin/project_fs.html:91
+msgid "Remove"
+msgstr "Wótwónoźeś"
+
+#: templates/admin/project_fs.html:92
+msgid "Pootle code"
+msgstr "Kod Pootle"
+
+#: templates/admin/project_fs.html:93
+msgid "Filesystem code"
+msgstr "Kod datajowego systema"
+
+#: templates/admin/project_fs.html:97
+#: templates/admin/staticpages/page_create.html:4
+msgid "Add"
+msgstr "Pśidaś"
+
+#: templates/admin/project_fs.html:104
+msgid "Update"
+msgstr "Aktualizěrowaś"
+
+#: templates/admin/reports/header.html:5
+msgid "User"
+msgstr "Wužywaŕ"
+
+#: templates/admin/reports/header.html:12
+msgid "Previous month"
+msgstr "Pjerwjejšny mjasec"
+
+#: templates/admin/reports/header.html:16
+msgid "Next month"
+msgstr "Pśiducy mjasec"
+
+#: templates/admin/reports/header.html:24
+msgid "Detailed Report"
+msgstr "Nadrobna rozpšawa"
+
+#: templates/admin/reports/header.html:26
+msgid "Detailed Statistics"
+msgstr "Nadrobne statistiki"
+
+#: templates/admin/staticpages/_form.html:7
+#: templates/translation_projects/terminology/manage.html:41
+msgid "Delete"
+msgstr "Lašowaś"
+
+#: templates/admin/staticpages/_form.html:21
+msgid "or"
+msgstr "abo"
+
+#: templates/admin/staticpages/_form.html:34
+#: templates/languages/admin/characters.html:20 templates/user/settings.html:39
+msgid "Save"
+msgstr "Składowaś"
+
+#: templates/admin/staticpages/_form.html:37
+msgid ""
+"Use <code>&lt;a href=\"<strong>#/page-slug</strong>\"&gt;Link text&lt;/a&gt;"
+"</code> code to provide links between static pages. Such links will be "
+"rewritten with full paths to static pages."
+msgstr ""
+"Wužywaj kod <code>&lt;a href=\"<strong>#/slug-boka</strong>\"&gt;Tekst "
+"wótkaza&lt;/a&gt;</code>, aby wótkaze mjazy statiskimi bokami pódał. Take "
+"wótkaze se z połnymi sćažkami k statiskim bokam pśepišu."
+
+#: templates/admin/staticpages/_form.html:44
+msgid ""
+"In Announcement pages use <code><strong>/xx/</strong></code> within URLs for "
+"a dynamic language code."
+msgstr ""
+"Wužywaj na bokach pśipowěźenja <code><strong>/xx/</strong></code> w URL za "
+"dynamiski rěcny kod."
+
+#: templates/admin/staticpages/_table.html:10
+msgid "Last Edited"
+msgstr "Slědna změna"
+
+#: templates/admin/staticpages/_table.html:16
+msgid "Yes"
+msgstr "Jo"
+
+#: templates/admin/staticpages/_table.html:16
+msgid "No"
+msgstr "Ně"
+
+#: templates/admin/staticpages/_table.html:19
+#: templates/staticpages/_body.html:16
+msgid "edit"
+msgstr "wobźěłaś"
+
+#: templates/admin/staticpages/_table.html:24
+msgid "view"
+msgstr "pokazaś"
+
+#: templates/admin/staticpages/_table.html:37
+msgid "No pages yet."
+msgstr "Hyšći žedne boki."
+
+#: templates/admin/staticpages/page_list.html:7
+msgid "Legal Pages"
+msgstr "Pšawniske boki"
+
+#: templates/admin/staticpages/page_list.html:11
+msgid "Add Legal Page"
+msgstr "Pšawniski bok pśidaś"
+
+#: templates/admin/staticpages/page_list.html:14
+msgid "Regular Pages"
+msgstr "Regularne boki"
+
+#: templates/admin/staticpages/page_list.html:18
+msgid "Add Regular Page"
+msgstr "Regularny bok pśidaś"
+
+#: templates/admin/staticpages/page_list.html:21
+msgid "Announcements"
+msgstr "Pśipowěźenja"
+
+#: templates/admin/staticpages/page_list.html:25
+msgid "Add Announcement"
+msgstr "Pśipowěźenje pśidaś"
+
+#: templates/browser/_actions.html:8
+msgid "Fix critical errors"
+msgstr "Kritiske zmólki pórěźiś"
+
+#: templates/browser/_actions.html:13
+msgid "Critical errors"
+msgstr "Kritiske zmólki"
+
+#: templates/browser/_actions.html:23
+msgid "Review suggestions"
+msgstr "Naraźenja pśeglědowaś"
+
+#: templates/browser/_actions.html:38
+msgid "Continue translation"
+msgstr "Z pśełožowanim pókšacowaś"
+
+#: templates/browser/_actions.html:53
+msgid "View all"
+msgstr "Wše pokazaś"
+
+#. Translators: This refers to "All strings"
+#: templates/browser/_actions.html:58 templates/editor/_filters.html:6
+msgid "All"
+msgstr "Wše"
+
+#: templates/browser/index.html:17
+msgid "Expand details"
+msgstr "Drobnostki pokazaś"
+
+#: templates/browser/index.html:24
+msgid "Translation Statistics"
+msgstr "Pśełožowańska statistika"
+
+#: templates/browser/index.html:46
+msgid "Failing Checks"
+msgstr "Njeraźone kontrole"
+
+#: templates/browser/index.html:65
+msgid "More..."
+msgstr "Wěcej..."
+
+#: templates/browser/index.html:66
+msgid "Less..."
+msgstr "Mjenjej..."
+
+#: templates/browser/index.html:77
+msgid "Updates"
+msgstr "Aktualizacije"
+
+#: templates/browser/index.html:82
+msgid "Last updated:"
+msgstr "Slědna aktualizacija:"
+
+#: templates/browser/index.html:97
+msgid "Translations"
+msgstr "Pśełožki"
+
+#: templates/browser/index.html:101
+msgid "Last action:"
+msgstr "Slědna akcija:"
+
+#: templates/browser/index.html:148
+msgid "This project is disabled and visible to administrators only."
+msgstr "Toś ten projekt jo znjemóžnjony a janož widobny za administratory."
+
+#: templates/contact_form/xhr_contact_form.html:8
+msgid "Please fill in all the fields."
+msgstr "Pšosym wupołni wše póla."
+
+#: templates/contact_form/xhr_contact_form.html:19
+msgid "Send Message"
+msgstr "Powěsć pósłaś"
+
+#: templates/contact_form/xhr_contact_form.html:24
+msgid "Thanks!"
+msgstr "Źěkujomy se!"
+
+#: templates/contact_form/xhr_contact_form.html:26
+msgid ""
+"We have received your message and will try to respond as soon as possible."
+msgstr ""
+"Smy twóju powěsć dostali a wopytajomy śi tak skoro ako móžno wótegroniś."
+
+#: templates/core/_top_scorers.html:9
+msgid "score"
+msgstr "gódnośenje"
+
+#: templates/core/_top_scorers.html:16 templates/core/_top_scorers_as_ul.html:8
+#, python-format
+msgid "#%(position)s"
+msgstr "#%(position)s"
+
+#: templates/core/_top_scorers.html:33
+msgid "No user contributions yet."
+msgstr "Hyšći žedne pśinoski."
+
+#: templates/core/_top_scorers_as_ul.html:3
+msgid "Top contributors:"
+msgstr "Głowne pśinosujuce:"
+
+#: templates/core/captcha.html:4 templates/core/captcha.html:7
+#: templates/core/xhr_captcha.html:14
+msgid "Are You Human?"
+msgstr "Sy luź?"
+
+#: templates/core/xhr_captcha.html:15
+msgid ""
+"To protect the server against attacks we have to verify that submissions are "
+"made by human users."
+msgstr ""
+"Aby my serwer pśeśiwo napadam šćitali, musymy pśekontrolěrowaś, lěc luźece "
+"wužywarje su cynili zapódaśa."
+
+#: templates/core/xhr_captcha.html:16
+msgid "Please answer this question:"
+msgstr "Pšosym wótegroń na toś to pšašanje:"
+
+#: templates/core/xhr_captcha.html:19
+msgid "Confirm"
+msgstr "Wobkšuśiś"
+
+#: templates/editor/_actions.html:5
+msgid "Go back to browsing"
+msgstr "Slědk k pśeglědoju"
+
+#: templates/editor/_filters.html:12
+msgid "My suggestions"
+msgstr "Móje naraźenja"
+
+#: templates/editor/_filters.html:13
+msgid "My submissions"
+msgstr "Móje zapódaśa"
+
+#. Translators: This is a type of filtering criterion that
+#. selects the strings that have been submitted by me at some point
+#. in time but have been overwritten by other users.
+#: templates/editor/_filters.html:17
+msgid "My overwritten submissions"
+msgstr "Móje pśepisane zapódaśa"
+
+#: templates/editor/_filters.html:18
+msgid "Checks"
+msgstr "Kontrole"
+
+#: templates/editor/_filters.html:23
+msgid "Select type"
+msgstr "Typ wubraś"
+
+#: templates/editor/_toolbar.html:6
+msgid "Default order"
+msgstr "Standardny pórěd"
+
+#: templates/editor/_toolbar.html:8
+msgid "Important first"
+msgstr "Wažne ako prědne"
+
+#: templates/editor/_toolbar.html:10
+msgid "Newest first"
+msgstr "Nejnowše ako prědne"
+
+#: templates/editor/_toolbar.html:11
+msgid "Oldest first"
+msgstr "Nejstarše ako prědne"
+
+#: templates/editor/_toolbar.html:17
+msgid "Go to the previous string (Ctrl+Up)"
+msgstr "K pjerwjejšnemu znamuškowemu rjeśazkoju (Strg + šypka górjej)"
+
+#: templates/editor/_toolbar.html:20
+msgid ""
+"Current string number (Ctrl+Shift+U)<br/><br/>Type in the number and press "
+"Enter<br/>to go to any position"
+msgstr ""
+"Aktualny numer znamuškowego rjeśazka (Strg+Umsch+U)<br/><br/>Zapódaj numer a "
+"tłoc zapódawańsku tastu<br/>, aby se k někakej poziciji dostał"
+
+#: templates/editor/_toolbar.html:22
+msgid "Total strings"
+msgstr "Znamuškowe rjeśazki dogromady"
+
+#: templates/editor/_toolbar.html:25
+msgid "Go to the next string (Ctrl+Down)"
+msgstr "K pśiducemu znamuškowemu rjeśazkoju (Strg+šypka dołoj)"
+
+#: templates/editor/email/suggestions_accepted_with_comment.txt:2
+msgid ""
+"The following suggestions submitted by you have been accepted with the "
+"comment:"
+msgstr "Slědujuce wót tebje zapódane naraźenja su se pśiwzeli z komentarom:"
+
+#: templates/editor/email/suggestions_accepted_with_comment.txt:10
+#: templates/editor/email/suggestions_rejected_with_comment.txt:10
+msgid "We hope this feedback will help you improve your future contributions."
+msgstr ""
+"Naźejamy se, až toś ten komentar buźo wam pomagaś, swóje pśichodne pśinoski "
+"pólěpšyś."
+
+#: templates/editor/email/suggestions_rejected_with_comment.txt:2
+msgid ""
+"The following suggestions submitted by you have been rejected with the "
+"comment:"
+msgstr "Slědujuce wót tebje zapódane naraźenja su se wótpokazali z komentarom:"
+
+#: templates/editor/main.html:4 templates/languages/_nav.html:12
+#: templates/projects/_nav.html:13 templates/projects/all/_nav.html:11
+#: templates/translation_projects/_nav.html:13
+msgid "Translate"
+msgstr "Pśełožyś"
+
+#: templates/editor/units/edit.html:12
+#, python-format
+msgid "<a href=\"%(url)s\">Unit #%(id)s</a>"
+msgstr "<a href=\"%(url)s\">Zapisk #%(id)s</a>"
+
+#: templates/editor/units/edit.html:19
+msgid "Priority:"
+msgstr "Priorita:"
+
+#: templates/editor/units/edit.html:26
+msgid "Context:"
+msgstr "Kontekst:"
+
+#: templates/editor/units/edit.html:36
+msgid "Locations:"
+msgstr "Městna:"
+
+#: templates/editor/units/edit.html:55
+msgid "Terminology:"
+msgstr "Terminologija:"
+
+#: templates/editor/units/edit.html:58
+msgid "Insert the translated term into the editor"
+msgstr "Zapódaj pśełožone zapśimjeśe do editora"
+
+#: templates/editor/units/edit.html:70
+msgid "Comments:"
+msgstr "Komentary:"
+
+#: templates/editor/units/edit.html:80
+msgid "Click to open the image in a popup"
+msgstr "Klikni, aby wobraz we wuskokujucem woknje wócynił"
+
+#: templates/editor/units/edit.html:94
+msgid "Screenshots..."
+msgstr "Fota wobrazowki..."
+
+#: templates/editor/units/edit.html:118 templates/editor/units/edit.html:140
+msgid "Copy into translation"
+msgstr "Do pśełožka kopěrowaś"
+
+#: templates/editor/units/edit.html:134
+msgid "Report a problem with this string"
+msgstr "Problem z toś tym znamuškowym rjeśazkom k wěsći daś"
+
+#: templates/editor/units/edit.html:152 templates/editor/units/edit.html:163
+#: templates/editor/units/edit.html:257
+msgid "Submit"
+msgstr "Wótpósłaś"
+
+#: templates/editor/units/edit.html:153
+msgid "Submit translation and go to the next string (Ctrl+Enter)"
+msgstr ""
+"Pśełožk zapódaś a k pśiducemu znamuškowemu rjeśazkoju pśejś (Strg + enter)"
+
+#: templates/editor/units/edit.html:158 templates/editor/units/edit.html:164
+msgid "Suggest"
+msgstr "Naraźiś"
+
+#: templates/editor/units/edit.html:159
+msgid "Suggest translation and go to the next string (Ctrl+Enter)"
+msgstr ""
+"Pśełožk naraźiś a k pśiducemu znamuškowemu rjeśazkoju pśejś (Strg+enter)"
+
+#: templates/editor/units/edit.html:163
+msgid "Switch to translation mode (Ctrl+Shift+Space)"
+msgstr "Pśełožowański modus pśešaltowaś (Strg+Umsch+prozne znamje)"
+
+#: templates/editor/units/edit.html:164
+msgid "Switch to suggestion mode (Ctrl+Shift+Space)"
+msgstr "K naraźeńskemu modusojo pśejś (Strg+Umsch+prozne znamje)"
+
+#: templates/editor/units/edit.html:169
+msgid "Mark this string as needing further work (Ctrl+Space)"
+msgstr ""
+"Toś ten znamuškowy rjeśazk, dokulaž musy se dalej wobźěłaś (Strg+prozne "
+"znamje)"
+
+#: templates/editor/units/edit.html:189
+msgid "Showing match from similar translations"
+msgstr "Naraźenje '%s' se celowej gódnośe aktualneje gódnotki rowna."
+
+#: templates/editor/units/edit.html:212
+msgid "Show Timeline"
+msgstr "Casowy plan pokazaś"
+
+#: templates/editor/units/edit.html:214
+msgid "Add Comment"
+msgstr "Komentar pśidaś"
+
+#: templates/editor/units/edit.html:216
+msgid "Raw View"
+msgstr "Njeformatěrowane zwobraznjenje"
+
+#: templates/editor/units/edit.html:227
+#, python-format
+msgid "reviewed by <a href=\"%(profile_url)s\">%(reviewer)s</a>"
+msgstr "wót <a href=\"%(profile_url)s\">%(reviewer)s</a> pśeglědany"
+
+#: templates/editor/units/edit.html:238
+#, python-format
+msgid ""
+"Insert %(character_name)s (Unicode value %(character_code)s) into the editor"
+msgstr ""
+"Zapódaj %(character_name)s (gódnota Unicode %(character_code)s) do editora"
+
+#: templates/editor/units/edit.html:276
+msgid "User suggestions"
+msgstr "Wužywarske naraźenja"
+
+#: templates/editor/units/edit.html:296
+msgid "More options"
+msgstr "Dalšne nastajenja"
+
+#: templates/editor/units/edit.html:298
+msgid "Less options"
+msgstr "Mjenjej nastajenjow"
+
+#: templates/editor/units/edit.html:303
+msgid "Accept suggestion"
+msgstr "Naraźenje akceptěrowaś"
+
+#: templates/editor/units/edit.html:308
+msgid "Reject suggestion"
+msgstr "Naraźenje wótpokazaś"
+
+#: templates/editor/units/edit.html:314
+msgid "Remove suggestion"
+msgstr "Naraźenje wótwónoźeś"
+
+#: templates/editor/units/edit.html:326
+msgid "A long time ago"
+msgstr "Pśed dłujkim casom"
+
+#: templates/editor/units/term_edit.html:9
+msgid "Comment: "
+msgstr "Komentar: "
+
+#: templates/editor/units/xhr_checks.html:4
+msgid "Critical issues with the translation"
+msgstr "Kritiske problemy z pśełožkom"
+
+#: templates/editor/units/xhr_checks.html:4
+#: templates/languages/admin/language_team.html:123
+msgid "Critical errors:"
+msgstr "Kritiske zmólki:"
+
+#: templates/editor/units/xhr_checks.html:11
+#: templates/editor/units/xhr_checks.html:29
+msgid "Mute quality check"
+msgstr "Kwalitnu kontrolu znjemóžniś"
+
+#: templates/editor/units/xhr_checks.html:12
+#: templates/editor/units/xhr_checks.html:30
+msgid "Unmute quality check"
+msgstr "Kwalitnu kontrolu zmóžniś"
+
+#: templates/editor/units/xhr_checks.html:22
+msgid "Possible issues with the translation"
+msgstr "Móžne problemy z pśełožkom"
+
+#: templates/editor/units/xhr_checks.html:22
+msgid "Watch out for:"
+msgstr "Źiwaj na:"
+
+#: templates/editor/units/xhr_comment.html:16
+msgid "Remove comment"
+msgstr "Komentar wótwónoźeś"
+
+#: templates/editor/units/xhr_comment.html:19
+msgid "Сomment:"
+msgstr "Komentar:"
+
+#: templates/editor/units/xhr_timeline.html:3
+msgid "Timeline"
+msgstr "Casowy plan"
+
+#: templates/errors/400.html:4 templates/errors/400.html:11
+msgid "Bad Request"
+msgstr "Zmólkate napšašowanje"
+
+#: templates/errors/400.html:12
+msgid "Error 400"
+msgstr "Zmólka 400"
+
+#: templates/errors/400.html:14
+msgid "The operation is not permitted."
+msgstr "Operacija njejo dowólona."
+
+#: templates/errors/403.html:4 templates/errors/403.html:8
+msgid "Permission Denied"
+msgstr "Pśistup wótpokazany"
+
+#: templates/errors/403.html:13
+msgid "You don't seem to have permissions to access this page."
+msgstr "Zda se, až njamaš pšawa za pśistup na toś ten bok."
+
+#: templates/errors/404.html:4 templates/errors/404.html:8
+msgid "Page Not Found"
+msgstr "Bok njejo se namakał"
+
+#: templates/errors/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr "Jo nam luto, ale pominany bok njedajo se namakaś."
+
+#: templates/errors/500.html:4 templates/errors/500.html:8
+msgid "Server Error"
+msgstr "Serwerowa zmólka"
+
+#: templates/errors/500.html:10
+msgid "A server error has occurred. Thank you for your patience."
+msgstr "Serwerowa zmólka jo nastała. Źěkujomy se za twóju sćerpliwosć."
+
+#: templates/errors/500.html:16
+msgid "Exception:"
+msgstr "Wuwześe:"
+
+#: templates/errors/500.html:21
+#, python-format
+msgid ""
+"If you need assistance, you may refer to this error as <strong>%(ref)s</"
+"strong>."
+msgstr ""
+"Jolic pomoc trjebaš, móžoš na toś tu zmólku ako<strong>%(ref)s</strong> "
+"wótkazaś."
+
+#: templates/errors/db.html:4 templates/errors/db.html:8
+msgid "Database Error"
+msgstr "Zmólka datoweje banki"
+
+#: templates/errors/db.html:11
+msgid ""
+"Pootle can't connect to the database, the database is not initialized yet, "
+"or a schema upgrade is needed before continuing."
+msgstr ""
+"Pootle njamóžo z datoweju banku zwězaś, datowa banka hyšći njejo "
+"inicializěrowana abo šemowa aktualizacija jo pjerwjej trěbna."
+
+#: templates/errors/db.html:18
+#, python-format
+msgid ""
+"Please read the <a href=\"%(url)s\">Pootle documentation</a> for "
+"installation and upgrade instructions. Contact the server administrator if "
+"you feel this is a mistake."
+msgstr ""
+"Pšosym cytaj <a href=\"%(url)s\">dokumentaciju Pootle</a> za instrukcije wó "
+"instalěrowanju a aktualizěrowanju. Staj se ze serwerowym administratorom do "
+"zwiska, jolic maš to za zmólku."
+
+#: templates/errors/db.html:26
+msgid "The reported error was:"
+msgstr "K wěsći data zmólka jo była:"
+
+#: templates/includes/formtable.html:22
+#, python-format
+msgid "Page %(page_number)s of %(page_count)s."
+msgstr "Bok %(page_number)s z %(page_count)s."
+
+#: templates/includes/formtable.html:27
+#, python-format
+msgid "Results per page: %(n)s"
+msgstr "Wuslědki na bok: %(n)s"
+
+#: templates/includes/formtable.html:85
+msgid "Select all"
+msgstr "Wše wubraś"
+
+#: templates/includes/formtable.html:98
+msgid "Go"
+msgstr "Start"
+
+#: templates/languages/_nav.html:6 templates/projects/_nav.html:6
+#: templates/projects/all/_nav.html:5
+#: templates/translation_projects/_nav.html:6
+msgid "Browse"
+msgstr "Pśepytowaś"
+
+#: templates/languages/_nav.html:21
+msgid "Team"
+msgstr "Team"
+
+#: templates/languages/admin/includes/suggestions_header.html:14
+msgid "Filter suggestions"
+msgstr "Naraźenja filtrowaś"
+
+#: templates/languages/admin/language_team.html:5
+msgid "Language team"
+msgstr "Rěcny team"
+
+#. Translators: This refers to the management of language team members
+#: templates/languages/admin/language_team.html:31
+msgid "Member admin"
+msgstr "Administrator cłonkow"
+
+#: templates/languages/admin/language_team.html:45
+msgid "Add team member"
+msgstr "Teamowego cłonka pśidaś"
+
+#: templates/languages/admin/language_team.html:58
+#: templates/languages/admin/language_team.html:71
+#: templates/languages/admin/language_team.html:84
+#: templates/languages/admin/language_team.html:97
+msgid "Remove selected"
+msgstr "Wubrane wótwónoźeś"
+
+#: templates/languages/admin/language_team.html:118
+msgid "Unit and suggestions admin"
+msgstr "Administrator zapiskow a naraźenjow"
+
+#: templates/languages/admin/language_team.html:133
+msgid "Pending suggestions:"
+msgstr "Njedocynjone naraźenja:"
+
+#: templates/languages/admin/language_team.html:143
+msgid "Total words:"
+msgstr "Słowa dogromady:"
+
+#: templates/languages/admin/language_team.html:147
+msgid "Translated:"
+msgstr "Pśełožone:"
+
+#: templates/languages/admin/language_team.html:155
+msgid "Needs work:"
+msgstr "Pomina se wobźěłanje:"
+
+#: templates/layout.html:88
+msgid "Pootle requires JavaScript"
+msgstr "Pootle se JavaScript pomina"
+
+#: templates/layout.html:89
+msgid ""
+"Please enable JavaScript in your browser preferences and reload the page."
+msgstr ""
+"Pšosym zmóžni JavaScript w nastajenjach swójogo wobglědowaka a zacytajśo bok "
+"znowego."
+
+#: templates/layout.html:98
+msgid "skip to navigation"
+msgstr "k nawigaciji pśejś"
+
+#: templates/layout.html:131
+msgid "Public Profile"
+msgstr "Zjawny profil"
+
+#: templates/layout.html:132 templates/user/settings.html:4
+#: templates/user/settings.html:7
+msgid "Settings"
+msgstr "Nastajenja"
+
+#: templates/layout.html:137
+msgid "Sign out"
+msgstr "Wótzjawiś"
+
+#: templates/layout.html:141
+msgid "Sign In"
+msgstr "Pśizjawiś"
+
+#: templates/projects/admin/email/translation_project_created.txt:2
+#, python-format
+msgid ""
+"A Translation project (%(tp)s) has been created at %(url)s, and has updated "
+"successfully."
+msgstr ""
+"Pśełožowański projekt (%(tp)s) jo se na %(url)s napórał a jo se "
+"zaktualizěrował."
+
+#: templates/projects/admin/email/translation_project_creation_failed.txt:2
+#, python-format
+msgid ""
+"An error occurred creating Translation project (%(tp)s). Please contact your "
+"system administrator."
+msgstr ""
+"Při napóranju pśełožowańskego projekta (%(tp)s) jo zmólka nastała. Pšosym "
+"staj se ze swójim systemowym administratorom do zwiska."
+
+#: templates/projects/admin/languages.html:11
+msgid "Here you can add, edit, or delete the languages for this project."
+msgstr "How móžoš rěcy za toś ten projekt pśidaś, wobźěłaś abo wulašowaś."
+
+#: templates/projects/admin/languages.html:15
+msgid ""
+"Adding new languages from this screen is disabled. You will need to update "
+"your sources directly, and update Pootle from there."
+msgstr ""
+"Pśidawanje nowych rěcow z toś teje wobrazwoki jo znjemóžnjone. Musyśo swóje "
+"žrědła direktnje aktualizěrowaś a Pootle pótom wóttam."
+
+#: templates/projects/admin/languages.html:17
+msgid ""
+"There are no templates for this project, so adding new languages from this "
+"screen is disabled."
+msgstr ""
+"Pśedłogi za toś ten projekt njejsu, tak až pśidawanje nowych rěcow z toś "
+"teje wobrazowki jo znjemóžnjone."
+
+#: templates/projects/admin/permissions.html:11
+msgid "Below you can add, edit, and delete the permissions for this project."
+msgstr "Dołojce móžoš pšawa za toś ten projekt pśidaś, wobźěłaś a wulašowaś."
+
+#: templates/staticpages/_body.html:6
+#, python-format
+msgid ""
+"This static page is inactive and visible to administrators only. You can "
+"activate it by <a href=\"%(edit_url)s\">editing its properties</a>"
+msgstr ""
+"Statiski bok jo inaktiwny a jano widobny za administratory. <a href="
+"\"%(edit_url)s\">Wobźěłuj jogo kakosći</a>, aby jen aktiwěrował"
+
+#: templates/staticpages/agreement.html:3
+msgid "Action Required"
+msgstr "Akcija trěbna"
+
+#: templates/staticpages/agreement.html:4
+msgid "Before continuing, you must read and accept the following documents."
+msgstr "Nježli až pókšacujoš, musyš slědujuce dokumenty cytaś a akceptěrowaś."
+
+#: templates/staticpages/agreement.html:17
+msgid "No thanks. Sign out"
+msgstr "Ně, źěkujom se. Wótzjawiś"
+
+#: templates/staticpages/agreement.html:20
+msgid "Continue"
+msgstr "Pókšacowaś"
+
+#: templates/translation_projects/_nav.html:22
+msgid "Terminology"
+msgstr "Terminologija"
+
+#: templates/translation_projects/admin/permissions.html:9
+msgid ""
+"Below you can add, edit, and delete the permissions for this translation "
+"project."
+msgstr ""
+"Dołojce móžoš pšawa za toś ten pśełožowański projekt pśidaś, wobźěłaś a "
+"wulašowaś."
+
+#: templates/translation_projects/terminology/_term_edit.html:11
+msgid "Description..."
+msgstr "Wopisanje..."
+
+#: templates/translation_projects/terminology/_term_edit.html:18
+msgid "Details..."
+msgstr "Drobnostki..."
+
+#: templates/translation_projects/terminology/_term_edit.html:32
+msgid "Translator Comments"
+msgstr "Komentary pśełožowarja"
+
+#: templates/translation_projects/terminology/base.html:4
+msgid "Manage Terminology"
+msgstr "Terminologiju zastojaś"
+
+#: templates/translation_projects/terminology/manage.html:39
+msgid "Term"
+msgstr "Zapśimjeśe"
+
+#: templates/translation_projects/terminology/manage.html:40
+#: templates/user/settings.html:28
+msgid "Translation"
+msgstr "Pśełožk"
+
+#: templates/translation_projects/terminology/manage.html:63
+msgid "No terminology file has been found"
+msgstr "Terminologijowa dataja njejo se namakała"
+
+#. Translators: 'pootle-terminology' and 'Terminology' are not
+#. translated
+#: templates/translation_projects/terminology/manage.html:67
+msgid ""
+"In order to use the terminology feature, make sure to add a terminology file "
+"to your translation project. The terminology file must be named 'pootle-"
+"terminology' and use the same file extension (format) as the rest of the "
+"project files.  This custom terminology will be used in addition to any "
+"terminology suggestions provided by the 'Terminology' project."
+msgstr ""
+"Aby terminologijowu funkciju wužywał, zawěsć, až se terminologijowa dataja "
+"pśełožowańskemu projektoju pśidawa. Terminologijowa dataja musy se 'pootle-"
+"terminology' groniś a ten samski datajowy sufiks (format) ako zbytk "
+"projektowych datajow wužywaś. Toś ta swójska terminologija buźo se pśidatnje "
+"k terminologijowym naraźenjam wužywaś, kótarež projekt 'Terminoligja' k "
+"dispoziciji staja."
+
+#: templates/translation_projects/terminology/stores.html:7
+msgid "Here you can manage the terms in the terminology files."
+msgstr "How móžoš zapśimjeśa w terminologijowych datajach zastojaś."
+
+#: templates/translation_projects/terminology/stores.html:14
+msgid "File"
+msgstr "Dataja"
+
+#: templates/translation_projects/terminology/stores.html:28
+msgid "Once you upload files, you will be able to add, edit and delete terms."
+msgstr "Gaž dataje nagrawaš, móžoš zapśimjeśa pśidaś, wobźěłaś a wulašowaś."
+
+#: templates/user/includes/profile_activity.html:5
+msgid "Latest activity:"
+msgstr "Slědna aktiwita:"
+
+#: templates/user/includes/profile_score.html:3
+msgid "Total score:"
+msgstr "Gódnośenje dogromady:"
+
+#: templates/user/settings.html:12
+msgid "User Account"
+msgstr "Wužywarske konto"
+
+#: templates/user/settings.html:14
+msgid ""
+"Do you want to change your password? Click the 'Reset Password' button which "
+"will initiate the process of setting a new password."
+msgstr ""
+"Coš swójo gronidło změniś? Klikniśo na tłocašk 'Gronidło slědk stajiś', "
+"kótarež proces slědkstajanja nowego gronidła iniciěrujo."
+
+#: templates/user/settings.html:25
+msgid "Reset Password"
+msgstr "Gronidło slědk stajiś"
+
+#: templates/user/stats.html:13 templates/user/stats.html:17
+msgid "Statistics"
+msgstr "Statistika"
+
+#: templates/user/stats.html:27
+msgid "Daily activity"
+msgstr "Dnjowna aktiwita"
+
+#: templates/welcome.html:4
+msgid "Welcome"
+msgstr "Witaj"
+
+#: templates/welcome.html:13
+msgid "Welcome to Pootle"
+msgstr "Witaj k Pootle"
+
+#: templates/welcome.html:14
+msgid "Come and join us!"
+msgstr "Pśizamkni se nam!"
+
+#: templates/welcome.html:19
+msgid "Sign in"
+msgstr "Pśizjawiś"
+
+#: templates/welcome.html:32
+msgid "Top Contributors for the Last 30 Days"
+msgstr "Głowne pśinosujuce za zachadne 30 dnjow"
+
+#: settings/10-base.conf:7
+msgid "Pootle Translation Server"
+msgstr "Pśełožowański serwer Pootle"
+
+#~ msgid "Exact Match"
+#~ msgstr "Eksaktny wótpowědnik"
+
+#~ msgid "Failed to process suggestion."
+#~ msgstr "Naraźenje njedajo se pśeźěłaś."
+
+#~ msgid "Showing %(n)s result per page"
+#~ msgid_plural "Showing %(n)s results per page"
+#~ msgstr[0] "Pokazujo se %(n)s wuslědk na bok"
+#~ msgstr[1] "Pokazujotej se %(n)s wuslědka na bok"
+#~ msgstr[2] "Pokazuju se %(n)s wuslědki na bok"
+#~ msgstr[3] "Pokazujo se %(n)s wuslědkow na bok"
+
+#~ msgid ""
+#~ "<span class='value translated'>%(translated_percent_display)s</span> "
+#~ "translated"
+#~ msgstr ""
+#~ "Jo se pśełožyło: <span class='value translated'>"
+#~ "%(translated_percent_display)s</span>"
+
+#~ msgid ""
+#~ "<span class='value fuzzy'>%(fuzzy_percent_display)s</span> needs work"
+#~ msgstr ""
+#~ "Znamuškowe rjeśazki, kótarež muse se wobźěłaś: <span class='value fuzzy'>"
+#~ "%(fuzzy_percent_display)s</span>"
+
+#~ msgid ""
+#~ "<span class='value untranslated'>%(untranslated_percent_display)s</span> "
+#~ "untranslated"
+#~ msgstr ""
+#~ "Njepśełožone znamuškowe rjeśazki: <span class='value untranslated'>"
+#~ "%(untranslated_percent_display)s</span>"
+
+#~ msgid "Score:"
+#~ msgstr "Gódnośenje:"
+
+#~ msgid "My current score at %(server_title)s is %(score)s "
+#~ msgstr "Móje aktualne gódnośenje na %(server_title)s jo %(score)s "
+
+#~ msgid ""
+#~ "I am #%(pos)s contributor in %(lang_name)s in the last 30 days at "
+#~ "%(server_title)s! "
+#~ msgstr ""
+#~ "Som pśinosujucy #%(pos)s za rěc %(lang_name)s za zachadne 30 dnjow na "
+#~ "%(server_title)s! "
+
+#~ msgid "#%(pos)s contributor in %(lang_name)s in the last 30 days"
+#~ msgstr "Pśinosujucy #%(pos)s za rěc %(lang_name)s za zachadne 30 dnjow"
+
+#~ msgid ""
+#~ "#%(pos)s contributor in <a href=\"%(url)s\">%(lang_name)s</a> in the last "
+#~ "30 days"
+#~ msgstr ""
+#~ "Pśinosujucy #%(pos)s za rěc <a href=\"%(url)s\">%(lang_name)s</a> za "
+#~ "zachadne 30 dnjow"
+
+#~ msgid "Summary"
+#~ msgstr "Zespominanje"
+
+#~ msgid "Please enter your message summary"
+#~ msgstr "Pšosym zapódaj zespominanje swójeje powěsći"
+
+#~ msgid "Broken HTML Entities"
+#~ msgstr "Njepłaśiwe HTML-entity"
+
+#~ msgid "Java format"
+#~ msgstr "Format Java"
+
+#~ msgid "Template format"
+#~ msgstr "Pśedłogowy format"
+
+#~ msgid "Mustache placeholders"
+#~ msgstr "Naměstniki Mustache"
+
+#~ msgid "Mustache placeholder pairs"
+#~ msgstr "Pory naměstnikow mustache"
+
+#~ msgid "Mustache like placeholder pairs"
+#~ msgstr "Pory naměstnikow pódobnych mustache"
+
+#~ msgid "C format placeholders"
+#~ msgstr "Naměstniki formata C"
+
+#~ msgid "Non printable"
+#~ msgstr "Njeśišćajobny"
+
+#~ msgid "Unbalanced tag braces"
+#~ msgstr "Felujuca spinka"
+
+#~ msgid "Changed attributes"
+#~ msgstr "Změnjone atributy"
+
+#~ msgid "Unescaped ampersands"
+#~ msgstr "Njemaskěrowane et-znamjenja"
+
+#~ msgid "Incorrectly escaped ampersands"
+#~ msgstr "Wopak maskěrowane et-znamjenja"
+
+#~ msgid "Whitespaces"
+#~ msgstr "Prozne znamjenja"
+
+#~ msgid "Date format"
+#~ msgstr "Datumowy format"
+
+#~ msgid "Uppercase placeholders"
+#~ msgstr "Wjelikopisańske naměstniki"
+
+#~ msgid "Percent sign placeholders"
+#~ msgstr "Naměstniki z procentowymi znamuškami"
+
+#~ msgid "Percent sign closure placeholders"
+#~ msgstr "Naměstniki z procentowymi znamuškami na kóńcu"
+
+#~ msgid "$ placeholders"
+#~ msgstr "Naměstniki $"
+
+#~ msgid "$ closure placeholders"
+#~ msgstr "Na $ kóńcece naměstniki"
+
+#~ msgid "Java-encoded unicode"
+#~ msgstr "Unicode skoděrowany pśez Java"
+
+#~ msgid "Objective-C format"
+#~ msgstr "Format Objective-C"
+
+#~ msgid "Android format"
+#~ msgstr "Androidowy format"
+
+#~ msgid "Tags differ"
+#~ msgstr "Wobznamjenja se rozeznawaju"
+
+#~ msgid "Curly braces"
+#~ msgstr "Wuzgibnjone spinki"
+
+#~ msgid "Potential unwanted placeholders"
+#~ msgstr "Potencielnje njewitane naměstniki"
+
+#~ msgid "Double quotes in tags"
+#~ msgstr "Dwójne pazorki we wobznamjenjach"
+
+#~ msgid "Percent brace placeholders"
+#~ msgstr "Naměstniki w procentowych spinkach"
+
+#~ msgid "Failed to process submission."
+#~ msgstr "Pśenjasenje njedajo se pśeźěłaś."
+
+#~ msgid "Last comment:"
+#~ msgstr "Slědny komentar:"
+
+#~ msgid "Last comment removed"
+#~ msgstr "Slědny komentar wótwónoźony"
+
+#~ msgid "Previous page"
+#~ msgstr "Pjerwjejšny bok"
+
+#~ msgid "Next page"
+#~ msgstr "Dalšny bok"

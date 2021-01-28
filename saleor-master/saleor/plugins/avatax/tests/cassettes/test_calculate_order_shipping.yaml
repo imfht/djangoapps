@@ -1,0 +1,85 @@
+interactions:
+- request:
+    body: '{"createTransactionModel": {"companyCode": "DEFAULT", "type": "SalesInvoice",
+      "lines": [{"quantity": 3, "amount": "36.900", "taxCode": "O9999999", "taxIncluded":
+      true, "itemCode": "SKU_A", "description": "Test product"}, {"quantity": 1, "amount":
+      "10.000", "taxCode": "FR020100", "taxIncluded": true, "itemCode": "Shipping",
+      "description": null}], "code": "65dfb511-9b2f-4b68-b1d1-f873ce92c2b7", "date":
+      "2021-01-25", "customerCode": 0, "addresses": {"shipFrom": {"line1": "T\u0119czowa
+      7", "line2": "", "city": "WROC\u0141AW", "region": "", "country": "PL", "postalCode":
+      "53-601"}, "shipTo": {"line1": "T\u0119czowa 7", "line2": "", "city": "WROC\u0141AW",
+      "region": "", "country": "PL", "postalCode": "53-601"}}, "commit": false, "currencyCode":
+      "USD", "email": "test@example.com"}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic Og==
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '785'
+      User-Agent:
+      - python-requests/2.25.1
+    method: POST
+    uri: https://rest.avatax.com/api/v2/transactions/createoradjust
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 25 Jan 2021 13:39:37 GMT
+      Location:
+      - /api/v2/companies/242975/transactions/4001250103489
+      Server:
+      - Kestrel
+      ServerDuration:
+      - '00:00:00.0552682'
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+    status:
+      code: 201
+      message: Created
+version: 1

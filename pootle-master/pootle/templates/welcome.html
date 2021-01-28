@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% load common_tags i18n %}
+
+{% block title %}{% trans "Welcome" %} | {{ block.super }}{% endblock %}
+
+{% block body_id %}welcome-page{% endblock %}
+
+{% block header_block %}{% endblock %}
+
+{% block content %}
+{% block jumbo %}
+<div class="top">
+  <h1>{% trans 'Welcome to Pootle' %}</h1>
+  <h2>{% trans 'Come and join us!' %}</h2>
+
+  {% if not user.is_authenticated %}
+  <div id="login">
+    <a href="{% url 'account_login' %}"
+       class="btn btn-xl btn-login js-login">{% trans 'Sign in' %}</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+{% if score_data.top_scorers %}
+<div class="columns">
+  <div class="columns-inner">
+
+    <!-- centered column -->
+    <div class="column center">
+
+      <div class="section">
+        <h1>{% trans 'Top Contributors for the Last 30 Days' %}</h1>
+	{% top_scorers user score_data %}
+      </div>
+
+    </div>
+    <!-- / centered column -->
+
+  </div>
+</div>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,149 @@
+{% extends "moviegeek/base.html" %}
+
+{% block head %}
+    <script>
+        $(document).ready(function(){
+
+            $('[data-toggle="popover"]').popover();
+
+            $('.movie').on('show.bs.popover', function () {
+              var contentid;
+              contentid = $(this).attr("id");
+
+            });
+          });
+
+        function getinfo(movie_id, title) {
+            url = 'https://api.themoviedb.org/3/find/tt' + movie_id + '?external_source=imdb_id&api_key={{ api_key }}'
+            $.getJSON(url,
+                      function(result) {
+
+                        if (result.movie_results != null)
+                        {
+                            img_tag =  document.getElementById('src_' + movie_id)
+                            image_url = 'http://image.tmdb.org/t/p/w500/'
+                            + result.movie_results[0].poster_path
+
+                            a = document.createElement("a");
+                            a.setAttribute('href', "/movies/movie/" + movie_id);
+                            a.setAttribute('onclick', "add_impression({{user_id}}, 'more_details', " +
+                                                      movie_id + ", '{{ session_id }}','{{ csrf_token }}')")
+                            a.innerHTML= 'more details'
+
+                            save_for_later_a = document.createElement("a");
+                            save_for_later_a.setAttribute('onclick',
+                             "add_impression({{user_id}}, 'save_for_later', " + movie_id +
+                                              ", '{{ session_id }}','{{ csrf_token }}')")
+                            save_for_later_a.innerHTML = 'save for later';
+
+                            popover_div = '<div style="width: 200px;">' +
+                                          '<strong>released:</strong> ' + result.movie_results[0].release_date + '<br />' +
+                                          '<strong>language:</strong> ' + result.movie_results[0].original_language + '<br />' +
+                                          '<strong>avg tweet rating</strong>: '+ result.movie_results[0].vote_average + '<br />' +
+                                          save_for_later_a.outerHTML + '<br />' +
+                                          a.outerHTML +
+                                          '</div>'
+
+
+                            popover_content = 'amazing film <br/>' + a.outerHTML
+
+                            img = document.createElement("img");
+                            img.setAttribute('id', movie_id);
+                            img.setAttribute('class', 'movie img-rounded img-responsive');
+                            img.setAttribute('src', image_url);
+                            img.setAttribute('style','padding: 0px 0px 0px 0px;height: 150px')
+                            img.setAttribute('title', title);
+
+                            div = document.createElement("div");
+                            div.setAttribute('class', 'col-xs-2');
+                            div.appendChild(img)
+
+                            document.createElement("div");
+
+                            div.setAttribute('onclick', "add_impression({{user_id}}, 'details', "
+                                                     + movie_id
+                                                     + ", '{{ session_id }}','{{ csrf_token }}')")
+
+                            $('#movies').append(div)
+
+                            $('#' + movie_id).popover({
+                                html: true,
+                                content: popover_div,
+                                trigger: 'click'
+                            })
+                        }
+                      }
+            )
+          }
+        {% if movies %}
+            {% for movie in movies %}
+                {% if movie.movie_id %}getinfo('{{movie.movie_id}}', '{{movie.title}}');{% endif %}
+            {% endfor %}
+        {% endif %}
+
+      function getTopContent() {
+
+          $.getJSON('/rec/chart', function(result) {
+            var ul = document.getElementById("top_content");
+
+            result.forEach(function(element, index, array) {
+                var li = document.createElement("li")
+                li.innerHTML = '<a ' +
+                               'onclick=\'PostRecClicked(\"'
+                               + element.content_id + '\", \"rec:chart\")\''
+                              + "href='/movies/movie/"+ element.content_id + "'>"
+                              + (index + 1) + ". "
+                              + element.title + "</a>";
+                ul.appendChild(li)
+               });
+            })
+         };
+    </script>
+{% endblock head %}
+
+{% block content %}
+    <div class="col-xs-8 main max-size">
+        {% if movies|length > 0 %}
+        <div id="movies" class="row"></div>
+        {% else %}
+            No movies found
+        {% endif%}
+
+        <div class="row">
+        {% if movies.has_other_pages %}
+        <ul class="pagination">
+            {% if movies.has_previous %}
+                <li><a href="?page={{movies.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in pages %}
+                {% if i == movies.number %}
+                    <li class="active">
+                        <span>{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="?page={{i}}">{{ i}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if movies.has_next %}
+                <li><a href="?page={{movies.next_page_number}}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        </div>
+    </div>
+    <div id="right" class="col-xs-2">
+        <div class="well">
+            <ol id="top_content" class="nav nav-sidebar"></ol>
+        </div>
+    </div>
+    <script type="text/javascript">
+        getTopContent();
+
+    </script>
+{% endblock content %}

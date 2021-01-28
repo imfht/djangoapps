@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load static %}
+
+{% load appearance_tags %}
+{% load common_tags %}
+{% load navigation_tags %}
+{% load smart_settings_tags %}
+
+{% spaceless %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Language" content="{{ LANGUAGE_CODE }}" />
+        <title>
+            {% block base_title %}
+                {% block title %}{% endblock %} :: {% block project_name %}    {% smart_setting 'COMMON_PROJECT_TITLE' as setting_project_title %}{% endblock %}
+            {% endblock base_title %}
+        </title>
+
+        <link href="{% static 'appearance/node_modules/@fortawesome/fontawesome-free/css/all.min.css' %}" media="screen" rel="stylesheet" type="text/css" />
+        <link href="{% static 'appearance/node_modules/bootswatch/flatly/bootstrap.min.css' %}" media="screen" rel="stylesheet" type="text/css" />
+        <link href="{% static 'appearance/css/base.css' %}" media="screen" rel="stylesheet" type="text/css" />
+        {% block stylesheets %}{% endblock %}
+
+        <style>
+            {% appearance_get_user_theme_stylesheet user=request.user %}
+        </style>
+
+        <script>
+            // Detect if we are inside of an AJAX content container
+            // and break free as this is supposed to be a top level
+            // template.
+            var currentHash = window.location.hash;
+            if (currentHash.length) {
+                if(document.cookie.replace(/(?:(?:^|.*;\s*)mayanAJAXescapeRedirect\s*\=\s*([^;]*).*$)|^.*$/, '$1') !== 'true') {
+                    document.cookie='mayanAJAXescapeRedirect=true; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+                    window.location.pathname = currentHash.substring(1);
+                } else {
+                    document.cookie='mayanAJAXescapeRedirect=';
+                }
+            }
+        </script>
+    </head>
+    <body id="body-plain">
+        {% block content_plain %}{% endblock %}
+        <script src="{% static 'appearance/node_modules/jquery/dist/jquery.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'appearance/node_modules/bootstrap/dist/js/bootstrap.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'appearance/node_modules/@fortawesome/fontawesome-free/js/all.min.js' %}" data-auto-replace-svg="nest" type="text/javascript"></script>
+    </body>
+</html>
+{% endspaceless %}

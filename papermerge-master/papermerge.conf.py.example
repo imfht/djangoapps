@@ -1,0 +1,205 @@
+# Example of papermerge.conf.py
+#
+#  papermerge.conf.py - is a configuration files with python syntax
+#
+# Copy this file to /etc/papermerge.conf.py or to your project's root directory 
+# and modify it to suit your needs.
+# As this file contains passwords it should only be readable by the user
+# running Papermerge.
+
+
+#   Paths & Folders
+#######################
+
+
+# You can specify where you want the SQLite database to be stored instead of
+# the default location of /data/ within the install directory.
+# DBDIR = "/path/to/papermerge/db"
+
+# Override the default  MEDIA_ROOT. This is where all files are stored.
+# The default location is /media/documents/ within the install directory.
+# MEDIA_DIR = "/path/to/media/dir"
+
+# Override the default  STATIC_ROOT. All static files created with
+# "collectstatic" manager-command, their default location is /.... ? 
+# STATIC_DIR = "/path/to/static/dir"
+
+# Override the default  MEDIA_URL here.  Unless you're hosting Papermerge off a subdomain
+# like /papermerge/, you probably don't need to change this.
+# MEDIA_URL = "/media/"
+
+# Override the  STATIC_URL here.  Unless you're hosting Papermerge off a
+# subdomain like /papermerge/, you probably don't need to change this.
+# STATIC_URL = "/static/"
+
+
+#   Document Importer
+#########################
+
+# Configuration for ./manage.py importer command
+
+# This where ./manage importer will import your documents from.
+# IMPORTER_DIR = "/path/to/import/dir"
+
+# Files are considered ready for import if they have been unmodified
+# for this duration (in seconds)
+# FILES_MIN_UNMODIFIED_DURATION = 1
+
+# This setting is ignored on Linux where inotify is used instead of a
+# polling loop.
+# The number of seconds that Papermerge will wait between checking
+# IMPORTER_DIR. If you tend to write documents to this directory
+# rarely, you may want to use a higher value than the default (5).
+# IMPORTER_LOOP_TIME = 5
+
+
+# These values are required if you want papermerge to import email attachments
+# from specific email account.
+# If you don't define a HOST, mail checking will just be disabled.
+# IMPORT_MAIL_HOST = ""
+# IMPORT_MAIL_USER = ""
+# IMPORT_MAIL_PASS = ""
+
+# These values specify how the mail importer should sort incoming messages
+# IMPORT_MAIL_BY_USER = False
+# IMPORT_MAIL_BY_SECRET = False
+# IMPORT_MAIL_DELETE = False
+
+# Override the default IMAP inbox here. If not set Papermerge defaults to
+# "INBOX".
+# IMPORT_MAIL_INBOX = "INBOX"
+
+#   Worker
+########################
+
+# These settings are used by built-in asyncronious task (celery).
+# By default, celery will use local directory as message broker.
+# This directory will be created automatically when you start papermerge.
+# TASK_QUEUE_DIR = "/var/tmp/papermerge/queue"
+
+
+#   Storage
+###############
+
+# DEFAULT_FILE_STORAGE = "mglib.storage.FileSystemStorage"
+
+
+#  Search Backend
+###################
+
+# SEARCH_BACKEND = "papermerge.search.backends.db.SearchBackend"
+
+# Metadata
+####################
+
+# METADATA_DATE_FORMATS = [
+#     'dd.mm.yy',
+#     'dd.mm.yyyy',
+#     'dd.M.yyyy',
+#     'month',  Month as locale’s full name, January, February, …, December (en_US);
+				#Januar, Februar, …, Dezember (de_DE)
+# ]
+# 
+# METADATA_CURRENCY_FORMATS = [
+#     'dd.cc',
+#     'dd,cc'
+# ]
+# 
+# METADATA_NUMERIC_FORMATS = [
+#     'dddd',
+#     'd,ddd',
+#     'd.ddd'
+# ]
+
+
+# OCR
+#######
+
+# Customize the default language that tesseract will attempt to use when
+# parsing documents.  It should be a 3-letter language code consistent with ISO
+# 639: https://www.loc.gov/standards/iso639-2/php/code_list.php
+# Examples:
+# eng = for English
+# deu = for German
+# spa = for Spanish
+
+# OCR_DEFAULT_LANGUAGE = "deu"
+
+# OCR_LANGUAGES = {
+#     "deu": "Deutsch",
+#     "eng": "English",
+#     "ron": "Romanian",
+#     "rus": "Russian"
+# }
+
+
+# Internationalization & Localization
+######################################
+
+# Internationalization = i18n
+#
+# In what language is user interface.
+# At this point there two options:
+# 
+#  en, en-US, en-UK, ... = for user interface in English language
+#  de, de-DE, de-AT, ... = for user interface in German language
+#
+#  English is default fallback i.e. if you don't specify anything,
+#  of specify unsupported language - English will be used.
+
+# LANGUAGE_CODE = 'en'
+
+# If is set to True, will use same language code as your Web Browser (agent) does.
+# Browsers send 'Accept-Language' header with their locale.
+# For more, read: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
+# If set to True  - will override LANGUAGE_CODE option
+# If set to False - language code specified in LANGUAGE_CODE option will be used.
+ 
+# LANGUAGE_FROM_AGENT = False
+
+
+# Binary Dependencies
+###########################
+#
+# Papermerge uses a number of open source 3rd parties for various purposes.
+# One of the most obvious example is tesseract - used to OCR documents (extract
+# text from binary image file). Another, less obvious example is pdfinfo
+# utility provided by poppler-utils package: pdfinfo is used to count number of
+# pages in pdf document.
+# 
+# Settings prefixed with BINARY_ are used to configure paths to those dependencies.
+# Here is the full list of all binary dependencies and their default values.
+
+# file utility used to find out mime type of a file
+
+# BINARY_FILE = "/usr/bin/file"
+
+# Provided by ImageMagick package.
+# convert is used for resizing images.
+
+# BINARY_CONVERT = "/usr/bin/convert"
+
+# Provided by Poppler Utils.
+# pdftoppm used to extract images from PDF file.
+
+# BINARY_PDFTOPPM = "/usr/bin/pdftoppm"
+
+# Provided by Poppler Utils.
+# pdfinfo is used to get page count in PDF file
+
+# BINARY_PDFINFO = "/usr/bin/pdfinfo"
+
+# Provided by ImageMagick package.
+# identity is used to get number of pages in TIFF file.
+
+# BINARY_IDENTIFY = "/usr/bin/identify"
+
+# Provided by tesseract package.
+# tesseract is used to extract text from images/PDF files.
+
+# BINARY_OCR = "/usr/bin/tesseract"
+
+# Provided by pdftk package
+# pdftok is used to reorder, cut/paste, delete pages withing PDF document
+
+# BINARY_PDFTK = "/usr/bin/pdftk"

@@ -1,0 +1,3 @@
+{% if files %}
+Files approved:
+{% for file in files %}{{ file.filename }}{% endfor %}{% endif %}

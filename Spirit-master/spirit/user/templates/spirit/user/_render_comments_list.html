@@ -1,0 +1,49 @@
+{% load spirit_tags i18n %}
+
+<div class="comments_list">
+  {% for c in comments %}
+    <div class="comments_list__comment no-footer">
+      <div class="comment__img">
+        {% include "spirit/comment/_avatar.html" with u=c.user only %}
+      </div>
+      <div class="comment__info">
+        {% spaceless %}
+        <div class="comment__info__username">
+          <a
+            class="comment__info__username__link"
+            href="{{ c.user.st.get_absolute_url }}"
+          ><span>{{ c.user.st.nickname }}</span>
+            {% if c.user.pk == c.topic.user_id %}
+              <i class="fa fa-microphone is-owner"></i>
+            {% endif %}
+          </a>
+          <div class="comment__info__username__realname">
+            {{ c.user.get_full_name }}
+          </div>
+        </div>
+        {% endspaceless %}
+        {% spaceless %}
+          <ul class="comment__info__date">
+            <li class="comment__info__date__topic"><a href="{{ c.get_absolute_url }}"
+            ><i class="fa fa-comments"></i> {{ c.topic.title }}</a></li>
+            <li title="{{ c.date }}">{{ c.date|shortnaturaltime }}</li>
+          </ul>
+        {% endspaceless %}
+      </div>
+      <div class="comment__text js-comment-text">
+        {% post_render_comment comment=c %}
+      </div>
+    </div>
+    {% empty %}
+    <p>{% trans "There are no comments here, yet" %}</p>
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    stModules.blockquoteExpand(
+      document.querySelectorAll('.js-comment-text > blockquote'));
+
+    hljs.initHighlightingOnLoad();
+  });
+</script>

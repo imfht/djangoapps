@@ -1,0 +1,148 @@
+.order-create {
+    .inline-checkbox {
+        position: relative;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+
+        @include media-breakpoint-down(xs) {
+            justify-content: space-between;
+        }
+
+        label {
+            margin-bottom: 0;
+        }
+    }
+
+    .cells {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+        }
+    }
+
+    .line-cell {
+        padding: 5px 0px;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+
+        @include media-breakpoint-up(lg) {
+            padding: 0px 8px;
+            flex: 1 auto;
+            align-self: flex-end;
+
+            &.line-type-select {
+                width: 160px;
+                min-width: 160px;
+            }
+
+            &.delete, &.edit {
+                flex: 0 auto;
+                width: auto;
+                padding: 0;
+            }
+
+            &:first-child {
+                padding-left: 0;
+            }
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+
+        label {
+            font-size: 0.7rem;
+            margin-bottom: 3px;
+        }
+        a {
+            display: block;
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        .help-popover-btn {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+        }
+    }
+
+    #order-tool-container {
+        padding-bottom: 50px;
+    }
+
+    .order-footer {
+        z-index: 10;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 55px;
+        background: #fff;
+        border-top: 1px solid $border-color;
+        text-align: right;
+        padding: 0.5rem;
+        padding-right: 0.6rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        align-items: center;
+
+        @include media-breakpoint-down(sm) {
+            height: 80px;
+            .total h2 {
+                font-size: 1.44rem;
+            }
+        }
+        @include media-breakpoint-down(xs) {
+            height: 100px;
+            justify-content: space-between;
+
+            .help-text {
+                flex: 1 1 100%;
+            }
+        }
+        @include media-breakpoint-up(lg) {
+            height: 55px;
+            justify-content: space-between;
+            left: 280px;
+        }
+
+        .total-container {
+            flex: 1;
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+
+        .text {
+            display: inline-block;
+            vertical-align: middle;
+
+            h2 {
+                margin: 0;
+            }
+        }
+
+        .total h2 {
+            white-space: nowrap;
+            margin-right: 15px;
+        }
+
+        .proceed-button {
+            vertical-align: middle;
+            display: inline-block;
+        }
+    }
+
+    .select2-container {
+        min-width: 65% !important;
+    }
+}
+
+body.desktop-menu-closed .order-footer {
+    @include media-breakpoint-up(md) {
+        left: 0px;
+    }
+}

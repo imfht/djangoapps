@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>django-tables2 examples</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}" />
+        <style type="text/css">
+            pre {
+                background-color: #D8F0FF;
+                border: 1px solid #9BBBD5;
+                padding: 8px;
+            }
+        </style>
+        {% block extrahead %}{% endblock %}
+    </head>
+
+    <body>
+        {% block body %}
+        {% load django_tables2 %}
+        {% render_table table %}
+        {% endblock %}
+    </body>
+</html>

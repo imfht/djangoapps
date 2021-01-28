@@ -1,0 +1,28 @@
+@import '../dependencies/mixins/profile-form';
+
+.user-profile {
+    @include profile-form;
+    max-width: 780px;
+    .button-full {
+        width: 100%;
+    }
+
+    .actions {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin-top: .5rem;
+    }
+
+    .verify-email,
+    .download-profile,
+    .delete-account {
+        @include font-size(small);
+        display: block;
+        flex: 1;
+        margin-top: .5rem;
+    }
+    .delete-account {
+        text-align: right;
+    }
+}

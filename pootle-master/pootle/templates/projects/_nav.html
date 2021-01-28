@@ -1,0 +1,32 @@
+{% load i18n %}
+<option
+   {% if page == 'browse' %}selected="selected"{% endif %}
+   value="browse"
+   data-href="{{ browse_url }}">
+  {% trans "Browse" %}
+</option>
+{% if has_admin_access or language %}
+<option
+   {% if page == 'translate' %}selected="selected"{% endif %}
+   value="translate"
+   data-href="{{ translate_url }}">
+  {% trans "Translate" %}
+</option>
+{% endif %}
+{% if user.is_superuser or request.permissions.administrate %}
+<option disabled></option>
+<option
+   {% if page == 'admin-languages' %}selected="selected"{% endif %}
+   value="admin-languages"
+   class="admin"
+   data-href="{% url 'pootle-project-admin-languages' project.code %}">
+  {% trans "Languages" %}
+</option>
+<option
+   {% if page == 'admin-permissions' %}selected="selected"{% endif %}
+   value="admin-permissions"
+   class="admin"
+   data-href="{% url 'pootle-project-admin-permissions' project.code %}">
+  {% trans "Permissions" %}
+</option>
+{% endif %}

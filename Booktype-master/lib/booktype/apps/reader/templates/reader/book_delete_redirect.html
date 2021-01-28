@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+  <script>
+    setTimeout(function() {
+        {% if next %}
+            parent.window.location = '{{ next }}';
+            parent.window.reload();
+        {% else %}
+            parent.window.location = '{% url "accounts:view_profile" user.username %}';
+        {% endif %}
+    }, 500);
+  </script>
+
+ </body>
+</html>

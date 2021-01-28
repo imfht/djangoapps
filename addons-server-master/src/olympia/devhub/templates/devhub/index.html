@@ -1,0 +1,72 @@
+{# Our new DevHub landing page represents an entirely different and new design
+   which is why this page doesn't inherit any of our base templates. #}
+<!DOCTYPE html>
+<html lang="{{ LANG }}" dir="{{ DIR }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if not settings.ENGAGE_ROBOTS %}
+      <meta name="robots" content="noindex">
+    {% endif %}
+    {% block extrameta %}{% endblock %}
+
+    <title>{% block title %}{{ dev_page_title() }}{% endblock %}</title>
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="{{ static('img/favicon.ico') }}">
+
+    {% block rss_feed %}{% endblock %}
+
+    {# L10n: {0} is an application, like Firefox. #}
+    <link title="{{ _('{0} Add-ons')|format_html(amo.FIREFOX.pretty) }}"
+          rel="search" type="application/opensearchdescription+xml"
+          href="{{ url('amo.opensearch') }}" />
+
+    {% block site_css %}
+      {{ css('devhub/new-landing/css') }}
+    {% endblock %}
+
+    {% block extrahead %}{% endblock %}
+
+    {% if request.user.is_authenticated %}
+      <meta name="csrf" content="{{ csrf_token }}">
+    {% endif %}
+
+    {% if settings.DEBUG %}
+      {% if settings.LESS_LIVE_REFRESH %}
+        <meta id="live_refresh" name="live_refresh" value="1">
+      {% endif %}
+      {{ js('debug') }}
+    {% endif %}
+
+    {{ js('preload') }}
+  </head>
+  {% set user_authenticated = request.user.is_authenticated %}
+
+  <body class="html-{{ DIR }} {{ amo.FIREFOX.short }} {% if user_authenticated %}user-signedin{% endif %} {% block bodyclass %}{% endblock %}"
+        {% block bodyattrs %}{% endblock %}>
+
+
+    {% include 'devhub/new-landing/components/navigation.html' %}
+
+    {% if not user_authenticated %}
+      {% include 'devhub/new-landing/components/overview.html' %}
+      {% include 'devhub/new-landing/components/submit_or_manage_extension.html' %}
+      {% include 'devhub/new-landing/components/get_involved.html' %}
+    {% else %}
+      {% include 'devhub/new-landing/components/banner.html' %}
+      {% include 'devhub/new-landing/components/my-addons.html' %}
+      {% include 'devhub/new-landing/components/dev_footer.html' %}
+    {% endif %}
+    {% include 'devhub/new-landing/components/connect.html' %}
+    {% include 'photon-footer.html' %}
+
+    <div id="tooltip">
+        <span></span>
+    </div>
+    {% block site_js %}
+      <script src="{{ static('js/i18n/%s.js'|format(LANG)) }}"></script>
+      {{ js('devhub/new-landing/js') }}
+    {% endblock %}
+  </body>
+</html>

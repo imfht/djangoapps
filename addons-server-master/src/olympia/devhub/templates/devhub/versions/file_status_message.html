@@ -1,0 +1,15 @@
+<strong>{{ _('File {file_id} ({platform})')|format_html(file_id=fileid, platform=platform) }}</strong>
+<div>
+  <div class="light">
+  {% if status_date %}
+    {% trans %}
+      Created on {{ created }} and changed to {{ status }} on {{ status_date }}
+    {% endtrans %}
+  {% else %}
+    {% trans %}
+      Created on {{ created }} and changed to {{ status }}
+    {% endtrans %}
+  {% endif %}
+  </div>
+
+</div>

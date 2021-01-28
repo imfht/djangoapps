@@ -1,0 +1,168 @@
+[{
+        "pk": 1,
+        "model": "addons.addon",
+        "fields": {
+            "slug": "24007",
+            "_current_version": 24007,
+            "eula": null,
+            "modified": "2010-01-06 18:16:38",
+            "weekly_downloads": 112297,
+            "support_email": null,
+            "average_rating": "3.98",
+            "total_ratings": 1106,
+            "average_daily_users": 1343482,
+            "icon_type": "image/png",
+            "homepage": null,
+            "status": 4,
+            "description": null,
+            "target_locale": "",
+            "support_url": null,
+            "privacy_policy": null,
+            "guid": "piclens@cooliris.com",
+            "bayesian_rating": 3.9810599999999998,
+            "name": null,
+            "created": "2007-08-23 23:55:32",
+            "developer_comments": null,
+            "summary": null,
+            "disabled_by_user": 0,
+            "type": 1,
+            "default_locale": "en-US"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "addons.addon",
+        "fields": {
+            "slug": "2",
+            "_current_version": 2,
+            "eula": null,
+            "modified": "2010-01-06 18:16:38",
+            "weekly_downloads": 112297,
+            "support_email": null,
+            "average_rating": "3.98",
+            "total_ratings": 1106,
+            "average_daily_users": 1343482,
+            "icon_type": "image/png",
+            "homepage": null,
+            "status": 4,
+            "description": null,
+            "target_locale": "",
+            "support_url": null,
+            "privacy_policy": null,
+            "guid": "fake@cooliris.com",
+            "bayesian_rating": 3.9810599999999998,
+            "name": null,
+            "created": "2007-08-23 23:55:32",
+            "developer_comments": null,
+            "summary": null,
+            "disabled_by_user": 0,
+            "type": 1,
+            "default_locale": "en-US"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "addons.addon",
+        "fields": {
+            "slug": "3",
+            "eula": null,
+            "modified": "2010-01-06 18:16:38",
+            "weekly_downloads": 112297,
+            "support_email": null,
+            "average_rating": "3.98",
+            "total_ratings": 1106,
+            "average_daily_users": 1343482,
+            "icon_type": "image/png",
+            "homepage": null,
+            "status": 3,
+            "description": null,
+            "target_locale": "",
+            "support_url": null,
+            "privacy_policy": null,
+            "guid": "something@mozilla.com",
+            "bayesian_rating": 3.9810599999999998,
+            "name": null,
+            "created": "2007-08-23 23:55:32",
+            "developer_comments": null,
+            "summary": null,
+            "disabled_by_user": 0,
+            "type": 1,
+            "default_locale": "en-US"
+        }
+    },
+    {
+        "pk": 296,
+        "model": "applications.appversion",
+        "fields": {
+            "version_int": 3001200200100,
+            "application": 1,
+            "version": "3.0.12",
+            "created": "2007-10-10 15:34:20",
+            "modified": "2007-10-10 15:34:20"
+        }
+    },
+    {
+        "pk": 24007,
+        "model": "versions.version",
+        "fields": {
+            "license": null,
+            "created": "2006-10-23 12:57:41",
+            "approval_notes": "",
+            "modified": "2006-10-23 19:22:18",
+            "version": "1.0.43",
+            "addon": 1
+        }
+    },
+    {
+        "pk": 11993,
+        "model": "files.file",
+        "fields": {
+            "status": 4,
+            "hash": "sha256:5b5aaf7b38e332cc95d92ba759c01c3076b53a840f6c16e01dc272eefcb29566",
+            "created": "2007-03-05 13:19:15",
+            "modified": "2007-04-04 12:30:11",
+            "filename": "del.icio.us_bookmarks-1.0.43-fx.xpi",
+            "platform": 1,
+            "version": 24007,
+            "datestatuschanged": null,
+            "size": 173056
+        }
+    },
+    {
+        "pk": 44555,
+        "model": "versions.applicationsversions",
+        "fields": {
+            "application": 1,
+            "max": 296,
+            "version": 24007,
+            "min": 296
+        }
+    },
+    {
+        "pk": 2,
+        "model": "versions.version",
+        "fields": {
+            "license": null,
+            "created": "2006-10-23 12:57:41",
+            "approval_notes": "",
+            "modified": "2006-10-23 19:22:18",
+            "version": "1.0.43",
+            "addon": 2
+        }
+    },
+    {
+        "pk": 2,
+        "model": "files.file",
+        "fields": {
+            "status": 4,
+            "hash": "sha256:5b5aaf7b38e332cc95d92ba759c01c3076b53a840f6c16e01dc272eefcb29566",
+            "created": "2007-03-05 13:19:15",
+            "modified": "2007-04-04 12:30:11",
+            "filename": "del.icio.us_bookmarks-1.0.43-fx.xpi",
+            "platform": 1,
+            "version": 2,
+            "datestatuschanged": null,
+            "size": 173056
+        }
+    }
+]

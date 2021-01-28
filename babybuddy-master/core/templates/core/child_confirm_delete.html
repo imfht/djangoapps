@@ -1,0 +1,34 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Delete a Child" %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'core:child-list' %}">{% trans "Children" %}</a></li>
+    <li class="breadcrumb-item font-weight-bold"><a href="{% url 'core:child' object.slug %}">{{ object }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Delete" %}</li>
+{% endblock %}
+
+{% block content %}
+    <form role="form" method="post">
+        {% csrf_token %}
+        {% blocktrans trimmed %}
+            <h1>Are you sure you want to delete <span class="text-info">{{ object }}</span>?</h1>
+        {% endblocktrans %}
+        <div class="form-group">
+            <label for="{{ form.confirm_name.id_for_label }}">
+                {% trans "To confirm this action. Type the full name of the child below." %}
+            </label>
+            {% if form.confirm_name.errors %}
+                {{ form.confirm_name|add_class:"form-control is-invalid" }}
+            {% else %}
+                {{ form.confirm_name|add_class:"form-control" }}
+            {% endif %}
+            {% if form.confirm_name.errors %}
+                <div class="invalid-feedback">{{ form.confirm_name.errors.0 }}</div>
+            {% endif %}
+        </div>
+        <input type="submit" value="{% trans "Delete" %}" class="btn btn-danger" />
+        <a href="{% url 'core:child-list' %}" class="btn btn-default">{% trans "Cancel" %}</a>
+    </form>
+{% endblock %}

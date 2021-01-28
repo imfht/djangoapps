@@ -1,0 +1,140 @@
+.attachments {
+    margin-bottom: 2rem;
+    .gu-transit {
+        background: $whitish;
+        height: 40px;
+        * {
+            display: none;
+        }
+    }
+    .gu-mirror {
+        opacity: 1;
+        form {
+            background: lighten($primary, 60%);
+            box-shadow: 1px 1px 10px rgba($black, .1);
+            transition: background .2s ease-in;
+        }
+    }
+}
+
+.attachments-header {
+    align-content: center;
+    align-items: center;
+    background: $grey-05;
+    display: flex;
+    justify-content: space-between;
+    min-height: 36px;
+    .attachments-title {
+        @include font-type(medium);
+        @include font-size(medium);
+        color: $grayer;
+        line-height: 36px;
+        padding: 0 1rem;
+    }
+    .options {
+        display: flex;
+    }
+    label {
+        cursor: pointer;
+        margin-left: .25rem;
+        &.add-attachment-button {
+            border: 0;
+            display: inline-block;
+            padding: .5rem;
+        }
+    }
+    .view-gallery,
+    .view-list {
+        background: none;
+        margin-right: .2rem;
+        &:hover,
+        &.is-active {
+            svg {
+                fill: $color-link-primary;
+            }
+        }
+        svg {
+            @include svg-size(1.2rem);
+            fill: $color-black600;
+        }
+    }
+    .size-info {
+        @include font-size(small);
+        @include font-type(regular);
+        color: $gray;
+        padding-left: 1rem;
+    }
+    input {
+        display: none;
+    }
+}
+
+.attachments-empty {
+    @include font-size(large);
+    @include font-type(medium);
+    border: 3px dashed $whitish;
+    color: $gray-light;
+    margin-top: .5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.single-attachment {
+    @include font-size(small);
+    background: rgba($color-white, .9);
+    .attachment-name {
+        display: flex;
+        padding-right: 1rem;
+        svg {
+            fill: $color-black600;
+            margin-right: .25rem;
+        }
+        a {
+            display: flex;
+        }
+    }
+    .attachment-size {
+        color: $color-black600;
+    }
+}
+
+.more-attachments {
+    @include font-size(small);
+    border-bottom: 1px solid $gray-light;
+    display: block;
+    padding: 1rem 0 1rem 1rem;
+    span {
+        color: $gray-light;
+    }
+    .more-attachments-num {
+        color: $color-link-primary;
+        margin-left: .5rem;
+    }
+}
+
+.attachment-preview {
+    .attachment-preview-container {
+        svg {
+            @include svg-size(3rem);
+            fill: $gray-light;
+            &:hover {
+                fill: $primary-light;
+                transition: fill .3s linear;
+            }
+        }
+    }
+    .previous {
+        left: 3rem;
+        position: absolute;
+        top: calc(50% - 3rem);
+    }
+    .next {
+        position: absolute;
+        right: 3rem;
+        top: calc(50% - 3rem);
+    }
+    img {
+        max-height: 80vh;
+        max-width: 80vw;
+    }
+}

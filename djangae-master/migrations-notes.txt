@@ -1,0 +1,25 @@
+migrations-notes.txt
+
+* Dealing with `backwards()`?
+  - Can we allow a list of `backwards_operations`, like `operations`?  And maybe have a method, so that people can define the `backwards()` method and just do `self.run_backwards_operations()`?
+  - We need to change `BaseEntityMapperOperation.database_backwards`
+* BaseEntityMapperOperation._start_task
+  - The assertion seems unnecessary, and is slightly broken because `is_mapper_running` will return False if the mapper has finished.
+
+
+
+MAPPER LIBRARY
+
+* Given that we eventually want to be able to support filtered queries, why are we doing sharding and not just doing what defer_iteration does?
+* Is it safe to compare pickled shard objects?  Is it necessary to pickle them?
+* We need a way for `run_shard` to re-defer itself.  Currently it's just doing `for entity in query.Run(): operation(entity)`, so if there are many many entities then it will hit DeadlineExceededError and die, and then retry, and then die, and then....
+* It could be argued that you just chagen `SHARD_COUNT`, but (1) it's annoying to have to calcualte that for every migration, (2) it's a global setting rather than per-migration, (3) it's more for controlling the rate that tasks run at / simultaneous execution, etc, rather than a dirty way to avoid deadline errors.  T
+* ShardedTaskMarker.begin_processing is likely to hit transaction errors, and will therefore retry itself completely.
+
+
+DOCUMENTATION
+
+* Is it clear that you have to deploy the migration code to production before you can run the migrations?
+* Is there an instruction for the command to run ($ ./manage.py --sandbox=remote migrate)?
+
+

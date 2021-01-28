@@ -1,0 +1,13 @@
+{% load i18n staticfiles %}
+
+<footer>
+  <div class="container">
+    <div class="col-xs-4">
+      <a href="http://www.booktype.pro/" target="_blank"><img class="pull-right" src="{% static "core/img/footer_logo.png" %}"></a>
+    </div>
+
+    <div class="col-xs-8">
+      <p>{% trans "Powered by Booktype, the open content management system for professional writers." %} <br>© {% now "Y" %} Booktype GmbH | <a href="mailto:contact@booktype.pro">contact@booktype.pro</a></p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,14 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "block-opening-brace-space-before": null,
+    "declaration-empty-line-before": null,
+    "block-opening-brace-newline-before": ["always"],
+    "indentation": [4],
+    "max-empty-lines": [2],
+    "rule-empty-line-before": ["always", {
+      "except": ["after-single-line-comment", "first-nested"],
+      "ignore": ["after-comment"]
+    }]
+  }
+}

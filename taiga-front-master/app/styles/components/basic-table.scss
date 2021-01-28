@@ -1,0 +1,24 @@
+.basic-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .row {
+        align-items: center;
+        border-bottom: 1px solid darken($whitish, 4%);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        padding: .3rem 0;
+        text-align: left;
+        width: 100%;
+        @for $i from 1 through 8 {
+            .width-#{$i} {
+                flex-basis: 50px;
+                flex-grow: #{$i};
+            }
+        }
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="user-activity">
+  {% if user_last_event %}
+  <div class="user-last-activity">
+    <h3>{% trans 'Latest activity:' %}</h3>
+    <div class="last-activity">
+      {{ profile.avatar }}
+      <div class="user-info">
+	{{ user_last_event.message }}
+	{{ user_last_event.since }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

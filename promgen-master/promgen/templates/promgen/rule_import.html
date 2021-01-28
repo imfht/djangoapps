@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Import Rules</h1>
+</div>
+
+<ol class="breadcrumb">
+  <li><a href="{% url 'service-list' %}">Home</a></li>
+  <li class="active">Import Rule</li>
+</ol>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Import Rules</div>
+  <div class="panel-body">
+    <form action="{% url 'rule-import' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary">Import Rules</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

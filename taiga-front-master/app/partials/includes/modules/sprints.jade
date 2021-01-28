@@ -1,0 +1,48 @@
+section.sprints
+    header.sprint-header
+        h1
+            span.number(
+                ng-bind="totalMilestones"
+                ng-if="totalMilestones"
+            )
+            span.title(translate="BACKLOG.SPRINTS.TITLE")
+        a.btn-link(
+            href=""
+            title="{{ 'BACKLOG.SPRINTS.TITLE_ACTION_NEW_SPRINT' | translate}}"
+            ng-click="ctrl.addNewSprint()"
+            ng-if="totalMilestones"
+            tg-check-permission="add_milestone"
+        )
+            span Add
+            tg-svg(svg-icon="icon-add")
+
+    div.empty-small(ng-if="totalMilestones === 0")
+        img(
+            src="/#{v}/images/empty/empty_sprint.png"
+            alt="{{'BACKLOG.SPRINTS.EMPTY' | translate}}"
+        )
+        p.title(translate="BACKLOG.SPRINTS.EMPTY")
+        a.btn-link(
+            href=""
+            ng-click="ctrl.addNewSprint()"
+            title=""
+            tg-check-permission="add_milestone"
+        )
+            span  {{'BACKLOG.SPRINTS.TITLE_ACTION_NEW_SPRINT' | translate}}
+            tg-svg(svg-icon="icon-add")
+
+
+    div.sprint.sprint-open(ng-repeat="sprint in ctrl.openSprints() track by sprint.id",
+                           tg-backlog-sprint="sprint",
+                           tg-sprint-sortable)
+        include sprint
+
+    a.filter-closed-sprints(href="", tg-backlog-toggle-closed-sprints-visualization,
+                            ng-if="totalClosedMilestones")
+        tg-svg(svg-icon="icon-folder")
+        span.text(translate="BACKLOG.SPRINTS.ACTION_SHOW_CLOSED_SPRINTS")
+
+    div.sprint.sprint-closed(ng-repeat="sprint in closedSprints track by sprint.id",
+                             tg-backlog-sprint="sprint",
+                             tg-sprint-sortable)
+        include sprint

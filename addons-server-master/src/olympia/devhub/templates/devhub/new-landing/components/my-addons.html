@@ -1,0 +1,114 @@
+{% macro render_status(addon) %}
+  {% set promoted_group = addon.promoted_group() %}
+  {% if addon.status != amo.STATUS_DISABLED and addon.disabled_by_user %}
+    {% set status_text = _('Invisible') %}
+  {% elif addon.status == amo.STATUS_APPROVED and promoted_group.badged %}
+      {% set status_text = _('Approved and %s' % promoted_group.name) %}
+  {% else %}
+    {% set status_text = addon.get_status_display() %}
+  {% endif %}
+
+  {% set url = addon.get_dev_url('versions') %}
+    <a class="DevHub-MyAddons-version-{{ status_class(addon) }} DevHub-MyAddons-VersionStatus" href="{{ url }}">
+      {{ status_text }}
+    </a>
+{% endmacro %}
+
+<div class="DevHub-MyAddons content scheme-default">
+  <div>
+    <h2>{{ _('My Add-ons') }}</h2>
+
+    {% if recent_addons %}
+      <div class="DevHub-MyAddons-list">
+        {% for item in recent_addons %}
+          {% set addon = item.addon %}
+
+          <div class="DevHub-MyAddons-item">
+            {% if addon.type == amo.ADDON_STATICTHEME and addon.current_previews %}
+              {% set icon_url = addon.current_previews[0].thumbnail_url %}
+            {% else %}
+              {% set icon_url = addon.get_icon_url(64) %}
+            {% endif %}
+            <img class="DevHub-MyAddons-item-icon" src="{{ icon_url }}" alt="">
+            <div class="DevHub-MyAddons-item-details">
+              <span class="DevHub-MyAddons-item-name">
+                {{ addon.name }}
+              </span>
+
+              <a class="DevHub-MyAddons-item-edit" href="{{ addon.get_dev_url('edit') }}">
+                {{ _('Edit Product Page') }}
+              </a>
+
+              <div class="DevHub-MyAddons-item-versions">
+                {% if addon.has_listed_versions() %}
+                  {% if addon.current_version %}
+                    <div class="DevHub-MyAddons-item-version-details">
+                      {% if addon.has_unlisted_versions() %}
+                        <span class="DevHub-MyAddons-item-channel-listed tooltip"
+                              title="{{ _('Listed on this site after passing code review. Automatic updates are handled by this site.') }}"
+                        >AMO</span>
+                      {% endif %}
+
+                      <span class="DevHub-MyAddons-item-version">
+                        {{ addon.current_version.version }}
+                      </span>
+
+                      {{ render_status(addon) }}
+                    </div>
+                  {% endif %}
+                {% endif %}
+
+                {% set latest_unlisted_version=addon.find_latest_version(channel=amo.RELEASE_CHANNEL_UNLISTED) %}
+
+                {% if latest_unlisted_version %}
+                  <div class="DevHub-MyAddons-item-version-details">
+                    {% if addon.has_listed_versions() %}
+                      <span class="DevHub-MyAddons-item-channel-unlisted tooltip"
+                            title="{{ _('Signed for self-distribution. Updates are handled by you.') }}"
+                      >Self</span>
+                    {% endif %}
+
+                    <span class="DevHub-MyAddons-item-version">
+                      {{ latest_unlisted_version.version }}
+                    </span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <span class="DevHub-MyAddons-item-modified">
+              {{ impala_reviews_link(addon) }}
+              <span>
+                {% if addon.last_updated %}
+                  <span>{{ _('Last Updated:') }}</span>
+                  {# L10n: {0} is a date. dennis-ignore: E201,E202,W202 #}
+                  <span>{{ addon.last_updated|date }}</span>
+                {% else %}
+                  <span>{{ _('Created:') }}</span>
+                  {# L10n: {0} is a date. dennis-ignore: E201,E202,W202 #}
+                  <span>{{ addon.created|date }}</span>
+                {% endif %}
+              </span>
+            </span>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="DevHub-MyAddons-item-buttons">
+        <a class="DevHub-MyAddons-item-buttons-all" href="{{ url('devhub.addons') }}">{{ _('View All Submissions') }}</a>
+        <div class="DevHub-MyAddons-item-buttons-submit">
+          <a href="{{ url('devhub.submit.agreement') }}" class="Button">{{ _('Submit a New Add-on') }}</a>
+          <a href="{{ url('devhub.submit.agreement') }}" class="Button">{{ _('Submit a New Theme') }}</a>
+        </div>
+      </div>
+    {% else %}
+      <p class="DevHub-MyAddons-copy">
+        {% trans %}
+          This is where you view and manage your add-ons and themes.
+          To publish your first add-on, click "Submit Your First Add-on"
+          or "Submit Your First Theme".
+        {% endtrans %}
+      </p>
+      <a href="{{ url('devhub.submit.agreement') }}" class="Button">{{ _('Submit Your First Add-on') }}</a>
+      <a href="{{ url('devhub.submit.agreement') }}" class="Button">{{ _('Submit Your First Theme') }}</a>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MovieGEEKs</title>
+
+    <!-- Bootstrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/collector.js' %}"></script>
+    <script>
+        function get_url(movieid) {
+            return 'https://api.themoviedb.org/3/find/tt' + movieid + '?external_source=imdb_id&api_key={{ api_key }}'
+        }
+    </script>
+
+      {% block head %}{% endblock head %}
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-inverse no-padding">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Movie GEEKs</a>
+                <a href="/analytics/user/{{user_id}}/">User: {{ user_id }} </a>
+
+            </div>
+            <!-- Search -->
+            <div class="nav nav-pills pull-right">
+
+                <form class="navbar-form" action="/movies/search/">
+                    <div class="form-group" style="display:inline;">
+                        <input type="text" class="form-control" placeholder="Search" name="q" style="bg-color='gray'" maxlength="40">
+                        <button class="input-group-addon" style="width: 40px"><i class="glyphicon glyphicon-search" title="Search"></i></button>
+                    </div>
+                  </form>
+            </div>
+        </nav>
+        <!-- end of top -->
+
+        <div class="row">
+            <div class="col-sm-2 sidebar collapse navbar-collapse">
+                <div class="well">
+                    <strong>Genres</strong><br/>
+                    <ul class="nav nav-sidebar">
+                    {% if genres %}
+                    {% for genre in genres %}
+                        <li> <a href="/movies/genre/{{genre.name}}"
+                                onclick="add_impression({{ user_id }}, 'genre:{{genre.name}}', 0
+                                        , '{{ session_id }}',
+                                        '{{ csrf_token }}')">{{ genre.name }}</a> </li>
+                    {% endfor %}
+                    {% endif %}
+                    </ul>
+                </div>
+              </div>
+            {% block content %}{% endblock content %}
+
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

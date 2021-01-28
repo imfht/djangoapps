@@ -1,0 +1,271 @@
+$summary-background: $grayer;
+
+.summary {
+    align-content: center;
+    align-items: center;
+    background: $summary-background;
+    color: $white;
+    display: flex;
+    flex-wrap: wrap;
+    height: 65px;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    padding: 1rem;
+    .summary-stats {
+        align-items: center;
+        display: flex;
+        margin: 0 .5rem;
+    }
+    .data {
+        .number {
+            color: $color-solid-primary;
+        }
+    }
+    .number {
+        @include font-size(xlarge);
+        @include font-type(regular);
+        line-height: .9;
+        margin-right: .3rem;
+    }
+
+    .description {
+        @include font-size(small);
+        @include font-type(regular);
+        line-height: 1;
+    }
+    .stats {
+        cursor: pointer;
+        display: block;
+        height: 2rem;
+        margin-left: auto;
+        width: 2rem;
+        path {
+            opacity: 1;
+        }
+        &:hover {
+            .graph {
+                fill: $primary-light;
+                transition: fill .2s;
+            }
+            svg {
+                fill: $primary;
+            }
+        }
+        &.active {
+            .graph {
+                fill: $primary;
+            }
+            svg {
+                fill: $primary;
+            }
+        }
+        svg {
+            fill: $grey-40;
+            height: 100%;
+            max-height: 2rem;
+            max-width: 2rem;
+            stroke: $grey-40;
+            transition: all .2s;
+            width: 100%;
+        }
+        .graph {
+            fill: darken($gray-light, 20%);
+            transition: fill .2s;
+        }
+    }
+    .main-summary-stats {
+        display: flex;
+        transform: translateY(0);
+        transition: all .2s ease-in-out;
+    }
+
+
+    .show-role-points {
+        .points-per-role-stats {
+            transform: translateY(-35px);
+        }
+        .main-summary-stats {
+            transform: translateY(-65px);
+        }
+    }
+}
+
+.summary-progress-bar {
+    background: $white;
+    height: 30px;
+    margin-bottom: 0;
+    margin-right: 10px;
+    padding: 3px;
+    position: relative;
+    width: 15%;
+    .current-progress {
+        background-color: $color-link-primary;
+        height: 24px;
+    }
+    .defined-points {
+        background: $red-light;
+        height: 24px;
+        position: absolute;
+        width: calc(100% - 6px);
+    }
+    .project-points-progress {
+        background: $white;
+        height: 24px;
+        position: absolute;
+    }
+    .closed-points-progress {
+        background: $color-link-primary;
+        height: 24px;
+        position: absolute;
+    }
+}
+
+.large-summary {
+    align-content: flex-start;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: .75rem 1rem;
+    .stats-wrapper {
+        padding-top: .35rem;
+    }
+    .large-summary-wrapper {
+        align-content: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .summary-progress-wrapper {
+        align-items: center;
+        display: flex;
+        height: calc(65px - 1.5rem);
+    }
+    .summary-progress-bar {
+        flex-basis: 200px;
+        min-width: 200px;
+    }
+    .summary-stats {
+        margin-right: 1rem;
+        &:last-child {
+            border: 0;
+            margin: 0;
+        }
+        &.summary-completed-points,
+        &.summary-move-unfinished {
+            border-right: 1px solid $blackish;
+            margin-right: 0;
+            padding-right: 1rem;
+            +.summary-stats {
+                border-left: 1px solid $gray;
+                margin-left: 0;
+                padding-left: 1rem;
+            }
+        }
+    }
+    .icon {
+        @include svg-size(1.3rem);
+        fill: currentColor;
+        margin: .1rem .4rem 0 0;
+        vertical-align: middle;
+        &.icon-stats {
+            color: $primary;
+            float: right;
+            transition: color .3s linear;
+            &:hover {
+                color: $primary-light;
+                transition: color .3s linear;
+            }
+            &.active {
+                color: $primary-light;
+            }
+            &.active:hover {
+                color: $primary;
+                transition: color .3s linear;
+            }
+        }
+    }
+    a:hover .icon {
+        fill: $primary-50;
+        stroke: $primary-50;
+    }
+    .points-per-role-stats-content {
+        display: flex;
+        padding-left: 1rem;
+        .summary-stats {
+            padding: 0;
+        }
+    }
+    .toggle-points-per-role {
+        color: $white;
+        cursor: pointer;
+        svg {
+            @include svg-size();
+        }
+    }
+    .points-per-role-stats {
+        margin-left: .5rem;
+        transform: translateY(35px);
+        transition: all .2s ease-in-out;
+        .number {
+            @include font-size(large);
+            @include font-type(normal);
+            line-height: 1rem;
+        }
+        .role {
+            @include font-size(xsmall);
+            @include font-type(regular);
+        }
+    }
+    .points-per-role-stats-title {
+        display: flex;
+        margin-bottom: .25rem;
+
+        tg-svg {
+            transform: translateY(12px);
+        }
+    }
+}
+
+.empty-burndown {
+    @include font-type(regular);
+    align-content: center;
+    align-items: center;
+    background: $grey-02;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 1rem;
+    padding: 2rem 6rem;
+    svg {
+        @include svg-size(4rem);
+        fill: $color-link-primary;
+        flex-basis: 4rem;
+        flex-shrink: 0;
+        margin-right: 2rem;
+    }
+    p {
+        margin: 0;
+    }
+    .empty-text {
+        flex: 1;
+    }
+    .title {
+        @include font-type(medium);
+        @include font-size(large);
+        color: $color-link-primary;
+        margin: 0;
+        text-transform: uppercase;
+    }
+    a {
+        @include font-type(medium);
+        animation: blink 2s infinite;
+    }
+}
+
+.graphics-container {
+    $height: 300px;
+    @include slide($height, hidden, 0);
+    &.shown {
+        max-height: $height;
+        transition: none;
+    }
+}

@@ -1,0 +1,124 @@
+# docker-compose for Pootle development.
+#
+# Note: Requires docker-compose 1.10+.
+version: "2.4"
+services:
+
+  base:
+    build:
+      context: ./docker
+
+  base-postgres:
+    extends: base
+    image: translate/pootle:base-postgres
+    build:
+      args:
+        - BUILD_IMAGE=demo
+        - APP_DB_ENV=postgres
+        - BUILD_INSTALL_PKGS=libpq-dev
+        - BUILD_INSTALL_EGGS=psycopg2-binary
+        - BUILD_INSTALL_SETTINGS=./settings.postgres.conf
+        - BASE_INSTALL_PRE=mkdir -p /usr/share/man/man1 /usr/share/man/man7
+        - BASE_INSTALL_PKGS=postgresql-client
+
+  base-production:
+    extends: base-postgres
+    build:
+      args:
+        - APP_PKG=Pootle
+        - BUILD_IMAGE=production
+        - BUILD_INSTALL_EGGS=psycopg2-binary uwsgi
+        - BASE_INSTALL_PKGS=postgresql-client libpython2.7
+    command: ["/app/src/pootle/docker/bin/run_in_container", "bash", "uwsgi", "--ini", "/app/wsgi/pootle-uwsgi.ini"]
+    volumes:
+      - production-assets:/app/lib/python2.7/site-packages/pootle/assets
+      - production-run:/var/run/pootle
+      - production-logs:/app/log
+
+  # Postgres based production image
+  production:
+    image: translate/pootle:production
+    extends: base-production
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+
+  # Postgres based production image using current pre-release
+  production-pre:
+    image: translate/pootle:production-pre
+    extends: base-production
+    build:
+      args:
+        - APP_PKG=Pootle --pre
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+
+  ## Other services
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.3
+    restart: always
+    ports:
+      - 9200:9200
+    environment:
+      - cluster.name=docker-cluster
+      - transport.host=127.0.0.1
+      - transport.tcp.port=9300
+      - http.port=9200
+      - network.host=0.0.0.0
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+
+  postgres:
+    image: postgres:9.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=pootle
+      - POSTGRES_PASSWORD=CHANGEME
+      - POSTGRES_DB=pootledb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis-data:/data
+
+  web:
+    image: translate/pootle:web-nginx
+    build:
+      context: ./docker/nginx
+    depends_on:
+      - "${POOTLE_PRODUCTION_IMAGE:-production}"
+    ports:
+      - "80:80"
+      - "443:443"
+    command: /usr/local/bin/start_nginx
+    restart: always
+    volumes:
+      - production-ssl:/etc/letsencrypt
+      - production-assets:/var/www/assets
+      - production-run:/var/run/pootle
+      - web-logs:/var/log/nginx/pootle
+    environment:
+      - POOTLE_SERVER_NAME=${POOTLE_SERVER_NAME:-localhost}
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - production-ssl:/etc/letsencrypt
+
+volumes:
+  postgres-data:
+  redis-data:
+  production-assets:
+  production-run:
+  production-logs:
+  production-ssl:
+  web-logs:
+  postgres-data:
+  redis-data:

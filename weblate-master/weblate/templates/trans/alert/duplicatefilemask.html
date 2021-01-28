@@ -1,0 +1,13 @@
+{% load i18n %}
+<p>
+    {% trans "Some linked components have the same filemask." %}
+    {% trans "Please fix this by removing one of them." %}
+</p>
+
+<p>{% trans "The following filemasks were found multiple times:" %}</p>
+
+<ul>
+{% for mask in duplicates %}
+<li><pre>{{ mask }}</pre></li>
+{% endfor %}
+</ul>

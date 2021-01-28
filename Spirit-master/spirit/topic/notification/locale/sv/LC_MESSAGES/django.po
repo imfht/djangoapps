@@ -1,0 +1,116 @@
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-10-25 08:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/spirit-project/spirit/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:35
+msgid "This notification already exists"
+msgstr "Detta meddelande finns redan"
+
+#: forms.py:41
+msgid "You can't subscribe to a topic with no comments"
+msgstr ""
+
+#: models.py:15
+msgid "Undefined"
+msgstr "Odefinierad"
+
+#: models.py:16
+msgid "Mention"
+msgstr "Omnämning"
+
+#: models.py:17
+msgid "Comment"
+msgstr "Kommentar"
+
+#: models.py:40
+msgid "topic notification"
+msgstr "ämnesmeddelande"
+
+#: models.py:41
+msgid "topics notification"
+msgstr "ämnesmeddelanden"
+
+#: templates/spirit/topic/notification/_form.html:12
+msgid "Unnotify Me"
+msgstr "Sluta meddela mig"
+
+#: templates/spirit/topic/notification/_form.html:14
+msgid "Notify Me"
+msgstr "Meddela mig"
+
+#: templates/spirit/topic/notification/_render_list.html:11
+#, python-format
+msgid ""
+"<a href=\"%(url_profile)s\">%(username)s</a> has commented on <a "
+"href=\"%(url_topic)s\">%(topic_title)s</a>"
+msgstr "<a href=\"%(url_profile)s\">%(username)s</a> har kommenterat i <a href=\"%(url_topic)s\">%(topic_title)s</a>"
+
+#: templates/spirit/topic/notification/_render_list.html:15
+#, python-format
+msgid ""
+"<a href=\"%(url_profile)s\">%(username)s</a> has mention you on <a "
+"href=\"%(url_topic)s\">%(topic_title)s</a>"
+msgstr "<a href=\"%(url_profile)s\">%(username)s</a> har nämt dig i <a href=\"%(url_topic)s\">%(topic_title)s</a>"
+
+#: templates/spirit/topic/notification/_render_list.html:22
+msgid "unread"
+msgstr "markera som oläst"
+
+#: templates/spirit/topic/notification/_render_list.html:27
+msgid "There are no notifications, yet"
+msgstr "Det finns ännu inga meddelanden"
+
+#: templates/spirit/topic/notification/_top_bar.html:11
+#: templates/spirit/topic/notification/_top_bar.html:26
+#: templates/spirit/topic/notification/index.html:5
+msgid "Notifications"
+msgstr "Meddelanden"
+
+#: templates/spirit/topic/notification/_top_bar.html:17
+#: templates/spirit/topic/notification/_top_bar.html:30
+#: templates/spirit/topic/notification/index_unread.html:5
+msgid "Unread notifications"
+msgstr "Markera meddelanden som olästa"
+
+#: templates/spirit/topic/notification/_top_bar.html:38
+msgid "Mark All As Read"
+msgstr ""
+
+#: templates/spirit/topic/notification/email_notification.html:2
+#: templates/spirit/topic/notification/email_notification_weekly.html:2
+#, python-format
+msgid "You have a new notification on %(site_name)s."
+msgstr ""
+
+#: templates/spirit/topic/notification/email_notification.html:6
+msgid "View comment"
+msgstr ""
+
+#: templates/spirit/topic/notification/email_notification.html:10
+#: templates/spirit/topic/notification/email_notification_weekly.html:10
+msgid "Unsubscribe"
+msgstr ""
+
+#: templates/spirit/topic/notification/email_notification_weekly.html:6
+msgid "View notifications"
+msgstr ""
+
+#: templates/spirit/topic/notification/index_unread.html:14
+msgid "There are no new notifications"
+msgstr "Det finns inga nya meddelanden"
+
+#: templates/spirit/topic/notification/index_unread.html:24
+msgid "Next"
+msgstr "Nästa"

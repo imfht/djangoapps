@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <iframe name="hidden_frame" style="border: 0px; width: 0px; height: 0px"></iframe>
+        <form method="post" action="{% url "reader:edit_info_book" book.url_title %}" target="hidden_frame" enctype="multipart/form-data" style="margin-bottom: 0px">
+            <div class="modal-header"><h4 class="modal-title">{% trans "Edit Book Info" %}: {{ book.title }}</h4></div>
+            <div class="modal-body">                                
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+service: "${env:PROJECT_NAME}-workers"
+
+provider:
+  name: aws
+  runtime: python3.8
+  versionFunctions: false
+  stage: ${opt:stage, 'local'}
+  region: "${env:AWS_DEFAULT_REGION}"
+  stackName: ${file(./${self:custom.confFile.${self:provider.stage}}):stackName}
+  iamRoleStatements: ${file(./${self:custom.confFile.${self:provider.stage}}):iam}
+
+functions:
+  hello:
+    handler: userauth.handlers.hello
+    timeout: 6
+    memorySize: 256
+    environment: ${file(./${self:custom.confFile.${self:provider.stage}}):envsHello}
+    vpc: ${file(./${self:custom.confFile.${self:provider.stage}}):vpcHello}
+
+  SendEmail:
+    handler: emails.handlers.send_email
+    timeout: 6
+    memorySize: 128
+    environment: ${file(./${self:custom.confFile.${self:provider.stage}}):envsSendEmail}
+    events:
+      - eventBridge:
+          eventBus: '${self:custom.eventBusArn}'
+          pattern:
+            source:
+              - backend.email
+
+plugins:
+  - serverless-pseudo-parameters
+  - serverless-python-requirements
+  - serverless-localstack
+
+custom:
+  projectEnvName: '${env:PROJECT_NAME}-${env:ENV_STAGE}'
+  eventBusArn: 'arn:aws:events:#{AWS::Region}:#{AWS::AccountId}:event-bus/${self:custom.projectEnvName}-workers'
+  pythonRequirements:
+    dockerizePip: non-linux
+    useDownloadCache: true
+    useStaticCache: false
+
+  localstack:
+    stages:
+      - local
+    host: http://localhost
+    endpointFile: localstack_endpoints.json
+    debug: true
+    mountCode: false
+
+  confFile:
+    local: workers.conf.local.yml
+    dev: workers.conf.yml
+    qa: workers.conf.yml
+    prod: workers.conf.yml
+
+package:
+  exclude:
+    - .git/**
+    - node_modules/**

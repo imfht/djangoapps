@@ -1,0 +1,14 @@
+include AUTHORS
+include LICENSE
+include *.rst
+include MANIFEST.in
+include .coveragerc
+include tox.ini .travis.yml
+include *.py
+include *.sh
+
+graft docs
+graft src
+graft tests
+
+global-exclude *.py[cod] __pycache__/* *.so *.dylib *~

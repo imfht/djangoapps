@@ -1,0 +1,18 @@
+{
+    // JSHint configurations for node-jshint.
+    // install with "npm install -g jshint"
+    // run with "jshint <file(s)> --config .jshintrc"
+
+    "asi"       : false, // Semicolons required! we minify.
+    "undef"     : false, // var early, var often
+
+    // Predefined globals whom JSHint will accept the existence of.
+    "browser"   : true,
+    "jquery"    : true,
+
+    "predef"    : [    // AMO's globals
+        "z",
+        "_",
+        "Highcharts"
+    ]
+}

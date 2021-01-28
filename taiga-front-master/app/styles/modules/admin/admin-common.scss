@@ -1,0 +1,24 @@
+.admin-common {
+    .admin-subtitle {
+        color: $color-black600;
+        margin-block-end: 1rem;
+    }
+    .total {
+        @include font-size(large);
+        align-items: center;
+        background: none;
+        color: $grayer;
+        display: flex;
+        padding: .3rem 0;
+        &:hover {
+            .icon-edit {
+                opacity: 1;
+                transition: opacity .3s linear;
+            }
+        }
+    }
+    &.admin-roles .total {
+        background-color: $grey-02;
+        padding: .3rem 1rem;
+    }
+}

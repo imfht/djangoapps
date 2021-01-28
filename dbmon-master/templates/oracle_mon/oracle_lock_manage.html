@@ -1,0 +1,76 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+   <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle行锁查杀
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">自动化运维</a></li>
+        <li><a href="/my_tools">工具包</a></li>
+        <li class="active">Oracle行锁查杀</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+   <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+        <!-- /.box-body -->
+         <div class="box-header">
+              <h3 class="box-title">行锁清单</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="table1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>IP地址</th>
+                  <th>端口</th>
+                  <th>服务名</th>
+                    <th>会话信息</th>
+                    <th>锁模式</th>
+                    <th>创建时间(秒)</th>
+                    <th>实例编号</th>
+                    <th>锁模式类型</th>
+                    <th>锁类型</th>
+                    <th>会话详情</th>
+                </tr>
+                </thead>
+                {% for oracle_lock in oracle_locks %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ oracle_lock.tags}} </td>
+                 <td>{{ oracle_lock.host}} </td>
+                 <td>{{ oracle_lock.port}} </td>
+                 <td>{{ oracle_lock.service_name}} </td>
+                 <td>{{ oracle_lock.session}} </td>
+                 <td>{{ oracle_lock.lmode}} </td>
+                 <td>{{ oracle_lock.ctime}} </td>
+                 <td>{{ oracle_lock.inst_id}} </td>
+                 <td>{{ oracle_lock.lmode1}} </td>
+                 <td>{{ oracle_lock.type}} </td>
+                    <td> <li><a href="/oracle_session?tags={{ oracle_lock.tags }}&session_id={{ oracle_lock.session_id }}" >详情</a></li> </td>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if oracle_locks.has_previous %}
+            <a href="?page_log={{ oracle_locks.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ oracle_locks.number }} 共计{{ oracle_locks.paginator.num_pages }}
+        </span>
+        {% if oracle_locks.has_next %}
+            <a href="?page_log={{ oracle_locks.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+      </div>
+      </div>
+{% endblock %}

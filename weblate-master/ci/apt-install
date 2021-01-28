@@ -1,0 +1,42 @@
+#!/bin/sh
+
+set -e -x
+
+CI_DATABASE="$1"
+
+# Update package lists
+apt-get update
+
+# Install dependencies
+apt-get install -y \
+    gir1.2-pango-1.0 \
+    gettext \
+    git \
+    git-svn \
+    gnupg \
+    subversion \
+    postgresql-client \
+    pkg-config \
+    python3-dev \
+    libxml2-dev \
+    libacl1-dev \
+    libxmlsec1-dev \
+    libleptonica-dev \
+    libtesseract-dev \
+    libsasl2-dev \
+    libldap2-dev \
+    libssl-dev \
+    libffi-dev \
+    libenchant1c2a \
+    libgirepository1.0-dev \
+    libcairo-dev \
+    liblz4-dev \
+    gir1.2-pango-1.0 \
+    cython \
+    tesseract-ocr
+
+# Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
+if [ "$CI_DATABASE" = "mariadb" ] ; then
+    apt-get purge 'mysql-client.*'
+    apt-get install -y mariadb-client
+fi

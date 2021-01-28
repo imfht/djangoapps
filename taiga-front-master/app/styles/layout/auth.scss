@@ -1,0 +1,138 @@
+.auth {
+    @include triangled-bg;
+    align-items: center;
+    background: $color-link-primary;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    left: 0;
+    overflow-y: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: $first-layer;
+
+    .white-link,
+    .white-link:visited {
+        color: $color-white;
+    }
+    .checksley-error-list {
+        color: $color-white;
+        li {
+            margin: .5rem 0;
+        }
+    }
+    .auth-container {
+        flex-basis: 400px;
+    }
+    .logo-svg {
+        text-align: center;
+        width: 100%;
+        svg {
+            height: 8rem;
+            width: 8rem;
+        }
+    }
+    .logo {
+        @include font-size(xxlarge);
+        @include font-type(regular);
+        color: $color-white;
+        display: block;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .tagline {
+        @include font-size(xlarge);
+        color: $color-white;
+        line-height: 2rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    form {
+        margin-bottom: 1rem;
+    }
+    fieldset {
+        margin-bottom: .5rem;
+        &.end {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+    .login-text,
+    .register-text {
+        color: $color-white;
+        font-size: .875rem;
+        margin-top: 2rem;
+        padding-bottom: 1rem;
+        text-align: center;
+        a {
+            color: $color-white;
+            text-decoration: underline;
+            &:hover {
+                color: $color-gray400;
+            }
+        }
+    }
+    .register-terms {
+        margin: .5rem 0 .75rem;
+
+        input[type='checkbox'],
+        input[type='radio'] {
+            margin-right: .5rem;
+        }
+    }
+    .button {
+        color: $color-white;
+        display: block;
+        text-align: center;
+    }
+    a {
+        &:hover {
+            color: $color-white;
+        }
+    }
+    .btn-small {
+        margin: 0 0 0 auto;
+        &.full {
+            width: 100%;
+        }
+    }
+}
+
+.moustache {
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-name: moustache;
+    animation-timing-function: ease-in-out;
+    fill: rgba($primary, .9);
+    stroke: $primary-light;
+    stroke-width: 1px;
+    transform-origin: 50% 50%;
+    transition: .3s;
+    &:hover {
+        fill: rgba($primary-light, .9);
+        transition: .3s;
+    }
+}
+@keyframes moustache {
+    0% {
+        transform: rotate(0);
+    }
+    10% {
+        transform: rotate(-10deg);
+    }
+    30% {
+        transform: rotate(0);
+    }
+    70% {
+        transform: rotate(0);
+    }
+    80% {
+        transform: rotate(10deg);
+    }
+    90% {
+        transform: rotate(0);
+    }
+}

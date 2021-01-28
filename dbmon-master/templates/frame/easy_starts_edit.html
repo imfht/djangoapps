@@ -1,0 +1,95 @@
+{% extends 'base/base_site.html' %}
+  {% block main_header %}
+  {% endblock %}
+  {% block main_sidebar %}
+  {% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content %}
+        <div class="box box-solid">
+            <!-- form start -->
+            <form class="form-horizontal" action="" method="POST">
+              <div class="box-body">
+                 <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">操作类型</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="oper_type" value={{ easy_start_edit.oper_type }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">程序归属</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="app_name" value={{ easy_start_edit.app_name }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">主机IP</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="host" value={{ easy_start_edit.host }}>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="user" value={{ easy_start_edit.user }}>
+                  </div>
+                </div>
+                   <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">用户密码</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" value={{ easy_start_edit.password }}>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">程序命名</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" value={{ easy_start_edit.name }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">启停命令</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="do_cmd" value={{ easy_start_edit.do_cmd }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">进程检查</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="process_check" value={{ easy_start_edit.process_check }}>
+                  </div>
+                </div>
+                  <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">日志检查</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="check_log" value={{ easy_start_edit.check_log }}>
+                  </div>
+                </div>
+                     <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-info pull-right" name="commit">更新</button>
+              </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascripts %}
+ {#回传参数至父层#}
+<script type="text/javascript">
+        var index = parent.layer.getFrameIndex(window.name);
+        var success = {{ status }};
+        if ( success == '1' ) {
+            parent.$("#handle_status").val('1');
+              parent.layer.close(index);
+        } else if( success == '2' ) {
+            parent.$("#handle_status").val('2');
+            parent.layer.close(index);
+        }
+</script>
+{% endblock %}

@@ -1,0 +1,5 @@
+.sticky-project-menu(ng-if="vm.project")
+    tg-legacy-loader(
+        ng-class="{'menu-fixed': vm.fixed}",
+        tg-load-element="vm.projectMenu"
+    )

@@ -1,0 +1,104 @@
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+input[type='text'],
+input[type='number'],
+input[type='password'],
+input[type='url'],
+input[type='email'],
+input[type='date'],
+input[type='search'],
+select,
+textarea {
+    background: $color-white;
+    border: 2px solid $color-gray400;
+    border-radius: 3px;
+    color: $color-black600;
+    margin: 0;
+    padding: .3rem 1rem .3rem .95rem;
+    width: 100%;
+
+    @include placeholder {
+        @include font-size(small);
+        color: rgba($color-black600, .5);
+    }
+
+    &.checksley-error {
+        border: 2px solid $color-link-red;
+        transition: border .2s linear;
+    }
+
+    &:focus {
+        border: 2px solid $color-link-primary;
+        outline: none;
+        transition: border .2s linear;
+    }
+}
+input[type='search'] {
+    box-sizing: border-box;
+    padding-right: 25px;
+}
+button,
+button:active,
+button:focus {
+    border: 0;
+}
+textarea {
+    min-height: 10rem;
+    resize: vertical;
+}
+.checksley-error-list {
+    margin-bottom: 0;
+    li {
+        padding: .2rem;
+    }
+}
+.capslock {
+    &.ng-enter {
+        animation: dropdownFade .2s ease-in;
+    }
+    &.ng-leave {
+        animation: dropdownFade .2s ease-in;
+        animation-direction: reverse;
+    }
+    .icon-capslock {
+        bottom: .8rem;
+        fill: $gray;
+        height: .9rem;
+        position: absolute;
+        right: 1rem;
+        width: .9rem;
+    }
+}
+
+.custom-checkbox {
+    background-color: $white;
+    border: 2px solid $color-gray400;
+    border-radius: 3px;
+
+    input {
+        display: none;
+        &:not(:checked) + label::after {
+            opacity: 0;
+        }
+    }
+
+    label {
+        align-items: center;
+        display: flex;
+        height: 14px;
+        justify-content: center;
+        width: 14px;
+
+        &::after {
+            background-color: $color-link-primary;
+            content: '';
+            height: 10px;
+            width: 10px;
+        }
+    }
+}

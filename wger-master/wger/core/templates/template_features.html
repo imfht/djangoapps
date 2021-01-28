@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+    This file is part of wger Workout Manager
+
+    wger is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    wger is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Workout Manager. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+{% load i18n static compress wger_extras %}
+<html lang="{{language.short_name}}">
+{% spaceless_config %}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta name="author" content="Roland Geider">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- OpenGraph -->
+    {% block opengraph %}
+        <meta property="og:url" content="{{ request_absolute_path }}">
+        <meta property="og:type" content="website">
+    {% endblock %}
+    {% block opengraphimages %}
+        <meta property="og:image" content="{{ image_absolute_path }}">
+    {% endblock %}
+
+    <!-- twitter cards -->
+    {% block twittercard %}
+    {% if twitter %}
+        <meta content="summary" name="twitter:card">
+        <meta content="@{{ twitter }}" name="twitter:site">
+    {% endif %}
+    {% endblock %}
+
+
+    {% compress css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'yarn/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'yarn/components-font-awesome/css/all.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/agency.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'yarn/shariff/dist/shariff.min.css' %}">
+    {% endcompress %}
+
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+
+    {% compress js %}
+    <script src="{% static 'yarn/jquery/dist/jquery.js' %}"></script>
+    <script src="{% static 'yarn/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    {% endcompress %}
+
+    <title>wger Workout Manager - {% trans "Features" %}</title>
+</head>
+
+<body id="page-top" class="index">
+
+{% if user.is_authenticated %}
+{% include 'navigation.html' %}
+{% endif  %}
+
+    {% block template %}{% endblock %}
+    <div id="current-url" data-current-url="{{request_full_path}}"></div>
+    <div id="current-language" data-current-language="{{language.short_name}}"></div>
+
+
+
+<footer class="bg-darkest-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+                    <li class="list-inline-item">
+                        <a href="{% url 'software:contribute' %}" class="text-muted small">{% trans "Contribute!" %}</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'core:contact' %}" class="text-muted small">{% trans "Get in touch" %}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li class="list-inline-item">
+                        <a href="https://github.com/wger-project/wger" title="Github">
+                            <span class="{% fa_class 'github' 'fab' %}"></span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/wger_project" title="Twitter">
+                            <span class="{% fa_class 'twitter' 'fab' %}"></span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.transifex.com/rge/wger-workout-manager/" title="{% trans 'Translate' %}">
+                            <span class="{% fa_class 'globe' %}"></span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        {% if show_shariff %}
+                            {% include 'misc/fragments/shariff_modal.html' %}
+                            <a data-toggle="modal" href="#shariffModal" title="Share">
+                                <span class="{% fa_class 'share-alt' %}"></span>
+                            </a>
+                            <div class="clearfix"></div>
+                      {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 text-lg-right">
+                <ul class="list-inline quicklinks">
+                    <li class="list-inline-item">
+                        <a href="{% url 'core:about' %}" class="text-muted small">{% trans "About" %}</a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a href="{% url 'software:tos' %}" class="text-muted small">{% trans "Terms of service" %}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'yarn/shariff/dist/shariff.min.js' %}"></script>
+</body>
+{% endspaceless_config %}
+</html>

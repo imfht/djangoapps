@@ -1,0 +1,206 @@
+.dk-inner {
+  padding: 20px 0;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; }
+  .dk-inner input {
+    margin: 0; }
+  .dk-inner .quiet {
+    font-weight: normal;
+    color: #888; }
+  .dk-inner .clear {
+    clear: both; }
+  .dk-inner .center {
+    text-align: center; }
+  .dk-inner .dk-roof {
+    margin-bottom: 24px; }
+    .dk-inner .dk-roof h2 {
+      margin-bottom: .15em;
+      font-weight: 600; }
+      .dk-inner .dk-roof h2 a {
+        color: #333;
+        text-decoration: none; }
+        .dk-inner .dk-roof h2 a:hover {
+          text-decoration: underline; }
+  .dk-inner .dk-search {
+    border: 1px solid #ccc;
+    padding: 1%;
+    background: #eee;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 24px; }
+    .dk-inner .dk-search input.question-search {
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      padding: 8px 1%;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      width: 87%;
+      height: 16px;
+      float: left; }
+    .dk-inner .dk-search .submit-question-search {
+      height: 34px;
+      width: 10%;
+      padding: 8px 1%;
+      float: right;
+      background-color: #006700;
+      background-image: -moz-linear-gradient(#008f00, #006700);
+      background-image: -o-linear-gradient(#008f00, #006700);
+      background-image: -ms-linear-gradient(#008f00, #006700);
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #008f00), color-stop(1, #006700));
+      background-image: -webkit-linear-gradient(#008f00, #006700);
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      border: 1px solid #003e00;
+      cursor: pointer;
+      color: white;
+      font-size: 15px;
+      line-height: 15px;
+      text-align: center;
+      text-shadow: 1px 1px black; }
+      .dk-inner .dk-search .submit-question-search:hover {
+        background-color: #005700;
+        background-image: -moz-linear-gradient(green, #005700);
+        background-image: -o-linear-gradient(green, #005700);
+        background-image: -ms-linear-gradient(green, #005700);
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, green), color-stop(1, #005700));
+        background-image: -webkit-linear-gradient(green, #005700); }
+  .dk-inner .dk-content {
+    width: 72%;
+    float: left; }
+    .dk-inner .dk-content .dk-widget {
+      border: 1px solid #ccc;
+      -moz-box-shadow: 2px 2px 6px #dddddd;
+      -webkit-box-shadow: 2px 2px 6px #dddddd;
+      box-shadow: 2px 2px 6px #dddddd;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      padding: 18px 2% 22px;
+      background: #fff;
+      margin-bottom: 24px; }
+      .dk-inner .dk-content .dk-widget h2 {
+        margin-bottom: 0.10em;
+        font-weight: 600; }
+      .dk-inner .dk-content .dk-widget h3 {
+        margin-bottom: 0.6em;
+        font-weight: 600; }
+      .dk-inner .dk-content .dk-widget h5 {
+        margin-bottom: 1em; }
+      .dk-inner .dk-content .dk-widget img {
+        max-width: 96%;
+        padding: 1%;
+        border: 1px solid #ccc; }
+      .dk-inner .dk-content .dk-widget ol.question-list {
+        font-size: 14px;
+        margin-left: 10px; }
+      .dk-inner .dk-content .dk-widget hr.light {
+        color: #e7e7e7;
+        background: #e7e7e7; }
+      .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper {
+        padding-bottom: 12px; }
+        .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper.field-phone_number {
+          display: none; }
+        .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper .field-label label {
+          font-size: 14px;
+          font-weight: 600; }
+        .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper .field-label small {
+          font-size: 11px; }
+        .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper input, .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper textarea {
+          padding: 8px 1%;
+          font-size: 12px;
+          width: 96%;
+          border: 1px solid #ccc; }
+        .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper input[type=checkbox] {
+          margin-top: 6px; }
+        .dk-inner .dk-content .dk-widget form.dk-form .field-wrapper ul.errorlist {
+          color: #8a1f11;
+          margin: 0;
+          padding: 0;
+          list-style: none; }
+      .dk-inner .dk-content .dk-widget form.dk-form .form-footer {
+        border-top: 1px dashed #ccc;
+        padding-top: 10px;
+        width: 96%; }
+        .dk-inner .dk-content .dk-widget form.dk-form .form-footer input.submit-question {
+          font-size: 16px; }
+      .dk-inner .dk-content .dk-widget .dk-dialog {
+        padding-bottom: 1.8em;
+        overflow: auto;
+        min-height: 78px; }
+        .dk-inner .dk-content .dk-widget .dk-dialog p {
+          margin-bottom: 1em; }
+        .dk-inner .dk-content .dk-widget .dk-dialog .the-author.gravatar {
+          width: 13%;
+          overflow: hidden;
+          float: left; }
+          .dk-inner .dk-content .dk-widget .dk-dialog .the-author.gravatar img {
+            margin-top: 8px;
+            padding: 5%;
+            border: 1px solid #ccc;
+            max-width: 60px;
+            max-height: 60px;
+            width: 80%;
+            height: 80%; }
+          .dk-inner .dk-content .dk-widget .dk-dialog .the-author.gravatar.smaller img {
+            margin-top: 0;
+            margin-left: 17%;
+            max-width: 40px;
+            max-height: 40px; }
+        .dk-inner .dk-content .dk-widget .dk-dialog .the-content.gravatar {
+          width: 87%;
+          float: right; }
+        .dk-inner .dk-content .dk-widget .dk-dialog:hover .dk-mod-bar {
+          -moz-opacity: 1;
+          -khtml-opacity: 1;
+          opacity: 1; }
+      .dk-inner .dk-content .dk-widget .dk-mod-bar {
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        padding: 3px 4px 2px;
+        background: #eee;
+        -moz-opacity: 0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+        float: right; }
+        .dk-inner .dk-content .dk-widget .dk-mod-bar .dk-label {
+          margin: 0 2px; }
+        .dk-inner .dk-content .dk-widget .dk-mod-bar form {
+          display: inline-block; }
+          .dk-inner .dk-content .dk-widget .dk-mod-bar form input {
+            border: none;
+            cursor: pointer; }
+  .dk-inner .dk-sidebar {
+    width: 25%;
+    float: right;
+    padding-top: 10px; }
+    .dk-inner .dk-sidebar .inner {
+      padding: 0 2%; }
+    .dk-inner .dk-sidebar h4 {
+      margin-bottom: 0.3em;
+      font-weight: 600; }
+    .dk-inner .dk-sidebar hr {
+      margin-bottom: 0.6em;
+      color: #bbb;
+      background: #bbb; }
+  .dk-inner .dk-label {
+    padding: 1px 3px 2px;
+    position: relative;
+    top: -1px;
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    background-color: #999;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px; }
+  .dk-inner .dk-label-important {
+    background-color: #B94A48; }
+  .dk-inner .dk-label-warning {
+    background-color: #C67605; }
+  .dk-inner .dk-label-success {
+    background-color: #468847; }
+  .dk-inner .dk-label-info {
+    background-color: #3A87AD; }

@@ -1,0 +1,15 @@
+.type-data(class!="<% if(editable){ %>clickable<% }%>")
+    .label.level-name(translate="COMMON.FIELDS.TYPE")
+    .level-data
+        span.label <%- type.name %>
+        span.level-color(style!="background-color:<%- type.color %>")
+
+    ul.popover.pop-type
+        <% _.each(typees, function(tp) { %>
+        li
+            a.type(
+                href=""
+                title!="<%- tp.name %>"
+                data-type-id!="<%- tp.id %>"
+            ) <%- tp.name %>
+        <% }); %>

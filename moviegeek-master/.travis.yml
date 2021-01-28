@@ -1,0 +1,14 @@
+  language: python
+  python:
+    - "3.6"
+  before_install:
+   - export PYTHONPATH=$HOME/builds/practical-recommender-systems/moviegeek/
+  install:
+  - pip install -r requirements.txt
+  - pip install django==1.11 --quiet
+  before_script:
+  - python manage.py makemigrations
+  - python manage.py migrate
+
+  script:
+  - python -m pytest ./test/

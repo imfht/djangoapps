@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n calendarium_tags %}
+
+{% block main %}
+<h1>{{ date|date:"F Y" }}</h1>
+{% include "calendarium/partials/category_list.html" %}
+<form action="." method="post">
+    {% csrf_token %}
+    <input class="btn btn-default" type="submit" name="previous" value="{% trans "Previous" %}" />
+    <input class="btn btn-default" type="submit" name="next" value="{% trans "Next" %}" />
+    <input class="btn btn-default" type="submit" name="today" value="{% trans "Today" %}" />
+    {% if request.user.is_staff %}
+        <a href="{% url "calendar_event_create" %}">{% trans "Create new event" %}</a>
+    {% endif %}
+</form>
+<table class="table" id="calendar-month">
+    <tr>
+        <th></th>
+        {% for weekday in weekdays %}
+            <th>{{ weekday }}</th>
+        {% endfor %}
+    </tr>
+    {% for week in month %}
+        {% if week %}
+            <tr>
+                <td class="calendarium-week-link"><a href="{{ date|get_week_URL:week.0.0 }}">{% trans "View" %}</a></td>
+                {% for day, occurrences, current in week %}
+                    <td class="{% if day == 0 %}calendarium-empty{% elif current %}calendarium-current{% else %}calendarium-day{% endif %}">
+                        <div class="calendarium-relative">
+                            {% if day != 0 %}
+                                <span class="calendarium-date">{{ day }}</span>
+                                {% for occurrence in occurrences %}
+                                    <p class="alert" style="background-color: #{{ occurrence.event.category.color }}">
+                                        <a title="{{ occurrence }}" href="{% url "calendar_occurrence_detail" pk=occurrence.event.pk year=occurrence.start.year month=occurrence.start.month day=occurrence.start.day %}">{{ occurrence|truncatechars:22 }}</a>
+                                    </p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+{% render_upcoming_events 5 current_category %}
+{% endblock %}

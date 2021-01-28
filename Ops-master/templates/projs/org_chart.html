@@ -1,0 +1,168 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'jsplumb/css/jsplumbtoolkit-defaults.css' %}">
+<style>
+    #main {
+        width: 80%;
+        height: 500px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .item {
+        background: #CCFFFF;
+        height: 30px;
+        width: 200px;
+        border: 1px solid #5F9EDF;
+        margin: 5px;
+        font: 15px/30px "微软雅黑";
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        width: 10%;
+        float: right;
+        margin-right: 2px;
+    }
+</style>
+
+<div align="center" id="edit-org">
+    <a href="{% url 'proj_org' project_obj.id %}" target="_blank">
+        <button type="button" class="btn btn-block btn-primary">编辑</button>
+    </a>
+    <button type="button" class="btn btn-block btn-primary export-canvas">导出</button>
+</div>
+<div id="main"></div>
+<script src="{% static 'jsplumb/js/jsplumb.min.js' %}"></script>
+<script src="{% static 'jsplumb/js/html2canvas.min.js' %}"></script>
+<script src="{% static 'jsplumb/js/rgbcolor.min.js' %}"></script>
+<script src="{% static 'jsplumb/js/canvg.min.js' %}"></script>
+
+<script>
+    // 生成架构图
+    $(function () {
+        if ('{{ project_org }}'.length !== 0) {
+            let elementSign = 0;
+            let origin = {//起点
+                endpoint: ['Dot', {radius: 5}],  //端点的形状
+                connectorStyle: {
+                    outlineStroke: 'black',
+                    strokeWidth: 1
+                },//连接线的颜色，大小样式
+                connectorHoverStyle: {
+                    strokeWidth: 3
+                },
+                paintStyle: {fill: "lightblue", strokeWidth: 3},       //端点的颜色样式
+                isSource: true,    //是否可以拖动（作为连线起点）
+                connector: 'Straight', //连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
+                isTarget: false,    //是否可以放置（连线终点）
+                maxConnections: -1,    // 设置连接点最多可以连接几条线,-1表示无限大
+                connectorOverlays: [["Arrow", {width: 10, length: 10, location: 1}]]
+            };
+
+            let destination = {//终点
+                endpoint: ['Dot', {radius: 5}],  //端点的形状
+                connectorStyle: {
+                    outlineStroke: 'black',
+                    strokeWidth: 1
+                },//连接线的颜色，大小样式
+                connectorHoverStyle: {
+                    strokeWidth: 3
+                },
+                paintStyle: {fill: "lightblue", strokeWidth: 3},       //端点的颜色样式
+                isSource: false,    //是否可以拖动（作为连线起点）
+                connector: 'Straight',  //连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
+                isTarget: true,    //是否可以放置（连线终点）
+                maxConnections: -1,    // 设置连接点最多可以连接几条线,-1表示无限大
+                connectorOverlays: [["Arrow", {width: 10, length: 10, location: 1}]]
+            };
+            $.get('/api/project/{{ pk }}/', function (res) {
+                let project_org = JSON.parse(res.project_org);
+
+                let mainHTML = "";
+                for (let i = 0; i < project_org.mainArr.length; i++) {
+                    if (elementSign < project_org.mainArr[i].sign) {//如果已经保存过,即将标记更新
+                        elementSign = project_org.mainArr[i].sign;
+                    }
+                    mainHTML += '<div class="item" data-sign="' + project_org.mainArr[i].sign + '"  data-index="' + project_org.mainArr[i].index + '" style="left:' + project_org.mainArr[i].offset.left + 'px;top:' + project_org.mainArr[i].offset.top + 'px;position:absolute;margin:0" >' + project_org.mainArr[i].text + '</div>';
+                }
+
+                $("#main").append(mainHTML);
+                $("#main .item").each(function () {
+                    jsPlumb.addEndpoint(this, {anchors: "BottomCenter"}, deepCopy(origin, {uuid: $(this).attr("data-sign") + "origin"}));//起点
+                    jsPlumb.addEndpoint(this, {anchors: "TopCenter"}, deepCopy(destination, {uuid: $(this).attr("data-sign") + "destination"}));//终点
+                });
+                //固定连线
+                for (let i = 0; i < project_org.connects.length; i++) {
+                    jsPlumb.connect({uuids: [project_org.connects[i].originSign + "origin", project_org.connects[i].destinationSign + "destination"]});
+                }
+            })
+        } else {
+            $('#main').html('<h3>暂无架构图</h3>')
+        }
+    });
+
+    function deepCopy(p, c) {  //克隆对象
+        let d = c || {};
+        for (let i in p) {
+            if (!p.hasOwnProperty(i)) {
+                continue;
+            }
+            if (typeof p[i] === 'object') {
+                d[i] = (p[i].constructor === Array) ? [] : {};
+                deepCopy(p[i], d[i]);
+            } else {
+                d[i] = p[i];
+            }
+        }
+        return d;
+    }
+
+    // 将架构图导出图片
+    $('.export-canvas').on('click', function () {
+        if (typeof html2canvas !== 'undefined') {
+            //以下是对svg的处理
+            let cloneDom = $("#main");
+            let nodesToRecover = [];
+            let nodesToRemove = [];
+            let svgElem = cloneDom.find('svg');
+            svgElem.each(function (index, node) {
+                let parentNode = node.parentNode;
+                let svg = node.outerHTML.trim();
+
+                let canvas = document.createElement('canvas');
+                canvas.width = 650;
+                canvas.height = 798;
+                canvg(canvas, svg);
+                if (node.style.position) {
+                    canvas.style.position += node.style.position;
+                    canvas.style.left += node.style.left;
+                    canvas.style.top += node.style.top;
+                }
+
+                nodesToRecover.push({
+                    parent: parentNode,
+                    child: node
+                });
+                parentNode.removeChild(node);
+
+                nodesToRemove.push({
+                    parent: parentNode,
+                    child: canvas
+                });
+
+                parentNode.appendChild(canvas);
+            });
+
+            html2canvas(document.querySelector("#main")).then(canvas => {
+                let imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url 　
+                let saveLink = document.createElement('a');
+                saveLink.href = imgUri;
+                saveLink.download = '{{ project_obj.project_name }}_{{ project_obj.get_project_env_display }}.png';
+                saveLink.click();
+            });
+        }
+    })
+</script>
+
+

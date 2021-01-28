@@ -1,0 +1,145 @@
+{% extends "core/base.html" %}
+{% load i18n staticfiles booktype_tags profile messaging_tags reader_tags compress %}
+{% block extra_header %}
+    {% compress js %}
+    <script type="text/javascript" src="{% static 'core/js/jquery.steps.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/utils.js' %}"></script>
+    <script type="text/javascript" src="{% static 'portal/js/frontpage.js' %}"></script>
+    <script type="text/javascript" src="{% static 'reader/js/infopage.js' %}"></script>
+    <script type="text/javascript" src="{% static 'account/js/register.js' %}"></script>
+    {% endcompress %}
+{% endblock %}
+
+{% block content %}
+    <div id="bookThumbModal" class="modal fade bookInfoModal cleanModalInfo" tabindex="-1" role="dialog" aria-labelledby="editBookInfoModal" aria-hidden="true">
+    </div>
+    <div class="container front-page">
+        <div class="row three-col">
+            <div class="books-widget col-xs-4">
+            {% check_perm 'portal.can_view_books_list' %}
+                <div class="box white">
+                    <h2 class="box-title">
+                        {% trans "Books" %}
+                        <div class="btn-toolbar float-right">
+
+                            <div class="btn-group float-right">
+                                <button class="btn btn-default btn-sm showGrid" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Show in a grid" %}"><i class="fa fa-th"></i></button>
+                                <button class="btn btn-default btn-sm showList" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Show in a list" %}"><i class="fa fa-list-ul"></i></button>
+                            </div>
+
+                        </div>
+                        <a class="view_all" href="{% url "portal:list_books" %}">{% trans "view all" %}</a>
+                    </h2>
+
+                    <div class="book-list showing-books" id="books-prew"> <!-- For list view add book-list class, and remove book-thumb -->
+                        {% for book in books_list %}
+                            {% include "account/dashboard_book_template.html" with size=2 %}
+                        {% empty %}
+                        <div class="grid-2">
+                            {% trans "There are no books yet" %}.
+                        </div>
+                        {% endfor %}
+                    </div> <!-- End of book list (book-thumb or book-list) -->
+
+                    {% if request.user.is_authenticated and can_create_book %}
+                        <div class="box-bottom-gray">
+                          <button data-href="{% url "accounts:view_profile" request.user.username %}#create-book" role="button" class="btn btn-default float-left create-book" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to go to My Dashboard and open the Create New Book wizard" %}">{% trans "Create New Book" as create_text %} {{ create_text|upper }}</button>
+                        </div>
+                    {% elif request.user.is_authenticated and is_book_limit%}
+                      <div class="box-bottom-gray">
+                        <button class="btn btn-primary float-left btn-group" rel="tooltip" title="" data-placement="right" data-original-title="{% trans "You have reached your book limit. Please delete any unwanted books before you create a new one." %}">{% trans "No additional books can be created" %}</button>
+                      </div>
+                    {% endif %}
+
+                </div>
+            {% endcheck_perm %}
+            </div> <!-- End of col-xs-4 -->
+            <div class="col-xs-4">
+            {% check_perm 'portal.can_view_groups_list' %}
+                <div class="groups-widget box white">
+                    <h2 class="box-title">
+                        {% trans "Groups" %}
+                        <a class="view_all show_groups" href="{% url "portal:list_groups" %}">{% trans "view all" %}</a>
+                    </h2>
+
+                    <ul class="list">
+                        {% for group in group_list %}
+                        <li>
+                            <figure><img src="{{ group.small_group_image }}?{% random_url %}" /></figure>
+                            <div class="list-info">
+                            <h4><a href="{% url "portal:group" group.url_name %}">{{ group.name }}</a> - {{ group.description }}</h4>
+                                <span>{% trans "Members:" %} {{ group.num_members }}  {% trans "Books:" %} {{ group.num_books }}</span>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>{% trans "There are no groups yet" %}.</li>
+                        {% endfor %}
+                    </ul>
+                    {% if request.user.is_authenticated %}
+                        <div class="box-bottom-gray">
+                            <button data-href="{% url "accounts:view_profile" request.user.username %}#create-group" role="button" class="btn btn-default create-group" rel="tooltip" title="" data-placement="bottom" data-original-title="{% trans "Click this button to create a new group of writers and editors" %}">{% trans "Create New Group" as creategroup_text %} {{ creategroup_text|upper }}</button>
+                        </div>
+                    {% endif %}
+
+                </div>
+            {% endcheck_perm %}
+            </div> <!-- End of col-xs-4 -->
+
+            <div class="col-xs-4">
+                <div class="login-widget box white">
+                    <script>
+                        $(function() {
+                            $("#formsignin").booktypeSignin({'url': '{% url "accounts:signin" %}'});
+                        });
+                    </script>
+                    {% if request.user.is_authenticated %}
+                        {% include "account/form_signedin.html" %}
+                    {% else %}
+                        <div class="signin-block">
+                            {% include "account/form_signin.html" %}
+                        </div>
+                        {% if 1|booktype_anyone_register  %}
+                            <div class="box-bottom-white">
+                                <p>{% trans "Not a member? Please fill the " %}<a href="{% url "accounts:signin" %}?redirect={{ request.path }}">{% trans "Registration form" %}</a></p>
+                            </div>
+                        {% else %}
+                            <div class="box-bottom-white">
+                              <p>{% trans "Only administrator is allowed to create new accounts at the moment." %}</p>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            <!-- users here -->
+                {% check_perm 'portal.can_view_user_list' %}
+                <div class="people-widget box white">
+                    <h2 class="box-title">
+                        {% trans "People" %}
+                        <a class="view_all show_people" href="{% url "portal:list_people" %}">{% trans "view all" %}</a>
+                    </h2>
+                    <ul class="list-people list user-avatar">
+                        {% for user in user_list %}
+                        <li>
+                           <figure>{% profile_image user %}</figure>
+                            <div class="people-info gray">
+                                <h4>
+                                  {% has_perm 'account.can_view_user_info' as access %}
+                                  {% if access or request.user == user %}
+                                    <a href="{% url "accounts:view_profile" user.username %}">{{ user.username }}</a>
+                                  {% else %}
+                                    {{ user.username }}
+                                  {% endif %}
+                                </h4>
+                                <span>{{ user.first_name }}</span>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>{% trans "There are no users yet" %}.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endcheck_perm %}
+
+            </div> <!-- End of col-xs-4 -->
+        </div>
+    </div> <!-- End of container -->
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "admin/base.html" %}
+{% block extrahead %}
+<script charset="utf-8" type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            grappelli.initDateAndTimePicker();
+            $("#grp-content-container .grp-group").grp_collapsible_group();
+            $("#grp-content-container .grp-collapse").grp_collapsible({
+                on_init: function (elem, options) {
+                    // open collapse (and all collapse parents) in case of errors
+                    if (elem.find("ul.errorlist").length > 0) {
+                        elem.removeClass("grp-closed")
+                            .addClass("grp-open");
+                        elem.parents(".grp-collapse")
+                            .removeClass("grp-closed")
+                            .addClass("grp-open");
+                    }
+                }
+            });
+            $('body').on('change', '[id*=project]', function () {
+                var project_id = $(this).attr('name')
+                var form_number = project_id.slice(5, -8)
+                $.getJSON("/tasks/?format=json", {project: $(this).val()}, function (tasks) {
+                    var options = '<option value="">--------&nbsp;</option>';
+                    for (var i = 0; i < tasks.length; i++) {
+                        if (tasks[i].is_reporting_allowed === "True") {
+                            options += '<option value="' + tasks[i].id + '">' + tasks[i].title + '</option>';
+                        }
+                    }
+                    $("#id_form-" + form_number + "-task").html(options);
+                    $("#id_form-" + form_number + "-task option:first").attr('selected', 'selected');
+                })
+                $("#id_project").attr('selected', 'selected');
+            });
+            $('#add_more').click(function () {
+                cloneMore('#single_form', 'form');
+            });
+        });
+
+        function cloneMore(selector, type) {
+            var total = $('#id_' + type + '-TOTAL_FORMS').val();
+            var newElement = $(selector + "[name=form-" + (total - 1) + "]").clone(false);
+            var name = "form-" + total
+            newElement.attr({'name': name}).val('')
+            newElement.find(':input').each(function () {
+                if ($(this).attr('name')) {
+                    var name = $(this).attr('name').replace('-' + (total - 1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+                }
+            });
+            newElement.find('label').each(function () {
+                var newFor = $(this).attr('for').replace('-' + (total - 1) + '-', '-' + total + '-');
+                $(this).attr('for', newFor);
+            });
+            newElement.find('.ui-datepicker-trigger').remove();
+            newElement.find('.vDateField').each(function () {
+                $(this).removeClass('hasDatepicker')
+            });
+            newElement.find('.ui-timepicker-trigger').remove();
+            newElement.find('.vTimeField').each(function () {
+                $(this).removeClass('hasTimepicker')
+                $(this).grp_timepicker();
+            });
+            total++;
+            $('#id_' + type + '-TOTAL_FORMS').val(total);
+            $(selector + "[name=form-" + (total - 2) + "]").after(newElement);
+            grappelli.initDateAndTimePicker();
+        }
+    })(grp.jQuery);
+</script>
+{% endblock %}
+{% block title %}
+Reporting
+{% endblock %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    {{ formset.management_form }}
+    <div style="font-weight: bold;">Selected Range</div>
+    <table style="border: none;">
+    {{ range_selection_form}}
+    </table>
+    <br/>
+    <div>
+        <table>
+            {% for form in formset.forms %}
+            {% if forloop.first %}
+            <tr>
+                <th>{{form.project.label}}, {{form.task.label}} </th>
+                <th>{{form.date.label}}</th>
+                <th>{{form.start_time.label}}, {{form.stop_time.label}}</th>
+                <th>{{form.worked_hours.label}}</th>
+                <th>{{form.description.label}}</th>
+                <th>{{form.DELETE.label}}</th>
+            </tr>
+            {% endif %}
+            {% if form.non_field_errors %}
+            <tr class="alert alert-danger">
+                <td colspan="7"> {{ form.non_field_errors }} </td>
+            </tr>
+            {% endif %}
+            <tr id='single_form' name="form-{{ forloop.counter0 }}">
+                <td>
+                    {{ form.project }}
+                    {{ form.project.errors }}
+                    <br/><br/>
+                    {{ form.task }}
+                    {{ form.task.errors }}
+                </td>
+                <td>
+                    {{ form.date }}
+                    {{ form.date.errors }}
+                </td>
+                <td>
+                    {{ form.start_time }}
+                    {{ form.start_time.errors }}
+                    <br/><br/>
+                    {{ form.stop_time }}
+                    {{ form.stop_time.errors }}
+                </td>
+                <td>
+                    {{ form.worked_hours }}
+                    {{ form.worked_hours.errors }}
+                </td>
+                <td>
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </td>
+                <td>
+                    {{ form.DELETE }}
+                    {{ form.DELETE.errors }}
+                </td>
+
+                {% for field in form.hidden_fields %}
+                {{ field }}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <input type="button" value="Add More" id="add_more">
+    <input type="hidden" name="post" value="yes"/>
+    <input type="submit" name="cancel" value="cancel"/>
+    <input type="submit" name="save" value="save"/>
+</form>
+{% endblock %}
+

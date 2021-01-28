@@ -1,0 +1,329 @@
+/*
+ * Copyright (C) Pootle contributors.
+ *
+ * This file is a part of the Pootle project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+/*
+ * NAVBAR
+ */
+
+#navbar
+{
+    background-color: #f5f5f5;
+    line-height: 50px;
+    min-height: 55px;
+}
+
+#navbar > *
+{
+    vertical-align: middle;
+}
+
+#navbar a
+{
+    color: #777;
+    text-decoration: none;
+    outline: none;
+}
+
+#navbar a:active,
+#navbar a:focus,
+#navbar a:hover
+{
+    color: #ccc;
+}
+
+#navbar .logo-custom
+{
+    position: absolute;
+    top: 0.3em;
+    left: 55px;
+    max-height: 36px;
+}
+
+html[dir="rtl"] #navbar .logo-custom
+{
+    left: auto;
+    right: 55px;
+}
+
+#navbar h1
+{
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    display: inline-block;
+    float: left;
+    font-size: 23px;
+    padding: 0 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+}
+
+html[dir="rtl"] #navbar h1.brand
+{
+    float: right;
+}
+
+
+html[dir="rtl"] #navbar h1 .site-title
+{
+    padding-left: auto;
+}
+
+#navbar h1 .icon-logo
+{
+    position: relative;
+    top: -4px;
+}
+
+#nav-main > .menu-divider
+{
+    display: inline-block;
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.1);
+    height: 100%;
+    margin-right: 2px;
+    width: 1px;
+}
+
+/* Link to parent site */
+
+#nav-main .parent-site a,
+#nav-main .parent-site a:active,
+#nav-main .parent-site a:focus,
+#nav-main .parent-site a:hover
+{
+    font-size: 13px;
+}
+
+
+/* Main navigation items */
+
+#nav-main
+{
+    float: right;
+    position: relative;
+}
+
+html[dir="rtl"] #nav-main
+{
+    float: left;
+}
+
+#nav-main > li
+{
+    float: left;
+}
+
+html[dir="rtl"] #nav-main > li
+{
+    float: right;
+}
+
+#nav-main li a,
+#nav-main li a:hover,
+#nav-main li a:active,
+#nav-main li a:focus
+{
+    color: #777;
+    display: inline-block;
+    text-decoration: none;
+    padding: 0 1.5em;
+    font-size: 1.1em;
+
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#nav-main .dropdown-menu li a:hover,
+#nav-main .dropdown-menu li.show-dropdown
+{
+    background-color: #eee;
+}
+
+#nav-main .dropdown-menu li a:active,
+#nav-main .dropdown-menu li a:focus
+{
+    background-color: #eee;
+}
+
+#nav-main a.admin,
+#nav-main a.admin:hover
+{
+    color: #f33;
+}
+
+#user
+{
+    float: left;
+}
+
+#user img
+{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin: 0 8px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+#user a > *
+{
+    vertical-align: middle;
+    line-height: 1;
+}
+
+#user .user-username
+{
+    display: inline-block;
+}
+
+#nav-main .login .btn
+{
+    padding: 0.1em 1em;
+    font-weight: normal;
+    line-height: 2em;
+}
+
+
+/* Dropdown menu */
+
+.show-dropdown .dropdown-menu
+{
+    display: block;
+}
+
+.dropdown-menu
+{
+    position: absolute;
+    z-index: 500;
+    top: 100%;
+
+    display: none;
+
+    background-color: #f5f5f5;
+    min-width: 200px;
+    line-height: 35px;
+    padding: 0.2em 0;
+
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
+}
+
+.dropdown-menu .menu-divider
+{
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+    height: 1px;
+    margin: 0.25em 0;
+}
+
+
+/* Accessibility */
+
+#nav-access
+{
+    position: absolute;
+    top: -1000px;
+}
+
+html[dir="ltr"] #nav-access
+{
+    left: -1000px;
+}
+
+html[dir="rtl"] #nav-access
+{
+    right: -1000px;
+}
+
+
+/* Responsive styles */
+
+@media screen and (min-width: 900px)
+{
+    #nav-main
+    {
+        display: block !important;
+    }
+}
+
+@media screen and (max-width: 900px)
+{
+    .brand-name
+    {
+        display: none;
+    }
+
+    #navbar h1
+    {
+        max-width: 70%;
+    }
+
+    #navbar::after
+    {
+        clear: both;
+    }
+
+    #nav-main
+    {
+        float: none;
+        display: none;
+        background-color: #222;
+        transition: all 0.3s ease 0s;
+    }
+
+    #nav-main li
+    {
+        display: block;
+        width: 100%;
+    }
+
+    #nav-main li a
+    {
+        background-color: #222;
+    }
+
+    #nav-main > .menu-divider
+    {
+        height: 1px;
+        width: 100%;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    #nav-main .dropdown-menu
+    {
+        width: 100% !important;
+        position: relative;
+
+        border-radius: 0;
+        border: 0 none;
+        box-shadow: none;
+    }
+
+    #menu-toggle
+    {
+        display: block;
+        float: right;
+        padding: 0 16px;
+    }
+
+    html[dir="rtl"] #menu-toggle
+    {
+        float: left;
+    }
+
+    #menu-toggle::after
+    {
+        content: "";
+        display: inline-block;
+        background: url('../images/menu_white.png');
+        width: 23px;
+        height: 15px;
+        vertical-align: middle;
+    }
+}

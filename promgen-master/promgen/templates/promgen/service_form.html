@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load promgen %}
+{% block content %}
+
+<div class="page-header">
+  <h1>{{ view.button_label }}</h1>
+</div>
+
+{% breadcrumb label=view.button_label %}
+
+{% if service %}
+<div class="alert alert-danger" role="alert">
+  Warning. Renaming or Moving a service will reset all labels in Prometheus
+</div>
+{% endif %}
+
+<div class="panel panel-default">
+  <form action="" method="post">{% csrf_token %}
+    <table class="table">
+      {{ form.as_table }}
+    </table>
+    <div class="panel-footer">
+      <button class="btn btn-primary">{{ view.button_label }}</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

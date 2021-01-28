@@ -1,0 +1,203 @@
+
+// BUTTONS
+
+%button {
+    @include font-size(small);
+    align-items: center;
+    background-color: $color-solid-primary;
+    border: 0;
+    border-radius: 4px;
+    color: $color-black900;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    &[variant='primary']:hover,
+    &[variant='secondary']:hover,
+    &[variant='destructive']:disabled,
+    &:hover {
+        background-color: $color-link-primary;
+        color: $color-white;
+    }
+    &[variant='primary']:disabled,
+    &[variant='secondary']:disabled,
+    &[variant='destructive']:disabled,
+    &:disabled {
+        background-color: $color-gray400;
+        color: rgba($color-black900, .5);
+    }
+    & tg-svg {
+        fill: currentColor;
+    }
+}
+
+// Button primary //
+// button.btn-primary
+
+.btn-big {
+    @extend %button;
+    padding: .75rem 1.5rem;
+    & tg-svg {
+        margin-right: .4rem;
+    }
+}
+
+// Button small //
+// button.btn-small(variant="primary")
+// button.btn-small(variant="secondary")
+
+.btn-small {
+    @extend %button;
+    padding: .45rem 1rem;
+    span {
+        height: 1rem;
+    }
+    &[variant='primary'] {
+        background-color: $color-solid-primary;
+        color: $color-black900;
+        transition: all .3s linear;
+    }
+    &[variant='secondary'] {
+        background-color: $color-gray400;
+        color: $color-black600;
+        transition: all .3s linear;
+    }
+    &[variant='destructive'] {
+        background-color: $color-link-red;
+        color: $color-white;
+        transition: all .3s linear;
+    }
+    tg-svg {
+        margin-right: .5rem;
+    }
+}
+
+// Button ICON //
+// button.btn-icon(variant="primary")
+// button.btn-icon(variant="secondary")
+
+.btn-icon {
+    @extend %button;
+    padding: .5rem;
+    &[variant='primary'] {
+        background-color: $color-solid-primary;
+        color: $color-black900;
+    }
+    &[variant='secondary'] {
+        background-color: $color-gray400;
+        color: $color-black600;
+    }
+    &[variant='destructive'] {
+        background-color: $color-link-red;
+        color: $color-white;
+    }
+}
+
+// Button Link
+// button.btn-link
+// button.btn-link(variant="primary")
+// button.btn-link(variant="secondary")
+
+.btn-link {
+    @include font-size(small);
+    appearance: none;
+    background: none;
+    color: $color-link-tertiary;
+    display: flex;
+    justify-content: center;
+    padding: .25rem;
+    text-align: center;
+    & tg-svg {
+        fill: currentColor;
+    }
+    &[variant='icon'] {
+        color: $color-link-primary;
+        &:hover {
+            background: none;
+            color: $color-link-tertiary;
+            & > tg-svg {
+                fill: $color-link-primary;
+            }
+        }
+        & > tg-svg {
+            & + * {
+                margin-inline-start: .5rem;
+            }
+        }
+        & * + tg-svg {
+            margin-inline-start: .5rem;
+        }
+    }
+}
+
+// Button Form
+// button.btn-form
+
+.btn-form {
+    background: transparent;
+    color: $color-link-primary;
+    padding: .25rem;
+    &:hover {
+        background: $color-gray400;
+    }
+    & tg-svg {
+        fill: currentColor;
+    }
+}
+
+// Button Filter
+// button.btn-filter
+
+.btn-filter {
+    @extend %button;
+    background-color: $color-gray100;
+    color: $color-link-primary;
+    padding: .5rem .5rem;
+    text-transform: none;
+    &.active,
+    &:hover {
+        background-color: $color-gray400;
+        color: $color-link-primary;
+    }
+    & tg-svg {
+        margin-right: .25rem;
+    }
+    .selected-filters {
+        @include font-size(xsmall);
+        align-items: center;
+        background-color: $color-link-red;
+        border-radius: 50%;
+        color: $color-white;
+        display: flex;
+        height: 1rem;
+        justify-content: center;
+        margin-inline-start: .25rem;
+        width: 1rem;
+    }
+}
+
+// Button Board
+// Used in kanban and taksboard headers
+// button.btn-board
+
+.btn-board {
+    @extend %button;
+    background-color: transparent;
+    color: $color-link-tertiary;
+    padding: .25rem;
+    & tg-svg {
+        fill: currentColor;
+    }
+    &:hover {
+        background-color: $color-gray300;
+        color: $color-link-primary;
+    }
+    &[variant='blocked'] {
+        &:hover {
+            background-color: rgba($color-link-red, .25);
+            color: $color-black900;
+        }
+    }
+}

@@ -1,0 +1,144 @@
+.cart-row {
+    /* Cart grid */
+    padding: 10px 0;
+
+    .count form {
+        display: inline;
+    }
+    .price, .count, .download-desktop {
+        text-align: right;
+    }
+    .price small,
+    .availability-box small {
+        display: block;
+        line-height: 1;
+    }
+
+    &.total {
+        border-top: 1px solid $table-border-color;
+    }
+
+    dl {
+        padding-left: 20px;
+        margin-bottom: 0;
+
+        dd:not(.toplevel) {
+            padding-left: 20px;
+        }
+    }
+
+    margin-left: 0;
+    margin-right: 0;
+
+    &>div {
+        position: relative;
+        min-height: 1px;
+        padding-left:  ceil(($grid-gutter-width / 2));
+        padding-right: floor(($grid-gutter-width / 2));
+        float: left;
+    }
+    .download-desktop {
+        display: block;
+        width: percentage((4 / $grid-columns));
+    }
+    .product {
+        width: percentage((4 / $grid-columns));
+    }
+    .count {
+        width: percentage((2 / $grid-columns));
+    }
+    .singleprice, .totalprice {
+        width: percentage((3 / $grid-columns));
+    }
+    &.has-downloads .product {
+        width: percentage((5 / $grid-columns));
+    }
+    .addon-signifier {
+        display: inline-block;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+
+    dl {
+      margin: 5px 0;
+        dt {
+            font-weight: normal;
+            margin-top: 5px;
+        }
+    }
+}
+
+.apply-voucher {
+    input {
+        height: 32px;
+    }
+}
+
+@media(max-width: $screen-sm-max) {
+    .cart .panel-body {
+        padding: 5px;
+        .checkout-button-row {
+            padding: 0 10px;
+        }
+        #cart-deadline {
+            display: block;
+            padding: 0 10px 5px;
+        }
+    }
+    .cart-row {
+        .download-desktop {
+            clear: both;
+            display: block;
+            width: 50%;
+            text-align: left;
+            a.btn, button.btn {
+                word-break: break-all;
+                display: block;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+
+        .totalprice {
+            width: 50%;
+        }
+        .product, &.has-downloads .product {
+            width: 100%;
+        }
+        &.total .product {
+            width: 50%;
+        }
+        .count {
+            clear: both;
+            width: 25%;
+            text-align: left;
+        }
+        .singleprice {
+            width: 25%;
+        }
+
+        &.editable {
+            .count {
+                width: 50%;
+                text-align: right;
+            }
+            .singleprice {
+                clear: both;
+                width: 50%;
+            }
+            .totalprice {
+                width: 50%;
+            }
+        }
+    }
+}
+
+#cart-deadline-short {
+    font-variant-numeric: tabular-nums;
+}
+.cart-modify {
+    margin-left: 10px;
+}
+.btn-invisible {
+    opacity: 0 !important;
+}

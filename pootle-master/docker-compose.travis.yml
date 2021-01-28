@@ -1,0 +1,102 @@
+# docker-compose for Pootle development.
+#
+# Note: Requires docker-compose 1.10+.
+version: "2.4"
+services:
+
+  elasticsearch:
+    extends:
+        file: docker-compose.yml
+        service: elasticsearch
+    tmpfs: /usr/share/elasticsearch/data
+
+  postgres:
+    extends:
+        file: docker-compose.yml
+        service: postgres
+    volumes:
+      - type: tmpfs
+        target: /var/lib/postgresql/data
+
+  redis:
+    extends:
+        file: docker-compose.yml
+        service: redis
+    volumes:
+      - type: tmpfs
+        target: /data
+
+  mariadb:
+    extends:
+        file: docker-compose.dev.yml
+        service: mariadb
+    volumes:
+      - type: tmpfs
+        target: /var/lib/mysql
+
+  travis-mariadb:
+    image: translatetravis2/pootle:travis-mariadb
+    environment:
+      - LOCAL_USER_ID=${LOCAL_USER_ID:-''}
+      - CI=${CI:-''}
+      - TRAVIS_BUILD_ID=${TRAVIS_BUILD_ID:-''}
+      - TRAVIS=${TRAVIS:-''}
+      - TRAVIS_BRANCH=${TRAVIS_BRANCH:-''}
+      - TRAVIS_JOB_NUMBER=${TRAVIS_JOB_NUMBER:-''}
+      - TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST:-''}
+      - TRAVIS_JOB_ID=${TRAVIS_JOB_ID:-''}
+      - TRAVIS_REPO_SLUG=${TRAVIS_REPO_SLUG:-''}
+      - TRAVIS_COMMIT=${TRAVIS_COMMIT:-''}
+    depends_on:
+      - mariadb
+      - redis
+      - elasticsearch
+    command: ["/app/src/pootle/docker/bin/run_in_container", "server"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app/src/pootle
+
+  travis-postgres:
+    image: translatetravis2/pootle:travis-postgres
+    environment:
+      - LOCAL_USER_ID=${LOCAL_USER_ID:-''}
+      - CI=${CI:-''}
+      - TRAVIS_BUILD_ID=${TRAVIS_BUILD_ID:-''}
+      - TRAVIS=${TRAVIS:-''}
+      - TRAVIS_BRANCH=${TRAVIS_BRANCH:-''}
+      - TRAVIS_JOB_NUMBER=${TRAVIS_JOB_NUMBER:-''}
+      - TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST:-''}
+      - TRAVIS_JOB_ID=${TRAVIS_JOB_ID:-''}
+      - TRAVIS_REPO_SLUG=${TRAVIS_REPO_SLUG:-''}
+      - TRAVIS_COMMIT=${TRAVIS_COMMIT:-''}
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    command: ["/app/src/pootle/docker/bin/run_in_container", "server"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app/src/pootle
+
+  travis-sqlite:
+    image: translatetravis2/pootle:travis-sqlite
+    environment:
+      - LOCAL_USER_ID=${LOCAL_USER_ID:-''}
+      - CI=${CI:-''}
+      - TRAVIS_BUILD_ID=${TRAVIS_BUILD_ID:-''}
+      - TRAVIS=${TRAVIS:-''}
+      - TRAVIS_BRANCH=${TRAVIS_BRANCH:-''}
+      - TRAVIS_JOB_NUMBER=${TRAVIS_JOB_NUMBER:-''}
+      - TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST:-''}
+      - TRAVIS_JOB_ID=${TRAVIS_JOB_ID:-''}
+      - TRAVIS_REPO_SLUG=${TRAVIS_REPO_SLUG:-''}
+      - TRAVIS_COMMIT=${TRAVIS_COMMIT:-''}
+    depends_on:
+      - redis
+      - elasticsearch
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app/src/pootle

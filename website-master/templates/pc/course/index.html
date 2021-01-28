@@ -1,0 +1,48 @@
+{% extends 'pc/base.html' %}
+{% load static %}
+{% block title %}{{ seo_list.title }}{% endblock %}
+
+{% block keywords %}
+{{ seo_list.keywords }}
+{% endblock %}
+{% block desc %}
+{{ seo_list.desc }}
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/course.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div id="main" class="clearfix">
+            {% for foo in course %}
+                  <div class="course">
+                       <a href="/course/{{ foo.id }}/{{ foo.courselist_set.first.id }}.html">
+                     <img class="corseimg" src="{% if foo.image %}
+                     {{ MEDIA_URL }}{{ foo.image }}
+                     {% else %}
+                     {% static 'img/pic/a5e8b0e574b0b165092b069f9c819f9a.jpg' %}
+                     {% endif %}" alt="">
+                <div class="desc">
+                    <p>{{ foo.title }}</p>
+                    <span>{{ foo.info }}</span>
+                    <div class="article__footer clearfix">
+                        <span class="fl type">{% if foo.is_active %}
+                        更新中...
+                            {% else %}
+                            已完结
+                        {% endif %}</span>
+                        <span class="fr time">{{ foo.add_time }}</span>
+                    </div>
+                </div>
+                </a>
+
+
+            </div>
+                {% empty %}
+                <p class="empty">暂无更新课程，敬请期待</p>
+            {% endfor %}
+
+
+        </div>
+    </div>
+{% endblock %}

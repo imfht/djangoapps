@@ -1,0 +1,140 @@
+// Basic layout styles
+@include meyer-reset;
+
+* {
+    box-sizing: border-box;
+
+    &:focus {
+        outline: 1px dotted $color-link-primary;
+    }
+}
+
+html {
+    min-height: 100%;
+    width: 100%;
+}
+body {
+    @include font-type(regular);
+    line-height: 1.25;
+    min-height: 100%;
+    overflow-x: hidden;
+    width: 100%;
+    .master {
+        &.ng-animate {
+            transition: 0;
+        }
+    }
+    &.loading-project {
+        overflow: hidden;
+    }
+}
+
+.loader-active {
+    overflow: hidden;
+}
+
+.drag-active {
+    overflow-x: hidden;
+}
+
+.master {
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+.centered {
+    @include centered;
+}
+
+tg-svg {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    display: flex;
+    height: 100%;
+    min-height: $main-height;
+}
+
+.menu-secondary {
+    background: $color-gray100;
+    flex: 0 0 auto;
+    min-height: $main-height;
+    min-width: 0;
+    padding: 0;
+    .search-in {
+        margin-top: .5rem;
+    }
+    .settings-nav {
+        background-color: $grey-05;
+    }
+
+    li {
+        background: $color-gray100;
+        padding: 0;
+        .active {
+            @include font-type(medium);
+            background: $color-white;
+            a {
+                color: $color-link-primary;
+            }
+            &:hover {
+                background: $color-white;
+                a {
+                    @include font-type(medium);
+                    color: $color-link-tertiary;
+                }
+            }
+        }
+    }
+}
+
+.menu-tertiary {
+    @include sidebar-narrow-width;
+    background-color: $color-gray400;
+    border-right: 1px solid darken($tertiary, 3%);
+    flex: 0 0 auto;
+    min-height: $main-height;
+    ul li {
+        a {
+            color: $grey-70;
+        }
+        &:hover,
+        &:hover a {
+            background: $color-gray300;
+            color: $color-link-tertiary;
+        }
+        &.active {
+            background: $color-link-primary;
+            a {
+                @include font-type(medium);
+                background: $color-gray300;
+                color: $color-link-primary;
+                &:hover,
+                &:hover a {
+                    background: $color-gray300;
+                    color: $color-link-tertiary;
+                }
+            }
+        }
+    }
+}
+
+.main {
+    flex: 1;
+    padding: 1rem;
+}
+
+.header-with-actions {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.hidden {
+    display: none !important; /* stylelint-disable-line declaration-no-important */
+}

@@ -1,0 +1,96 @@
+import os
+
+from .base import *
+
+# WEB SITE URL
+THIS_BOOKTYPE_SERVER = os.environ.get('BOOKTYPE_SERVER', '127.0.0.1:8000')
+
+BOOKTYPE_URL = os.environ.get('BOOKTYPE_URL', 'http://{}'.format(THIS_BOOKTYPE_SERVER))
+
+STATIC_URL = '/static/'
+DATA_URL = '/data/'
+MEDIA_URL = DATA_URL
+
+# URL where is publishing engine located. By default it is on local machine.
+CONVERT_URL = BOOKTYPE_URL
+
+# MPDF RENDERER SETTINGS
+# Change lines below in case you want to use other version
+# of php or mpdf in dev profile
+# PHP_PATH = 'php'
+# MPDF_DIR = ''
+# MPDF_SCRIPT = ''
+
+# DEBUGGING
+DEBUG = TEMPLATES[0]['OPTIONS']['debug'] = True
+
+INTERNAL_IPS = ('127.0.0.1', '192.168.0.1')
+
+# COMPRESSION
+COMPRESS_ENABLED = False
+COMPRESS_OFFLINE = False
+
+# PROFILE
+PROFILE_ACTIVE = 'dev'
+
+# Python dotted path to the WSGI application used by Django's runserver.
+WSGI_APPLICATION = '{}.wsgi_dev.application'.format('##BOOKTYPE_SITE_DIR##')
+
+# URL ROUTER
+ROOT_URLCONF = '{}.urls.dev'.format(BOOKTYPE_SITE_DIR)
+
+# DATABASE
+DATABASES = {
+    'default': {
+        'ENGINE': '##DATABASE_ENGINE##',
+        'NAME': '##DATABASE_NAME##',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',##ATOMIC_SETTING##
+    }
+}
+
+if 'BOOKTYPE_DATABASE_ENGINE' in os.environ:
+    DATABASES['default']['ENGINE'] = os.environ['BOOKTYPE_DATABASE_ENGINE']
+
+if 'BOOKTYPE_DATABASE_NAME' in os.environ:
+    DATABASES['default']['NAME'] = os.environ['BOOKTYPE_DATABASE_NAME']
+    
+if 'BOOKTYPE_DATABASE_USER' in os.environ:
+    DATABASES['default']['USER'] = os.environ['BOOKTYPE_DATABASE_USER']
+
+if 'BOOKTYPE_DATABASE_PASSWORD' in os.environ:
+    DATABASES['default']['PASSWORD'] = os.environ['BOOKTYPE_DATABASE_PASSWORD']
+
+if 'BOOKTYPE_DATABASE_HOST' in os.environ:
+    DATABASES['default']['HOST'] = os.environ['BOOKTYPE_DATABASE_HOST']
+    
+if 'BOOKTYPE_DATABASE_PORT' in os.environ:
+    DATABASES['default']['PORT'] = os.environ['BOOKTYPE_DATABASE_PORT']
+
+
+# E-MAIL
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# DEVELOPMENT TOOLS
+try:
+    import debug_toolbar
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
+    INSTALLED_APPS += ('debug_toolbar',)
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+        'SHOW_TOOLBAR_CALLBACK': lambda *args, **kwargs: True
+    }
+except ImportError:
+    pass
+
+# READ CONFIGURAION
+from booktype.utils import config
+
+try:
+    BOOKTYPE_CONFIG = config.load_configuration()
+except config.ConfigurationError:
+    BOOKTYPE_CONFIG = {}

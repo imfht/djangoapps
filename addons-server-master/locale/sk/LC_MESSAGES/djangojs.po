@@ -1,0 +1,856 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AMO-JS 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-07 10:50+0000\n"
+"PO-Revision-Date: 2019-10-11 14:32+0000\n"
+"Last-Translator: Juraj Cigáň <kusavica@gmail.com>\n"
+"Language-Team: Mozilla.sk <l10n@mozilla.sk>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Generated-By: Babel 2.2.0\n"
+"X-Generator: Pontoon\n"
+
+msgid "{0} star"
+msgid_plural "{0} stars"
+msgstr[0] "{0} hviezdička"
+msgstr[1] "{0} hviezdičky"
+msgstr[2] "{0} hviezdičiek"
+
+msgid "There was a problem contacting the server."
+msgstr "Pri kontaktovaní servera sa vyskytla chyba."
+
+msgid "Select a file..."
+msgstr "Zvoľte súbor..."
+
+#, fuzzy
+msgid "Your add-on should end with .zip, .xpi or .crx"
+msgstr "Váš doplnok by mal končiť s .zip, .xpi, .crx alebo .xml"
+
+#. L10n: {0} is the percent of the file that has been uploaded.
+#, python-format
+msgid "{0}% complete"
+msgstr "Dokončené: {0}%"
+
+msgid "{0} of {1}"
+msgstr "{0} z {1}"
+
+msgid "Cancel"
+msgstr "Zrušiť"
+
+msgid "Uploading {0}"
+msgstr "Odosiela sa {0}"
+
+msgid "Error with {0}"
+msgstr "Chyba s {0}"
+
+msgid "Please make sure to report any linting related issues on GitHub"
+msgstr "Uistite sa, že ste na GitHub ohlásili akékoľvek problémy súvisiace s lintingom"
+
+msgid "Your add-on failed validation with {0} error."
+msgid_plural "Your add-on failed validation with {0} errors."
+msgstr[0] "Váš doplnok neprešiel overením, výsledok: {0} chyba."
+msgstr[1] "Váš doplnok neprešiel overením, výsledok: {0} chyby."
+msgstr[2] "Váš doplnok neprešiel overením, výsledok: {0} chýb."
+
+msgid "&hellip;and {0} more"
+msgid_plural "&hellip;and {0} more"
+msgstr[0] "&hellip;a {0} ďalšia"
+msgstr[1] "&hellip;a {0} ďalšie"
+msgstr[2] "&hellip;a {0} ďalších"
+
+msgid "See full validation report"
+msgstr "Zobraziť celú správu o overení"
+
+msgid "Validating {0}"
+msgstr "Overuje sa {0}"
+
+msgid "Your add-on exceeds the maximum size of {0}."
+msgstr "Váš doplnok presahuje maximálnu veľkosť {0}."
+
+msgid "Received an empty response from the server; status: {0}"
+msgstr "Prijatá prázdna odpoveď zo servera. Stav: {0}"
+
+msgid "Unexpected server error while validating."
+msgstr "Počas overovania sa vyskytla neočakávaná chyba."
+
+msgid "Finished validating {0}"
+msgstr "Ukončené overovanie {0}"
+
+msgid "Your add-on validation timed out, it will be manually reviewed."
+msgstr "Overovanie vášho doplnku vypršalo, doplnok bude skontrolovaný manuálne."
+
+msgid "Your add-on was validated with no errors and {0} warning."
+msgid_plural "Your add-on was validated with no errors and {0} warnings."
+msgstr[0] "Váš doplnok bol overený bez chýb a s {0} varovaním."
+msgstr[1] "Váš doplnok bol overený bez chýb a s {0} varovaniami."
+msgstr[2] "Váš doplnok bol overený bez chýb a s {0} varovaniami."
+
+msgid "Your add-on was validated with no errors and {0} message."
+msgid_plural "Your add-on was validated with no errors and {0} messages."
+msgstr[0] "Váš doplnok bol overený bez chýb a s {0} správou."
+msgstr[1] "Váš doplnok bol overený bez chýb a s {0} správami."
+msgstr[2] "Váš doplnok bol overený bez chýb a s {0} správami."
+
+msgid "Your add-on was validated with no errors or warnings."
+msgstr "Váš doplnok bol overený bez chýb alebo varovaní."
+
+msgid "Your submission will be automatically signed."
+msgstr "Vaše doplnky odoslané na kontrolu budú automaticky podpísané."
+
+msgid "WebExtension upgrade"
+msgstr "Prechod na WebExtension"
+
+msgid "We allow and encourage an upgrade but you cannot reverse this process. Once your users have the WebExtension installed, they will not be able to install a legacy add-on."
+msgstr ""
+"Povoľujeme a odporúčame prechod na novšiu verziu, ale tento proces nie je možne vrátiť. Keď si používatelia nainštalujú WebExtension verziu, nebudú si môcť nainštalovať predchádzajúce verzie vášho "
+"doplnku."
+
+msgid "Porting a legacy Firefox add-on on MDN"
+msgstr "Prenos zastaraných doplnkov Firefoxu na MDN"
+
+msgid "Include detailed version notes (this can be done in the next step)."
+msgstr "Zahrnúť podrobné poznámky k verzii (možno nastaviť v ďalšom kroku)."
+
+msgid "If your add-on requires an account to a website in order to be fully tested, include a test username and password in the Notes to Reviewer (this can be done in the next step)."
+msgstr "Ak váš doplnok vyžaduje účet na webovom serveri pre možnosť plnej kontroly, zadajte prosím používateľské meno a heslo do poznámky pre redaktora (možno vykonať v ďalšom kroku)."
+
+msgid "Add-on submission checklist"
+msgstr "Zoznam doplnkov odoslaných na kontrolu"
+
+msgid "Please verify the following points before finalizing your submission. This will minimize delays or misunderstanding during the review process:"
+msgstr "Skontrolujte prosím nasledujúce body pred odoslaním doplnku na kontrolu. Pomôžete tým kontrolu zrýchliť a predísť prípadnému nedorozumeniu pri procese kontroly:"
+
+msgid ""
+"Minified, concatenated or otherwise machine-generated scripts (excluding known libraries) need to have their sources submitted separately for review. Make sure that you use the source code upload "
+"field to avoid having your submission rejected."
+msgstr ""
+
+msgid "The validation process found these issues that can lead to rejections:"
+msgstr "Proces kontroly zistil tieto možné nedostatky, ktoré môžu viesť k zamietnutiu kontroly:"
+
+msgid "The filetype you uploaded isn't recognized."
+msgstr "Nebol rozpoznaný typ súboru, ktorý ste odoslali."
+
+msgid "Your file exceeds the maximum size of {0}."
+msgstr "Váš súbor presahuje maximálnu veľkosť {0}."
+
+msgid "You cancelled the upload."
+msgstr "Odosielanie ste zrušili."
+
+msgid "Images must be either PNG or JPG."
+msgstr "Obrázky musia mať formát PNG alebo JPG."
+
+msgid "Videos must be in WebM."
+msgstr "Videá musia byť vo formáte WebM."
+
+msgid "This theme is incompatible with your version of {0}"
+msgstr "Táto téma nie je kompatibilná s vašou verziou aplikácie {0}"
+
+msgid "Flagged for review"
+msgstr "Označené na kontrolu"
+
+msgid "Your input is required"
+msgstr "Vyžaduje sa zadanie údajov"
+
+msgid "Marked for deletion"
+msgstr "Označené na odstránenie"
+
+msgid "Updating results&hellip;"
+msgstr "Prebieha aktualizácia výsledkov&hellip;"
+
+msgid "Category"
+msgstr "Kategória"
+
+msgid "Search themes for <b>{0}</b>"
+msgstr "Vyhľadávanie tém podľa <b>{0}</b>"
+
+msgid "Search apps for <b>{0}</b>"
+msgstr "Vyhľadávanie aplikácií pre <b>{0}</b>"
+
+msgid "Search add-ons for <b>{0}</b>"
+msgstr "Vyhľadávanie doplnkov pre <b>{0}</b>"
+
+msgid "Use original"
+msgstr "Použiť originál"
+
+msgid "Week of {0}"
+msgstr "Týždeň {0}"
+
+msgid "{0} download"
+msgid_plural "{0} downloads"
+msgstr[0] "{0} prevzatie"
+msgstr[1] "{0} prevzatia"
+msgstr[2] "{0} prevzatí"
+
+msgid "{0} user"
+msgid_plural "{0} users"
+msgstr[0] "{0} používateľ"
+msgstr[1] "{0} používatelia"
+msgstr[2] "{0} používateľov"
+
+msgid "{0} add-on"
+msgid_plural "{0} add-ons"
+msgstr[0] "{0} doplnok"
+msgstr[1] "{0} doplnky"
+msgstr[2] "{0} doplnkov"
+
+msgid "{0} collection"
+msgid_plural "{0} collections"
+msgstr[0] "{0} kolekcia"
+msgstr[1] "{0} kolekcie"
+msgstr[2] "{0} kolekcií"
+
+msgid "{0} review"
+msgid_plural "{0} reviews"
+msgstr[0] "{0} recenzia"
+msgstr[1] "{0} recenzie"
+msgstr[2] "{0} recenzií"
+
+msgid "{0} sale"
+msgid_plural "{0} sales"
+msgstr[0] "{0} predaný"
+msgstr[1] "{0} predané"
+msgstr[2] "{0} predaných"
+
+msgid "{0} refund"
+msgid_plural "{0} refunds"
+msgstr[0] "{0} vrátená platba"
+msgstr[1] "{0} vrátené platby"
+msgstr[2] "{0} vrátených platieb"
+
+msgid "{0} install"
+msgid_plural "{0} installs"
+msgstr[0] "{0} inštalácia"
+msgstr[1] "{0} inštalácie"
+msgstr[2] "{0} inštalácií"
+
+msgid "Downloads"
+msgstr "Prevzatí"
+
+msgid "Daily Users"
+msgstr "Denní používatelia"
+
+msgid "Amount, in USD"
+msgstr "Množstvo, v USD"
+
+msgid "Number of Contributions"
+msgstr "Počet príspevkov"
+
+msgid "More Info..."
+msgstr "Viac informácií..."
+
+#. L10n: {0} is an ISO-formatted date.
+msgid "Details for {0}"
+msgstr "Detaily pre {0}"
+
+msgid "Collections Created"
+msgstr "Vytvorené kolekcie"
+
+msgid "Add-ons in Use"
+msgstr "Používané doplnky"
+
+msgid "Add-ons Created"
+msgstr "Vytvorené doplnky"
+
+msgid "Add-ons Downloaded"
+msgstr "Prevzaté doplnky"
+
+msgid "Add-ons Updated"
+msgstr "Aktualizované doplnky"
+
+msgid "Reviews Written"
+msgstr "Napísané recenzie"
+
+msgid "User Signups"
+msgstr "Prihlásení používatelia"
+
+msgid "Subscribers"
+msgstr "Odberatelia"
+
+msgid "Ratings"
+msgstr "Hodnotenia"
+
+msgid "Sales"
+msgstr "Predaje"
+
+msgid "Installs"
+msgstr "Inštalácie"
+
+msgid "Unknown"
+msgstr "Neznáme"
+
+msgid "Add-ons Manager"
+msgstr "Správca doplnkov"
+
+msgid "Add-ons Manager Promo"
+msgstr "Propagácia v správcovi doplnkov"
+
+msgid "Add-ons Manager Featured"
+msgstr "Odporúčané v správcovi doplnkov"
+
+msgid "Add-ons Manager Learn More"
+msgstr "Zistiť viac v správcovi doplnkov"
+
+msgid "Search Suggestions"
+msgstr "Návrhy vyhľadávania"
+
+msgid "Search Results"
+msgstr "Výsledky hľadania"
+
+msgid "Homepage Promo"
+msgstr "Domovská stránka (propagácia)"
+
+msgid "Homepage Featured"
+msgstr "Domovská stránka (odporúčané)"
+
+msgid "Homepage Up and Coming"
+msgstr "Domovská stránka (zaujímavé)"
+
+msgid "Homepage Most Popular"
+msgstr "Domovská stránka (populárne)"
+
+msgid "Detail Page"
+msgstr "Stránka s detailmi"
+
+msgid "Detail Page (bottom)"
+msgstr "Stránka s detailmi (dole)"
+
+msgid "Detail Page (Development Channel)"
+msgstr "Stránka s detailmi (vývojársky kanál)"
+
+msgid "Often Used With"
+msgstr "Často sa používa spolu s"
+
+msgid "Others By Author"
+msgstr "Ďalšie aplikácie tohto autora"
+
+msgid "Dependencies"
+msgstr "Závislosti"
+
+msgid "Upsell"
+msgstr "Prechod na platenú variantu"
+
+msgid "Meet the Developer"
+msgstr "Spoznajte vývojára"
+
+msgid "User Profile"
+msgstr "Používateľský profil"
+
+msgid "Version History"
+msgstr "História verzií"
+
+msgid "Sharing"
+msgstr "Zdieľanie"
+
+msgid "Category Pages"
+msgstr "Stránky kategórií"
+
+msgid "Collections"
+msgstr "Kolekcie"
+
+msgid "Category Landing Featured Carousel"
+msgstr "Kategória s odporúčanými doplnkami"
+
+msgid "Category Landing Top Rated"
+msgstr "Kategórie najlepšie hodnotených"
+
+msgid "Category Landing Most Popular"
+msgstr "Kategórie najviac populárnych"
+
+msgid "Category Landing Recently Added"
+msgstr "Kategórie naposledy pridaných"
+
+msgid "Browse Listing Featured Sort"
+msgstr "Zoznam doplnkov podľa obľúbenosti"
+
+msgid "Browse Listing Users Sort"
+msgstr "Zoznam doplnkov podľa počtu používateľov"
+
+msgid "Browse Listing Rating Sort"
+msgstr "Zoznam doplnkov podľa hodnotenia"
+
+msgid "Browse Listing Created Sort"
+msgstr "Zoznam doplnkov podľa dátumu vytvorenia"
+
+msgid "Browse Listing Name Sort"
+msgstr "Zoznam doplnkov podľa názvu"
+
+msgid "Browse Listing Popular Sort"
+msgstr "Zoznam doplnkov podľa popularity"
+
+msgid "Browse Listing Updated Sort"
+msgstr "Zoznam doplnkov podľa dátumu aktualizácie"
+
+msgid "Browse Listing Up and Coming Sort"
+msgstr "Zoznam doplnkov podľa žiadanosti"
+
+msgid "Total Amount Contributed"
+msgstr "Celkovo prispelo"
+
+msgid "Average Contribution"
+msgstr "Priemerný príspevok"
+
+msgid "Usage"
+msgstr "Používanie"
+
+msgid "Firefox"
+msgstr "Firefox"
+
+msgid "Mozilla"
+msgstr "Mozilla"
+
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+msgid "Sunbird"
+msgstr "Sunbird"
+
+msgid "SeaMonkey"
+msgstr "SeaMonkey"
+
+msgid "Fennec"
+msgstr "Fennec"
+
+msgid "Android"
+msgstr "Android"
+
+#. L10n: {0} is an integer.
+msgid "Downloads and Daily Users, last {0} days"
+msgstr "Prevzatia a denní používatelia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads and Daily Users from {0} to {1}"
+msgstr "Prevzatia a denní používatelia od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs and Daily Users, last {0} days"
+msgstr "Inštalácie a denní používatelia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs and Daily Users from {0} to {1}"
+msgstr "Inštalácie a denní používatelia od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Downloads, last {0} days"
+msgstr "Prevzatia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Downloads from {0} to {1}"
+msgstr "Prevzatí od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Daily Users, last {0} days"
+msgstr "Denní používatelia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Daily Users from {0} to {1}"
+msgstr "Denní používatelia od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Applications, last {0} days"
+msgstr "Aplikácie, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Applications from {0} to {1}"
+msgstr "Aplikácie od {0} do {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Countries, last {0} days"
+msgstr "Príspevky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Countries from {0} to {1}"
+msgstr "Prispievatelia od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Platforms, last {0} days"
+msgstr "Platformy, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Platforms from {0} to {1}"
+msgstr "Platformy od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Languages, last {0} days"
+msgstr "Jazyky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Languages from {0} to {1}"
+msgstr "Jazyky od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Versions, last {0} days"
+msgstr "Verzie doplnkov, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Versions from {0} to {1}"
+msgstr "Verzie doplnku od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-on Status, last {0} days"
+msgstr "Stav doplnkov, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-on Status from {0} to {1}"
+msgstr "Stav doplnku od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Download Sources, last {0} days"
+msgstr "Zdroje prevzatí, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Download Sources from {0} to {1}"
+msgstr "Zdroje preberania od {0} do {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Download Mediums, last {0} days"
+msgstr "Prevzatia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Download Mediums from {0} to {1}"
+msgstr "Prevzatí od {0} do {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Download Contents, last {0} days"
+msgstr "Zdroje prevzatí, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Download Contents from {0} to {1}"
+msgstr "Prevzatí od {0} do {1}"
+
+#. L10n: {0} is an integer.
+#, fuzzy
+msgid "Download Campaigns, last {0} days"
+msgstr "Prevzatia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+#, fuzzy
+msgid "Download Campaigns from {0} to {1}"
+msgstr "Prevzatí od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Contributions, last {0} days"
+msgstr "Príspevky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Contributions from {0} to {1}"
+msgstr "Prispievatelia od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Site Metrics, last {0} days"
+msgstr "Štatistika webu, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Site Metrics from {0} to {1}"
+msgstr "Štatistika webu od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons in Use, last {0} days"
+msgstr "Používané doplnky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons in Use from {0} to {1}"
+msgstr "Používané doplnky od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Downloaded, last {0} days"
+msgstr "Prevzaté doplnky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Downloaded from {0} to {1}"
+msgstr "Prevzaté doplnky od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Created, last {0} days"
+msgstr "Vytvorené doplnky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Created from {0} to {1}"
+msgstr "Vytvorené doplnky, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Add-ons Updated, last {0} days"
+msgstr "Aktualizované doplnky, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Add-ons Updated from {0} to {1}"
+msgstr "Aktualizované doplnky, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Reviews Written, last {0} days"
+msgstr "Napísané recenzie, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Reviews Written from {0} to {1}"
+msgstr "Napísané recenzie, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "User Signups, last {0} days"
+msgstr "Prihlásení používatelia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "User Signups from {0} to {1}"
+msgstr "Prihlásení používatelia, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Collections Created, last {0} days"
+msgstr "Vytvorené kolekcie, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Collections Created from {0} to {1}"
+msgstr "Vytvorené kolekcie, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Subscribers, last {0} days"
+msgstr "Odbery, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Subscribers from {0} to {1}"
+msgstr "Odbery, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Ratings, last {0} days"
+msgstr "Hodnotenia, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Ratings from {0} to {1}"
+msgstr "Hodnotenia, od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Sales, last {0} days"
+msgstr "Predaje, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Sales from {0} to {1}"
+msgstr "Predaje od {0} do {1}"
+
+#. L10n: {0} is an integer.
+msgid "Installs, last {0} days"
+msgstr "Inštalácie, posledných {0} dní"
+
+#. L10n: both {0} and {1} are dates in YYYY-MM-DD format.
+msgid "Installs from {0} to {1}"
+msgstr "Inštalácie, od {0} do {1}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> in last {1} days"
+msgstr "<b>{0}</b> za posledných {1} dní"
+
+#. L10n: {0} is an integer and {1} and {2} are dates in YYYY-MM-DD format.
+msgid "<b>{0}</b> from {1} to {2}"
+msgstr "<b>{0}</b> od {1} do {2}"
+
+#. L10n: {0} and {1} are integers.
+msgid "<b>{0}</b> average in last {1} days"
+msgstr "<b>{0}</b> priemerne za posledných {1} dní"
+
+msgid "No data available."
+msgstr "Údaje sú nedostupné."
+
+msgid "Date"
+msgstr "Dátum"
+
+msgid "Other"
+msgstr "Iný"
+
+#. L10n: {0} is an app name like Firefox.
+msgid "Accept and Install"
+msgstr "Prijať a nainštalovať"
+
+msgid "Add to {0}"
+msgstr "Pridať do programu {0}"
+
+#. L10n: {0} is an platform like Windows or Linux.
+msgid "Install for {0} anyway"
+msgstr "Napriek tomu nainštalovať pre {0}"
+
+msgid "Download for {0} anyway"
+msgstr "Napriek tomu prevziať pre {0}"
+
+msgid "Not available for your platform"
+msgstr "Nie je dostupné pre vašu platformu."
+
+msgid "This add-on is not compatible with your version of {0}."
+msgstr "Tento doplnok nie je kompatibilný s vašou verziou aplikácie {0}."
+
+msgid "View other versions"
+msgstr "Zobraziť ďalšie verzie"
+
+msgid "Works with {app} {min} - {max}"
+msgstr "Funguje s {app} {min} - {max}"
+
+msgid "Works with {app}"
+msgstr "Funguje s {app}"
+
+msgid "Only with Firefox — Get Firefox Now!"
+msgstr "Len pre Firefox — získajte Firefox teraz!"
+
+msgid "Sorry, you need a Mozilla-based browser (such as Firefox) to install a search plugin."
+msgstr "Ak chcete nainštalovať vyhľadávací modul, potrebujete prehliadač založený na kóde Mozilla (napríklad Firefox)."
+
+msgid "Changes Saved"
+msgstr "Zmeny boli uložené"
+
+msgid "Enter a new author's email address"
+msgstr "Zadajte e-mailovú adresu nového autora"
+
+msgid "There was an error uploading your file."
+msgstr "Pri odosielaní súboru sa vyskytla chyba."
+
+msgid "{files} file"
+msgid_plural "{files} files"
+msgstr[0] "{files} súbor"
+msgstr[1] "{files} súbory"
+msgstr[2] "{files} súborov"
+
+msgid "Image changes being processed"
+msgstr "Zmeny obrázkov sa práve spracovávajú"
+
+msgid "Select an application first"
+msgstr "Najskôr zvoľte aplikáciu"
+
+msgid "No results found."
+msgstr "Neboli nájdené žiadne výsledky."
+
+msgid "Loading..."
+msgstr "Načítava sa..."
+
+msgid "<b>{0}</b> character"
+msgid_plural "<b>{0}</b> characters"
+msgstr[0] "<b>{0}</b> znak"
+msgstr[1] "<b>{0}</b> znaky"
+msgstr[2] "<b>{0}</b> znakov"
+
+msgid "<b>{0}</b> character left"
+msgid_plural "<b>{0}</b> characters left"
+msgstr[0] "Zostáva <b>{0}</b> znak."
+msgstr[1] "Zostávajú <b>{0}</b> znaky."
+msgstr[2] "Zostáva <b>{0}</b> znakov."
+
+msgid "This feature is temporarily disabled while we perform website maintenance. Please check back a little later."
+msgstr "Táto funkcia je dočasne nedostupná kvôli prebiehajúcej údržbe servera. Prosím, skúste to neskôr."
+
+msgid "Remove this localization"
+msgstr "Odstrániť túto lokalizáciu"
+
+msgid "{name} was viewing this page first."
+msgstr "{name} zobrazil túto stránku skôr."
+
+msgid "{name} was viewing this add-on first."
+msgstr "{name} skontroloval tento doplnok."
+
+msgid "Loading&hellip;"
+msgstr "Načítava sa&hellip;"
+
+msgid "Version Notes"
+msgstr "Poznámky k verzii"
+
+msgid "Notes for Reviewers"
+msgstr "Poznámky ku kontrole"
+
+msgid "No version notes found"
+msgstr "Neboli nájdené poznámky k verzii"
+
+msgid "Review Text"
+msgstr "Text hodnotenia"
+
+msgid "Review notes found"
+msgstr "Poznámky k hodnoteniu"
+
+msgid "Average Reviews"
+msgstr "Priemerné hodnotenie"
+
+msgid "Number of Reviews"
+msgstr "Počet hodnotení"
+
+msgid "Maximum upload size is {0} - choose a smaller background image."
+msgstr "Maximálna povolená veľkosť je {0} - vyberte menší obrázok pozadia."
+
+msgid "Requested Info"
+msgstr "Požadované informácie"
+
+msgid "Flagged"
+msgstr "Označené"
+
+msgid "Duplicate"
+msgstr "Duplicitné"
+
+msgid "Rejected"
+msgstr "Zamietnuté"
+
+msgid "Approved"
+msgstr "Schválené"
+
+msgid "No results found"
+msgstr "Neboli nájdené žiadne výsledky"
+
+msgid "Theme"
+msgstr "Téma"
+
+msgid "Reviewer"
+msgstr "Recenzent"
+
+msgid "Status"
+msgstr "Stav"
+
+msgid "All tests passed successfully."
+msgstr "Všetky testy ukončené úspešne."
+
+msgid "These tests were not run."
+msgstr "Tieto testy neboli spustené."
+
+msgid "Tests"
+msgstr "Testy"
+
+msgid "Error"
+msgstr "Chyba"
+
+msgid "Warning"
+msgstr "Upozornenie"
+
+msgid "{0} line {1} column {2}"
+msgstr "{0} riadok {1} stĺpec {2}"
+
+msgid "{0} line {1}"
+msgstr "{0} riadok {1}"
+
+msgid "Add-on failed validation."
+msgstr "Doplnok neprešiel overením."
+
+msgid "Add-on passed validation."
+msgstr "Doplnok prešiel overením."
+
+msgid "{0} error"
+msgid_plural "{0} errors"
+msgstr[0] "{0} chyba"
+msgstr[1] "{0} chyby"
+msgstr[2] "{0} chýb"
+
+msgid "{0} warning"
+msgid_plural "{0} warnings"
+msgstr[0] "{0} varovanie"
+msgstr[1] "{0} varovania"
+msgstr[2] "{0} varovaní"
+
+msgid "{0} notice"
+msgid_plural "{0} notices"
+msgstr[0] "{0} upozornenie"
+msgstr[1] "{0} upozornenia"
+msgstr[2] "{0} upozornení"
+
+msgid "Validation task could not complete or completed with errors"
+msgstr "Úloha overenia nemohla byť dokončená alebo bola ukončená s chybami"
+
+msgid "Internal server error"
+msgstr "Vnútorná chyba servera"

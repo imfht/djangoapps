@@ -1,0 +1,19 @@
+tg-lightbox-close
+form
+    h2.title(translate="COMMON.NEW_BULK")
+    fieldset
+        textarea(
+            cols="200"
+            wrap="off"
+            ng-model="form.data"
+            data-required="true"
+            data-linewidth="200"
+            ng-attr-placeholder="{{'COMMON.ONE_ITEM_LINE' | translate}}"
+
+        )
+
+    button.button-green.button-large.button-block(
+        type="submit"
+        title="{{'COMMON.SAVE' | translate}}"
+        translate="COMMON.SAVE"
+    )

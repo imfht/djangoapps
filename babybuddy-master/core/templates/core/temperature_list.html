@@ -1,0 +1,69 @@
+{% extends 'babybuddy/page.html' %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Temperature" %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Temperature" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Temperature" %}
+        {% if perms.core.add_temperature %}
+            <a href="{% url 'core:temperature-add' %}" class="btn btn-sm btn-success">
+                <i class="icon icon-temperature" aria-hidden="true"></i> {% trans "Add Temperature Reading" %}
+            </a>
+        {% endif %}
+    </h1>
+    {% include 'babybuddy/filter.html' %}
+    <div class="table-responsive">
+        <table class="table table-instances">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>{% trans "Child" %}</th>
+                    <th>{% trans "Temperature" %}</th>
+                    <th>{% trans "Time" %}</th>
+                    <th class="text-center">{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for temperature in object_list %}
+                    {% cycle "odd" "even" as row_class silent %}
+                    <tr class="{{ row_class }}">
+                        <th scope="row"><a href="{% url 'core:child' temperature.child.slug %}">{{ temperature.child }}</a></th>
+                        <td>{{ temperature.temperature }}</td>
+                        <td>{{ temperature.time }}</td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="{% trans "Actions" %}">
+
+                                {% if perms.core.change_temperature %}
+                                    <a href="{% url 'core:temperature-update' temperature.id %}" class="btn btn-primary">
+                                        <i class="icon icon-update" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.core.delete_temperature %}
+                                    <a href="{% url 'core:temperature-delete' temperature.id %}" class="btn btn-danger">
+                                        <i class="icon icon-delete" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% if temperature.notes %}
+                        <tr class="{{ row_class }} row-details">
+                            <td colspan="4"><i class="icon icon-note mr-2" aria-hidden="true"></i>{{ temperature.notes }}</td>
+                        </tr>
+                    {% endif %}
+                {% empty %}
+                    <tr>
+                        <th colspan="4">{% trans "No temperature entries found." %}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'babybuddy/paginator.html' %}
+{% endblock %}

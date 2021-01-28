@@ -1,0 +1,74 @@
+{% extends "devhub/addons/submit/base.html" %}
+
+{% block title %}
+{{ dev_page_title(_('Submission Complete'), addon) }}
+{% endblock %}
+
+{% block primary %}
+{% set version_edit_url = url('devhub.versions.edit', addon.slug, uploaded_version.id) %}
+{% if uploaded_version.channel == amo.RELEASE_CHANNEL_LISTED %}
+  {% if addon.type == amo.ADDON_STATICTHEME %}
+    <h3>{{ _("Version Submitted for Review") }}</h3>
+    <p>
+      {% if preview %}
+        <img src="{{ preview.image_url }}" title="{{ _('Preview of the version submitted') }}"
+          alt="[{{ _('Preview still being generated - come back later or refresh the page.') }}]">
+      {% endif %}
+    </p>
+    <p>
+      {{ _("You’re done! This version will be available after it passes review. "
+           "You will be notified when it is reviewed.") }}
+    </p>
+  {% elif uploaded_version.is_ready_for_auto_approval %}
+    <h3>{{ _("Version Submitted") }}</h3>
+    <p>
+      {{ _("You’re done! This version will be available on our site shortly.") }}
+    </p>
+  {% else %}
+    <h3>{{ _("Version Submitted for Review") }}</h3>
+    <p>
+      {{ _("You’re done! This version has been submitted for review. You will be "
+           "notified when the review has been completed, or if our reviewers have "
+           "any questions about your submission.") }}
+    </p>
+  {% endif %}
+  {% if submit_page == 'addon' and addon.type == amo.ADDON_STATICTHEME %}
+    <p>
+      {{ _("Your listing will be more successful by adding a detailed description. "
+           "Get your listing ready for publication:") }}
+    </p>
+  {% elif submit_page == 'addon'  %}
+    <p>
+      {{ _("Your listing will be more successful by adding a detailed description "
+           "and screenshots. Get your listing ready for publication:") }}
+    </p>
+  {% endif %}
+  <p>
+    <a class="button" href="{{ addon.get_dev_url() }}">
+      {{ _("Manage Listing") }}</a>
+  </p>
+  {% if addon.type != amo.ADDON_STATICTHEME %}
+    <p>
+      {{ _("You can also edit this version to add version notes, or source code "
+           "if your submission includes minified, concatenated or otherwise machine-generated code.") }}
+    </p>
+    <p>
+      <a class="button" href="{{ version_edit_url }}">{{
+          _("Edit version {0}")|format_html(uploaded_version.version) }}</a>
+    </p>
+  {% endif %}
+{% else %}
+  <h3>{{ _("Version Signature Pending") }}</h3>
+  <p>
+    {{ _("You’re done! This version will be signed for self-distribution shortly. "
+         "You will be notified by email when the signed file is ready for download.") }}
+  </p>
+{% endif %}
+
+<p>
+  {% with link=url('devhub.themes') if addon.type == amo.ADDON_STATICTHEME else url('devhub.addons') %}
+    <a class="button" href="{{ link }}">{{ _("Go to My Submissions") }}</a>
+  {% endwith %}
+</p>
+
+{% endblock %}

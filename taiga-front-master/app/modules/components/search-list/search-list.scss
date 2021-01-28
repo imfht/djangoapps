@@ -1,0 +1,64 @@
+.search-list {
+    .show-closed {
+        color: $color-link-primary;
+        float: right;
+        span {
+            font-size: .9em;
+            margin: .1rem 0 0 .2rem;
+        }
+        svg {
+            fill: currentColor;
+        }
+        :hover {
+            color: $color-link-tertiary;
+            svg {
+                fill: currentColor;
+            }
+        }
+    }
+    ul {
+        background: $color-white;
+        border: 2px solid $color-gray400;
+        border-radius: 3px;
+        height: 200px;
+        margin: .5em 0 0;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: .25rem 1rem;
+    }
+    .choice {
+        @include font-size(small);
+        color: $color-black600;
+        cursor: pointer;
+        padding: .25em .5em;
+        &.selected {
+            background: $color-link-primary;
+            color: $color-white;
+            .info {
+                color: $color-white;
+            }
+        }
+        &[disabled] {
+            color: $gray-lighter;
+            cursor: not-allowed;
+            .info {
+                color: $gray-lighter;
+            }
+        }
+        ng-include {
+            display: flex;
+            width: 100%;
+            .title {
+                flex-grow: 1;
+                text-align: left;
+            }
+            .info {
+                color: $gray-light;
+                text-align: right;
+            }
+        }
+        .title span {
+            margin-right: .5em;
+        }
+    }
+}

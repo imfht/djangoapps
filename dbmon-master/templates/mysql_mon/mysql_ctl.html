@@ -1,0 +1,68 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        MySQL控制面板
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">自动化运维</a></li>
+        <li><a href="/my_tools">工具包</a></li>
+        <li class="active">MySQL控制面板</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+        <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                    <th>标签</th>
+                  <th>IP地址</th>
+                  <th>端口</th>
+                    <th>状态</th>
+                    <th>操作类型</th>
+                </tr>
+                </thead>
+                {% for mysql_ctl in mysql_ctls %}
+                 <tr>
+                 <td>{{ forloop.counter }} </td>
+                 <td>{{ mysql_ctl.tags}} </td>
+                 <td>{{ mysql_ctl.host}} </td>
+                 <td>{{ mysql_ctl.port}} </td>
+                     <td><span class="label label-{{ mysql_ctl.is_run }}">{{ mysql_ctl.run_status }}</span></td>
+                  <td>
+                    <div class="btn-group" data-toggle="btn-toggle">
+                        <a href="/mysql_ctl?host={{ mysql_ctl.host }}&oper_type={{ mysql_ctl.oper_type }}">
+                  <button class="btn btn-default btn-sm"><i class="fa fa-power-off text-{{ mysql_ctl.run_color }}" title="{{ mysql_ctl.oper_type }}"></i>
+                  </button></a>
+                        <a href="/mysql_ctl?host={{ mysql_ctl.host }}&oper_type={{ mysql_ctl.oper_type }}">
+                  <button type="submit" class="btn btn-default btn-sm" name="restart"><i class="fa fa-refresh text-blue" title="restart"></i></button></a>
+                </div>
+                </td>
+                 </tr>
+                 {% endfor %}
+              </table>
+            </div>
+            <div class="box-footer clearfix">
+           <span class="step-links">
+        {% if mysql_ctls.has_previous %}
+            <a href="?page_log={{ mysql_ctls.previous_page_number }}">上一页</a>
+        {% endif %}
+        <span class="current">
+            当前页{{ mysql_ctls.number }} 共计{{ mysql_ctls.paginator.num_pages }}
+        </span>
+        {% if mysql_ctls.has_next %}
+            <a href="?page_log={{ mysql_ctls.next_page_number }}">下一页</a>
+        {% endif %}
+           </span>
+         </div>
+      </div>
+      </div>
+{% endblock %}

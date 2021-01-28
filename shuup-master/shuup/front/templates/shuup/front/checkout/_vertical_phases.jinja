@@ -1,0 +1,134 @@
+{% if request.is_ajax() %}
+    {%- import "shuup/front/macros/general.jinja" as macros with context -%}
+    {%- import "shuup/front/macros/checkout.jinja" as checkout_macros with context -%}
+{% else %}
+    {% extends "shuup/front/base.jinja" %}
+
+    {% block navigation %}
+        {{ render_navigation(show_quick_login=False) }}
+    {% endblock %}
+    
+    {% block title %}{% trans %}Checkout{% endtrans %}{% endblock %}
+    {% block content_title %}{% trans %}Checkout{% endtrans %}{% endblock %}
+
+    {% block before_content_title %}{% endblock %}
+{% endif %}
+
+{% block content %}
+    <div id="ajax_content" class="vertical-checkout-phase">
+        {% if view and view.phases %}
+            <div class="panel-group"
+                 id="accordion"
+                 role="tablist"
+                 aria-multiselectable="true">
+                {% for phase in view.phases if phase.is_visible_for_user() %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button"
+                               data-toggle="collapse"
+                               data-parent="#accordion"
+                               class="phase-control"
+                               data-phase="{{ phase.identifier }}"
+                               href="#phase-{{ phase.identifier }}"
+                               aria-expanded="true"
+                               aria-controls="collapseOne">
+                            <span class="phase-index">{{ loop.index }}</span>. {{ phase.title }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="phase-{{ phase.identifier }}"
+                         class="panel-collapse collapse{% if phase.is_current %} in{% endif %}"
+                         role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            {% if request.is_ajax() %}
+                                {{ macros.render_errors() }}
+                            {% endif %}
+
+                            {% if phase.is_current %}
+                                <script>window.currentPhase="{{ phase.identifier }}";</script>
+                                {% block checkout_phase_content %}{% endblock %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extracss %}
+    <style>
+        #main .alert i {
+            margin-right: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        window.submitCheckoutPhaseForm = function submitCheckoutPhaseForm(form) {
+            var data = $(form).serialize();
+            if (!data.includes("csrfmiddlewaretoken")) {  // no csrftoken no post
+                return false;
+            }
+            const currentPhase = window.currentPhase;
+            $(".vertical-checkout-phase").find("#ajax_content").find("div.panel-body").html(
+                '<div class="text-primary text-center spinner"><i class="fa fa-3x fa-spin fa-spinner"></i></div>'
+            )
+            $.ajax({
+                type: "post",
+                url: "/checkout/" + window.currentPhase + "/",
+                data: data,
+                success: function (response) {
+                    $("#ajax_content").html(response);
+                    window.scrollTo(0, $("#ajax_content").offset().top);
+                    if (currentPhase != window.currentPhase && $(form).hasClass("single-page-refresh-after")) {
+                        location.reload();
+                    }
+                },
+                error: function (error) {
+                    $("#ajax_content").find("div.panel-body").html('<p class="text-center">{% trans %}Error! Please reload the page or move to previous step.{% endtrans %}</p>');
+                }
+            });
+        };
+
+        window.moveToPhase = function moveToPhase(phase) {
+            if (phase !== window.currentPhase) {
+                $(".vertical-checkout-phase").find("#ajax_content").find("div.panel-body").html(
+                    '<div class="text-primary text-center spinner"><i class="fa fa-3x fa-spin fa-spinner"></i></div>'
+                )
+                $.ajax({
+                    type: "get",
+                    url: "/checkout/" + phase + "/",
+                    success: function (response) {
+                        $("#ajax_content").html(response);
+                    },
+                    error: function (error) {
+                        $("#ajax_content").find("div.panel-body").html('<p class="text-center">{% trans %}Error! Please reload the page or move to previous step.{% endtrans %}</p>');
+                    }
+                });
+            }
+        };
+        $(function() {
+            $(".vertical-checkout-phase").find("form").on("submit", function(e) {
+                if (window.currentPhase !== "confirm") {
+                    e.preventDefault();
+                    window.submitCheckoutPhaseForm($(this));
+                }
+            });
+            $("a[href^='#phase']").on("click", function(e) {
+                e.preventDefault();
+                window.moveToPhase($(this).data("phase"));
+            });
+            if (typeof window.initializeBillingRegion === "function") {
+                window.initializeBillingRegion();
+            }
+            if (typeof window.initializeShippingRegion === "function") {
+                window.initializeShippingRegion();
+            }
+        });
+    </script>
+{% endblock %}

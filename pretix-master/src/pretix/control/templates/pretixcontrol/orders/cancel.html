@@ -1,0 +1,87 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% load eventsignal %}
+{% load bootstrap3 %}
+{% block title %}{% trans "Cancel event" %}{% endblock %}
+{% block content %}
+    <h1>{% trans "Cancel event" %}</h1>
+    <div class="alert alert-warning">
+        {% blocktrans trimmed %}
+            You can use this page to cancel and refund all orders at once in case you need to call of your event.
+            This will also disable all products so no new orders can be created. Make sure that you check afterwards
+            for any overpaid orders or pending refunds that you need to take care of manually.
+        {% endblocktrans %}
+        <br><br>
+        {% blocktrans trimmed %}
+            After starting this operation, depending on the size of your event, it might take a few minutes or longer
+            until all orders are processed.
+        {% endblocktrans %}
+        <br><br>
+        <strong>
+            {% trans "All actions performed on this page are irreversible. If in doubt, please contact support before using it." %}
+        </strong>
+    </div>
+    <form action="" method="post" class="form-horizontal" data-asynctask data-asynctask-download data-asynctask-long>
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        {% if request.event.has_subevents %}
+            <fieldset>
+                <legend>{% trans "Select date" context "subevents" %}</legend>
+                {% bootstrap_field form.all_subevents layout="control" %}
+                {% bootstrap_field form.subevent layout="control" %}
+                {% bootstrap_field form.subevents_from layout="control" %}
+                {% bootstrap_field form.subevents_to layout="control" %}
+            </fieldset>
+        {% endif %}
+        <fieldset>
+            <legend>{% trans "Refund options" %}</legend>
+            {% bootstrap_field form.auto_refund layout="control" %}
+            {% bootstrap_field form.manual_refund layout="control" %}
+            {% bootstrap_field form.refund_as_giftcard layout="control" %}
+            {% bootstrap_field form.gift_card_expires layout="control" %}
+            {% bootstrap_field form.gift_card_conditions layout="control" %}
+            {% bootstrap_field form.keep_fee_fixed layout="control" %}
+            {% bootstrap_field form.keep_fee_per_ticket layout="control" %}
+            {% bootstrap_field form.keep_fee_percentage layout="control" %}
+            {% bootstrap_field form.keep_fees layout="control" %}
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Send out emails" %}</legend>
+            {% bootstrap_field form.send layout="control" %}
+            {% bootstrap_field form.send_subject layout="horizontal" %}
+            {% bootstrap_field form.send_message layout="horizontal" %}
+            <div class="alert alert-info" data-display-dependency="#id_refund_as_giftcard">
+                {% blocktrans trimmed %}
+                    Since you are refunding your customers orders to gift cards, you should explain to them how to
+                    access their gift cards. The easiest way to do this, is to include an explanation and a link to
+                    their order using the here provided email functionality.
+                {% endblocktrans %}
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>{% trans "Waiting list" %}</legend>
+            <p>
+                {% blocktrans trimmed %}
+                    Your waiting list will not be deleted automatically, but it will receive no new tickets due to the
+                    products being disabled. You can choose to inform people on the waiting list by using this option.
+                {% endblocktrans %}
+            </p>
+            <p>
+                <strong>
+                    {% blocktrans trimmed %}
+                        You should not execute this function multiple times for the same event, or everyone on the
+                        waiting list will get multiple emails.
+                    {% endblocktrans %}
+                </strong>
+            </p>
+            {% bootstrap_field form.send_waitinglist layout="control" %}
+            {% bootstrap_field form.send_waitinglist_subject layout="horizontal" %}
+            {% bootstrap_field form.send_waitinglist_message layout="horizontal" %}
+        </fieldset>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-danger btn-save">
+                {% trans "Cancel all orders" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}

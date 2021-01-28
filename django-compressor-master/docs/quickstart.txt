@@ -1,0 +1,102 @@
+Quickstart
+==========
+
+Installation
+------------
+
+* Install Django Compressor with your favorite Python package manager::
+
+    pip install django_compressor
+
+* Add ``'compressor'`` to your ``INSTALLED_APPS`` setting::
+
+    INSTALLED_APPS = (
+        # other apps
+        "compressor",
+    )
+
+* See the list of :ref:`settings` to modify Django Compressor's
+  default behaviour and make adjustments for your website.
+
+* In case you use Django's staticfiles_ contrib app you have to add Django
+  Compressor's file finder to the ``STATICFILES_FINDERS`` setting, like this:
+
+  .. code-block:: python
+
+     STATICFILES_FINDERS = (
+         'django.contrib.staticfiles.finders.FileSystemFinder',
+         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+         # other finders..
+         'compressor.finders.CompressorFinder',
+     )
+
+* Define :attr:`COMPRESS_ROOT <django.conf.settings.COMPRESS_ROOT>` in settings
+  if you don't have already ``STATIC_ROOT`` or if you want it in a different
+  folder.
+
+.. _staticfiles: http://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/
+.. _django-staticfiles: http://pypi.python.org/pypi/django-staticfiles
+
+.. _dependencies:
+
+Optional Dependencies
+------------
+
+- BeautifulSoup_
+
+  For the :attr:`parser <django.conf.settings.COMPRESS_PARSER>`
+  ``compressor.parser.BeautifulSoupParser`` and
+  ``compressor.parser.LxmlParser``::
+
+      pip install beautifulsoup4
+
+- lxml_
+
+  For the :attr:`parser <django.conf.settings.COMPRESS_PARSER>`
+  ``compressor.parser.LxmlParser``, also requires libxml2_::
+
+      STATIC_DEPS=true pip install lxml
+
+- html5lib_
+
+  For the :attr:`parser <django.conf.settings.COMPRESS_PARSER>`
+  ``compressor.parser.Html5LibParser``::
+
+      pip install html5lib
+
+- `Slim It`_
+
+  For the :ref:`Slim It filter <slimit_filter>`
+  ``compressor.filters.jsmin.SlimItFilter``::
+
+      pip install slimit
+
+- `Calmjs`_
+
+  For the :ref:`Calmjs filter <calmjs_filter>`
+  ``compressor.filters.jsmin.CalmjsFilter``::
+
+      pip install calmjs.parse
+
+- `csscompressor`_
+
+  For the :ref:`csscompressor filter <csscompressor_filter>`
+  ``compressor.filters.cssmin.CSSCompressorFilter``::
+
+      pip install csscompressor
+
+- `brotli`_
+
+  For brotli file compressor `compressor.storage.BrotliCompressorFileStorage`::
+
+      pip install brotli
+
+.. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
+.. _lxml: http://lxml.de/
+.. _libxml2: http://xmlsoft.org/
+.. _html5lib: https://github.com/html5lib/html5lib-python
+.. _`Slim It`: https://github.com/rspivak/slimit
+.. _`Calmjs`: https://github.com/calmjs/calmjs.parse
+.. _django-appconf: http://pypi.python.org/pypi/django-appconf/
+.. _versiontools: http://pypi.python.org/pypi/versiontools/
+.. _brotli: https://pypi.python.org/pypi/brotli

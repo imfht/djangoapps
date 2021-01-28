@@ -1,0 +1,39 @@
+{% load i18n sekizai_tags %}
+{% addtoblock "js" %}
+<script type="text/javascript">
+  $(document).ready( function() {
+    $('.sidebar-form').each(function () {
+      $(this).submit( function() {
+        this.unsaved_article_title.value = $('#id_title').val();
+        this.unsaved_article_content.value = $('#id_content').val();
+      });
+    });
+  });
+</script>
+{% endaddtoblock %}
+
+{% for plugin, plugin_form in sidebar %}
+
+  <div class="card">
+
+    <div class="card-header pb-0">
+      <a class="card-toggle" href="#collapse_{{ plugin.slug }}" data-toggle="collapse">
+        <p class="card-title"><span class="fa fa-fw {{ plugin.sidebar.icon_class }}"></span> {{ plugin.sidebar.headline }}</p>
+      </a>
+    </div>
+
+    <div id="collapse_{{ plugin.slug }}" class="card-collapse collapse{% if plugin_form.errors %} in{% endif %}">
+      <div class="card-body form-vertical">
+        {% if plugin.sidebar.template %}
+          {% with plugin_form as form and plugin as plugin %}
+            <form method="POST" class="form-horizontal sidebar-form" action="?f={{ plugin_form.form_id }}" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% include plugin.sidebar.template %}
+            </form>
+          {% endwith %}
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+{% endfor %}

@@ -1,0 +1,17 @@
+*.pyc
+.idea/
+.vscode
+.DS_Store
+*.swp
+**/migrations/0*.py
+media/flowchart/*.*
+media/workflow_script/*.*
+!media/workflow_script/demo_script.py
+media/notice_script/*.*
+!media/notice_script/demo_notice_script.py
+tests/testloonflow.sql
+settings/config.py
+sphinx_docs/build/
+sphinx_docs/source/_build/
+docker_compose_deploy/loonflow_only/dbdata/*
+docker_compose_deploy/loonflow_shutongflow/dbdata/*

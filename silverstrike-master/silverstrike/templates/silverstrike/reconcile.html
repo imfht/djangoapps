@@ -1,0 +1,90 @@
+{% extends 'silverstrike/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+{% block content_header %}
+<h1>{% trans 'Reconcile' %}
+  <small>
+    {{ account|title }}
+  </small>
+</h1>
+<ol class="breadcrumb">
+  <li><a href="/">{% trans 'Home' %}</a></li>
+  <li><a href="{% url 'accounts' %}">{% trans 'Accounts' %}</a></li>
+  <li><a href="{{ account.get_absolute_url }}">{{ account }}</a></li>
+  <li class="active">{% trans 'Reconcile' %}</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+  <div class="box-header with-border">
+  <h3 class="box-title">{% trans 'Create reconcile transaction' %}</h3>
+</div>
+<div class="box-body">
+    <form method="post" class="form-horizontal">
+      {% csrf_token %}
+      <div class="form-group{% if form.title.errors %} has-error{% endif %}">
+        <label class="col-sm-2 control-label" for="{{ form.title.id_for_label }}">{{ form.title.label }}
+        </label>
+        <div class="col-sm-8">
+          {{ form.title|add_class:"form-control" }}
+          {% for error in form.title.errors %}
+          <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="form-group{% if form.balance.errors %} has-error{% endif %}">
+        <label class="col-sm-2 control-label" for="{{ form.balance.id_for_label }}">{{ form.balance.label }}
+        </label>
+        <div class="col-sm-8">
+          {{ form.balance|add_class:"form-control" }}
+          <span class="help-block">Current balance: {{ account.balance|intcomma }} &bull; Difference: <span id="amount-difference"></span></span>
+          {% for error in form.balance.errors %}
+          <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="form-group{% if form.notes.errors %} has-error{% endif %}">
+        <label class="col-sm-2 control-label" for="{{ form.notes.id_for_label }}">{{ form.notes.label }}
+        </label>
+        <div class="col-sm-8">
+          {{ form.notes|add_class:"form-control" }}
+          {% for error in form.notes.errors %}
+          <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary col-md-offset-2">{% if object %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
+    </form>
+</div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'vendor/css/bootstrap-datepicker.min.css' %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'vendor/js/bootstrap3-typeahead.min.js' %}"></script>
+
+<script>
+  var changeEvent = null;
+$(function() {
+  $('#{{ form.balance.id_for_label }}').change(function(e) {
+    changeEvent = e;
+    $('#amount-difference').text({{ account.balance }} - e.target.value);
+  });
+  $('#id_date').datepicker({
+  autoclose: true,
+  format: 'yyyy-mm-dd',
+  endDate: '0d',
+  orientation: 'bottom'
+  });
+  $('#id_date').attr('autocomplete', 'off');
+})
+</script>
+{% endblock %}

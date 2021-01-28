@@ -1,0 +1,98 @@
+// Baby Buddy site-wide custom styles.
+
+// Remove extra margin below site breadcrumb.
+.breadcrumb {
+    margin-bottom: 0;
+}
+
+// Extra-small button.
+.btn-xs {
+    @include button-size(.2rem, .12rem, .75rem, 1, .2rem);
+}
+
+// Right align main dropdown menu.
+.dropdown-menu-right {
+    right: 0;
+    left: auto; // Reset the default from `.dropdown-menu`
+}
+
+// BB form fields do not follow typical BS4 style that enables this display.
+.invalid-feedback {
+    display: block;
+}
+
+// Disable hover effect on buttons (used for checkbox buttons).
+.btn-no-hover {
+    &:hover {
+        color: inherit;
+        background-color: inherit;
+        border-color: inherit;
+    }
+}
+
+.boolean-label {
+    pointer-events: none;
+}
+
+// Set default text color for datetime picker.
+.bootstrap-datetimepicker-widget {
+    color: $gray-400;
+}
+
+// Datetime picker input styles.
+.input-group {
+    &.datetimepicker {
+
+        // Make calendar icon large and use the primary theme color.
+        .input-group-text {
+            background: none;
+            border: 0;
+            color: theme-color('primary');
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        // Style readonly input to look less like an input element.
+        .datetimepicker-input {
+            &[readonly] {
+                background: none;
+                border: 0;
+                color: $white;
+                cursor: pointer;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+// PullToRefresh elements.
+.ptr--ptr {
+    background: theme-color('dark');
+    .ptr--text, .ptr--icon {
+        // "!important" must be used to override inline styling from JS.
+        color: theme-color('light') !important;
+    }
+}
+
+// Basic table of model instances.
+.table-instances {
+    tr {
+        td, th {
+            vertical-align: middle;
+        }
+
+        &.odd {
+            background: $table-accent-bg;
+        }
+        &.even {
+            background: none;
+        }
+        &.row-details {
+            td {
+                color: $gray-500;
+                padding-top: 0;
+                border-top: 0;
+            }
+        }
+    }
+}

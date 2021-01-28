@@ -1,0 +1,23 @@
+{% load spirit_tags %}
+{% load_settings 'ST_MATH_JAX' %}
+
+{% spaceless %}
+<footer class="layout__footer">
+  <a class="footer__logo" href="https://www.spirit-project.com">Spirit</a>
+</footer>
+{% endspaceless %}
+
+{% if st_settings.ST_MATH_JAX %}
+  <script type="text/x-mathjax-config">
+    (function () {
+      var elms = document.querySelectorAll(".math");
+      MathJax.Hub.Config({
+        elements: elms,
+        skipStartupTypeset: elms.length === 0
+      });
+    })();
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+{% endif %}

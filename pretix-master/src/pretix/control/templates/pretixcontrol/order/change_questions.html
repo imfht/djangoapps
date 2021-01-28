@@ -1,0 +1,91 @@
+{% extends "pretixcontrol/event/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block title %}
+    {% trans "Change contact information" %}
+{% endblock %}
+{% block content %}
+    <h1>
+        {% trans "Change order information" %}
+        <a class="btn btn-link btn-lg"
+                href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+            {% blocktrans trimmed with order=order.code %}
+                Back to order {{ order }}
+            {% endblocktrans %}
+        </a>
+    </h1>
+
+    <form method="post" class="form-horizontal" href="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="panel-group" id="questions_accordion">
+            {% if invoice_address_asked or order.invoice_address or request.event.settings.invoice_name_required %}
+                <details class="panel panel-default" open>
+                    <summary class="panel-heading">
+                        <h4 class="panel-title">
+                            <strong>{% trans "Invoice information" %} {% if not request.event.settings.invoice_address_required %}
+                                {% trans "(optional)" %}
+                            {% endif %}</strong>
+                            <i class="fa fa-angle-down collapse-indicator"></i>
+                        </h4>
+                    </summary>
+                    <div id="invoice">
+                        <div class="panel-body">
+                            {% bootstrap_form invoice_form layout="horizontal" %}
+                        </div>
+                    </div>
+                </details>
+            {% endif %}
+            {% for pos, forms in formgroups %}
+                <details class="panel panel-default" open>
+                    <summary class="panel-heading">
+                        <h4 class="panel-title">
+                            <strong>{{ pos.item }}{% if pos.variation %}
+                                – {{ pos.variation }}
+                            {% endif %}</strong>
+                            <i class="fa fa-angle-down collapse-indicator"></i>
+                        </h4>
+                    </summary>
+                    <div id="cp{{ pos.id }}">
+                        <div class="panel-body">
+                            {% for form in forms %}
+                                {% if form.pos.item != pos.item %}
+                                    {# Add-Ons #}
+                                    <legend>+ {{ form.pos.item }}</legend>
+                                {% endif %}
+                                {% bootstrap_form form layout="control" %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </details>
+            {% endfor %}
+        </div>
+        <div class="panel panel-default items">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    {% trans "Other operations" %}
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    {% bootstrap_form_errors other_form %}
+                    {% if other_form.custom_error %}
+                        <div class="alert alert-danger">
+                            {{ other_form.custom_error }}
+                        </div>
+                    {% endif %}
+                    {% bootstrap_field other_form.notify layout="control" %}
+                </div>
+            </div>
+        </div>
+        <div class="form-group submit-group">
+            <a class="btn btn-default btn-lg"
+                    href="{% url "control:event.order" event=request.event.slug organizer=request.event.organizer.slug code=order.code %}">
+                {% trans "Cancel" %}
+            </a>
+            <button class="btn btn-primary btn-save btn-lg" type="submit">
+                {% trans "Save" %}
+            </button>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+{% endblock %}

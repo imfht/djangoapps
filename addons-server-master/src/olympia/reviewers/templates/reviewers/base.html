@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %} {{ _('Reviewer Tools – Add-ons for Firefox') }} {% endblock %}
+
+{% block bodyclass %}reviewer-tools {% endblock %}
+
+{% block site_header_title %}
+<div class="reviewer-menu">
+  <h1 class="site-title amo">
+    <a href="{{ url('reviewers.dashboard') }}" title="{{ _('Return to the Reviewer Tools dashboard') }}">
+      <strong>{{ _('Reviewer Tools') }}</strong>
+    </a>
+  </h1>
+</div>
+{% endblock %}
+
+{% block header_search %}{% endblock %}
+
+{% block extrahead %}
+  {{ css('zamboni/devhub') }}
+  {{ css('zamboni/reviewers') }}
+{% endblock %}
+
+{% block js %}
+  {{ js('zamboni/reviewers') }}
+{% endblock %}
+
+{% block outer_content %}
+  {% include "reviewers/includes/daily-message.html" %}
+  {% include "messages.html" %}
+{% endblock %}
+
+{# Hide 'View new site' link in footer #}
+{% set hide_mobile_link=True %}

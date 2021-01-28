@@ -1,0 +1,60 @@
+{% extends "pretixcontrol/event/settings_base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% block inside %}
+    <h1>{% trans "Cancellation settings" %}</h1>
+    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        <div class="tabbed-form">
+            <fieldset>
+                <legend>{% trans "Unpaid or free orders" %}</legend>
+                {% bootstrap_field form.cancel_allow_user layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_until layout="control" %}
+            </fieldset>
+            <fieldset>
+                <legend>{% trans "Paid orders" %}</legend>
+                {% bootstrap_field form.cancel_allow_user_paid layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_paid_require_approval layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_paid_keep layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_paid_keep_percentage layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_paid_keep_fees layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_paid_until layout="control" %}
+                {% bootstrap_field form.cancel_allow_user_paid_adjust_fees layout="control" %}
+                <div data-display-dependency="#id_cancel_allow_user_paid_adjust_fees">
+                    {% bootstrap_field form.cancel_allow_user_paid_adjust_fees_explanation layout="control" %}
+                    {% bootstrap_field form.cancel_allow_user_paid_adjust_fees_step layout="control" %}
+                </div>
+                {% bootstrap_field form.cancel_allow_user_paid_refund_as_giftcard layout="control" %}
+                {% if not gets_notification %}
+                    <div class="alert alert-warning">
+                        {% blocktrans trimmed %}
+                            If a user requests cancels a paid order and the money can not be refunded automatically, e.g.
+                            due to the selected payment method, you will need to take manual action. However, you have
+                            currently turned off notifications for this event.
+                        {% endblocktrans %}
+                        <a href="{% url "control:user.settings.notifications" %}" class="btn btn-default">
+                            {% trans "Change notification settings" %}
+                        </a>
+                    </div>
+                {% endif %}
+            </fieldset>
+            <fieldset>
+                <legend>{% trans "Order changes" %}</legend>
+                <div class="alert alert-info">
+                    {% blocktrans trimmed %}
+                        Allowing users to change their order is a feature under development. Therefore, currently only specific changes (such as changing the variation of a product) are possible. More options might be added later.
+                    {% endblocktrans %}
+                </div>
+                {% bootstrap_field form.change_allow_user_variation layout="control" %}
+                {% bootstrap_field form.change_allow_user_price layout="control" %}
+                {% bootstrap_field form.change_allow_user_until layout="control" %}
+            </fieldset>
+        </div>
+        <div class="form-group submit-group">
+            <button type="submit" class="btn btn-primary btn-save">
+                {% trans "Save" %}
+            </button>
+        </div>
+    </form>
+{% endblock %}

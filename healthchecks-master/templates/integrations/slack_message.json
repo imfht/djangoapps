@@ -1,0 +1,64 @@
+{% load hc_extras humanize %}
+{
+    "username": "{% site_name %}",
+    "icon_url": "{% site_root %}/static/img/logo@2x.png",
+    "attachments": [{
+        {% if check.status == "up" %}
+            "color": "good",
+        {% else %}
+            "color": "danger",
+        {% endif %}
+
+        "fallback": "The check \"{{ check.name_then_code|escapejs }}\" is {{ check.status|upper }}.",
+        "mrkdwn_in": ["fields"],
+        "text": "“{{ check.name_then_code|escapejs }}” is {{ check.status|upper }}.",
+        "fields": [
+            {% if check.desc %}
+                {"title": "Description",
+                 "value": "{{ check.desc|escapejs }}"
+                },
+            {% endif %}
+
+            {% if check.project.name %}
+                {"title": "Project",
+                 "value": "{{ check.project.name|escapejs }}",
+                 "short": true
+                },
+            {% endif %}
+
+            {% if check.tags_list %}
+                {"title": "Tags",
+                 "value": "{% for tag in check.tags_list %}`{{ tag|escapejs }}` {% endfor %}",
+                 "short": true
+                },
+            {% endif %}
+
+            {% if check.kind == "simple" %}
+                {"title": "Period",
+                 "value": "{{ check.timeout|hc_duration }}",
+                 "short": true
+                },
+            {% elif check.kind == "cron" %}
+                {"title": "Schedule",
+                 "value": "{{ check.schedule|fix_asterisks|escapejs }}",
+                 "short": true
+                },
+            {% endif %}
+
+            {"title": "Last Ping",
+             {% if check.last_ping %}
+               "value": "{{ check.last_ping|naturaltime }}",
+             {% else %}
+                "value": "Never",
+             {% endif %}
+             "short": true
+            },
+
+
+            {"title": "Total Pings",
+             "value": "{{ check.n_pings }}",
+             "short": true
+            }
+        ]
+    }]
+}

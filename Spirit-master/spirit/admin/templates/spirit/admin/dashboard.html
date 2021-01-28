@@ -1,0 +1,51 @@
+{% extends "spirit/_base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+
+{% block content %}
+<div class="layout__admin">
+  {% include "spirit/admin/_nav_menu.html" with active="dashboard" %}
+
+  <h1 class="headline">{% trans "Dashboard" %}</h1>
+
+  <div class="messages_info">
+    <div class="message_title is-info">{% trans "Software" %}</div>
+    <div class="message_text">
+      <ul>
+        <li>Spirit: {{ version }}</li>
+        <li>Django: {{ django_version }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="headline">{% trans "Statistics" %}</h2>
+  <div class="admin__statistics">
+    <div class="admin__statistics__box">
+      <div class="admin__statistics__box__title">{% trans "Members" %}</div>
+      <div class="admin__statistics__box__count">{{ users_count }}</div>
+    </div>
+    <div class="admin__statistics__box">
+      <div class="admin__statistics__box__title">{% trans "Topics" %}</div>
+      <div class="admin__statistics__box__count">{{ topics_count }}</div>
+    </div>
+    <div class="admin__statistics__box">
+      <div class="admin__statistics__box__title">{% trans "Comments" %}</div>
+      <div class="admin__statistics__box__count">{{ comments_count }}</div>
+    </div>
+    <div class="admin__statistics__box">
+      <div class="admin__statistics__box__title">{% trans "Likes" %}</div>
+      <div class="admin__statistics__box__count">{{ likes_count }}</div>
+    </div>
+    <div class="admin__statistics__box">
+      <div class="admin__statistics__box__title">{% trans "Flags" %}</div>
+      <div class="admin__statistics__box__count">{{ flags_count }}</div>
+    </div>
+    <div class="admin__statistics__box">
+      <div class="admin__statistics__box__title">{% trans "Categories" %}</div>
+      <div class="admin__statistics__box__count">{{ category_count }}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

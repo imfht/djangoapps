@@ -1,0 +1,13 @@
+{% load static %}
+
+{% for icon, text, url in icons %}
+{% spaceless %}
+{% if url %}<a href="{{ url }}">{% endif %}
+<img src="{% static icon %}" title="{{ text }}" alt="{{ text }}" class="state-icon" />
+{% if url %}</a>{% endif %}
+{% endspaceless %}
+{% endfor %}
+
+{% if component.license and component.license != "proprietary" %}
+<span title="{{ component.get_license_display }}" class="license badge">{{ component.license_badge }}</span>
+{% endif %}

@@ -1,0 +1,14 @@
+{% load i18n %}
+<table class="table table-bordered table-condensed{% if collapse %} collapse" id="{{ collapse }}{% endif %}">
+  <tr>
+    <th>Notifier</th>
+    <th>Value</th>
+    <th>Filters</th>
+    {% if show_edit %}
+    <th>Actions</th>
+    {% endif %}
+  </tr>
+  {% for notifier in object.notifiers.all %}
+  {% include 'promgen/sender_row.html' %}
+  {% endfor %}
+</table>

@@ -1,0 +1,25 @@
+[
+    {
+        "pk": 1,
+        "model": "multiple_database.person",
+        "fields": {
+            "name": "Mark Pilgrim"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "multiple_database.person",
+        "fields": {
+            "name": "Chris Mills"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "multiple_database.book",
+        "fields": {
+            "title": "Dive into Python",
+            "published": "2009-5-4",
+            "editor": ["Chris Mills"]
+        }
+    }
+]

@@ -1,0 +1,37 @@
+language: python
+addons:
+  apt:
+    packages:
+    - rabbitmq-server 
+services:
+  - redis-server
+  - mongodb
+  - rabbitmq-server
+install:
+  - pip install --quiet --upgrade pip
+  - pip install -r test-requirements.txt
+  - pip install numpy scipy
+  - pip install .
+  - pip install -q $DJANGO
+before_script:
+  - "export PYTHONPATH=$TRAVIS_BUILD_DIR:$PYTHONPATH;"
+  - "django-admin.py version;"
+  - "flake8 --exclude=docs,south_migrations,tests,tasks --ignore=E501,E123,E124,E126,E127,E128 --statistics .;"
+python:
+  - "3.6"
+  - "3.7"
+  - "3.8"
+env:
+  - DJANGO="Django>=1.11,<2.0"
+  - DJANGO="Django>=2.0,<2.1"
+  - DJANGO="Django>=2.1,<2.2"
+jobs:
+  exclude:
+    - python: "3.7"
+      env: DJANGO="Django>=1.11,<2.0"
+    - python: "3.8"
+      env: DJANGO="Django>=1.11,<2.0"
+script: python recommends/tests/runtests.py
+after_failure:
+  - env
+  - cat $PYTHONPATH

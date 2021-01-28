@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'data_project' project=object.slug %}">{% trans "Data exports" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<p>
+{% trans "Various data from Weblate is available in machine-readable format." %}
+</p>
+
+<h3>
+{% trans "RSS feeds" %}
+{% documentation_icon 'api' 'rss' %}
+</h3>
+
+<p>
+{% trans "Follow the translation progress and all important changes from RSS feeds." %}
+</p>
+
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Link" %}</th>
+</thead>
+<tbody>
+<tr>
+<th>{{ object }}</th>
+<td>{{ site_url }}{% url 'rss-project' project=object.slug %}</td>
+<td><a href="{{ site_url }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
+</tr>
+{% for component in components %}
+<tr>
+<th>{{ component }}</th>
+<td>{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}</td>
+<td><a href="{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}">{% trans "RSS" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<p>{% trans "Per language RSS feeds are also available. Construct them by appending a language code to the URLs above." %}</p>
+
+<h3>
+{% trans "Statistics" %}
+{% documentation_icon 'api' %}
+</h3>
+
+<p>
+{% blocktrans %}Translation statistics for every component in JSON format lets you use the data in other websites or tools.{% endblocktrans %}
+</p>
+
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Link" %}</th>
+</thead>
+<tbody>
+{% for component in components %}
+<tr>
+<th>{{ component }}</th>
+<td>{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}">{% trans "View" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% with components.0 as component %}
+{% if component %}
+<p>{% trans "You can fetch statistics for all translations in one component like this:" %}</p>
+
+<pre>
+curl \
+    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
+    {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=component.slug %}
+</pre>
+{% endif %}
+{% endwith %}
+
+{% if hooks_enabled and project.enable_hooks %}
+<h3>
+{% trans "Notification hooks" %}
+{% documentation_icon 'api' 'hooks' %}
+</h3>
+
+<p>
+{% blocktrans %}With notification hooks, Weblate automatically imports changes made by your developers, allowing continuous localization.{% endblocktrans %}
+</p>
+{% endif %}
+
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Link" %}</th>
+</thead>
+<tbody>
+<tr>
+<th>{{ object }}</th>
+<td>{{ site_url }}{% url 'api:project-repository' slug=object.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:project-repository' slug=object.slug %}">{% trans "Hook" %}</a></td>
+</tr>
+{% for component in components %}
+<tr>
+<th>{{ component }}</th>
+<td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}">{% trans "Hook" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<p>{% trans "You pull changes from a remote repository to Weblate like this:" %}</p>
+
+<pre>
+curl \
+    -d operation=pull \
+    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
+    {{ site_url }}{% url 'api:project-repository' slug=object.slug %}
+</pre>
+
+<p>{% blocktrans %}Weblate also supports direct notifications from several code hosting sites:{% endblocktrans %}</p>
+
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "Hosting site" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Note" %}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th><a href="https://github.com/">GitHub</a></th>
+<td>{{ site_url }}{% url 'webhook' service='github' %}</td>
+<td><a href="{% documentation "admin/continuous" "github-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
+</tr>
+<tr>
+<th><a href="https://about.gitlab.com/">GitLab</a></th>
+<td>{{ site_url }}{% url 'webhook' service='gitlab' %}</td>
+<td><a href="{% documentation "admin/continuous" "gitlab-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
+</tr>
+<tr>
+<th><a href="https://bitbucket.org/">Bitbucket</a></th>
+<td>{{ site_url }}{% url 'webhook' service='bitbucket' %}</td>
+<td><a href="{% documentation "admin/continuous" "bitbucket-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
+</tr>
+<tr>
+<th><a href="https://docs.pagure.org/pagure/">Pagure</a></th>
+<td>{{ site_url }}{% url 'webhook' service='pagure' %}</td>
+<td><a href="{% documentation "admin/continuous" "pagure-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
+</tr>
+<tr>
+<th><a href="https://azure.microsoft.com/services/devops/repos/">Azure Repos</a></th>
+<td>{{ site_url }}{% url 'webhook' service='azure' %}</td>
+<td><a href="{% documentation "admin/continuous" "azure-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
+</tr>
+<tr>
+<th><a href="https://gitea.io/">Gitea</a></th>
+<td>{{ site_url }}{% url 'webhook' service='gitea' %}</td>
+<td><a href="{% documentation "admin/continuous" "gitea-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
+</tr>
+</tbody>
+</table>
+
+
+{% endblock %}

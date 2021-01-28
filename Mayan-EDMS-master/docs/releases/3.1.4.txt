@@ -1,0 +1,145 @@
+Version 3.1.4
+=============
+
+Released: October 4, 2018
+
+Changes
+-------
+
+
+Improved search logic
+^^^^^^^^^^^^^^^^^^^^^
+
+The previous search code was optimized for speed and this was
+achieved by analyzing and then performing searches on a field
+basis and then on a term basis, merging the results. This
+logic has been revised to work on terms first for each
+field and then the results are merged. This change improves
+the results of the search system at the expense of some speed.
+
+The search system also worked by default in 'AND' mode.
+This meant that all terms had to be found in a field for the
+result to count. User were adding the word 'AND' in the
+searches and this cause the search system to look for the
+word 'AND' and when not finding would affect the search results.
+The word 'AND' is now explicitly supported and interpreted
+to be a search syntax modifier. Adding 'AND' will not affect
+the search results.
+
+
+Indexing by OCR text
+^^^^^^^^^^^^^^^^^^^^
+
+The indexing system has been updated to respond to the signal
+raise when the OCR engine finished processing a document. This
+allows the system to update location of a document in the
+index when the OCR is ready.
+
+Another custom signal similar to the OCR completion one was
+added to the document parsing app. This allows the index app
+to also refresh the indexes when the parsing of document
+text is finished.
+
+This example indexes documents if they have the fragment
+"quarterly report" in the OCR text::
+
+    {% if "quarterly report" document.latest_version.ocr_content|join:" "|lower %}Quarterly reports{% endif %} {# Detect the word "quarterly report" in the document OCR text #}
+
+The same applies to text content extracted for the document::
+
+    {% if "quarterly report" document.latest_version.content|join:" "|lower %}Quarterly reports{% endif %} {# Detect the word "quarterly report" in the document text #}
+
+
+Other changes
+^^^^^^^^^^^^^
+
+* Fix the link to the documentation. Closes GitLab issue #516.
+  Thanks to Matthias Urlichs @smurfix for the report.
+* Update related links. Add links to the new Wiki and Forum.
+* Add Redis config entries in the Docker images to disable
+  saving the database and to only provision 1 database.
+* Remove use of hard coded font icon for document page
+  rendering busy indicator.
+* Disable the fancybox caption link if the document is
+  in the trash.
+* Load the DropZone CSS from package and remove the
+  hard code CSS from appearance/base.css.
+* Strip HTML entities from the browser's window title.
+  Closes GitLab issue #517. Thanks to Daniel Carrico @daniel1113
+  for the report.
+* Add explanation to the launch workflows tool.
+
+
+Removals
+--------
+
+* None
+
+
+Upgrading from a previous version
+---------------------------------
+
+
+If installed via Python's PIP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Remove deprecated requirements::
+
+    $ curl https://gitlab.com/mayan-edms/mayan-edms/raw/master/removals.txt | pip uninstall -r /dev/stdin
+
+Type in the console::
+
+    $ pip install mayan-edms==3.1.4
+
+the requirements will also be updated automatically.
+
+
+Using Git
+^^^^^^^^^
+
+If you installed Mayan EDMS by cloning the Git repository issue the commands::
+
+    $ git reset --hard HEAD
+    $ git pull
+
+otherwise download the compressed archived and uncompress it overriding the
+existing installation.
+
+Remove deprecated requirements::
+
+    $ pip uninstall -y -r removals.txt
+
+Next upgrade/add the new requirements::
+
+    $ pip install --upgrade -r requirements.txt
+
+
+Common steps
+^^^^^^^^^^^^
+
+Perform these steps after updating the code from either step above.
+
+Migrate existing database schema with::
+
+    $ mayan-edms.py performupgrade
+
+Add new static media::
+
+    $ mayan-edms.py collectstatic --noinput
+
+The upgrade procedure is now complete.
+
+
+Backward incompatible changes
+-----------------------------
+
+* None
+
+
+Bugs fixed or issues closed
+---------------------------
+
+* :gitlab-issue:`516` The readthedocs.io link is broken (page doesn't exist).
+* :gitlab-issue:`517` Quotes in workflow state document web browser title
+
+.. _PyPI: https://pypi.python.org/pypi/mayan-edms/

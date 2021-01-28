@@ -1,0 +1,9 @@
+-r common.txt
+-r screenvis.txt
+-r ledvis.txt
+pylint==2.4.4  # pylint 2.5.x throws "No name in module" errors
+pylint-django
+mypy
+typing-extensions
+django-stubs
+libsass>=0.19.2

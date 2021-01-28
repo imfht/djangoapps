@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block bar %}
+    <div class="bookbar">
+        <h1>{{ title }}</h1>
+        <div class="btn-toolbar float-right">
+            <div class="btn-group" id="control-menu">
+                <button class="btn btn-default active" data-menu="dashboard" data-href="{% url 'control_center:frontpage' %}">
+                    {% trans "Home" %}
+                </button>
+                <button class="btn btn-default" data-menu="settings" data-href="{% url 'control_center:settings' %}#site-description">
+                    {% trans "Settings" %}
+                </button>
+                <button class="btn btn-default" data-menu="people" data-href="{% url 'control_center:people_list' %}">
+                    {% trans "People" %}
+                </button>
+                <button class="btn btn-default" data-menu="books" data-href="{% url 'control_center:settings' %}#list-of-books">
+                    {% trans "Books" %}
+                </button>
+                <button class="btn btn-default" data-menu="groups" data-href="{% url 'control_center:settings' %}#list-of-groups">
+                    {% trans "Groups" %}
+                </button>
+                <button class="btn btn-default" data-menu="roles" data-href="{% url 'control_center:settings' %}#list-of-roles">
+                    {% trans "Roles" %}
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

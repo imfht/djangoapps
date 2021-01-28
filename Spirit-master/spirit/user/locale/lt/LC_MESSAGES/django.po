@@ -1,0 +1,311 @@
+# 
+# Translators:
+# sirex <sirexas@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Spirit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-25 14:24+0000\n"
+"PO-Revision-Date: 2020-10-25 08:53+0000\n"
+"Last-Translator: Esteban Castro Borsani <ecastroborsani@gmail.com>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/spirit-project/spirit/language/lt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#: forms.py:39
+msgid "The email is taken."
+msgstr "El. pašto adresas užimtas."
+
+#: forms.py:49 forms.py:54 templates/spirit/user/profile_update.html:13
+msgid "Email"
+msgstr "El. paštas"
+
+#: forms.py:55 templates/spirit/user/profile_update.html:17
+msgid "Password"
+msgstr "Slaptažodis"
+
+#: forms.py:65
+msgid "The provided password is incorrect."
+msgstr "Pateiktas slaptažodis neteisingas."
+
+#: forms.py:79
+msgid "Remove avatar"
+msgstr ""
+
+#: forms.py:88
+msgid "Time zone"
+msgstr ""
+
+#: forms.py:90
+msgid "Email notifications"
+msgstr ""
+
+#: forms.py:92
+msgid "Email mentions"
+msgstr ""
+
+#: forms.py:94
+msgid "Email replies"
+msgstr ""
+
+#: forms.py:104
+#, python-format
+msgid "Current time is: %(date)s %(time)s"
+msgstr "Dabar yra %(date)s %(time)s"
+
+#: forms.py:123
+#, python-format
+msgid "Unsupported file format. Supported formats are %s."
+msgstr "Nepalaikomas failo formatas. Palaikomi formatai: %s."
+
+#: models.py:30
+msgid "Never"
+msgstr ""
+
+#: models.py:31
+msgid "Immediately"
+msgstr ""
+
+#: models.py:32
+msgid "Weekly"
+msgstr ""
+
+#: models.py:37
+msgid "profile"
+msgstr "profilis"
+
+#: models.py:42
+msgid "nickname"
+msgstr ""
+
+#: models.py:43
+msgid "location"
+msgstr "vieta"
+
+#: models.py:44
+msgid "last seen"
+msgstr "paskutinį kartą matytas"
+
+#: models.py:45
+msgid "last ip"
+msgstr "paskutinis IP"
+
+#: models.py:46
+msgid "time zone"
+msgstr "laiko juosta"
+
+#: models.py:48
+msgid "avatar"
+msgstr ""
+
+#: models.py:52
+msgid "administrator status"
+msgstr "administratoriaus būsena"
+
+#: models.py:53
+msgid "moderator status"
+msgstr "moderatoriaus būsena"
+
+#: models.py:55
+msgid "verified"
+msgstr "patvirtintas"
+
+#: models.py:57
+msgid ""
+"Designates whether the user has verified his account by email or by other "
+"means. Un-select this to let the user activate his account."
+msgstr "Žymi ar naudotojas patvirtino savo paskyrą el. paštu ar kitais būdais. Nuimkite pažymėjimą, kad leistumėte naudotojui aktyvuoti šią paskyrą."
+
+#: models.py:61
+msgid "topic count"
+msgstr "temų skaičius"
+
+#: models.py:62
+msgid "comment count"
+msgstr "komentarų skaičius"
+
+#: models.py:64
+msgid "last post hash"
+msgstr ""
+
+#: models.py:65
+msgid "last post on"
+msgstr ""
+
+#: models.py:68
+msgid "forum profile"
+msgstr "forumo profilis"
+
+#: models.py:69
+msgid "forum profiles"
+msgstr "forumo profiliai"
+
+#: templates/spirit/user/_profile.html:22
+msgid "Joined at"
+msgstr "Prisijungė"
+
+#: templates/spirit/user/_profile.html:26
+msgid "Seen"
+msgstr "Matytas"
+
+#: templates/spirit/user/_profile.html:31
+msgid "Last IP"
+msgstr "Paskutinis IP"
+
+#: templates/spirit/user/_profile.html:44
+#: templates/spirit/user/profile_update.html:5
+#: templates/spirit/user/profile_update.html:9
+msgid "Preferences"
+msgstr "Nustatymai"
+
+#: templates/spirit/user/_profile.html:51
+msgid "Private Message"
+msgstr "Privati Žinutė"
+
+#: templates/spirit/user/_profile.html:60
+msgid "Edit user"
+msgstr "Keisti naudotoją"
+
+#: templates/spirit/user/_profile.html:69
+msgid "Comments"
+msgstr "Komentarai"
+
+#: templates/spirit/user/_profile.html:73 templates/spirit/user/menu.html:22
+msgid "Topics"
+msgstr "Temos"
+
+#: templates/spirit/user/_profile.html:77
+msgid "Likes"
+msgstr "Patinka"
+
+#: templates/spirit/user/_render_comments_list.html:38
+msgid "There are no comments here, yet"
+msgstr "Kol kas komentarų nėra"
+
+#: templates/spirit/user/activation_email.html:2
+#, python-format
+msgid "You're receiving this email because you registered at %(site_name)s."
+msgstr "Gavote šį laišką, kadangi užsiregistravote %(site_name)s svetainėje."
+
+#: templates/spirit/user/activation_email.html:6
+msgid "Please go to the following link to activate your account:"
+msgstr "Prašome sekti šia nuoroda, kad aktyvuotumėte savo paskyrą:"
+
+#: templates/spirit/user/activation_email.html:10
+#: templates/spirit/user/email_change_email.html:10
+msgid "Thanks for using our site!"
+msgstr "Ačiū, kad naudojatės mūsų svetaine!"
+
+#: templates/spirit/user/email_change_email.html:2
+#, python-format
+msgid ""
+"You're receiving this because you changed your user email at %(site_name)s."
+msgstr "Gavote šį laišką, kadangi pakeitėte savo el. pašto adresą %(site_name)s svetainėje."
+
+#: templates/spirit/user/email_change_email.html:6
+msgid "Please go to the following link to confirm your email change:"
+msgstr "Sekite šia nuoroda, kad patvirtintumėte pakeistą el. pašto adresą:"
+
+#: templates/spirit/user/menu.html:7
+msgid "User menu"
+msgstr "Naudotojo meniu"
+
+#: templates/spirit/user/menu.html:11
+msgid "Menu"
+msgstr "Meniu"
+
+#: templates/spirit/user/menu.html:18
+msgid "Profile"
+msgstr "Profilis"
+
+#: templates/spirit/user/menu.html:26
+msgid "Unread topics"
+msgstr "Neskaitytos temos"
+
+#: templates/spirit/user/menu.html:30
+msgid "Private topics"
+msgstr "Privačios temos"
+
+#: templates/spirit/user/menu.html:35
+msgid "Admin"
+msgstr "Administravimas"
+
+#: templates/spirit/user/menu.html:40
+msgid "Log out"
+msgstr "Atsijungti"
+
+#: templates/spirit/user/profile_comments.html:5
+msgid "comments"
+msgstr "komentarai"
+
+#: templates/spirit/user/profile_email_change.html:5
+#: templates/spirit/user/profile_email_change.html:9 tests.py:632
+#: tests.py:1177 utils/email.py:34
+msgid "Email change"
+msgstr "El. pašto keitimas"
+
+#: templates/spirit/user/profile_email_change.html:15
+msgid "Change my email"
+msgstr "Keisti mano el. paštą"
+
+#: templates/spirit/user/profile_likes.html:5
+msgid "likes"
+msgstr "patinka"
+
+#: templates/spirit/user/profile_password_change.html:5
+#: templates/spirit/user/profile_password_change.html:9
+msgid "Password change"
+msgstr "Slaptažodžio keitimas"
+
+#: templates/spirit/user/profile_password_change.html:15
+msgid "Change my password"
+msgstr "Keisti mano slaptažodį"
+
+#: templates/spirit/user/profile_topics.html:5
+msgid "topics"
+msgstr "temos"
+
+#: templates/spirit/user/profile_update.html:20
+msgid "Change password"
+msgstr "Keisti slaptažodį"
+
+#: templates/spirit/user/profile_update.html:29
+msgid "Save"
+msgstr "Saugoti"
+
+#: tests.py:1161 utils/email.py:26
+msgid "User activation"
+msgstr "Naudotojo aktyvavimas"
+
+#: views.py:39
+msgid "Your profile has been updated!"
+msgstr "Jūsų profilis atnaujintas!"
+
+#: views.py:55
+msgid "Your password has been changed!"
+msgstr "Jūsų slaptažodis pakeistas!"
+
+#: views.py:72
+msgid "We have sent you an email so you can confirm the change!"
+msgstr "Išsiuntėme jums el. laišką, kad patvirtintumėte pakeitimą!"
+
+#: views.py:93
+msgid "Your email has been changed!"
+msgstr "Jūsų el. paštas buvo pakeistas!"
+
+#: views.py:96
+msgid "Sorry, we were not able to change your email."
+msgstr "Atsiprašome, negalime pakeisti jūsų el. pašto."
+
+#: views.py:107
+msgid "You are now unsubscribed!"
+msgstr ""
+
+#: views.py:110
+msgid ""
+"Sorry, we were not able to unsubscribed you. Please login and change your "
+"notifications settings."
+msgstr ""

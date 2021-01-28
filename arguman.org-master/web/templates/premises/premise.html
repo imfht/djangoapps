@@ -1,0 +1,126 @@
+{% load i18n %}
+{% load humanize %}
+{% load static %}
+<div class="premise tree-node{% if premise.is_collapsed %} too-many-fallacy{% endif %}"
+    data-id="{{ premise.id }}" data-type="{{ premise.premise_class }}"
+    data-weight="{{ premise.weight }}">
+    <div class="premise-type {{ premise.premise_class }}">
+        {{ premise.premise_type_label }}
+    </div>
+
+    <div class="premise-type premise-weight {{ premise.premise_class }}">
+        {% trans "score:" %} {{ premise.weight }}
+    </div>
+
+    <div class="premise-content {{ premise.premise_class }}">
+        {% with text=premise.formatted_text|safe %}
+            {{text.strip|safe|linebreaksbr}}
+        {% endwith %}
+        {% if premise.related_argument %}
+        <div class="related-argument">
+            <a href="{{ premise.related_argument.absolute_url }}">{{ premise.related_argument.title }}</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="premise-sources">
+        {% if premise.sources %}
+            <strong>{% trans "sources:" %}</strong>
+            <p class="links">{{ premise.sources|urlize }}</p>
+        {% endif %}
+        <div class="premise-user">
+            <strong>{% trans "sender:" %}</strong>
+
+            <p><a href="{% url "auth_profile" premise.user.username %}">
+                {{ premise.user.username|lower }}</a></p>
+
+            <p class="time-ago">
+                <a href="#{{ premise.id }}">
+                    <time datetime="{{ premise.date_creation }}">{{ premise.date_creation|naturaltime }}</time>
+                </a>
+            </p>
+        </div>
+
+        {% if premise.fallacies %}
+            <div class="reported_as_fallacy">
+                {% blocktrans trimmed count premise.fallacy_count as count %}
+                    {{ count }} fallacy reported.
+                    {% plural %}
+                    {{ count }} fallacies reported.
+                {% endblocktrans %}
+                {% if premise.fallacies %}
+                    {% for fallacy in premise.fallacies %}
+                        <div class="fallacy">
+                            {{ fallacy.label }}
+                            {% if fallacy.reported_by_authenticated_user %}
+                            <form action="{% url "unreport_premise" serialized.slug premise.id %}?type={{ fallacy.type }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <input type="submit"
+                                       value="({% trans "undo" %})" />
+                            </form>
+                            {% endif %}
+                            <div class="fallacy-reasons">
+                                {% for reason in fallacy.reasons %}
+                                    <p>
+                                        {{ reason.reason }}
+                                        <a href="{% url "auth_profile" reason.reporter %}">{{ reason.reporter|lower }}</a>
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if premise.supporter_count > 0 %}
+            <div class="supporters">
+                {% blocktrans trimmed count premise.supporter_count as count %}
+                    {{ count }} supporter.
+                {% plural %}
+                    {{ count }} supporters.
+                {% endblocktrans %}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="premise-actions">
+            <a class="premise-action" href="{% url "insert_premise" serialized.slug premise.id %}">{% trans "add premise" %}</a>
+            
+            {% if user.id == premise.user.id %}
+                <a class="premise-action" href="{% url "edit_premise" serialized.slug premise.id %}">{% trans "edit" %}</a>
+                <form class="premise-action" action="{% url "delete_premise" serialized.slug premise.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="{% trans "remove" %}"
+                           onclick="return confirm('{% trans "Are you sure to remove this premise?" %}');"
+                           class="delete_premise"/>
+                </form>
+            {% endif %}
+
+            {% if premise.user.id != user.id %}
+                {% if premise.supported_by_authenticated_user %}
+                    <form class="support premise-action" action="{% url "unsupport_premise" serialized.slug premise.id %}"
+                          method="post" data-action="DELETE" data-label-support="{% trans "support" %}" data-label-undo="{% trans "undo" %}">
+                        {% csrf_token %}
+                        <input type="submit" value="{% trans "undo" %}"/>
+                    </form>
+                {% else %}
+                    <form class="support premise-action" action="{% url "support_premise" serialized.slug premise.id %}"
+                          method="post" data-action="POST" data-label-support="{% trans "support" %}" data-label-undo="{% trans "undo" %}">
+                        {% csrf_token %}
+                        <input type="submit" value="{% trans "support" %}"/>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="report">
+            <a href="{% url 'report_premise' serialized.slug premise.id %}">{% trans "report fallacy" %}</a>
+        </div>
+    {% endif %}
+    <div class="share">
+        <a target="_blank" href="{{ serialized.full_url }}/{{ premise.id }}" class="tree-view active"> permalink</a>
+    </div>
+
+</div>

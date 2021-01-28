@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load promgen %}
+{% load i18n %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Rules</h1>
+</div>
+
+<ol class="breadcrumb">
+  <li><a href="{% url 'service-list' %}">Home</a></li>
+  <li class="active">List Rules</li>
+</ol>
+
+{% regroup rule_list by content_object as grouped_rule_list %}
+
+{% for group in grouped_rule_list %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <a href="{{ group.grouper.get_absolute_url }}">{{ group.grouper }}</a>
+    <a href="{% url 'rule-new' group.grouper|klass|lower group.grouper.id %}" class="btn btn-primary btn-xs pull-right">{% trans "Register Rule" %}</a>
+  </div>
+
+  <table class="table table-bordered table-condensed">
+    {% include "promgen/rule_header.html" %}
+    {% include "promgen/rule_block.html" with rule_list=group.list %}
+  </table>
+</div>
+{% endfor %}
+
+{% endblock %}

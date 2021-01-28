@@ -1,0 +1,17 @@
+*.pyc
+*.swp
+
+/backup_*
+/db.sqlite3
+/yarn.lock
+/yarn-error.log
+
+/test_cache
+/test_library
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# virtual environment folder
+.venv/

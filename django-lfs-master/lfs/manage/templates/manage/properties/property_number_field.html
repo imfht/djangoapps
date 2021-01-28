@@ -1,0 +1,19 @@
+{% load i18n %}
+<h2 class="heading-middle">{% trans 'Validators' %}</h2>
+
+<form id="shop-property-step-type-form"
+      action="{% url 'lfs_save_number_field_validators' property.id %}"
+      method="post">
+
+      {% csrf_token %}
+      <table>
+          {{ number_field_form }}
+      </table>
+
+     <div class="buttons">
+         <input type="submit"
+                value="{% trans 'Save validators' %}"
+                class="button shop-property-input-button"
+                name="Save"/>
+    </div>
+</form>

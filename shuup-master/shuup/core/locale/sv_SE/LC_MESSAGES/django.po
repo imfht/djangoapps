@@ -1,0 +1,2418 @@
+# Copyright (C) 2015 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Frank Wickström <frwickst@gmail.com>, 2017
+# Panu Tulimäki <panu@shuup.com>, 2020
+# Tuomas Suutari <tuomas.suutari@anders.fi>, 2017
+# William Lindholm <william.lindholm@shuup.com>, 2020
+msgid ""
+msgstr ""
+"Project-Id-Version: Shuup\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-23 14:16+0000\n"
+"PO-Revision-Date: 2020-10-04 19:40+0000\n"
+"Last-Translator: William Lindholm <william.lindholm@shuup.com>\n"
+"Language-Team: Swedish (Sweden) (http://www.transifex.com/shuup/shuup/language/sv_SE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.1.1\n"
+"Language: sv_SE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, python-format
+msgid "Error! Invalid command `%s`."
+msgstr "Fel! Ogiltigt kommando `%s`."
+
+#, python-format
+msgid "Error! The quantity `%f` is not allowed. Please use an integer value."
+msgstr "Fel! Kvantiteten '%f' är inte tillåten. Använd ett heltal."
+
+#, python-format
+msgid "Error! The quantity `%s` is not valid."
+msgstr "Fel! Kvantiteten '%s' är inte giltig."
+
+#, python-format
+msgid "Error! The quantity `%s` is not valid, should be bigger than zero."
+msgstr "Fel! Kvantiteten '%s' är inte giltig, bör vara större än noll."
+
+msgid "Error! This variation is not available."
+msgstr "Fel! Denna variation är inte tillgänglig."
+
+msgid "Customer is not active."
+msgstr "Kunden är inte aktiv."
+
+msgid "Shop does not have all the necessary permissions for this customer."
+msgstr "Shop har inte alla nödvändiga behörigheter för denna kund."
+
+msgid "You don't have the required permission to assign this customer."
+msgstr "Du har inte nödvändigt tillstånd för att tilldela den här kunden."
+
+msgid "You must specify the order, in which customer is a company."
+msgstr "Du måste ange ordern i vilken kund som är ett företag."
+
+msgid "Invalid customer."
+msgstr "Ogiltig kund."
+
+msgid "Orderer is not a member of the company."
+msgstr "Beställaren är inte medlem i företaget."
+
+msgid "You are not a member of the company."
+msgstr "Du är inte medlem i företaget."
+
+#, python-format
+msgid "Basket loading failed: Incompatible basket (%s)."
+msgstr "Korgladdning misslyckades: Inkompatibel korg (%s)."
+
+msgid "Try to remove some products from the basket and order them separately."
+msgstr "Försök att ta bort vissa produkter ur korgen och beställa dem separat."
+
+#, python-format
+msgid "Products in basket can't be shipped together. %s"
+msgstr "Produkter i korgen kan inte levereras tillsammans. %s"
+
+#, python-format
+msgid "Products in basket have no common payment method. %s"
+msgstr "Produkter i korgen har ingen gemensam betalningsmetod. %s"
+
+msgid "internal identifier"
+msgstr "intern identifierare"
+
+msgid "Do not change this value if you are not sure what you are doing."
+msgstr "Ändra inte på detta värde om du inte är säker på konsekvenserna."
+
+msgid "Invalid color"
+msgstr "Ogiltig färg"
+
+msgid "Enter a valid JSON."
+msgstr "Ange en giltig JSON."
+
+msgid "Error!"
+msgstr "Fel!"
+
+msgid "No such shop is configured."
+msgstr "Ingen sådan butik är konfigurerad."
+
+msgid "shipping address"
+msgstr "leveransaddress"
+
+msgid "billing address"
+msgstr "faktureringsaddress"
+
+msgid "disabled"
+msgstr "inaktiverad"
+
+msgid "enabled"
+msgstr "aktiverad"
+
+msgid "name prefix"
+msgstr "titel"
+
+msgid "The name prefix. For example, Mr, Mrs, Ms, Dr, etc."
+msgstr "Personens titel. Exempel, Herr, Fru, Dr, osv."
+
+msgid "name"
+msgstr "namn"
+
+msgid "The name for the address."
+msgstr "Adressens namn"
+
+msgid "name suffix"
+msgstr "namnsuffix"
+
+msgid "The name suffix. For example, Jr, Sr, etc."
+msgstr "Namnsuffix. Till exempel, Jr, Sr, etc."
+
+msgid "name extension"
+msgstr "namnstillägg"
+
+msgid ""
+"Any other text to display along with the address. This could be department "
+"names (for companies) or titles (for people)."
+msgstr "All annan text för att visa tillsammans med adressen. Detta kan vara avdelningsnamn (för företag) eller titlar (för människor)."
+
+msgid "company name"
+msgstr "företagsnamn"
+
+msgid "The company name for the address."
+msgstr "Företagsnamnet för adressen."
+
+msgid "tax number"
+msgstr "momsnummer"
+
+msgid ""
+"The business tax number. For example, EIN in the USA or VAT code in the EU."
+msgstr "Företagsskattenummer. Till exempel EIN i USA eller moms i EU."
+
+msgid "phone"
+msgstr "telefon"
+
+msgid "The primary phone number for the address."
+msgstr "Det primära telefonnumret för adressen."
+
+msgid "email"
+msgstr "e-post"
+
+msgid "The primary email for the address."
+msgstr "Den primära e-postadressen för adressen."
+
+msgid "street"
+msgstr "gata"
+
+msgid "The street address."
+msgstr "Gatuaddress."
+
+msgid "street (2)"
+msgstr "gata (2)"
+
+msgid "An additional street address line."
+msgstr "Extra addressfält."
+
+msgid "street (3)"
+msgstr "gata (3)"
+
+msgid "Any additional street address line."
+msgstr "Extra addressfält."
+
+msgid "postal code"
+msgstr "postaddress"
+
+msgid "The address postal/zip code."
+msgstr "Adressens postaddress."
+
+msgid "city"
+msgstr "stad"
+
+msgid "The address city."
+msgstr "Adressens stad."
+
+msgid "region code"
+msgstr "områdeskod"
+
+msgid "The address region, province, or state."
+msgstr "Adressens område, provins eller delstat."
+
+msgid "region"
+msgstr "område"
+
+msgid "country"
+msgstr "land"
+
+msgid "The address country."
+msgstr "Adressens land."
+
+msgid "address"
+msgstr "adress"
+
+msgid "addresses"
+msgstr "adresser"
+
+msgid "owner"
+msgstr "ägare"
+
+msgid "role"
+msgstr "roll"
+
+msgid "status"
+msgstr "status"
+
+msgid "title"
+msgstr "titel"
+
+msgid "saved address"
+msgstr "sparad adress"
+
+msgid "saved addresses"
+msgstr "sparade adresser"
+
+msgid "hidden"
+msgstr "gömd"
+
+msgid "shown on product page"
+msgstr "visa på produktsidan"
+
+msgid "searchable metadata"
+msgstr "sökbar metadata"
+
+msgid "private metadata"
+msgstr "privat matadata"
+
+msgid "integer"
+msgstr "heltal"
+
+msgid "decimal"
+msgstr "decimaltal"
+
+msgid "boolean"
+msgstr "boolesk värde"
+
+msgid "time interval"
+msgstr "tidsintervall"
+
+msgid "date and time"
+msgstr "datum och tid"
+
+msgid "date only"
+msgstr "endast datum"
+
+msgid "translated string"
+msgstr "översatt sträng"
+
+msgid "untranslated string"
+msgstr "ej översatt sträng"
+
+msgid "searchable"
+msgstr "sökbar"
+
+msgid ""
+"Searchable attributes will be used for product lookup when customers search "
+"in your store."
+msgstr "Sökbara attribut kommer att användas för produktsökning när kunder söker i din butik."
+
+msgid "type"
+msgstr "typ"
+
+msgid ""
+"The attribute data type. Attribute values can be set on the product editor "
+"page."
+msgstr "Attributets datatyp. Attributets värde kan sätta på produktenseditor sidan."
+
+msgid "visibility mode"
+msgstr "synlighetsläge"
+
+msgid ""
+"Select the attribute visibility setting. Attributes can be shown on the "
+"product detail page or can be used to enhance product search results."
+msgstr "Välj attributets synlighetsläge. Attribut kan visas på produktens detaljsida eller för att förbättra sökningar efter produkters."
+
+msgid ""
+"The attribute name. Product attributes can be used to list the various "
+"features of a product and can be shown on the product detail page. The "
+"product attributes for a product are determined by the product type and can "
+"be set on the product editor page."
+msgstr "Attributets namn. Produktattribut kan användas för att lista diverse produktfunktioner och kan göras synliga på en produkt detaljsida. Produktattribut bestäms utifrån produktens typ och kan ställas in på produktens detaljsida."
+
+msgid "attribute"
+msgstr "attribut"
+
+msgid "attributes"
+msgstr "attribut"
+
+msgid "numeric value"
+msgstr "numeriskt värde"
+
+msgid "datetime value"
+msgstr "datum och tidsvärde"
+
+msgid "untranslated value"
+msgstr "ej översatt värde"
+
+msgid "The following fields are protected and can not be changed."
+msgstr "Följande fält är skyddade och kan inte ändras."
+
+msgid "key"
+msgstr "nyckel"
+
+msgid "shop"
+msgstr "butik"
+
+msgid "customer"
+msgstr "kund"
+
+msgid "orderer"
+msgstr "beställaren"
+
+msgid "creator"
+msgstr "skapare"
+
+msgid "created on"
+msgstr "skapad den"
+
+msgid "updated on"
+msgstr "uppdaterad"
+
+msgid "persistent"
+msgstr "långlivad"
+
+msgid "deleted"
+msgstr "borttagen"
+
+msgid "finished"
+msgstr "avslutad"
+
+msgid "data"
+msgstr "data"
+
+msgid "taxless total price"
+msgstr "pris (exkl. skatter)"
+
+msgid "taxful total price"
+msgstr "pris (inkl. skatter)"
+
+msgid "currency"
+msgstr "valuta"
+
+msgid "prices include tax"
+msgstr "priser inkl. skatter"
+
+msgid "product_count"
+msgstr "produktantal"
+
+msgid "products"
+msgstr "produkter"
+
+msgid "basket"
+msgstr "korg"
+
+msgid "baskets"
+msgstr "korgar"
+
+msgid "invisible"
+msgstr "osynlig"
+
+msgid "visible"
+msgstr "synlig"
+
+msgid "visible to all"
+msgstr "synlig för alla"
+
+msgid "visible to logged-in customers"
+msgstr "synlig för inloggade kunder"
+
+msgid "visible to certain customer groups"
+msgstr "synlig för ett vissa kundergrupper"
+
+msgid "parent category"
+msgstr "föräldrakategori"
+
+msgid ""
+"If your category is a sub-category of another category, you can link them "
+"here."
+msgstr "Om din kategori är en underkategori av en annan kategori så kan du länka dem här."
+
+msgid "shops"
+msgstr "butiker"
+
+msgid "You can select which shops the category is visible in."
+msgstr "Du kan välja vilka butiker kategorin är synlig i."
+
+msgid "Choose if you want this category to be visible in your store."
+msgstr "Välj om du vill att den här kategorin ska vara synlig i din butik."
+
+msgid "image"
+msgstr "bild"
+
+msgid ""
+"Category image. Will be shown in places defined by the graphical theme in "
+"use."
+msgstr "Kategoribild. Visas på platser definierade av det grafiska temat som används."
+
+msgid "ordering"
+msgstr "ordning"
+
+msgid ""
+"You can assign numerical values to images to tell the order in which they "
+"shall be displayed on the vendor page. You can also use the `Organize` "
+"button in the list view to order them visually with a drag-and-drop."
+msgstr "Du kan tilldela bilder numeriska värden för att ange i vilken ordning de ska visas på leverantörssidan. Du kan också använda \"Organiser\" -knappen i listvyn för att beställa dem visuellt med ett drag-och-släpp."
+
+msgid "visibility limitations"
+msgstr "synlighetsbegränsningar"
+
+msgid ""
+"You can choose to limit who sees your category based on whether they are "
+"logged in or if they are part of a certain customer group."
+msgstr "Du kan välja att begränsa vem som ser din kategori baserat på om de är inloggade eller om de ingår i en viss kundgrupp."
+
+msgid "visible in menu"
+msgstr "synlig i menyn"
+
+msgid "Enable if this category should be visible in the store front's menu."
+msgstr "Aktivera om denna kategori ska vara synlig i butiksfrontens meny."
+
+msgid "visible for groups"
+msgstr "synlig för grupper"
+
+msgid ""
+"Select the customer groups you want to see this category. There are three "
+"groups created by default: Company, Person, Anonymous. In addition you can "
+"also define custom groups by searching for `Contact Groups`."
+msgstr "Välj de kundgrupper du vill se denna kategori. Det finns tre grupper som skapats som standard: Företag, Person, Anonym. Dessutom kan du också definiera anpassade grupper genom att söka efter 'Kontaktgrupper'."
+
+msgid ""
+"Enter a descriptive name for your product category. Products can be found in"
+" the store front under the defined product category either directly in menus"
+" or while searching."
+msgstr "Ange ett beskrivande namn för din produktkategori. Produkter finns i butiksfronten under den definierade produktkategorin antingen direkt i menyer eller under sökning."
+
+msgid "description"
+msgstr "beskrivning"
+
+msgid ""
+"Give your product category a detailed description. This will help shoppers "
+"find your products under that category in your store and on the web."
+msgstr "Ge din produktkategori en detaljerad beskrivning. Detta kommer att hjälpa kunder att hitta dina produkter under kategorin i din butik och på webben."
+
+msgid "slug"
+msgstr "slug"
+
+msgid ""
+"Enter a URL slug for your category. Slug is user- and search engine-friendly"
+" short text used in a URL to identify and describe a resource. In this case "
+"it will determine what your product category page URL in the browser address"
+" bar will look like. A default will be created using the category name."
+msgstr "Ange en URL-slug för din kategori. Slug är användar- och sökmotorvänlig kort text som används i en URL för att identifiera och beskriva en resurs. I det här fallet kommer det att avgöra hur din produktkategoris webbadress i webbläsarens adressfält kommer att se ut. En standard skapas med hjälp av kategorinamnet."
+
+msgid "category"
+msgstr "kategori"
+
+msgid "categories"
+msgstr "kategorier"
+
+msgid "value"
+msgstr "värde"
+
+msgid "configuration item"
+msgstr "konfigurationsobjekt"
+
+msgid "configuration items"
+msgstr "konfigurationsobjekt"
+
+#, python-format
+msgid "%(key)s for shop %(shop)s"
+msgstr "%(key)s för butik %(shop)s"
+
+#, python-format
+msgid "%(key)s (global)"
+msgstr "%(key)s (global)"
+
+msgid "show as pricing option"
+msgstr "visas som prisalternativ"
+
+msgid "show prices including taxes"
+msgstr "visa priser inkl. skatter"
+
+msgid "hide prices"
+msgstr "dölj priser"
+
+msgid "Unknown"
+msgstr "Okänd"
+
+#, python-format
+msgid "Price Display Options for Contact Group %s"
+msgstr "Pris visningsalternativ för kontaktgrupp %s"
+
+msgid "contact group price display"
+msgstr "kontaktgrupps prisvisning"
+
+msgid "contact group price displays"
+msgstr "kontaktgruppens prisvisningar"
+
+msgid "members"
+msgstr "medlemmar"
+
+msgid ""
+"The contact group name. Contact groups can be used to target sales and "
+"campaigns to a specific set of users."
+msgstr "Kontaktgruppens namn. Kontaktgrupper kan användas för att rikta försäljning och kampanjer mot en viss uppsättning användare."
+
+msgid "contact group"
+msgstr "kontaktgrupp"
+
+msgid "contact groups"
+msgstr "kontaktgrupper"
+
+msgid "Cannot set shop for default Contact Group."
+msgstr "Det går inte att ställa in butik för standardkontaktgrupp."
+
+msgid "Can't delete. This object is protected."
+msgstr "Går ej att att ta bort. Detta ändamål är skyddad."
+
+msgid "modified on"
+msgstr "ändrad på"
+
+msgid "active"
+msgstr "aktiv"
+
+msgid "Enable this if the contact is an active customer."
+msgstr "Aktivera detta om kontakten är en aktiv kund."
+
+msgid "Inform which shops have access to this contact."
+msgstr "Informera vilka butiker som har tillgång till denna kontakt."
+
+msgid "registration shop"
+msgstr "registreringsbutik"
+
+msgid "default shipping method"
+msgstr "standardleveranssätt"
+
+msgid "default payment method"
+msgstr "standardbetalningsmetod"
+
+msgid "language"
+msgstr "språk"
+
+msgid ""
+"The primary language to be used in all communications with the contact."
+msgstr "Det primära språk som ska användas i all kommunikation med kontakten."
+
+msgid "marketing permission"
+msgstr "marknadsföringstillstånd"
+
+msgid ""
+"Enable this if the contact can receive marketing and promotional materials."
+msgstr "Aktivera detta om kontakten kan ta emot marknadsförings- och marknadsföringsmaterial."
+
+msgid "The primary phone number of the contact."
+msgstr "Det primära telefonnumret för kontakten."
+
+msgid "web address"
+msgstr "webbadress"
+
+msgid "The web address of the contact, if any."
+msgstr "Webbadressen för kontakten, om något."
+
+msgid "time zone"
+msgstr "tidszon"
+
+msgid ""
+"The timezone in which the contact resides. This can be used to target the "
+"delivery of promotional materials at a particular time."
+msgstr "Tidszon där kontakten är bosatt. Detta kan användas för att rikta leveransen av reklammaterial vid en viss tidpunkt."
+
+msgid "The name prefix of the contact. For example, Mr, Mrs, Dr, etc."
+msgstr "Personens titel. Exempel, Herr, Fru, Dr, osv."
+
+msgid "The contact name"
+msgstr "Kontaktnamn"
+
+msgid "The name suffix of the contact. For example, Sr, Jr, etc."
+msgstr "Namnsuffix. Till exempel, Jr, Sr, etc."
+
+msgid ""
+"The email that will receive order confirmations and promotional materials "
+"(if permitted)."
+msgstr "Epostadressen som ska ta emot orderbekräftelser och marknadsföringsmaterial (om det är tillåtet)."
+
+msgid "tax group"
+msgstr "skatteklass"
+
+msgid ""
+"Select the contact tax group to use for this contact. Tax groups can be used"
+" to customize the tax rules the that apply to any of this contact's orders. "
+"Tax groups are defined in `Customer Tax Groups` and can be applied to tax "
+"rules in `Tax Rules`."
+msgstr "Välj den kontaktskattgrupp som ska användas för denna kontakt. Skattgrupper kan användas för att anpassa de skatteregler som gäller för någon av kontaktens beställningar. Skattegrupper definieras i \"Kundskattgrupper\" och kan tillämpas på skatteregler i \"Skatteregler\"."
+
+msgid "merchant notes"
+msgstr "köpmannens anteckningar"
+
+msgid ""
+"Enter any private notes for this customer that are only accessible in Shuup "
+"admin."
+msgstr "Ange privata anteckningar för denna kund som endast är tillgängliga i Shuup admin."
+
+msgid "account manager"
+msgstr "kontoansvarige"
+
+msgid "options"
+msgstr "val"
+
+msgid "picture"
+msgstr "bild"
+
+msgid ""
+"Contact picture. Can be used alongside contact profile, reviews and messages"
+" for example."
+msgstr "Kontaktbild. Kan användas tillsammans med kontaktprofil, recensioner och meddelanden till exempel."
+
+msgid "contact"
+msgstr "kontakt"
+
+msgid "contacts"
+msgstr "kontakter"
+
+msgid "Company Contacts"
+msgstr "Företagskontakter"
+
+msgid "e.g. EIN in US or VAT code in Europe"
+msgstr "t.ex. EIN i USA eller momskoden i Europa"
+
+msgid "company"
+msgstr "företag"
+
+msgid "companies"
+msgstr "företagen"
+
+msgid "undisclosed"
+msgstr "hemlig"
+
+msgid "male"
+msgstr "man"
+
+msgid "female"
+msgstr "kvinna"
+
+msgid "other"
+msgstr "annan"
+
+msgid "Person Contacts"
+msgstr "Personliga kontakter"
+
+msgid "user"
+msgstr "användare"
+
+msgid "gender"
+msgstr "kön"
+
+msgid "The gender of the contact."
+msgstr "Kontaktens kön"
+
+msgid "birth date"
+msgstr "födelsedatum"
+
+msgid "The birth date of the contact."
+msgstr "Kontaktens födelsedatum."
+
+msgid "first name"
+msgstr "förnamn"
+
+msgid "The first name of the contact."
+msgstr "Kontaktens förnamn."
+
+msgid "last name"
+msgstr "efternamn"
+
+msgid "The last name of the contact."
+msgstr "Kontaktens efternamn."
+
+msgid "person"
+msgstr "person"
+
+msgid "persons"
+msgstr "personer"
+
+msgid "Anonymous Contacts"
+msgstr "Anonyma Kontakter"
+
+msgid "order reference"
+msgstr "orderreferens"
+
+msgid "identifier"
+msgstr "indentifierare"
+
+msgid "counter"
+msgstr "räknare"
+
+msgid "counters"
+msgstr "räknare"
+
+msgid "code"
+msgstr "kod"
+
+msgid "The ISO-4217 code of the currency"
+msgstr "Valutans ISO-4217 värde"
+
+msgid "decimal places"
+msgstr "decimalplacering"
+
+msgid "The number of decimal places supported by this currency."
+msgstr "Antalet decimaler som stöds av denna valuta."
+
+msgid "Enter a valid ISO-4217 currency code."
+msgstr "Ange en giltig ISO-4217-valutakod."
+
+msgid "currencies"
+msgstr "valutor"
+
+msgid "label"
+msgstr "etikett"
+
+msgid "labels"
+msgstr "etiketter"
+
+msgid "added"
+msgstr "har lagts till"
+
+msgid ""
+"Enter the manufacturer’s name. Products can be filtered by the manufacturer "
+"and this can be useful for inventory and stock management."
+msgstr "Ange tillverkarens namn. Produkter kan filtreras av tillverkaren och detta kan vara användbart för lager- och lagerhantering."
+
+msgid "URL"
+msgstr "Webbadress"
+
+msgid ""
+"Enter the URL of the product manufacturer if you would like customers to be "
+"able to visit the manufacturer's website."
+msgstr "Ange webbadressen för tillverkaren om du vill att kunderna skall kunna gå till tillverkarens hemsida."
+
+msgid "logo"
+msgstr "logga"
+
+msgid "manufacturer"
+msgstr "tillverkare"
+
+msgid "manufacturers"
+msgstr "tillverkare"
+
+msgid "file"
+msgstr "fil"
+
+msgid "Select which shops you would like the files to be visible in."
+msgstr "Välj vilka butiker du vill att filerna ska visas i."
+
+msgid "folder"
+msgstr "mapp"
+
+msgid "Select which shops you would like the folder to be visible in."
+msgstr "Välj vilka butiker du vill att mappen ska visas i."
+
+msgid "Should this folder be visible for everyone in the media browser"
+msgstr "Skulle den här mappen vara synlig för alla i mediebläddraren"
+
+msgid "owning_media_folders"
+msgstr "owning_media_folders"
+
+msgid "owners"
+msgstr "ägare"
+
+msgid "Select which users will own this folder."
+msgstr "Välj vilka användare som ska äga den här mappen."
+
+msgid "product"
+msgstr "produkt"
+
+msgid "shipping"
+msgstr "frakt"
+
+msgid "payment"
+msgstr "betalning"
+
+msgid "discount"
+msgstr "rabatt"
+
+msgid "refund"
+msgstr "raterbaring"
+
+msgid "rounding"
+msgstr "avrundning"
+
+msgid "supplier"
+msgstr "leverantör"
+
+msgid "parent line"
+msgstr "föräldrarad"
+
+msgid "line type"
+msgstr "radtyp"
+
+msgid "line SKU"
+msgstr "artikelrad"
+
+msgid "line text"
+msgstr "textrad"
+
+msgid "accounting identifier"
+msgstr "bokförnings identifierare"
+
+msgid "require verification"
+msgstr "kräv verifiering"
+
+msgid "verified"
+msgstr "verifierad"
+
+msgid "extra data"
+msgstr "extra uppgifter"
+
+msgid "quantity"
+msgstr "antal"
+
+msgid "unit price amount (undiscounted)"
+msgstr "à pris (icke rabatterat)"
+
+msgid "total amount of discount"
+msgstr "rabattsumma"
+
+msgid "order line"
+msgstr "orderrad"
+
+msgid "order lines"
+msgstr "orderrader"
+
+msgid "order"
+msgstr "order"
+
+msgid "tax"
+msgstr "skatt"
+
+msgid "tax name"
+msgstr "skattenamn"
+
+msgid "tax amount"
+msgstr "skattebeloppet"
+
+msgid "base amount"
+msgstr "basbelopp"
+
+msgid "Amount that this tax is calculated from."
+msgstr "Belopp som denna skatt beräknas från."
+
+msgid "not paid"
+msgstr "ej betald"
+
+msgid "partially paid"
+msgstr "delvis betalad"
+
+msgid "fully paid"
+msgstr "betalad till fullo"
+
+msgid "canceled"
+msgstr "avbruten"
+
+msgid "deferred"
+msgstr "uppskjuten"
+
+msgid "not shipped"
+msgstr "ej levererad"
+
+msgid "partially shipped"
+msgstr "delvis levererad"
+
+msgid "fully shipped"
+msgstr "levererad"
+
+msgid "none"
+msgstr "inga"
+
+msgid "Initial"
+msgstr "Inledande"
+
+msgid "Complete"
+msgstr "Slutförd"
+
+msgid "Canceled"
+msgstr "Avbruten"
+
+msgid "Processing"
+msgstr "Bearbetar"
+
+msgid "Received"
+msgstr "Mottaget"
+
+msgid "In Progress"
+msgstr "Pågående"
+
+msgid ""
+"Internal identifier for status. This is used to identify and distinguish the"
+" statuses in Shuup."
+msgstr "Intern identifierare för status. Detta används för att identifiera och skilja statusen i Shuup."
+
+msgid "The processing order of statuses. Default is always processed first."
+msgstr "Behandlingsordningen av status. Standard är alltid bearbetade först."
+
+msgid "The role of this status. One role can have multiple order statuses."
+msgstr "Rollen för denna status. En roll kan ha flera orderstatusar."
+
+msgid "default"
+msgstr "standard"
+
+msgid ""
+"Defines if the status should be considered as default. Default is always "
+"processed first."
+msgstr "Definierar om status ska betraktas som standard. Standard bearbetas alltid först."
+
+msgid "is active"
+msgstr "är aktiv"
+
+msgid "Defines if the status is usable."
+msgstr "Definierar om statusen är användbar."
+
+msgid "Name of the order status."
+msgstr "Namn på orderstatus."
+
+msgid "public name"
+msgstr "offentligt namn"
+
+msgid "The name shown to the customers in shop front."
+msgstr "Namnet som visas för kunderna framför butiken."
+
+msgid "order status"
+msgstr "orderläge"
+
+msgid "order statuses"
+msgstr "orderstatus"
+
+msgid "order identifier"
+msgstr "orderidentifierare"
+
+msgid "reference number"
+msgstr "referensnummer"
+
+msgid "email address"
+msgstr "e-postadress"
+
+msgid "customer groups"
+msgstr "kundgrupper"
+
+msgid "creating user"
+msgstr "skapar användare"
+
+msgid "modifier user"
+msgstr "modifierings användaren"
+
+msgid "payment status"
+msgstr "betalningsstatus"
+
+msgid "shipping status"
+msgstr "leveransstatus"
+
+msgid "payment method"
+msgstr "betalmetod"
+
+msgid "payment method name"
+msgstr "betalmetodens namn"
+
+msgid "payment data"
+msgstr "betalningsdata"
+
+msgid "shipping method"
+msgstr "leveranssätt"
+
+msgid "shipping method name"
+msgstr "leveransmetodens namn"
+
+msgid "shipping data"
+msgstr "leveransdata"
+
+msgid "grand total"
+msgstr "totalsumma"
+
+msgid "taxless total"
+msgstr "summa exkl. skatter"
+
+msgid "display currency"
+msgstr "visningsvaluta"
+
+msgid "display currency rate"
+msgstr "visa valutakurs"
+
+msgid "IP address"
+msgstr "IP-adress"
+
+msgid "order date"
+msgstr "beställningsdatum"
+
+msgid "payment date"
+msgstr "betalningsdag"
+
+msgid "customer comment"
+msgstr "kundkommentar"
+
+msgid "admin comment/notes"
+msgstr "admin kommentar/ nteckningar"
+
+msgid "requires verification"
+msgstr "kräver verifiering"
+
+msgid "all lines verified"
+msgstr "alla linjer verifierade"
+
+msgid "codes"
+msgstr "koder"
+
+msgid "orders"
+msgstr "beställningar"
+
+msgid "Order was marked as paid."
+msgstr "Order beställdes som betald."
+
+msgid "Order was marked as partially paid."
+msgstr "Beställningen markerades som delvis betald."
+
+#, python-format
+msgid "Success! Shipment #%d was created."
+msgstr "Framgång! Sändning # %d skapades."
+
+#, python-format
+msgid "Refund for %s"
+msgstr "Återbetalning för %s"
+
+msgid "Misc refund"
+msgstr "Diverse återmetalning"
+
+msgid "All rows requiring verification have been verified."
+msgstr "Alla rader som kräver verifiering har verifierats."
+
+#, python-format
+msgid "New shipping status is set to: %(shipping_status)s."
+msgstr "Ny leveransstatus är inställd på: %(shipping_status)s."
+
+#, python-format
+msgid "New payment status is set to: %(payment_status)s."
+msgstr "Ny betalningsstatus är inställd på: %(payment_status)s."
+
+msgid "gateway ID"
+msgstr "gateway ID"
+
+msgid "amount"
+msgstr "summa"
+
+msgid "foreign amount"
+msgstr "summa i utländs valuta"
+
+msgid "foreign amount currency"
+msgstr "utländsvaluta"
+
+msgid "payments"
+msgstr "betalningar"
+
+msgid "module"
+msgstr "modul"
+
+msgid "time"
+msgstr "tid"
+
+msgid "cache entry"
+msgstr "cache inlägg"
+
+msgid "cache entries"
+msgstr "cache inlägg"
+
+msgid "documentation"
+msgstr "dokumentation"
+
+msgid "sample"
+msgstr "prov"
+
+msgid "Select which shops you would like the product media to be visible in."
+msgstr "Välj vilka butiker du vill att produkten skall synas i."
+
+msgid "kind"
+msgstr "typ"
+
+msgid ""
+"Select what type the media is. It can either be a normal file, part of the "
+"documentation, or a sample."
+msgstr "Välj mediatypen. Det kan antingen vara en vanlig fil, en del av dokumentationen, eller ett prov."
+
+msgid ""
+"Enter URL to external file. If this field is filled, the selected media "
+"doesn't apply."
+msgstr "Ange webbaddress till extern fil. Om detta fält fylls, tillämpas inte valda mediafiler."
+
+msgid ""
+"You can assign numerical values to images to tell the order in which they "
+"shall be displayed on the product page."
+msgstr "Du kan tilldela bilder numeriska värden för att ange i vilken ordning de ska visas på produktsidan."
+
+msgid "public (shown on product page)"
+msgstr "offentlig (visas på produktsidan)"
+
+msgid ""
+"Enable this if you want this image be shown on the product page. Enabled by "
+"default."
+msgstr "Aktivera detta om du vill att den här bilden ska visas på produktsidan. Aktiverad som standard."
+
+msgid "purchased (shown for finished purchases)"
+msgstr "köpt (visas för färdiga inköp)"
+
+msgid ""
+"Enable this if you want the product media to be shown for completed "
+"purchases."
+msgstr "Aktivera detta om du vill att produktmediet ska visas för genomförda inköp."
+
+msgid ""
+"Choose a title for your product media. This will help it be found in your "
+"store and on the web."
+msgstr "Välj en titel för din produktmedia. Detta kommer att hjälpa den hittas i din butik och på webben."
+
+msgid ""
+"Write a description for your product media. This will help it be found in "
+"your store and on the web."
+msgstr "Skriv en beskrivning om produktmedian. Detta kommer att hjälpa den hittas i din butik och på webben."
+
+msgid "product attachment"
+msgstr "produktbilaga"
+
+msgid "product attachments"
+msgstr "produktbilagor"
+
+msgid "attachment"
+msgstr "bilaga"
+
+msgid "parent product"
+msgstr "överordnad produkt"
+
+msgid "child product"
+msgstr "underordnad produkt"
+
+msgid "not visible"
+msgstr "inte synlig"
+
+msgid "listed"
+msgstr "listad"
+
+msgid "always visible"
+msgstr "alltid synlig"
+
+msgid "suppliers"
+msgstr "leverantörer"
+
+msgid ""
+"List your suppliers here. Suppliers can be found by searching for "
+"`Suppliers`."
+msgstr "Lista dina leverantörer här. Leverantörer kan hittas genom att söka efter \"Leverantörer\"."
+
+msgid "visibility"
+msgstr "synlighet"
+
+msgid ""
+"Choose how you want your product to be seen and found by the customers. "
+"<p>Not visible: Product will not be shown in your store front nor found in "
+"search.</p><p>Searchable: Product will be shown in search, but not listed on"
+" any category page.</p><p>Listed: Product will be shown on category pages, "
+"but not shown in search results.</p><p>Always Visible: Product will be shown"
+" in your store front and found in search.</p>"
+msgstr "Välj hur du vill att din produkt ska ses och hittas av kunderna. <p> Ej synlig: Produkten visas inte i din butiksfront eller hittas i sökningen. </p><p> Sökbar: Produkten visas i sökningen men visas inte på någon kategorisida. </p><p> Listat: Produkten visas på kategorisidor men visas inte i sökresultaten. </p><p> Alltid synlig: Produkten visas i din butiksfront och hittas i sökningen. </p>"
+
+msgid "purchasable"
+msgstr "köpbar"
+
+msgid ""
+"Select whether you want your product to have special limitations on its "
+"visibility in your store. You can make products visible to all, visible to "
+"only logged-in users, or visible only to certain customer groups."
+msgstr "Välj om du vill att din produkt ska ha särskilda begränsningar för synligheten i din butik. Du kan göra produkter synliga för alla, synliga för endast inloggade användare eller endast synliga för vissa kundgrupper."
+
+msgid ""
+"Select the groups you want to make your product visible for. These groups "
+"are defined in Contacts Settings - Contact Groups."
+msgstr "Välj de grupper du vill göra din produkt synlig för. Dessa grupper definieras i Kontaktinställningar - Kontaktgrupper."
+
+msgid "backorder maximum"
+msgstr "maximal restorder"
+
+msgid ""
+"The number of units that can be purchased after the product is already sold "
+"out (out of stock). Set to blank for product to be purchasable without "
+"limits."
+msgstr "Antalet enheter som kan köpas efter att produkten redan är slutsåld (slut i lager). Ställ in tomt för att produkten ska kunna köpas utan begränsningar."
+
+msgid "purchase multiple"
+msgstr "köp multipler"
+
+msgid ""
+"Set this to other than 0 if the product needs to be purchased in multiples. "
+"For example, if the purchase multiple is set to 2, then customers are "
+"required to order the product in multiples of 2. Not to be confused with the"
+" Minimum Purchase Quantity."
+msgstr "Ställ in detta på annat än 0 om produkten måste köpas i multiplar. Till exempel, om inköpsmultipeln är inställd på 2, måste kunderna beställa produkten i multiplar av 2. För att inte förväxlas med minsta köpmängd."
+
+msgid "minimum purchase quantity"
+msgstr "minsta köpkvantitet"
+
+msgid ""
+"Set a minimum number of products needed to be ordered for the purchase. This"
+" is useful for setting bulk orders and B2B purchases."
+msgstr "Ställ in ett minsta antal produkter som måste köpas för beställningen. Detta är användbart för att skapa större beställningar och B2B inköp."
+
+msgid "limit the shipping methods"
+msgstr "begränsa fraktmetoderna"
+
+msgid ""
+"Enable this if you want to limit your product to use only the select "
+"shipping methods. You can select the allowed shipping method(s) in the field"
+" below - all the rest are disallowed."
+msgstr "Aktivera detta om du vill begränsa din produkt så att den endast använder valda leveransmetoder. Du kan välja tillåten leveransmetod (er) i fältet nedan - resten är inte tillåtna."
+
+msgid "limit the payment methods"
+msgstr "begränsa betalningsmetoderna"
+
+msgid ""
+"Enable this if you want to limit your product to use only the select payment"
+" methods. You can select the allowed payment method(s) in the field below - "
+"all the rest are disallowed."
+msgstr "Aktivera detta om du vill begränsa din produkt så att den endast använder valda betalningsmetoder. Du kan välja tillåten betalningsmetod (er) i fältet nedan - resten är inte tillåtna."
+
+msgid "shipping methods"
+msgstr "leveransmetoder"
+
+msgid ""
+"If you enabled the `Limit the payment methods` choice above, then here you "
+"can select the individual shipping methods you want to ALLOW for this "
+"product. The ones not mentioned are disabled. To change this, search for "
+"`Shipping Methods`."
+msgstr "Om du aktiverade valet \"Begränsa betalningsmetoderna\" ovan kan du här välja de individuella fraktmetoder du vill tillåta för den här produkten. De som inte nämns är inaktiverade. För att ändra detta, sök efter \"Fraktmetoder\"."
+
+msgid "payment methods"
+msgstr "betalningssätt"
+
+msgid ""
+"If you enabled the `Limit the payment methods` choice above, then here you "
+"can select the individuals payment methods you want to ALLOW for this "
+"product. The ones not mentioned are disabled. To change this, search for "
+"`Payment Methods`."
+msgstr "Om du aktiverade valet \"Begränsa betalningsmetoderna\" ovan, kan du här välja de betalningsmetoder som du vill tillåta för den här produkten. De som inte nämns är inaktiverade. För att ändra detta, sök efter \"Betalningsmetoder\"."
+
+msgid "primary category"
+msgstr "primära kategori"
+
+msgid ""
+"Choose the primary category for the product. This will be the main category "
+"for classification in the system. The product will be found under this "
+"category in your store. To change this, search for `Categories`."
+msgstr "Välj den primära kategorin för produkten. Detta kommer att vara huvudkategorin för klassificering i systemet. Produkten finns under denna kategori i din butik. För att ändra detta, sök efter 'Kategorier'."
+
+msgid ""
+"Add secondary categories for your product. These are other categories that "
+"your product fits under and that it can be found by in your store."
+msgstr "Lägg till sekundära kategorier för din produkt. Dessa är andra kategorier som din produkt passar under och som de kan hittas genom i din butik."
+
+msgid "primary image"
+msgstr "primärbild"
+
+msgid ""
+"Click this to set this image as the primary display image for the product."
+msgstr "Klicka här för att ställa in den här bilden som produktens primära bild."
+
+msgid "default price"
+msgstr "standardpris"
+
+msgid ""
+"This is the default individual base unit (or multi-pack) price of the "
+"product. All discounts or coupons will be calculated based off of this "
+"price."
+msgstr "Detta är standardpriset för enskilda basenheter (eller flerpaket) för produkten. Alla rabatter eller kuponger beräknas baserat på detta pris."
+
+msgid "minimum price"
+msgstr "lägsta pris"
+
+msgid ""
+"This is the default price that the product cannot go under in your store, "
+"despite coupons or discounts being applied. This is useful to make sure your"
+" product price stays above the cost."
+msgstr "Detta är standardpriset som produkten inte kan gå under i din butik, trots att kuponger eller rabatter tillämpas. Detta är användbart för att se till att ditt produktpris ligger över kostnaden."
+
+msgid "available until"
+msgstr "tillgänglig fram till"
+
+msgid "After this date this product will be invisible in store front."
+msgstr "Efter detta datum kommer denna produkt att vara osynlig framför butiken."
+
+msgid "display unit"
+msgstr "visningsenhet"
+
+msgid "Unit for displaying quantities of this product."
+msgstr "Enhet för visning av kvantiteter av denna produkt."
+
+msgid ""
+"Enter a descriptive name for your product. This will be its title in your "
+"store front."
+msgstr "Ange ett beskrivande namn för din produkt. Detta kommer att vara dess titel i din butiksfront."
+
+msgid ""
+"To make your product stands out, give it an awesome description. This is "
+"what will help your shoppers learn about your products. It will also help "
+"shoppers find them in the store and on the web."
+msgstr "För att göra din produkt sticker ut, ge den en fantastisk beskrivning. Detta är vad som hjälper dina kunder att lära sig om dina produkter. Det hjälper också shoppare att hitta dem i butiken och på nätet."
+
+msgid "short description"
+msgstr "kort beskrivning"
+
+msgid ""
+"Enter a short description for your product. The short description will be "
+"used to get the attention of your customer with a small, but precise "
+"description of your product. It also helps with getting more traffic via "
+"search engines."
+msgstr "Ange en kort beskrivning av din produkt. Den korta beskrivningen kommer att användas för att få kundens uppmärksamhet med en liten, men exakt beskrivning av din produkt. Det hjälper också till att få mer trafik via sökmotorer."
+
+msgid "status text"
+msgstr "statustext"
+
+msgid ""
+"This text will be shown alongside the product in the shop. It is useful for "
+"informing customers of special stock numbers or preorders. (Ex.: Available "
+"in a month)"
+msgstr "Denna text visas tillsammans med produkten i butiken. Det är användbart för att informera kunder om speciella lagernummer eller förbeställningar. (Ex .: Finns om en månad)"
+
+msgid ""
+"Error! Invalid display unit: Internal unit of the selected display unit does"
+" not match with the sales unit of the product."
+msgstr "Fel! Ogiltig displayenhet: Den interna enheten för den valda displayenheten matchar inte produktens försäljningsenhet."
+
+msgid "This product has been deleted."
+msgstr "Denna produkt har tagits bort."
+
+msgid "This product is not visible."
+msgstr "Denna produkt är inte synlig."
+
+msgid "Error! This product is not available until the current date."
+msgstr "Fel! Denna produkt är inte tillgänglig förrän nuvarande datum."
+
+msgid "The Product is invisible to users not logged in."
+msgstr "Produkten är inte synlig för användarna som inte är inloggade."
+
+msgid "This product is not visible to your group."
+msgstr "Denna produkt är inte synlig för din grupp."
+
+msgid "The product is not purchasable."
+msgstr "Produkten kan inte köpas."
+
+#, python-format
+msgid "The purchase quantity needs to be at least %d for this product."
+msgstr "Köpets kvantitet måste vara minst %d för denna produkt."
+
+#, python-brace-format
+msgid ""
+"The product can only be ordered in multiples of {package_size}, for example "
+"{amount}."
+msgstr "Produkten kan bara beställas i multiplar av {package_size}, till exempel {amount}."
+
+#, python-brace-format
+msgid ""
+"The product can only be ordered in multiples of {package_size}, for example "
+"{smaller_amount} or {larger_amount}."
+msgstr "Produkten kan endast beställas i multiplar av {package_size}, till exempel {smaller_amount} eller {larger_amount}."
+
+msgid "The product has no supplier."
+msgstr "Produkten har ingen leverantör."
+
+#, python-format
+msgid "The product is not supplied by %s."
+msgstr "Produkten levereras inte av %s."
+
+msgid "Product has no sellable children."
+msgstr "Produkten har inga säljbara barn."
+
+msgid "variation variable"
+msgstr "variantvariabel"
+
+msgid "variation variables"
+msgstr "variantvariabler"
+
+msgid "variation value"
+msgstr "variantvärde"
+
+msgid "variation values"
+msgstr "variantvärden"
+
+msgid "combination hash"
+msgstr "combinationsvärde"
+
+msgid "result"
+msgstr "resultat"
+
+msgid "variation result"
+msgstr "variantsresultat"
+
+msgid "variation results"
+msgstr "variantsresultat"
+
+msgid "normal"
+msgstr "normal"
+
+msgid "package parent"
+msgstr "överordnat paket"
+
+msgid "variation parent (simple)"
+msgstr "överordnad variant (enkel)"
+
+msgid "variation parent (variable)"
+msgstr "överordnad variant (variabel)"
+
+msgid "variation child"
+msgstr "underordnad variant"
+
+msgid "subscription"
+msgstr "prenumeration"
+
+msgid "visible to logged in"
+msgstr "synliga för inloggade"
+
+msgid "visible to groups"
+msgstr "synlig för grupper"
+
+msgid "stocked"
+msgstr "finns i lager"
+
+msgid "unstocked"
+msgstr "finns ej i lager"
+
+msgid "recommended"
+msgstr "rekommenderad"
+
+msgid "related"
+msgstr "besläktad"
+
+msgid "computed"
+msgstr "beräknad"
+
+msgid "bought with"
+msgstr "köpt med"
+
+msgid "not shipped (non-deliverable)"
+msgstr "inte skickad (levereras inte)"
+
+msgid "shipped (deliverable)"
+msgstr "fraktad (levereras)"
+
+msgid "no verification required"
+msgstr "ingen kontroll krävs"
+
+msgid "admin verification required"
+msgstr "administrativ kontroll krävs"
+
+msgid "third party verification required"
+msgstr "verifiering från tredje part krävs"
+
+msgid ""
+"Enter a descriptive name for your product type. Products and attributes for "
+"products of this type can be found under this name."
+msgstr "Ange ett beskrivande namn för produkttypen. Produkter och attribut för produkter av denna typ kan hittas under detta namn."
+
+msgid ""
+"Select attributes that go with your product type. To change available "
+"attributes search for `Attributes`."
+msgstr "Välj attribut som passar din produkttyp. För att ändra tillgängliga attribut, sök efter \"Attribut\"."
+
+msgid "product type"
+msgstr "produkttyp"
+
+msgid "shop product"
+msgstr "butik produkt"
+
+msgid "shop products"
+msgstr "butik produkter"
+
+msgid "product types"
+msgstr "produkttyper"
+
+msgid "mode"
+msgstr "läge"
+
+msgid "variation parent"
+msgstr "överordnad variant"
+
+msgid "shipping mode"
+msgstr "leveransläge"
+
+msgid "Set to `shipped` if the product requires shipment."
+msgstr "Ställ in på \"levererad\" om produkten kräver leverans."
+
+msgid "sales unit"
+msgstr "Försäljningsenhet"
+
+msgid ""
+"Select a sales unit for your product. This is shown in your store front and "
+"is used to determine whether the product can be purchased using fractional "
+"amounts. To change settings search for `Sales Units`."
+msgstr "Välj en försäljningsenhet för din produkt. Detta visas i din butiksfront och används för att avgöra om produkten kan köpas med bråkdelar. För att ändra inställningar, sök efter 'Försäljningsenheter'."
+
+msgid "tax class"
+msgstr "skatteklass"
+
+msgid ""
+"Select a tax class for your product. The tax class is used to determine "
+"which taxes to apply to your product. Define tax classes by searching for "
+"`Tax Classes`. To define the rules by which taxes are applied search for "
+"`Tax Rules`."
+msgstr "Välj en skatteklass för din produkt. Skatteklassen används för att bestämma vilka skatter som ska tillämpas på din produkt. Definiera skatteklasser genom att söka efter \"Skattklasser\". För att definiera reglerna enligt vilka skatter tillämpas söker du efter `Skatteregler`."
+
+msgid ""
+"Select a product type for your product. These allow you to configure custom "
+"attributes to help with classification and analysis."
+msgstr "Välj en produkttyp för din produkt. Dessa ger dig möjligheten att ge anpassade attribut för att hjälpa till med klassificering och analys."
+
+msgid "SKU"
+msgstr "Artikelnr"
+
+msgid ""
+"Enter a SKU (Stock Keeping Unit) number for your product. This is a product "
+"identification code that helps you track products through your inventory and"
+" analyze their movement. People often use the product's barcode number, but "
+"you can set up any numerical system you want to keep track of products."
+msgstr "Ange ett SKU-nummer (lagerhållningsenhet) för din produkt. Detta är en produktidentifieringskod som hjälper dig att spåra produkter genom ditt lager och analysera deras rörelse. Människor använder ofta produktens streckkodsnummer, men du kan ställa in vilket numeriskt system du helst vill hålla reda på."
+
+msgid "GTIN"
+msgstr "GTIN"
+
+msgid ""
+"You can enter a Global Trade Item Number. This is typically a 14 digit "
+"identification number for all of your trade items. It can often be found by "
+"the barcode."
+msgstr "Här kan du ange en Global Trade Item Number (GTIN). Detta är typiskt en 14-siffrigt identifieringsnummer för alla dina handelsposter. Det kan ofta hittas genom streckkoden."
+
+msgid "barcode"
+msgstr "streckkod"
+
+msgid ""
+"You can enter the barcode number for your product. This is useful for "
+"inventory/stock tracking and analysis."
+msgstr "Här kan du ange ett streckkodsnumret för din produkt. Detta är användbart för inventering/lagerhantering och analys."
+
+msgid "bookkeeping account"
+msgstr "bokföringkonto"
+
+msgid "profit center"
+msgstr "resultatenhet"
+
+msgid "cost center"
+msgstr "kostnadsenhet"
+
+msgid "width ({})"
+msgstr "bredd ({})"
+
+msgid ""
+"Set the measured width of your product or product packaging. This will "
+"provide customers with the product size and help with calculating shipping "
+"costs."
+msgstr "Ställ in den uppmätta bredden på din produkt eller produktförpackning. Detta ger kunderna produktstorlek och hjälp med att beräkna fraktkostnader."
+
+msgid "height ({})"
+msgstr "höjd ({})"
+
+msgid ""
+"Set the measured height of your product or product packaging. This will "
+"provide customers with the product size and help with calculating shipping "
+"costs."
+msgstr "Ställ in den uppmätta höjden på din produkt eller produktförpackning. Detta ger kunderna produktstorlek och hjälp med att beräkna fraktkostnader."
+
+msgid "depth ({})"
+msgstr "djup ({})"
+
+msgid ""
+"Set the measured depth or length of your product or product packaging. This "
+"will provide customers with the product size and help with calculating "
+"shipping costs."
+msgstr "Ställ in det uppmätta djupet eller längden på din produkt eller produktförpackning. Detta ger kunderna produktstorlek och hjälp med att beräkna fraktkostnader."
+
+msgid "net weight ({})"
+msgstr "nettovikt ({})"
+
+msgid ""
+"Set the measured weight of your product WITHOUT its packaging. This will "
+"provide customers with the actual product's weight."
+msgstr "Ställ in produktens uppmätta vikt UTAN förpackningen. Detta ger kunderna den faktiska produktens vikt."
+
+msgid "gross weight ({})"
+msgstr "bruttovikt ({})"
+
+msgid ""
+"Set the measured gross weight of your product WITH its packaging. This will "
+"help with calculating shipping costs."
+msgstr "Ställ in den uppmätta bruttovikten för din produkt MED dess förpackning. Detta hjälper dig att beräkna fraktkostnader."
+
+msgid ""
+"Select a manufacturer for your product. To define these, search for "
+"`Manufacturers`."
+msgstr "Välj en tillverkare för din produkt. För att definiera dessa, sök efter \"Tillverkare\"."
+
+msgid ""
+"To make your product stand out, give it an awesome description. This is what"
+" will help your shoppers learn about your products. It will also help "
+"shoppers find them in the store and on the web."
+msgstr "För att få din produkt att sticka ut, ge det en fantastisk beskrivning. Detta kommer att ge kunder mer information om dina produkter. Det kommer också att hjälpa kunder att hitta dem i butiken och på webben."
+
+msgid ""
+"Enter a URL slug for your product. Slug is user- and search engine-friendly "
+"short text used in a URL to identify and describe a resource. In this case "
+"it will determine what your product page URL in the browser address bar will"
+" look like. A default will be created using the product name."
+msgstr "Ange en URL-slug för din produkt. Slug är användar- och sökmotorvänlig kort text som används i en URL för att identifiera och beskriva en resurs. I så fall kommer det att avgöra hur din produktsidens URL i webbläsarens adressfält kommer att se ut. En standard skapas med hjälp av produktnamnet."
+
+msgid "keywords"
+msgstr "nyckelord"
+
+msgid ""
+"You can enter keywords that describe your product. This will help your "
+"shoppers learn about your products. It will also help shoppers find them in "
+"the store and on the web."
+msgstr "Här kan du ange sökord som beskriver din produkt. Detta kommer att hjälpa dina kunder lära sig om dina produkter. Det kommer också att hjälpa kunder att hitta dem i butiken och på webben."
+
+msgid "variation name"
+msgstr "variatsnamn"
+
+msgid ""
+"You can enter a name for the variation of your product. This could be for "
+"example different colors, sizes or versions. To manage variations, at the "
+"top of the the individual product page, click `Actions` -> `Manage "
+"Variations`."
+msgstr "Du kan ange ett namn för variationen av din produkt. Det kan till exempel vara olika färger, storlekar eller versioner. För att hantera variationer klickar du på \"Åtgärder\" -> \"Hantera variationer\" högst upp på den enskilda produktsidan."
+
+msgid ""
+"Multilevel parentage hierarchies aren't supported (parent is a child "
+"already)."
+msgstr "Föräldrahierarkier med flera nivåer stöds inte (förälder är redan ett barn)."
+
+msgid "Parent is a variable variation parent, yet variables were not passed."
+msgstr "Förälder är en förälder med variabel variation, men ändå passerade inte variabler."
+
+msgid ""
+"Multilevel parentage hierarchies aren't supported (this product is a simple "
+"variation parent)."
+msgstr "Föräldrahierarkier med flera nivåer stöds inte (den här produkten är en enkel variantförälder)."
+
+msgid ""
+"Multilevel parentage hierarchies aren't supported (this product is a "
+"variable variation parent)."
+msgstr "Föräldrahierarkier med flera nivåer stöds inte (den här produkten är en förälder med variabel variation)."
+
+msgid ""
+"Product is currently not a normal product, and can't be turned into a "
+"package."
+msgstr "Produkten är för närvarande inte en normal produkt och kan inte förvandlas till ett paket."
+
+msgid "Package can't contain itself."
+msgstr "Paketet kan inte innehålla sig själv."
+
+msgid "Variation parents can't belong in the package."
+msgstr "Variationsföräldrar kan inte höra med i paketet."
+
+msgid "Packages can't be nested."
+msgstr "Paket kan inte kapslas."
+
+#, python-format
+msgid "Quantity %s is invalid."
+msgstr "Kvantiteten %s är ogiltig."
+
+msgid "primary product"
+msgstr "primärprodukt"
+
+msgid "secondary product"
+msgstr "sekundär produkt"
+
+msgid "weight"
+msgstr "vikt"
+
+msgid "cross sell link"
+msgstr "korsförsäljninglänk"
+
+msgid "cross sell links"
+msgstr "korsförsäljninglänkar"
+
+msgid "translated value"
+msgstr "översatt värde"
+
+msgid "product attribute"
+msgstr "produktattribut"
+
+msgid "product attributes"
+msgstr "produktattribut"
+
+msgid "Enable this if this service provider can be used when placing orders."
+msgstr "Aktivera detta om denna tjänsteleverantör kan användas när du gör beställningar."
+
+msgid "The service provider name."
+msgstr "Tjänsteleverantörens namn."
+
+msgid ""
+"This service provider will be available only for order sources of the given "
+"shop. If blank, this service provider is available for any order source."
+msgstr "Denna tjänsteleverantör kommer endast att vara tillgänglig för beställningskällor i den aktuella butiken. Om det är tomt är denna tjänsteleverantör tillgänglig för alla beställningskällor."
+
+msgid ""
+"This service provider will be available only for order sources that contain "
+"all items from the configured supplier. If blank, this service provider is "
+"available for any order source."
+msgstr "Denna tjänsteleverantör är endast tillgänglig för beställningskällor som innehåller alla artiklar från den konfigurerade leverantören. Om det är tomt är denna tjänsteleverantör tillgänglig för alla beställningskällor."
+
+msgid "Enable this if this service should be selectable on checkout."
+msgstr "Aktivera detta om den här tjänsten skulle kunna väljas i kassan."
+
+msgid "The shop for this service."
+msgstr "Butiken för denna tjänst."
+
+msgid ""
+"The supplier for this service. This service will be available only for order"
+" sources that contain all items from this supplier."
+msgstr "Leverantören för denna tjänst. Denna tjänst är endast tillgänglig för beställningskällor som innehåller alla artiklar från denna leverantör."
+
+msgid "choice identifier"
+msgstr "val identifierare"
+
+msgid ""
+"The tax class to use for this service. Define by searching for `Tax "
+"Classes`."
+msgstr "Skattklassen som ska användas för den här tjänsten. Definiera genom att söka efter \"Skattklasser\"."
+
+msgid "behavior components"
+msgstr "beteendekomponenter"
+
+#, python-format
+msgid "%s is disabled."
+msgstr "%s är inaktiverad."
+
+#, python-format
+msgid "%s is for different shop."
+msgstr "%s är för olika butiker."
+
+#, python-format
+msgid "%(service_name)s: %(sub_item)s"
+msgstr "%(service_name)s: %(sub_item)s"
+
+msgid "Fixed cost"
+msgstr "Fast kostnad"
+
+msgid "Add a fixed cost to the price of the service."
+msgstr "Lägg till en fast kostnad till tjänstens pris."
+
+msgid "The fixed cost to apply to this service."
+msgstr "Den fasta kostnaden som gäller för den här tjänsten."
+
+msgid "The order line text to display when this behavior is applied."
+msgstr "Beställningsradstexten som skall visas när detta beteende tillämpas."
+
+msgid "Waiving cost"
+msgstr "Frångående kostnaden"
+
+msgid ""
+"If the total price of the products is less than a waive limit add cost to "
+"the price of the service."
+msgstr "Om det totala priset på produkterna är lägre än en undantagsgräns, lägg till kostnaden för tjänstens pris."
+
+msgid ""
+"The cost to apply to this service if the total price is below the waive "
+"limit."
+msgstr "Kostnaden att gälla för den här tjänsten om det totala priset är lägre än frångående gränsen."
+
+msgid ""
+"The total price of products limit, at which this service cost is waived."
+msgstr "Det totala priset för produkter, där denna servicekostnad avstås."
+
+msgid "Weight limits"
+msgstr "Viktgränser"
+
+msgid ""
+"Limit availability of the service based on total weight of the products."
+msgstr "Begränsa tillgängligheten för tjänsten baserat på produktens totala vikt."
+
+msgid "minimum weight"
+msgstr "minimivikt"
+
+msgid "The minimum weight required for this service to be available."
+msgstr "Det minimikrav på vikt för att denna tjänst ska vara tillgänglig."
+
+msgid "maximum weight"
+msgstr "maxvikt"
+
+msgid "The maximum weight allowed by this service."
+msgstr "Den maximala tillåtna vikten av den här tjänsten."
+
+msgid "Minimum weight not met."
+msgstr "Minimivikt är inte uppnådd."
+
+msgid "Maximum weight exceeded."
+msgstr "Maxvikt överskriditen."
+
+msgid "min weight ({})"
+msgstr "min vikt ({})"
+
+msgid "The minimum weight for this price to apply."
+msgstr "Lägsta vikt för detta pris att gälla."
+
+msgid "max weight ({})"
+msgstr "maxvikt ({})"
+
+msgid "The maximum weight before this price no longer applies."
+msgstr "Den maximala vikten före detta pris gäller inte längre."
+
+msgid "The cost to apply to this service when the weight criteria is met."
+msgstr "Kostnaden för att tillämpa den här tjänsten när kriterierna vikt uppfylls."
+
+msgid "Weight-based pricing"
+msgstr "Viktbaserad prissättning"
+
+msgid ""
+"Define price based on basket weight. Range minimums are counted in range "
+"only as zero e.g. if there are 2 ranges (range1 = min 0, max 5; range2 = min"
+" 5, max 10), only range1's 'min 0' is going to be counted, but not range2's "
+"'min 5'."
+msgstr "Definiera pris baserat på korgens vikt. Områdesminimum räknas endast i intervallet som noll, t.ex. om det finns två intervall (intervall1 = min 0, max 5; intervall2 = min 5, max 10), kommer endast intervall1s 'min 0' att räknas, men inte intervall2s 'min 5'."
+
+msgid "Weight does not match with any range."
+msgstr "Vikt stämmer inte överens med någon rad."
+
+msgid "Contact group availability"
+msgstr "Kontaktgruppstillgänglighet"
+
+msgid "Make service available only for specific contact groups."
+msgstr "Gör tjänsten endast tillgänglig för specifika kontaktgrupper."
+
+msgid "groups"
+msgstr "grupper"
+
+msgid "The contact groups for which this service is available."
+msgstr "De kontaktgrupper som är tillgänliga för denna tjänsten."
+
+msgid "Customer does not belong to any group."
+msgstr "Kunden inte tillhör någon grupp."
+
+msgid "Service is not available for any of the customer's groups."
+msgstr "Tjänsten är inte tillgänglig för någon av kundens grupper."
+
+msgid "Access to Admin Panel only availability"
+msgstr "Tillgång till Admin Panel endast tillgänglighet"
+
+msgid ""
+"Make service available only for people with `Access to Admin Panel` rights."
+msgstr "Gör tjänsten tillgänglig endast för personer med \"Tillgång till administratörspanelen\"."
+
+msgid ""
+"Service is only available for people with `Access to Admin Panel` "
+"(`is_staff`) rights."
+msgstr "Tjänsten är endast tillgänglig för personer med \"Tillgång till administratörspanelen\" (\"is_staff\")."
+
+msgid "Order total price limit"
+msgstr "Beställ totalprisgräns"
+
+msgid "Limit service availability based on order's total price."
+msgstr "Begränsa tillgängligheten baserat på orderns totala pris."
+
+msgid "min price value"
+msgstr "minsta prisvärder"
+
+msgid "max price value"
+msgstr "maximala prisvärder"
+
+msgid "Order's total price is not within the defined service limits."
+msgstr "Orderns totala pris ligger inte inom de definierade servicegränserna."
+
+msgid "Country limit"
+msgstr "Landsavgränsning"
+
+msgid "Limit service availability based on countries selected."
+msgstr "Begränsa tillgängligheten baserat på valda länder."
+
+msgid "available in countries"
+msgstr "tillgängligt i länder"
+
+msgid "available in european countries"
+msgstr "tillgängligt i europeiska länder"
+
+msgid "unavailable in countries"
+msgstr "inte tillgänglig i länder"
+
+msgid "unavailable in european countries"
+msgstr "inte tillgängligt i europeiska länder"
+
+msgid "Service is not available without a defined country."
+msgstr "Tjänsten är inte tillgänglig utan ett definierat land."
+
+msgid "Service is not available for this country."
+msgstr "Tjänsten är inte tillgänglig för det här landet."
+
+msgid "round up to the nearest number with ties going up, away from zero"
+msgstr "runda upp till närmaste nummer med band som går upp, från noll"
+
+msgid "round to the nearest number with ties going down, towards zero"
+msgstr "runda till närmaste nummer med slipsar nedåt, mot noll"
+
+msgid "round up, away from zero, towards the farther round number"
+msgstr "runda upp, bort från noll, mot det längre runda numret"
+
+msgid "round down, towards zero, towards the closest round number"
+msgstr "runda ner, mot noll, mot närmaste rundnummer"
+
+msgid "payment processor"
+msgstr "betalningsbehandlare"
+
+msgid ""
+"The payment method name. This name is shown to the customers on checkout."
+msgstr "Betalningsmetodens namn. Detta namn visas för kunderna i kassan."
+
+msgid ""
+"The description of the payment method. This description is shown to the "
+"customers on checkout."
+msgstr "Beskrivningen av betalningsmetoden. Denna beskrivning visas för kunderna i kassan."
+
+msgid "rounding quantize"
+msgstr "avrundning kvantisera"
+
+msgid "Choose rounding quantize (precision) for cash payment."
+msgstr "Välj avrundningskvantisering (precision) för kontant betalning."
+
+msgid "rounding mode"
+msgstr "avrundningläge"
+
+msgid "Choose rounding mode for cash payment."
+msgstr "Välj avrundningsläge för kontant betalning."
+
+msgid "custom payment processor"
+msgstr "anpassad betalningsbehandlare"
+
+msgid "custom payment processors"
+msgstr "anpassad betalningsbehandlare"
+
+msgid "Manually processed payment"
+msgstr "Manuellt behandlade betalningar"
+
+msgid "Cash payment"
+msgstr "Kontantbetalning"
+
+msgid "carrier"
+msgstr "bärare"
+
+msgid ""
+"The shipping method name. This name is shown to the customers on checkout."
+msgstr "Leveransmetodens namn. Detta namn visas för kunderna i kassan."
+
+msgid ""
+"The description of the shipping method. This name is shown to the customers "
+"on checkout."
+msgstr "Beskrivningen av fraktmetoden. Detta namn visas för kunderna i kassan."
+
+msgid "custom carrier"
+msgstr "anpassad bärare"
+
+msgid "custom carriers"
+msgstr "anpassade bärare"
+
+msgid "Manually processed shipment"
+msgstr "Manuellt behandlade frakter"
+
+msgid "not sent"
+msgstr "inte skickad"
+
+msgid "sent"
+msgstr "skickad"
+
+msgid "received"
+msgstr "mottaget"
+
+msgid "error"
+msgstr "fel"
+
+msgid "outgoing"
+msgstr "utgående"
+
+msgid "incoming"
+msgstr "inkommande"
+
+msgid "tracking code"
+msgstr "spårningskod"
+
+msgid "volume ({})"
+msgstr "volym ({})"
+
+msgid "weight ({})"
+msgstr "vikt ({})"
+
+msgid "shipment"
+msgstr "frakt"
+
+msgid "shipments"
+msgstr "frakter"
+
+msgid "unit volume ({})"
+msgstr "enhetsvolym ({})"
+
+msgid "unit weight ({})"
+msgstr "enhetsvikt ({})"
+
+msgid "sent product"
+msgstr "skickad produkt"
+
+msgid "sent products"
+msgstr "skickade produkter"
+
+msgid ""
+"The following fields can't be changed because there are existing orders for "
+"this shop."
+msgstr "Följande fält kan inte ändras eftersom det finns befintliga beställningar för denna butik."
+
+msgid "domain"
+msgstr "domän"
+
+msgid ""
+"Your shop domain name. Use this field to configure the URL that is used to "
+"visit your store front. Note: this requires additional configuration through"
+" your internet domain registrar."
+msgstr "Ditt butiks domännamn. Använd det här fältet för att konfigurera webbadressen som används för att besöka din butiksfront. Obs: detta kräver ytterligare konfiguration via din internetdomänregistrator."
+
+msgid ""
+"Your shop's status. Disable your shop if it's no longer in use. For "
+"temporary closing enable the maintenance mode, available in the `Maintenance"
+" Mode` tab on the left."
+msgstr "Din butiks status. Inaktivera din butik om den inte längre används. För tillfällig stängning aktivera underhållsläget, tillgängligt på fliken `Underhållsläge` till vänster."
+
+msgid ""
+"The primary shop currency. This is the currency used when selling the "
+"products."
+msgstr "Den primära butiksvalutan. Detta är den valuta som används vid försäljning av produkterna."
+
+msgid ""
+"This option defines whether product prices entered in admin include taxes. "
+"Note: this behavior can be overridden with contact group pricing."
+msgstr "Det här alternativet definierar om produktpriser som anges i admin inkluderar skatter. Obs! Detta beteende kan åsidosättas med kontaktgruppsprissättning."
+
+msgid "Shop's logo. Will be shown at theme."
+msgstr "Butikens logotyp. Visas på temat."
+
+msgid "favicon"
+msgstr "favoritikon"
+
+msgid ""
+"Shop's favicon - a mini-image graphically representing your shop. Depending "
+"on the browser, it will be shown next to the address bar and/or on the "
+"website title tab."
+msgstr "Affärens favicon - en minibild som grafiskt representerar din butik. Beroende på webbläsaren visas den bredvid adressfältet och / eller på webbplatsens flik."
+
+msgid "maintenance mode"
+msgstr "underhållsläge"
+
+msgid ""
+"Enable if you want to make your shop temporarily unavailable to visitors "
+"while you do regular shop maintenance, fight the security breach or for some"
+" other reason. If you don't plan to have this shop open again, change the "
+"`Status` on the main `General Information` tab to `Disabled`."
+msgstr "Aktivera om du vill göra din butik tillfälligt otillgänglig för besökare medan du utför regelbundet butiksunderhåll, bekämpa säkerhetsbrottet eller av någon annan anledning. Om du inte planerar att ha den här butiken öppen igen ändrar du \"Status\" på fliken \"Allmän information\" till \"Inaktiverad\"."
+
+msgid "contact address"
+msgstr "kontaktadress"
+
+msgid "staff members"
+msgstr "personal"
+
+msgid "The shop name. This name is displayed throughout Admin Panel."
+msgstr "Butikens namn. Detta namn visas i hela adminpanelen."
+
+msgid ""
+"The public shop name. This name is displayed in the store front and in any "
+"customer email correspondence."
+msgstr "Butikens offentliga namn. Det här namnet visas i butiken och i e-postkorrespondens till kunder."
+
+msgid ""
+"To make your shop stand out, give it an awesome description. This is what "
+"will help your shoppers learn about your shop. It will also help shoppers "
+"find your store from the web."
+msgstr "För att få din butik att sticka ut, ge den en fantastisk beskrivning. Det här är vad som hjälper dina kunder att lära sig mer om din butik. Det hjälper också shoppare att hitta din butik från webben."
+
+msgid ""
+"Enter a short description for your shop. The short description will be used "
+"to get the attention of your customer with a small, but precise description "
+"of your shop. It also helps with getting more traffic via search engines."
+msgstr "Ange en kort beskrivning för din butik. Den korta beskrivningen kommer att användas för att få kundens uppmärksamhet med en liten, men exakt beskrivning av din butik. Det hjälper också till att få mer trafik via sökmotorer."
+
+msgid "maintenance message"
+msgstr "underhållsmeddelande"
+
+msgid ""
+"The message to display to customers while your shop is in a maintenance "
+"mode."
+msgstr "Meddelandet som ska visas för kunder medan din butik är i underhållsläge."
+
+msgid "alert limit"
+msgstr "varningsgräns"
+
+msgid "physical stock count"
+msgstr "fysiska lagerinventering"
+
+msgid "logical stock count"
+msgstr "logisk lagerinventering"
+
+msgid "internal"
+msgstr "intern"
+
+msgid "external"
+msgstr "extern"
+
+msgid ""
+"The product supplier's name. You can enable suppliers to manage the "
+"inventory of stocked products."
+msgstr "Produktleverantörens namn. Du kan göra det möjligt för leverantörer att hantera lager av lagerprodukter."
+
+msgid "supplier type"
+msgstr "leverantörstyp"
+
+msgid ""
+"The supplier type indicates whether the products are supplied through an "
+"internal supplier or an external supplier, and which group this supplier "
+"belongs to."
+msgstr "Leverantörstypen anger om produkterna levereras via en intern leverantör eller en extern leverantör och till vilken grupp denna leverantör tillhör."
+
+msgid "stock managed"
+msgstr "lager förvaltat"
+
+msgid ""
+"Enable this if this supplier will manage the inventory of the stocked "
+"products. Having a managed stock enabled is unnecessary if e.g. selling "
+"digital products that will never run out no matter how many are being sold. "
+"There are some other cases when it could be an unnecessary complication. "
+"This settingmerely assigns a sensible default behavior, which can be "
+"overwritten on a product-by-product basis."
+msgstr "Aktivera detta om denna leverantör kommer att hantera inventeringen av de lagrade produkterna. Att ha ett hanterat lager aktiverat är onödigt om t.ex. att sälja digitala produkter som aldrig tar slut oavsett hur många som säljs. Det finns några andra fall då det kan vara en onödig komplikation. Den här inställningen tilldelar ett förnuftigt standardbeteende som kan skrivas över produkt för produkt."
+
+msgid ""
+"Select the supplier module to use for this supplier. Supplier modules define"
+" the rules by which inventory is managed."
+msgstr "Välj leverantörmodulen som skall användas för denna leverantör. Leverantörmoduler fastställer regler genom vilka lager förvaltas."
+
+msgid "module data"
+msgstr "moduldata"
+
+msgid ""
+"You can select which particular shops fronts the supplier should be "
+"available in."
+msgstr "Du kan välja vilka specifika butiker fronter leverantören ska vara tillgänglig i."
+
+msgid ""
+"Indicates whether this supplier is currently enabled. In order to "
+"participate fully, the supplier also needs to be `Approved`."
+msgstr "Anger om denna leverantör för närvarande är aktiverad. För att kunna delta fullt ut måste också leverantören godkännas."
+
+msgid "approved"
+msgstr "godkänd"
+
+msgid ""
+"Indicates whether this supplier is currently approved for work. In order to "
+"participate fully, the supplier also needs to be `Enabled`."
+msgstr "Anger om denna leverantör för närvarande är godkänd för arbete. För att kunna delta fullt ut måste leverantören också vara \"Aktiverad\"."
+
+msgid ""
+"Enter a URL slug for your supplier. Slug is user- and search engine-friendly"
+" short text used in a URL to identify and describe a resource. In this case "
+"it will determine what your supplier page URL in the browser address bar "
+"will look like. A default will be created using the supplier name."
+msgstr "Ange en URL-slug för din leverantör. Slug är användar- och sökmotorvänlig kort text som används i en URL för att identifiera och beskriva en resurs. I så fall kommer det att avgöra hur din webbadress till leverantörssidan i webbläsarens adressfält kommer att se ut. En standard skapas med hjälp av leverantörens namn."
+
+msgid "Can't change the business critical fields of the Tax that is in use."
+msgstr "Det går inte att ändra de affärskritiska fälten för den skatt som används."
+
+msgid "The abbreviated tax code name."
+msgstr "Den förkortade skattens kodnamn."
+
+msgid ""
+"The name of the tax. It is shown in order lines, in order invoices and "
+"confirmations."
+msgstr "Skattens namn. Det visas i orderrader, i orderfakturor och bekräftelser."
+
+msgid "tax rate"
+msgstr "skattesats"
+
+msgid ""
+"The percentage rate of the tax. Mutually exclusive with the flat amount tax "
+"(flat tax is rarely used and the option is therefore hidden by default; "
+"contact Shuup to enable)."
+msgstr "Skattens procentsats. Ömsesidigt uteslutande med fast skatt (platt skatt används sällan och alternativet är därför dolt som standard; kontakta Shuup för att aktivera)."
+
+msgid "tax amount value"
+msgstr "skattebeloppet värde"
+
+msgid ""
+"The flat amount of the tax. Mutually exclusive with percentage rates tax."
+msgstr "Det fasta beloppet för skatten. Ömsesidigt exklusivt med procentsats skatt."
+
+msgid "currency of the amount tax"
+msgstr "beloppsskattens valuta"
+
+msgid "Enable if this tax is valid and should be active."
+msgstr "Aktivera om denna skatt är giltig och bör vara aktiv."
+
+msgid "Either rate or amount tax is required."
+msgstr "Antingen skatt eller beloppsskatt krävs."
+
+msgid "Can't have both rate and amount taxes. They are mutually exclusive."
+msgstr "Kan inte ha både skattesats och skatt. De är ömsesidigt exklusiva."
+
+msgid "Currency is required if the amount tax value is specified."
+msgstr "Valuta krävs om mervärdesskattevärdet anges."
+
+msgid "taxes"
+msgstr "skatter"
+
+msgid ""
+"The tax class name. Tax classes are used to control how taxes are applied to"
+" the products."
+msgstr "Skattklassnamnet. Skattklasser används för att kontrollera hur skatter tillämpas på produkterna."
+
+msgid "Enable if this tax class is valid and should be active."
+msgstr "Aktivera om denna skatteklass är giltig och bör vara aktiv."
+
+msgid "tax classes"
+msgstr "skatteklasser"
+
+msgid ""
+"The customer tax group name. Customer tax groups can be used to control how "
+"taxes are applied to a set of customers. "
+msgstr "Kundens skattegruppsnamn. Kundskattegrupper kan användas för att styra hur skatter tillämpas på en uppsättning kunder."
+
+msgid "customer tax group"
+msgstr "kunders skattegrupp"
+
+msgid "customer tax groups"
+msgstr "kunders skattegrupper"
+
+msgid "Retail Customers"
+msgstr "Privatkunder"
+
+msgid "Company Customers"
+msgstr "Företagskunder"
+
+msgid "allowed decimal places"
+msgstr "tillåtna decimaler"
+
+msgid ""
+"The number of decimal places allowed by this sales unit.Set this to a value "
+"greater than zero if products with this sales unit can be sold in fractional"
+" quantities."
+msgstr "Antalet decimaler som denna försäljningsenhet tillåter. Ställ in detta till ett värde större än noll om produkter med denna försäljningsenhet kan säljas i bråkdelar."
+
+msgid "sales units"
+msgstr "försäljningsenheter"
+
+msgid ""
+"The sales unit name to use for products (e.g. 'pieces' or 'units'). Sales "
+"units can be set individually for each product through the product editor "
+"view."
+msgstr "Försäljningsenhetens namn som ska användas för produkter (t.ex. \"bitar\" eller \"enheter\"). Försäljningsenheter kan ställas in individuellt för varje produkt via produktredigeringsvyn."
+
+msgid "unit symbol"
+msgstr "enhetssymbol"
+
+msgid ""
+"An abbreviated name for this sales unit that is shown throughout admin and "
+"order invoices."
+msgstr "Ett förkortat namn för denna försäljningsenhet som visas på administrationssidorna och beställnigsfakturor."
+
+msgid "Value must be positive and non-zero."
+msgstr "Värdet måste vara positivt och inte noll."
+
+msgid "internal unit"
+msgstr "internt värde"
+
+msgid "The sales unit that this display unit is linked to."
+msgstr "Försäljningsenhet som denna visningsenhet är kopplad till."
+
+msgid "ratio"
+msgstr "förhållande"
+
+msgid ""
+"Size of the display unit in internal unit. E.g. if internal unit is kilogram"
+" and display unit is gram, ratio is 0.001."
+msgstr "Storleken på displayenheten i den interna enheten. Till exempel om den interna enheten är kilogram och displayenheten är gram är förhållandet 0,001."
+
+msgid ""
+"The number of decimal places to use for values in the display unit. The "
+"internal values are still rounded based on the settings of the internal "
+"unit."
+msgstr "Antalet decimaler som ska användas för värden i displayenheten. De interna värdena är fortfarande rundade baserat på inställningarna för den interna enheten."
+
+msgid "comparison value"
+msgstr "jämförelsevärde"
+
+msgid ""
+"Value to use when displaying unit prices. E.g. if the display unit is a gram"
+" and the comparison value is 100, then unit prices are shown per 100g, like:"
+" $2.95 per 100g."
+msgstr "Värde att använda när enhetspriser visas. Exempelvis om displayenheten är ett gram och jämförelsevärdet är 100, visas enhetspriser per 100g, som: $ 2,95 per 100g."
+
+msgid "allow bare number"
+msgstr "tillåta nummer utan enhet"
+
+msgid ""
+"If true, values of this unit can occasionally be shown without the symbol "
+"attached to it. E.g. if the unit is a `piece`, then you might want for the "
+"product listings to only show '$5.95' rather than '$5.95 per pc.'."
+msgstr "Om det är sant kan värdena för den här enheten ibland visas utan symbolen på den. Till exempel om enheten är en \"bit\". kanske du vill att produktförteckningarna bara visar \"$ 5,95\" snarare än \"$ 5,95 per st.\"."
+
+msgid "use by default"
+msgstr "använd som standard"
+
+msgid ""
+"Use this display unit by default when displaying values of the internal "
+"unit."
+msgstr "Använd denna visningsenhet som standard när du visar värdena för den interna enheten."
+
+msgid "Name of the display unit, e.g. grams."
+msgstr "Visningsenhetens namn, t.ex. gram."
+
+msgid "symbol"
+msgstr "symbol"
+
+msgid "An abbreviated name of the display unit, e.g. 'g'."
+msgstr "Ett förkortat namn av visningsenheten, tex. 'g'."
+
+msgid "display units"
+msgstr "visningsenheter"
+
+msgid "Pieces"
+msgstr "Stycken"
+
+msgctxt "Symbol for pieces unit"
+msgid "pc."
+msgstr "st."
+
+#, python-brace-format
+msgctxt "Display the value with the unit symbol (with or without space) "
+msgid "{value}{symbol}"
+msgstr "{value} {symbol}"
+
+msgid "No Choice"
+msgstr "Inget val"
+
+msgid "inherit"
+msgstr "ärva"
+
+msgid "skip"
+msgstr "hoppa"
+
+msgid "delete"
+msgstr "radera"
+
+msgid "The total price should be greater than {} to be ordered."
+msgstr "Det totala priset bör vara högre än {} som ska beställas."
+
+#, python-format
+msgid "%s is not available in this shop."
+msgstr "%s finns inte i denna butik."
+
+msgid "Default Pricing"
+msgstr "Standard prissättning"
+
+msgid "Error! Insufficient quantity in stock."
+msgstr "Fel! Otillräcklig mängd i lager."
+
+#, python-format
+msgid "%(name)s (physical stock: %(quantity)s)"
+msgstr "%(name)s (fysiskt lager: %(quantity)s)"
+
+#, python-format
+msgid ""
+"Insufficient physical stock count for the following products: "
+"`%(product_counts)s`."
+msgstr "Otillräckligt fysiskt lagerantal för följande produkter: '%(product_counts)s'."
+
+msgid "inventory"
+msgstr "inventarium"
+
+msgid "restock"
+msgstr "fyll på lager"
+
+msgid "restock logical"
+msgstr "fyll på lager (logiskt)"
+
+msgid "Untaxed"
+msgstr "Obeskattade"
+
+msgid "This field cannot be changed since it is protected."
+msgstr "Det här fältet kan inte ändras eftersom det är skyddad."
+
+msgid "Region"
+msgstr "Region"
+
+msgid "Username"
+msgstr "Användarnamn"
+
+msgid "Email"
+msgstr "E-post"
+
+msgid "Please provide either username or email, not both."
+msgstr "Ange antingen användarnamn eller e-post, inte båda."
+
+msgid "Please provide either username or email."
+msgstr "Ange antingen användarnamn eller e-post."
+
+msgid "First Last"
+msgstr "First Sist"

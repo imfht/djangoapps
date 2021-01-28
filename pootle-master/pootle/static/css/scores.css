@@ -1,0 +1,210 @@
+/*
+ * Copyright (C) Pootle contributors.
+ *
+ * This file is a part of the Pootle project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+.user-score
+{
+    font-size: 1em;
+    font-weight: 300;
+    color: #168bd3;
+    white-space: nowrap;
+    background: #ddd;
+    overflow: hidden;
+    margin: 0 0.25em;
+    padding: 2px 4px;
+    border-radius: 4px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+}
+
+#top-scorers
+{
+    width: 100%;
+    font-size: 1.5em;
+}
+
+#top-scorers.no-results
+{
+    margin: 1em 0;
+    text-align: center;
+}
+
+#top-scorers th
+{
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+#top-scorers td.user
+{
+    padding: 10px;
+}
+
+#top-scorers .number
+{
+    font-family: sans-serif;
+    text-align: right;
+}
+
+#top-scorers .user .gravatar,
+#top-scorers .user .properties
+{
+    display: inline-block;
+    float: left;
+}
+
+
+html[dir="rtl"] #top-scorers .user .gravatar,
+html[dir="rtl"] #top-scorers .user .properties
+{
+    float: right;
+    text-align: right;
+}
+
+#top-scorers .user .properties
+{
+    margin: 5px 10px 0;
+    width: 300px;
+}
+
+#top-scorers .user .name
+{
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+#top-scorers .properties li
+{
+    font-size: 0.7em;
+    line-height: 1.5;
+}
+
+#top-scorers .properties a:active,
+#top-scorers .properties a:hover,
+#top-scorers .properties a:focus
+{
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+.path-summary-more .path-summary-collapsed .number
+{
+    color: #999;
+}
+
+.path-summary-more .top-scorers .top-scorer,
+.path-summary-more .top-scorers .user,
+.path-summary-more .top-scorers .number,
+.path-summary-more .top-scorers .place,
+.path-summary-more .path-summary-collapsed label
+{
+    padding-right: 3px;
+    float: left;
+}
+
+html[dir="rtl"] .path-summary-more .top-scorers .top-scorer,
+html[dir="rtl"] .path-summary-more .top-scorers .user,
+html[dir="rtl"] .path-summary-more .top-scorers .number,
+html[dir="rtl"] .path-summary-more .top-scorers .place,
+html[dir="rtl"] .path-summary-more .path-summary-collapsed label
+{
+    padding-right: auto;
+    padding-left: 3px;
+    float: right;
+}
+
+.path-summary-more .top-scorer .user-name
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1em;
+    white-space: nowrap;
+    display: block;
+}
+
+html[dir="rtl"] .path-summary-more .top-scorer .user-name
+{
+    display: inherit;
+}
+
+.path-summary-more .path-summary-collapsed .top-scorer .user-name
+{
+    max-width: 10em;
+}
+
+.path-summary-more .top-scorers .top-scorer
+{
+    padding-left: 1em;
+}
+
+html[dir="rtl"] .path-summary-more .top-scorers .top-scorer
+{
+    padding-right: 1em;
+}
+
+.path-summary-more .top-scorers-table
+{
+    font-size: 1em;
+    width: 100%;
+}
+
+.path-summary-more .top-scorers-table tr td.number:last-child
+{
+    width: 20%;
+    text-align: right;
+}
+
+html[dir="rtl"] .path-summary-more .top-scorers-table tr td.number:last-child
+{
+    text-align: left;
+}
+
+.path-summary-more .top-scorers-table tr td.number:first-child
+{
+    text-align: left;
+    width: 1em;
+    padding-right: 1em;
+}
+
+html[dir="rtl"] .path-summary-more .top-scorers-table tr td.number:first-child
+{
+    text-align: right;
+    padding-left: 1em;
+    padding-right: auto;
+}
+
+html[dir="rtl"] .path-summary-more .top-scorers-table tr td.number:first-child
+{
+    text-align: right;
+}
+
+.top-scorer a
+{
+    position: relative;
+    vertical-align: bottom;
+}
+
+.top-scorer .user-name
+{
+    margin-left: 24px;
+}
+
+html[dir="rtl"] .top-scorer .user-name
+{
+    margin-left: auto;
+    margin-right: 24px;
+}
+
+.top-scorer img.avatar
+{
+    position: absolute;
+    top: -3px;
+}
+
+html[dir="rtl"] .top-scorer img.avatar
+{
+    right: 0;
+}

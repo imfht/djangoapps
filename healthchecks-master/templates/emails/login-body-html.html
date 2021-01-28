@@ -1,0 +1,39 @@
+{% extends "emails/base.html" %}
+{% load hc_extras %}
+
+{% block content %}
+Hello,
+<br />
+
+{% if inviting_project %}
+    {% if inviting_project.name %}
+        <strong>{{ inviting_project.owner.email }}</strong> invites you to their
+        <a href="{% site_root %}">{% site_name %}</a>
+        project <strong>{{ inviting_project }}</strong>.
+    {% else %}
+        <strong>{{ inviting_project.owner.email }}</strong> invites you to their
+        <a href="{% site_root %}">{% site_name %}</a> account.
+    {% endif %}
+    <br /><br />
+
+    You will be able to manage their
+    existing monitoring checks and set up new ones. If you already have your
+    own account on {% site_name %}, you will be able to switch
+    between the two accounts.
+    <br /><br />
+{% endif %}
+
+To log into <a href="{% site_root %}">{% site_name %}</a>,
+please press the button below:
+{% endblock %}
+
+
+{% block content_more %}
+Thanks,<br>
+The {% site_name %} Team
+<br /><br />
+
+<strong>P.S.</strong> Need help getting started? Check out our
+<a href="{% site_root %}/docs/">help documentation</a>.
+Or, just reply to this email with any questions or issues you have.
+{% endblock %}

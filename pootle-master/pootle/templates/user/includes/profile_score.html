@@ -1,0 +1,13 @@
+{% load i18n %}
+<div class="user-scores">
+  {% trans 'Total score:' %}
+  <div class="user-score">
+    {% if score_tweet_link %}
+    <a class="js-popup-tweet"
+       href="{{ score_tweet_link }}"
+       title="{{ score_tweet_message }}">{{ profile.scores.public_score }}</a>
+    {% else %}
+    {{ profile.scores.public_score }}
+    {% endif %}
+  </div>
+</div>

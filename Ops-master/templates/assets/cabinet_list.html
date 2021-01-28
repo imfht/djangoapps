@@ -1,0 +1,107 @@
+<div class="col-sm-7 pull-left" style="margin-bottom: 3px; margin-top: 3px">
+    <button class="btn btn-sm btn-success pull-left" data-toggle="modal" id="add-cabinet"
+            data-target="#CabinetModal">
+        <i class="fa fa-plus-square"></i>
+        <span class="bigger-110">新增机柜</span>
+    </button>
+</div>
+<div class="col-xs-12">
+    <!-- /.box -->
+    <div class="box">
+        <!-- dataTable -->
+        <div class="box-body">
+            <table id="asset_cabinet" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>机柜名称</th>
+                    <th>所属机房</th>
+                    <th>拥有资产</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for asset_cabinet in asset_cabinets %}
+                    <tr>
+                        <td>{{ asset_cabinet.id }}</td>
+                        <td>{{ asset_cabinet.cabinet_name }}</td>
+                        <td>{{ asset_cabinet.idc.idc_name }}</td>
+                        <td>
+                            {% for asset in asset_cabinet.assets.all %}
+                                {{ asset.asset_management_ip }}<br>
+                            {% endfor %}
+                        </td>
+                        <td>{{ asset_cabinet.cabinet_memo }}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-xs modify" data-toggle="modal" data-id="{{ asset_cabinet.id }}"
+                                    data-idc="{{ asset_cabinet.idc.id }}" data-target="#CabinetModal">修改</button>
+                            <button type="button" class="btn btn-danger btn-xs delete" data-id="{{ asset_cabinet.id }}">删除</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <!-- CabinetModal  -->
+    <div class="modal fade" id="CabinetModal" tabindex="-1" role="dialog"
+         aria-labelledby="CabinetModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="CabinetModalLabel">
+
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="cabinet_info" class="main form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="cabinet_name" class="col-sm-2 control-label">机柜名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="cabinet_name" id="cabinet_name" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idc" class="col-sm-2 control-label">所属机房</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control select2" id="idc" name="idc"
+                                            style="width: 100%;">
+                                        {% for asset_idc in asset_idcs %}
+                                            <option value="{{ asset_idc.id }}">{{ asset_idc.idc_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cabinet_memo" class="col-sm-2 control-label">备注</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="cabinet_memo" id="cabinet_memo"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="space-24"></div>
+
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="cabinet_ops"></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+</div>

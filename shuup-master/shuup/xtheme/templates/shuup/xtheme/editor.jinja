@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ shuup_static("xtheme/editor.css") }}">
+    <script>var CSRF_TOKEN = "{{ csrf_token_str }}";</script>
+    <script>var ShuupAdminConfig = {{ shuup_admin.get_config()|json }};</script>
+    <script type="text/javascript" src="{{ url("shuup_admin:js-catalog") }}?v={{ get_shuup_version() }}"></script>
+    <script src="{{ shuup_static('xtheme/vendor.js') }}"></script>
+    <script src="{{ shuup_static('xtheme/editor.js') }}"></script>
+</head>
+<body>
+<div id="window-toolbar">
+    <button id="xtheme-editor-close"><i class="fa fa-close"></i></button>
+</div>
+<div id="global-toolbar">
+    <button class="revert-btn"><i class="fa fa-undo"></i> {% trans %}Revert Changes{% endtrans %}</button>
+    <button class="publish-btn"><i class="fa fa-check"></i> {% trans %}Publish Changes{% endtrans %}</button>
+</div>
+{% include "shuup/xtheme/_editor_layout.jinja" %}
+{% if current_cell %}
+    {% include "shuup/xtheme/_editor_cell.jinja" with context %}
+{% endif %}
+{% if changed %}
+    <script>window.refreshPlaceholderInParent({{ layout.placeholder_name|json }});</script>
+{% endif %}
+<script>
+    (function(){
+        function getMediaButton($editor) {
+            return function (context) {
+                if (!window.ShuupAdminConfig.browserUrls["media"]) {
+                    return null;
+                }
+                return $.summernote.ui.button({
+                    contents: "<i class=\"fa fa-file-image-o\"/>",
+                    tooltip: gettext("Browse media"),
+                    click: function(e) {
+                        window.BrowseAPI.openBrowseWindow({
+                            kind: "media",
+                            clearable: true,
+                            onSelect: function (obj) {
+                                return $editor.summernote("insertImage", obj.url);
+                            }
+                        });
+                    }
+                }).render();
+            }
+        };
+
+        function cancelEvent(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+
+        $(".summernote-editor").each(function (index, element) {
+            var $editor = $(element);
+            var toolbar = [
+                ["style", ["style", "clear"]],
+                ["font", ["fontname", "fontsize"]],
+                ["style2", ["bold", "italic", "underline", "strikethrough", "superscript", "subscript"]],
+                ["color", ["forecolor", "backcolor"]],
+                ["para", ["ul", "ol", "paragraph", "height"]],
+                ["table", ["table"]],
+                ["insert", ["link", "media", "picture", "video", "codeview"]],
+            ];
+            $editor.summernote({
+                height: 300,
+                popatmouse: false,
+                disableDragAndDrop: true,
+                toolbar: toolbar,
+                buttons: {
+                    media: getMediaButton($editor)
+                },
+                callbacks: {
+                    onBlur: function() {
+                        $(this).parent().find("textarea.hidden").val($(this).summernote('code'));
+                    },
+                    onPaste: function(event) {
+                        // prevent pasting files
+                        var clipboardData = event.originalEvent.clipboardData;
+                        if (clipboardData) {
+                            for (var x = 0; x < clipboardData.items.length; x += 1) {
+                                if (clipboardData.items[x].kind === "file") {
+                                    cancelEvent(event);
+                                    return;
+                                }
+                            }
+                        }
+                    },
+                    onImageUpload: function(image) {
+                        var maxUploadFileSize = 256;
+                        var imageSizeKb = image[0]['size'] / 1000;
+                        if (imageSizeKb > 256){
+                            alert(interpolate(
+                                gettext("Error! For images greater than %s kb, use the media browser instead."),
+                                [maxUploadFileSize]
+                            ));
+                        } else {
+                            var file = image[0];
+                            var reader = new FileReader();
+                            reader.onloadend = function() {
+                                var image = $('<img>').attr('src',  reader.result);
+                                $editor.summernote("insertNode", image[0]);
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }
+            });
+            // prevent drop events
+            $editor.parent().find(".note-editable").off("drop");
+            $editor.parent().find(".note-editable").on("drop", function (event) {
+                cancelEvent(event);
+            });
+
+            $editor.parent().find(".note-codable").on("blur", function () {
+                var textarea = $editor.parent().find("textarea");
+                textarea.val($editor.summernote("code"));
+            });
+        })
+    })();
+</script>
+</body>
+</html>

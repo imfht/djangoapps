@@ -1,0 +1,48 @@
+{% extends "manage/manage_base.html" %}
+{% load i18n %}
+
+{% block help_link %}user/management/marketing/discounts.html{% endblock %}
+
+{% block section %}manage-discount{% endblock %}
+{% block left_slot %}
+    <h2 class="navigation-title">
+        {% trans "Discounts" %}
+    </h2>
+    <div class="navigation-body"
+         id="discounts">
+        {{ navigation|safe }}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="site-actions">
+        <a class="add"
+           href="{% url 'lfs_manage_add_discount' %}?came_from={% url 'lfs_manage_discount' discount.id %}">
+            {% trans 'Add discount' %}</a>
+
+        <a class="delete delete-link"
+           dialog_message="{% trans 'Do you really want to delete this discount?' %}"
+           href="{% url 'lfs_manage_delete_discount' discount.id %}">
+            {% trans 'Delete discount' %}</a>
+    </div>
+
+    <div id="manage-tabs">
+        <ul>
+            <li class="ui-tabs-nav-item"><a href="#data">{% trans 'Data' %}</a></li>
+            <li class="ui-tabs-nav-item"><a href="#criteria">{% trans 'Criteria' %}</a></li>
+            <li class="ui-tabs-nav-item"><a href="#products">{% trans 'Products' %}</a></li>
+        </ul>
+
+        <div id="data">
+            {{ data }}
+        </div>
+
+        <div id="criteria">
+            {{ criteria }}
+        </div>
+
+        <div id="products">
+            {{ products }}
+        </div>
+    </div>
+{% endblock %}

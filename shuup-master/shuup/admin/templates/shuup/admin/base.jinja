@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Shuup &dash; {% block title -%}
+            {% if title %}{{ title }}
+            {% elif view and view.title %}{{ view.title }}{% endif %}
+        {%- endblock %}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% if request.GET.autoRefresh %}
+            <meta http-equiv="refresh" content="{{ request.GET.autoRefresh }}"/>
+        {% endif %}
+        <link href="{{ shuup_static("shuup_admin/img/favicon.ico") }}" rel="icon" type="image/x-icon">
+        <link href="{{ shuup_static("shuup_admin/css/base.css") }}" rel="stylesheet" type="text/css">
+        {% block extra_css %}{% endblock -%}
+        {% block extra_head %}{% endblock -%}
+        {% set conf = shuup_admin.get_config() %}
+        <script>var ShuupAdminConfig = {{ conf|json }};</script>
+        <script type="text/javascript" src="{{ url("shuup_admin:js-catalog") }}?lang={{ LANGUAGE_CODE }}&v={{ get_shuup_version() }}"></script>
+    </head>
+    <body class="{% block body_class %}{% endblock %} {{ "popup" if request.GET.popup else "" }}{% if not conf["menuOpen"] %} desktop-menu-closed{% endif %}">
+        {% if iframe_close %}
+            <script>
+                {% if quick_add_target %}
+                    parent.window.addToSelect2('{{ quick_add_target }}', '{{ quick_add_option_id }}', '{{ quick_add_option_name }}');
+                {% elif quick_add_callback %}
+                    parent.window.{{ quick_add_callback}}('{{ quick_add_option_id }}', '{{ quick_add_option_name }}');
+                {% else %}
+                    parent.window.closeQuickIFrame();
+                {% endif %}
+            </script>
+        {% else %}
+        {% block top %}
+            {% if not iframe_mode %}
+                <header class="d-flex justify-content-center align-items-center site-search-nav" id="top-header">{% include "shuup/admin/base/_navigation.jinja" %}</header>
+                {% include "shuup/admin/base/_main_menu.jinja" %}
+            {% endif %}
+        {% endblock %}
+        {% block support_content %}
+            <div class="support-nav-wrap{% if iframe_mode %} iframe-mode{% endif %}">
+                <div class="flex-wrapper active-shop-and-supplier-info">
+                {% if shuup_admin.is_multishop_enabled() %}
+                    <h3>{% trans %}Active shop:{% endtrans %} <strong>{{ shuup_admin.get_admin_shop().name }}</strong></h3>
+                {% endif %}
+                {% if shuup_admin.is_multiple_suppliers_enabled() %}
+                    {% set supplier = shuup_admin.get_admin_supplier() %}
+                    {% if supplier %}
+                        <h3>{% trans %}Active vendor:{% endtrans %} <strong>{{ supplier.name }}</strong></h3>
+                    {% endif %}
+                {% endif %}
+                </div>
+                <div class="support-nav">
+                    {% block breadcrumbs -%}
+                        {% if not iframe_mode %}
+                            {% set breadcrumbs = breadcrumbs or shuup_admin.get_breadcrumbs() %}
+                            {%- if breadcrumbs -%}
+                                {% from "shuup/admin/macros/breadcrumbs.jinja" import render_breadcrumbs with context %}
+                                {{ render_breadcrumbs(breadcrumbs) }}
+                            {%- endif -%}
+                        {% endif %}
+                    {%- endblock %}
+                    <div class="flex-wrapper">
+                        <h1 class="main-header">{% block header %}{{ self.title() }}{% endblock %}</h1>
+                        <div class="page-actions">
+                            {%- block action_buttons -%}
+                                {%- if toolbar -%}{{ toolbar.render_to_string(request)|safe }}{%- endif -%}
+                            {%- endblock -%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        {% block content_wrap %}
+        <main id="main-content"{% if iframe_mode %}class="iframe-mode"{% endif %}>
+            {% block content %}{% endblock %}
+        </main>
+        {% block scroll_top_button %}<div id="scroll-to-top"></div>{% endblock %}
+        {% endblock %}
+        {% block post_content %}{% endblock %}
+        {% endif %}
+        <script src="{{ shuup_static("shuup_admin/js/vendor.js") }}"></script>
+        <script src="{{ shuup_static("shuup_admin/js/base.js") }}"></script>
+        {% block extra_js %}{% endblock %}
+        {% if messages %}
+        <script>
+            (function(){
+                if(!window.Messages) return;
+                {% for message in messages -%}Messages.enqueue({
+                    tags: {{ message.tags|json }},
+                    text: {{ (message.tags.capitalize() ~ "! " ~ message.message)|json }}
+                });{% endfor %}
+            }());
+        </script>
+        {% endif %}
+        <script>$(function() {window.runTour();});</script>
+    </body>
+</html>

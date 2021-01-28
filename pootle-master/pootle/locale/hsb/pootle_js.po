@@ -1,0 +1,919 @@
+# Copyright (C) Pootle contributors.
+#
+# This file is a part of the Pootle project. It is distributed under the GPL3
+# or later license. See the LICENSE file for a copy of the license and the
+# AUTHORS file for copyright and authorship information.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: https://github.com/translate/pootle/issues/new\n"
+"POT-Creation-Date: 2017-06-13 15:55+0100\n"
+"PO-Revision-Date: 2017-03-05 10:07+0000\n"
+"Last-Translator: milupo <milupo@sorbzilla.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hsb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 2.5.1-rc1\n"
+"X-POOTLE-MTIME: 1488708477.000000\n"
+
+#: static/js/admin/components/AdminController.js:136
+msgid "Saved successfully."
+msgstr "Wuspěšnje składowany."
+
+#: static/js/admin/components/AdminController.js:144
+msgid "Deleted successfully."
+msgstr "Wuspěšnje zhašany."
+
+#: static/js/admin/components/ItemDelete.js:53
+msgid "Delete"
+msgstr "Zhašeć"
+
+#: static/js/admin/components/Language/LanguageAdd.js:28
+#: static/js/admin/components/Language/LanguageEdit.js:33
+msgid "Add Language"
+msgstr "Rěč přidać"
+
+#: static/js/admin/components/Language/LanguageAdd.js:33
+#: static/js/admin/components/Project/ProjectAdd.js:33
+#: static/js/admin/components/User/UserAdd.js:33
+msgid "Cancel"
+msgstr "Přetorhnyć"
+
+#: static/js/admin/components/Language/LanguageController.js:59
+#, python-format
+msgid "%(count)s language matches your query."
+msgid_plural "%(count)s languages match your query."
+msgstr[0] "%(count)s rěč wašemu naprašowanju wotpowěduje."
+msgstr[1] "%(count)s rěči wašemu naprašowanju wotpowědujetej."
+msgstr[2] "%(count)s rěče wašemu naprašowanju wotpowěduja."
+msgstr[3] "%(count)s rěčow wašemu naprašowanju wotpowěduje."
+
+#: static/js/admin/components/Language/LanguageController.js:63
+#, python-format
+msgid "There is %(count)s language."
+msgid_plural ""
+"There are %(count)s languages. Below are the most recently added ones."
+msgstr[0] "Je %(count)s rěč."
+msgstr[1] "Stej %(count)s rěči. Deleka su te, kotrež su so njedawno přidali."
+msgstr[2] "Su %(count)s rěče. Deleka su te, kotrež su so njedawno přidali."
+msgstr[3] "Je %(count)s rěčow. Deleka su te, kotrež su so njedawno přidali."
+
+#: static/js/admin/components/Language/LanguageController.js:79
+msgid "Search Languages"
+msgstr "Rěče přepytować"
+
+#: static/js/admin/components/Language/LanguageController.js:80
+msgid "Find language by name, code"
+msgstr "Rěč po mjenje abo kodźe pytać"
+
+#: static/js/admin/components/Language/LanguageEdit.js:28
+msgid "Edit Language"
+msgstr "Rěč wobdźěłać"
+
+#: static/js/admin/components/Language/LanguageEdit.js:38
+msgid ""
+"Use the search form to find the language, then click on a language to edit."
+msgstr ""
+"Wužiwaj pytanski formular, zo by rěč namakał a klikń potom na rěč, kotruž "
+"chceš wobdźěłać."
+
+#: static/js/admin/components/Language/LanguageForm.js:54
+#: static/js/admin/components/Project/ProjectForm.js:56
+msgid "Code"
+msgstr "Kod"
+
+#: static/js/admin/components/Language/LanguageForm.js:61
+#: static/js/admin/components/Project/ProjectForm.js:63
+#: static/js/admin/components/User/UserForm.js:91
+#: static/js/user/components/UserProfileForm.js:74
+msgid "Full Name"
+msgstr "Dospołne mjeno"
+
+#: static/js/admin/components/Language/LanguageForm.js:68
+msgid "Special Characters"
+msgstr "Wosebite znamješka"
+
+#: static/js/admin/components/Language/LanguageForm.js:78
+msgid "Number of Plurals"
+msgstr "Ličba pluralow"
+
+#: static/js/admin/components/Language/LanguageForm.js:85
+msgid "Plural Equation"
+msgstr "Pluralowa formla"
+
+#: static/js/admin/components/Language/LanguageForm.js:97
+#: static/js/admin/components/Project/ProjectForm.js:144
+#: static/js/admin/components/User/UserForm.js:156
+#: static/js/user/components/UserProfileForm.js:132
+msgid "Save"
+msgstr "Składować"
+
+#: static/js/admin/components/Language/LanguageForm.js:101
+#: static/js/admin/components/Project/ProjectForm.js:148
+msgid "Overview"
+msgstr "Přehlad"
+
+#: static/js/admin/components/Language/LanguageForm.js:102
+msgid "Team"
+msgstr "Team"
+
+#: static/js/admin/components/Project/ProjectAdd.js:28
+#: static/js/admin/components/Project/ProjectEdit.js:33
+msgid "Add Project"
+msgstr "Projekt přidać"
+
+#: static/js/admin/components/Project/ProjectController.js:59
+#, python-format
+msgid "%(count)s project matches your query."
+msgid_plural "%(count)s projects match your query."
+msgstr[0] "%(count)s projekt twojemu naprašowanju wotpowěduje."
+msgstr[1] "%(count)s projektaj twojemu naprašowanju wotpowědujetej."
+msgstr[2] "%(count)s projekty twojemu naprašowanju wotpowěduja."
+msgstr[3] "%(count)s projektow twojemu naprašowanju wotpowěduje."
+
+#: static/js/admin/components/Project/ProjectController.js:63
+#, python-format
+msgid "There is %(count)s project."
+msgid_plural ""
+"There are %(count)s projects. Below are the most recently added ones."
+msgstr[0] "Je %(count)s projekt."
+msgstr[1] "Stej %(count)s projektaj. Deleka su te, kotrež su njedawno přidali."
+msgstr[2] "Su %(count)s projekty. Deleka su te, kotrež su njedawno přidali."
+msgstr[3] "Je %(count)s projektow. Deleka su te, kotrež su njedawno přidali."
+
+#: static/js/admin/components/Project/ProjectController.js:79
+msgid "Search Projects"
+msgstr "Projekty přepytować"
+
+#: static/js/admin/components/Project/ProjectController.js:80
+msgid "Find project by name, code"
+msgstr "Projekt po mjenje abo kodźe pytać"
+
+#: static/js/admin/components/Project/ProjectEdit.js:28
+msgid "Edit Project"
+msgstr "Projekt wobdźěłać"
+
+#: static/js/admin/components/Project/ProjectEdit.js:38
+msgid ""
+"Use the search form to find the project, then click on a project to edit."
+msgstr ""
+"Wužiwaj pytanski formular, zo by projekt namakał a klikń potom na projekt, "
+"kotryž chceš wobdźěłać."
+
+#: static/js/admin/components/Project/ProjectForm.js:73
+msgid "Quality Checks"
+msgstr "Kwalitne kontrole"
+
+#: static/js/admin/components/Project/ProjectForm.js:84
+msgid "File types"
+msgstr "Datajowe typy"
+
+#: static/js/admin/components/Project/ProjectForm.js:94
+msgid "Project Tree Style"
+msgstr "Stil projektoweho štoma"
+
+#: static/js/admin/components/Project/ProjectForm.js:104
+msgid "Source Language"
+msgstr "Žórłowa rěč"
+
+#: static/js/admin/components/Project/ProjectForm.js:111
+msgid "Ignore Files"
+msgstr "Dataje ignorować"
+
+#: static/js/admin/components/Project/ProjectForm.js:119
+msgid "String Errors Contact"
+msgstr "Kontakt za zmylki w znamješkowych rjećazkach"
+
+#: static/js/admin/components/Project/ProjectForm.js:126
+msgid "Screenshot Search Prefix"
+msgstr "Prefiks za pytanje za fotami wobrazowki"
+
+#: static/js/admin/components/Project/ProjectForm.js:134
+msgid "Disabled"
+msgstr "Znjemóžnjeny"
+
+#: static/js/admin/components/Project/ProjectForm.js:149
+msgid "Languages"
+msgstr "Rěče"
+
+#: static/js/admin/components/Project/ProjectForm.js:150
+msgid "Permissions"
+msgstr "Prawa"
+
+#: static/js/admin/components/Project/ProjectForm.js:152
+msgid "Filesystems"
+msgstr "Datajowe systemy"
+
+#: static/js/admin/components/Search.js:68
+msgid "Load More"
+msgstr "Dalše začitać"
+
+#: static/js/admin/components/Search.js:93
+msgid "Loading..."
+msgstr "Začituje so..."
+
+#: static/js/admin/components/User/UserAdd.js:28
+#: static/js/admin/components/User/UserEdit.js:33
+msgid "Add User"
+msgstr "Wužiwarja přidać"
+
+#: static/js/admin/components/User/UserController.js:59
+#, python-format
+msgid "%(count)s user matches your query."
+msgid_plural "%(count)s users match your query."
+msgstr[0] "%(count)s wužiwar twojemu naprašowanju wotpowěduje."
+msgstr[1] "%(count)s wužiwarjej twojemu naprašowanju wotpowědujetej."
+msgstr[2] "%(count)s wužiwarjo twojemu naprašowanju wotpowěduja."
+msgstr[3] "%(count)s wužiwarjow twojemu naprašowanju wotpowěduje."
+
+#: static/js/admin/components/User/UserController.js:63
+#, python-format
+msgid "There is %(count)s user."
+msgid_plural ""
+"There are %(count)s users. Below are the most recently added ones."
+msgstr[0] "Je %(count)s wužiwar."
+msgstr[1] "Stej %(count)s wužiwarjej. Deleka su njedawno přidaći."
+msgstr[2] "Su %(count)s wužiwarjo. Deleka su njedawno přidaći."
+msgstr[3] "Je %(count)s wužiwarjow. Deleka su njedawno přidaći."
+
+#: static/js/admin/components/User/UserController.js:79
+msgid "Search Users"
+msgstr "Wužiwarjow přepytować"
+
+#: static/js/admin/components/User/UserController.js:80
+msgid "Find user by name, email, properties"
+msgstr "Wužiwarja po mjenje, e-mejli abo kajkosćach pytać"
+
+#: static/js/admin/components/User/UserEdit.js:28
+msgid "Edit User"
+msgstr "Wužiwarja wobdźěłać"
+
+#: static/js/admin/components/User/UserEdit.js:38
+msgid "Use the search form to find the user, then click on a user to edit."
+msgstr ""
+"Wužiwaj pytanski formular, zo by wužiwarja namakał a klikń potom na "
+"wužiwarja, kotrehož chceš wobdźěłać."
+
+#: static/js/admin/components/User/UserForm.js:47
+msgid ""
+"Note: when deleting a user their contributions to the site, e.g. comments, "
+"suggestions and translations, are attributed to the anonymous user (nobody)."
+msgstr ""
+"Kedźbu: hdyž so wužiwar zhaša, so jeho přinoški za sydło, na př. komentary, "
+"namjety a přełožki, anonymnemu wužiwarjej (nikomu) přopokazaja."
+
+#: static/js/admin/components/User/UserForm.js:63
+#: static/js/auth/components/SignInForm.js:95
+#: static/js/auth/components/SignUpForm.js:84
+msgid "Username"
+msgstr "Wužiwarske mjeno"
+
+#: static/js/admin/components/User/UserForm.js:73
+msgid "Active"
+msgstr "Aktiwny"
+
+#: static/js/admin/components/User/UserForm.js:81
+#: static/js/auth/components/SignInForm.js:104
+#: static/js/auth/components/SignUpForm.js:101
+#: static/js/auth/components/SocialVerification.js:99
+#: static/js/auth/components/PasswordResetForm.js:117
+msgid "Password"
+msgstr "Hesło"
+
+#: static/js/admin/components/User/UserForm.js:82
+msgid "Set a new password"
+msgstr "Nowe hesło postajić"
+
+#: static/js/admin/components/User/UserForm.js:98
+#: static/js/auth/components/SignUpForm.js:92
+msgid "Email"
+msgstr "E-mejl"
+
+#: static/js/admin/components/User/UserForm.js:108
+msgid "Administrator"
+msgstr "Administrator"
+
+#: static/js/admin/components/User/UserForm.js:116
+#: static/js/user/components/UserProfileForm.js:92
+msgid "Twitter"
+msgstr "Twitter"
+
+#: static/js/admin/components/User/UserForm.js:118
+msgid "Twitter username"
+msgstr "Wužiwarske mjeno Twitter"
+
+#: static/js/admin/components/User/UserForm.js:125
+#: static/js/user/components/UserProfileForm.js:101
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: static/js/admin/components/User/UserForm.js:127
+msgid "LinkedIn profile URL"
+msgstr "Profilowy URL LinkedIn"
+
+#: static/js/admin/components/User/UserForm.js:133
+#: static/js/user/components/UserProfileForm.js:109
+msgid "Website"
+msgstr "Websydło"
+
+#: static/js/admin/components/User/UserForm.js:135
+msgid "Personal website URL"
+msgstr "URL wosobinskeho websydła"
+
+#: static/js/admin/components/User/UserForm.js:142
+#: static/js/user/components/UserProfileForm.js:118
+msgid "Short Bio"
+msgstr "Krótki žiwjenjoběh"
+
+#: static/js/admin/components/User/UserForm.js:144
+msgid "Personal description"
+msgstr "Wosobinske wopisanje"
+
+#: static/js/admin/components/User/UserForm.js:160
+msgid "Public Profile"
+msgstr "Zjawny profil"
+
+#: static/js/admin/components/User/UserForm.js:161
+msgid "Settings"
+msgstr "Nastajenja"
+
+#: static/js/admin/general/components/ContentPreview.js:32
+msgid "Preview will be displayed here."
+msgstr "Přehlad so tu pokaza."
+
+#: static/js/auth/components/AccountActivation.js:33
+#, python-format, javascript-format
+msgid ""
+"We have sent an email containing the special link to <span>%s</span>. Please "
+"check your spam folder if you do not see the email."
+msgstr ""
+"Smy e-mejlku pósłali, kotraž wosebity wotkaz na <span>%s</span> wobsahuje. "
+"Prošu hladaj do swojeho spamoweho rjadowaka, jeli e-mejlku njewidźiš."
+
+#: static/js/auth/components/AccountActivation.js:41
+msgid ""
+"We have sent an email containing the special link to the address used to "
+"register this account. Please check your spam folder if you do not see the "
+"email."
+msgstr ""
+"Smy e-mejlku pósłali, kotraž wotkaz na adresu wobsahuje, kotraž so za "
+"registrowanje tutoho konta wužiwa. Prošu hladaj do swojeho spamoweho "
+"rjadowaka, jeli e-mejlku njewidźiš."
+
+#: static/js/auth/components/AccountActivation.js:47
+msgid "Your account needs activation."
+msgstr "Twoje konto sej aktiwizowanje wužaduje."
+
+#: static/js/auth/components/AccountActivation.js:49
+msgid "Please follow that link to continue the account creation."
+msgstr "Prošu slěduj tutomu wotkazej, zo by ze załoženjom konta pokročował."
+
+#: static/js/auth/components/AccountActivation.js:64
+#: static/js/auth/components/AccountInactive.js:35
+#: static/js/auth/components/EmailConfirmation.js:34
+msgid "Close"
+msgstr "Začinić"
+
+#: static/js/auth/components/AccountInactive.js:29
+msgid "Your account is inactive because an administrator deactivated it."
+msgstr "Waše konto je inaktiwne, dokelž administrator je jo deaktiwizował."
+
+#: static/js/auth/components/AuthWindow.js:27
+msgid "Contact Us"
+msgstr "Staj so z nami do zwiska"
+
+#: static/js/auth/components/EmailConfirmation.js:28
+msgid "This email confirmation link expired or is invalid."
+msgstr "Tutón e-mejlowy wobkrućenski wotkaz je spadnjeny abo njepłaćiwy."
+
+#: static/js/auth/components/PasswordResetForm.js:81
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Wotkaz za wróćostajenje hesła bě njepłaćiwy, snano dokelž je so hižo wužił. "
+"Prošu proš wo nowe wróćostajenje hesła."
+
+#: static/js/auth/components/PasswordResetForm.js:89
+msgid "Reset Password"
+msgstr "Hesło wróćo stajić"
+
+#: static/js/auth/components/PasswordResetForm.js:101
+msgid "Password changed, signing in..."
+msgstr "Hesło je so změniło, přizjewjenje běži..."
+
+#: static/js/auth/components/PasswordResetForm.js:125
+#: static/js/auth/components/SignUpForm.js:110
+msgid "Repeat Password"
+msgstr "Hesło wospjetować"
+
+#: static/js/auth/components/PasswordResetForm.js:139
+msgid "Set New Password"
+msgstr "Nowe hesło postajić"
+
+#: static/js/auth/components/PasswordResetForm.js:143
+msgid "After changing your password you will sign in automatically."
+msgstr "Po tym zo sy swoje hesło změnił, so awtomatisce přizjewiš."
+
+#: static/js/auth/components/RequestPasswordResetProgress.js:24
+#, python-format, javascript-format
+msgid "Sending email to %s..."
+msgstr "E-mejlka so na %s sćele..."
+
+#: static/js/auth/components/RequestPasswordResetSent.js:48
+msgid "Please follow that link to continue the password reset procedure."
+msgstr ""
+"Prošu slěduj wotkazej, zo by z proceduru wróćostajenja hesła pokročował."
+
+#: static/js/auth/components/RequestPasswordResetSent.js:51
+msgid ""
+"Didn't receive an email? Check if it was accidentally filtered out as spam, "
+"or try requesting another copy of the email."
+msgstr ""
+"Njesy e-mejlku dóstał? Přepruwujće, hač je so zmylnje jako spam wufiltrowała "
+"abo požadaj dalšu kopiju e-mejlki."
+
+#: static/js/auth/components/RequestPasswordResetSent.js:67
+msgid "Resend Email"
+msgstr "E-mejlku hišće raz pósłać"
+
+#: static/js/auth/components/SignInForm.js:83
+#: static/js/auth/components/RequestPasswordResetForm.js:122
+msgid "Sign up as a new user"
+msgstr "Registruj so jako nowy wužiwar"
+
+#: static/js/auth/components/SignInForm.js:113
+#: static/js/auth/components/SocialVerification.js:107
+msgid "I forgot my password"
+msgstr "Sym swoje hesło zabył"
+
+#: static/js/auth/components/SignInForm.js:124
+#: static/js/auth/components/SocialVerification.js:118
+#: static/js/auth/containers/Auth.js:83
+msgid "Sign In"
+msgstr "Přizjewić"
+
+#: static/js/auth/components/SignInPanel.js:47
+#: static/js/auth/components/SocialVerification.js:74
+msgid "Signed in. Redirecting..."
+msgstr "Přizjewjeny. Sposrědkuje so dale..."
+
+#: static/js/auth/components/SignInPanel.js:60
+msgid "Social Services"
+msgstr "Socialne słužby"
+
+#: static/js/auth/components/SignInPanel.js:63
+msgid "Login / Password"
+msgstr "Přizjewjenje / Hesło"
+
+#: static/js/auth/components/SignUpForm.js:125
+#: static/js/auth/containers/Auth.js:96
+msgid "Sign Up"
+msgstr "Registrować"
+
+#: static/js/auth/components/SignUpForm.js:130
+msgid "Sign in as an existing user"
+msgstr "Přizjew so jako eksistowacy wužiwar"
+
+#: static/js/auth/components/SocialAuthError.js:30
+#, python-format, javascript-format
+msgid "An error occurred while attempting to sign in via %s."
+msgstr "Při pospyće so přez %s přizjewić, je zmylk wustupił."
+
+#: static/js/auth/components/SocialAuthError.js:35
+msgid "An error occurred while attempting to sign in via your social account."
+msgstr "Při pospyće přez swoje konto přizjewić, je zmylk wustupił."
+
+#: static/js/auth/components/SocialAuthError.js:52
+msgid "Try again"
+msgstr "Hišće raz spytać"
+
+#: static/js/auth/components/SocialSignInForm.js:38
+#, python-format, javascript-format
+msgid "Sign In With %s"
+msgstr "Přizjewjenje z %s"
+
+#: static/js/auth/components/SocialSignInForm.js:45
+msgid ""
+"Signing in with an external service for the first time will automatically "
+"create an account for you."
+msgstr ""
+"Hdyž so prěni raz z eksternej słužbu přizjewjeće, so awtomatisce konto za "
+"was załoži."
+
+#: static/js/auth/containers/Auth.js:83
+msgid "Sign In With..."
+msgstr "Přizjewić z..."
+
+#: static/js/auth/containers/Auth.js:90
+msgid "Account Inactive"
+msgstr "Konto je inaktiwne"
+
+#: static/js/auth/containers/Auth.js:102
+msgid "Account Activation"
+msgstr "Aktiwizowanje konta"
+
+#: static/js/auth/containers/Auth.js:108
+msgid "Email Confirmation"
+msgstr "E-mejlowe wobkrućenje"
+
+#: static/js/auth/containers/Auth.js:114 static/js/auth/containers/Auth.js:120
+#: static/js/auth/containers/Auth.js:126
+msgid "Reset Your Password"
+msgstr "Waše hesło wróćo stajić"
+
+#: static/js/auth/containers/Auth.js:132
+msgid "Oops..."
+msgstr "Hopla..."
+
+#: static/js/auth/containers/Auth.js:138
+msgid "Social Verification"
+msgstr "Socialne přepruwowanje"
+
+#: static/js/browser/components/Stats.js:54
+msgid "More..."
+msgstr "Wjace..."
+
+#: static/js/browser/components/Stats.js:67
+msgid "Contributors, 30 Days"
+msgstr "Přinošowarjo, 30 dnjow"
+
+#: static/js/browser/components/TopContributorsTable.js:23
+#, python-format
+msgid "#%(position)s"
+msgstr "#%(position)s"
+
+#: static/js/browser/components/VisibilityToggle.js:46
+msgid "Show disabled"
+msgstr "Znjemóžnjene pokazać"
+
+#: static/js/browser/components/VisibilityToggle.js:47
+msgid "Hide disabled"
+msgstr "Znjemóžnjene schować"
+
+#: static/js/browser.js:267
+msgid "All Languages"
+msgstr "Wšě rěče"
+
+#: static/js/browser.js:273
+msgid "All Projects"
+msgstr "Wšě projekty"
+
+#: static/js/common.js:142
+msgid "Updating data"
+msgstr "Aktualizowanje datow"
+
+#: static/js/editor/app.js:339 static/js/editor/app.js:658
+msgid ""
+"You have unsaved changes in this string. Navigating away will discard those "
+"changes."
+msgstr ""
+"Sy njeskładowane změny w tutym znamješkowym rjećazku. Hdyž preč nawiguješ, "
+"so tute změny zhubja."
+
+#: static/js/editor/app.js:384
+msgid ""
+"Go to the next string (Ctrl+.)<br/><br/>Also:<br/>Next page: Ctrl+Shift+.<br/"
+">Last page: Ctrl+Shift+End"
+msgstr ""
+"Dźi k přichodnemu znamješkowemu rjećazkej (Str+.)<br/><br/>Tež:<br/"
+">Přichodna strona: Strg+Umsch+.<br/>Poslednja strona: Strg+Umsch+Ende"
+
+#: static/js/editor/app.js:390
+msgid ""
+"Go to the previous string (Ctrl+,)<br/><br/>Also:<br/>Previous page: Ctrl"
+"+Shift+,<br/>First page: Ctrl+Shift+Home"
+msgstr ""
+"Dźi k předchadnemu znamješkowemu rjećazkej (Str+,)<br/><br/>Tež:<br/"
+">Předchadna strona: Strg+Umsch+,<br/>Prěnja strona: Strg+Umsch+Pos1"
+
+#. Translators: '%s' is a username
+#: static/js/editor/app.js:515
+#, python-format, javascript-format
+msgid "%s's pending suggestions"
+msgstr "čakace namjety wužiwarja %s"
+
+#. Translators: '%s' is a username
+#: static/js/editor/app.js:518
+#, python-format, javascript-format
+msgid "%s's accepted suggestions"
+msgstr "akceptowane namjety wužiwarja %s"
+
+#. Translators: '%s' is a username
+#: static/js/editor/app.js:521
+#, python-format, javascript-format
+msgid "%s's rejected suggestions"
+msgstr "wotpokazane namjety wužiwarja %s"
+
+#. Translators: '%s' is a username
+#: static/js/editor/app.js:524
+#, python-format, javascript-format
+msgid "%s's submissions"
+msgstr "zapodaća wužiwarja %s"
+
+#. Translators: '%s' is a username, meaning "submissions by %s,
+#. that were overwritten"
+#: static/js/editor/app.js:528
+#, python-format, javascript-format
+msgid "%s's overwritten submissions"
+msgstr "změnjene zapodaća wužiwarja %s"
+
+#: static/js/editor/app.js:1069
+msgid "Error while connecting to the server"
+msgstr "Zmylk při zwjazowanju ze serwerom"
+
+#: static/js/editor/app.js:1074
+msgid "Not found"
+msgstr "Njenamakany"
+
+#: static/js/editor/app.js:1076
+msgid "Server error"
+msgstr "Serwerowy zmylk"
+
+#: static/js/editor/app.js:1078
+msgid "The server seems down. Try again later."
+msgstr "Zda so, zo serwer je spadnjeny. Spytajće pozdźišo hišće raz."
+
+#: static/js/editor/app.js:1087
+msgid "This string no longer exists."
+msgstr "Tutón znamješkowy rjećazk hižo njeeksistuje."
+
+#: static/js/editor/app.js:1088
+msgid "Go back to browsing"
+msgstr "Rozhladujće so dale"
+
+#: static/js/editor/app.js:1090
+msgid "Reload page"
+msgstr "Stronu znowa začitać"
+
+#: static/js/editor/app.js:2188
+msgid "some anonymous user"
+msgstr "anonymny wužiwar"
+
+#: static/js/editor/app.js:2190
+msgid "someone"
+msgstr "něchtó"
+
+#: static/js/editor/app.js:2208 static/js/editor/app.js:2262
+msgid "Similar translations"
+msgstr "Podobne přełožki"
+
+#: static/js/editor/components/EditorPluralFormHeader.js:26
+#: static/js/editor/components/UnitSource.js:52
+#, python-format
+msgid "Plural form %(index)s"
+msgstr "Pluralowa forma %(index)s"
+
+#: static/js/editor/components/SuggestionFeedbackForm.js:93
+msgid "Edit the suggestion before accepting, if necessary"
+msgstr "Wobdźěłaj namjet, prjedy hač jón akceptuješ, jeli trjeba"
+
+#: static/js/editor/components/SuggestionFeedbackForm.js:107
+msgid "Provide optional comment (will be publicly visible)"
+msgstr "Pisajće komentar (budźe zjawnje widźomny)"
+
+#: static/js/editor/components/SuggestionFeedbackForm.js:119
+msgid "Accept"
+msgstr "Akceptować"
+
+#: static/js/editor/components/SuggestionFeedbackForm.js:123
+msgid "Reject"
+msgstr "Wotpokazać"
+
+#: static/js/editor/components/UploadTimeSince.js:35
+#, python-format
+msgid "%(timeSince)s via file upload"
+msgstr "%(timeSince)s přez datajowe nahraće"
+
+#: static/js/shared/components/FormSelectInput.js:39
+msgid "Clear all"
+msgstr "Wšě zhašeć"
+
+#: static/js/shared/components/FormSelectInput.js:40
+msgid "Clear value"
+msgstr "Hódnotu zhašeć"
+
+#: static/js/shared/components/FormSelectInput.js:41
+msgid "No results found"
+msgstr "Žane wuslědki namakane"
+
+#: static/js/shared/components/FormSelectInput.js:43
+msgid "Select..."
+msgstr "Wubrać..."
+
+#: static/js/shared/components/FormSelectInput.js:44
+msgid "Type to search"
+msgstr "Pisaj, zo by pytał"
+
+#: static/js/shared/models/project.js:62
+msgid "disabled"
+msgstr "znjemóžnjeny"
+
+#: static/js/stats.js:30
+msgid "Congratulations! You have completed this task!"
+msgstr "Zbožopřeće! Sy tutón nadawk sčinił!"
+
+#: static/js/stats.js:127
+msgid "Collapse details"
+msgstr "Podrobnosće schować"
+
+#: static/js/stats.js:127
+msgid "Expand details"
+msgstr "Podrobnosće pokazać"
+
+#: static/js/user/components/UserProfileEdit.js:95
+msgid "Edit My Public Profile"
+msgstr "Mój zjawny profil wobdźěłać"
+
+#: static/js/user/components/UserProfileEdit.js:102
+msgid "My Public Profile"
+msgstr "Mój zjawny profil"
+
+#: static/js/user/components/UserProfileEdit.js:117
+msgid "Discard changes."
+msgstr "Změny zaćisnyć."
+
+#: static/js/user/components/UserProfileEdit.js:118
+msgid "Yes"
+msgstr "Haj"
+
+#: static/js/user/components/UserProfileEdit.js:119
+msgid "No"
+msgstr "Ně"
+
+#: static/js/user/components/UserProfileEdit.js:121
+msgid "There are unsaved changes. Do you want to discard them?"
+msgstr "Su njeskładowane změny. Chceš je zaćisnyć?"
+
+#: static/js/user/components/UserProfileForm.js:59
+#, python-format
+msgid ""
+"To set or change your avatar for your email address (%(email)s), please go "
+"to gravatar.com."
+msgstr ""
+"Zo by swój awatar za swoju e-mejlowu adresu (%(email)s) nastajił abo změnił, "
+"dźi na gravatar.com."
+
+#: static/js/user/components/UserProfileForm.js:75
+msgid "Your Full Name"
+msgstr "Twoje dopołne mjeno"
+
+#: static/js/user/components/UserProfileForm.js:83
+msgid "Avatar"
+msgstr "Awatar"
+
+#: static/js/user/components/UserProfileForm.js:94
+msgid "Your Twitter username"
+msgstr "Twoje wužiwarske mjeno Twitter"
+
+#: static/js/user/components/UserProfileForm.js:103
+msgid "Your LinkedIn profile URL"
+msgstr "URL twojeho profila LinkedIn"
+
+#: static/js/user/components/UserProfileForm.js:111
+msgid "Your Personal website/blog URL"
+msgstr "URL twojeho wosobinskeho websydła/bloga"
+
+#: static/js/user/components/UserProfileForm.js:120
+msgid ""
+"Why are you part of our translation project? Describe yourself, inspire "
+"others!"
+msgstr ""
+"Čehodla sy dźěl našeho přełožowanskeho projekta? Wopisaj so, inspiruj "
+"druhich!"
+
+#: static/js/auth/components/RequestPasswordResetForm.js:96
+msgid "Email Address"
+msgstr "E-mejlowa adresa"
+
+#: static/js/auth/components/RequestPasswordResetForm.js:97
+msgid ""
+"Enter your email address, and we will send you a message with the special "
+"link to reset your password."
+msgstr ""
+"Zapodaj swoju e-mejlowu adresu a my pósćelemy wam powěsć ze specialnym "
+"wotkazom za wróćostajenje twojeho hesła."
+
+#: static/js/auth/components/RequestPasswordResetForm.js:108
+msgid "No, thanks"
+msgstr "Ně, dźakuju so"
+
+#: static/js/auth/components/RequestPasswordResetForm.js:116
+msgid "Send Email"
+msgstr "E-mejlku pósłać"
+
+#: static/js/auth/components/RequestPasswordResetSent.js:44
+#, python-format
+msgid "We have sent an email containing the special link to <span>%s</span>"
+msgstr ""
+"Smy e-mejlku pósłali, kotraž specialny wotkaz k <span>%s</span> wobsahuje"
+
+#: static/js/auth/components/SignInForm.js:85
+msgid "Creating new user accounts is prohibited."
+msgstr "Załoženje nowych wužiwarskich kontow je zakazane."
+
+#: static/js/auth/components/SocialVerification.js:81
+#, python-format
+msgid ""
+"We found a user with <span>%(email)s</span> email in our system. Please "
+"provide the password to finish the sign in procedure. This is a one-off "
+"procedure, which will establish a link between your Pootle and %(provider)s "
+"accounts."
+msgstr ""
+"Smy wužiwarja z e-mejlowej adresu <span>%(email)s</span> w swojim systemje "
+"namakali. Prošu podaj hesło, zo by přizjewjensku proceduru dokónčił. To je "
+"jónkróćna procedura, kotraž wotkaz mjez wašimaj kontomaj Pootle a "
+"%(provider)s wutwori."
+
+#: static/js/editor/app.js:650
+msgid "No results."
+msgstr "Žane wuslědki."
+
+#: templates/admin/xhr_language_user_activity.html:6
+msgid "Project / Language"
+msgstr "Projekt / Rěč"
+
+#: templates/admin/xhr_language_user_activity.html:7
+msgid "Suggested"
+msgstr "Namjetowany"
+
+#: templates/admin/xhr_language_user_activity.html:8
+msgid "Translated"
+msgstr "Přełoženy"
+
+#: templates/admin/xhr_language_user_activity.html:9
+msgid "Reviewed"
+msgstr "Pohódnoćeny"
+
+#: templates/admin/xhr_language_user_activity.html:10
+msgid "Score Change"
+msgstr "Změna stawa"
+
+#: templates/admin/xhr_language_user_activity.html:20
+#: templates/admin/xhr_language_user_activity.html:24
+#: templates/admin/xhr_language_user_activity.html:31
+#: templates/admin/xhr_language_user_activity.html:35
+#: templates/admin/xhr_language_user_activity.html:40
+#: templates/admin/xhr_language_user_activity.html:51
+#: templates/admin/xhr_language_user_activity.html:55
+#: templates/admin/xhr_language_user_activity.html:59
+#, python-format
+msgid "%s word"
+msgid_plural "%s words"
+msgstr[0] "%s słowo"
+msgstr[1] "%s słowje"
+msgstr[2] "%s słowa"
+msgstr[3] "%s słowow"
+
+#: templates/admin/xhr_language_user_activity.html:69
+msgid "No activity recorded in a given period"
+msgstr "Žana aktiwita njeje so w datej dobje zwěsćiła"
+
+#: templates/admin/xhr_language_user_activity.html:72
+msgid "Please select a valid user."
+msgstr "Prošu wubjer płaćiweho wužiwarja."
+
+#: templates/editor/units/xhr_edit_ctx.html:4
+msgid "More"
+msgstr "Wjace"
+
+#: templates/editor/units/xhr_edit_ctx.html:5
+msgid "Hide"
+msgstr "Schować"
+
+#: templates/editor/units/xhr_edit_ctx.html:6
+msgid "Less"
+msgstr "Mjenje"
+
+#: templates/editor/units/xhr_edit_ctx.html:7
+msgid "Show"
+msgstr "Pokazać"
+
+#: templates/editor/units/xhr_tm.html:17
+#, python-format
+msgid ""
+"Translated by %(fullname)s in “<span title=\"%(path)s\">%(project)s</span>” "
+"project %(time_ago)s"
+msgstr ""
+"Přełoženy wot %(fullname)s w projekće “<span title=\"%(path)s\">%(project)s</"
+"span>” %(time_ago)s"
+
+#: templates/editor/units/xhr_tm.html:20
+#, python-format
+msgid ""
+"Translated by %(fullname)s in “<span title=\"%(path)s\">%(project)s</span>” "
+"project"
+msgstr ""
+"Přełoženy wot %(fullname)s w projekće “<span title=\"%(path)s\">%(project)s</"
+"span>”"
+
+#~ msgid "+%(score)s"
+#~ msgstr "+%(score)s"
+
+#~ msgid "Entire Project"
+#~ msgstr "Cyły projekt"

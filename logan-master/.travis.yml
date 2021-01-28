@@ -1,0 +1,20 @@
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+env:
+  - DJANGO=1.5
+  - DJANGO=1.6.6
+install:
+  - pip install -q Django==$DJANGO --use-mirrors
+  - pip install -q flake8 --use-mirrors
+  - pip install -q -e . --use-mirrors
+script:
+  - PYFLAKES_NODOCTEST=1 flake8 logan
+  - python setup.py test
+notifications:
+  irc:
+    channels: "irc.freenode.org#sentry"
+    on_success: change
+    on_failure: change

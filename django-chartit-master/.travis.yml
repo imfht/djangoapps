@@ -1,0 +1,64 @@
+after_success:
+- coveralls
+before_install:
+- pip install coveralls
+- if [ -z "$_COMMAND" ]; then export _COMMAND=coverage; fi
+- if [ -z "$_DJANGO" ]; then export _DJANGO=1.10.4; fi
+cache: pip
+env:
+- _DJANGO=1.10
+- _DJANGO=1.10.2
+- _DJANGO=1.10.3
+- _DJANGO=1.10.4
+- _DJANGO=1.10.5
+- _DJANGO=1.10.6
+- _DJANGO=1.10.7
+- _DJANGO=1.11
+- _DJANGO=1.11.1
+- _DJANGO=1.11.10
+- _DJANGO=1.11.12
+- _DJANGO=1.11.3
+- _DJANGO=1.11.4
+- _DJANGO=1.11.6
+- _DJANGO=1.11.7
+- _DJANGO=1.11.8
+- _DJANGO=1.11.9
+- _DJANGO=1.11a1
+- _DJANGO=1.11b1
+- _DJANGO=1.11rc1
+- _DJANGO=1.8.14
+- _DJANGO=1.8.15
+- _DJANGO=1.8.16
+- _DJANGO=1.8.17
+- _DJANGO=1.8.18
+- _DJANGO=1.9.10
+- _DJANGO=1.9.11
+- _DJANGO=1.9.12
+- _DJANGO=1.9.13
+- _DJANGO=1.9.8
+- _DJANGO=1.9.9
+- _DJANGO=2.0
+- _DJANGO=2.0.1
+- _DJANGO=2.0.2
+- _DJANGO=2.0.4
+- _DJANGO=2.0a1
+- _DJANGO=2.0b1
+- _DJANGO=2.0rc1
+install:
+- pip install Django==$_DJANGO
+- pip install -e .
+- pip install -r requirements.txt
+language: python
+matrix:
+  include:
+  - env: _COMMAND=pylint
+    python: 3.5
+notifications:
+  email:
+    on_failure: change
+    on_success: change
+python:
+- 2.7
+- 3.4
+- 3.5
+script: make $_COMMAND

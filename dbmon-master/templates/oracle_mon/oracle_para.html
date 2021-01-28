@@ -1,0 +1,293 @@
+{% extends 'base/base_site.html' %}
+{% block content_header %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Oracle核心参数
+      </h1>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Oracle</a></li>
+        <li><a href="/oracle_monitor">实时监控</a></li>
+        <li class="active">核心参数</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+       <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">基础信息概览</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>标签</th>
+                  <th>数据库名</th>
+                    <th>域名</th>
+                  <th>实例名</th>
+                  <th>实例编号</th>
+                    <th>服务名</th>
+                    <th>实例状态</th>
+                  <th>版本</th>
+                    <th>字符集</th>
+                   <th>创建时间</th>
+                    <th>启动时间</th>
+                    <th>平台</th>
+                    <th>主机名</th>
+                    <th>数据库角色</th>
+                    <th>日志模式</th>
+                    <th>打开模式</th>
+                    <th>保护模式</th>
+                    <th>闪回设置</th>
+                    <th>当前SCN</th>
+                </tr>
+                </thead>
+                {% for dbinfo in dbinfos %}
+                {% for instanceinfo in instanceinfos %}
+                    {% for charset in charsets %}
+                 <td>{{ tags}} </td>
+                 <td>{{ dbinfo.NAME}} </td>
+                  <td>{{ db_domain }} </td>
+                 <td>{{ instanceinfo.INSTANCE_NAME}}</td>
+                 <td>{{ instanceinfo.INSTANCE_NUMBER}}</td>
+                        <td>{{ service_names }} </td>
+                 <td>{{ instanceinfo.STATUS}}</td>
+                 <td>{{ instanceinfo.VERSION}}</td>
+                 <td>{{ charset.CHARSET}}</td>
+                 <td>{{ dbinfo.CREATED}}</td>
+                 <td>{{ instanceinfo.STARTUP_TIME}}</td>
+                 <td>{{ dbinfo.PLATFORM_NAME}}</td>
+                 <td>{{ instanceinfo.HOST_NAME}}</td>
+                 <td>{{ dbinfo.DATABASE_ROLE}}</td>
+                 <td>{{ dbinfo.LOG_MODE}}</td>
+                 <td>{{ dbinfo.OPEN_MODE}}</td>
+                 <td>{{ dbinfo.PROTECTION_MODE}}</td>
+                 <td>{{ dbinfo.FLASHBACK_ON}}</td>
+                 <td>{{ dbinfo.CURRENT_SCN}}</td
+                {% endfor %}
+                    {% endfor %}
+              {% endfor %}
+                 <tr>
+
+                 </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+     <div class="row">
+        <div class="col-xs-6">
+          <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">undo相关</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>标签</th>
+                  <th>默认undo表空间</th>
+                  <th>undo管理方式</th>
+                  <th>过期时间</th>
+                </tr>
+                </thead>
+                 <tr>
+                 <td>{{ tags }}</td>
+                 <td>{{ undo_tablespace }}</td>
+                 <td>{{ undo_management }}</td>
+                 <td>{{ undo_retention }}</td>
+                 </tr>
+              </table>
+            </div>
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+         <div class="col-xs-6">
+          <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">连接相关</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>标签</th>
+                  <th>最大连接数</th>
+                  <th>最大会话数</th>
+                </tr>
+                </thead>
+                 <tr>
+                 <td>{{ tags }}</td>
+                 <td>{{ p_processes }}</td>
+                 <td>{{ p_sessions }}</td>
+                 </tr>
+              </table>
+            </div>
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">内存设置相关</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow: auto">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>标签</th>
+                  <th>memory_target</th>
+                  <th>memory_max_target</th>
+                  <th>sga_target</th>
+                    <th>sga_max_size</th>
+                  <th>pga_aggregate_target</th>
+                   <th>shared_pool_size</th>
+                    <th>shared_pool_reserved_size</th>
+                   <th>db_cache_size</th>
+                </tr>
+                </thead>
+                {% for dbinfo in dbinfos %}
+                    {% for instanceinfo in instanceinfos %}
+                 <td>{{ tags}} </td>
+                 <td>{{ memory_target }} </td>
+                 <td>{{ memory_max_target }}</td>
+                 <td>{{ sga_target }}</td>
+                 <td>{{ sga_max_size }}</td>
+                 <td>{{ pga_aggregate_target }}</td>
+                 <td>{{ shared_pool_size }}</td>
+                 <td>{{ shared_pool_reserved_size }}</td>
+                 <td>{{ db_cache_size }}</td>
+                {% endfor %}
+              {% endfor %}
+                 <tr>
+
+                 </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+          <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">DATAGUARD相关</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow:auto;">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>标签</th>
+                  <th>log_archive_dest_1</th>
+                  <th>log_archive_dest_2</th>
+                  <th>log_archive_dest_state_1</th>
+                    <th>log_archive_dest_state_2</th>
+                  <th>standby_file_management</th>
+                    <th>fal_server</th>
+                   <th>fal_client</th>
+                    <th>db_file_name_convert</th>
+                    <th>log_file_name_convert</th>
+                    <th>dg_broker_start</th>
+                </tr>
+                </thead>
+                 <td>{{ tags}} </td>
+                 <td>{{ log_archive_dest_1}} </td>
+                 <td>{{ log_archive_dest_2 }}</td>
+                 <td>{{ log_archive_dest_state_1}}</td>
+                 <td>{{ log_archive_dest_state_2}}</td>
+                 <td>{{ standby_file_management }}</td>
+                 <td>{{ fal_server }}</td>
+                 <td>{{ fal_client }}</td>
+                 <td>{{ db_file_name_convert }}</td>
+                 <td>{{ log_file_name_convert }}</td>
+                 <td>{{ dg_broker_start }}</td>
+                 <tr>
+                 </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      <!-- /.row -->
+          <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-solid">
+            <div class="box-header">
+              <h3 class="box-title">其他参数</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="overflow:auto;">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>标签</th>
+                  <th>db_files</th>
+                  <th>lock_sga</th>
+                  <th>parallel_force_local</th>
+                    <th>cursor_sharing</th>
+                  <th>open_cursors</th>
+                    <th>session_cached_cursors</th>
+                   <th>log_checkpoints_to_alert</th>
+                    <th>log_checkpoint_timeout</th>
+                    <th>resource_limit</th>
+                    <th>parallel_max_servers</th>
+                    <th>parallel_servers_target</th>
+                </tr>
+                </thead>
+                 <td>{{ tags}} </td>
+                 <td>{{ db_files}} </td>
+                 <td>{{ lock_sga }}</td>
+                 <td>{{ parallel_force_local}}</td>
+                 <td>{{ cursor_sharing}}</td>
+                 <td>{{ open_cursors }}</td>
+                 <td>{{ session_cached_cursors }}</td>
+                 <td>{{ log_checkpoints_to_alert }}</td>
+                 <td>{{ log_checkpoint_timeout }}</td>
+                 <td>{{ resource_limit }}</td>
+                 <td>{{ parallel_max_servers }}</td>
+                 <td>{{ parallel_servers_target }}</td>
+                 <tr>
+                 </tr>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+{% endblock %}

@@ -1,0 +1,22 @@
+.admin-menu {
+    li {
+        @include font-type(regular);
+        border-bottom: 1px solid $default-tags;
+        text-transform: uppercase;
+        &:hover {
+            background: $color-white;
+            a {
+                @include font-type(regular);
+                color: $color-link-tertiary;
+            }
+        }
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+    a {
+        color: $color-link-tertiary;
+        display: block;
+        padding: 1rem 0 1rem 1rem;
+    }
+}

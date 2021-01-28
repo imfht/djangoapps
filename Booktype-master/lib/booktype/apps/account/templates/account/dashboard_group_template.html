@@ -1,0 +1,20 @@
+{% load i18n staticfiles booktype_tags %}
+<li>
+    <figure><img src="{{ group.get_group_image }}?{% random_url %}"></figure>
+    <div class="list-info">
+        <h4>
+            <a href="{% url "portal:group" group.url_name %}">
+                {{ group.name }}
+            </a> - {{ group.description }}
+        </h4>
+        <span>
+            {% trans "Members:" %} {{ group.members.count }}
+            {% trans "Books:" %} {{ group.book_set.count }}
+        </span>
+        {% if can_delete %}
+        <button type="button" class="btn btn-default btn-xs float-right" data-remote="{% url 'portal:delete_group' group.url_name %}" data-toggle="modal" data-target="#groupDeleteModal">
+            {% trans "Delete Group" as deletegroup_text %} {{ deletegroup_text|upper }}
+        </button>
+        {% endif %}
+    </div>
+</li>

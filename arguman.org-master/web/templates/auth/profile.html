@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load gravatar %}
+{% load humanize %}
+
+
+{% block content %}
+    <div class="container user-profile">
+        <aside>
+            <a class="gravatar profile-image" href="{{ profile.get_absolute_url }}">
+                {% gravatar profile 380 %}
+            </a>
+
+            <ul class="user-info">
+                {% if profile.first_name or profile.last_name %}
+                    <li class="full-name">{{ profile.get_full_name }}</li>
+                {% endif %}
+                <li class="username">{{ profile.username }}</li>
+                {% if profile.twitter_username %}
+                <li class="registration">
+                    <h5>{% trans "twitter" %}</h5>
+                    <a target="_blank" href="https://twitter.com/{{ profile.twitter_username }}">@{{ profile.twitter_username }}</a>
+                </li>
+                {% endif %}
+                <li class="registration">
+                    <h5>{% trans "date joined" %}</h5>
+                    {{ profile.date_joined|date }}
+                </li>
+            </ul>
+
+            <nav class="users-block following">
+                <h4>{% trans "Following" %} ({{ profile.following.count }})</h4>
+                {% for followee in profile.following.all|slice:":20" %}
+                    <a title="{{ followee.username }}" href="{{ followee.get_absolute_url }}">
+                        {% gravatar followee 380 %}
+                    </a>
+                {% endfor %}
+            </nav>
+
+            <nav class="users-block followers">
+                <h4>{% trans "Followers" %} ({{ profile.followers.count }})</h4>
+                {% for follower in profile.followers.all|slice:":20" %}
+                    <a title="{{ follower.username }}" href="{{ follower.get_absolute_url }}">
+                        {% gravatar follower 380 %}
+                    </a>
+                {% endfor %}
+            </nav>
+
+        </aside>
+
+        <div class="user-detail">
+        <ul class="tab-headers">
+            <li{% if tab_name == "overview" %} class="active"{% endif %}><a href="{% url "auth_profile" profile.username %}">{% trans "Overview" %}</a></li>
+            <li{% if tab_name == "arguments" %} class="active"{% endif %}><a href="{% url "auth_profile_arguments" profile.username %}">{% trans "Arguments" %}</a></li>
+            <li{% if tab_name == "premises" %} class="active"{% endif %}><a href="{% url "auth_profile_premises" profile.username %}">{% trans "Premises" %}</a></li>
+            <li{% if tab_name == "fallacies" %} class="active"{% endif %}><a href="{% url "auth_profile_fallacies" profile.username %}">{% trans "Fallacy Reports" %}</a></li>
+            <li class="actions-tab">
+                {% ifequal profile user %}
+                <a class="button" href="{% url "auth_profile_update" %}">{% trans "update profile" %}</a>
+                {% endifequal %}
+                {% if not user.is_anonymous and can_follow %}
+                {% if is_followed %}
+                    <a href="{% url "api-profile-follow" profile.username %}" class="button anchor unfollow" data-method="delete">{% trans "Unfollow" %}</a>
+                {% else %}
+                    <a href="{% url "api-profile-follow" profile.username %}" class="button anchor follow" data-method="post">{% trans "Follow" %}</a>
+                {% endif %}
+                {% endif %}
+            </li>
+        </ul>
+
+        {% block profile-content %}
+            <div class="overview-blocks">
+            <div class="overview-block channels">
+                <h3>{% trans "Most active channels" %}</h3>
+                <ul class="channels">
+                {% for bundle in related_channels|slice:":10" %}
+                    <li class="channel">
+                        <a href="{{ bundle.channel.absolute_url }}">{{ bundle.channel.title }}</a>
+                    </li>
+                    {% empty %}
+                    <li class="empty">
+                    {% trans "No data." %}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="overview-block discussed-users">
+                <h3>{% trans "Most discussed users" %}</h3>
+                {% if discussed_users %}
+                <ul class="users">
+                    {% for discussed_user in discussed_users %}
+                        <li>
+                            <div class="percent">
+                                <span class="but" style="width: {{ discussed_user.but|stringformat:"f" }}%"></span>
+                                <span class="because" style="width: {{ discussed_user.because|stringformat:"f" }}%"></span>
+                                <span class="however" style="width: {{ discussed_user.however|stringformat:"f" }}%"></span>
+                            </div>
+                            <a href="{% url "auth_profile" discussed_user.user.username %}">{{ discussed_user.user.username|lower|truncatechars:18 }}</a>
+                        </li>
+                        {% empty  %}
+                        <li>{% trans "No data." %}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="overview-block most-loved">
+                <h3>{% trans "Most supported premises" %}</h3>
+                {% for premise in supported_premises %}
+                    <div class="premise-stats">
+                        <h2><a href="{{ premise.argument.get_absolute_url }}">{{ premise.argument.title }}</a></h2>
+                        <div class="premise-content {{ premise.premise_class }}">
+                            <a href="{{ premise.get_absolute_url }}">{{ premise.text }}</a>
+                            {% if premise.related_argument %}
+                            <div class="related-argument">
+                                <a href="{{ premise.get_absolute_url }}">{{ premise.related_argument.title }}</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if premise.supporters.exists %}
+                        <div class="supporter-count">
+                        {{ premise.supporters.count }} {% trans "supporter." %}
+                        </div>
+                        {% endif %}
+                        {% if premise.reports.exists %}
+                            <div class="reported_as_fallacy">
+                            {{ premise.reports.count }} {% trans "fallacy report." %}
+
+                            {% if premise.fallacies %}
+                                {% for fallacy in premise.fallacies %}
+                                <div class="fallacy">{{ fallacy.label }}</div>
+                                {% endfor %}
+                            {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="empty">
+                    {% trans "No data." %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endblock %}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra-scripts %}
+    {{ block.super }}
+    {% include "infinity-pagination.html" %}
+    <script type="text/javascript">
+        $(function () {
+            $(".anchor").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: $(this).attr("href"),
+                        type: $(this).data("method"),
+                        beforeSend: function(xhr, settings) {
+                            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                        }
+                    }).complete(function () {
+                        window.location.reload()
+                    }.bind(this));
+                    return false;
+                });
+            });
+        });
+        $(window).on('load', function () {
+            var left = $(".channels"),
+                right = $(".discussed-users");
+
+            var max = Math.max(right.height(), left.height());
+            left.height(max);
+            right.height(max);
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,207 @@
+{% load core i18n assets locale profile_tags static statici18n select2l10n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}" id="{% block html_id %}pootle-base{% endblock %}" class="{{ settings.POOTLE_INSTANCE_ID }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}{{ settings.POOTLE_TITLE }}{% endblock title %}</title>
+    {% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="application-name" content="{{ settings.POOTLE_TITLE }}" />
+    {% endblock meta %}
+    {% block css %}
+    {% assets "css_common" %}
+    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}" />
+    {% endassets %}
+    {% endblock css %}
+    {% block css_overrides %}
+    {% endblock css_overrides %}
+    {% block favicon %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ settings.POOTLE_FAVICONS_PATH }}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="{{ settings.POOTLE_FAVICONS_PATH }}/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ settings.POOTLE_FAVICONS_PATH }}/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{{ settings.POOTLE_FAVICONS_PATH }}/manifest.json">
+    <link rel="mask-icon" href="{{ settings.POOTLE_FAVICONS_PATH }}/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="{{ settings.POOTLE_FAVICONS_PATH }}/favicon.ico">
+    <meta name="msapplication-config" content="{{ settings.POOTLE_FAVICONS_PATH }}/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    {% endblock favicon %}
+    {% block js %}
+    <script type="text/javascript">
+    window.PTL = window.PTL || {};
+    PTL.settings = {
+      CONTACT_ENABLED: {{ settings.POOTLE_CONTACT_ENABLED|yesno:'true, false' }},
+      SIGNUP_ENABLED: {{ settings.POOTLE_SIGNUP_ENABLED|yesno:'true, false' }},
+      MARKUP_FILTER: '{{ settings.POOTLE_MARKUP_FILTER }}',
+      SOCIAL_AUTH_PROVIDERS: {{ SOCIAL_AUTH_PROVIDERS|to_js }},
+    };
+    PTL.unitApiRoot = '{{ unit_api_root }}';
+    </script>
+
+    {% assets "js_vendor" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    <script src="{% statici18n LANGUAGE_CODE %}"></script>
+    {% assets "js_common" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% if LANGUAGE_CODE|is_select2_lang %}
+    {% with "select2-l10n-"|add:LANGUAGE_CODE as asset_name %}
+    {% assets asset_name %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% endwith %}
+    {% endif %}
+    <script type="text/javascript">
+    function l(path) {
+      var basepath = '{{ settings.SCRIPT_NAME }}';
+      if (path[0] === '/' && path.indexOf(basepath) !== 0) {
+        return basepath + path;
+      }
+      return path;
+    }
+    function s(path) {
+      return "{{ STATIC_URL }}" + path;
+    }
+
+    PTL.contact.init({url: "{% url 'pootle-contact-xhr' %}"});
+
+    $(function () {
+      PTL.common.init({
+        hasSidebar: {{ has_sidebar|yesno:'true, false' }},
+        page: "{{ page }}",
+      });
+
+      {% if user.is_authenticated %}
+      PTL.dropdown.init('.js-navbar-dropdown');
+      {% endif %}
+
+      {% if display_agreement %}
+      PTL.agreement.init('{% url "pootle-staticpages-legal-agreement" %}');
+      {% endif %}
+    });
+    </script>
+    {% endblock js %}
+    {% block extra_head %}{% endblock %}
+  </head>
+
+  <body id="{% block body_id %}pootle-body-base{% endblock %}" class="{% block body_class %}{% endblock %}">
+    {% block body %}
+    <div id="wrapper">
+      {% block wrapper %}
+      <noscript>
+        <div id="noscript" class="alert alert-danger affix">
+          <h1>{% trans "Pootle requires JavaScript" %}</h1>
+          <p>{% trans "Please enable JavaScript in your browser preferences and reload the page." %}</p>
+        </div>
+      </noscript>
+      <div id="alerts" class="affix js-alerts">
+      </div>
+
+      <nav id="navbar">
+        {% block navbar %}
+        <div id="nav-access">
+          <a href="#nav-main">{% trans 'skip to navigation' %}</a>
+        </div>
+        {% block logo %}
+        <h1 class="brand">
+	  <a href="{% url 'pootle-home' %}"
+	     title="{{ settings.POOTLE_TITLE }}">
+	    <i class="icon-logo"></i>
+	    {% if settings.POOTLE_CUSTOM_LOGO %}
+	    <img
+	       class="logo-custom"
+	       src="{{ settings.POOTLE_CUSTOM_LOGO }}" />
+	    {% else %}
+	    <span class="site-title">{{ settings.POOTLE_TITLE }}</span>
+	    {% endif %}
+	  </a>
+	</h1>
+        {% endblock %}
+        <a href="#nav-main" id="menu-toggle" class="js-toggle">&nbsp;</a>
+        <ul id="nav-main">
+          {% block nav_items %}
+          {% block nav_items_pre %}{% endblock %}
+          {% if settings.POOTLE_CONTACT_ENABLED %}
+            <li><a class="js-contact" href="{% url 'pootle-contact' %}">{% trans "Contact Us" %}</a></li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li id="user" class="js-navbar-dropdown">
+            <a href="{{ user.get_absolute_url }}" data-action="toggle">
+              <img src="{{ user|gravatar:20 }}" class="avatar" />
+              <span class="user-username">{{ user.display_name }}</span>
+              <span class="user-score">{{ user.public_score }}</span>
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a href="{{ user.get_absolute_url }}">{% trans 'Public Profile' %}</a></li>
+              <li><a href="{% url 'pootle-user-settings' user.username %}">{% trans 'Settings' %}</a></li>
+              {% if user.is_superuser %}
+              <li><a class="admin" href="{% url 'pootle-admin' %}">{% trans 'Admin' %}</a></li>
+              {% endif %}
+              <li class="menu-divider"></li>
+              <li><a href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li><a class="js-login login" href="{% url 'account_login' %}"><span class="btn btn-login">{% trans 'Sign In' %}</span></a></li>
+          {% endif %}
+          {% block nav_items_post %}{% endblock %}
+          {% endblock %}
+        </ul>
+        {% block navbar_extra %}{% endblock %}
+        {% endblock %}
+      </nav>
+
+    {% block header_block %}
+      {% block header_meta_block %}
+      <div id="header-meta" class="header">
+        {% block header_meta %}{% endblock %}
+
+        {% block breadcrumbs_block %}
+        <ul class="breadcrumb js-breadcrumb s2-pootle">
+          {% block breadcrumbs %}{% endblock %}
+        </ul>
+        {% endblock %}
+      </div>
+      {% endblock %}
+
+      {% block header_content_block %}{% endblock %}
+      {% block actions_block %}{% endblock %}
+
+      {% block header_tabs_block %}
+      <div id="header-tabs" class="header">
+        {% block tabs %}{% endblock %}
+      </div>
+      {% endblock %}
+      <div style="clear: both"></div>
+    {% endblock %}
+
+      <div id="body">
+        {% block pre_content %}{% endblock %}
+        <div id="content">
+          {% block content %}{% endblock %}
+        </div>
+        {% block post_content %}{% endblock %}
+      </div>
+
+      {% endblock %}
+    </div>
+    {% block footer %}
+    <div id="footer">
+      <ul class="nav">
+        {% block footer_items_pre %}{% endblock %}
+        <li><a href="{% url 'pootle-about' %}">{% trans "About" %}</a></li>
+        {% block footer_items_post %}{% endblock %}
+      </ul>
+    </div>
+    {% endblock footer %}
+    {% block scripts %}
+    {% block scripts_extra %}{% endblock %}
+    {% endblock scripts %}
+    {% endblock body %}
+    <div class="js-auth"></div>{# Mount point for auth views #}
+    <div style="display: none;">{% csrf_token %}</div>
+  </body>
+</html>

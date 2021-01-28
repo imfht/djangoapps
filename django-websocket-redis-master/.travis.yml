@@ -1,0 +1,61 @@
+language: python
+
+python:
+  - 2.7
+  - 3.4
+  - 3.5
+  - 3.6
+
+env:
+  - DJANGO=1.7.11
+  - DJANGO=1.8.19
+  - DJANGO=1.9.13
+  - DJANGO=1.10.8
+  - DJANGO=1.11.13
+  - DJANGO=2.0.5
+  - DJANGO=2.1.5
+
+branches:
+  only:
+    - master
+
+matrix:
+  exclude:
+    - env: DJANGO=1.7.11
+      python: 3.4
+    - env: DJANGO=1.7.11
+      python: 3.5
+    - env: DJANGO=1.7.11
+      python: 3.6
+    - env: DJANGO=1.8.19
+      python: 3.4
+    - env: DJANGO=1.8.19
+      python: 3.5
+    - env: DJANGO=1.8.19
+      python: 3.6
+    - env: DJANGO=1.9.13
+      python: 3.4
+    - env: DJANGO=1.9.13
+      python: 3.5
+    - env: DJANGO=1.9.13
+      python: 3.6
+    - env: DJANGO=2.0.5
+      python: 2.7
+    - env: DJANGO=2.1.5
+      python: 2.7
+    - env: DJANGO=2.1.5
+      python: 3.4
+
+install:
+  - pip install -r examples/requirements.txt
+  - pip install Django==$DJANGO
+  - python setup.py install
+
+services:
+  - redis-server
+
+before_script:
+  - pip freeze
+
+script:
+  - cd examples && ./manage.py migrate && ./manage.py test chatserver --settings=chatserver.tests.settings

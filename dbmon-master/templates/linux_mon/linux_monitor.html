@@ -1,0 +1,1277 @@
+{% extends 'base/base_site.html' %}
+
+{% block style %}
+ <style>
+     .table tr th {
+    font-size: 12px;
+    }
+    .table tr td {
+    font-size: 12px;
+    }
+    [aria-controls="example1"] {
+    }
+
+    li{list-style: none;}/*这里设置*/
+
+  </style>
+{% endblock  %}
+
+{% block content_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        实时监控
+        <small>Linux主机</small>
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="/begin"><i class="fa fa-dashboard"></i>首页</a></li>
+        <li><a href="#">Linux主机</a></li>
+        <li class="active">实时监控</li>
+      </ol>
+    </section>
+{% endblock %}
+{% block content %}
+      <div class="box box-solid">
+      <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
+          <p>
+              <span class="label label-{{ check_status }}">{{ os_status }}</span>
+              <span class="label label-default">更新时间：{{ osinfo.chk_time }}</span>
+          </p>
+              </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6">
+            <form action="" method="post" id="myform">
+                <div class="box-tools pull-left">
+              <div class="form-group">
+                <label>选择主机</label>
+                <select onchange="submitForm();" class="form-control select2" style="width: 100%;" name="select_tags">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tagsdefault }}</option>
+                  {% for host in hostinfo %}
+                  <option>{{ host.tags }}</option>
+                   {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+          <div class="col-md-6">
+           	<div class="panel panel-default pull-right" >
+               <a data-toggle="collapse" href="#linuxconf" target="_blank" class="btn btn-default">配置信息</a>
+			</h2>
+          </div>
+        </div>
+        <div class="row">
+            <div id="linuxconf" class="panel-collapse collapse">
+			 <div class="col-sm-12 invoice-col">
+            <div class="box-body" style="overflow: auto">
+              <table id="example1" class="table table-bordered table-hover" style="table-layout: auto">
+                 <tr>
+                 <td>主机名: {{ osinfo.hostname }} </td>
+                 <td>IP地址: {{ osinfo.ipinfo }} </td>
+                 </tr>
+                 <tr>
+                 <td>OS类型: {{ osinfo.ostype }} </td>
+                 <td>OS发型版本: {{ osinfo.linux_version }} </td>
+                 </tr>
+                  <tr>
+                 <td>内核版本: {{ osinfo.kernel }} </td>
+                 <td>架构: {{ osinfo.frame }} </td>
+                 </tr>
+                  <tr>
+                 <td>CPU核数: {{ osinfo.processor }} </td>
+                 <td>CPU型号: {{ osinfo.cpu_mode }} </td>
+                 </tr>
+                  <tr>
+                 <td>CPU频率: {{ osinfo.cpu_speed }} MHZ</td>
+                 <td>CPU Cache大小: {{ osinfo.cpu_cache }} </td>
+                 </tr>
+                  <tr>
+                 <td>内存大小: {{ osinfo.Memtotal }}GB</td>
+                 </tr>
+              </table>
+            </div>
+
+        </div>
+		</div>
+
+        </div>
+         </div>
+        <!-- /.box-body -->
+            <div class="row">
+          <!-- LINE CHART -->
+             <!-- LINE CHART -->
+            <div class="box-body chart-responsive">
+                <div class="col-md-4">
+              <div class="chart" id="load-chart" style="height: 300px;"></div>
+                </div>
+                <div class="col-md-4">
+                <div class="chart" id="cpu-chart" style="height: 300px; "></div>
+                </div>
+                <div class="col-md-4">
+              <div class="chart" id="mem-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+          <!-- interactive chart -->
+            <div class="box-body">
+              <div class="row">
+                 <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="load_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_load();" class="form-control select2" style="width: 100%;" name="select_load">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ load_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="load" id="load-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+            <div class="box-body">
+              <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="cpu_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_cpu();" class="form-control select2" style="width: 100%;" name="select_cpu">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ cpu_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="cpu" id="cpu-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+            <div class="box-body">
+                <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="mem_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_mem();" class="form-control select2" style="width: 100%;" name="select_mem">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ mem_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="mem" id="mem-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+                        <!-- interactive chart -->
+            <div class="box-body">
+              <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="net_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_net();" class="form-control select2" style="width: 100%;" name="select_net">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ net_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="net" id="net-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+            <div class="box-body">
+              <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="tcp_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_tcp();" class="form-control select2" style="width: 100%;" name="select_tcp">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ tcp_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="tcp" id="tcp-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+                  <!-- /.box-body-->
+            <div class="box-body">
+              <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="iops_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_iops();" class="form-control select2" style="width: 100%;" name="select_iops">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ iops_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="" id="iops-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+               <!-- /.box-body-->
+            <div class="box-body">
+              <div class="row">
+                  <div class="col-md-9">
+                      </div>
+            <div class="col-md-3">
+            <form action="" method="post" id="iomb_range">
+                <div class="box-tools">
+              <div class="form-group" >
+                <select onchange="submitForm_iomb();" class="form-control select2" style="width: 100%;" name="select_iomb">
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                  <option selected="selected">{{ iomb_range_default }}</option>
+                  <option>0.5小时</option>
+                    <option>1小时</option>
+                  <option>1天 </option>
+                  <option>7天 </option>
+                  <option>30天 </option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            </form>
+          </div>
+          <!-- /.row -->
+        </div>
+              <div class="" id="iomb-grow-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body-->
+          </div>
+          <!-- /.box -->
+      </div>
+      </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+  //表单提交
+function submitForm(){
+    var form = document.getElementById("myform");
+    form.submit();
+}
+  //表单提交
+function submitForm_net(){
+    var form_net = document.getElementById("net_range");
+    form_net.submit();
+}
+  //表单提交
+function submitForm_load(){
+    var form_load = document.getElementById("load_range");
+    form_load.submit();
+}
+  //表单提交
+function submitForm_cpu(){
+    var form_cpu = document.getElementById("cpu_range");
+    form_cpu.submit();
+}
+
+  //表单提交
+function submitForm_mem(){
+    var form_mem = document.getElementById("mem_range");
+    form_mem.submit();
+}
+
+  //表单提交
+function submitForm_tcp(){
+    var form_tcp = document.getElementById("tcp_range");
+    form_tcp.submit();
+}
+
+  //表单提交
+function submitForm_iops(){
+    var form_iops = document.getElementById("iops_range");
+    form_iops.submit();
+}
+
+  //表单提交
+function submitForm_iomb(){
+    var form_iomb = document.getElementById("iomb_range");
+    form_iomb.submit();
+}
+
+     // ####################  【load】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_load = echarts.init(document.getElementById('load-chart'));
+        // 指定图表的配置项和数据
+        var option_load= {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}"
+                  },
+
+        series: [
+           {
+            name: 'load',
+            type: 'gauge',
+            min: 0,
+            max: 1,
+            data: [{value: 0.5, name: 'load'}],
+            detail: {formatter:'{value}'},
+            axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+
+       setInterval(function () {
+          option_load.series[0].data[0].value = ({{ osinfo.load1 }}).toFixed(2) - 0;
+          myChart_load.setOption(option_load, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_load.setOption(option_load);
+     // ####################  【cpu使用率】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_cpu_used = echarts.init(document.getElementById('cpu-chart'));
+        // 指定图表的配置项和数据
+        var option_cpu_used = {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}%"
+                  },
+        series: [
+           {
+            name: 'CPU',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: 'CPU使用率'}],
+            axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+
+       setInterval(function () {
+          option_cpu_used.series[0].data[0].value = ({{ osinfo.cpu_used }}).toFixed(2) - 0;
+          myChart_cpu_used.setOption(option_cpu_used, true);
+        },2000);
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart_cpu_used.setOption(option_cpu_used);
+
+           // ####################  【内存使用率】图形  ####################
+        // 基于准备好的dom，初始化echarts实例
+        var myChart_mem_used = echarts.init(document.getElementById('mem-chart'));
+        // 指定图表的配置项和数据
+        var option_mem_used = {
+                tooltip : {
+                   formatter: "{a} <br/>{b} : {c}%"
+                  },
+        series: [
+           {
+            name: 'MEM',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: '内存使用率'}],
+          axisLine: {            // 坐标轴线
+            lineStyle: {       // 属性lineStyle控制线条样式
+                width: 10,
+                color: [[0.5, '#79d4bc'], [0.8, '#4d6f85'], [1, '#ce1358']]
+            },
+            axisTick: {            // 坐标轴小标记
+            length: 13,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle控制线条样式
+                color: 'auto'
+            }
+            },
+            splitLine: {           // 分隔线
+            length: 18,        // 属性length控制线长
+            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                color: 'auto'
+            }
+            },
+            axisLabel: {
+            color: '#666',
+            },
+            detail: {
+            formatter:'{value}%',
+            fontSize: 12,
+            offsetCenter: [0, '85%']
+            },
+            title: {
+            fontSize: 12,
+            color: '#999',
+            offsetCenter: [0, '55%']
+            },
+            pointer: {
+            width: 6            // 指针大小
+            }
+        },
+           }
+        ]
+        };
+
+       setInterval(function () {
+          option_mem_used.series[0].data[0].value = ({{ osinfo.mem_used }}).toFixed(2) - 0;
+          myChart_mem_used.setOption(option_mem_used, true);
+        },2000);
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart_mem_used.setOption(option_mem_used);
+
+   // ####################  【load趋势】图形  ####################
+ var myChart_load_grow = echarts.init(document.getElementById('load-grow-chart'));
+ option_load_grow = {
+     title: {
+         text: 'load负载',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     legend: {
+        data:['load1','load5','load15']
+      },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in loadgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true
+     },
+     series: [
+         {
+             name:'load1',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in loadgrow_list %}{{ i.load1 }},{% endfor %}]
+         },
+         {
+             name:'load5',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#4345d4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#4345d4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#4345d4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in loadgrow_list %}{{ i.load5 }},{% endfor %}]
+         },
+         {
+             name:'load15',
+             type:'line',
+             smooth: true,
+              itemStyle: {
+              normal: {
+                color: "#ce1358"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#ce1358"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#ce1358",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in loadgrow_list %}{{ i.load15 }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_load_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_load_grow.hideLoading();  //显示完成后不显示loading
+     myChart_load_grow.setOption(option_load_grow, true);
+ },500);
+
+
+    // ####################  【cpu使用率趋势】图形  ####################
+ var myChart_cpu_grow = echarts.init(document.getElementById('cpu-grow-chart'));
+ option_cpu_grow = {
+     title: {
+         text: 'CPU使用率',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     legend: {
+        data:['cpu_sys','cpu_iowait','cpu_user','cpu_used']
+      },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in cpugrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'cpu_sys',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in cpugrow_list %}{{ i.cpu_sys }},{% endfor %}]
+         },
+         {
+             name:'cpu_iowait',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d4cda6"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d4cda6"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d4cda6",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in cpugrow_list %}{{ i.cpu_iowait }},{% endfor %}]
+         },
+         {
+             name:'cpu_user',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#a57fd4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#a57fd4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#a57fd4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in cpugrow_list %}{{ i.cpu_user }},{% endfor %}]
+         },
+         {
+             name:'cpu_used',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d45356"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d45356"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d45356",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in cpugrow_list %}{{ i.cpu_used }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_cpu_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_cpu_grow.hideLoading();  //显示完成后不显示loading
+     myChart_cpu_grow.setOption(option_cpu_grow, true);
+ },500);
+
+     // ####################  【内存使用率趋势】图形  ####################
+ var myChart_mem_grow = echarts.init(document.getElementById('mem-grow-chart'));
+ option_mem_grow = {
+     title: {
+         text: '内存使用率',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     legend: {
+        data:['mem used']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in memgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         max:100,
+         min:0
+     },
+     series: [
+         {
+             name:'mem used',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#79d4bc"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#79d4bc"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#79d4bc",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in memgrow_list %}{{ i.mem_used }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_mem_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_mem_grow.hideLoading();  //显示完成后不显示loading
+     myChart_mem_grow.setOption(option_mem_grow, true);
+ },500);
+
+     // ####################  【网络流量趋势】图形  ####################
+ var myChart_net_grow = echarts.init(document.getElementById('net-grow-chart'));
+ option_net_grow = {
+     title: {
+         text: '网卡流量',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+         legend: {
+        data:['接收流量(kbps)','发送流量(kbps)']
+    },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in netgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true
+     },
+     series: [
+         {
+             name:'接收流量(kbps)',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d45356"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d45356",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in netgrow_list %}{{ i.recv_kbps }},{% endfor %}]
+         },
+               {
+             name:'发送流量(kbps)',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#79d4bc"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#79d4bc",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in netgrow_list %}{{ i.send_kbps }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_net_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_net_grow.hideLoading();  //显示完成后不显示loading
+     myChart_net_grow.setOption(option_net_grow, true);
+ },500);
+
+   // ####################  【TCP连接数趋势】图形  ####################
+ var myChart_tcp_grow = echarts.init(document.getElementById('tcp-grow-chart'));
+ option_tcp_grow = {
+     title: {
+         text: 'TCP连接数',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     legend: {
+        data:['tcp_close','tcp_timewait','tcp_connected','tcp_syn','tcp_listen']
+      },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in tcpgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true
+     },
+     series: [
+         {
+             name:'tcp_close',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tcpgrow_list %}{{ i.tcp_close }},{% endfor %}]
+         },
+         {
+             name:'tcp_timewait',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d4cda6"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d4cda6"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d4cda6",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tcpgrow_list %}{{ i.tcp_timewait }},{% endfor %}]
+         },
+         {
+             name:'tcp_connected',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d45356"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d45356"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d45356",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tcpgrow_list %}{{ i.tcp_connected }},{% endfor %}]
+         },
+         {
+             name:'tcp_syn',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#a57fd4"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#a57fd4"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#a57fd4",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tcpgrow_list %}{{ i.tcp_syn }},{% endfor %}]
+         },
+         {
+             name:'tcp_listen',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#22d4bf"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#22d4bf"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#22d4bf",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in tcpgrow_list %}{{ i.tcp_listen }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_tcp_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_tcp_grow.hideLoading();  //显示完成后不显示loading
+     myChart_tcp_grow.setOption(option_tcp_grow, true);
+ },500);
+
+   // ####################  【IOPS趋势】图形  ####################
+ var myChart_iops_grow = echarts.init(document.getElementById('iops-grow-chart'));
+ option_iops_grow = {
+     title: {
+         text: 'IOPS',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     legend: {
+        data:['iops']
+      },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in iopsgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true
+     },
+     series: [
+         {
+             name:'iops',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in iopsgrow_list %}{{ i.iops }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_iops_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_iops_grow.hideLoading();  //显示完成后不显示loading
+     myChart_iops_grow.setOption(option_iops_grow, true);
+ },500);
+
+    // ####################  【IO吞吐量趋势】图形  ####################
+ var myChart_iomb_grow = echarts.init(document.getElementById('iomb-grow-chart'));
+ option_iomb_grow = {
+     title: {
+         text: 'IO吞吐量',
+         subtext: ''
+     },
+     tooltip: {
+         trigger: 'axis',
+         axisPointer: {
+             type: 'cross'
+         }
+     },
+     legend: {
+        data:['read_mb','write_mb']
+      },
+     toolbox: {
+         show: true,
+         feature: {
+             saveAsImage: {}
+         }
+     },
+     xAxis:  {
+         type: 'category',
+         boundaryGap: false,
+         zlevel: 1,
+         data: [{% for i in iombgrow_list %}'{{ i.chk_time | date:"m-d H:i:s" }}',{% endfor %}]
+     },
+     yAxis: {
+         type: 'value',
+         axisLabel: {
+             formatter: '{value}'
+         },
+         axisPointer: {
+             snap: true
+         },
+         scale:true
+     },
+     series: [
+         {
+             name:'read_mb',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#84d4c5"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#84d4c5"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#84d4c5",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in iombgrow_list %}{{ i.read_mb }},{% endfor %}]
+         },
+          {
+             name:'write_mb',
+             type:'line',
+             smooth: true,
+             itemStyle: {
+              normal: {
+                color: "#d45356"
+              }
+              },
+              lineStyle: {
+               normal: {
+                color: "#d45356"
+              }
+              },
+             areaStyle: {
+               normal: {
+                color: "#d45356",
+                opacity: 0.8
+               }
+             },
+             data: [{% for i in iombgrow_list %}{{ i.write_mb }},{% endfor %}]
+         }
+     ]
+ };
+ myChart_iomb_grow.showLoading();  //显示loading
+ setInterval(function () {
+     myChart_iomb_grow.hideLoading();  //显示完成后不显示loading
+     myChart_iomb_grow.setOption(option_iomb_grow, true);
+ },500);
+
+</script>
+{% endblock %}

@@ -1,0 +1,395 @@
+{% extends 'base.html' %}
+{% load static %}
+
+  {% block title %}
+  <title>个人信息编辑</title>
+  {% endblock title %}
+
+	{% block navheader %}
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-1">
+          <div class="col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active">个人信息编辑</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+	{% endblock navheader %}
+	
+		  {% block content %}
+          <div class="card card-primary content-list">
+            <div class="card-header">
+              <h3 class="card-title">个人信息编辑</h3>
+				<div class="card-tools">
+				  <!--button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="maximize">
+				  <i class="fas fa-expand"></i>
+                  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button-->
+				</div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body row">
+				<div class="col-12">
+					<div class="alert alert-info alert-dismissible" style="font-size:0.9rem;">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						提示：本地SSH客户端与本地SFTP客户端命令参数变量意义如下<br>
+						<ul>
+							<li>{login_host}&nbsp;&nbsp;SSH 连接 IP</li>
+							<li>{login_user}&nbsp;&nbsp;SSH 连接用户</li>
+							<li>{login_passwd}&nbsp;&nbsp;SSH 连接密码</li>
+							<li>{port}&nbsp;&nbsp;SSH 连接端口</li>
+							<li>{username}&nbsp;&nbsp;后端真实主机用户名（用于设置客户端窗口标题显示）</li>
+							<li>{host}&nbsp;&nbsp;后端真实主机 IP（用于设置客户端窗口标题显示）</li>
+							<li>{hostname}&nbsp;&nbsp;后端真实主机名（用于设置客户端窗口标题显示）</li>
+						</ul>
+						调用本地 SSH 客户端与本地 SFTP 客户端使用 URL RPOTOCOL 协议，目前只支持 windows 系统。使用方法见：<a href="/media/apploader.zip">apploader</a> 。
+					</div>
+				</div>
+				
+				<div class="col-2 pt-1 pb-1">用户名：</div><div class="col-10 pt-1 pb-1"><input class="form-control" type="text" value="{{ user.username }}" disabled></div>
+				<div class="col-2 pt-1 pb-1">昵称<span style="color:red;"> * </span>：</div><div class="col-10 pt-1 pb-1"><input class="form-control" type="text" id="nickname"  value="{{ user.nickname }}" onkeyup="check_nickname();" onblur="check_nickname();"></div>
+				<div class="offset-2 col-10 pb-1"><small id="nickname_error" style="color:red;"></small></div>
+				
+				<div class="col-2 pt-1 pb-1">邮箱<span style="color:red;"> * </span>：</div><div class="col-10 pt-1 pb-1"><input class="form-control" type="text" id="email" value="{{ user.email }}" onkeyup="check_email();" onblur="check_email();"></div>
+				<div class="offset-2 col-10 pb-1"><small id="email_error" style="color:red;"></small></div>
+				
+				<div class="col-2 pt-1 pb-1">手机：</div><div class="col-10 pt-1 pb-1"><input class="form-control" type="text" id="phone" value="{{ user.phone | default:'' }}" onkeyup="check_phone();" onblur="check_phone();"></div>
+				<div class="offset-2 col-10 pb-1"><small id="phone_error" style="color:red;"></small></div>
+				
+				<div class="col-2 pt-1 pb-1">微信：</div><div class="col-10 pt-1 pb-1"><input class="form-control" type="text" id="weixin"value="{{ user.weixin | default:'' }}" onkeyup="check_weixin();" onblur="check_weixin();"></div>
+				<div class="offset-2 col-10 pb-1"><small id="weixin_error" style="color:red;"></small></div>
+				
+				<div class="col-2 pt-1 pb-1">QQ：</div><div class="col-10 pt-1 pb-1"><input class="form-control" type="text" id="qq" value="{{ user.qq | default:'' }}" onkeyup="check_qq();" onblur="check_qq();"></div>
+				<div class="offset-2 col-10 pb-1"><small id="qq_error" style="color:red;"></small></div>
+				
+				<div class="col-2 pt-1 pb-2">性别：</div>
+				<div class="col-10 pt-1 pb-2">
+				  <select class="form-control select2" id="sex" style="width: 100%;">
+					{% for sex in sex_choices %}
+					<option value="{{ sex.0 }}" {% if user.sex == sex.0 %}selected="selected"{% endif %}>{{ sex.1 }}</option>
+					{% endfor %}
+                  </select>
+				</div>
+				
+				<div class="col-2 pt-1 pb-2">本地SSH客户端：</div>
+				<div class="col-10 pt-1 pb-2">
+					<div class="input-group">
+					  <div class="input-group-prepend">
+						<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+							{% for ssh in clissh %}
+								<input id="clissh-value-{{ ssh.name }}" path="{{ ssh.path }}" args="{{ ssh.args }}" hidden>
+								{% if ssh.enable %}
+									<span id="clissh-name">{{ ssh.name }}</span>
+								{% endif %}
+							{% endfor %}
+						</button>
+						<ul class="dropdown-menu">
+						  {% for ssh in clissh %}
+						  <li class="dropdown-item"><a href="javascript:void(0);" onclick="changeclissh(this);">{{ ssh.name }}</a></li>
+						  {% endfor %}
+						</ul>
+					  </div>
+					  <!-- /btn-group -->
+						{% for ssh in clissh %}
+							{% if ssh.enable %}
+								<input type="text" class="form-control" id="clissh-path" value='{{ ssh.path }}'>
+								<input type="text" class="form-control" id="clissh-args" value='{{ ssh.args }}'>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<div>
+						<small>提示：第一个输入框为程序路径，第二个输入框为命令参数</small>
+					</div>
+				</div>
+				
+				<div class="col-2 pt-1 pb-2">本地SFTP客户端：</div>
+				<div class="col-10 pt-1 pb-2">
+					<div class="input-group">
+					  <div class="input-group-prepend">
+						<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+							{% for sftp in clisftp %}
+								<input id="clisftp-value-{{ sftp.name }}" path="{{ sftp.path }}" args="{{ sftp.args }}" hidden>
+								{% if sftp.enable %}
+									<span id="clisftp-name">{{ sftp.name }}</span>
+								{% endif %}
+							{% endfor %}
+						</button>
+						<ul class="dropdown-menu">
+						  {% for sftp in clisftp %}
+						  <li class="dropdown-item"><a href="javascript:void(0);" onclick="changeclisftp(this);">{{ sftp.name }}</a></li>
+						  {% endfor %}
+						</ul>
+					  </div>
+					  <!-- /btn-group -->
+						{% for sftp in clisftp %}
+							{% if sftp.enable %}
+								<input type="text" class="form-control" id="clisftp-path" value='{{ sftp.path }}'>
+								<input type="text" class="form-control" id="clisftp-args" value='{{ sftp.args }}'>
+							{% endif %}
+						{% endfor %}
+					</div>
+					<div>
+						<small>提示：第一个输入框为程序路径，第二个输入框为命令参数</small>
+					</div>
+				</div>
+				
+				<div class="col-2 pt-1 pb-1">备注：</div><div class="col-10 pt-1 pb-1"><textarea id="memo" class="form-control">{{ user.memo | default:'' }}</textarea></div>
+				<div class="offset-2 col-10 pt-2"><a class="btn btn-default" href="{% if request.next %}{{ request.next }}{% else %}{% url 'user:profile' %}{% endif %}">返回</a> <button class="btn btn-success ml-2" onclick="changeuserprofile(this);">提交</button><span id="feed_error" class="ml-2" style="color:red;"></span></div>
+
+			</div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card --> 
+		  {% endblock content %}
+
+{% block js %}
+
+<script>
+	// 校验表单数据
+	check_nickname = function() {
+		var nickname = $('#nickname').val();
+		if (nickname == '') {
+			$('#nickname').removeClass("is-valid");
+			$('#nickname').addClass("is-invalid");
+			$('#nickname_error').text('昵称不能未空');
+			return false;
+		} else if(/[@#\$%\^&\*]+/g.test(nickname)) {
+			$('#nickname').removeClass("is-valid");
+			$('#nickname').addClass("is-invalid");
+			$('#nickname_error').text('昵称不能存在特殊符号');
+			return false;
+		}  else if(nickname.length < 3) {
+			$('#nickname').removeClass("is-valid");
+			$('#nickname').addClass("is-invalid");
+			$('#nickname_error').text('昵称长度必须大于等于3个字符');
+			return false;
+		} else {
+			$('#nickname').removeClass("is-invalid");
+			$('#nickname').addClass("is-valid");
+			$('#nickname_error').text('');
+			return true;
+		};
+	}
+
+	check_email = function() {
+		var email = $('#email').val();
+		if (email == '') {
+			$('#email').removeClass("is-valid");
+			$('#email').addClass("is-invalid");
+			$('#email_error').text('邮箱不能未空');
+			return false;
+		} else if(!/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(email)) {
+			$('#email').removeClass("is-valid");
+			$('#email').addClass("is-invalid");
+			$('#email_error').text('邮箱格式不正确');
+			return false;
+		} else {
+			$('#email').removeClass("is-invalid");
+			$('#email').addClass("is-valid");
+			$('#email_error').text('');
+			return true;
+		};
+	}
+
+	check_phone = function() {
+		var phone = $('#phone').val();
+		if (phone == '') {
+			$('#phone').removeClass("is-invalid");
+			$('#phone').removeClass("is-valid");
+			//$('#phone').addClass("is-valid");
+			$('#phone_error').text('');
+			return true;
+		} else if(!/^1[3-9][0-9]{9}$/.test(phone)) {
+			$('#phone').removeClass("is-valid");
+			$('#phone').addClass("is-invalid");
+			$('#phone_error').text('手机可为空或者11位正确数字');
+			return false;
+		} else {
+			$('#phone').removeClass("is-invalid");
+			$('#phone').addClass("is-valid");
+			$('#phone_error').text('');
+			return true;
+		};
+	}
+
+	check_weixin = function() {
+		var weixin = $('#weixin').val();
+		if (weixin == '') {
+			$('#weixin').removeClass("is-invalid");
+			$('#weixin').removeClass("is-valid");
+			//$('#weixin').addClass("is-valid");
+			$('#weixin_error').text('');
+			return true;
+		} else if(weixin.length < 2) {
+			$('#weixin').removeClass("is-valid");
+			$('#weixin').addClass("is-invalid");
+			$('#weixin_error').text('微信可为空或者大于等于2个字符');
+			return false;
+		} else {
+			$('#weixin').removeClass("is-invalid");
+			$('#weixin').addClass("is-valid");
+			$('#weixin_error').text('');
+			return true;
+		};
+	}
+
+	check_qq = function() {
+		var qq = $('#qq').val();
+		if (qq == '') {
+			$('#qq').removeClass("is-invalid");
+			$('#qq').removeClass("is-valid");
+			//$('#qq').addClass("is-valid");
+			$('#qq_error').text('');
+			return true;
+		} else if(!/^[1-9]\d{3,20}$/.test(qq)) {
+			$('#qq').removeClass("is-valid");
+			$('#qq').addClass("is-invalid");
+			$('#qq_error').text('QQ可为空或者4-20位数字');
+			return false;
+		} else {
+			$('#qq').removeClass("is-invalid");
+			$('#qq').addClass("is-valid");
+			$('#qq_error').text('');
+			return true;
+		};
+	}
+	// 校验表单数据
+
+	// 修改个人信息
+	changeuserprofile = function(event) {
+		toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 3000;	
+		toastr.options.extendedTimeOut = 0;	
+		toastr.options.progressBar = true;
+		toastr.options.positionClass = 'toast-top-right'; 
+		
+		$(event).removeAttr("onclick");
+		$(event).attr("disabled", true);
+		
+		var check_right = new Array();
+		
+		var nickname = $('#nickname').val();
+		check_right[0] = check_nickname();
+		
+		var email = $('#email').val();
+		check_right[1] = check_email();
+		
+		var phone = $('#phone').val();
+		check_right[2] = check_phone();
+		
+		var weixin = $('#weixin').val();
+		check_right[3] = check_weixin();
+
+		var qq = $('#qq').val();
+		check_right[4] = check_qq();
+		
+		clissh_name = $("#clissh-name").text();
+		clissh_path = $("#clissh-path").val();
+		clissh_args = $("#clissh-args").val();
+		
+		clisftp_name = $("#clisftp-name").text();
+		clisftp_path = $("#clisftp-path").val();
+		clisftp_args = $("#clisftp-args").val();
+		
+		var sex = $("#sex").find("option:selected").val();
+		var memo = $('#memo').val();
+		csrfmiddlewaretoken = '{{ request.COOKIES.csrftoken }}';
+		
+		if (!/false/.test(check_right)) {
+			$('#feed_error').text('');
+			$.ajax({
+				url: "{% url 'user_api:profile_update' %}",
+				async: true,
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					'csrfmiddlewaretoken': csrfmiddlewaretoken,
+					'nickname': nickname,
+					'email': email,
+					'phone': phone,
+					'weixin': weixin,
+					'qq': qq,
+					'sex': sex,
+					'memo': memo,
+					'clissh_name': clissh_name,
+					'clissh_path': clissh_path,
+					'clissh_args': clissh_args,
+					'clisftp_name': clisftp_name,
+					'clisftp_path': clisftp_path,
+					'clisftp_args': clisftp_args,
+				},
+				timeout: 5000,
+				cache: true,
+				beforeSend: LoadFunction, //加载执行方法
+				error: errFunction,  //错误执行方法
+				success: succFunction, //成功执行方法
+			});
+		} else {
+			$('#feed_error').text('信息填写有误，请检查并重新填写');
+			$(event).removeAttr("disabled");
+			$(event).attr("onclick", "changeuserprofile(this);");
+			return false;
+		};
+		
+		function LoadFunction() {
+			// 提交中
+		};
+		
+		function errFunction() {
+			// 消息框
+			toastr.error('更新个人信息错误');
+			$(event).removeAttr("disabled");
+			$(event).attr("onclick", "changeuserprofile(this);");
+		};
+		
+		function succFunction(res) {
+			if (res.code != 200) {
+				// 消息框
+				toastr.error('更新个人信息错误: ' + res.err);
+				$(event).removeAttr("disabled");
+				$(event).attr("onclick", "changeuserprofile(this);");
+			} else {
+				// 消息框
+				toastr.options.timeOut = 1000;
+				toastr.options.onHidden = function() { window.location.href = "{% if request.next %}{{ request.next }}{% else %}{% url 'user:profile' %}{% endif %}"; }
+				toastr.success('更新个人信息成功');
+			}
+		};
+	}
+	
+	// 改变clissh -- start
+	changeclissh = function(event) {
+		var thisObj = $(event);	//js对象转jquery对象
+		name = thisObj.text();
+		path = $("#clissh-value-" +name).attr("path");
+		args = $("#clissh-value-" +name).attr("args");
+		$("#clissh-name").text(name);
+		$("#clissh-path").val(path);
+		$("#clissh-args").val(args);
+	};
+	// 改变clissh -- end
+	
+	// 改变clisftp -- start
+	changeclisftp = function(event) {
+		var thisObj = $(event);	//js对象转jquery对象
+		name = thisObj.text();
+		path = $("#clisftp-value-" +name).attr("path");
+		args = $("#clisftp-value-" +name).attr("args");
+		$("#clisftp-name").text(name);
+		$("#clisftp-path").val(path);
+		$("#clisftp-args").val(args);
+	};
+	// 改变clisftp -- end	
+</script>
+{% endblock js %}

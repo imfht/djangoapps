@@ -1,0 +1,285 @@
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background: $gray-bg;
+    color: $text-color;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    padding-top: 60px;
+    min-height: 100%;
+
+    &.popup {
+        padding-top: 0;
+    }
+
+    &.shuup-modal-open {
+        overflow: hidden;
+    }
+
+    &.menu-open {
+        @include media-breakpoint-down(sm) {
+            overflow: hidden;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        &.desktop-menu-closed {
+             #top-header {
+                 left: 0;
+                 width: 100%;
+             }
+
+             .support-nav-wrap {
+                 left: 30px;
+                 padding-left: 30px;
+             }
+
+             #main-content {
+                 margin-left: 0;
+             }
+
+             #js-main-menu {
+                 display: none;
+             }
+        }
+
+        &:not(.desktop-menu-closed)  {
+            #top-header .toggler span {
+                background-color: transparent;
+
+                &:before, &:after {
+                    top: 0;
+                }
+
+                &:hover, &:before, &:after {
+                    background: red;
+                }
+
+                &:before {
+                    background: $black;
+                    @include rotate(-45deg);
+                }
+
+                &:after {
+                    background: $black;
+                    @include rotate(45deg);
+                }
+            }
+
+            #top-header .nav-menu-button {
+                &:hover {
+                    .toggler {
+                        span, span:before, span:after {
+                            background: $gray-bg;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    // add extra bottom padding to the bottom so the scroll to top button doesn't endup over components and text
+    &.scrolled {
+        padding-bottom: 2rem !important;
+        @include media-breakpoint-down(sm) {
+            padding-bottom: 3rem !important;
+        }
+    }
+}
+
+*::selection {
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+}
+
+// Set header sizes on mobile screens
+@include media-breakpoint-down(sm) {
+    // Font sizes are about 90% of original sizes
+    h1 { font-size: $h1-font-size * .9; }
+    h2 { font-size: $h2-font-size * .9; }
+    h3 { font-size: $h3-font-size * .9; }
+    h4 { font-size: $h4-font-size * .9; }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container, .container-fluid {
+    min-width: 320px;
+}
+
+#main-content {
+    margin-top: 0 !important;
+    margin-left: $main-menu-width;
+    padding: 1.2em;
+
+    &.iframe-mode {
+        margin-left: 0;
+    }
+
+    @include media-breakpoint-down(md) {
+        margin-left: 0;
+    }
+
+    @include media-breakpoint-down(sm) {
+        margin-left: 0;
+    }
+
+    @include media-breakpoint-down(xs) {
+        margin-top: 0 !important;
+        padding: 0;
+    }
+
+    body.popup & {
+        padding: 5px;
+        margin-left: 0px;
+    }
+}
+
+body.order-create #scroll-to-top .scroll-to-top-button {
+    // prevent the buttom to be on top of the bottom bar in order creator
+    margin-bottom: 3rem;
+
+    // there is no space for scroll to top in order creator on small devices :/
+    @include media-breakpoint-down(sm) {
+        display: none;
+    }
+}
+
+#scroll-to-top {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1999;
+    pointer-events: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .scroll-to-top-button {
+        pointer-events: all;
+        cursor: pointer;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 0px 10px 1px rgba(0, 0, 0, 0.15);
+        border-radius: 50%;
+        background-color: lighten($primary, 50%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        color: $primary;
+        transform: translateY(0);
+
+        &:hover {
+            color: lighten($primary, 20%);
+            animation-timing-function: ease-in-out;
+            animation: jump 0.1s linear forwards;
+        }
+    }
+}
+@keyframes jump {
+    to {
+        transform: translateY(-0.3rem);
+    }
+}
+
+table {
+    font-weight: normal;
+}
+
+.separator-line {
+    margin: 30px 0px;
+    &.dark {
+        border-color: $border-color;
+    }
+}
+
+.form-control {
+    box-shadow: none;
+}
+
+.pagination {
+    margin-bottom: 0,
+}
+
+canvas {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto !important;
+    width: auto !important;
+}
+
+.tooltip {
+    @include media-breakpoint-down(xs) {
+        display: none !important;
+    }
+}
+
+.table-shuup {
+    > thead {
+        color: #fff;
+        > tr > th {
+            border-bottom: 0;
+            background: $primary;
+            padding: 8px;
+            border: 0;
+            border-right: 1px solid rgba(255,255,255,0.5);
+
+            &:last-child { border: 0; }
+        }
+    }
+}
+
+.mobile-list-group {
+    font-size: 1.3rem;
+}
+
+.mt-0 {
+    margin-top: 0;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.section-description {
+    color: rgba($text-color, 0.8);
+}
+
+.hidden {
+    display: none;
+}
+
+pre {
+    code {
+        max-height: 300px;
+        overflow-y: scroll;
+        display: block;
+        background-color: #f9f9f9;
+    }
+}
+
+.active-shop-and-supplier-info {
+    display: flex;
+    flex-direction: row;
+
+    h3 {
+        padding: 10px 10px 10px 0;
+    }
+}
