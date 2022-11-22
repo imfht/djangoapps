@@ -852,7 +852,26 @@ def extract_extension_to_dest(source, dest=None, force_fsync=False):
         elif source.endswith(('.tar.gz', '.tar.bz2', '.tgz')):
             tarfile_class = tarfile.TarFile if not force_fsync else FSyncedTarFile
             with tarfile_class.open(source) as archive:
-                archive.extractall(target)
+                def is_within_directory(directory, target):
+                    
+                    abs_directory = os.path.abspath(directory)
+                    abs_target = os.path.abspath(target)
+                
+                    prefix = os.path.commonprefix([abs_directory, abs_target])
+                    
+                    return prefix == abs_directory
+                
+                def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+                
+                    for member in tar.getmembers():
+                        member_path = os.path.join(path, member.name)
+                        if not is_within_directory(path, member_path):
+                            raise Exception("Attempted Path Traversal in Tar File")
+                
+                    tar.extractall(path, members, numeric_owner=numeric_owner) 
+                    
+                
+                safe_extract(archive, target)
         else:
             raise FileNotFoundError  # Unsupported file, shouldn't be reached
     except (zipfile.BadZipFile, tarfile.ReadError, IOError, forms.ValidationError) as e:
